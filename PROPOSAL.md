@@ -24,8 +24,8 @@ le tank sur terre et le drone dans un univers aérien
 - Pop : Changer d'arme.
 - Wizz: Passer au contrôle du drone.
 - Egg : `a discuter` 
- + Une future upgrade pour les tirs 
- + Lancement de tank semblable au notre qui agit seul pour récolter des ressources. Cela coûte des ressources de le créer.
+    - Une future upgrade pour les tirs 
+    - Lancement de tank semblable au notre qui agit seul pour récolter des ressources. Cela coûte des ressources de le créer.
 - Hit : Attaquer avec l'arme active.
 - Get : Creuser pour trouver des ressources.
 

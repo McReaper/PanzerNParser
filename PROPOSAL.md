@@ -20,6 +20,7 @@ le tank sur terre et le drone dans un univers aérien
 - Le drone a un view port augmenté et adaptable en fonction de la hauteur, mais en contre partie son temps d'utilisation s'adaptera.
 
 #### Les actions pop et wizz
+
 ##### Pour le tank
 - Pop : Changer d'arme.
 - Wizz: Passer au contrôle du drone.
@@ -28,6 +29,16 @@ le tank sur terre et le drone dans un univers aérien
     - Lancement de tank semblable au notre qui agit seul pour récolter des ressources. Cela coûte des ressources de le créer.
 - Hit : Attaquer avec l'arme active.
 - Get : Creuser pour trouver des ressources.
+
+##### Autre proposition de tank
+###### Chassis
+- Pop : Miner (pour faire apparaitre une ressource si sur filon)
+- Wizz: Passer au contrôle du drône.
+- Hit : Fait apparaitre des piques autour du tank ou faire un dash (bond en avant qui fait des dégâts)
+###### Canon
+- Pop : Changer d'arme.
+- Wizz: Recharger l'arme ? (chargeur illimité mais quantité de munitions dans le chargeur limité)
+- Hit : Attaquer avec l'arme active.
 
 ##### Pour le drone
 - Pop: Switcher entre vue ressource et vue ennemi.

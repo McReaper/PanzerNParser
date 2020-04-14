@@ -19,24 +19,22 @@ le tank sur terre et le drone dans un univers aérien
 - L'objectif final est de survivre le plus longtemps possibles afin d'avoir le plus haut score : Plus le tank survie longtemps et détruit le plus d'ennemis, plus le score est élevé.
 - Le drone a un view port augmenté.
 
-===
+---
 
-#### Les actions pop et wizz du tank et du drone
+### Les actions pop et wizz du tank et du drone
 
-##### Pour le tank
-<strike>
-- Pop : Changer d'arme.
-- Wizz: Passer au contrôle du drone.
-- Egg : `à discuter` 
-    - Une future upgrade pour les tirs 
-    - Lancement de tank semblable au notre qui agit seul pour récolter des ressources. Cela coûte des ressources de le créer.
-- Hit : Attaquer avec l'arme active.
-- Get : Creuser pour trouver des ressources.
-</strike>
+#### Pour le tank
+- <strike>Pop : Changer d'arme.</strike>
+- <strike>Wizz: Passer au contrôle du drone.</strike>
+- <strike>Egg : `à discuter` </strike>
+    - <strike>ne future upgrade pour les tirs </strike>
+    - <strike>Lancement de tank semblable au notre qui agit seul pour récolter des ressources. Cela coûte des ressources de le créer.</strike>
+- <strike>Hit : Attaquer avec l'arme active.</strike>
+- <strike>Get : Creuser pour trouver des ressources.</strike>
 
 ---
 
-##### Autre proposition de tank
+#### Autre proposition de tank
 
 ###### Canon + Chassis
 - Move: Déplacements (Chassis+Canon) (avec ZQSD)
@@ -52,18 +50,20 @@ le tank sur terre et le drone dans un univers aérien
 - Hit : Attaquer avec l'arme active. (les upgrades ont une limitation d'utilisation)
 - Turn: Tourne le canon (avec les flèches directionnelles)
 
-##### Pour le drone
+---
+
+#### Pour le drone
 - Pop : Switcher entre vue ressource et vue ennemi.
 - Wizz: Retour au tank.
 - Hit : Marquer une ressources ou des enemies pour le tank. Via la souris.
-- Move: Se déplacer dans les airs
+- Move: Se déplacer dans les airs<br/>
 `pour une prochaine feature :`
 - ????: Descendre
 - ????: Monter
 
 ---
 
-#### Originalités du jeu
+### Originalités du jeu
 
 - Les ennemis sont porteur de ressources obligeant le joueur a prendre des risques pour évoluer.
 - L'environnement n'est que partiellement connu du point de vue du tank, mais plus amplement du drone.
@@ -72,29 +72,31 @@ le tank sur terre et le drone dans un univers aérien
 - Les ennemis se déplacent dans une zone de manière aléatoire. Lorsque le joueur se trouve à une certaine distance d'un ennemi, en fonction de sa "distance de détection", l'ennemi ira vers le joueur pour l'attaquer.
 - Plusieurs catégories d'ennemis avec des comportements/déplacements/zones de détection/attaques différentes.
 
+---
+
 ### La grille de jeu
 
 On a pensé à générer la grille entière depuis un pattern `à discuter`.
 
-#### Basée sur un Tore
+##### Basée sur un Tore
 
 Les entités seront disposés sur une grille a maillage fin, c'est à dire que certaines entités peuvent occuper plusieurs cases, comme le tank par exemple. Elle possède une taille fixe.
 - Le tank occupe 3x3 cases.
 - Le drone occupe une case car il n'entre en collision avec aucunes entités, il n'a donc besoin que d'une position.
 - On verra plus tard pour les ennemis et les obstacles.
 
-#### Le viewport sur cette grille
+##### Son viewport
 
-Définit la porté de ce que peut voir le joueur à l'écran.
+Définit la porté de ce que peut voir le joueur à l'écran. <br/>
 Donc en fonction de sa taille, les entités apparaissent plus ou moins grosses à l'écran.
 - Le viewport du point de vue du tank :
     - s'adapte en fonction de ses upgrades, mais reste basse comparée au drone.
 - Le viewport du point de vue du drone :
     - fixe mais élevée / `feature ? >` s'adapte en fonction de sa hauteur.
 
-===
+---
 
-#### Idées supplémentaires à l'étude
+### Idées supplémentaires à l'étude
 
 ##### Idée d'upgrades
 - <strike>Radar de proximité pour les ressources</strike>

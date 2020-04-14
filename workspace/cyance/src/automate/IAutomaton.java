@@ -1,4 +1,4 @@
-package interpreter;
+package automate;
 import java.util.List;
 import java.util.ListIterator;
 

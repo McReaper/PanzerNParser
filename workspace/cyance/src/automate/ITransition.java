@@ -1,4 +1,4 @@
-package interpreter;
+package automate;
 
 /* Michael PÉRIN, Verimag / Univ. Grenoble Alpes, may 2019 */
 

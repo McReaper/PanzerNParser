@@ -1,4 +1,4 @@
-package interpreter;
+package automate;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -16,6 +16,6 @@ public class IBehaviour {
 	IState step() {
 		// - selectionne la première transition faisable
 		// - lève une exception si aucune transition possible
-		return // l'état cible de la transition choisie
+		return source; // l'état cible de la transition choisie
 	}
 }

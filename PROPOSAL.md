@@ -105,7 +105,7 @@ le tank sur terre et le drone dans un univers aérien
 
 ### La grille de jeu
 
-On a pensé à générer la grille entière depuis un pattern `à discuter`.
+On a pensé à générer la grille entière depuis des patterns qu'on dispose aléatoirement pour former la grille entière.
 
 ##### Basée sur un Tore
 

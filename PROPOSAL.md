@@ -1,23 +1,24 @@
 # PROPOSITION DE JEU - Groupe 2
 
-# Mining Tank / The Reburg Peace R. One / ... (on a pas encore vraiment de titre)
+# Mining Tank / The Reburg Peace R. One / Panzer n' Parser /... (on a pas encore vraiment de titre)
 
 ## Deux univers
 le tank sur terre et le drone dans un univers aérien
 
-### Phase de jeu classique : `jeu d'action`, survie.
+### `Jeu d'action`, *sans fin*.
 
 #### Objectifs
 - Ramasser des `ressources` pour fabriquer des `améliorations` (upgrapde).
 - Survivre le plus longtemps possible face aux ennemis.
 
-#### Jeu
-- Possibilité de jouer avec deux points de vue : 
-    - Celui du Tank : Action centrée sur la récolte des ressources, la survie du véhicule et la lutte contre les ennemies.
+#### Gameplay
+- Possibilité de jouer avec deux points de vues (**toujours dans un axe perpendiculaire au sol**) : 
+    - Celui du Tank : Action centrée sur la récolte des ressources (**qu'il ne peut pas voir tout seul**), la survie du véhicule et la lutte contre les ennemies.
     - Celui du Drone : Action centrée sur le repérage des ressources récoltables, le repérage des groupes d'ennemis.
 - L'ensemble du gameplay tourne sur la nécessité d'utiliser l'exploration du drone pour évoluer avec le tank. 
 - L'objectif final est de survivre le plus longtemps possibles afin d'avoir le plus haut score : Plus le tank survie longtemps et détruit le plus d'ennemis, plus le score est élevé.
-- Le drone a un view port augmenté.
+- Le drone a un **viewport augmenté** et **une durée limitée**, il peut poser des marqueurs dans le monde qui servent au tank, *ces marques disparaissent seulement quand on en place un nouveau* (car on est limité avec ce nombre de marque).
+- Les ressources (celles récoltées sur les ennemis (les parties électroniques)  ou au sol (les minéraux)) servent aux améliorations pour aider le tank
 
 ---
 
@@ -37,23 +38,23 @@ le tank sur terre et le drone dans un univers aérien
 #### Autre proposition de tank
 
 ###### Canon + Chassis
-- Move: Déplacements (Chassis+Canon) (avec ZQSD)
+- Move: Déplacements (Chassis+Canon) (avec ZQSD, dans `éclaircir` *8 directions*)
 
-###### Chassis
+###### Chassis (corps du tank)
 - Pop : Miner (pour faire apparaitre une ressource si sur filon)
-- Wizz: Passer au contrôle du drône.
+- Wizz: Passer au contrôle du drône. (`a discuter pour l'animation`)
 - Turn: Tourne le chassis (appelé par le move)
 
-###### Canon
-- Pop  `à discuter` : Changer d'arme (à gauche)
-- Wizz `à discuter` : Changer d'arme (à droite)
+###### Canon (tourelle du tank)
+- Pop : Changer d'arme (*enclenche un rechargement obligatoire pour l'arme choisit*)
+- Wizz: Recharger le canon
 - Hit : Attaquer avec l'arme active. (les upgrades ont une limitation d'utilisation)
-- Turn: Tourne le canon (avec les flèches directionnelles)
+- Turn: Tourne le canon (avec les **flèches directionnelles**)
 
 ---
 
 #### Pour le drone
-- Pop : Switcher entre vue ressource et vue ennemi.
+- Pop : Switcher entre vue ressource et vue ennemi. (`a discuter pour l'animation`)
 - Wizz: Retour au tank.
 - Hit : Marquer une ressources ou des enemies pour le tank. Via la souris.
 - Move: Se déplacer dans les airs<br/>
@@ -67,10 +68,38 @@ le tank sur terre et le drone dans un univers aérien
 
 - Les ennemis sont porteur de ressources obligeant le joueur a prendre des risques pour évoluer.
 - L'environnement n'est que partiellement connu du point de vue du tank, mais plus amplement du drone.
-- Un système d'amélioration **passant par une interface simple** offrant une expérience changeante de jeu.
-- Ensuite le tank se déplace pour tuer les ennemis et survivre. Le drone se déplace également et voit mieux les ennemis et les ressources. Il indique au tank dans quelle direction aller pour trouver les ressources. 
+- Un système d'améliorations passant par **une interface sous forme de bandeau cliquable** offrant une expérience changeante de jeu.
+- Ensuite le tank se déplace pour tuer les ennemis et survivre. Le drone se déplace également et voit les ennemis et les ressources. Il indique au tank dans quelle direction aller pour trouver les ressources (pendant ce temps **le tank est vulnérable**). 
 - Les ennemis se déplacent dans une zone de manière aléatoire. Lorsque le joueur se trouve à une certaine distance d'un ennemi, en fonction de sa "distance de détection", l'ennemi ira vers le joueur pour l'attaquer.
 - Plusieurs catégories d'ennemis avec des comportements/déplacements/zones de détection/attaques différentes.
+
+---
+
+### Les upgrades
+
+##### Statistiques
+
+ - Vie
+ - Dégats
+ - Vitesse (tank+drone)
+ - Portée (tir+viewport)
+ - Temps de rechargement
+ - Temps d'utilisation du drone
+
+##### Uniques
+
+ - Bouclier rechargeable
+ - Tourelle automatique
+ - Tir multiples (*dégats dispersés dans un cône ?*) (arme)
+ - Canon augmenté (*plus de dégats, moins de cadence*) (arme)
+ - Marquage multiples (pour le drone)
+ - <strike>Mine a placer</strike>
+
+---
+
+### L'inventaire du tank
+
+ - affichage simple avec symbole de la ressource + son compteur (on cap' l'affichage a 999 par exemple pour eviter le surpoids sur l'écran).
 
 ---
 
@@ -116,6 +145,8 @@ Donc en fonction de sa taille, les entités apparaissent plus ou moins grosses �
 - Vitesse du tank et/ou du drone augmentent
 
 ##### Idée de features
+- ajout d'armes sur le chassis (lance-flamme ?)
+- Gestion de la difficulté
 - Pour le drone : viewport adaptable en fonction de la hauteur, mais en contre partie son temps d'utilisation sera propotionel.
 - Hit : Fait apparaitre des piques autour du tank ou faire un dash (bond en avant qui fait des dégâts)
 - Du vent, des conditions météo qui limite l'usage du drone

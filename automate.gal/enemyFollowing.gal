@@ -1,5 +1,4 @@
 EnnemiFollowing(peacefull){
-
 	//cherche le joueur
 	* (init) :
 	| Closest(@, N) ? turn(N) : (step)
@@ -29,10 +28,13 @@ EnnemiFollowing(peacefull){
 	| True ? :(init)
 
 	* (peacefull)
+	| !GotPower() ? Explode() : (dying)
 	| Cell(N,V) ? 25% Move(N) : (init)
 	| Cell(S,V) ? 25% Move(S) : (init)
 	| Cell(E,V) ? 25% Move(E) : (init)
 	| Cell(W,V) ? 25% Move(W) : (init)
 	| True ? : (init)
-	
+
+	* (dying)
+	| True ? Egg(H) : ()
 }

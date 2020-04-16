@@ -15,3 +15,6 @@
 *.zip
 *.tar.gz
 *.rar
+
+# Le dossier de tests pour les automates sans le parser GAL
+workspace/cyance

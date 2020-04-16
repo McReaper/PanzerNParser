@@ -1,0 +1,29 @@
+Toupie(init){
+*(init)
+|True ? hit : (finish)
+*(finish)
+|true ? turn(L) : (init)
+}
+
+Crabe(init){
+*(init)
+|cell(F,O) ? Turn(B) : (init)
+|True : Move(F) (init)
+}
+
+PotDeColle(init){
+*(init)
+|cell(F,V)&cell(L,V)&cell(R,V)&cell(B,V) ? : (init)
+|cell(F,P) ? Move(F) : init()
+|cell(L,P) ? Move(L) : init()
+|cell(R,P) ? Move(R) : init()
+|cell(B,P) ? Move(B) : init()
+}
+
+Rabbit(init){
+*(init)
+|cell(F,V) ? Egg(F) : init()
+|cell(L,V) ? Egg(L) : init()
+|cell(R,V) ? Egg(R) : init()
+|cell(B,V) ? Egg(B) : init()
+}

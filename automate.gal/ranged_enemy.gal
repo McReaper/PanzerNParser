@@ -1,0 +1,33 @@
+EnemyBasic(Wander){
+ * (Wander):
+	| !GotPower() ? Explode() : (Dying)
+	| Closest(T,N) / Closest(T,NE) / Closest(T,NW) / Closest(T,S) / Closest(T,SE) / Closest(T,SW) / Closest(T,W) / Closest(T,E) ? : (Triggered)
+	| True ? 50% Move(F) / 25% Turn(L) / 25% Turn(R) : (Wander)
+ * (Attack):
+	| !GotPower() ? Explode() : (Dying)
+	| Closest(T,N) & MyDir(N) ? Hit(N) : (Triggered)
+	| Closest(T,NE) & MyDir(NE) ? Hit(NE) : (Triggered)
+	| Closest(T,NW) & MyDir(NW) ? Hit(NW) : (Triggered)
+	| Closest(T,S) & MyDir(S) ? Hit(S) : (Triggered)
+	| Closest(T,SE) & MyDir(SE) ? Hit(SE) : (Triggered)
+	| Closest(T,SW) & MyDir(SW) ? Hit(SW) : (Triggered)
+	| Closest(T,W) & MyDir(W) ? Hit(W) : (Triggered)
+	| Closest(T,E) & MyDir(E) ? Hit(E) : (Triggered)
+	| True ? : (Wander)
+ * (Triggered) {
+	| !GotPower() ? Explode() : (Dying)
+	| Closest(T,N) ? Turn(N) : (Forward)
+	| Closest(T,NE) ? Turn(NE) : (Forward)
+	| Closest(T,NW) ? Turn(NW) : (Forward)
+	| Closest(T,S) ? Turn(S) : (Forward)
+	| Closest(T,SE) ? Turn(SE) : (Forward)
+	| Closest(T,SW) ? Turn(SW) : (Forward)
+	| Closest(T,W) ? Turn(W) : (Forward)
+	| Closest(T,E) ? Turn(E) : (Forward)
+	| True ? : (Wander)
+ * (Forward) {
+	| !GotPower() ? Explode() : (Dying)
+	| True ? Move(F) : (Attack)
+ * (Dying):
+	| True ? Egg(H) : ()
+}

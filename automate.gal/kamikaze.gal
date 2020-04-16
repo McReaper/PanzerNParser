@@ -1,0 +1,21 @@
+Entity(Init){
+ * (Init)
+	| True ? Turn(L) / Turn(R) / Hit(F) : (Init)
+}
+
+Entity(Init){
+ * (Init)
+	| !Cell(F, B) ? Move(F) : (Init)
+	| True ? Turn(L) : (Turning)
+ * (Turning)
+	| True ? Turn(L) : (Init)
+}
+
+Entity(Search){
+ *(Search) :
+  	| Closest(A, N) ? Turn(N) : (MoveFront)
+	| Closest(A, S) ? Turn(S) : (MoveFront)
+	| Closest(A, E) ? Turn(E) : (MoveFront)
+	| Closest(A, W) ? Turn(W) : (MoveFront)
+}
+

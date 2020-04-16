@@ -14,13 +14,11 @@ public class ITransition {
 	}
 	
 	boolean feasible(Entity e) {
-		// teste si la condition de la transition est satisfaite
-		return true ;
+		return condition.eval(e) ;
 	}
 	
 	IState exec(Entity e) {
-		// execute l'action
-		// return l'état cible de la transition 
-		return null ;
+		action.exec(e);
+		return target ;
 	}
 }

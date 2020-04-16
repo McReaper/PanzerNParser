@@ -1,1 +1,36 @@
-coucou
+
+une entité qui tourne sur elle même et frappe 
+ETEMF(init){
+ * (init)
+ | True ? Turn  :(Hit)
+ * (Hit): True ? Hit() :(Hit)
+}
+
+une entité qui parcourt une ligne et fait demi-tour quand elle touche un bord
+
+EPLDMQTB(init){
+ * (init)
+ | Cell(F,O) ? Move(B) : (init)
+ | True ? Move : (init)
+}
+
+une entité qui suit l'entité du joueur se déplaçant au clavier
+
+ESEJDC(init){
+ * (init)
+ | Closest(N, @) ? Move(N) : (init)
+ | Closest(O, @) ? Move(O) : (init)
+ | Closest(S, @) ? Move(S) : (init)
+ | Closest(E, @) ? Move(E) : (init)
+ | True ? Move : (init)
+}
+
+une entité qui se réplique et remplit les cases vides autour d'elle.
+ESEJDC(init){
+ * (init)
+ | Cell(_,F) ? EGG(F) : (init)
+ | Cell(_,B) ? EGG(B) : (init)
+ | Cell(_,O) ? EGG(O) : (init)
+ | Cell(_,E) ? EGG(E) : (init)
+ | True ? Move : (init)
+}

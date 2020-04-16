@@ -162,12 +162,12 @@ Donc en fonction de sa taille, les entités apparaissent plus ou moins grosses �
 ### Des automates
 
 Nous avons réaliser plusieurs automates pour nos entités de notre jeu, en voici une liste :
-- (vein.gal)[automate.gal/vein.gal] Automate décrivant le comportement d'un filon.
-- (kamikaze.gal)[automate.gal/kamikaze.gal] Un automate pour un kamikaze
-- (ranged_enemy.gal)[automate.gal/ranged_enemy.gal] Automate qui décrit un ennemi avec de la porté pour tirer sur le joueur
-- (enemyFollowing.gal)[automate.gal/enemyFollowing.gal] Automate qui définit un comportement ennemi qui cherche le joueur
-- (tankCanon.gal)[automate.gal/tankCanon.gal] Automate qui définit le comportement du cannon du tank.
-- (tankChassis.gal)[automate.gal/tankChassis.gal] Automate qui définit le comportement du corps du tank.
+- [vein.gal](automate.gal/vein.gal) Automate décrivant le comportement d'un filon.
+- [kamikaze.gal](automate.gal/kamikaze.gal) Un automate pour un kamikaze
+- [ranged_enemy.gal](automate.gal/ranged_enemy.gal) Automate qui décrit un ennemi avec de la porté pour tirer sur le joueur
+- [enemyFollowing.gal](automate.gal/enemyFollowing.gal) Automate qui définit un comportement ennemi qui cherche le joueur
+- [tankCanon.gal](automate.gal/tankCanon.gal) Automate qui définit le comportement du cannon du tank.
+- [tankChassis.gal](automate.gal/tankChassis.gal) Automate qui définit le comportement du corps du tank.
 
 
 

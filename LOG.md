@@ -54,5 +54,32 @@
 
 ---
 
+# JOURNAL du Vendredi 17 avril
+
+## Planning du jour
+
+- Réajustement des fichiers `.gal` + complétion des fichiers manquants pour certaines entités (comme le tir du canon)
+- Etude rapide du parser pour comprendre comment analyser un Objet Java AST.
+- Début d'implémentation des classes essentielles à AutBuilder.java qu'on devra implémenter plus tard
+- Début d'implémentation du MVC sur la branche `mvc` à partir de la branche `dev`
+
+## Répartition des tâches
+
+- `B/M` expliquent au reste de l'équipe le rôle et le fonctionnement du parser.
+- `V/JT/B>` Partie MVC, création des premières classes essentielles pour fournir une base de développement au reste de l'équipe (**devra incorporer la partie Automate plus tard**)
+- `E/M/S>` Partie Automate, création d'un premier diagramme de classe que **AutBuilder.java** devra respecter
+
+## Remarques :
+
+- `E>` a developpé un fichier `.gal` pour le tank et mis à jour celui du chassis suite aux conseils du tuteur.
+- Par rapport à la dernière refléxion de `V & B` (*lol, VnB*) : Le view se fait repaint grâce à lui-même (FPS) -> voir comment gérer ça dans le code
+
+## Réflexion en cours
+
+- `V/B>` Comment gérer le timer de **Model.java** ?
+- L'utilisation de l'interface **IVisitor.java** du parser Java reste un peu flou de notre point de vue. Sachant que AutBuilder devra en hériter, c'est embétant.
+
+---
+
 
 

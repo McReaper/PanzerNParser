@@ -1,5 +1,5 @@
 package info3.game.model;
 
-public class Inventaire {
+public class Inventory {
 	Material[] m_materialList;
 }

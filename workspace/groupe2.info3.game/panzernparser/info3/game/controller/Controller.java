@@ -14,6 +14,19 @@ public class Controller implements MouseListener, MouseMotionListener, KeyListen
 	Model m_model;
 	View m_view;
 
+	public Controller(View view, Model model) {
+		m_view = view;
+		m_model = model;
+		// Créer les timers pour la vue et le modele
+	}
+
+	public void step() {
+		// a chaque pas de simulation on met à jour l'ATH de la vue (pas le Canvas) et
+		// le modèle.
+		m_model.step();
+		m_view.refreshHUD();
+	}
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}

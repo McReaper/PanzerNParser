@@ -1,13 +1,13 @@
 package info3.game.model.entities;
 
-import info3.game.view.Sprite;
+import info3.game.view.Avatar;
 
 public abstract class Entity {
 	int m_x;
 	int m_y;
 	int m_width;
 	int m_height;
-	Sprite m_sprite;
+	Avatar m_avatar;
 	// State m_state; //état courant dans l'automate
 	// Automaton m_automate; //automate associé
 

@@ -1,5 +1,8 @@
 package info3.game.model.entities;
 
+/**
+ * Chassis du tank
+ */
 public class TankBody extends MovingEntity {
 
 	@Override

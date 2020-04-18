@@ -1,5 +1,8 @@
 package info3.game.model.entities;
 
+/**
+ * Un marqueur est disposé par le drone lors d'un clic dans le canvas
+ */
 public class Marker extends StaticEntity {
 
 	@Override

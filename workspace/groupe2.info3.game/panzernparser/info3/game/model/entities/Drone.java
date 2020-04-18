@@ -2,7 +2,12 @@ package info3.game.model.entities;
 
 public class Drone extends MovingEntity {
 
-	boolean m_visionType;
+	private enum VisionType {
+		RESSOURCES,
+		ENEMIES;
+	}
+	
+	VisionType m_visionType;
 
 	@Override
 	public void Egg() {

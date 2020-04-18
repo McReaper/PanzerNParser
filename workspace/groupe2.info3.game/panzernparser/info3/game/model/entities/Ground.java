@@ -1,5 +1,8 @@
 package info3.game.model.entities;
 
+/**
+ * Représente une unité immobile comme un trou, un arbre, un caillou, ...
+ */
 public class Ground extends StaticEntity{
 
 	@Override

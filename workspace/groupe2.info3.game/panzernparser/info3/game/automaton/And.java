@@ -14,8 +14,7 @@ public class And extends Condition{
 
 	@Override
 	public boolean realisable(Entity entity) {
-		// TODO Auto-generated method stub
-		return false;
+		return ( m_left.realisable(entity) && m_right.realisable(entity));
 	}
 
 }

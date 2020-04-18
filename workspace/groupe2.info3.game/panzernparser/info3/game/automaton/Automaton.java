@@ -17,16 +17,18 @@ public class Automaton {
 		m_name = name;
 	}
 
-	boolean step(Entity e) {
+	State step(Entity e) {
 		ListIterator<Mode> iter = m_modes.listIterator();
-		Mode current;
+		Mode currentMode;
+		State currentState = e.getState();
 		while (iter.hasNext()) {
-			current = (Mode) iter.next();
-			if (current.step(e)) {
-				return true;
+			currentMode = (Mode) iter.next();
+			if (currentState.equals(currentMode.m_state)) {
+					return currentMode.step(e);
+				}else 
+					return null;
 			}
-		}
-		return false;
+		return null;
 
 	}
 }

@@ -12,6 +12,7 @@ public class AutomatonMain {
 	
 	public static void main(String[] args) {
 		Entity e = new Enemy();
+		Entity e2 = new TankBody();
 		List<Mode> modesAuto1 = new LinkedList<Mode>();
 		List<Mode> modesAuto2 = new LinkedList<Mode>();
 		List<Transition> transitionsAuto1 = new LinkedList<Transition>();
@@ -34,9 +35,15 @@ public class AutomatonMain {
 		Automaton auto1 = new Automaton("auto_1", (LinkedList<Mode>) modesAuto1, state);
 		Automaton auto2 = new Automaton("auto_2", (LinkedList<Mode>) modesAuto2, state);
 		
+		/*
+		 * pour le test on doit donner un state initial a Entity
+		 * je le fais ici pour ce test mais plus tard il faudra gérer ca dans Entity directement
+		 */
+		e.setState(state);
+		e2.setState(state);
 		while(true) {
 			auto1.step(e);
-			auto2.step(e);
+			auto2.step(e2);
 		}
 	}
 	

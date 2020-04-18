@@ -84,12 +84,12 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void tick(long elapsed) {
-		m_view.tick(elapsed);
+		
 	}
 
 	@Override
 	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
+		m_view.refreshHUD();
 
 	}
 

@@ -8,10 +8,10 @@ import info3.game.model.entities.*;
 
 public class Automaton {
 	State m_state;
-	LinkedList<Mode> m_modes;
+	List<Mode> m_modes;
 	String m_name;
 
-	Automaton(String name, LinkedList<Mode> modes, State state) {
+	Automaton(String name, List<Mode> modes, State state) {
 		m_state = state;
 		m_modes = modes;
 		m_name = name;

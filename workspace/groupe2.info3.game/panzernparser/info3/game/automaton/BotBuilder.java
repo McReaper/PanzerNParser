@@ -66,7 +66,7 @@ public class BotBuilder implements IVisitor {
 
 	@Override
 	public Object visit(BinaryOp operator, Object left, Object right) {
-		info3.game.automaton.Condition biOp;
+		info3.game.automaton.Condition biOp = null;
 		switch (operator.operator){
 			case "&":
 				biOp = new info3.game.automaton.And((info3.game.automaton.Condition) left, (info3.game.automaton.Condition) right);
@@ -80,7 +80,7 @@ public class BotBuilder implements IVisitor {
 
 	@Override
 	public Object visit(UnaryOp operator, Object expression) {
-		info3.game.automaton.Condition unOp;
+		info3.game.automaton.Condition unOp = null;
 		switch (operator.operator){
 			case "!":
 				unOp = new info3.game.automaton.Not((info3.game.automaton.Condition) expression);

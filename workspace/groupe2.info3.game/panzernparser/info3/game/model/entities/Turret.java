@@ -103,10 +103,4 @@ public class Turret extends MovingEntity {
 		return false;
 	}
 
-	@Override
-	boolean GotStuff() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

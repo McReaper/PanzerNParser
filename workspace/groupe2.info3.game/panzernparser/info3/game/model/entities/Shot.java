@@ -89,13 +89,7 @@ public class Shot extends MovingEntity {
 	@Override
 	public void Wizz() {
 		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	void Wizz() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

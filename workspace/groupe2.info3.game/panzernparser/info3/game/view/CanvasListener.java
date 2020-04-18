@@ -84,11 +84,7 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void tick(long elapsed) {
-<<<<<<< HEAD
-		m_view.tick(elapsed);
-=======
-
->>>>>>> mvc.victor
+		
 	}
 
 	@Override

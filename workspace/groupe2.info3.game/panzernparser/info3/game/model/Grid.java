@@ -6,16 +6,11 @@ package info3.game.model;
  * EntityFactory) en fonction d'un ou plusieurs fichiers patterns. 
  */
 public class Grid {
-	LinkedList<Entity> m_entities;
 	int m_width;
 	int m_height;
 	
 	public Grid() {
 		
-	}
-	
-	public void tick(long elapsed) {
-		// TODO Appel les step des automates.
 	}
 
 }

@@ -26,10 +26,6 @@ public class View extends JFrame {
 
 	public void refreshHUD() {
 		// TODO met à jour l'ATH de l'interface de jeu en fonction du modèle.
-
-	public void tick(long elapsed) {
-		// TODO met a jour le Canvas et l'ATH en fonction du modèle.
-		m_model.tick(elapsed);
 	}
 	
 	

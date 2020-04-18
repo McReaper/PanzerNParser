@@ -8,6 +8,7 @@ public abstract class Entity {
 	int m_width;
 	int m_height;
 	Avatar m_avatar;
+	long m_elapseTime;
 	// State m_state; //état courant dans l'automate
 	// Automaton m_automate; //automate associé
 

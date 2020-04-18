@@ -1,6 +1,7 @@
-package info3.game.myAutotmaton;
+package info3.game.myAutomaton.condition;
 
 import info3.game.model.Entity;
+import info3.game.myAutotmaton.Condition;
 
 public class GotStuff extends Condition{
 

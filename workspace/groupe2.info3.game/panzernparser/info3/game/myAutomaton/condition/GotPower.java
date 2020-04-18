@@ -1,13 +1,11 @@
-package info3.game.myAutotmaton;
+package info3.game.myAutomaton.condition;
 
 import info3.game.model.Entity;
+import info3.game.myAutotmaton.Condition;
 
-public class MyDir extends Condition{
-	
-	Direction m_direction;
-	
-	public MyDir(Direction dir) {
-		m_direction= dir;
+public class GotPower extends Condition{
+
+	public GotPower() {
 		// TODO Auto-generated constructor stub
 	}
 	

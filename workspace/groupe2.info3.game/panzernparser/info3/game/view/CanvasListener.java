@@ -4,6 +4,10 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+/**
+ * Classe principale pour l'affichage graphique du jeu, elle comportera tout les
+ * avatars contenu dans le viewport du joueur.
+ */
 public class CanvasListener implements GameCanvasListener {
 
 	private View m_view;
@@ -80,7 +84,11 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void tick(long elapsed) {
+<<<<<<< HEAD
 		m_view.tick(elapsed);
+=======
+
+>>>>>>> mvc.victor
 	}
 
 	@Override

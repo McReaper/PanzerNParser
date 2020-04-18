@@ -1,93 +1,104 @@
-package info3.game.model;
+package info3.game.model.entities;
 
-public class Ground extends StaticEntity {
+/**
+ * Classe du canon du tank
+ */
+public class Turret extends MovingEntity {
+	
+	int m_range;
 
 	@Override
-	void Egg() {
+	public void Egg() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	void Get() {
+	public void Get() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	void Hit() {
+	public void Hit() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	void Explode() {
+	public void Explode() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	void Move() {
+	public void Move() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	void Pick() {
+	public void Pick() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	void Pop() {
+	public void Pop() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	void Power() {
+	public void Power() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	void Protect() {
+	public void Protect() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	void Store() {
+	public void Store() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	void Turn() {
+	public void Turn() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	void Throw() {
+	public void Throw() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	void Wait() {
+	public void Wait() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	void Wizz() {
+	public void Wizz() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	boolean GotPower() {
+	public boolean GotPower() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean GotStuff() {
 		// TODO Auto-generated method stub
 		return false;
 	}

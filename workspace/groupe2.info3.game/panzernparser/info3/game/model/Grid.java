@@ -1,16 +1,19 @@
 package info3.game.model;
 
-import java.util.LinkedList;
-
+/**
+ * Créer la grille de jeu avec les entités correspondantes (rappel : la liste
+ * des entités doit se trouver dans le model et leur création passe par
+ * EntityFactory) en fonction d'un ou plusieurs fichiers patterns.
+ */
 public class Grid {
 	LinkedList<Entity> m_entities;
 	int m_width;
 	int m_height;
-
+	
 	public Grid() {
-
+		
 	}
-
+	
 	public void tick(long elapsed) {
 		// TODO Appel les step des automates.
 	}

@@ -11,7 +11,7 @@ public class Action {
 		m_funCalls = funCalls;
 	}
 	
-	void execute(Entity e) {
-		
+	boolean execute(Entity e) {
+		return false;
 	}
 }

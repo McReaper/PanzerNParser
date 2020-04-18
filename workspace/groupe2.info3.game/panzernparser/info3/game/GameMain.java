@@ -50,7 +50,7 @@ public class GameMain {
 		m_frame.setTitle(GAME_TITLE);
 		m_frame.setLayout(new BorderLayout());
 
-		m_frame.add(m_view.m_canvas, BorderLayout.CENTER);
+		m_frame.add(m_view, BorderLayout.CENTER);
 
 		// Centre la fenêtre à l'écran :
 		m_frame.setLocationRelativeTo(null);

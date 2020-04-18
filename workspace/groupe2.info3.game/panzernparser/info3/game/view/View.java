@@ -4,11 +4,13 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
+import info3.game.controller.Controller;
 import info3.game.model.Model;
 
 public class View extends JFrame {
 
 	Model m_model;
+	Controller m_controller;
 	
 	/**
 	 * Victor : reparler de ça :
@@ -26,6 +28,11 @@ public class View extends JFrame {
 
 	public void refreshHUD() {
 		// TODO met à jour l'ATH de l'interface de jeu en fonction du modèle.
+	}
+
+	public void tick(long elapsed) {
+		// TODO Auto-generated method stub
+		m_controller.tick(elapsed);
 	}
 	
 	

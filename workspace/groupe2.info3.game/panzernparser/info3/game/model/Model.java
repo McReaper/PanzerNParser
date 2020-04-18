@@ -19,7 +19,7 @@ public class Model {
 		// donner.
 	}
 
-	public void step() {
+	public void step(long elapsed) {
 		// Effectue un pas de simulation
 
 	}

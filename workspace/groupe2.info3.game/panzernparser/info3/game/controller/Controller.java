@@ -20,10 +20,10 @@ public class Controller implements MouseListener, MouseMotionListener, KeyListen
 		// Créer les timers pour la vue et le modele
 	}
 
-	public void step() {
+	public void tick(long elapsed) {
 		// a chaque pas de simulation on met à jour l'ATH de la vue (pas le Canvas) et
 		// le modèle.
-		m_model.step();
+		m_model.step(elapsed);
 		m_view.refreshHUD();
 	}
 

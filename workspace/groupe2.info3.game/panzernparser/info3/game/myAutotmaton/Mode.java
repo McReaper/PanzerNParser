@@ -12,6 +12,6 @@ public class Mode {
 	}
 
 	boolean step(Entity e) {
-		return false;
+		return m_behaviour.step(e);
 	}
 }

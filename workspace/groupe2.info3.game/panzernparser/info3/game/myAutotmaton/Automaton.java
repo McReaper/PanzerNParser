@@ -1,21 +1,32 @@
 package info3.game.myAutotmaton;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 import info3.game.model.Entity;
 
 public class Automaton {
 	State m_state;
-	List<Mode> m_modes;
+	LinkedList<Mode> m_modes;
 	String m_name;
 
-	Automaton(String name, List<Mode> modes, State state) {
+	Automaton(String name, LinkedList<Mode> modes, State state) {
 		m_state = state;
 		m_modes = modes;
 		m_name = name;
 	}
 
 	boolean step(Entity e) {
+		ListIterator<Mode> iter = m_modes.listIterator();
+		Mode current;
+		while (iter.hasNext()) {
+			current = (Mode) iter.next();
+			if (current.step(e)) {
+				return true;
+			}
+		}
 		return false;
+
 	}
 }

@@ -76,10 +76,38 @@
 
 ## Réflexion en cours
 
-- `V/B>` Comment gérer le timer de **Model.java** ?
+- `V/B>` Comment gérer le timer de **Model.java**- Retravailler sur le modèle/vue/contrôleur
+- Retravailler sur AutBuilder et la classe Automaton
+- Essayer une fusion des deux travaux (au moins avec les classes vides) ?
 - L'utilisation de l'interface **IVisitor.java** du parser Java reste un peu flou de notre point de vue. Sachant que AutBuilder devra en hériter, c'est embétant.
 
 ---
 
+# JOURNAL du Samedi 18 Avril
+
+## Planning du jour
+
+- Retravailler sur le modèle/vue/contrôleur et mettre au claire les zones de flou (les timers, la view, les avatars).
+- Retravailler sur AutBuilder et la classe Automaton, créer toutes les classes du automaton vides, puis en implémenter certaines pour faire fonctionner un petit exemple d'automate sans le parser.
+- Essayer une fusion des deux travaux (au moins avec les classes vides).
+
+## Répartition des tâches
+
+- `B/JT/V>` Regler toutes les zones d'ombres du MVC, sur les timer, les ticks, les repaints, les avatars.
+Continuer de travailler sur la partie MVC pour avoir une version très simple d'une fenêtre qui s'affiche.
+- `E/M/S>` Implémenter les classes vides des automates, implémentations de certaines classes pour faire fonctionner un petit automate sans parser.
+- `M>` Début et avancement de l'implémentation du botBuilder qui instancie les automates à partir de l'AST.
+- `B/M/S/JT/E/V>` Revue du code des autres membres, commentaires et questions pour comprendre. Correction une fois les commentaires lus et les questions soulevées par ceux ci résolues avec le groupe.
+
+## Remarques :
+
+- `JT>` Avancement dans la composition de musique pour le jeu. <\3
+- Toutes l'équipe n'était pas présente toute la journée. Nottamment `Jean-Théophane` Et `Bertrand` ont dû s'absenter dans l'après midi.
+
+## Rélfexion en cours
+
+- Les Avatar doivent ils gérer eux même les séquences d'images ou se référer à une classe animation ?
+
+---
 
 

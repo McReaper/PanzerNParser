@@ -19,10 +19,10 @@ package info3.game.sound;
 
 public interface AudioPlayerListener {
 
-  /*
-   * The music that was playing stopped playing, because the player 
-   * reached the end of the music and looping was not requested.
-   */
-  public void endOfPlay(AudioPlayer player, String name);
+	/*
+	 * The music that was playing stopped playing, because the player reached the
+	 * end of the music and looping was not requested.
+	 */
+	public void endOfPlay(AudioPlayer player, String name);
 
 }

@@ -44,36 +44,35 @@ import java.io.InputStream;
  */
 public abstract class AudioPlayer {
 
-  /* 
-   * Constant to control if the player is verbose in the console
-   * about what it plays.
-   */
-  protected static final boolean VERBOSE = false;
-  
-  /* 
-   * Constant to control if the player is verbose about possible
-   * errors encountered while playing audio.
-   */
-  protected static final boolean VERBOSE_ERROR = false;
+	/*
+	 * Constant to control if the player is verbose in the console about what it
+	 * plays.
+	 */
+	protected static final boolean VERBOSE = false;
 
-  protected AudioPlayerListener m_listener;
-  
-  protected AudioPlayer(AudioPlayerListener l) {
-    m_listener = l;
-  }
-  
-  /*
-   * Ask the player to stop playing the current audio stream
-   * as soon as possible.
-   */
-  public abstract void stop();
+	/*
+	 * Constant to control if the player is verbose about possible errors
+	 * encountered while playing audio.
+	 */
+	protected static final boolean VERBOSE_ERROR = false;
 
-  /*
-   * Ask the player to play the given audio stream, 
-   * as soon as possible, interrupting any currently playing music.
-   * 
-   * The audio stream must be in the ogg audio format.
-   */
-  public abstract void play(String name, final InputStream is, long duration);
-  
+	protected AudioPlayerListener m_listener;
+
+	protected AudioPlayer(AudioPlayerListener l) {
+		m_listener = l;
+	}
+
+	/*
+	 * Ask the player to stop playing the current audio stream as soon as possible.
+	 */
+	public abstract void stop();
+
+	/*
+	 * Ask the player to play the given audio stream, as soon as possible,
+	 * interrupting any currently playing music.
+	 * 
+	 * The audio stream must be in the ogg audio format.
+	 */
+	public abstract void play(String name, final InputStream is, long duration);
+
 }

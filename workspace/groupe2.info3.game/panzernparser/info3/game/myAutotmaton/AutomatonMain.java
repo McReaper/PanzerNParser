@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import info3.game.model.Enemy;
 import info3.game.model.Entity;
+import info3.game.myAutomaton.action.*;
+import info3.game.myAutomaton.condition.*;
 
 
 public class AutomatonMain {
@@ -13,7 +15,7 @@ public class AutomatonMain {
 		List<Transition> transitions = new LinkedList<Transition>();
 		List<FunCall> funCalls = new LinkedList<FunCall>();
 		Condition c1 = new True();
-		FunCall fc = new Egg(100);
+		FunCall fc = new Egg(100, null);
 		funCalls.add(fc);
 		Action action = new Action(funCalls);
 		State state = new State("init");

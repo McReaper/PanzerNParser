@@ -1,15 +1,15 @@
-package info3.game.myAutotmaton;
+package info3.game.myAutomaton.condition;
 
 import info3.game.model.Entity;
+import info3.game.myAutotmaton.Condition;
+import info3.game.myAutotmaton.Direction;
 
-public class Closest extends Condition{
+public class MyDir extends Condition{
 	
 	Direction m_direction;
-	Entity m_entity;
 	
-	public Closest(Entity entity, Direction dir) {
-		m_direction = dir;
-		m_entity = entity;
+	public MyDir(Direction dir) {
+		m_direction= dir;
 		// TODO Auto-generated constructor stub
 	}
 	

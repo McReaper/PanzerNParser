@@ -1,14 +1,14 @@
 package info3.game.automaton.action;
 
-import info3.game.automaton.Direction;
+import info3.game.automaton.MyDirection;
 import info3.game.automaton.FunCall;
 import info3.game.model.entities.*;
 
 public class Egg extends FunCall {
 
-	Direction m_direction;
+	MyDirection m_direction;
 	
-	public Egg(int percent, Direction dir) {
+	public Egg(int percent, MyDirection dir) {
 		super(percent);
 		m_direction= dir;
 	}

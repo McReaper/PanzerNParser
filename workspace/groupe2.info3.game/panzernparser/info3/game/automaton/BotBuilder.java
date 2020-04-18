@@ -27,36 +27,107 @@ public class BotBuilder implements IVisitor {
 
 	@Override
 	public Object visit(Category cat) {
-		// TODO Auto-generated method stub
-		return null;
+		MyCategory myCat;
+		switch (cat.terminal.content) {
+			case "A":
+				myCat = MyCategory.A;
+				break;
+			case "C":
+				myCat = MyCategory.C;
+				break;
+			case "D":
+				myCat = MyCategory.D;
+				break;
+			case "G":
+				myCat = MyCategory.G;
+				break;
+			case "J":
+				myCat = MyCategory.J;
+				break;
+			case "M":
+				myCat = MyCategory.M;
+				break;
+			case "O":
+				myCat = MyCategory.O;
+				break;
+			case "P":
+				myCat = MyCategory.P;
+				break;
+			case "T":
+				myCat = MyCategory.T;
+				break;
+			case "V":
+				myCat = MyCategory.V;
+				break;
+			case "@":
+				myCat = MyCategory.AT;
+				break;
+			case "_":
+				myCat = MyCategory.US;
+				break;
+			default:
+				myCat = MyCategory.V;
+		}
+		return myCat;
 	}
 
 	@Override
 	public Object visit(Direction dir) {
-		// TODO Auto-generated method stub
-		return null;
+		MyDirection myDir;
+		switch (dir.terminal.content) {
+			case "F":
+				myDir = MyDirection.FRONT;
+				break;
+			//////////////////////////////////// TODO
+			default:
+				myDir = MyDirection.HERE;
+		}
+		return myDir;
 	}
 
 	@Override
 	public Object visit(Key key) {
-		// TODO Auto-generated method stub
-		return null;
+		LsKey myKey;
+		switch (key.terminal.content) {
+			case "A":
+				myKey = LsKey.A;
+				break;
+			//////////////////////////////////// TODO
+			case "0":
+				myKey = LsKey.ZERO;
+				break;
+			//////////////////////////////////// TODO
+			case "FU":
+				myKey = LsKey.FU;
+				break;
+			//////////////////////////////////// TODO
+			case "ENTER":
+				myKey = LsKey.ENTER;
+				break;
+			case "SPACE":
+				myKey = LsKey.SPACE;
+				break;
+			default:
+				myKey = LsKey.ENTER;
+		}
+		return myKey;
 	}
 
 	@Override
 	public Object visit(Value v) {
-		// TODO Auto-generated method stub
-		return null;
+		int val = v.value;
+		return val;
 	}
 
 	@Override
 	public Object visit(Underscore u) {
-		// TODO Auto-generated method stub
-		return null;
+		MyCategory myCat = MyCategory.US;
+		return myCat;
 	}
 
 	@Override
-	public void enter(FunCall funcall) {}
+	public void enter(FunCall funcall) {
+	}
 
 	@Override
 	public Object exit(FunCall funcall, List<Object> parameters) {
@@ -67,12 +138,14 @@ public class BotBuilder implements IVisitor {
 	@Override
 	public Object visit(BinaryOp operator, Object left, Object right) {
 		info3.game.automaton.Condition biOp = null;
-		switch (operator.operator){
+		switch (operator.operator) {
 			case "&":
-				biOp = new info3.game.automaton.And((info3.game.automaton.Condition) left, (info3.game.automaton.Condition) right);
+				biOp = new info3.game.automaton.And((info3.game.automaton.Condition) left,
+						(info3.game.automaton.Condition) right);
 				break;
 			case "/":
-				biOp = new info3.game.automaton.Or((info3.game.automaton.Condition) left, (info3.game.automaton.Condition) right);
+				biOp = new info3.game.automaton.Or((info3.game.automaton.Condition) left,
+						(info3.game.automaton.Condition) right);
 				break;
 		}
 		return biOp;
@@ -81,7 +154,7 @@ public class BotBuilder implements IVisitor {
 	@Override
 	public Object visit(UnaryOp operator, Object expression) {
 		info3.game.automaton.Condition unOp = null;
-		switch (operator.operator){
+		switch (operator.operator) {
 			case "!":
 				unOp = new info3.game.automaton.Not((info3.game.automaton.Condition) expression);
 				break;
@@ -97,11 +170,13 @@ public class BotBuilder implements IVisitor {
 	}
 
 	@Override
-	public void enter(Mode mode) {}
+	public void enter(Mode mode) {
+	}
 
 	@Override
 	public Object exit(Mode mode, Object source_state, Object behaviour) {
-		info3.game.automaton.Mode myMode = new info3.game.automaton.Mode((info3.game.automaton.Behaviour)behaviour, (info3.game.automaton.State)source_state);
+		info3.game.automaton.Mode myMode = new info3.game.automaton.Mode((info3.game.automaton.Behaviour) behaviour,
+				(info3.game.automaton.State) source_state);
 		return myMode;
 	}
 
@@ -117,7 +192,8 @@ public class BotBuilder implements IVisitor {
 	}
 
 	@Override
-	public void enter(Condition condition) {}
+	public void enter(Condition condition) {
+	}
 
 	@Override
 	public Object exit(Condition condition, Object expression) {
@@ -125,7 +201,8 @@ public class BotBuilder implements IVisitor {
 	}
 
 	@Override
-	public void enter(Action acton) {}
+	public void enter(Action acton) {
+	}
 
 	@Override
 	public Object exit(Action action, List<Object> funcalls) {
@@ -140,7 +217,8 @@ public class BotBuilder implements IVisitor {
 
 	@Override
 	public Object visit(Transition transition, Object condition, Object action, Object target_state) {
-		info3.game.automaton.Transition tr = new info3.game.automaton.Transition((info3.game.automaton.Condition)condition, (info3.game.automaton.Action)action, (info3.game.automaton.State)target_state);
+		info3.game.automaton.Transition tr = new info3.game.automaton.Transition((info3.game.automaton.Condition) condition,
+				(info3.game.automaton.Action) action, (info3.game.automaton.State) target_state);
 		return tr;
 	}
 
@@ -156,7 +234,8 @@ public class BotBuilder implements IVisitor {
 			lsModes.add((info3.game.automaton.Mode) it.next());
 		}
 		String name = automaton.name;
-		info3.game.automaton.Automaton auto = new info3.game.automaton.Automaton(name, lsModes,	(info3.game.automaton.State) initial_state);
+		info3.game.automaton.Automaton auto = new info3.game.automaton.Automaton(name, lsModes,
+				(info3.game.automaton.State) initial_state);
 		return auto;
 	}
 

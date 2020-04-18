@@ -1,14 +1,14 @@
 package info3.game.automaton.action;
 
-import info3.game.automaton.Direction;
+import info3.game.automaton.MyDirection;
 import info3.game.automaton.FunCall;
 import info3.game.model.entities.*;
 
 public class Wizz extends FunCall{
 
-	Direction m_direction;
+	MyDirection m_direction;
 	int m_angle;
-	public Wizz(int percent, Direction dir) {
+	public Wizz(int percent, MyDirection dir) {
 		super(percent);
 		m_direction = dir;
 		// TODO Auto-generated constructor stub

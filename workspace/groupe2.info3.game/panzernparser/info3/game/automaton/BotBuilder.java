@@ -21,6 +21,8 @@ import info3.game.automata.ast.Transition;
 import info3.game.automata.ast.UnaryOp;
 import info3.game.automata.ast.Underscore;
 import info3.game.automata.ast.Value;
+import info3.game.automaton.action.Egg;
+import info3.game.automaton.condition.Cell;
 //alias mAut = info3.game.myAutotmaton;
 
 public class BotBuilder implements IVisitor {
@@ -115,7 +117,7 @@ public class BotBuilder implements IVisitor {
 
 	@Override
 	public Object visit(Value v) {
-		int val = v.value;
+		Integer val = new Integer(v.value);
 		return val;
 	}
 
@@ -131,7 +133,52 @@ public class BotBuilder implements IVisitor {
 
 	@Override
 	public Object exit(FunCall funcall, List<Object> parameters) {
-		// TODO Auto-generated method stub
+		Object function;
+		int i = 0;
+		Object param1;
+		Object param2;
+		Object param3;
+		int paramSize = parameters.size();
+		int percent = 100;
+		switch (funcall.name) {
+			// pour les conditions
+			case "Cell":
+				// paramètre par défaut
+				 param1 = MyDirection.FRONT;
+				 param2 = MyCategory.V;
+				 param3 = 1;
+				// paramètre entré
+				if (i < paramSize && parameters.get(i) instanceof MyDirection) {
+					param1 = (MyDirection) parameters.get(i);
+					i++;
+				}
+				if (i < paramSize && parameters.get(i) instanceof MyCategory) {
+					param2 = (MyCategory) parameters.get(i);
+					i++;
+				}
+				if (i < paramSize && parameters.get(i) instanceof Integer) {
+					param3 = (Integer) parameters.get(i);
+					i++;
+				}
+				function = new Cell((MyDirection)param1, (MyCategory)param2, (int)param3);
+				break;
+				
+				
+			// pour les actions
+			case "Egg":
+			// paramètre par défaut
+				param1 = MyDirection.FRONT;
+				// paramètre entré
+				if (i < paramSize && parameters.get(i) instanceof MyDirection) {
+					param1 = (MyDirection) parameters.get(i);
+					i++;
+				}
+				if (funcall.percent != -1) {
+					percent = funcall.percent;
+				}
+				function = new Egg(percent, (MyDirection) param1);
+				break;
+		}
 		return null;
 	}
 

@@ -31,7 +31,7 @@ public class AutomatonMain {
 	}
 	
 	private static void initFunCalls(List<FunCall> funCalls) {
-		FunCall fc = new Egg(100);
+		FunCall fc = new Egg(100, null);
 		funCalls.add(fc);
 	}
 	

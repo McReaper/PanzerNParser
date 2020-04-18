@@ -4,7 +4,7 @@ import info3.game.model.Entity;
 
 public class True extends Condition{
 
-	public public True() {
+	public True() {
 	}
 	
 	@Override

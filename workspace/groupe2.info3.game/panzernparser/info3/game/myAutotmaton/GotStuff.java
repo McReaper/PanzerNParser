@@ -4,7 +4,7 @@ import info3.game.model.Entity;
 
 public class GotStuff extends Condition{
 
-	public public GotStuff() {
+	public GotStuff() {
 		// TODO Auto-generated constructor stub
 	}
 	

@@ -6,7 +6,7 @@ public class MyDir extends Condition{
 	
 	Direction m_direction;
 	
-	public public MyDir(Direction dir) {
+	public MyDir(Direction dir) {
 		m_direction= dir;
 		// TODO Auto-generated constructor stub
 	}

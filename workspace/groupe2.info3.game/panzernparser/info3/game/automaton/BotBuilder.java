@@ -80,7 +80,7 @@ public class BotBuilder implements IVisitor {
 
 	@Override
 	public Object visit(UnaryOp operator, Object expression) {
-		info3.game.automaton.Condition unOp;
+		info3.game.automaton.Condition unOp = null;
 		switch (operator.operator){
 			case "!":
 				unOp = new info3.game.automaton.Not((info3.game.automaton.Condition) expression);

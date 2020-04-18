@@ -8,7 +8,7 @@ public class Cell extends Condition {
 	Entity m_entity;
 	int m_distance;
 
-	public public Cell(Direction direction, Entity entity, int dist) {
+	public Cell(Direction direction, Entity entity, int dist) {
 
 	}
 

@@ -1,30 +1,75 @@
 package info3.game.controller;
 
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 import info3.game.model.Model;
+import info3.game.view.GameCanvasListener;
 import info3.game.view.View;
 
-public class Controller implements MouseListener, MouseMotionListener, KeyListener {
+public class Controller implements GameCanvasListener {
 
 	Model m_model;
 	View m_view;
 
-	public Controller(View view, Model model) {
-		m_view = view;
+	public Controller(Model model) {
 		m_model = model;
 		// Créer les timers pour la vue et le modele
 	}
+	
+	public void setView(View view) {
+		m_view = view;
+	}
 
+	@Override
 	public void tick(long elapsed) {
 		// a chaque pas de simulation on met à jour l'ATH de la vue (pas le Canvas) et
 		// le modèle.
 		m_model.step(elapsed);
 		m_view.refreshHUD();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -36,55 +81,43 @@ public class Controller implements MouseListener, MouseMotionListener, KeyListen
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent e) {
+	public void windowOpened() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent e) {
+	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void exit() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void endOfPlay(String name) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void expired() {
 		// TODO Auto-generated method stub
-
+		
 	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 }

@@ -9,21 +9,22 @@ import info3.game.model.Model;
 
 public class View extends JFrame {
 
-	Model m_model;
-	Controller m_controller;
 	
 	/**
 	 * Victor : reparler de ça :
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private GameCanvas m_canvas;
-	private CanvasListener m_canvasListener;
+	public GameCanvas m_canvas;
+	Controller m_controller;
+	Model m_model;
 	LinkedList<Avatar> m_avatars;
 
-	public View(String title) {
-		super(title);
+	public View(Controller controller) {
+		super();
 		// créer la fenetre de jeu avec les bandeaux d'updrage et le canvas.
+		m_controller = controller;
+		m_canvas = new GameCanvas(m_controller);
 	}
 
 	public void refreshHUD() {

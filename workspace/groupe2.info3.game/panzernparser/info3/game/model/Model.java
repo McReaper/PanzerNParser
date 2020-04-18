@@ -2,7 +2,6 @@ package info3.game.model;
 
 import java.util.LinkedList;
 
-import info3.game.controller.Controller;
 import info3.game.model.entities.Entity;
 
 public class Model {

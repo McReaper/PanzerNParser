@@ -1,107 +1,102 @@
-package info3.game.model;
+package info3.game.model.entities;
 
-public class TankBody extends MovingEntity {
+public class Ground extends StaticEntity{
 
 	@Override
-	void move() {
+	public void Egg() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void Egg() {
+	public void Get() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void Get() {
+	public void Hit() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void Hit() {
+	public void Explode() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void Explode() {
+	public void Move() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void Move() {
+	public void Pick() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void Pick() {
+	public void Pop() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void Pop() {
+	public void Power() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void Power() {
+	public void Protect() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void Protect() {
+	public void Store() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void Store() {
+	public void Turn() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void Turn() {
+	public void Throw() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void Throw() {
+	public void Wait() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void Wait() {
+	public void Wizz() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void Wizz() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	boolean GotPower() {
+	public boolean GotPower() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	boolean GotStuff() {
+	public boolean GotStuff() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }

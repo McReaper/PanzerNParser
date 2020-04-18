@@ -1,109 +1,104 @@
-package info3.game.model;
+package info3.game.model.entities;
 
-public class Drone extends MovingEntity {
+public class Shot extends MovingEntity {
 
-	boolean m_visionType;
+	int m_damage;
+
+	@Override
+	public void Egg() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Get() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Hit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Explode() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Move() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Pick() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Pop() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Power() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Protect() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Store() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Turn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Throw() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Wait() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Wizz() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean GotPower() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean GotStuff() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
-	@Override
-	void move() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void Egg() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void Get() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void Hit() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void Explode() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void Move() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void Pick() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void Pop() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void Power() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void Protect() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void Store() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void Turn() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void Throw() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void Wait() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void Wizz() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	boolean GotPower() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	boolean GotStuff() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }

@@ -6,4 +6,7 @@ package info3.game.view;
  */
 public class Sprite {
 
+		public Sprite() {
+			// TODO Auto-generated constructor stub
+		}
 }

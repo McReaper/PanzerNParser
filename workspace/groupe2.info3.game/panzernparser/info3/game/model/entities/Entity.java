@@ -1,5 +1,6 @@
 package info3.game.model.entities;
 
+import info3.game.automaton.State;
 import info3.game.view.Avatar;
 
 public abstract class Entity {
@@ -9,6 +10,7 @@ public abstract class Entity {
 	int m_height;
 	Avatar m_avatar;
 	long m_elapseTime;
+	State m_currentState;//Emilie : TODO gerer les cas null suite a l'automate
 	// State m_state; //état courant dans l'automate
 	// Automaton m_automate; //automate associé
 
@@ -46,5 +48,16 @@ public abstract class Entity {
 	public abstract boolean GotPower();
 
 	public abstract boolean GotStuff();
+	
+	public State getState() {
+		return m_currentState;
+	}
+	/*
+	 * Emilie : Ceci est une fonction temporaire pour pouvoir gerer les test sur les automates sans parser	
+	 */
+	public void setState(State state) {
+		m_currentState = state;
+	}
+	
 
 }

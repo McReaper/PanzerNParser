@@ -11,7 +11,6 @@ public class Not extends Condition{
 
 	@Override
 	public boolean realisable(Entity entity) {
-		// TODO Auto-generated method stub
-		return false;
+		return (!m_exp.realisable(entity));
 	}
 }

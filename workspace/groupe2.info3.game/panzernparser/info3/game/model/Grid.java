@@ -107,6 +107,7 @@ public class Grid {
 				int y = Integer.parseInt(sy);
 				if (x < SIZE && x >= 0 && y < SIZE && y >= 0) {
 					EntityShade es = new EntityShade(type, x, y);
+					m_entities.add(es);
 				}
 			}
 		}

@@ -1,6 +1,10 @@
 package info3.game.model.entities;
 
+
 import info3.game.automata.ast.Direction;
+import info3.game.automaton.State;
+import info3.game.view.Avatar;
+
 
 public abstract class Entity {
 	int m_x;
@@ -9,8 +13,9 @@ public abstract class Entity {
 	int m_height;
 	long m_elapseTime;
 	Direction m_dir;
-	// State m_state; //état courant dans l'automate
 	// Automaton m_automate; //automate associé
+	State m_currentState;//Emilie : TODO gerer les cas null suite a l'automate
+
 
 	public Entity(int x, int y, int width, int height) {
 		m_elapseTime = 0;
@@ -112,6 +117,16 @@ public abstract class Entity {
 	public boolean GotStuff() {
 		System.out.println("Is Gotstuffing");
 		return true;
+	}
+	
+	public State getState() {
+		return m_currentState;
+	}
+	/*
+	 * Emilie : Ceci est une fonction temporaire pour pouvoir gerer les test sur les automates sans parser	
+	 */
+	public void setState(State state) {
+		m_currentState = state;
 	}
 
 }

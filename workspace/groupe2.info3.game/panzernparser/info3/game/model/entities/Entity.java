@@ -1,28 +1,20 @@
 package info3.game.model.entities;
 
-import info3.game.view.Avatar;
-
 public abstract class Entity {
 	int m_x;
 	int m_y;
 	int m_width;
 	int m_height;
-	Avatar m_avatar;
 	long m_elapseTime;
 	// State m_state; //état courant dans l'automate
 	// Automaton m_automate; //automate associé
 
 	public Entity(int x, int y, int width, int height) {
-		m_avatar = null;
 		m_elapseTime = 0;
 		m_x = x;
 		m_y = y;
 		m_width = width;
 		m_height = height;
-	}
-
-	public void setAvatar(Avatar a) {
-		m_avatar = a;
 	}
 
 	public abstract void step(long elapsed);

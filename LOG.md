@@ -110,4 +110,35 @@ Continuer de travailler sur la partie MVC pour avoir une version très simple d'
 
 ---
 
+# JOURNAL du Lundi 20 Avril
+
+## Planning du jour
+
+- Corrections des bugs dans les classes du package automaton suite aux revus de code + amélioration de la classe `AutomatonMain.java` pour pousser les tests sans utiliser le parser
+- Correction et Amélioration de `BotBuilder.java` (paix aux groupes qui n'ont pas implémenté IVisitor), qui implémente beaucoup mieux IVisitor.
+- 
+
+## Répartition des tâches
+
+- `Cyance>` Revue de code croisée.
+- `E>` Amélioration et implémentation de tests plus détaillés pour `AutomatonMain.java`, qui effectue des tests avec des objets que pourrait génèrer `BotBuilder.java` depuis l'AST.
+- `M>` Améliorations et corrections de quelque lignes de code dans `BotBuilder.java` suite aux revues de codes du groupe
+- `V/B>` Mise à plat des tâches pouvant être réalisées si tôt dans le projet.
+- `V/E>` Affichage d'un premier sprite animé dans la vue grâce a la classe Avatar.
+- `B>` Implémentation du côté aléatoire de la méthode `execute()` de `Action.java`
+- `B/S>` Génération de la grille dans `Grid.java` depuis des fichiers pattern
+- `JT + Aide M>` Implémentation de Move et Turn dans `Entity.java` et de la gestion des mouvement sans les automates depuis le controleur sur une entité à l'écran.
+- `M>` Merge de plusieurs branche pour mettre a jour l'automate. Correction de plusieurs fichier `.gal`, surtout au niveau de la syntaxe.
+- `M>` Aujout de la liste des automates dans le model.
+
+## Remarques :
+
+- Le travail du jour a été très productif, les tâches sont bien réparties, nous alternerons les rôles attribués sur certaine tâche le lendemain pour que chacun touche à quelque chose. (*L'idée serait de garder une personne déjà présente sur une tâche pour aider a la transition sans perdre trop de temps*)
+
+## Rélfexion en cours
+
+- Les Avatar doivent ils gérer eux même les séquences d'images ou se référer à une classe Animation pour une certaine action en cours (Pop/Wizz/...) ? (dans les deux cas on se base sur la description des fichiers .ani pour une entité)
+
+---
+
 

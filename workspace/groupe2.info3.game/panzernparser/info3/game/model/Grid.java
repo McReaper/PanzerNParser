@@ -2,11 +2,9 @@ package info3.game.model;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -47,7 +45,7 @@ public class Grid {
 	}
 
 	public void generate() {
-		int Max = NB_PATTERNS-1;
+		int Max = NB_PATTERNS - 1;
 		int Min = 0;
 		int patterns_chose = 0;
 		int rand = 0;

@@ -1,0 +1,8 @@
+Test(init){
+	*(init)
+	|True ? Move() :(droite)
+	*(droite)|True ? Protect() : (init)
+	|True ? Egg() : (gauche)
+	*(gauche)|True ? Pop() : (init)
+}
+

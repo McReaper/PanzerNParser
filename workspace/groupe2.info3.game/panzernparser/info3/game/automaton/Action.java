@@ -65,13 +65,16 @@ public class Action {
 	}
 	
 	boolean execute(Entity e) {
-		ListIterator<FunCall> iter = m_funCalls.listIterator();
-		FunCall current;
-		while (iter.hasNext()) {
-			current = (FunCall) iter.next();
-			current.execut(e);
+		int percent = (int)(Math.random() * 100);
+		int i = 0;
+		while(i < m_roueDeLaFortune.length && percent > m_roueDeLaFortune[i]) {
+			i++;
+		}
+		if(i >= m_roueDeLaFortune.length) {
+			return false;
+		} else {
+			m_funCalls.get(i).execut(e);
 			return true;
 		}
-		return false;
 	}
 }

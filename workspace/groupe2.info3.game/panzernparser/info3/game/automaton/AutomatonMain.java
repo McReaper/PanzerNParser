@@ -11,7 +11,7 @@ import info3.game.model.entities.*;
 public class AutomatonMain {
 	
 	public static void main(String[] args) {
-		Entity e = new Enemy();
+		Entity e = new Enemy(0, 0, 0, 0);
 		List<Mode> modes = new LinkedList<Mode>();
 		List<Transition> transitions = new LinkedList<Transition>();
 		List<FunCall> funCalls = new LinkedList<FunCall>();

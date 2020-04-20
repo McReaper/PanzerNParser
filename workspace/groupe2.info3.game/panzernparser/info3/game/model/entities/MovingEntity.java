@@ -1,11 +1,11 @@
 package info3.game.model.entities;
 
-import info3.game.myAutotmaton.Direction;
+import info3.game.automaton.MyDirection;
 
 public abstract class MovingEntity extends Entity {
 
 	int m_health;
-	Direction m_orientation;
+	MyDirection m_orientation;
 	double m_speed;
 	// m_viewPort; //Dans la phase de tests on a pas de viewport...
 
@@ -13,7 +13,7 @@ public abstract class MovingEntity extends Entity {
 		super(x, y, width, height);
 		m_health = health;
 		m_speed = (double) 1 / timetotravel;
-		m_orientation = Direction.NORTH; // Valeur par défaut
+		m_orientation = MyDirection.NORTH; // Valeur par défaut
 	}
 
 }

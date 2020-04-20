@@ -43,5 +43,11 @@ public class Model {
 			m_keyPressed.add(temp);
 		return;
 	}
+
+	public void removeKeyPressed(LsKey temp) {
+		if (!m_keyPressed.contains(temp))
+			m_keyPressed.remove(temp);
+		return;
+	}
 	
 }

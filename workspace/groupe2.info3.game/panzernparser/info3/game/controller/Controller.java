@@ -93,8 +93,8 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
+		LsKey temp = toLsKey(e);
+		m_model.removeKeyPressed(temp);
 	}
 
 	@Override

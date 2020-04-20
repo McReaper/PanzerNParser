@@ -1,4 +1,4 @@
-package info3.game.myAutotmaton;
+package info3.game.automaton;
 
 public class State {
 	String m_name;

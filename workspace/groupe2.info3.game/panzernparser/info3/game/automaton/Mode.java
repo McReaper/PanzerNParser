@@ -1,6 +1,6 @@
-package info3.game.myAutotmaton;
+package info3.game.automaton;
 
-import info3.game.model.Entity;
+import info3.game.model.entities.*;
 
 public class Mode {
 	Behaviour m_behaviour;
@@ -12,6 +12,6 @@ public class Mode {
 	}
 
 	boolean step(Entity e) {
-		return false;
+		return m_behaviour.step(e);
 	}
 }

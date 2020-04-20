@@ -1,6 +1,7 @@
-package info3.game.myAutotmaton;
+package info3.game.automaton.condition;
 
-import info3.game.model.Entity;
+import info3.game.automaton.Condition;
+import info3.game.model.entities.*;
 
 public class True extends Condition{
 

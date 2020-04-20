@@ -1,6 +1,6 @@
-package info3.game.myAutotmaton;
+package info3.game.automaton;
 
-import info3.game.model.Entity;
+import info3.game.model.entities.Entity;
 
 public abstract class FunCall {
 	

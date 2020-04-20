@@ -93,7 +93,7 @@ public class BotBuilder implements IVisitor {
 				myDir = MyDirection.NORTH;
 				break;
 			case "NE":
-				myDir = MyDirection.NOTHEAST;
+				myDir = MyDirection.NORTHEAST;
 				break;
 			case "E":
 				myDir = MyDirection.EAST;

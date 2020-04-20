@@ -25,8 +25,6 @@ public class Grid {
 
 	/* entier pour le nombre de zone à charger dans la grille */
 	final static int NB_AREAS = 2;
-	/* entier pour le nombre de pattern dans le dossier pattern */
-	final static int NB_PATTERNS = 3;
 
 	public Grid(Model model) {
 		// Constructeur (phase de tests) :
@@ -45,20 +43,24 @@ public class Grid {
 	}
 
 	public void generate() {
-		int Max = NB_PATTERNS - 1;
+		/* Interrogation :
+		 * Décalage des patterne
+		 * Interdire la génération si il n'y a pas assez de pattern différents
+		 * Faire en sorte de faire un tirage parmis les patterns non pris
+		 */
+		int Max = m_patterns.size() - 1;
 		int Min = 0;
 		int patterns_chose = 0;
 		int rand = 0;
 		List<Pattern> selectedPatterns = new LinkedList<Pattern>();
 		while (patterns_chose != NB_AREAS) {
 			rand = (int) (Math.random() * (Max - Min));
-			if (selectedPatterns != null) {
-				Pattern tmp = m_patterns.get(rand);
-				if (!selectedPatterns.contains(tmp)) {
-					selectedPatterns.add(tmp);
-					patterns_chose++;
-				}
+			Pattern tmp = m_patterns.get(rand);
+			if (!selectedPatterns.contains(tmp)) {
+				selectedPatterns.add(tmp);
+				patterns_chose++;
 			}
+
 		}
 		sendToModel(selectedPatterns);
 	}
@@ -108,10 +110,10 @@ public class Grid {
 		int m_px, m_py;
 		List<EntityShade> m_entities;
 
-		Pattern() {
+		public Pattern() {
 			m_px = 0;
 			m_py = 0;
-			m_entities = new LinkedList();
+			m_entities = new LinkedList<EntityShade>();
 		}
 
 		List<Entity> getEntities() {
@@ -120,8 +122,8 @@ public class Grid {
 			List<Entity> realEntities = new LinkedList<Entity>();
 			while (iter.hasNext()) {
 				current = (EntityShade) iter.next();
-				int global_x = current.m_ex + m_px + SIZE;
-				int global_y = current.m_ey + m_py + SIZE;
+				int global_x = current.m_ex + m_px * SIZE;
+				int global_y = current.m_ey + m_py * SIZE;
 				switch (current.m_type) {
 					case WALL:
 						// realEntities.add(new Ground(global_x, global_y, width, height));

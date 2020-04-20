@@ -76,10 +76,69 @@
 
 ## Réflexion en cours
 
-- `V/B>` Comment gérer le timer de **Model.java** ?
+- `V/B>` Comment gérer le timer de **Model.java**- Retravailler sur le modèle/vue/contrôleur
+- Retravailler sur AutBuilder et la classe Automaton
+- Essayer une fusion des deux travaux (au moins avec les classes vides) ?
 - L'utilisation de l'interface **IVisitor.java** du parser Java reste un peu flou de notre point de vue. Sachant que AutBuilder devra en hériter, c'est embétant.
 
 ---
 
+# JOURNAL du Samedi 18 Avril
+
+## Planning du jour
+
+- Retravailler sur le modèle/vue/contrôleur et mettre au claire les zones de flou (les timers, la view, les avatars).
+- Retravailler sur AutBuilder et la classe Automaton, créer toutes les classes du automaton vides, puis en implémenter certaines pour faire fonctionner un petit exemple d'automate sans le parser.
+- Essayer une fusion des deux travaux (au moins avec les classes vides).
+
+## Répartition des tâches
+
+- `B/JT/V>` Regler toutes les zones d'ombres du MVC, sur les timer, les ticks, les repaints, les avatars.
+Continuer de travailler sur la partie MVC pour avoir une version très simple d'une fenêtre qui s'affiche.
+- `E/M/S>` Implémenter les classes vides des automates, implémentations de certaines classes pour faire fonctionner un petit automate sans parser.
+- `M>` Début et avancement de l'implémentation du botBuilder qui instancie les automates à partir de l'AST.
+- `B/M/S/JT/E/V>` Revue du code des autres membres, commentaires et questions pour comprendre. Correction une fois les commentaires lus et les questions soulevées par ceux ci résolues avec le groupe.
+
+## Remarques :
+
+- `JT>` Avancement dans la composition de musique pour le jeu. <\3
+- Toutes l'équipe n'était pas présente toute la journée. Nottamment `Jean-Théophane` Et `Bertrand` ont dû s'absenter dans l'après midi.
+
+## Rélfexion en cours
+
+- Les Avatar doivent ils gérer eux même les séquences d'images ou se référer à une classe animation ?
+
+---
+
+# JOURNAL du Lundi 20 Avril
+
+## Planning du jour
+
+- Corrections des bugs dans les classes du package automaton suite aux revus de code + amélioration de la classe `AutomatonMain.java` pour pousser les tests sans utiliser le parser
+- Correction et Amélioration de `BotBuilder.java` (paix aux groupes qui n'ont pas implémenté IVisitor), qui implémente beaucoup mieux IVisitor.
+- 
+
+## Répartition des tâches
+
+- `Cyance>` Revue de code croisée.
+- `E>` Amélioration et implémentation de tests plus détaillés pour `AutomatonMain.java`, qui effectue des tests avec des objets que pourrait génèrer `BotBuilder.java` depuis l'AST.
+- `M>` Améliorations et corrections de quelque lignes de code dans `BotBuilder.java` suite aux revues de codes du groupe
+- `V/B>` Mise à plat des tâches pouvant être réalisées si tôt dans le projet.
+- `V/E>` Affichage d'un premier sprite animé dans la vue grâce a la classe Avatar.
+- `B>` Implémentation du côté aléatoire de la méthode `execute()` de `Action.java`
+- `B/S>` Génération de la grille dans `Grid.java` depuis des fichiers pattern
+- `JT + Aide M>` Implémentation de Move et Turn dans `Entity.java` et de la gestion des mouvement sans les automates depuis le controleur sur une entité à l'écran.
+- `M>` Merge de plusieurs branche pour mettre a jour l'automate. Correction de plusieurs fichier `.gal`, surtout au niveau de la syntaxe.
+- `M>` Aujout de la liste des automates dans le model.
+
+## Remarques :
+
+- Le travail du jour a été très productif, les tâches sont bien réparties, nous alternerons les rôles attribués sur certaine tâche le lendemain pour que chacun touche à quelque chose. (*L'idée serait de garder une personne déjà présente sur une tâche pour aider a la transition sans perdre trop de temps*)
+
+## Rélfexion en cours
+
+- Les Avatar doivent ils gérer eux même les séquences d'images ou se référer à une classe Animation pour une certaine action en cours (Pop/Wizz/...) ? (dans les deux cas on se base sur la description des fichiers .ani pour une entité)
+
+---
 
 

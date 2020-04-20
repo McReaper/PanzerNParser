@@ -24,9 +24,16 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void tick(long elapsed) {
-		// a chaque pas de simulation on met à jour l'ATH de la vue (pas le Canvas) et
-		// le modèle.
+		// a chaque tick on fait un pas de simulation, et donc met à jour le modèle.
 		m_model.step(elapsed);
+	}
+
+	/**
+	 * Méthode appelée par le GameCanvasListener, appelé par le GameCanvas.
+	 */
+	public void paint(Graphics g) {
+		m_view.refreshHUD();
+		m_view.paintCanvas(g);
 	}
 
 	@Override
@@ -93,11 +100,6 @@ public class Controller implements GameCanvasListener {
 	public void windowOpened() {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public void paint(Graphics g) {
-		m_view.refreshHUD();
 	}
 
 	@Override

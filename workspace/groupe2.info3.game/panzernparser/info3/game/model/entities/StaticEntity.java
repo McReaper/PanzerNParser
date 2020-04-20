@@ -6,4 +6,9 @@ package info3.game.model.entities;
  */
 public abstract class StaticEntity extends Entity {
 
+	public StaticEntity(int x, int y, int width, int height) {
+		super(x, y, width, height);
+		// TODO Auto-generated constructor stub
+	}
+
 }

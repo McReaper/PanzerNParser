@@ -34,7 +34,7 @@ public class GameMain {
 		m_controller = new Controller(m_model);
 		
 		//On créer une vue de cette univers
-		m_view = new View(m_controller);
+		m_view = new View(m_controller, m_model);
 		
 		//On attribut cette vue au controleur, qui écoute
 		m_controller.setView(m_view);

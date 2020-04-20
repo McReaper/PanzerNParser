@@ -124,7 +124,7 @@ public class Grid {
 					e.printStackTrace();
 					sentinelle = false;
 				}
-				if(line == null) {
+				if (line == null) {
 					sentinelle = false;
 				}
 				name = line.substring(0, 5);
@@ -144,7 +144,7 @@ public class Grid {
 				int x = Integer.parseInt(sx);
 				int y = Integer.parseInt(sy);
 				if (x < SIZE && x >= 0 && y < SIZE && y >= 0) {
-					EntityShade es = new EntityShade(x, y,type);
+					EntityShade es = new EntityShade(x, y, type);
 					m_entities.add(es);
 				}
 			}

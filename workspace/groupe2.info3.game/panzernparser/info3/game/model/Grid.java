@@ -25,6 +25,11 @@ public class Grid {
 	Model m_model;
 	List<Pattern> m_patterns;
 
+	/* entier pour le nombre de zone à charger dans la grille */
+	final static int NB_AREAS = 2;
+	/* entier pour le nombre de pattern dans le dossier pattern */
+	final static int NB_PATTERNS = 3;
+
 	public Grid(Model model) {
 		// Constructeur (phase de tests) :
 		m_nbCellsX = 6;
@@ -42,7 +47,22 @@ public class Grid {
 	}
 
 	public void generate() {
-
+		int Max = NB_PATTERNS-1;
+		int Min = 0;
+		int patterns_chose = 0;
+		int rand = 0;
+		List<Pattern> selectedPatterns = new LinkedList<Pattern>();
+		while (patterns_chose != NB_AREAS) {
+			rand = (int) (Math.random() * (Max - Min));
+			if (selectedPatterns != null) {
+				Pattern tmp = m_patterns.get(rand);
+				if (!selectedPatterns.contains(tmp)) {
+					selectedPatterns.add(tmp);
+					patterns_chose++;
+				}
+			}
+		}
+		sendToModel(selectedPatterns);
 	}
 
 	public void sendToModel() {

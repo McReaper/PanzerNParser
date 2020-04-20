@@ -431,6 +431,7 @@ public class BotBuilder implements IVisitor {
 	@Override
 	public Object visit(Behaviour behaviour, List<Object> transitions) {
 		List<info3.game.automaton.Transition> lsTr = new LinkedList<info3.game.automaton.Transition>();
+		@SuppressWarnings("rawtypes")
 		Iterator it = transitions.iterator();
 		while (it.hasNext()) {
 			lsTr.add((info3.game.automaton.Transition) it.next());
@@ -455,6 +456,7 @@ public class BotBuilder implements IVisitor {
 	@Override
 	public Object exit(Action action, List<Object> funcalls) {
 		List<info3.game.automaton.FunCall> lsFC = new LinkedList<info3.game.automaton.FunCall>();
+		@SuppressWarnings("rawtypes")
 		Iterator it = funcalls.iterator();
 		while (it.hasNext()) {
 			lsFC.add((info3.game.automaton.FunCall) it.next());
@@ -477,6 +479,7 @@ public class BotBuilder implements IVisitor {
 	@Override
 	public Object exit(Automaton automaton, Object initial_state, List<Object> modes) {
 		List<info3.game.automaton.Mode> lsModes = new LinkedList<info3.game.automaton.Mode>();
+		@SuppressWarnings("rawtypes")
 		Iterator it = modes.iterator();
 		while (it.hasNext()) {
 			lsModes.add((info3.game.automaton.Mode) it.next());
@@ -490,6 +493,7 @@ public class BotBuilder implements IVisitor {
 	@Override
 	public Object visit(AST bot, List<Object> automata) {
 		List<info3.game.automaton.Automaton> lsAuto = new LinkedList<info3.game.automaton.Automaton>();
+		@SuppressWarnings("rawtypes")
 		Iterator it = automata.iterator();
 		while (it.hasNext()) {
 			lsAuto.add((info3.game.automaton.Automaton) it.next());

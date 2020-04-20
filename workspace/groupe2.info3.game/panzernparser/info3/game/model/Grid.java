@@ -68,23 +68,24 @@ public class Grid {
 			List<Entity> realEntities = new LinkedList<Entity>();
 			while (iter.hasNext()) {
 				current = (EntityShade) iter.next();
+				int global_x = current.m_ex + m_px + SIZE;
+				int global_y = current.m_ey + m_py + SIZE;
 				switch (current.m_type) {
 					case WALL:
-						// créer une classe Obstacle ? se servir du Ground ?
-						// TODO
+						// realEntities.add(new Ground(global_x, global_y, width, height));
 						break;
 					case GROUND:
-						// realEntities.add(new Ground(current.m_ex, current.m_ey, width, height));
+						// realEntities.add(new Ground(global_x, global_y, width, height));
 						break;
 					case ENEMY:
-						// realEntities.add(new Enemy(current.m_ex, current.m_ey, width, height));
+						// realEntities.add(new Enemy(global_x, global_y, width, height));
 						break;
 					case DROPPABLE:
-						// realEntities.add(new Droppable(current.m_ex, current.m_ey, width, height,
+						// realEntities.add(new Droppable(global_x, global_y, width, height,
 						// quantity, mtype));
 						break;
 					case VEIN:
-						// realEntities.add(new Vein(current.m_ex, current.m_ey, width, height));
+						// realEntities.add(new Vein(global_x, global_y, width, height));
 						break;
 
 				}

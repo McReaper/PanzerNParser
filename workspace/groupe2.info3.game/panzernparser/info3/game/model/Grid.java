@@ -45,24 +45,29 @@ public class Grid {
 
 	}
 
-	public void sendToModel() {
-
+	public void sendToModel(List<Pattern> patterns) {
+		for (Pattern pattern : patterns) {
+			List<Entity> entities = pattern.getEntities();
+			for (Entity entity : entities) {
+				// TODO Model -> Add Entity
+			}
+		}
 	}
-	
+
 	public void load() {
 		String name = "pattern" + Pattern.SIZE + "x" + Pattern.SIZE + "_";
 		File f;
 		Pattern p;
 		int i = 0;
 		try {
-			while(true) {
-				f = new File("patterns/"+name + i + ".txt");
+			while (true) {
+				f = new File("patterns/" + name + i + ".txt");
 				p = new Pattern();
 				p.parse(f);
 				m_patterns.add(p);
 			}
 		} catch (Exception e) {
-			
+
 		}
 	}
 

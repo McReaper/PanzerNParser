@@ -8,46 +8,81 @@ public abstract class Entity {
 	int m_y;
 	int m_width;
 	int m_height;
-	Avatar m_avatar;
 	long m_elapseTime;
 	State m_currentState;//Emilie : TODO gerer les cas null suite a l'automate
 	// State m_state; //état courant dans l'automate
 	// Automaton m_automate; //automate associé
 
-	public abstract void Egg();
+	public Entity(int x, int y, int width, int height) {
+		m_elapseTime = 0;
+		m_x = x;
+		m_y = y;
+		m_width = width;
+		m_height = height;
+	}
 
-	public abstract void Get(/* Donner une direction ? */);
+	public abstract void step(long elapsed);
 
-	public abstract void Hit(/* Donner une direction ? */);
+	public int getX() {
+		return m_x;
+	}
 
-	public abstract void Explode();
+	public int getY() {
+		return m_y;
+	}
 
-	public abstract void Move(/* Donner une direction ? */);
+	public void Egg() {
+	}
 
-	public abstract void Pick(/* Donner une direction ? */);
+	public void Get(/* Donner une direction ? */) {
+	}
 
-	public abstract void Pop();
+	public void Hit(/* Donner une direction ? */) {
+	}
 
-	public abstract void Power();
+	public void Explode() {
+	}
 
-	public abstract void Protect();
+	public void Move(/* Donner une direction ? */) {
+	}
 
-	public abstract void Store();
+	public void Pick(/* Donner une direction ? */) {
+	}
 
-	public abstract void Turn(/* Donner une direction ? */);
+	public void Pop() {
+	}
 
-	public abstract void Throw();
+	public void Power() {
+	}
 
-	public abstract void Wait();
+	public void Protect() {
+	}
 
-	public abstract void Wizz();
+	public void Store() {
+	}
 
-	// public abstract boolean GetDir(Direction dir);
-	// public abstract boolean Cell(Direction dir, EntityType type);
-	// public abstract boolean Closest(Direction dir, EntityType type);
-	public abstract boolean GotPower();
+	public void Turn(/* Donner une direction ? */) {
+	}
 
-	public abstract boolean GotStuff();
+	public void Throw() {
+	}
+
+	public void Wait() {
+	}
+
+	public void Wizz() {
+	}
+
+	// public boolean GetDir(Direction dir) {}
+	// public boolean Cell(Direction dir, EntityType type) {}
+	// public boolean Closest(Direction dir, EntityType type) {}
+	public boolean GotPower() {
+		return true;
+	}
+	
+	public boolean GotStuff() {
+		return true;
+	}
 	
 	public State getState() {
 		return m_currentState;

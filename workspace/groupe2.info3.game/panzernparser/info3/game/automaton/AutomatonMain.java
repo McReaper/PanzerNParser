@@ -27,7 +27,7 @@ public class AutomatonMain {
 		/*
 		 * correspond à l'entité qui va appeler cet automate
 		 */
-		Entity e = new Enemy();
+		Entity e = new Enemy(0, 0, 0, 0);
 
 		/*
 		 * création de la liste de modes (de l'automate)
@@ -99,6 +99,7 @@ public class AutomatonMain {
 		Transition TransTrueAndFalseProtectInit = new Transition(condTrueAndFalse,actionProtect, stateInit);
 		Transition TransTrueEggGauche = new Transition(condTrue, actionEgg, stateGauche);
 		Transition TransTrueOrFalsePopInit = new Transition(condTrueOrFalse , actionPop, stateInit);
+
 		
 		/*
 		 * implémentation des listes de trnasitions en fonction des transitions qu'ils sont censé recevoir

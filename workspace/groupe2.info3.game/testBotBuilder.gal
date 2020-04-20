@@ -1,8 +1,10 @@
-Test(init){
-	*(init)
-	|True ? Move() :(droite)
-	*(droite)|True ? Protect() : (init)
-	|True ? Egg() : (gauche)
-	*(gauche)|True ? Pop() : (init)
+Test(Init){
+	*(Init)
+	| True ? Move(F) : (Droite)
+	*(Droite)
+	| True ? Protect(F) : (Init)
+	| True ? Egg(F) : (Gauche)
+	*(Gauche)
+	| True ? Pop(F) : (Init)
 }
 

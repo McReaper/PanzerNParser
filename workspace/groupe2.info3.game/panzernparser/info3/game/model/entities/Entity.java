@@ -6,7 +6,7 @@ import info3.game.automaton.State;
 import info3.game.view.Avatar;
 
 public abstract class Entity {
-	final static int SIZEOFCELL = 32;
+	final static int SIZEOFCELL = 1;
 	int m_x;
 	int m_y;
 	int m_width;

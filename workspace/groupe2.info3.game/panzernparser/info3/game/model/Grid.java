@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 import info3.game.model.entities.Enemy;
 import info3.game.model.entities.Entity;
@@ -51,8 +52,16 @@ public class Grid {
 	private class Pattern {
 
 		private class EntityShade {
+
 			MyEntities m_type;
 			int m_ex, m_ey;
+
+			public EntityShade(int x, int y, MyEntities type) {
+				m_ex = x;
+				m_ey = y;
+				m_type = type;
+			}
+
 		}
 
 		private final int SIZE = 3;
@@ -66,7 +75,35 @@ public class Grid {
 		}
 
 		List<Entity> getEntities() {
-			return null;
+			ListIterator<EntityShade> iter = m_entities.listIterator();
+			EntityShade current;
+			List<Entity> realEntities = new LinkedList<Entity>();
+			while (iter.hasNext()) {
+				current = (EntityShade) iter.next();
+				int global_x = current.m_ex + m_px + SIZE;
+				int global_y = current.m_ey + m_py + SIZE;
+				switch (current.m_type) {
+					case WALL:
+						// realEntities.add(new Ground(global_x, global_y, width, height));
+						break;
+					case GROUND:
+						// realEntities.add(new Ground(global_x, global_y, width, height));
+						break;
+					case ENEMY:
+						// realEntities.add(new Enemy(global_x, global_y, width, height));
+						break;
+					case DROPPABLE:
+						// realEntities.add(new Droppable(global_x, global_y, width, height,
+						// quantity, mtype));
+						break;
+					case VEIN:
+						// realEntities.add(new Vein(global_x, global_y, width, height));
+						break;
+
+				}
+
+			}
+			return realEntities;
 		}
 
 		private void parse(File file) {
@@ -77,7 +114,8 @@ public class Grid {
 				e.printStackTrace();
 			}
 			BufferedReader br = new BufferedReader(fr);
-			String line, name, sx, sy;	
+			String line, name, sx, sy;
+			line = null;
 			boolean sentinelle = true;
 			while (sentinelle) {
 				try {
@@ -96,7 +134,7 @@ public class Grid {
 				}
 				sx = line.substring(6, i);
 				sy = line.substring(i + 1);
-				MyEntities type;
+				MyEntities type = null;
 				switch (name) {
 					case "drop1":
 						type = MyEntities.DROPPABLE;
@@ -106,7 +144,7 @@ public class Grid {
 				int x = Integer.parseInt(sx);
 				int y = Integer.parseInt(sy);
 				if (x < SIZE && x >= 0 && y < SIZE && y >= 0) {
-					EntityShade es = new EntityShade(type, x, y);
+					EntityShade es = new EntityShade(x, y,type);
 					m_entities.add(es);
 				}
 			}

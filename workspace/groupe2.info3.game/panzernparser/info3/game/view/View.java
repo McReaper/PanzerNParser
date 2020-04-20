@@ -65,13 +65,13 @@ public class View extends Container {
 		// TODO : dessiner la grille :
 		int nb_cells_X = m_model.getGrid().getNbCellsX();
 		int nb_cells_Y = m_model.getGrid().getNbCellsY();
-		g.setColor(Color.green);
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
 
 		int case_width = width / nb_cells_X;
 		int case_height = height / nb_cells_Y;
 
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		for (int x = 1; x < nb_cells_X; x++)
 			g.drawLine(x * case_width, 0, x * case_width, height);
 		for (int y = 1; y < nb_cells_Y; y++)
@@ -82,7 +82,7 @@ public class View extends Container {
 		//g.setColor(Color.RED);
 		for (Avatar avatar : m_avatars) {
 			//g.fillOval(entity.getX() * case_width, entity.getY() * case_height, case_width, case_height);
-			avatar.paint(g); // TODO : revoir la zone avec le viewport plus tard.
+			avatar.paint(g.create(avatar.m_entity.getX() * case_width, avatar.m_entity.getY() * case_height, case_width, case_height)); // TODO : revoir la zone avec le viewport plus tard.
 		}
 	}
 

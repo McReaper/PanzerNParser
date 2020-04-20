@@ -48,6 +48,23 @@ public class Grid {
 	public void sendToModel() {
 
 	}
+	
+	public void load() {
+		String name = "pattern" + Pattern.SIZE + "x" + Pattern.SIZE + "_";
+		File f;
+		Pattern p;
+		int i = 0;
+		try {
+			while(true) {
+				f = new File("patterns/"+name + i + ".txt");
+				p = new Pattern();
+				p.parse(f);
+				m_patterns.add(p);
+			}
+		} catch (Exception e) {
+			
+		}
+	}
 
 	private class Pattern {
 
@@ -64,7 +81,7 @@ public class Grid {
 
 		}
 
-		private final int SIZE = 3;
+		public static final int SIZE = 3;
 		int m_px, m_py;
 		List<EntityShade> m_entities;
 

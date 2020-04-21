@@ -24,9 +24,9 @@ public class Automaton {
 		while (iter.hasNext()) {
 			currentMode = (Mode) iter.next();
 			if (currentState.equals(currentMode.m_state)) {
-					return currentMode.step(e);
-				}
+				return currentMode.step(e);
 			}
+		}
 		return null;
 
 	}

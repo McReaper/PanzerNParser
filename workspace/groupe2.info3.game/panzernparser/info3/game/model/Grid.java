@@ -16,7 +16,7 @@ public class Grid {
 		m_nbCellsX = 3;
 		m_nbCellsY = 3;
 		m_model = model;
-		m_model.m_entities.add(new Enemy(1, 1, 1, 1));
+		m_model.m_entities.add(new Enemy(1, 1, 1, 1, m_model));
 	}
 
 	public int getNbCellsX() {

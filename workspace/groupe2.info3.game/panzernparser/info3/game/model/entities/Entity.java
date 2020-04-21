@@ -3,6 +3,7 @@ package info3.game.model.entities;
 import info3.game.automata.ast.Direction;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
+import info3.game.model.Model;
 import info3.game.view.Avatar;
 
 public abstract class Entity {
@@ -15,13 +16,15 @@ public abstract class Entity {
 	MyDirection m_dir;
 	// Automaton m_automate; //automate associé
 	State m_currentState;// Emilie : TODO gerer les cas null suite a l'automate
+	public Model m_model;
 
-	public Entity(int x, int y, int width, int height) {
+	public Entity(int x, int y, int width, int height, Model model) {
 		m_elapseTime = 0;
 		m_x = x;
 		m_y = y;
 		m_width = width;
 		m_height = height;
+		m_model = model;
 	}
 
 	public abstract void step(long elapsed);
@@ -258,7 +261,7 @@ public abstract class Entity {
 				m_dir = dir;
 				break;
 			case LEFT:
-				switch(m_dir) {
+				switch (m_dir) {
 					case NORTH:
 						m_dir = MyDirection.NORTHWEST;
 						break;
@@ -288,7 +291,7 @@ public abstract class Entity {
 				}
 				break;
 			case RIGHT:
-				switch(m_dir) {
+				switch (m_dir) {
 					case NORTH:
 						m_dir = MyDirection.NORTHEAST;
 						break;

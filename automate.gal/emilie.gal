@@ -8,7 +8,7 @@ Toupie(Init){
 Crabe(Init){
 *(Init)
 |Cell(F,O) ? Turn(B) : (Init)
-|True : Move(F) (Init)
+|True ? Move(F) : (Init)
 }
 
 PotDeColle(Init){
@@ -20,8 +20,8 @@ PotDeColle(Init){
 |Cell(B,P) ? Move(B) : (Init)
 }
 
-Rabbit(init){
-*(init)
+Rabbit(Init){
+*(Init)
 |Cell(F,V) ? Egg(F) : (Init)
 |Cell(L,V) ? Egg(L) : (Init)
 |Cell(R,V) ? Egg(R) : (Init)

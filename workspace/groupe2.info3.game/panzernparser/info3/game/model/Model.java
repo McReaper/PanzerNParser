@@ -29,8 +29,9 @@ public class Model {
 			BotBuilder bb8 = new BotBuilder();
 			List<Automaton> lsAuto;
 			for (String curFil : fils) {
+				System.out.print(curFil);
 				AST myAST = AutomataParser.from_file(path + "/" + curFil);
-				System.out.println("un autre de fait");
+				System.out.println(" fait");
 				lsAuto = (List<Automaton>) myAST.accept(bb8);
 				m_automatons.addAll(lsAuto);
       } 
@@ -40,6 +41,7 @@ public class Model {
 //			List<Automaton> lsAuto = (List<Automaton>) myAST.accept(bb8);
 //			m_automatons = (lsAuto);
 		} catch (Exception e) {
+			System.out.println();
 			System.out.println("fichier non trouvé pour la création des automates");
 			e.printStackTrace();
 		}

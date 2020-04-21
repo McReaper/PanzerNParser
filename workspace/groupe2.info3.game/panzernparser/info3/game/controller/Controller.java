@@ -87,6 +87,7 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		System.out.println("Une touche!!");
 		LsKey temp = toLsKey(e);
 		m_model.addKeyPressed(temp);
 	}

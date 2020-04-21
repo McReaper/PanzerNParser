@@ -19,31 +19,32 @@ public class Model {
 	Grid m_grid;
 	LinkedList<Entity> m_entities;
 	public LinkedList<LsKey> m_keyPressed;
-	List<Automaton> m_automatons;
+	public List<Automaton> m_automatons;
 
 	public Model() {
 		// Génère la liste des automates
 		m_model = this;
+		m_keyPressed = new LinkedList<LsKey>();
 		try {
-			m_automatons = new ArrayList<Automaton>();
-			String path = "../../automate.gal";
-			File repertoire = new File(path);
-			String[] fils = repertoire.list();
-			BotBuilder bb8 = new BotBuilder();
-			List<Automaton> lsAuto;
-			for (String curFil : fils) {
-				System.out.print(curFil);
-				AST myAST = AutomataParser.from_file(path + "/" + curFil);
-				System.out.println(" fait");
-				lsAuto = (List<Automaton>) myAST.accept(bb8);
-				m_automatons.addAll(lsAuto);
-      } 
+//			m_automatons = new ArrayList<Automaton>();
+//			String path = "../../automate.gal";
+//			File repertoire = new File(path);
+//			String[] fils = repertoire.list();
+//			BotBuilder bb8 = new BotBuilder();
+//			List<Automaton> lsAuto;
+//			for (String curFil : fils) {
+//				System.out.print(curFil);
+//				AST myAST = AutomataParser.from_file(path + "/" + curFil);
+//				System.out.println(" fait");
+//				lsAuto = (List<Automaton>) myAST.accept(bb8);
+//				m_automatons.addAll(lsAuto);
+//      } 
 			
 			/* si un seul fichier .gal commentez début try et décomenter fin */
-//			BotBuilder bb8 = new BotBuilder();
-//			AST myAST = AutomataParser.from_file("../../automate.gal/drone.gal");
-//			List<Automaton> lsAuto = (List<Automaton>) myAST.accept(bb8);
-//			m_automatons = (lsAuto);
+			BotBuilder bb8 = new BotBuilder();
+			AST myAST = AutomataParser.from_file("../../automate.gal/drone.gal");
+			List<Automaton> lsAuto = (List<Automaton>) myAST.accept(bb8);
+			m_automatons = (lsAuto);
 		} catch (Exception e) {
 			System.out.println();
 			System.out.println("fichier non trouvé pour la création des automates");
@@ -84,7 +85,7 @@ public class Model {
 	}
 
 	public void removeKeyPressed(LsKey temp) {
-		if (!m_keyPressed.contains(temp))
+		if (m_keyPressed.contains(temp))
 			m_keyPressed.remove(temp);
 		return;
 	}

@@ -16,8 +16,12 @@ public class Automaton {
 		m_modes = modes;
 		m_name = name;
 	}
+	
+	public State getState() {
+		return m_state;
+	}
 
-	State step(Entity e) {
+	public State step(Entity e) {
 		ListIterator<Mode> iter = m_modes.listIterator();
 		Mode currentMode;
 		State currentState = e.getState();

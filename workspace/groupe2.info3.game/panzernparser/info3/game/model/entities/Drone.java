@@ -1,5 +1,6 @@
 package info3.game.model.entities;
 
+import info3.game.automaton.State;
 import info3.game.model.Model;
 
 public class Drone extends MovingEntity {
@@ -17,8 +18,8 @@ public class Drone extends MovingEntity {
 
 	@Override
 	public void step(long elapsed) {
-		// TODO Auto-generated method stub
-
+		State newState = m_automate.step(this);
+		if (newState != null)
+			this.setState(newState);
 	}
-
 }

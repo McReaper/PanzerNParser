@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automata.ast.Direction;
+import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
 import info3.game.model.Model;
@@ -14,7 +15,7 @@ public abstract class Entity {
 	int m_height;
 	long m_elapseTime;
 	MyDirection m_dir;
-	// Automaton m_automate; //automate associé
+	Automaton m_automate; //automate associé
 	State m_currentState;// Emilie : TODO gerer les cas null suite a l'automate
 	public Model m_model;
 
@@ -25,9 +26,14 @@ public abstract class Entity {
 		m_width = width;
 		m_height = height;
 		m_model = model;
+		m_dir = MyDirection.NORTH; //par défault
 	}
 
 	public abstract void step(long elapsed);
+	
+	public void setAutomaton(Automaton automate) {
+		m_automate=automate;
+	}
 
 	public int getX() {
 		System.out.println("Is GetXing");
@@ -56,7 +62,7 @@ public abstract class Entity {
 	}
 
 	public void Move(MyDirection dir) {
-		System.out.println("Is Moving");
+		System.out.println("Is Moving to " + dir);
 		switch (dir) {
 			case FRONT:
 				switch (m_dir) {
@@ -224,6 +230,7 @@ public abstract class Entity {
 			default:
 				break;
 		}
+		System.out.println("Arrived and facing " + m_dir);
 		return;
 	}
 

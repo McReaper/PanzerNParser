@@ -19,11 +19,10 @@ public class AutomatonMain {
 	 * False ? Protect() : (init) |true ? Egg() : (gauche) *(gauche) |true or false
 	 * ? Pop() : (init)
 	 */
-	public static void main(String[] args) {
+	public static void run(Model model) {
 		/*
 		 * correspond à l'entité qui va appeler cet automate
 		 */
-		Model model = new Model();
 
 		Entity e = new Enemy(0, 0, 0, 0, model);
 
@@ -59,7 +58,9 @@ public class AutomatonMain {
 		 * création de toutes les conditions qui vont être utilisés dans l'automate pour
 		 * le moment on utilise que True, False et (True || False)
 		 */
-		Condition condTrue = new True();
+		
+		LsKey A = LsKey.A;
+		Condition condTrue = new Key(A);
 		Condition condFalse = new False();
 		Condition condTrueOrFalse = new Or(condTrue, condFalse);
 		Condition condTrueAndFalse = new And(condTrue, condFalse);
@@ -69,7 +70,7 @@ public class AutomatonMain {
 		 * 
 		 * et ajout de ces funcalls dans les listes dédiés
 		 */
-		FunCall fcMove = new Move(100, null);
+		FunCall fcMove = new Move(100, MyDirection.FRONT);
 		funCallsMove.add(fcMove);
 
 		FunCall fcPop = new Pop(100, null);

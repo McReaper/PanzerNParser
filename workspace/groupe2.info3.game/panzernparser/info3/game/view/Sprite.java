@@ -15,31 +15,29 @@ public class Sprite {
 	private static final int SPRITE_HEIGHT = 32;
 	private static final int SPRITE_WIDTH = 32;
 
-	BufferedImage m_img;
-	int m_nbcol;
-	int m_nblig;
-	int m_width;
-	int m_height;
+	BufferedImage[] m_sprites;
+	int m_length;
 
 	// ici pathname est typiquement de la forme "sprites/nom.png"
 	public Sprite(String pathname) throws IOException {
-		m_img = ImageIO.read(new File(pathname));
-		m_width = m_img.getWidth();
-		m_height = m_img.getHeight();
-		m_nbcol = m_width / SPRITE_WIDTH;
-		m_nblig = m_height / SPRITE_HEIGHT;
+		BufferedImage img = ImageIO.read(new File(pathname));
+		int nbcol = img.getWidth() / SPRITE_WIDTH;
+		int nblig = img.getHeight() / SPRITE_HEIGHT;
+		m_length = nblig * nbcol;
+		m_sprites = new BufferedImage[m_length];
+		for (int i = 0; i < m_length; i++) {
+			int x = i % nbcol;
+			int y = i / nbcol;
+			m_sprites[i] = img.getSubimage(x * SPRITE_WIDTH, y * SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT);
+		}
 	}
 
 	public int nbSprites() {
-		return m_nbcol * m_nblig;
+		return m_length;
 	}
 
 	public BufferedImage getSprite(int index) {
-		System.out.println("nbcol = "+m_nbcol+" nblig = "+m_nblig+" index = "+index);
-		int x = (index - 1) % (m_nbcol);
-		int y = (index - 1) / (m_nbcol);
-		System.out.println("x = "+x+" y = "+y);
-		return m_img.getSubimage(x * SPRITE_WIDTH, y * SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT);
+		return m_sprites[index - 1];
 	}
 	
 }

@@ -96,6 +96,7 @@ public class Enemy extends MovingEntity {
 		
 		if (m_elapseTime > timeOfAction) {
 			m_elapseTime = 0;
+			//actionAccomplished(); // Pour réaliser l'action terminée.
 			m_currentAction = LsAction.Nothing;
 		} else {
 			m_elapseTime += elapsed;

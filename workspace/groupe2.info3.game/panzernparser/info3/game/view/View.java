@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import info3.game.controller.Controller;
@@ -25,10 +26,33 @@ public class View extends Container {
 		m_canvas = new GameCanvas(m_controller);
 		this.setLayout(new BorderLayout());
 		this.add(m_canvas, BorderLayout.CENTER);
+		m_avatars = new LinkedList<Avatar>();
+		updateAvatars();
 	}
 
 	public void refreshHUD() {
 		// TODO met à jour l'ATH de l'interface de jeu en fonction du modèle.
+	}
+
+	private void updateAvatars() {
+		boolean mustRebuild = false;
+		if (m_model.getEntities().size() != m_avatars.size())
+			mustRebuild = true;
+		Iterator<Entity> iter_ent = m_model.getEntities().iterator();
+		Iterator<Avatar> iter_avt = m_avatars.iterator();
+		// TODO : optimisation -- revoir cette boucle pour la mise a jour des avatars.
+		while (!mustRebuild && iter_ent.hasNext() && iter_avt.hasNext()) {
+			Entity entity = iter_ent.next();
+			Avatar avatar = iter_avt.next();
+			if (entity != avatar.m_entity) 
+				mustRebuild = true;
+		}
+		if (mustRebuild) {
+			m_avatars = new LinkedList<Avatar>();
+			for (Entity entity : m_model.getEntities()) {
+				m_avatars.add(AvatarFactory.newAvatar(entity));
+			}
+		}
 	}
 
 	/**
@@ -41,23 +65,22 @@ public class View extends Container {
 		// TODO : dessiner la grille :
 		int nb_cells_X = m_model.getGrid().getNbCellsX();
 		int nb_cells_Y = m_model.getGrid().getNbCellsY();
-		g.setColor(Color.green);
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
 
 		int case_width = width / nb_cells_X;
 		int case_height = height / nb_cells_Y;
 
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		for (int x = 1; x < nb_cells_X; x++)
 			g.drawLine(x * case_width, 0, x * case_width, height);
 		for (int y = 1; y < nb_cells_Y; y++)
 			g.drawLine(0, y * case_height, width, y * case_height);
 
 		// TODO : dessiner chaque entité
-		g.setColor(Color.RED);
-		LinkedList<Entity> entities = m_model.getEntities();
-		for (Entity entity : entities) {
-			g.fillOval(entity.getX()*case_width, entity.getY()*case_height, case_width, case_height);
+		updateAvatars();
+		for (Avatar avatar : m_avatars) {
+			avatar.paint(g); // TODO : revoir la zone avec le viewport plus tard.
 		}
 	}
 

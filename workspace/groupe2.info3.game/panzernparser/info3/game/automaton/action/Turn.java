@@ -22,7 +22,7 @@ public class Turn extends FunCall{
 
 	@Override
 	public void execut(Entity e) {
-		e.Turn(m_direction);		
+			e.Turn(m_direction, m_angle);
 	}
 
 }

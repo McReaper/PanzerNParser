@@ -9,6 +9,7 @@ import info3.game.automata.ast.AST;
 import info3.game.automata.parser.AutomataParser;
 import info3.game.automaton.*;
 import info3.game.automaton.LsKey;
+import info3.game.model.entities.Enemy;
 import info3.game.model.entities.Entity;
 
 public class Model {
@@ -57,6 +58,7 @@ public class Model {
 
 		// Version de test ci-dessous :
 		m_grid = new Grid(this);
+		
 	}
 
 	public void step(long elapsed) {
@@ -88,6 +90,10 @@ public class Model {
 		if (m_keyPressed.contains(temp))
 			m_keyPressed.remove(temp);
 		return;
+	}
+	
+	public void addEntity(Entity e) {
+		m_entities.add(e);
 	}
 
 }

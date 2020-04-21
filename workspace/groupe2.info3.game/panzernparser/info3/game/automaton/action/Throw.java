@@ -15,8 +15,7 @@ public class Throw extends FunCall{
 
 	@Override
 	public void execut(Entity e) {
-		// TODO Auto-generated method stub
-		
+		e.Throw(m_direction);
 	}
 
 }

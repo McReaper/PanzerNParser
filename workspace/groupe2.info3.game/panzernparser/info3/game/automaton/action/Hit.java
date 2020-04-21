@@ -15,6 +15,6 @@ public class Hit extends FunCall {
 
 	@Override
 	public void execut(Entity e) {
-
+		e.Hit(m_direction);
 	}
 }

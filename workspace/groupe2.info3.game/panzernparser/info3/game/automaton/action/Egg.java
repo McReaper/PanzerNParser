@@ -15,6 +15,6 @@ public class Egg extends FunCall {
 
 	@Override
 	public void execut(Entity e) {
-		e.Egg();
+		e.Egg(m_direction);
 	}
 }

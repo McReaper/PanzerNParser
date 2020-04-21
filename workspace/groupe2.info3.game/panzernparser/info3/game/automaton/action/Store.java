@@ -15,8 +15,7 @@ public class Store extends FunCall{
 
 	@Override
 	public void execut(Entity e) {
-		// TODO Auto-generated method stub
-		
+		e.Store(m_direction);
 	}
 
 }

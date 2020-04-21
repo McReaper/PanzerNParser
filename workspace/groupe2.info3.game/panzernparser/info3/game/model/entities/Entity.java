@@ -1,30 +1,44 @@
 package info3.game.model.entities;
 
-import info3.game.automata.ast.Direction;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
+import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
-import info3.game.view.Avatar;
 
 public abstract class Entity {
-	final static int SIZEOFCELL = 1;
+	
+	final static int DEFAULT_MOVING_DISTANCE = 1;
+
+	long m_elapseTime;
+	LsAction m_currentAction;
+	
+	boolean m_displayed; // Indique si il doit etre affiché a l'écran où non.
+	
 	int m_x;
 	int m_y;
 	int m_width;
 	int m_height;
-	long m_elapseTime;
 	MyDirection m_dir;
-	Automaton m_automate; //automate associé
+	boolean m_stuff; // gotStuff ?
+	// Automaton m_automate; //automate associé
 	State m_currentState;// Emilie : TODO gerer les cas null suite a l'automate
+	Automaton m_automate; //automate associé
 	public Model m_model;
 
 	public Entity(int x, int y, int width, int height, Model model) {
 		m_elapseTime = 0;
+		m_currentAction = LsAction.Nothing;
+		
+		m_displayed = true;
+		
 		m_x = x;
 		m_y = y;
 		m_width = width;
 		m_height = height;
+		m_dir = MyDirection.NORTH;
+		
 		m_model = model;
 		m_dir = MyDirection.NORTH; //par défault
 	}
@@ -35,6 +49,28 @@ public abstract class Entity {
 		m_automate=automate;
 	}
 
+	public boolean isShown() {
+		return m_displayed;
+	}
+
+	public State getState() {
+		return m_currentState;
+	}
+
+	/*
+	 * Emilie : Ceci est une fonction temporaire pour pouvoir gerer les test sur les
+	 * automates sans parser
+	 */
+	public void setState(State state) {
+		m_currentState = state;
+	}
+	
+	public LsAction getCurrentAction() {
+		return m_currentAction;
+	}
+	
+	public abstract double getActionProgress();
+	
 	public int getX() {
 		//System.out.println("Is GetXing");
 		return m_x;
@@ -45,20 +81,24 @@ public abstract class Entity {
 		return m_y;
 	}
 
-	public void Egg() {
+	public void Egg(MyDirection dir) {
 		System.out.println("Is Egging");
 	}
 
-	public void Get(/* Donner une direction ? */) {
+	public void Get(MyDirection dir) {
 		System.out.println("Is Getting");
 	}
 
-	public void Hit(/* Donner une direction ? */) {
+	public void Hit(MyDirection dir) {
 		System.out.println("Is Hitting");
 	}
 
 	public void Explode() {
 		System.out.println("Is Exploding");
+	}
+
+	public void Jump(MyDirection dir) {
+		System.out.println("Is Jumping");
 	}
 
 	public void Move(MyDirection dir) {
@@ -67,32 +107,32 @@ public abstract class Entity {
 			case FRONT:
 				switch (m_dir) {
 					case NORTH:
-						m_y -= SIZEOFCELL;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case EAST:
-						m_x += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTH:
-						m_y += SIZEOFCELL;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case WEST:
-						m_x -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHEAST:
-						m_x += SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHEAST:
-						m_x += SIZEOFCELL;
-						m_y += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHWEST:
-						m_x -= SIZEOFCELL;
-						m_y += SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHWEST:
-						m_x -= SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					default:
 						break;
@@ -101,32 +141,32 @@ public abstract class Entity {
 			case LEFT:
 				switch (m_dir) {
 					case NORTH:
-						m_x -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case EAST:
-						m_y -= SIZEOFCELL;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTH:
-						m_x += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
 						break;
 					case WEST:
-						m_y += SIZEOFCELL;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHEAST:
-						m_x -= SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHEAST:
-						m_x += SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHWEST:
-						m_x += SIZEOFCELL;
-						m_y += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHWEST:
-						m_x += SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					default:
 						break;
@@ -135,32 +175,32 @@ public abstract class Entity {
 			case RIGHT:
 				switch (m_dir) {
 					case NORTH:
-						m_x += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
 						break;
 					case EAST:
-						m_y += SIZEOFCELL;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTH:
-						m_x -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case WEST:
-						m_y -= SIZEOFCELL;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHEAST:
-						m_x += SIZEOFCELL;
-						m_y += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHEAST:
-						m_x -= SIZEOFCELL;
-						m_y += SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHWEST:
-						m_x -= SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHWEST:
-						m_x += SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					default:
 						break;
@@ -169,63 +209,63 @@ public abstract class Entity {
 			case BACK:
 				switch (m_dir) {
 					case NORTH:
-						m_y += SIZEOFCELL;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case EAST:
-						m_x -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTH:
-						m_y -= SIZEOFCELL;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case WEST:
-						m_x += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHEAST:
-						m_x -= SIZEOFCELL;
-						m_y += SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHEAST:
-						m_x -= SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHWEST:
-						m_x += SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHWEST:
-						m_x += SIZEOFCELL;
-						m_y += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					default:
 						break;
 				}
 			case NORTH:
-				m_y -= SIZEOFCELL;
+				m_y -= DEFAULT_MOVING_DISTANCE;
 				break;
 			case SOUTH:
-				m_y += SIZEOFCELL;
+				m_y += DEFAULT_MOVING_DISTANCE;
 				break;
 			case EAST:
-				m_x += SIZEOFCELL;
+				m_x += DEFAULT_MOVING_DISTANCE;
 				break;
 			case WEST:
-				m_x -= SIZEOFCELL;
+				m_x -= DEFAULT_MOVING_DISTANCE;
 				break;
 			case NORTHEAST:
-				m_x += SIZEOFCELL;
-				m_y -= SIZEOFCELL;
+				m_x += DEFAULT_MOVING_DISTANCE;
+				m_y -= DEFAULT_MOVING_DISTANCE;
 				break;
 			case NORTHWEST:
-				m_x -= SIZEOFCELL;
-				m_y -= SIZEOFCELL;
+				m_x -= DEFAULT_MOVING_DISTANCE;
+				m_y -= DEFAULT_MOVING_DISTANCE;
 				break;
 			case SOUTHEAST:
-				m_x += SIZEOFCELL;
-				m_y += SIZEOFCELL;
+				m_x += DEFAULT_MOVING_DISTANCE;
+				m_y += DEFAULT_MOVING_DISTANCE;
 				break;
 			case SOUTHWEST:
-				m_x -= SIZEOFCELL;
-				m_y += SIZEOFCELL;
+				m_x -= DEFAULT_MOVING_DISTANCE;
+				m_y += DEFAULT_MOVING_DISTANCE;
 				break;
 			default:
 				break;
@@ -234,11 +274,11 @@ public abstract class Entity {
 		return;
 	}
 
-	public void Pick(/* Donner une direction ? */) {
+	public void Pick(MyDirection dir) {
 		System.out.println("Is Picking");
 	}
 
-	public void Pop() {
+	public void Pop(MyDirection dir) {
 		System.out.println("Is Poping");
 	}
 
@@ -246,15 +286,15 @@ public abstract class Entity {
 		System.out.println("Is \"UNLIMITED PAWER!!\"-ing");
 	}
 
-	public void Protect() {
+	public void Protect(MyDirection dir) {
 		System.out.println("Is Protecting");
 	}
 
-	public void Store() {
+	public void Store(MyDirection dir) {
 		System.out.println("Is Storing");
 	}
 
-	public void Turn(MyDirection dir) {
+	public void Turn(MyDirection dir, int angle) {
 		System.out.println("Is Turning");
 		switch (dir) {
 			case NORTH:
@@ -361,7 +401,7 @@ public abstract class Entity {
 		}
 	}
 
-	public void Throw() {
+	public void Throw(MyDirection dir) {
 		System.out.println("Is Throwing");
 	}
 
@@ -369,11 +409,11 @@ public abstract class Entity {
 		System.out.println("Is Waiting");
 	}
 
-	public void Wizz() {
+	public void Wizz(MyDirection dir) {
 		System.out.println("Is Wizzing");
 	}
 
-	public boolean myDir(MyDirection m_direction) {
+	public boolean myDir(MyDirection dir) {
 		System.out.println("Is myDiring");
 		if (m_dir != null) {
 			return m_dir.equals(m_direction);
@@ -381,9 +421,8 @@ public abstract class Entity {
 		return false;
 	}
 
-	public boolean Cell(Direction dir, Entity type) {
-		System.out.println("Is Celling");
-		return false;
+	public boolean Cell(MyDirection dir, MyCategory type, int dist) {
+		return true;
 	}
 
 	public boolean GotPower() {
@@ -393,19 +432,15 @@ public abstract class Entity {
 
 	public boolean GotStuff() {
 		System.out.println("Is Gotstuffing");
-		return true;
+		return m_stuff;
+	}
+
+	public boolean Closest(MyDirection dir, MyCategory type) {
+		return false;
+
 	}
 
 	public State getState() {
 		return m_currentState;
 	}
-
-	/*
-	 * Emilie : Ceci est une fonction temporaire pour pouvoir gerer les test sur les
-	 * automates sans parser
-	 */
-	public void setState(State state) {
-		m_currentState = state;
-	}
-
 }

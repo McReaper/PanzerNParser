@@ -22,4 +22,10 @@ public class Droppable extends StaticEntity {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public double getActionProgress() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

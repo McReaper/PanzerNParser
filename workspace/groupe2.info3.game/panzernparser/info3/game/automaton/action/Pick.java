@@ -15,6 +15,6 @@ public class Pick extends FunCall {
 
 	@Override
 	public void execut(Entity e) {
-
+		e.Pick(m_direction);
 	}
 }

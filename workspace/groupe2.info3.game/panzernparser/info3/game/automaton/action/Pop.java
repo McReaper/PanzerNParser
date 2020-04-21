@@ -15,6 +15,6 @@ public class Pop extends FunCall {
 
 	@Override
 	public void execut(Entity e) {
-		System.out.println("j'execute pop");
+		e.Pop(m_direction);
 	}
 }

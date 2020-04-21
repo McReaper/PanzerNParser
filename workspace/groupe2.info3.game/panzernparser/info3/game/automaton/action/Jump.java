@@ -15,6 +15,6 @@ public class Jump extends FunCall {
 
 	@Override
 	public void execut(Entity e) {
-
+		e.Jump(m_direction);
 	}
 }

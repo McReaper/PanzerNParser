@@ -1,5 +1,6 @@
 package info3.game.view;
 
+import java.awt.Image;
 import java.util.HashMap;
 
 import info3.game.automaton.action.LsAction;
@@ -17,6 +18,12 @@ public class Animation {
 	public Animation(Sprite sprite, HashMap<LsAction, int[]> animationSequence) {
 		m_sprite = sprite;
 		m_animationSequence = animationSequence;
+	}
+	
+	public Image getImage(double ActionProgress, LsAction ac) {
+		int[] seq = m_animationSequence.get(ac);
+		int i = (int)(ActionProgress * seq.length);
+		return m_sprite.getSprite(i+1);
 	}
 	
 	// TODO : ajouter une animation pour chaque actions (wizz/pop/turn/...)

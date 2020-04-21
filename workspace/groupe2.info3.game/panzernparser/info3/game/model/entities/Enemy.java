@@ -2,9 +2,15 @@ package info3.game.model.entities;
 
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Material.MaterialType;
+import info3.game.model.Model;
 
 public class Enemy extends MovingEntity {
-
+	/*Champs pour donner size par defaut dans la EntityFactory */
+	/* A voir si on donne des size differentes pour des categories d'ennemis differents*/
+	final static int ENEMY_WIDTH = 1;
+	final static int ENEMY_HEIGHT = 1;
+	
+	
 	public static final int ENEMY_HEALTH = 100;
 	// Temps utilisé pour aller d'une case à l'autre, donc, plus cette valeur est
 	// petite, plus on va vite :
@@ -14,10 +20,10 @@ public class Enemy extends MovingEntity {
 	Droppable m_drops;
 	
 
-	public Enemy(int x, int y, int width, int height) {
-		super(x, y, width, height, ENEMY_HEALTH, ENEMY_TIMETOTRAVEL);
+	public Enemy(int x, int y, int width, int height, Model model) {
+		super(x, y, width, height, ENEMY_HEALTH, ENEMY_TIMETOTRAVEL, model);
 		m_triggered = false; // Valeur par défaut
-		m_drops = new Droppable(this.m_x, this.m_y, 1, 1, 1, MaterialType.ELECTRONIC);
+		m_drops = new Droppable(this.m_x, this.m_y, 1, 1, 1, MaterialType.ELECTRONIC, model);
 		m_currentAction = LsAction.Pop;
 	}
 

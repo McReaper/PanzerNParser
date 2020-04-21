@@ -1,4 +1,4 @@
-dorpable(init){
-*(init)
-	|True() ? wait() : (init)
+Dorpable(Init){
+*(Init)
+	|True() ? Wait() : (Init)
 }

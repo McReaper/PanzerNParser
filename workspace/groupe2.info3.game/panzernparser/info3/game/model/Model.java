@@ -13,14 +13,17 @@ import info3.game.model.entities.Entity;
 
 public class Model {
 
+	public static Model m_model;
+
 	// Controller m_controller; //pour envoyer des information utiles.
 	Grid m_grid;
 	LinkedList<Entity> m_entities;
-	LinkedList<LsKey> m_keyPressed;
+	public LinkedList<LsKey> m_keyPressed;
 	List<Automaton> m_automatons;
 
 	public Model() {
 		// Génère la liste des automates
+		m_model = this;
 		try {
 			m_automatons = new ArrayList<Automaton>();
 			String path = "../../automate.gal";
@@ -29,17 +32,20 @@ public class Model {
 			BotBuilder bb8 = new BotBuilder();
 			List<Automaton> lsAuto;
 			for (String curFil : fils) {
+				System.out.print(curFil);
 				AST myAST = AutomataParser.from_file(path + "/" + curFil);
-				System.out.println("un autre de fait");
+				System.out.println(" fait");
 				lsAuto = (List<Automaton>) myAST.accept(bb8);
 				m_automatons.addAll(lsAuto);
       } 
-			/* si un seul fichier .gal commentez début try et décomenter fin*/
+			
+			/* si un seul fichier .gal commentez début try et décomenter fin */
 //			BotBuilder bb8 = new BotBuilder();
-//			AST myAST = AutomataParser.from_file("../../automate.gal/automton.gal");
+//			AST myAST = AutomataParser.from_file("../../automate.gal/drone.gal");
 //			List<Automaton> lsAuto = (List<Automaton>) myAST.accept(bb8);
 //			m_automatons = (lsAuto);
 		} catch (Exception e) {
+			System.out.println();
 			System.out.println("fichier non trouvé pour la création des automates");
 			e.printStackTrace();
 		}
@@ -59,6 +65,10 @@ public class Model {
 		}
 	}
 
+	public static Model getModel() {
+		return m_model;
+	}
+	
 	public Grid getGrid() {
 		return m_grid;
 	}
@@ -66,7 +76,7 @@ public class Model {
 	public LinkedList<Entity> getEntities() {
 		return m_entities;
 	}
-	
+
 	public void addKeyPressed(LsKey temp) {
 		if (!m_keyPressed.contains(temp))
 			m_keyPressed.add(temp);
@@ -78,5 +88,5 @@ public class Model {
 			m_keyPressed.remove(temp);
 		return;
 	}
-	
+
 }

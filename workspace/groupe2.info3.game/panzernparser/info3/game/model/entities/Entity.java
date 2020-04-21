@@ -4,6 +4,7 @@ import info3.game.automata.ast.Direction;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Model;
 import info3.game.view.Avatar;
 
 public abstract class Entity {
@@ -16,15 +17,17 @@ public abstract class Entity {
 	MyDirection m_dir;
 	// Automaton m_automate; //automate associé
 	State m_currentState;// Emilie : TODO gerer les cas null suite a l'automate
+	public Model m_model;
 	LsAction m_currentAction;
 	float m_purcentAction;
 
-	public Entity(int x, int y, int width, int height) {
+	public Entity(int x, int y, int width, int height, Model model) {
 		m_elapseTime = 0;
 		m_x = x;
 		m_y = y;
 		m_width = width;
 		m_height = height;
+		m_model = model;
 	}
 
 	public abstract void step(long elapsed);
@@ -64,11 +67,11 @@ public abstract class Entity {
 					case NORTH:
 						m_y -= SIZEOFCELL;
 						break;
-					case SOUTH:
-						m_y += SIZEOFCELL;
-						break;
 					case EAST:
 						m_x += SIZEOFCELL;
+						break;
+					case SOUTH:
+						m_y += SIZEOFCELL;
 						break;
 					case WEST:
 						m_x -= SIZEOFCELL;
@@ -77,17 +80,17 @@ public abstract class Entity {
 						m_x += SIZEOFCELL;
 						m_y -= SIZEOFCELL;
 						break;
+					case SOUTHEAST:
+						m_x += SIZEOFCELL;
+						m_y += SIZEOFCELL;
+						break;
+					case SOUTHWEST:
+						m_x -= SIZEOFCELL;
+						m_y += SIZEOFCELL;
+						break;
 					case NORTHWEST:
 						m_x -= SIZEOFCELL;
 						m_y -= SIZEOFCELL;
-						break;
-					case SOUTHEAST:
-						m_y += SIZEOFCELL;
-						m_x += SIZEOFCELL;
-						break;
-					case SOUTHWEST:
-						m_y += SIZEOFCELL;
-						m_x -= SIZEOFCELL;
 						break;
 					default:
 						break;
@@ -95,33 +98,33 @@ public abstract class Entity {
 				break;
 			case LEFT:
 				switch (m_dir) {
+					case NORTH:
+						m_x -= SIZEOFCELL;
+						break;
 					case EAST:
 						m_y -= SIZEOFCELL;
-						break;
-					case WEST:
-						m_y += SIZEOFCELL;
 						break;
 					case SOUTH:
 						m_x += SIZEOFCELL;
 						break;
-					case NORTH:
+					case WEST:
+						m_y += SIZEOFCELL;
+						break;
+					case NORTHEAST:
 						m_x -= SIZEOFCELL;
+						m_y -= SIZEOFCELL;
 						break;
 					case SOUTHEAST:
 						m_x += SIZEOFCELL;
 						m_y -= SIZEOFCELL;
 						break;
-					case NORTHWEST:
-						m_x -= SIZEOFCELL;
-						m_y -= SIZEOFCELL;
-						break;
 					case SOUTHWEST:
-						m_y += SIZEOFCELL;
 						m_x += SIZEOFCELL;
-						break;
-					case NORTHEAST:
 						m_y += SIZEOFCELL;
-						m_x -= SIZEOFCELL;
+						break;
+					case NORTHWEST:
+						m_x += SIZEOFCELL;
+						m_y -= SIZEOFCELL;
 						break;
 					default:
 						break;
@@ -129,38 +132,71 @@ public abstract class Entity {
 				break;
 			case RIGHT:
 				switch (m_dir) {
-					case WEST:
-						m_y -= SIZEOFCELL;
+					case NORTH:
+						m_x += SIZEOFCELL;
 						break;
 					case EAST:
 						m_y += SIZEOFCELL;
 						break;
-					case NORTH:
-						m_x += SIZEOFCELL;
-						break;
 					case SOUTH:
 						m_x -= SIZEOFCELL;
 						break;
-					case NORTHWEST:
-						m_x += SIZEOFCELL;
+					case WEST:
 						m_y -= SIZEOFCELL;
+						break;
+					case NORTHEAST:
+						m_x += SIZEOFCELL;
+						m_y += SIZEOFCELL;
+						break;
+					case SOUTHEAST:
+						m_x -= SIZEOFCELL;
+						m_y += SIZEOFCELL;
 						break;
 					case SOUTHWEST:
 						m_x -= SIZEOFCELL;
 						m_y -= SIZEOFCELL;
 						break;
-					case NORTHEAST:
-						m_y += SIZEOFCELL;
+					case NORTHWEST:
 						m_x += SIZEOFCELL;
-						break;
-					case SOUTHEAST:
-						m_y += SIZEOFCELL;
-						m_x -= SIZEOFCELL;
+						m_y -= SIZEOFCELL;
 						break;
 					default:
 						break;
 				}
 				break;
+			case BACK:
+				switch (m_dir) {
+					case NORTH:
+						m_y += SIZEOFCELL;
+						break;
+					case EAST:
+						m_x -= SIZEOFCELL;
+						break;
+					case SOUTH:
+						m_y -= SIZEOFCELL;
+						break;
+					case WEST:
+						m_x += SIZEOFCELL;
+						break;
+					case NORTHEAST:
+						m_x -= SIZEOFCELL;
+						m_y += SIZEOFCELL;
+						break;
+					case SOUTHEAST:
+						m_x -= SIZEOFCELL;
+						m_y -= SIZEOFCELL;
+						break;
+					case SOUTHWEST:
+						m_x += SIZEOFCELL;
+						m_y -= SIZEOFCELL;
+						break;
+					case NORTHWEST:
+						m_x += SIZEOFCELL;
+						m_y += SIZEOFCELL;
+						break;
+					default:
+						break;
+				}
 			case NORTH:
 				m_y -= SIZEOFCELL;
 				break;
@@ -182,12 +218,12 @@ public abstract class Entity {
 				m_y -= SIZEOFCELL;
 				break;
 			case SOUTHEAST:
-				m_y += SIZEOFCELL;
 				m_x += SIZEOFCELL;
+				m_y += SIZEOFCELL;
 				break;
 			case SOUTHWEST:
-				m_y += SIZEOFCELL;
 				m_x -= SIZEOFCELL;
+				m_y += SIZEOFCELL;
 				break;
 			default:
 				break;
@@ -229,64 +265,95 @@ public abstract class Entity {
 				m_dir = dir;
 				break;
 			case LEFT:
-				switch(m_dir) {
+				switch (m_dir) {
 					case NORTH:
-						m_dir = MyDirection.WEST;
-						break;
-					case WEST:
-						m_dir = MyDirection.SOUTH;
-						break;
-					case SOUTH:
-						m_dir = MyDirection.EAST;
-						break;
-					case EAST:
-						m_dir = MyDirection.NORTH;
-						break;
-					case NORTHEAST:
 						m_dir = MyDirection.NORTHWEST;
 						break;
-					case NORTHWEST:
+					case WEST:
 						m_dir = MyDirection.SOUTHWEST;
 						break;
-					case SOUTHWEST:
+					case SOUTH:
 						m_dir = MyDirection.SOUTHEAST;
 						break;
-					case SOUTHEAST:
+					case EAST:
 						m_dir = MyDirection.NORTHEAST;
+						break;
+					case NORTHEAST:
+						m_dir = MyDirection.NORTH;
+						break;
+					case NORTHWEST:
+						m_dir = MyDirection.WEST;
+						break;
+					case SOUTHWEST:
+						m_dir = MyDirection.SOUTH;
+						break;
+					case SOUTHEAST:
+						m_dir = MyDirection.EAST;
 						break;
 					default:
 						break;
 				}
 				break;
 			case RIGHT:
-				switch(m_dir) {
+				switch (m_dir) {
 					case NORTH:
-						m_dir = MyDirection.EAST;
-						break;
-					case WEST:
-						m_dir = MyDirection.NORTH;
-						break;
-					case SOUTH:
-						m_dir = MyDirection.WEST;
+						m_dir = MyDirection.NORTHEAST;
 						break;
 					case EAST:
 						m_dir = MyDirection.SOUTH;
 						break;
-					case NORTHEAST:
-						m_dir = MyDirection.SOUTHEAST;
-						break;
-					case SOUTHEAST:
+					case SOUTH:
 						m_dir = MyDirection.SOUTHWEST;
 						break;
-					case SOUTHWEST:
+					case WEST:
 						m_dir = MyDirection.NORTHWEST;
 						break;
+					case NORTHEAST:
+						m_dir = MyDirection.EAST;
+						break;
+					case SOUTHEAST:
+						m_dir = MyDirection.SOUTHEAST;
+						break;
+					case SOUTHWEST:
+						m_dir = MyDirection.WEST;
+						break;
 					case NORTHWEST:
-						m_dir = MyDirection.NORTHEAST;
+						m_dir = MyDirection.NORTH;
 						break;
 					default:
 						break;
 				}
+				break;
+			case BACK:
+				switch (m_dir) {
+					case NORTH:
+						m_dir = MyDirection.SOUTH;
+						break;
+					case EAST:
+						m_dir = MyDirection.WEST;
+						break;
+					case SOUTH:
+						m_dir = MyDirection.NORTH;
+						break;
+					case WEST:
+						m_dir = MyDirection.EAST;
+						break;
+					case NORTHEAST:
+						m_dir = MyDirection.SOUTHWEST;
+						break;
+					case SOUTHEAST:
+						m_dir = MyDirection.NORTHWEST;
+						break;
+					case SOUTHWEST:
+						m_dir = MyDirection.NORTHEAST;
+						break;
+					case NORTHWEST:
+						m_dir = MyDirection.SOUTHEAST;
+						break;
+					default:
+						break;
+				}
+			default:
 				break;
 		}
 	}
@@ -303,8 +370,8 @@ public abstract class Entity {
 		System.out.println("Is Wizzing");
 	}
 
-	public boolean GetDir(Direction dir) {
-		System.out.println("Is Getdiring");
+	public boolean myDir(Direction dir) {
+		System.out.println("Is myDiring");
 		if (m_dir != null) {
 			return m_dir.equals(dir);
 		}

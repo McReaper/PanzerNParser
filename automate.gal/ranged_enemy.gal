@@ -14,7 +14,7 @@ EnemyBasic(Wander){
 	| Closest(T,W) & MyDir(W) ? Hit(W) : (Triggered)
 	| Closest(T,E) & MyDir(E) ? Hit(E) : (Triggered)
 	| True ? : (Wander)
- * (Triggered) {
+ * (Triggered):
 	| !GotPower() ? Explode() : (Dying)
 	| Closest(T,N) ? Turn(N) : (Forward)
 	| Closest(T,NE) ? Turn(NE) : (Forward)
@@ -25,7 +25,7 @@ EnemyBasic(Wander){
 	| Closest(T,W) ? Turn(W) : (Forward)
 	| Closest(T,E) ? Turn(E) : (Forward)
 	| True ? : (Wander)
- * (Forward) {
+ * (Forward):
 	| !GotPower() ? Explode() : (Dying)
 	| True ? Move(F) : (Attack)
  * (Dying):

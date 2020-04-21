@@ -14,12 +14,12 @@ public abstract class Avatar {
 	Sprite m_sprite;
 	Entity m_entity;
 	int m_idImageSprite;
-	LsAction currentAction;
+	LsAction m_currentAction;
 
 	public Avatar(Entity entity) {
 		m_entity = entity;
 		m_idImageSprite = 1;
-		currentAction = LsAction.Nothing;
+		m_currentAction = LsAction.Pop;
 	}
 	
 	public abstract void paint(Graphics g);

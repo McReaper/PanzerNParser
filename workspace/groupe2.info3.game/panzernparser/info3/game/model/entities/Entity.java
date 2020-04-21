@@ -3,6 +3,7 @@ package info3.game.model.entities;
 import info3.game.automata.ast.Direction;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
+import info3.game.automaton.action.LsAction;
 import info3.game.view.Avatar;
 
 public abstract class Entity {
@@ -15,6 +16,7 @@ public abstract class Entity {
 	MyDirection m_dir;
 	// Automaton m_automate; //automate associé
 	State m_currentState;// Emilie : TODO gerer les cas null suite a l'automate
+	LsAction m_currentAction;
 
 	public Entity(int x, int y, int width, int height) {
 		m_elapseTime = 0;
@@ -335,6 +337,9 @@ public abstract class Entity {
 		m_currentState = state;
 	}
 	
+	public LsAction getCurrentAction() {
+		return m_currentAction;
+	}
 	
 
 }

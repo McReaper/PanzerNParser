@@ -29,16 +29,27 @@ public class DroppableAvatar extends Avatar {
 	
 	@Override
 	public void updateAction() {
-		currentAction = m_entity.
+		m_currentAction = m_entity.getCurrentAction();
 	}
 	
 	public void paint(Graphics g) {
 //		int width = m_entity.getWidth();
 //		int height = m_entity.getHeight();
+		//updateAction();
+		if (m_currentAction == LsAction.Nothing) {
+			paintStaticHole(g);
+		}else if (m_currentAction == LsAction.Pop){
+			paintDynamicHole(g);
+		}
+	}
+
+	public void paintStaticHole(Graphics g) {
+		g.drawImage(m_sprite.getSprite(1), 0, 0, g.getClipBounds().width, g.getClipBounds().height, null);
+	}
+	
+	public void paintDynamicHole(Graphics g) {
 		g.drawImage(m_sprite.getSprite(m_idImageSprite), 0, 0, g.getClipBounds().width, g.getClipBounds().height, null);
 		nextImage();
 	}
-
-	
 
 }

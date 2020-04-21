@@ -9,8 +9,10 @@ public class AvatarFactory {
 	public static Avatar newAvatar(Entity entity) {
 		if (entity instanceof Droppable) {
 			return new DroppableAvatar(entity);
-		}else if (entity instanceof Enemy)
+		}else if (entity instanceof Enemy) {
 			return new DroppableAvatar(entity);
+		}
+	
 		//return new Avatar(entity);
 		return null;
 	}

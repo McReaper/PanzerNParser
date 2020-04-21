@@ -116,7 +116,6 @@ Continuer de travailler sur la partie MVC pour avoir une version très simple d'
 
 - Corrections des bugs dans les classes du package automaton suite aux revus de code + amélioration de la classe `AutomatonMain.java` pour pousser les tests sans utiliser le parser
 - Correction et Amélioration de `BotBuilder.java` (paix aux groupes qui n'ont pas implémenté IVisitor), qui implémente beaucoup mieux IVisitor.
-- 
 
 ## Répartition des tâches
 
@@ -138,6 +137,41 @@ Continuer de travailler sur la partie MVC pour avoir une version très simple d'
 ## Rélfexion en cours
 
 - Les Avatar doivent ils gérer eux même les séquences d'images ou se référer à une classe Animation pour une certaine action en cours (Pop/Wizz/...) ? (dans les deux cas on se base sur la description des fichiers .ani pour une entité)
+
+---
+
+# JOURNAL du Mardi 21 Avril
+
+## Planning du jour
+
+- Retour sur les revues de codes croisées (discussion comme d'habitude)
+- Finir l'implém de la grille et la connecter au model.
+- Travailler sur les automates pour commencer à implémenter une intéraction avec les entités.
+- Travailler sur la vue pour implémenter les premières animations à l'écran en fonction de la progression d'une action d'une entité.
+
+## Répartition des tâches
+
+- `Cyance>` Discussion sur la dernière revue de code croisée.
+- `E/V>` Travail sur la vue et début d'implem des classes Avatar sans classes d'animation -> l'animation s'adapte en fonction de la progression de l'action de l'ntité dans son action courante.
+- `V>` Développement de la classe Animation qui se base sur le contenu des fichiers .ani listés dans le fichier de configuration.
+- `V/B/M>` Finissions sur les classes d'Avatar pour prendre compte des ficheirs de config, début d'un aspect concret pour les animations.
+- `B>` Liaison de la grille au modèle (liste des entités)
+- `B/S>` Finissions de qq détails sur la grille
+- `JT/S/M/E>` Implémentations des premières intéraction entre automate et modèle.
+- `JT>` Complétion de la gestions des touches (ajout/suppression dans une liste) depuis le contrôleur vers le modèle et dans le modèle
+- `M>` Modification des fichiers .gal ayant une syntaxe erronée.
+- `Cyance>` Revue de code croisée.
+
+## Remarques :
+
+- Le travail du jour a été très productif, les tâches sont bien réparties, nous alternerons les rôles attribués sur certaine tâche le lendemain pour que chacun touche à quelque chose. (*L'idée serait de garder une personne déjà présente sur une tâche pour aider a la transition sans perdre trop de temps*)
+
+## Pour après
+
+- Généraliser grâce à une classe les temps des actions pour aléger le code par entité.
+- Commencer à implémenter un gestionnaire de physique (pour les collisions par exemple) dans le modèle ou dans certaines entités.
+- Afficher les déplacements/rotations de manière progressifs dans la vue et non pas instentanément.
+- Continuer de travailler sur l'interaction entre les automates et les entités
 
 ---
 

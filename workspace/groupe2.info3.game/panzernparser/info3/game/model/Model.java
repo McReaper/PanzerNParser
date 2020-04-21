@@ -29,20 +29,17 @@ public class Model {
 			BotBuilder bb8 = new BotBuilder();
 			List<Automaton> lsAuto;
 			for (String curFil : fils) {
-				System.out.print(curFil);
 				AST myAST = AutomataParser.from_file(path + "/" + curFil);
-				System.out.println(" fait");
+				System.out.println("un autre de fait");
 				lsAuto = (List<Automaton>) myAST.accept(bb8);
 				m_automatons.addAll(lsAuto);
       } 
-			
-			/* si un seul fichier .gal commentez début try et décomenter fin */
+			/* si un seul fichier .gal commentez début try et décomenter fin*/
 //			BotBuilder bb8 = new BotBuilder();
-//			AST myAST = AutomataParser.from_file("../../automate.gal/drone.gal");
+//			AST myAST = AutomataParser.from_file("../../automate.gal/automton.gal");
 //			List<Automaton> lsAuto = (List<Automaton>) myAST.accept(bb8);
 //			m_automatons = (lsAuto);
 		} catch (Exception e) {
-			System.out.println();
 			System.out.println("fichier non trouvé pour la création des automates");
 			e.printStackTrace();
 		}
@@ -50,6 +47,8 @@ public class Model {
 		// la liste des entités à jour. La grille doit connaitre ses patterns lors de sa
 		// création, le model doit donc lui donner.
 		m_entities = new LinkedList<Entity>();
+		
+		m_keyPressed=new LinkedList<LsKey>();
 
 		// Version de test ci-dessous :
 		m_grid = new Grid(this);

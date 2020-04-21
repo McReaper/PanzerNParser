@@ -124,82 +124,82 @@ public class BotBuilder implements IVisitor {
 		LsKey myKey;
 		switch (key.terminal.content) {
 			// lettres
-			case "A":
+			case "a":
 				myKey = LsKey.A;
 				break;
-			case "Z":
+			case "z":
 				myKey = LsKey.Z;
 				break;
-			case "E":
+			case "e":
 				myKey = LsKey.E;
 				break;
-			case "R":
+			case "r":
 				myKey = LsKey.R;
 				break;
-			case "T":
+			case "t":
 				myKey = LsKey.T;
 				break;
-			case "Y":
+			case "y":
 				myKey = LsKey.Y;
 				break;
-			case "U":
+			case "u":
 				myKey = LsKey.U;
 				break;
-			case "I":
+			case "i":
 				myKey = LsKey.I;
 				break;
-			case "O":
+			case "o":
 				myKey = LsKey.O;
 				break;
-			case "P":
+			case "p":
 				myKey = LsKey.P;
 				break;
-			case "Q":
+			case "q":
 				myKey = LsKey.Q;
 				break;
-			case "S":
+			case "s":
 				myKey = LsKey.S;
 				break;
-			case "D":
+			case "d":
 				myKey = LsKey.D;
 				break;
-			case "F":
+			case "f":
 				myKey = LsKey.F;
 				break;
-			case "G":
+			case "g":
 				myKey = LsKey.G;
 				break;
-			case "H":
+			case "h":
 				myKey = LsKey.H;
 				break;
-			case "J":
+			case "j":
 				myKey = LsKey.J;
 				break;
-			case "K":
+			case "k":
 				myKey = LsKey.K;
 				break;
-			case "L":
+			case "l":
 				myKey = LsKey.L;
 				break;
-			case "M":
+			case "m":
 				myKey = LsKey.M;
 				break;
-			case "W":
+			case "w":
 				myKey = LsKey.W;
 				break;
-			case "X":
+			case "x":
 				myKey = LsKey.X;
 				break;
-			case "C":
+			case "c":
 				myKey = LsKey.C;
 				break;
-			case "V":
+			case "v":
 				myKey = LsKey.V;
 				break;
-			case "B":
+			case "b":
 				myKey = LsKey.B;
 				break;
-			case "N":
+			case "n":
 				myKey = LsKey.N;
 				break;
 			// nombres

@@ -72,5 +72,11 @@ public class EntityFactory {
 		}
 		return res;
 	}
-
+	
+	public String name(Entity entity) {
+		System.out.println("test de entityFactory");
+		System.out.println(entity.getClass().getName());
+		return  entity.getClass().getName();
+	}
+	
 }

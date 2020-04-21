@@ -6,9 +6,8 @@ import java.io.IOException;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.entities.Entity;
 
-public class DroppableAvatar extends Avatar {
-
-	public DroppableAvatar(Entity entity) {
+public class EnemyAvatar extends Avatar {
+	public EnemyAvatar(Entity entity) {
 		super(entity);
 		try {
 			m_sprite = new Sprite("sprites/Trou.png");
@@ -16,51 +15,39 @@ public class DroppableAvatar extends Avatar {
 			System.out.println("Impossible de trouver l'image Minerai!");
 		}
 	}
-	
+
 	public boolean nextImage() {
 		if (m_idImageSprite < m_sprite.nbSprites()) {
-			m_idImageSprite ++;
+			m_idImageSprite++;
 			return true;
-		}else {
+		} else {
 			m_idImageSprite = 1;
 			return true;
 		}
 	}
-	
+
 	public void updateIdImage() {
-		float purcentAction =m_entity.getPurcentAction();
-		float idImageFloat = purcentAction*m_sprite.m_length ;
+		float purcentAction = m_entity.getPurcentAction();
+		float idImageFloat = purcentAction * m_sprite.m_length;
 		m_idImageSprite = (int) idImageFloat;
-		m_idImageSprite ++ ;//Car les images des sprites commencent a 1 et pas a 0
-		if (m_idImageSprite > m_sprite.m_length ) {
-			m_idImageSprite = 1;
+		if (m_idImageSprite < m_sprite.m_length) {
+			m_idImageSprite++;// car les images des sprites commencent à 1 et pas à 0
 		}
 	}
-	
+
 	@Override
 	public void updateAction() {
 		m_currentAction = m_entity.getCurrentAction();
 	}
-	
+
+	@Override
 	public void paint(Graphics g) {
 //		int width = m_entity.getWidth();
 //		int height = m_entity.getHeight();
-		//updateAction();
-		if (m_currentAction == LsAction.Nothing) {
-			paintStaticHole(g);
-		}else if (m_currentAction == LsAction.Pop){
-			paintDynamicHole(g);
+		updateAction();
+		if (m_currentAction != LsAction.Nothing) {
+			updateIdImage();
 		}
-	}
-
-	public void paintStaticHole(Graphics g) {
-		g.drawImage(m_sprite.getSprite(1), 0, 0, g.getClipBounds().width, g.getClipBounds().height, null);
-	}
-	
-	public void paintDynamicHole(Graphics g) {
-		updateIdImage();
 		g.drawImage(m_sprite.getSprite(m_idImageSprite), 0, 0, g.getClipBounds().width, g.getClipBounds().height, null);
-		
 	}
-
 }

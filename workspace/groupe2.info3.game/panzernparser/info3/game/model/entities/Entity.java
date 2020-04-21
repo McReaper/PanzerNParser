@@ -17,6 +17,7 @@ public abstract class Entity {
 	// Automaton m_automate; //automate associé
 	State m_currentState;// Emilie : TODO gerer les cas null suite a l'automate
 	LsAction m_currentAction;
+	float m_purcentAction;
 
 	public Entity(int x, int y, int width, int height) {
 		m_elapseTime = 0;
@@ -339,6 +340,10 @@ public abstract class Entity {
 	
 	public LsAction getCurrentAction() {
 		return m_currentAction;
+	}
+	
+	public float getPurcentAction() {
+		return m_purcentAction;
 	}
 	
 

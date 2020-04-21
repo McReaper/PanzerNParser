@@ -19,7 +19,7 @@ public abstract class Avatar {
 	public Avatar(Entity entity) {
 		m_entity = entity;
 		m_idImageSprite = 1;
-		m_currentAction = LsAction.Pop;
+		m_currentAction = LsAction.Nothing;
 	}
 	
 	public abstract void paint(Graphics g);

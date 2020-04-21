@@ -10,7 +10,7 @@ public class AvatarFactory {
 		if (entity instanceof Droppable) {
 			return new DroppableAvatar(entity);
 		}else if (entity instanceof Enemy) {
-			return new DroppableAvatar(entity);
+			return new EnemyAvatar(entity);
 		}
 	
 		//return new Avatar(entity);

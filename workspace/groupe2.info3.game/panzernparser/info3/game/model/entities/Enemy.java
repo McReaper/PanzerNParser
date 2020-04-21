@@ -9,7 +9,7 @@ public class Enemy extends MovingEntity {
 	// Temps utilisé pour aller d'une case à l'autre, donc, plus cette valeur est
 	// petite, plus on va vite :
 	public static final double ENEMY_TIMETOTRAVEL = 1; // ex: (1 / ENEMY_TIMETOTRAVEL) = nb de cases en 1 déplacement.
-
+	long m_timeAction; //temps nécessaire pour faire l'action en cours !!!(en ms)!!!
 	boolean m_triggered; // indique si l'ennemi a détecté le joueur ou non.
 	Droppable m_drops;
 	
@@ -18,21 +18,38 @@ public class Enemy extends MovingEntity {
 		super(x, y, width, height, ENEMY_HEALTH, ENEMY_TIMETOTRAVEL);
 		m_triggered = false; // Valeur par défaut
 		m_drops = new Droppable(this.m_x, this.m_y, 1, 1, 1, MaterialType.ELECTRONIC);
-		m_currentAction = LsAction.Nothing;
+		m_currentAction = LsAction.Pop;
 	}
 
 	@Override
 	public void step(long elapsed) {
-		m_elapseTime += elapsed;
-		if (m_elapseTime > 1000) {
-			System.out.println("Enemy step !");
-			m_elapseTime = m_elapseTime - 1000;
+		switch(m_currentAction) {
+			case Pop:
+				pop();
+				m_elapseTime += elapsed;
+				getPercentAction();
+				if (m_elapseTime > m_timeAction) {
+					m_elapseTime = 0;
+					m_currentAction = LsAction.Nothing;
+				}
+				break;
+				
+			case Move: 
+				m_elapseTime += elapsed;
+				if (m_elapseTime > 1000) {
+					System.out.println("Enemy step !");
+					m_elapseTime = m_elapseTime - 1000;
+				}
 		}
+		
 	}
 	
 	public void pop() {
-		m_currentAction = LsAction.Nothing;
+		m_timeAction = 3000;
 	}
-
+	
+	public void getPercentAction() {
+		m_purcentAction =  (float) ((float)m_elapseTime/(float)m_timeAction);
+	}
 
 }

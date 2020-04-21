@@ -1,4 +1,4 @@
-Dorpable(Init){
+Droppable(Init){
 *(Init)
 	|True() ? Wait() : (Init)
 }

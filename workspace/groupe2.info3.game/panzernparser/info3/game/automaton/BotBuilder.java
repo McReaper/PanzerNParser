@@ -104,13 +104,13 @@ public class BotBuilder implements IVisitor {
 			case "S":
 				myDir = MyDirection.SOUTH;
 				break;
-			case "SO":
+			case "SW":
 				myDir = MyDirection.SOUTHWEST;
 				break;
-			case "O":
+			case "W":
 				myDir = MyDirection.WEST;
 				break;
-			case "NO":
+			case "NW":
 				myDir = MyDirection.NORTHWEST;
 				break;
 			default:

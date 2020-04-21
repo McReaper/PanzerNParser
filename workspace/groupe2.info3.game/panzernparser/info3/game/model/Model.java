@@ -90,5 +90,9 @@ public class Model {
 			m_keyPressed.remove(temp);
 		return;
 	}
+	
+	public void addEntity(Entity e) {
+		m_entities.add(e);
+	}
 
 }

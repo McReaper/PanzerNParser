@@ -22,7 +22,7 @@ public class AvatarFactory {
 		// Pour chaque ligne du fichier de config :
 		while (sc.hasNextLine()) {
 			line = sc.nextLine();
-			// line est de la forme : "Nom | Nom.gal | Nom.ani"
+			// line est de la forme : "Nom | Nom.gal | Nom.ani | Nom.png"
 			String[] fields = line.split(" | ");
 			
 			/*

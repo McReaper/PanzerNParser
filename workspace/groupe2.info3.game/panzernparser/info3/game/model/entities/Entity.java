@@ -433,8 +433,4 @@ public abstract class Entity {
 		return false;
 
 	}
-
-	public State getState() {
-		return m_currentState;
-	}
 }

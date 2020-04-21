@@ -13,6 +13,8 @@ import info3.game.model.entities.Entity;
 
 public class Model {
 
+	public static Model m_model;
+
 	// Controller m_controller; //pour envoyer des information utiles.
 	Grid m_grid;
 	LinkedList<Entity> m_entities;
@@ -21,6 +23,7 @@ public class Model {
 
 	public Model() {
 		// Génère la liste des automates
+		m_model = this;
 		try {
 			m_automatons = new ArrayList<Automaton>();
 			String path = "../../automate.gal";
@@ -62,6 +65,10 @@ public class Model {
 		}
 	}
 
+	public static Model getModel() {
+		return m_model;
+	}
+	
 	public Grid getGrid() {
 		return m_grid;
 	}

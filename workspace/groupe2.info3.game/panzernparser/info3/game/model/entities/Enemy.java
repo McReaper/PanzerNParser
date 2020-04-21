@@ -4,7 +4,12 @@ import info3.game.model.Material.MaterialType;
 import info3.game.model.Model;
 
 public class Enemy extends MovingEntity {
-
+	/*Champs pour donner size par defaut dans la EntityFactory */
+	/* A voir si on donne des size differentes pour des categories d'ennemis differents*/
+	final static int ENEMY_WIDTH = 1;
+	final static int ENEMY_HEIGHT = 1;
+	
+	
 	public static final int ENEMY_HEALTH = 100;
 	// Temps utilisé pour aller d'une case à l'autre, donc, plus cette valeur est
 	// petite, plus on va vite :

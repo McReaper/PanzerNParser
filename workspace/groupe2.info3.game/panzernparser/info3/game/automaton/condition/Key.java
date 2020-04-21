@@ -14,9 +14,9 @@ public class Key extends Condition {
 
 	@Override
 	public boolean realisable(Entity entity) {
-		System.out.println("Is this the real life? Is this just fantasy?");
+		//System.out.println("Is this the real life? Is this just fantasy?");
 		if (entity.m_model.m_keyPressed.contains(m_key)) {
-			System.out.println("Call in the landside...");
+			//System.out.println("Call in the landside...");
 			return true;
 		}
 		return false;

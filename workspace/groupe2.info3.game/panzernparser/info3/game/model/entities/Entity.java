@@ -36,12 +36,12 @@ public abstract class Entity {
 	}
 
 	public int getX() {
-		System.out.println("Is GetXing");
+		//System.out.println("Is GetXing");
 		return m_x;
 	}
 
 	public int getY() {
-		System.out.println("Is GetYing");
+		//System.out.println("Is GetYing");
 		return m_y;
 	}
 
@@ -373,10 +373,10 @@ public abstract class Entity {
 		System.out.println("Is Wizzing");
 	}
 
-	public boolean myDir(Direction dir) {
+	public boolean myDir(MyDirection m_direction) {
 		System.out.println("Is myDiring");
 		if (m_dir != null) {
-			return m_dir.equals(dir);
+			return m_dir.equals(m_direction);
 		}
 		return false;
 	}

@@ -15,8 +15,7 @@ public class MyDir extends Condition{
 	
 	@Override
 	public boolean realisable(Entity entity) {
-		// TODO Auto-generated method stub
-		return false;
+		return entity.myDir(m_direction);
 	}
 
 }

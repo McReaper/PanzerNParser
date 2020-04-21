@@ -54,8 +54,9 @@ public class GameMain {
 		Automaton drone = m_model.m_automatons.get(0);
 		e.setAutomaton(drone);
 		e.setState(drone.getState());
-		while(true)
-			e.step(0);
+		while(true) {
+			e.step(0);			
+		}
 			
 	}
 

@@ -1,2 +1,2 @@
-Obst 1,1
-Enem 3,3
+drop1 1,1
+enem1 0,0

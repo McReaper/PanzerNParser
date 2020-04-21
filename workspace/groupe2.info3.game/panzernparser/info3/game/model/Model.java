@@ -55,7 +55,11 @@ public class Model {
 		// la liste des entités à jour. La grille doit connaitre ses patterns lors de sa
 		// création, le model doit donc lui donner.
 		m_entities = new LinkedList<Entity>();
-
+		Automaton drone = m_model.m_automatons.get(0);
+		Entity e = new Enemy(2, 2, Enemy.ENEMY_WIDTH, Enemy.ENEMY_HEIGHT, m_model);
+		e.setAutomaton(drone);
+		e.setState(drone.getState());
+		m_entities.add(e);
 		// Version de test ci-dessous :
 		m_grid = new Grid(this);
 		

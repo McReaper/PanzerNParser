@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 import info3.game.automaton.Automaton;
-import info3.game.automaton.AutomatonMain;
-import info3.game.automaton.State;
 import info3.game.controller.Controller;
 import info3.game.model.Model;
 import info3.game.model.entities.Drone;
@@ -35,8 +33,6 @@ public class GameMain {
 	GameMain() {
 		// On créer l'univers du jeu
 		m_model = new Model();
-		Entity e = new Drone(0, 0, 0, 0, 0, 1000, m_model);
-
 		// On créer le contrôleur qui va intéragir avec cet univers
 		m_controller = new Controller(m_model);
 
@@ -51,13 +47,7 @@ public class GameMain {
 		m_frame = m_view.m_canvas.createFrame(d);
 		System.out.println("Frame created");
 		setupFrame();
-		Automaton drone = m_model.m_automatons.get(0);
-		e.setAutomaton(drone);
-		e.setState(drone.getState());
-		while(true) {
-			e.step(0);			
-		}
-			
+		
 	}
 
 	private void setupFrame() {

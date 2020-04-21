@@ -67,7 +67,7 @@ public class Grid {
 		for (Pattern pattern : patterns) {
 			List<Entity> entities = pattern.getEntities();
 			for (Entity entity : entities) {
-				m_model.addEntity(entity);
+				//m_model.addEntity(entity);
 				System.out.println("Send " + EntityFactory.name(entity) + " : " + entity.getX() + "," + entity.getY());
 			}
 		}

@@ -103,6 +103,7 @@ public abstract class Entity {
 
 	public void Move(MyDirection dir) {
 		System.out.println("Is Moving to " + dir);
+		this.m_currentAction = LsAction.Move;
 		switch (dir) {
 			case FRONT:
 				switch (m_dir) {
@@ -414,9 +415,9 @@ public abstract class Entity {
 	}
 
 	public boolean myDir(MyDirection dir) {
-		System.out.println("Is myDiring");
+		//System.out.println("Is myDiring");
 		if (m_dir != null) {
-			return m_dir.equals(m_direction);
+			return m_dir.equals(dir);
 		}
 		return false;
 	}
@@ -440,7 +441,4 @@ public abstract class Entity {
 
 	}
 
-	public State getState() {
-		return m_currentState;
-	}
 }

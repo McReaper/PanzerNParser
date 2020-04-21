@@ -9,6 +9,7 @@ Drone(Init){
 	|Key(s) ? Turn(S) : (Avance)
 	|Key(q) ? Turn(W) : (Avance)
 	|True() ? Wait() :(Avance)
+	
 *(Avance)
 	|MyDir(N) ? Move(N) : (Init)
 	|MyDir(E) ? Move(E) : (Init)

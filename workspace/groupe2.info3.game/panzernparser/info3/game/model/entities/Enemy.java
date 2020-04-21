@@ -9,8 +9,8 @@ public class Enemy extends MovingEntity {
 	 * Champs pour donner size par defaut dans la EntityFactory. A voir si on donne
 	 * des size differentes pour des categories d'ennemis differents
 	 */
-	final static int ENEMY_WIDTH = 1;
-	final static int ENEMY_HEIGHT = 1;
+	public final static int ENEMY_WIDTH = 1;
+	public final static int ENEMY_HEIGHT = 1;
 
 	public static final int ENEMY_HEALTH = 100;
 	public static final int ENEMY_SPEED = 1; // nb de cases en 1 déplacement.
@@ -20,7 +20,7 @@ public class Enemy extends MovingEntity {
 	public static final long ENEMY_HIT_TIME = 1000;
 	public static final long ENEMY_JUMP_TIME = 1000;
 	public static final long ENEMY_EXPLODE_TIME = 1000;
-	public static final long ENEMY_MOVE_TIME = 1000;
+	public static final long ENEMY_MOVE_TIME = 2000;
 	public static final long ENEMY_PICK_TIME = 1000;
 	public static final long ENEMY_POP_TIME = 3000;
 	public static final long ENEMY_POWER_TIME = 1000;
@@ -38,7 +38,7 @@ public class Enemy extends MovingEntity {
 		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, model);
 		m_triggered = false; // Valeur par défaut
 		m_drops = new Droppable(this.m_x, this.m_y, 1, 1, 1, MaterialType.ELECTRONIC, model);
-		m_currentAction = LsAction.Pop; // TODO : a retirer, c'est pour les tests.
+		m_currentAction = LsAction.Nothing; // TODO : a retirer, c'est pour les tests.
 	}
 
 	@Override
@@ -90,7 +90,10 @@ public class Enemy extends MovingEntity {
 			case Wizz:
 				timeOfAction = ENEMY_WIZZ_TIME;
 				break;
-			case Nothing:
+			case Nothing: // ERASE NOTHING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				this.setState(this.m_automate.step(this));
+				
+					
 				return; //Il ne fait rien, on sort.
 		}
 		

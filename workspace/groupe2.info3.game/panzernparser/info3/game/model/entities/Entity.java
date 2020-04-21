@@ -1,34 +1,71 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.MyCategory;
+import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
+import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 
 public abstract class Entity {
-	final static int SIZEOFCELL = 1;
+	
+	final static int DEFAULT_MOVING_DISTANCE = 1;
+
+	long m_elapseTime;
+	LsAction m_currentAction;
+	
+	boolean m_displayed; // Indique si il doit etre affiché a l'écran où non.
+	
 	int m_x;
 	int m_y;
 	int m_width;
 	int m_height;
-	long m_elapseTime;
 	MyDirection m_dir;
 	boolean m_stuff; // gotStuff ?
 	// Automaton m_automate; //automate associé
 	State m_currentState;// Emilie : TODO gerer les cas null suite a l'automate
+	Automaton m_automate; //automate associé
 	public Model m_model;
 
 	public Entity(int x, int y, int width, int height, Model model) {
 		m_elapseTime = 0;
+		m_currentAction = LsAction.Nothing;
+		
+		m_displayed = true;
+		
 		m_x = x;
 		m_y = y;
 		m_width = width;
 		m_height = height;
+		m_dir = MyDirection.NORTH;
+		
 		m_model = model;
 	}
 
 	public abstract void step(long elapsed);
 
+	public boolean isShown() {
+		return m_displayed;
+	}
+
+	public State getState() {
+		return m_currentState;
+	}
+
+	/*
+	 * Emilie : Ceci est une fonction temporaire pour pouvoir gerer les test sur les
+	 * automates sans parser
+	 */
+	public void setState(State state) {
+		m_currentState = state;
+	}
+	
+	public LsAction getCurrentAction() {
+		return m_currentAction;
+	}
+	
+	public abstract double getActionProgress();
+	
 	public int getX() {
 		System.out.println("Is GetXing");
 		return m_x;
@@ -65,32 +102,32 @@ public abstract class Entity {
 			case FRONT:
 				switch (m_dir) {
 					case NORTH:
-						m_y -= SIZEOFCELL;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case EAST:
-						m_x += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTH:
-						m_y += SIZEOFCELL;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case WEST:
-						m_x -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHEAST:
-						m_x += SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHEAST:
-						m_x += SIZEOFCELL;
-						m_y += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHWEST:
-						m_x -= SIZEOFCELL;
-						m_y += SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHWEST:
-						m_x -= SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					default:
 						break;
@@ -99,32 +136,32 @@ public abstract class Entity {
 			case LEFT:
 				switch (m_dir) {
 					case NORTH:
-						m_x -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case EAST:
-						m_y -= SIZEOFCELL;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTH:
-						m_x += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
 						break;
 					case WEST:
-						m_y += SIZEOFCELL;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHEAST:
-						m_x -= SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHEAST:
-						m_x += SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHWEST:
-						m_x += SIZEOFCELL;
-						m_y += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHWEST:
-						m_x += SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					default:
 						break;
@@ -133,32 +170,32 @@ public abstract class Entity {
 			case RIGHT:
 				switch (m_dir) {
 					case NORTH:
-						m_x += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
 						break;
 					case EAST:
-						m_y += SIZEOFCELL;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTH:
-						m_x -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case WEST:
-						m_y -= SIZEOFCELL;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHEAST:
-						m_x += SIZEOFCELL;
-						m_y += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHEAST:
-						m_x -= SIZEOFCELL;
-						m_y += SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHWEST:
-						m_x -= SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHWEST:
-						m_x += SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					default:
 						break;
@@ -167,63 +204,63 @@ public abstract class Entity {
 			case BACK:
 				switch (m_dir) {
 					case NORTH:
-						m_y += SIZEOFCELL;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case EAST:
-						m_x -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTH:
-						m_y -= SIZEOFCELL;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case WEST:
-						m_x += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHEAST:
-						m_x -= SIZEOFCELL;
-						m_y += SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHEAST:
-						m_x -= SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case SOUTHWEST:
-						m_x += SIZEOFCELL;
-						m_y -= SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
 						break;
 					case NORTHWEST:
-						m_x += SIZEOFCELL;
-						m_y += SIZEOFCELL;
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
 						break;
 					default:
 						break;
 				}
 			case NORTH:
-				m_y -= SIZEOFCELL;
+				m_y -= DEFAULT_MOVING_DISTANCE;
 				break;
 			case SOUTH:
-				m_y += SIZEOFCELL;
+				m_y += DEFAULT_MOVING_DISTANCE;
 				break;
 			case EAST:
-				m_x += SIZEOFCELL;
+				m_x += DEFAULT_MOVING_DISTANCE;
 				break;
 			case WEST:
-				m_x -= SIZEOFCELL;
+				m_x -= DEFAULT_MOVING_DISTANCE;
 				break;
 			case NORTHEAST:
-				m_x += SIZEOFCELL;
-				m_y -= SIZEOFCELL;
+				m_x += DEFAULT_MOVING_DISTANCE;
+				m_y -= DEFAULT_MOVING_DISTANCE;
 				break;
 			case NORTHWEST:
-				m_x -= SIZEOFCELL;
-				m_y -= SIZEOFCELL;
+				m_x -= DEFAULT_MOVING_DISTANCE;
+				m_y -= DEFAULT_MOVING_DISTANCE;
 				break;
 			case SOUTHEAST:
-				m_x += SIZEOFCELL;
-				m_y += SIZEOFCELL;
+				m_x += DEFAULT_MOVING_DISTANCE;
+				m_y += DEFAULT_MOVING_DISTANCE;
 				break;
 			case SOUTHWEST:
-				m_x -= SIZEOFCELL;
-				m_y += SIZEOFCELL;
+				m_x -= DEFAULT_MOVING_DISTANCE;
+				m_y += DEFAULT_MOVING_DISTANCE;
 				break;
 			default:
 				break;
@@ -400,13 +437,4 @@ public abstract class Entity {
 	public State getState() {
 		return m_currentState;
 	}
-
-	/*
-	 * Emilie : Ceci est une fonction temporaire pour pouvoir gerer les test sur les
-	 * automates sans parser
-	 */
-	public void setState(State state) {
-		m_currentState = state;
-	}
-
 }

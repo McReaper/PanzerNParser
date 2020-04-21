@@ -24,14 +24,19 @@ public class Model {
 			String path = "../../automate.gal";
 			File repertoire = new File(path);
 			String[] fils = repertoire.list();
+			BotBuilder bb8 = new BotBuilder();
+			List<Automaton> lsAuto;
 			for (String curFil : fils) {
 				AST myAST = AutomataParser.from_file(path + "/" + curFil);
 				System.out.println("un autre de fait");
-				m_automatons.addAll((List<Automaton>) myAST.accept(new BotBuilder()));
+				lsAuto = (List<Automaton>) myAST.accept(bb8);
+				m_automatons.addAll(lsAuto);
       } 
 			/* si un seul fichier .gal commentez début try et décomenter fin*/
+//			BotBuilder bb8 = new BotBuilder();
 //			AST myAST = AutomataParser.from_file("../../automate.gal/automton.gal");
-//			m_automatons = (List<Automaton>) myAST.accept(new BotBuilder());
+//			List<Automaton> lsAuto = (List<Automaton>) myAST.accept(bb8);
+//			m_automatons = (lsAuto);
 		} catch (Exception e) {
 			System.out.println("fichier non trouvé pour la création des automates");
 			e.printStackTrace();

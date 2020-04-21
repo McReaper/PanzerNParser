@@ -21,6 +21,10 @@ public class Animation {
 	}
 	
 	public Image getImage(double ActionProgress, LsAction ac) {
+		if (ac == null) {
+			//TODO : definir l'affichage dans le cas ou il n'y a pas d'action en cours
+			return null;
+		}
 		int[] seq = m_animationSequence.get(ac);
 		int i = (int)(ActionProgress * seq.length);
 		return m_sprite.getSprite(seq[i]);

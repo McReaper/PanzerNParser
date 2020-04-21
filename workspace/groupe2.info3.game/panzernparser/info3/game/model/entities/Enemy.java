@@ -90,14 +90,14 @@ public class Enemy extends MovingEntity {
 			case Wizz:
 				timeOfAction = ENEMY_WIZZ_TIME;
 				break;
-			case Nothing:
+			default:
 				return; //Il ne fait rien, on sort.
 		}
 		
 		if (m_elapseTime > timeOfAction) {
 			m_elapseTime = 0;
 			//actionAccomplished(); // Pour réaliser l'action terminée.
-			m_currentAction = LsAction.Nothing;
+			m_currentAction = null;
 		} else {
 			m_elapseTime += elapsed;
 		}
@@ -118,8 +118,6 @@ public class Enemy extends MovingEntity {
 				return ((double) m_elapseTime) / ((double) ENEMY_JUMP_TIME);
 			case Move:
 				return ((double) m_elapseTime) / ((double) ENEMY_MOVE_TIME);
-			case Nothing:
-				return 0;
 			case Pick:
 				return ((double) m_elapseTime) / ((double) ENEMY_PICK_TIME);
 			case Pop:

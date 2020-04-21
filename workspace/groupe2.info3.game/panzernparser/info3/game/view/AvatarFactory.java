@@ -18,13 +18,13 @@ public class AvatarFactory {
 
 		Scanner sc = new Scanner(config_file);
 		String line;
-
+		
 		// Pour chaque ligne du fichier de config :
 		while (sc.hasNextLine()) {
 			line = sc.nextLine();
 			// line est de la forme : "Nom | Nom.gal | Nom.ani"
 			String[] fields = line.split(" | ");
-
+			
 			/*
 			 * Les fichiers .ani ont la forme :
 			 * sprite_sheet = chemin 

@@ -22,13 +22,13 @@ public class GameMain {
 
 	static GameMain game;
 
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args){
 		System.out.println("Starting game");
 		game = new GameMain();
 		System.out.println("Game started");
 	}
 
-	GameMain() throws FileNotFoundException {
+	GameMain(){
 		// On ouvre le fichier de config
 		File config_file = new File("panzernparser.cfg");
 

@@ -22,11 +22,16 @@ public class View extends Container {
 	LinkedList<Avatar> m_avatars;
 	AvatarFactory m_factory;
 
-	public View(Controller controller, Model model, File config_file) throws FileNotFoundException {
+	public View(Controller controller, Model model, File config_file) {
 		// créer la fenetre de jeu avec les bandeaux d'updrage et le canvas.
 		m_controller = controller;
 		m_model = model;
-		m_factory = new AvatarFactory(config_file);
+		try {
+			m_factory = new AvatarFactory(config_file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		m_canvas = new GameCanvas(m_controller);
 		this.setLayout(new BorderLayout());
 		this.add(m_canvas, BorderLayout.CENTER);

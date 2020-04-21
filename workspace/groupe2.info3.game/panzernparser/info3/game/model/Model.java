@@ -8,6 +8,7 @@ import java.util.List;
 import info3.game.automata.ast.AST;
 import info3.game.automata.parser.AutomataParser;
 import info3.game.automaton.*;
+import info3.game.automaton.LsKey;
 import info3.game.model.entities.Entity;
 
 public class Model {
@@ -15,6 +16,7 @@ public class Model {
 	// Controller m_controller; //pour envoyer des information utiles.
 	Grid m_grid;
 	LinkedList<Entity> m_entities;
+	LinkedList<LsKey> m_keyPressed;
 	List<Automaton> m_automatons;
 
 	public Model() {
@@ -66,5 +68,17 @@ public class Model {
 	public LinkedList<Entity> getEntities() {
 		return m_entities;
 	}
+	
+	public void addKeyPressed(LsKey temp) {
+		if (!m_keyPressed.contains(temp))
+			m_keyPressed.add(temp);
+		return;
+	}
 
+	public void removeKeyPressed(LsKey temp) {
+		if (!m_keyPressed.contains(temp))
+			m_keyPressed.remove(temp);
+		return;
+	}
+	
 }

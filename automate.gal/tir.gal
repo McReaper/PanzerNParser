@@ -1,0 +1,12 @@
+tir(moving){
+*(moving)
+	|Cell(H,P) / Cell(H,O) / Cell(H,A)  ? Explode() : ()
+	|MyDir(NE) ? Move(NE) : (moving)
+	|MyDir(NW) ? Move(NW) : (moving)
+	|Mydir(SE) ? Move(SE) : (moving)
+	|Mydir(SW) ? Move(SW) : (moving)
+	|MyDir(N) ? Move(N) : (moving)
+	|MyDir(W) ? Move(W) : (moving)
+	|Mydir(E) ? Move(E) : (moving)
+	|Mydir(S) ? Move(S) : (moving)
+}

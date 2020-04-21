@@ -17,23 +17,18 @@ public class DroppableAvatar extends Avatar {
 		}
 	}
 	
-	public boolean nextImage() {
+	public void nextImage() {
 		if (m_idImageSprite < m_sprite.nbSprites()) {
 			m_idImageSprite ++;
-			return true;
 		}else {
 			m_idImageSprite = 1;
-			return true;
 		}
 	}
 	
 	public void updateIdImage() {
-		float purcentAction =m_entity.getPurcentAction();
-		float idImageFloat = purcentAction*m_sprite.m_length ;
-		m_idImageSprite = (int) idImageFloat;
-		m_idImageSprite ++ ;//Car les images des sprites commencent a 1 et pas a 0
-		if (m_idImageSprite > m_sprite.m_length ) {
-			m_idImageSprite = 1;
+		m_idImageSprite = (int)(m_entity.getActionProgress() * m_sprite.m_length);
+		if (m_idImageSprite < m_sprite.m_length) {
+			m_idImageSprite++; // car les images des sprites commencent à 1 et pas à 0
 		}
 	}
 	

@@ -11,10 +11,11 @@ import info3.game.model.entities.Entity;
  * actions)
  */
 public abstract class Avatar {
-	Sprite m_sprite;
+	Sprite m_sprite; // TODO
+	Animation m_animation;
 	Entity m_entity;
-	int m_idImageSprite;
-	LsAction m_currentAction;
+	int m_idImageSprite; //TODO : déplacer ce champs dans la classe animation.
+	LsAction m_currentAction; // TODO
 
 	public Avatar(Entity entity) {
 		m_entity = entity;
@@ -24,7 +25,7 @@ public abstract class Avatar {
 	
 	public abstract void paint(Graphics g);
 	
-	public abstract boolean nextImage();
+	public abstract void nextImage();
 	
 	public abstract void updateAction();
 

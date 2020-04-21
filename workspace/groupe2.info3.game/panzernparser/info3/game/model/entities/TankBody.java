@@ -7,8 +7,8 @@ import info3.game.model.Model;
  */
 public class TankBody extends MovingEntity {
 
-	public TankBody(int x, int y, int width, int height, int health, double timetotravel, Model model) {
-		super(x, y, width, height, health, timetotravel, model);
+	public TankBody(int x, int y, int width, int height, int health, int speed, Model model) {
+		super(x, y, width, height, health, speed, model);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -16,6 +16,12 @@ public class TankBody extends MovingEntity {
 	public void step(long elapsed) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public double getActionProgress() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

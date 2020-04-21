@@ -1,6 +1,7 @@
 package info3.game.view;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.io.IOException;
 
 import info3.game.automaton.action.LsAction;
@@ -16,22 +17,18 @@ public class EnemyAvatar extends Avatar {
 		}
 	}
 
-	public boolean nextImage() {
+	public void nextImage() {
 		if (m_idImageSprite < m_sprite.nbSprites()) {
 			m_idImageSprite++;
-			return true;
 		} else {
 			m_idImageSprite = 1;
-			return true;
 		}
 	}
 
 	public void updateIdImage() {
-		float purcentAction = m_entity.getPurcentAction();
-		float idImageFloat = purcentAction * m_sprite.m_length;
-		m_idImageSprite = (int) idImageFloat;
+		m_idImageSprite = (int)(m_entity.getActionProgress() * m_sprite.m_length);
 		if (m_idImageSprite < m_sprite.m_length) {
-			m_idImageSprite++;// car les images des sprites commencent à 1 et pas à 0
+			m_idImageSprite++; // car les images des sprites commencent à 1 et pas à 0
 		}
 	}
 
@@ -48,6 +45,7 @@ public class EnemyAvatar extends Avatar {
 		if (m_currentAction != LsAction.Nothing) {
 			updateIdImage();
 		}
-		g.drawImage(m_sprite.getSprite(m_idImageSprite), 0, 0, g.getClipBounds().width, g.getClipBounds().height, null);
+		Image sprite = m_sprite.getSprite(m_idImageSprite);
+		g.drawImage(sprite, m_entity.getX() * 100, m_entity.getY() * 100, 100, 100, null);
 	}
 }

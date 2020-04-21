@@ -79,10 +79,8 @@ public class View extends Container {
 
 		// TODO : dessiner chaque entité
 		updateAvatars();
-		//g.setColor(Color.RED);
 		for (Avatar avatar : m_avatars) {
-			//g.fillOval(entity.getX() * case_width, entity.getY() * case_height, case_width, case_height);
-			avatar.paint(g.create(avatar.m_entity.getX() * case_width, avatar.m_entity.getY() * case_height, case_width, case_height)); // TODO : revoir la zone avec le viewport plus tard.
+			avatar.paint(g); // TODO : revoir la zone avec le viewport plus tard.
 		}
 	}
 

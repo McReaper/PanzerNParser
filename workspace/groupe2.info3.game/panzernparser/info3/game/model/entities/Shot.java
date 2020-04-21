@@ -12,8 +12,8 @@ public class Shot extends MovingEntity {
 	final static int SHOT_WIDTH = 1;
 	final static int SHOT_HEIGHT = 3;
 
-	public Shot(int x, int y, int width, int height, int health, double timetotravel, Model model) {
-		super(x, y, width, height, health, timetotravel, model);
+	public Shot(int x, int y, int width, int height, int health, int speed, Model model) {
+		super(x, y, width, height, health, speed, model);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -23,6 +23,12 @@ public class Shot extends MovingEntity {
 	public void step(long elapsed) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public double getActionProgress() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -23,4 +23,10 @@ public class Ground extends StaticEntity {
 
 	}
 
+	@Override
+	public double getActionProgress() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

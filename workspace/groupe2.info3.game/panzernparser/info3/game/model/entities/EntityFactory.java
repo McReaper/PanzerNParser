@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.model.Material.MaterialType;
+import info3.game.model.Model;
 
 public class EntityFactory {
 	public enum MyEntities {
@@ -20,25 +21,30 @@ public class EntityFactory {
 	}
 
 	public static Entity newShot(int x, int y) {
-		return new Shot(x, y, Shot.SHOT_WIDTH, Shot.SHOT_HEIGHT, 10, 10);
+		Model model = Model.getModel();
+		return new Shot(x, y, Shot.SHOT_WIDTH, Shot.SHOT_HEIGHT, 10, 10,model);
 		/* par defaut health et time_to_travel = 10 mais a voir où gerer ça */
 	}
 
 	public static Entity newEnemy(int x, int y) {
-		return new Enemy(x, y, Enemy.ENEMY_WIDTH, Enemy.ENEMY_HEIGHT);
+		Model model = Model.getModel();
+		return new Enemy(x, y, Enemy.ENEMY_WIDTH, Enemy.ENEMY_HEIGHT,model);
 	}
 
 	public static Entity newDroppable(int x, int y) {
-		return new Droppable(x, y, Droppable.DROPPABLE_WIDTH, Droppable.DROPPABLE_HEIGHT, 1, MaterialType.ELECTRONIC);
+		Model model = Model.getModel();
+		return new Droppable(x, y, Droppable.DROPPABLE_WIDTH, Droppable.DROPPABLE_HEIGHT, 1, MaterialType.ELECTRONIC,model);
 		// 1 en quantité mais à discuter
 	}
 
 	public static Entity newVein(int x, int y) {
-		return new Vein(x, y, Ground.GROUND_WIDTH, Ground.GROUND_HEIGHT);
+		Model model = Model.getModel();
+		return new Vein(x, y, Ground.GROUND_WIDTH, Ground.GROUND_HEIGHT,model);
 	}
 
 	public static Entity newGround(int x, int y) {
-		return new Ground(x, y, Ground.GROUND_WIDTH, Ground.GROUND_HEIGHT);
+		Model model = Model.getModel();
+		return new Ground(x, y, Ground.GROUND_WIDTH, Ground.GROUND_HEIGHT,model);
 	}
 
 	public static Entity newEntity(MyEntities entity, int x, int y) {

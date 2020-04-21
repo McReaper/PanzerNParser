@@ -11,65 +11,64 @@ import java.util.ListIterator;
 
 import info3.game.model.entities.Enemy;
 import info3.game.model.entities.Entity;
-import info3.game.model.entities.MyEntities;
+import info3.game.model.entities.EntityFactory;
+import info3.game.model.entities.EntityFactory.MyEntities;
 
 /**
  * Créer la grille de jeu avec les entités correspondantes en fonction d'un ou
  * plusieurs fichiers patterns.
  */
 public class Grid {
-	int m_nbCellsX;
-	int m_nbCellsY;
 	Model m_model;
 	List<Pattern> m_patterns;
 
 	/* entier pour le nombre de zone à charger dans la grille */
-	final static int NB_AREAS = 2;
+	final static int TAILLE_MAP = 2;
 
 	public Grid(Model model) {
 		// Constructeur (phase de tests) :
-		m_nbCellsX = 6;
-		m_nbCellsY = 3;
 		m_model = model;
-		m_model.m_entities.add(new Enemy(1, 1, 1, 1));
+		load();
+		generate();
 	}
 
 	public int getNbCellsX() {
-		return m_nbCellsX;
+		return TAILLE_MAP*Pattern.SIZE;
 	}
 
 	public int getNbCellsY() {
-		return m_nbCellsY;
+		return TAILLE_MAP*Pattern.SIZE;
 	}
 
 	public void generate() {
-		/* Interrogation :
-		 * Décalage des patterne
-		 * Interdire la génération si il n'y a pas assez de pattern différents
-		 * Faire en sorte de faire un tirage parmis les patterns non pris
-		 */
 		int Max = m_patterns.size() - 1;
-		int Min = 0;
 		int patterns_chose = 0;
 		int rand = 0;
+		List<Pattern> patternSelector = new LinkedList<Pattern>();
+		patternSelector.addAll(m_patterns);
 		List<Pattern> selectedPatterns = new LinkedList<Pattern>();
-		while (patterns_chose != NB_AREAS) {
-			rand = (int) (Math.random() * (Max - Min));
-			Pattern tmp = m_patterns.get(rand);
-			if (!selectedPatterns.contains(tmp)) {
-				selectedPatterns.add(tmp);
-				patterns_chose++;
+		if(Max >= TAILLE_MAP*TAILLE_MAP) {
+			for(int i = 0; i < TAILLE_MAP; i++) {
+				for (int j = 0; j < TAILLE_MAP; j++) {
+					rand = (int) (Math.random() * (Max - patterns_chose));
+					Pattern tmp = patternSelector.get(rand);
+					tmp.setPosition(i, j);
+					selectedPatterns.add(tmp);
+					patternSelector.remove(tmp);
+					patterns_chose++;
+				}
 			}
-
+			sendToModel(selectedPatterns);
+		} else {
+			System.out.println("ERROR : Not Enough Patterns to continue");
 		}
-		sendToModel(selectedPatterns);
 	}
 
 	public void sendToModel(List<Pattern> patterns) {
 		for (Pattern pattern : patterns) {
 			List<Entity> entities = pattern.getEntities();
 			for (Entity entity : entities) {
-				// TODO Model -> Add Entity
+				System.out.println("Send " + EntityFactory.name(entity) + " : " + entity.getX() + ","+ entity.getY());
 			}
 		}
 	}
@@ -80,14 +79,20 @@ public class Grid {
 		Pattern p;
 		int i = 0;
 		try {
-			while (true) {
-				f = new File("patterns/" + name + i + ".txt");
-				p = new Pattern();
-				p.parse(f);
-				m_patterns.add(p);
+			File repository = new File("patterns");
+			String[] fileList = repository.list();
+			for (int j = 0; j < fileList.length; j++) {
+				String file = fileList[i];
+				String subFile = file.substring(0, file.length()-5);
+				if(subFile.equals(name)) {
+					p = new Pattern();
+					f = new File("patterns/"+file);
+					p.parse(f);
+					m_patterns.add(p);					
+				}
 			}
 		} catch (Exception e) {
-
+			System.out.println("ERROR : Something went wrong.");
 		}
 	}
 
@@ -108,42 +113,25 @@ public class Grid {
 
 		public static final int SIZE = 3;
 		int m_px, m_py;
-		List<EntityShade> m_entities;
+		List<EntityShade> m_entitieShades;
 
 		public Pattern() {
 			m_px = 0;
 			m_py = 0;
-			m_entities = new LinkedList<EntityShade>();
+			m_entitieShades = new LinkedList<EntityShade>();
+		}
+		
+		public void setPosition(int x, int y) {
+			m_px = x;
+			m_py = y;
 		}
 
 		List<Entity> getEntities() {
-			ListIterator<EntityShade> iter = m_entities.listIterator();
-			EntityShade current;
 			List<Entity> realEntities = new LinkedList<Entity>();
-			while (iter.hasNext()) {
-				current = (EntityShade) iter.next();
-				int global_x = current.m_ex + m_px * SIZE;
-				int global_y = current.m_ey + m_py * SIZE;
-				switch (current.m_type) {
-					case WALL:
-						// realEntities.add(new Ground(global_x, global_y, width, height));
-						break;
-					case GROUND:
-						// realEntities.add(new Ground(global_x, global_y, width, height));
-						break;
-					case ENEMY:
-						// realEntities.add(new Enemy(global_x, global_y, width, height));
-						break;
-					case DROPPABLE:
-						// realEntities.add(new Droppable(global_x, global_y, width, height,
-						// quantity, mtype));
-						break;
-					case VEIN:
-						// realEntities.add(new Vein(global_x, global_y, width, height));
-						break;
-
-				}
-
+			for (EntityShade entityShade : m_entitieShades) {
+				int global_x = entityShade.m_ex + m_px * SIZE;
+				int global_y = entityShade.m_ey + m_py * SIZE;
+				EntityFactory.newEntity(entityShade.m_type,global_x,global_y);				
 			}
 			return realEntities;
 		}
@@ -181,13 +169,18 @@ public class Grid {
 					case "drop1":
 						type = MyEntities.DROPPABLE;
 						break;
-					// TODO
+					case "enem1":
+						type = MyEntities.ENEMY;
+						break;
+					case "vein1":
+						type = MyEntities.VEIN;
+						break;
 				}
 				int x = Integer.parseInt(sx);
 				int y = Integer.parseInt(sy);
 				if (x < SIZE && x >= 0 && y < SIZE && y >= 0) {
 					EntityShade es = new EntityShade(x, y, type);
-					m_entities.add(es);
+					m_entitieShades.add(es);
 				}
 			}
 		}

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -21,7 +22,7 @@ public class View extends Container {
 	LinkedList<Avatar> m_avatars;
 	AvatarFactory m_factory;
 
-	public View(Controller controller, Model model, File config_file) {
+	public View(Controller controller, Model model, File config_file) throws FileNotFoundException {
 		// créer la fenetre de jeu avec les bandeaux d'updrage et le canvas.
 		m_controller = controller;
 		m_model = model;
@@ -83,7 +84,7 @@ public class View extends Container {
 		// TODO : dessiner chaque entité
 		updateAvatars();
 		for (Avatar avatar : m_avatars) {
-			avatar.paint(g); // TODO : revoir la zone avec le viewport plus tard.
+			avatar.paint(g, case_width, case_height); // TODO : revoir la zone avec le viewport plus tard.
 		}
 	}
 

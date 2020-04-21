@@ -23,7 +23,7 @@ public class AvatarFactory {
 		while (sc.hasNextLine()) {
 			line = sc.nextLine();
 			// line est de la forme : "Nom | Nom.gal | Nom.ani"
-			String[] fields = line.split("|", 3);
+			String[] fields = line.split(" | ");
 
 			/*
 			 * Les fichiers .ani ont la forme :
@@ -31,11 +31,12 @@ public class AvatarFactory {
 			 * NomAction = 1,2,4,5,...
 			 * ...
 			 */
-			File ani_file = new File("animations/" + fields[2]);
+			File ani_file = new File("animations/" + fields[4]);
 			Scanner sc_ani = new Scanner(ani_file);
 
 			line = sc_ani.nextLine(); // En-tête avec le chemin du sprite.
-			String[] fields_ani = line.split("=", 1);
+			String[] fields_ani = line.split(" = ");
+
 			Sprite sprite = null;
 			try {
 				sprite = new Sprite(fields_ani[1]);
@@ -47,7 +48,7 @@ public class AvatarFactory {
 			// Pour chaque ligne du fichier .ani :
 			while (sc_ani.hasNextLine()) {
 				line = sc_ani.nextLine();
-				fields_ani = line.split("=", 1);
+				fields_ani = line.split(" = ");
 				String actionName = fields_ani[0];
 				fields_ani = fields_ani[1].split(",");
 				int[] seqNumbers = new int[fields_ani.length];

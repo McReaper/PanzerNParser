@@ -22,8 +22,11 @@ public class Animation {
 	
 	public Image getImage(double ActionProgress, LsAction ac) {
 		int[] seq = m_animationSequence.get(ac);
+		if (ActionProgress > 1) {
+			return m_sprite.getSprite(seq.length - 1);
+		}
 		int i = (int)(ActionProgress * seq.length);
-		return m_sprite.getSprite(i+1);
+		return m_sprite.getSprite(seq[i]);
 	}
 	
 	// TODO : ajouter une animation pour chaque actions (wizz/pop/turn/...)

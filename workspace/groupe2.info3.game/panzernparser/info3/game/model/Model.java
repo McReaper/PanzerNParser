@@ -27,7 +27,7 @@ public class Model {
 		m_model = this;
 		try {
 			m_automatons = new ArrayList<Automaton>();
-			String path = "../../automate.gal";
+			String path = "gal";
 			File repertoire = new File(path);
 			String[] fils = repertoire.list();
 			BotBuilder bb8 = new BotBuilder();

@@ -29,7 +29,7 @@ public abstract class Entity {
 
 	public Entity(int x, int y, int width, int height, Model model) {
 		m_elapseTime = 0;
-		m_currentAction = LsAction.Nothing;
+		m_currentAction = null;
 		
 		m_displayed = true;
 		

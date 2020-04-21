@@ -1,3 +1,4 @@
+sprite_sheet = sprites/Minerai.png
 Egg = 1,2,3,4,3,2
 Get = 1,2,3,4,3,2
 Hit = 1,2,3,4,3,2

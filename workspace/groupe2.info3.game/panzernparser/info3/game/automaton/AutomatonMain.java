@@ -59,8 +59,7 @@ public class AutomatonMain {
 		 * création de toutes les conditions qui vont être utilisés dans l'automate pour
 		 * le moment on utilise que True, False et (True || False)
 		 */
-		LsKey A = LsKey.A;
-		Condition condTrue = new Key(A);
+		Condition condTrue = new True();
 		Condition condFalse = new False();
 		Condition condTrueOrFalse = new Or(condTrue, condFalse);
 		Condition condTrueAndFalse = new And(condTrue, condFalse);

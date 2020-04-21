@@ -30,12 +30,12 @@ public abstract class Entity {
 	public abstract void step(long elapsed);
 
 	public int getX() {
-		//System.out.println("Is GetXing");
+		System.out.println("Is GetXing");
 		return m_x;
 	}
 
 	public int getY() {
-		//System.out.println("Is GetYing");
+		System.out.println("Is GetYing");
 		return m_y;
 	}
 

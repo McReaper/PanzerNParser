@@ -5,6 +5,10 @@ package info3.game.model.entities;
  * MovingEntity.
  */
 public class Shot extends MovingEntity {
+	/* Champs pour donner size par defaut dans la EntityFactory */
+	/* a voir comment les shots sont créés (factory ?)*/
+	final static int SHOT_WIDTH = 1;
+	final static int SHOT_HEIGHT = 3;
 
 	public Shot(int x, int y, int width, int height, int health, double timetotravel) {
 		super(x, y, width, height, health, timetotravel);

@@ -1,4 +1,4 @@
-sprite_sheet = "sprites/Trou.png"
+sprite_sheet = sprites/Trou.png
 Egg = 1,2,3,4
 Get = 1,2,3,4
 Hit = 1,2,3,4

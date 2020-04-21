@@ -14,6 +14,10 @@ public class Transition {
 		m_target = target;
 	}
 	
+	State getTarget(){
+		return m_target;
+	}
+	
 	boolean realisable(Entity e) {
 		return m_condition.realisable(e);
 	}
@@ -21,5 +25,7 @@ public class Transition {
 	boolean execute(Entity e) {
 		return m_action.execute(e);
 	}
+	
+	
 
 }

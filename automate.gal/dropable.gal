@@ -1,0 +1,4 @@
+dorpable(init){
+*(init)
+	|True() ? wait() : (init)
+}

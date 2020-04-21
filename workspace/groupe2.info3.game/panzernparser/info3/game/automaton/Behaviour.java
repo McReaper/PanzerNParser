@@ -14,17 +14,18 @@ public class Behaviour {
 		m_transitions = transition;
 	}
 	
-	boolean step (Entity e) {
+	State step (Entity e) {
 		ListIterator<Transition> iter = m_transitions.listIterator();
 		Transition current;
 		while (iter.hasNext()) {
 			current = (Transition) iter.next();
 			if (current.realisable(e)) {
-				current.execute(e);
-				return true;
+				if (current.execute(e)) {
+					return current.m_target;
+				}
 			}
 		}
-		return false;
+		return null;
 	}
 
 }

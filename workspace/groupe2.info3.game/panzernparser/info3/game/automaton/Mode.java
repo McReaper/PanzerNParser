@@ -11,7 +11,7 @@ public class Mode {
 		m_state = state;
 	}
 
-	boolean step(Entity e) {
+	State step(Entity e) {
 		return m_behaviour.step(e);
 	}
 }

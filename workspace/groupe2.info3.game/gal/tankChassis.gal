@@ -1,0 +1,31 @@
+TankChassis(Init){
+*(Init)
+	|Cell(H,P) ? Get() : (Init)
+	|Key(z) & Key(d) & MyDir(NE) ? Move(NE) : (Init)
+	|Key(z) & Key(d) & !MyDir(NE) ? Turn(NE) : (Init)
+
+	|Key(s) & Key(d) & MyDir(SE) ? Move(SE) : (Init)
+	|Key(s) & Key(d) & !MyDir(SE) ? Turn(SE) : (Init)
+
+	|Key(s) & Key(q) & MyDir(SW) ? Move(SW) : (Init)
+	|Key(s) & Key(q) & !MyDir(SW) ? Turn(SW) : (Init)
+
+	|Key(z) & Key(q) & MyDir(NW) ? Move(NW) : (Init)
+	|Key(z) & Key(q) & !MyDir(NW) ? Turn(NW) : (Init)
+
+	|Key(d) & MyDir(E) ? Move(E) : (Init)
+	|Key(d) & !MyDir(E) ? Turn(E) : (Init)
+
+	|Key(s) & MyDir(S) ? Move(S) : (Init)
+	|Key(s) & !MyDir(S) ? Turn(S) : (Init)
+
+	|Key(q) & MyDir(W) ? Move(W) : (Init)
+	|Key(q) & !MyDir(W) ? Turn(W) : (Init)
+	
+	|Key(z) & MyDir(N) ? Move(N) : (Init)
+	|Key(z) & !MyDir(N) ? Turn(N) : (Init)
+
+	|Key(e) ? Pop() : (Init)
+	|Key(a) ? Wizz() : (Init)
+
+}

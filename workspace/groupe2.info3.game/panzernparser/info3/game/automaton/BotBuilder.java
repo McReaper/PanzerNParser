@@ -93,7 +93,7 @@ public class BotBuilder implements IVisitor {
 				myDir = MyDirection.NORTH;
 				break;
 			case "NE":
-				myDir = MyDirection.NOTHEAST;
+				myDir = MyDirection.NORTHEAST;
 				break;
 			case "E":
 				myDir = MyDirection.EAST;
@@ -207,44 +207,44 @@ public class BotBuilder implements IVisitor {
 				myKey = LsKey.ZERO;
 				break;
 			case "1":
-				myKey = LsKey.UN;
+				myKey = LsKey.ONE;
 				break;
 			case "2":
-				myKey = LsKey.DEUX;
+				myKey = LsKey.TWO;
 				break;
 			case "3":
-				myKey = LsKey.TROIS;
+				myKey = LsKey.THREE;
 				break;
 			case "4":
-				myKey = LsKey.QUATRE;
+				myKey = LsKey.FOUR;
 				break;
 			case "5":
-				myKey = LsKey.CINQ;
+				myKey = LsKey.FIVE;
 				break;
 			case "6":
 				myKey = LsKey.SIX;
 				break;
 			case "7":
-				myKey = LsKey.SEPT;
+				myKey = LsKey.SEVEN;
 				break;
 			case "8":
-				myKey = LsKey.HUIT;
+				myKey = LsKey.EIGHT;
 				break;
 			case "9":
-				myKey = LsKey.NEUF;
+				myKey = LsKey.NINE;
 				break;
 			// special
 			case "FU":
-				myKey = LsKey.FU;
+				myKey = LsKey.AU;
 				break;
 			case "FD":
-				myKey = LsKey.FD;
+				myKey = LsKey.AD;
 				break;
 			case "FR":
-				myKey = LsKey.FR;
+				myKey = LsKey.AR;
 				break;
 			case "FL":
-				myKey = LsKey.FL;
+				myKey = LsKey.AL;
 				break;
 			case "ENTER":
 				myKey = LsKey.ENTER;

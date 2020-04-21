@@ -2,6 +2,7 @@ package info3.game.model;
 
 import java.util.LinkedList;
 
+import info3.game.automaton.LsKey;
 import info3.game.model.entities.Entity;
 
 public class Model {
@@ -9,6 +10,7 @@ public class Model {
 	// Controller m_controller; //pour envoyer des information utiles.
 	Grid m_grid;
 	LinkedList<Entity> m_entities;
+	LinkedList<LsKey> m_keyPressed;
 	// TODO : Ajouter la liste des Automates
 
 	public Model() {
@@ -34,6 +36,18 @@ public class Model {
 	
 	public LinkedList<Entity> getEntities() {
 		return m_entities;
+	}
+	
+	public void addKeyPressed(LsKey temp) {
+		if (!m_keyPressed.contains(temp))
+			m_keyPressed.add(temp);
+		return;
+	}
+
+	public void removeKeyPressed(LsKey temp) {
+		if (!m_keyPressed.contains(temp))
+			m_keyPressed.remove(temp);
+		return;
 	}
 	
 }

@@ -1,5 +1,6 @@
 package info3.game.model.entities;
 
+import info3.game.automaton.action.LsAction;
 import info3.game.model.Material.MaterialType;
 
 public class Enemy extends MovingEntity {
@@ -11,11 +12,14 @@ public class Enemy extends MovingEntity {
 
 	boolean m_triggered; // indique si l'ennemi a détecté le joueur ou non.
 	Droppable m_drops;
+	LsAction currentAction;
+	
 
 	public Enemy(int x, int y, int width, int height) {
 		super(x, y, width, height, ENEMY_HEALTH, ENEMY_TIMETOTRAVEL);
 		m_triggered = false; // Valeur par défaut
 		m_drops = new Droppable(this.m_x, this.m_y, 1, 1, 1, MaterialType.ELECTRONIC);
+		currentAction = LsAction.Nothing;
 	}
 
 	@Override
@@ -25,6 +29,10 @@ public class Enemy extends MovingEntity {
 			System.out.println("Enemy step !");
 			m_elapseTime = m_elapseTime - 1000;
 		}
+	}
+	
+	public void pop() {
+		currentAction = LsAction.Nothing;
 	}
 
 

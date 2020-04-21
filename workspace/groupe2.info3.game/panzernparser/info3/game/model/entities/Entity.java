@@ -26,6 +26,7 @@ public abstract class Entity {
 
 	public abstract void step(long elapsed);
 
+
 	public int getX() {
 		System.out.println("Is GetXing");
 		return m_x;
@@ -333,5 +334,7 @@ public abstract class Entity {
 	public void setState(State state) {
 		m_currentState = state;
 	}
+	
+	
 
 }

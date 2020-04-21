@@ -21,8 +21,8 @@ import info3.game.automata.ast.Transition;
 import info3.game.automata.ast.UnaryOp;
 import info3.game.automata.ast.Underscore;
 import info3.game.automata.ast.Value;
-import info3.game.automaton.action.Egg;
-import info3.game.automaton.condition.Cell;
+import info3.game.automaton.action.*;
+import info3.game.automaton.condition.*;
 //alias mAut = info3.game.myAutotmaton;
 
 public class BotBuilder implements IVisitor {
@@ -80,7 +80,39 @@ public class BotBuilder implements IVisitor {
 			case "F":
 				myDir = MyDirection.FRONT;
 				break;
-			//////////////////////////////////// TODO
+			case "B":
+				myDir = MyDirection.BACK;
+				break;
+			case "L":
+				myDir = MyDirection.LEFT;
+				break;
+			case "R":
+				myDir = MyDirection.RIGHT;
+				break;
+			case "N":
+				myDir = MyDirection.NORTH;
+				break;
+			case "NE":
+				myDir = MyDirection.NORTHEAST;
+				break;
+			case "E":
+				myDir = MyDirection.EAST;
+				break;
+			case "SE":
+				myDir = MyDirection.SOUTHEAST;
+				break;
+			case "S":
+				myDir = MyDirection.SOUTH;
+				break;
+			case "SO":
+				myDir = MyDirection.SOUTHWEST;
+				break;
+			case "O":
+				myDir = MyDirection.WEST;
+				break;
+			case "NO":
+				myDir = MyDirection.NORTHWEST;
+				break;
 			default:
 				myDir = MyDirection.HERE;
 		}
@@ -91,18 +123,129 @@ public class BotBuilder implements IVisitor {
 	public Object visit(Key key) {
 		LsKey myKey;
 		switch (key.terminal.content) {
-			case "A":
+			// lettres
+			case "a":
 				myKey = LsKey.A;
 				break;
-			//////////////////////////////////// TODO
+			case "z":
+				myKey = LsKey.Z;
+				break;
+			case "e":
+				myKey = LsKey.E;
+				break;
+			case "r":
+				myKey = LsKey.R;
+				break;
+			case "t":
+				myKey = LsKey.T;
+				break;
+			case "y":
+				myKey = LsKey.Y;
+				break;
+			case "u":
+				myKey = LsKey.U;
+				break;
+			case "i":
+				myKey = LsKey.I;
+				break;
+			case "o":
+				myKey = LsKey.O;
+				break;
+			case "p":
+				myKey = LsKey.P;
+				break;
+			case "q":
+				myKey = LsKey.Q;
+				break;
+			case "s":
+				myKey = LsKey.S;
+				break;
+			case "d":
+				myKey = LsKey.D;
+				break;
+			case "f":
+				myKey = LsKey.F;
+				break;
+			case "g":
+				myKey = LsKey.G;
+				break;
+			case "h":
+				myKey = LsKey.H;
+				break;
+			case "j":
+				myKey = LsKey.J;
+				break;
+			case "k":
+				myKey = LsKey.K;
+				break;
+			case "l":
+				myKey = LsKey.L;
+				break;
+			case "m":
+				myKey = LsKey.M;
+				break;
+			case "w":
+				myKey = LsKey.W;
+				break;
+			case "x":
+				myKey = LsKey.X;
+				break;
+			case "c":
+				myKey = LsKey.C;
+				break;
+			case "v":
+				myKey = LsKey.V;
+				break;
+			case "b":
+				myKey = LsKey.B;
+				break;
+			case "n":
+				myKey = LsKey.N;
+				break;
+			// nombres
 			case "0":
 				myKey = LsKey.ZERO;
 				break;
-			//////////////////////////////////// TODO
-			case "FU":
-				myKey = LsKey.FU;
+			case "1":
+				myKey = LsKey.ONE;
 				break;
-			//////////////////////////////////// TODO
+			case "2":
+				myKey = LsKey.TWO;
+				break;
+			case "3":
+				myKey = LsKey.THREE;
+				break;
+			case "4":
+				myKey = LsKey.FOUR;
+				break;
+			case "5":
+				myKey = LsKey.FIVE;
+				break;
+			case "6":
+				myKey = LsKey.SIX;
+				break;
+			case "7":
+				myKey = LsKey.SEVEN;
+				break;
+			case "8":
+				myKey = LsKey.EIGHT;
+				break;
+			case "9":
+				myKey = LsKey.NINE;
+				break;
+			// special
+			case "FU":
+				myKey = LsKey.AU;
+				break;
+			case "FD":
+				myKey = LsKey.AD;
+				break;
+			case "FR":
+				myKey = LsKey.AR;
+				break;
+			case "FL":
+				myKey = LsKey.AL;
+				break;
 			case "ENTER":
 				myKey = LsKey.ENTER;
 				break;
@@ -133,53 +276,111 @@ public class BotBuilder implements IVisitor {
 
 	@Override
 	public Object exit(FunCall funcall, List<Object> parameters) {
-		Object function;
+		Object function = null;
 		int i = 0;
-		Object param1;
-		Object param2;
-		Object param3;
+		// paramètre par défaut
+		MyDirection param1 = MyDirection.FRONT;
+		MyCategory param2 = MyCategory.V;
+		int param3 = -1;
+		LsKey paramKey = null;
 		int paramSize = parameters.size();
-		int percent = 100;
+		int percent = funcall.percent;
+		// paramètre entré
+		if (i < paramSize && parameters.get(i) instanceof LsKey) {
+			paramKey = (LsKey) parameters.get(i);
+		} else {
+			if (i < paramSize && parameters.get(i) instanceof MyDirection) {
+				param1 = (MyDirection) parameters.get(i);
+				i++;
+			}
+			if (i < paramSize && parameters.get(i) instanceof MyCategory) {
+				param2 = (MyCategory) parameters.get(i);
+				i++;
+			}
+			if (i < paramSize && parameters.get(i) instanceof MyDirection) { // pour le closest où les param sont à l'envert
+				param1 = (MyDirection) parameters.get(i);
+				i++;
+			}
+			if (i < paramSize && parameters.get(i) instanceof Integer) {
+				param3 = (Integer) parameters.get(i);
+				i++;
+			}
+		}
 		switch (funcall.name) {
-			// pour les conditions
+			// poutr les condition
 			case "Cell":
-				// paramètre par défaut
-				 param1 = MyDirection.FRONT;
-				 param2 = MyCategory.V;
-				 param3 = 1;
-				// paramètre entré
-				if (i < paramSize && parameters.get(i) instanceof MyDirection) {
-					param1 = (MyDirection) parameters.get(i);
-					i++;
-				}
-				if (i < paramSize && parameters.get(i) instanceof MyCategory) {
-					param2 = (MyCategory) parameters.get(i);
-					i++;
-				}
-				if (i < paramSize && parameters.get(i) instanceof Integer) {
-					param3 = (Integer) parameters.get(i);
-					i++;
-				}
-				function = new Cell((MyDirection)param1, (MyCategory)param2, (int)param3);
+				function = new Cell(param1, param2, param3);
 				break;
-				
-				
-			// pour les actions
+			case "Closest":
+				function = new Closest(param2, param1);
+				break;
+			case "GotPower":
+				function = new GotPower();
+				break;
+			case "GotStuff":
+				function = new GotStuff();
+				break;
+			case "Key":
+				function = new info3.game.automaton.condition.Key(paramKey);
+				break;
+			case "MyDir":
+				function = new MyDir(param1);
+				break;
+			case "True":
+				function = new True();
+				break;
+			// pour les action
 			case "Egg":
-			// paramètre par défaut
-				param1 = MyDirection.FRONT;
-				// paramètre entré
-				if (i < paramSize && parameters.get(i) instanceof MyDirection) {
-					param1 = (MyDirection) parameters.get(i);
-					i++;
+				function = new Egg(percent, param1);
+				break;
+			case "Explode":
+				function = new Explode(percent);
+				break;
+			case "Get":
+				function = new Get(percent, param1);
+				break;
+			case "Hit":
+				function = new Hit(percent, param1);
+				break;
+			case "Jump":
+				function = new Jump(percent, param1);
+				break;
+			case "Move":
+				function = new Move(percent, param1);
+				break;
+			case "Pick":
+				function = new Pick(percent, param1);
+				break;
+			case "Pop":
+				function = new Pop(percent, param1);
+				break;
+			case "Power":
+				function = new Power(percent);
+				break;
+			case "Protect":
+				function = new Protect(percent, param1);
+				break;
+			case "Store":
+				function = new Store(percent, param1);
+				break;
+			case "Throw":
+				function = new Throw(percent, param1);
+				break;
+			case "Turn":
+				if (param3 == -1) {
+					function = new Turn(percent, param1);
+				} else {
+					function = new Turn(percent, param3);
 				}
-				if (funcall.percent != -1) {
-					percent = funcall.percent;
-				}
-				function = new Egg(percent, (MyDirection) param1);
+				break;
+			case "Wait":
+				function = new Wait(percent);
+				break;
+			case "Wizz":
+				function = new Wizz(percent, param1);
 				break;
 		}
-		return null;
+		return function;
 	}
 
 	@Override
@@ -230,6 +431,7 @@ public class BotBuilder implements IVisitor {
 	@Override
 	public Object visit(Behaviour behaviour, List<Object> transitions) {
 		List<info3.game.automaton.Transition> lsTr = new LinkedList<info3.game.automaton.Transition>();
+		@SuppressWarnings("rawtypes")
 		Iterator it = transitions.iterator();
 		while (it.hasNext()) {
 			lsTr.add((info3.game.automaton.Transition) it.next());
@@ -254,6 +456,7 @@ public class BotBuilder implements IVisitor {
 	@Override
 	public Object exit(Action action, List<Object> funcalls) {
 		List<info3.game.automaton.FunCall> lsFC = new LinkedList<info3.game.automaton.FunCall>();
+		@SuppressWarnings("rawtypes")
 		Iterator it = funcalls.iterator();
 		while (it.hasNext()) {
 			lsFC.add((info3.game.automaton.FunCall) it.next());
@@ -276,6 +479,7 @@ public class BotBuilder implements IVisitor {
 	@Override
 	public Object exit(Automaton automaton, Object initial_state, List<Object> modes) {
 		List<info3.game.automaton.Mode> lsModes = new LinkedList<info3.game.automaton.Mode>();
+		@SuppressWarnings("rawtypes")
 		Iterator it = modes.iterator();
 		while (it.hasNext()) {
 			lsModes.add((info3.game.automaton.Mode) it.next());
@@ -289,6 +493,7 @@ public class BotBuilder implements IVisitor {
 	@Override
 	public Object visit(AST bot, List<Object> automata) {
 		List<info3.game.automaton.Automaton> lsAuto = new LinkedList<info3.game.automaton.Automaton>();
+		@SuppressWarnings("rawtypes")
 		Iterator it = automata.iterator();
 		while (it.hasNext()) {
 			lsAuto.add((info3.game.automaton.Automaton) it.next());

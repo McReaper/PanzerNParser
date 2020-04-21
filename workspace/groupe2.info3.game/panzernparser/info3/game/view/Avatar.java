@@ -11,18 +11,15 @@ import info3.game.model.entities.Entity;
  * actions)
  */
 public abstract class Avatar {
-	Sprite m_sprite; // TODO
 	Animation m_animation;
 	Entity m_entity; // TODO : revoir ici pour potentiellement stocker toutes les entités associées
 										// au type d'avatar concerné : on aurait pour 2000 entités, seulent 2000 + le
 										// nombre de type d'entités, au lieu de 4000 objets (avatar + entités).
-	int m_idImageSprite; // TODO : déplacer ce champs dans la classe animation.
 	LsAction m_currentAction; // TODO
 
-	public Avatar(Entity entity) {
+	public Avatar(Entity entity, Animation animation) {
 		m_entity = entity;
-		m_idImageSprite = 1;
-		m_currentAction = LsAction.Nothing;
+		m_animation = animation;
 	}
 
 	public abstract void paint(Graphics g);

@@ -8,8 +8,8 @@ import info3.game.model.entities.Entity;
 
 public class DroppableAvatar extends Avatar {
 
-	public DroppableAvatar(Entity entity) {
-		super(entity);
+	public DroppableAvatar(Entity entity, Animation animation) {
+		super(entity, animation);
 		try {
 			m_sprite = new Sprite("sprites/Trou.png");
 		} catch (IOException e) {

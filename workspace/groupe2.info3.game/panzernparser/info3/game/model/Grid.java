@@ -7,9 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
-import info3.game.model.entities.Enemy;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
@@ -27,17 +25,18 @@ public class Grid {
 
 	public Grid(Model model) {
 		// Constructeur (phase de tests) :
+		m_patterns = new LinkedList<Pattern>();
 		m_model = model;
 		load();
 		generate();
 	}
 
 	public int getNbCellsX() {
-		return TAILLE_MAP*Pattern.SIZE;
+		return TAILLE_MAP * Pattern.SIZE;
 	}
 
 	public int getNbCellsY() {
-		return TAILLE_MAP*Pattern.SIZE;
+		return TAILLE_MAP * Pattern.SIZE;
 	}
 
 	public void generate() {
@@ -47,8 +46,8 @@ public class Grid {
 		List<Pattern> patternSelector = new LinkedList<Pattern>();
 		patternSelector.addAll(m_patterns);
 		List<Pattern> selectedPatterns = new LinkedList<Pattern>();
-		if(Max >= TAILLE_MAP*TAILLE_MAP) {
-			for(int i = 0; i < TAILLE_MAP; i++) {
+		if (Max + 1 >= TAILLE_MAP * TAILLE_MAP) {
+			for (int i = 0; i < TAILLE_MAP; i++) {
 				for (int j = 0; j < TAILLE_MAP; j++) {
 					rand = (int) (Math.random() * (Max - patterns_chose));
 					Pattern tmp = patternSelector.get(rand);
@@ -68,7 +67,7 @@ public class Grid {
 		for (Pattern pattern : patterns) {
 			List<Entity> entities = pattern.getEntities();
 			for (Entity entity : entities) {
-				System.out.println("Send " + EntityFactory.name(entity) + " : " + entity.getX() + ","+ entity.getY());
+				System.out.println("Send " + EntityFactory.name(entity) + " : " + entity.getX() + "," + entity.getY());
 			}
 		}
 	}
@@ -77,18 +76,18 @@ public class Grid {
 		String name = "pattern" + Pattern.SIZE + "x" + Pattern.SIZE + "_";
 		File f;
 		Pattern p;
-		int i = 0;
 		try {
 			File repository = new File("patterns");
 			String[] fileList = repository.list();
 			for (int j = 0; j < fileList.length; j++) {
-				String file = fileList[i];
-				String subFile = file.substring(0, file.length()-5);
-				if(subFile.equals(name)) {
+				String file = fileList[j];
+				String subFile = file.substring(0, file.length() - 5);
+				if (subFile.equals(name)) {
 					p = new Pattern();
-					f = new File("patterns/"+file);
+					String path = "patterns/" + file;
+					f = new File(path);
 					p.parse(f);
-					m_patterns.add(p);					
+					m_patterns.add(p);
 				}
 			}
 		} catch (Exception e) {
@@ -120,7 +119,7 @@ public class Grid {
 			m_py = 0;
 			m_entitieShades = new LinkedList<EntityShade>();
 		}
-		
+
 		public void setPosition(int x, int y) {
 			m_px = x;
 			m_py = y;
@@ -131,12 +130,13 @@ public class Grid {
 			for (EntityShade entityShade : m_entitieShades) {
 				int global_x = entityShade.m_ex + m_px * SIZE;
 				int global_y = entityShade.m_ey + m_py * SIZE;
-				EntityFactory.newEntity(entityShade.m_type,global_x,global_y);				
+				Entity ent = EntityFactory.newEntity(entityShade.m_type, global_x, global_y);
+				realEntities.add(ent);
 			}
 			return realEntities;
 		}
 
-		private void parse(File file) {
+		public void parse(File file) throws IOException {
 			FileReader fr = null;
 			try {
 				fr = new FileReader(file);
@@ -146,17 +146,8 @@ public class Grid {
 			BufferedReader br = new BufferedReader(fr);
 			String line, name, sx, sy;
 			line = null;
-			boolean sentinelle = true;
-			while (sentinelle) {
-				try {
-					line = br.readLine();
-				} catch (IOException e) {
-					e.printStackTrace();
-					sentinelle = false;
-				}
-				if (line == null) {
-					sentinelle = false;
-				}
+			line = br.readLine();
+			while (line != null) {
 				name = line.substring(0, 5);
 				int i = 6;
 				while (line.charAt(i) != ',') {
@@ -182,6 +173,7 @@ public class Grid {
 					EntityShade es = new EntityShade(x, y, type);
 					m_entitieShades.add(es);
 				}
+				line = br.readLine();
 			}
 		}
 

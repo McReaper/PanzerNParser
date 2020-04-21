@@ -1,5 +1,4 @@
 EnnemiFollowing(Peacefull){
-	//cherche le joueur
 	* (Init) :
 	| Closest(@, N) ? Turn(N) : (Step)
 	| Closest(@, W) ? Turn(W) : (Step)
@@ -9,24 +8,20 @@ EnnemiFollowing(Peacefull){
 	| Closest(@, NW) ? Turn(NW) : (Step)
 	| Closest(@, SE) ? Turn(SE) : (Step)
 	| Closest(@, SW) ? Turn(SW) : (Step)
-	| True ? 	:(peacefull)
-
-	// avance vers le joueur
+	| True ? 	:(Peacefull)
 	* (Step) :
-	| Mydir(N) ? Move(N) : (Attack)
-	| Mydir(W) ? Move(W) : (Attack)
-	| Mydir(E) ? Move(E) : (Attack)
-	| Mydir(S) ? Move(S) : (Attack)
-	| Mydir(NE) ? Move(NE) : (Attack)
-	| Mydir(NW) ? Move(NW) : (Attack)
-	| Mydir(SE) ? Move(SE) : (Attack)
-	| Mydir(SW) ? Move(SW) : (Attack)
-	| True ?(Init)
-	
+	| MyDir(N) ? Move(N) : (Attack)
+	| MyDir(W) ? Move(W) : (Attack)
+	| MyDir(E) ? Move(E) : (Attack)
+	| MyDir(S) ? Move(S) : (Attack)
+	| MyDir(NE) ? Move(NE) : (Attack)
+	| MyDir(NW) ? Move(NW) : (Attack)
+	| MyDir(SE) ? Move(SE) : (Attack)
+	| MyDir(SW) ? Move(SW) : (Attack)
+	| True ? :(Init)
 	* (Attack) :
 	| Cell(F,@) ? Hit() : (Init)
 	| True ? :(Init)
-
 	* (Peacefull)
 	| !GotPower() ? Explode() : (Dying)
 	| Cell(N,V) ? 25% Move(N) : (Init)
@@ -34,7 +29,6 @@ EnnemiFollowing(Peacefull){
 	| Cell(E,V) ? 25% Move(E) : (Init)
 	| Cell(W,V) ? 25% Move(W) : (Init)
 	| True ? : (Init)
-
 	* (Dying)
 	| True ? Egg(H) : ()
 }

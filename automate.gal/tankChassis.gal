@@ -1,31 +1,31 @@
-tankChassis(init){
-*(init)
-	|Cell(H,P) ? Get() : (init)
-	|Key(Z) & Key(D) & MyDir(NE) ? Move(NE) : (init)
-	|Key(Z) & Key(D) & !MyDir(NE) ? turn(NE) : (init)
+TankChassis(Init){
+*(Init)
+	|Cell(H,P) ? Get() : (Init)
+	|Key(z) & Key(d) & MyDir(NE) ? Move(NE) : (Init)
+	|Key(z) & Key(d) & !MyDir(NE) ? Turn(NE) : (Init)
 
-	|Key(S) & Key(D) & MyDir(SE) ? Move(SE) : (init)
-	|Key(S) & Key(D) & !MyDir(SE) ? turn(SE) : (init)
+	|Key(s) & Key(d) & MyDir(SE) ? Move(SE) : (Init)
+	|Key(s) & Key(d) & !MyDir(SE) ? Turn(SE) : (Init)
 
-	|Key(S) & Key(Q) & MyDir(SW) ? Move(SW) : (init)
-	|Key(S) & Key(Q) & !MyDir(SW) ? turn(SW) : (init)
+	|Key(s) & Key(q) & MyDir(SW) ? Move(SW) : (Init)
+	|Key(s) & Key(q) & !MyDir(SW) ? Turn(SW) : (Init)
 
-	|Key(Z) & Key(Q) & MyDir(NW) ? Move(NW) : (init)
-	|Key(Z) & Key(Q) & !MyDir(NW) ? turn(NW) : (init)
+	|Key(z) & Key(q) & MyDir(NW) ? Move(NW) : (Init)
+	|Key(z) & Key(q) & !MyDir(NW) ? Turn(NW) : (Init)
 
-	|Key(D) & MyDir(E) ? Move(E) : (init)
-	|Key(D) & !MyDir(E) ? turn(E) : (init)
+	|Key(d) & MyDir(E) ? Move(E) : (Init)
+	|Key(d) & !MyDir(E) ? Turn(E) : (Init)
 
-	|Key(S) & MyDir(S) ? Move(S) : (init)
-	|Key(S) & !MyDir(S) ? turn(S) : (init)
+	|Key(s) & MyDir(S) ? Move(S) : (Init)
+	|Key(s) & !MyDir(S) ? Turn(S) : (Init)
 
-	|Key(Q) & MyDir(W) ? Move(W) : (init)
-	|Key(Q) & !MyDir(W) ? turn(W) : (init)
+	|Key(q) & MyDir(W) ? Move(W) : (Init)
+	|Key(q) & !MyDir(W) ? Turn(W) : (Init)
 	
-	|Key(Z) & MyDir(N) ? Move(N) : (init)
-	|Key(Z) & !MyDir(N) ? turn(N) : (init)
+	|Key(z) & MyDir(N) ? Move(N) : (Init)
+	|Key(z) & !MyDir(N) ? Turn(N) : (Init)
 
-	|Key(E) ? Pop() : (init)
-	|Key(A) ? Wizz() : (init)
+	|Key(e) ? Pop() : (Init)
+	|Key(a) ? Wizz() : (Init)
 
 }

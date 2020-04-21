@@ -22,8 +22,7 @@ public class Turn extends FunCall{
 
 	@Override
 	public void execut(Entity e) {
-		// TODO Auto-generated method stub
-		
+			e.Turn(m_direction, m_angle);
 	}
 
 }

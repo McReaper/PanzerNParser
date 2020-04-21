@@ -15,6 +15,6 @@ public class Egg extends FunCall {
 
 	@Override
 	public void execut(Entity e) {
-		System.out.println("J'execute egg");
+		e.Egg(m_direction);
 	}
 }

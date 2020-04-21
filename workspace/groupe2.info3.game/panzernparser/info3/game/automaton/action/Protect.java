@@ -15,6 +15,6 @@ public class Protect extends FunCall {
 
 	@Override
 	public void execut(Entity e) {
-		System.out.println("j'execute protect");
+		e.Protect(m_direction);
 	}
 }

@@ -16,8 +16,7 @@ public class Wizz extends FunCall{
 	
 	@Override
 	public void execut(Entity e) {
-		// TODO Auto-generated method stub
-		
+		e.Wizz(m_direction);
 	}
 
 }

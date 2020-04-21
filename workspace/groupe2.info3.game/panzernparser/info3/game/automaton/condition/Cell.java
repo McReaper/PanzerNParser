@@ -12,13 +12,14 @@ public class Cell extends Condition {
 	int m_distance;
 
 	public Cell(MyDirection direction, MyCategory entity, int dist) {
-
+		m_direction = direction;
+		m_entity = entity;
+		m_distance = dist;
 	}
 
 	@Override
 	public boolean realisable(Entity entity) {
-		// TODO Auto-generated method stub
-		return false;
+		return entity.Cell(m_direction, m_entity, m_distance);
 	}
 
 }

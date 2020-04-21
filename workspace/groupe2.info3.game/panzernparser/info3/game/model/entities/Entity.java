@@ -1,10 +1,9 @@
 package info3.game.model.entities;
 
-import info3.game.automata.ast.Direction;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
 import info3.game.model.Model;
-import info3.game.view.Avatar;
 
 public abstract class Entity {
 	final static int SIZEOFCELL = 1;
@@ -14,6 +13,7 @@ public abstract class Entity {
 	int m_height;
 	long m_elapseTime;
 	MyDirection m_dir;
+	boolean m_stuff; // gotStuff ?
 	// Automaton m_automate; //automate associé
 	State m_currentState;// Emilie : TODO gerer les cas null suite a l'automate
 	public Model m_model;
@@ -39,20 +39,24 @@ public abstract class Entity {
 		return m_y;
 	}
 
-	public void Egg() {
+	public void Egg(MyDirection dir) {
 		System.out.println("Is Egging");
 	}
 
-	public void Get(/* Donner une direction ? */) {
+	public void Get(MyDirection dir) {
 		System.out.println("Is Getting");
 	}
 
-	public void Hit(/* Donner une direction ? */) {
+	public void Hit(MyDirection dir) {
 		System.out.println("Is Hitting");
 	}
 
 	public void Explode() {
 		System.out.println("Is Exploding");
+	}
+
+	public void Jump(MyDirection dir) {
+		System.out.println("Is Jumping");
 	}
 
 	public void Move(MyDirection dir) {
@@ -227,11 +231,11 @@ public abstract class Entity {
 		return;
 	}
 
-	public void Pick(/* Donner une direction ? */) {
+	public void Pick(MyDirection dir) {
 		System.out.println("Is Picking");
 	}
 
-	public void Pop() {
+	public void Pop(MyDirection dir) {
 		System.out.println("Is Poping");
 	}
 
@@ -239,15 +243,15 @@ public abstract class Entity {
 		System.out.println("Is \"UNLIMITED PAWER!!\"-ing");
 	}
 
-	public void Protect() {
+	public void Protect(MyDirection dir) {
 		System.out.println("Is Protecting");
 	}
 
-	public void Store() {
+	public void Store(MyDirection dir) {
 		System.out.println("Is Storing");
 	}
 
-	public void Turn(MyDirection dir) {
+	public void Turn(MyDirection dir, int angle) {
 		System.out.println("Is Turning");
 		switch (dir) {
 			case NORTH:
@@ -354,7 +358,7 @@ public abstract class Entity {
 		}
 	}
 
-	public void Throw() {
+	public void Throw(MyDirection dir) {
 		System.out.println("Is Throwing");
 	}
 
@@ -362,11 +366,11 @@ public abstract class Entity {
 		System.out.println("Is Waiting");
 	}
 
-	public void Wizz() {
+	public void Wizz(MyDirection dir) {
 		System.out.println("Is Wizzing");
 	}
 
-	public boolean myDir(Direction dir) {
+	public boolean myDir(MyDirection dir) {
 		System.out.println("Is myDiring");
 		if (m_dir != null) {
 			return m_dir.equals(dir);
@@ -374,9 +378,8 @@ public abstract class Entity {
 		return false;
 	}
 
-	public boolean Cell(Direction dir, Entity type) {
-		System.out.println("Is Celling");
-		return false;
+	public boolean Cell(MyDirection dir, MyCategory type, int dist) {
+		return true;
 	}
 
 	public boolean GotPower() {
@@ -386,7 +389,12 @@ public abstract class Entity {
 
 	public boolean GotStuff() {
 		System.out.println("Is Gotstuffing");
-		return true;
+		return m_stuff;
+	}
+
+	public boolean Closest(MyDirection dir, MyCategory type) {
+		return false;
+
 	}
 
 	public State getState() {

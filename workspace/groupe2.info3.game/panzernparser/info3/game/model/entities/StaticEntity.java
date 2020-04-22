@@ -10,7 +10,7 @@ public abstract class StaticEntity extends Entity {
 
 	public StaticEntity(int x, int y, int width, int height, Model model) {
 		super(x, y, width, height, model);
-		// TODO Auto-generated constructor stub
+		m_speed  =0;
 	}
 
 }

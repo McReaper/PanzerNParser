@@ -159,13 +159,13 @@ public class Grid {
 				MyEntities type = null;
 				switch (name) {
 					case "drop1":
-						type = MyEntities.DROPPABLE;
+						type = MyEntities.Droppable;
 						break;
 					case "enem1":
-						type = MyEntities.ENEMY;
+						type = MyEntities.Enemy;
 						break;
 					case "vein1":
-						type = MyEntities.VEIN;
+						type = MyEntities.Vein;
 						break;
 				}
 				int x = Integer.parseInt(sx);

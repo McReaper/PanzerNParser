@@ -20,6 +20,10 @@ public class Automaton {
 	public State getState() {
 		return m_state;
 	}
+	
+	public String getName() {
+		return m_name;
+	}
 
 	public State step(Entity e) {
 		ListIterator<Mode> iter = m_modes.listIterator();

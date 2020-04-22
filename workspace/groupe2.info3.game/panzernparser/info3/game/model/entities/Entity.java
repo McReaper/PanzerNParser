@@ -8,15 +8,15 @@ import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 
 public abstract class Entity {
-	
+
 	final static int DEFAULT_MOVING_DISTANCE = 1;
 
 	long m_elapseTime;
 	LsAction m_currentAction;
 	long m_timeOfAction;
-	
+
 	boolean m_displayed; // Indique si il doit etre affiché a l'écran où non.
-	
+
 	int m_x;
 	int m_y;
 	int m_width;
@@ -26,41 +26,40 @@ public abstract class Entity {
 	MyDirection m_currentActionDir;
 	boolean m_stuff; // gotStuff ?
 	// Automaton m_automate; //automate associé
-	State m_currentState;// Emilie : TODO gerer les cas null suite a l'automate
-	Automaton m_automate; //automate associé
+	State m_currentState;
+	Automaton m_automate; // automate associé
 	public Model m_model;
-	
+
 	public Entity(int x, int y, int width, int height, Model model) {
 		m_elapseTime = 0;
 		m_currentAction = null;
-		
+
 		m_displayed = true;
-		
+
 		m_x = x;
 		m_y = y;
 		m_width = width;
 		m_height = height;
-		
+
 		m_model = model;
-		m_currentLookAtDir = MyDirection.NORTH; //par défault
-		m_currentActionDir = MyDirection.NORTH; //par défaut
-		
-		m_timeOfAction =0;
-		
-		
+		m_currentLookAtDir = MyDirection.NORTH; // par défaut
+		m_currentActionDir = MyDirection.NORTH; // par défaut
+
+		m_timeOfAction = 0;
+
 	}
 
 	public abstract void step(long elapsed);
-	
+
 	public double getActionProgress() {
 		if (m_currentAction != null) {
-					return ((double) m_elapseTime) / ((double) m_timeOfAction);
-			}
+			return ((double) m_elapseTime) / ((double) m_timeOfAction);
+		}
 		return 0;
 	}
-	
+
 	public void setAutomaton(Automaton automate) {
-		m_automate=automate;
+		m_automate = automate;
 	}
 
 	public boolean isShown() {
@@ -71,42 +70,37 @@ public abstract class Entity {
 		return m_currentState;
 	}
 
-	/*
-	 * Emilie : Ceci est une fonction temporaire pour pouvoir gerer les test sur les
-	 * automates sans parser
-	 */
 	public void setState(State state) {
-		m_currentState = state;
+		if (state != null)
+			m_currentState = state;
 	}
-	
+
 	public LsAction getCurrentAction() {
 		return m_currentAction;
 	}
-	
+
 	public MyDirection getCurrentActionDir() {
 		return m_currentActionDir;
 	}
-	
+
 	public MyDirection getLookAtDir() {
-		return m_dir;
+		return m_currentLookAtDir;
 	}
-	
-	public abstract double getActionProgress();
-	
+
 	public int getX() {
-		//System.out.println("Is GetXing");
+		// System.out.println("Is GetXing");
 		return m_x;
 	}
 
 	public int getY() {
-		//System.out.println("Is GetYing");
+		// System.out.println("Is GetYing");
 		return m_y;
 	}
-	
+
 	public int getWidth() {
 		return m_width;
 	}
-	
+
 	public int getHeight() {
 		return m_height;
 	}
@@ -140,8 +134,6 @@ public abstract class Entity {
 		m_currentAction = LsAction.Jump;
 	}
 
-	
-	
 	public void Move(MyDirection dir) {
 		System.out.println("Is Moving to " + dir);
 		this.m_currentAction = LsAction.Move;
@@ -474,8 +466,8 @@ public abstract class Entity {
 	}
 
 	public boolean myDir(MyDirection dir) {
-		//m_currentActionDir = dir;
-		//System.out.println("Is myDiring");
+		// m_currentActionDir = dir;
+		// System.out.println("Is myDiring");
 		if (m_currentActionDir != null) {
 			return m_currentActionDir.equals(dir);
 		}
@@ -483,7 +475,7 @@ public abstract class Entity {
 	}
 
 	public boolean Cell(MyDirection dir, MyCategory type, int dist) {
-		//m_currentActionDir = dir;
+		// m_currentActionDir = dir;
 		return true;
 	}
 
@@ -498,7 +490,7 @@ public abstract class Entity {
 	}
 
 	public boolean Closest(MyDirection dir, MyCategory type) {
-		//m_currentActionDir = dir;
+		// m_currentActionDir = dir;
 		return false;
 
 	}

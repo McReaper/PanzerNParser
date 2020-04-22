@@ -14,19 +14,20 @@ import info3.game.automaton.action.LsAction;
 public class Animation {
 
 	Sprite m_sprite;
-	HashMap<LsAction, int[]> m_animationSequence;
+	HashMap<ActionDirection, int[]> m_animationSequence;
 	
-	public Animation(Sprite sprite, HashMap<LsAction, int[]> animationSequence) {
+	public Animation(Sprite sprite, HashMap<ActionDirection, int[]> animationSequence) {
 		m_sprite = sprite;
 		m_animationSequence = animationSequence;
 	}
 	
 	public Image getImage(double ActionProgress, LsAction ac, MyDirection dir) {
+		ActionDirection aD = new ActionDirection(ac,dir);
 		if (ac == null) {
 			//TODO : definir l'affichage dans le cas ou il n'y a pas d'action en cours
 			return null;
 		}
-		int[] seq = m_animationSequence.get(ac);
+		int[] seq = m_animationSequence.get(aD);
 		int i = (int)(ActionProgress * seq.length);
 		if (i >= seq.length) i--;
 		return m_sprite.getSprite(seq[i]);

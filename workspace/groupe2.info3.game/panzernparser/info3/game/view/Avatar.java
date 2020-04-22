@@ -27,12 +27,16 @@ public class Avatar {
 		MyDirection e_actionDir = m_entity.getCurrentActionDir();
 		LsAction e_ac = m_entity.getCurrentAction();
 		MyDirection absoluteActionDir = MyDirection.toAbsolute(e_actionDir,e_dir);
+		
 		double progress = m_entity.getActionProgress();
+		
 		int width = m_entity.getWidth() * case_width;
 		int height = m_entity.getHeight() * case_height;
 		int x = m_entity.getX() * case_width;
 		int y = m_entity.getY() * case_height;
+		
 		Image sprite = m_animation.getImage(progress,e_ac,absoluteActionDir);
+		
 		g.drawImage(sprite, x, y, width, height, null);
 	}
 

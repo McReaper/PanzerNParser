@@ -13,7 +13,7 @@ public abstract class MovingEntity extends Entity {
 		super(x, y, width, height, model);
 		m_health = health;
 		m_speed = speed;
-		m_dir = MyDirection.SOUTHEAST; // Valeur par défaut
+		//m_dir = MyDirection.SOUTHEAST; // Valeur par défaut
 	}
 
 }

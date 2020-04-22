@@ -24,7 +24,7 @@ public class Avatar {
 //	int width = m_entity.getWidth();
 //	int height = m_entity.getHeight();
 		Image sprite = m_animation.getImage(m_entity.getActionProgress(), m_entity.getCurrentAction());
-		g.drawImage(sprite, m_entity.getX() * case_width, m_entity.getY() * case_height, case_width, case_height, null);
+		g.drawImage(sprite, m_entity.getX() * case_width, m_entity.getY() * case_height, m_entity.getWidth() * case_width, m_entity.getHeight()* case_height, null);
 	}
 
 

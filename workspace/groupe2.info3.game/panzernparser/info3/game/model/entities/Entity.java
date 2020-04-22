@@ -79,6 +79,14 @@ public abstract class Entity {
 		//System.out.println("Is GetYing");
 		return m_y;
 	}
+	
+	public int getWidth() {
+		return m_width;
+	}
+	
+	public int getHeight() {
+		return m_height;
+	}
 
 	public void Egg(MyDirection dir) {
 		System.out.println("Is Egging");

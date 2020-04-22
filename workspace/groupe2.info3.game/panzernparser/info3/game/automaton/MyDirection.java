@@ -1,8 +1,9 @@
 package info3.game.automaton;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
+
 public enum MyDirection {
 	NORTH, EAST, WEST, SOUTH, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST, LEFT, RIGHT, FRONT, BACK, HERE;
-
 
 	public MyDirection ToAbsolute( MyDirection currentDir, MyDirection actionDir) {
 		switch (actionDir) {
@@ -75,72 +76,46 @@ public enum MyDirection {
 				}
 				break;
 			case RIGHT:
-				switch (m_dir) {
+				switch (currentDir) {
 					case NORTH:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						break;
+						return NORTHEAST;
 					case EAST:
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
+						return SOUTHEAST;
 					case SOUTH:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						break;
+						return SOUTHWEST;
 					case WEST:
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
+						return NORTHWEST;
 					case NORTHEAST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
+						return EAST;
 					case SOUTHEAST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
+						return SOUTH;
 					case SOUTHWEST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
+						return WEST;
 					case NORTHWEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					default:
-						break;
+						return NORTH;
 				}
 				break;
 			case BACK:
-				switch (m_dir) {
+				switch (currentDir) {
 					case NORTH:
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
+						return SOUTH;
 					case EAST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						break;
+						return WEST;
 					case SOUTH:
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
+						return NORTH;
 					case WEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						break;
+						return EAST;
 					case NORTHEAST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
+						return SOUTHWEST;
 					case SOUTHEAST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
+						return NORTHWEST;
 					case SOUTHWEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
+						return NORTHEAST;
 					case NORTHWEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					default:
-						break;
+						return SOUTHEAST;
 				}
+				default:
+					return actionDir;
 		
 	}
 

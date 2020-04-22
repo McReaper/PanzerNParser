@@ -28,7 +28,6 @@ public class Animation {
 			//TODO : definir l'affichage dans le cas ou il n'y a pas d'action en cours
 			return null;
 		}
-		System.out.println(aD.m_action + " " + aD.m_direction);
 		int[] seq = m_animationSequence.get(aD);
 		int i = (int)(ActionProgress * seq.length);
 		if (i >= seq.length) i--;

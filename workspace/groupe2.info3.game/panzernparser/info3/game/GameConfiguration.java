@@ -42,9 +42,25 @@ public class GameConfiguration {
 			m_action = act;
 			m_direction = dir;
 		}
-
-		public boolean equals(ActionDirection ad) {
-			return (ad.m_action == this.m_action && ad.m_direction == this.m_direction);
+		
+		@Override
+		public int hashCode() {
+			int actH = m_action.hashCode();
+			int dirH = 0;
+			if(m_direction != null) {
+				dirH = m_direction.hashCode();
+			}
+			return actH + dirH;
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if(obj instanceof ActionDirection) {
+				ActionDirection ad = (ActionDirection)obj;
+				return (ad.m_action.equals(this.m_action) && ad.m_direction.equals(this.m_direction));
+			} else {
+				return false;
+			}
 		}
 	}
 

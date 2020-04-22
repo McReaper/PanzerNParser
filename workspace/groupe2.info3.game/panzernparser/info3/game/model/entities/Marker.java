@@ -27,12 +27,10 @@ public class Marker extends StaticEntity {
 	public static final long MARKER_THROW_TIME = 1000;
 	public static final long MARKER_WAIT_TIME = 50;
 	public static final long MARKER_WIZZ_TIME = 1000;
-	
-	long m_timeOfAction;
+
 
 	public Marker(int x, int y, int width, int height, Model model) {
 		super(x, y, width, height, model);
-		m_timeOfAction = 0;
 	}
 
 	@Override
@@ -47,45 +45,6 @@ public class Marker extends StaticEntity {
 		} else  {
 			this.setState(m_automate.step(this));
 		}
-	}
-
-	@Override
-	public double getActionProgress() {
-		if (m_currentAction != null) {
-			switch (m_currentAction) {
-				case Egg:
-					return ((double) m_elapseTime) / ((double) MARKER_EGG_TIME);
-				case Explode:
-					return ((double) m_elapseTime) / ((double) MARKER_EXPLODE_TIME);
-				case Get:
-					return ((double) m_elapseTime) / ((double) MARKER_GET_TIME);
-				case Hit:
-					return ((double) m_elapseTime) / ((double) MARKER_HIT_TIME);
-				case Jump:
-					return ((double) m_elapseTime) / ((double) MARKER_JUMP_TIME);
-				case Move:
-					return ((double) m_elapseTime) / ((double) MARKER_MOVE_TIME);
-				case Pick:
-					return ((double) m_elapseTime) / ((double) MARKER_PICK_TIME);
-				case Pop:
-					return ((double) m_elapseTime) / ((double) MARKER_POP_TIME);
-				case Power:
-					return ((double) m_elapseTime) / ((double) MARKER_POWER_TIME);
-				case Protect:
-					return ((double) m_elapseTime) / ((double) MARKER_PROTECT_TIME);
-				case Store:
-					return ((double) m_elapseTime) / ((double) MARKER_STORE_TIME);
-				case Throw:
-					return ((double) m_elapseTime) / ((double) MARKER_THROW_TIME);
-				case Turn:
-					return ((double) m_elapseTime) / ((double) MARKER_TURN_TIME);
-				case Wait:
-					return ((double) m_elapseTime) / ((double) MARKER_WAIT_TIME);
-				case Wizz:
-					return ((double) m_elapseTime) / ((double) MARKER_WIZZ_TIME);
-			}
-		}
-		return 0;
 	}
 	
 	@Override

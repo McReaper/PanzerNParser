@@ -28,12 +28,10 @@ public class Ground extends StaticEntity {
 	public static final long GROUND_THROW_TIME = 1000;
 	public static final long GROUND_WAIT_TIME = 50;
 	public static final long GROUND_WIZZ_TIME = 1000;
-	
-	long m_timeOfAction;
+
 	
 	public Ground(int x, int y, int width, int height, Model model) {
 		super(x, y, width, height, model);
-		m_timeOfAction =0;
 	}
 
 	@Override
@@ -48,45 +46,6 @@ public class Ground extends StaticEntity {
 		} else  {
 			this.setState(m_automate.step(this));
 		}
-	}
-
-	@Override
-	public double getActionProgress() {
-		if (m_currentAction != null) {
-			switch (m_currentAction) {
-				case Egg:
-					return ((double) m_elapseTime) / ((double) GROUND_EGG_TIME);
-				case Explode:
-					return ((double) m_elapseTime) / ((double) GROUND_EXPLODE_TIME);
-				case Get:
-					return ((double) m_elapseTime) / ((double) GROUND_GET_TIME);
-				case Hit:
-					return ((double) m_elapseTime) / ((double) GROUND_HIT_TIME);
-				case Jump:
-					return ((double) m_elapseTime) / ((double) GROUND_JUMP_TIME);
-				case Move:
-					return ((double) m_elapseTime) / ((double) GROUND_MOVE_TIME);
-				case Pick:
-					return ((double) m_elapseTime) / ((double) GROUND_PICK_TIME);
-				case Pop:
-					return ((double) m_elapseTime) / ((double) GROUND_POP_TIME);
-				case Power:
-					return ((double) m_elapseTime) / ((double) GROUND_POWER_TIME);
-				case Protect:
-					return ((double) m_elapseTime) / ((double) GROUND_PROTECT_TIME);
-				case Store:
-					return ((double) m_elapseTime) / ((double) GROUND_STORE_TIME);
-				case Throw:
-					return ((double) m_elapseTime) / ((double) GROUND_THROW_TIME);
-				case Turn:
-					return ((double) m_elapseTime) / ((double) GROUND_TURN_TIME);
-				case Wait:
-					return ((double) m_elapseTime) / ((double) GROUND_WAIT_TIME);
-				case Wizz:
-					return ((double) m_elapseTime) / ((double) GROUND_WIZZ_TIME);
-			}
-		}
-		return 0;
 	}
 	
 	@Override

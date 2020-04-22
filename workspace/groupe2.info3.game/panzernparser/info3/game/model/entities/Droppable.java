@@ -26,7 +26,6 @@ public class Droppable extends StaticEntity {
 	public static final long DROPPABLE_WAIT_TIME = 50;
 	public static final long DROPPABLE_WIZZ_TIME = 1000;
 
-	long m_timeOfAction;
 	int m_quantity; // quantité de matériaux lachés
 	MaterialType m_mType; // Type de matériel laché
 
@@ -34,7 +33,6 @@ public class Droppable extends StaticEntity {
 		super(x, y, width, height, model);
 		m_quantity = quantity;
 		m_mType = mtype;
-		m_timeOfAction =0;
 	}
 
 	@Override
@@ -49,45 +47,6 @@ public class Droppable extends StaticEntity {
 		} else  {
 			this.setState(m_automate.step(this));
 		}
-	}
-
-	@Override
-	public double getActionProgress() {
-		if (m_currentAction != null) {
-			switch (m_currentAction) {
-				case Egg:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_EGG_TIME);
-				case Explode:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_EXPLODE_TIME);
-				case Get:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_GET_TIME);
-				case Hit:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_HIT_TIME);
-				case Jump:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_JUMP_TIME);
-				case Move:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_MOVE_TIME);
-				case Pick:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_PICK_TIME);
-				case Pop:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_POP_TIME);
-				case Power:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_POWER_TIME);
-				case Protect:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_PROTECT_TIME);
-				case Store:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_STORE_TIME);
-				case Throw:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_THROW_TIME);
-				case Turn:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_TURN_TIME);
-				case Wait:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_WAIT_TIME);
-				case Wizz:
-					return ((double) m_elapseTime) / ((double) DROPPABLE_WIZZ_TIME);
-			}
-		}
-		return 0;
 	}
 	
 	@Override

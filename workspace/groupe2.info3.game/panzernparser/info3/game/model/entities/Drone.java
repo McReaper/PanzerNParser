@@ -28,13 +28,11 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_WAIT_TIME = 50;
 	public static final long DRONE_WIZZ_TIME = 1000;
 	
-	long m_timeOfAction;
 	VisionType m_currentVisionType;
 
 
 	public Drone(int x, int y, int width, int height, int health, int speed, Model model) {
 		super(x, y, width, height, health, speed, model);
-		m_timeOfAction = 0;
 		m_currentVisionType = VisionType.ENEMIES;
 	}
 
@@ -58,44 +56,6 @@ public class Drone extends MovingEntity {
 		}
 	}
 
-	@Override
-	public double getActionProgress() {
-		if (m_currentAction != null) {
-			switch (m_currentAction) {
-				case Egg:
-					return ((double) m_elapseTime) / ((double) DRONE_EGG_TIME);
-				case Explode:
-					return ((double) m_elapseTime) / ((double) DRONE_EXPLODE_TIME);
-				case Get:
-					return ((double) m_elapseTime) / ((double) DRONE_GET_TIME);
-				case Hit:
-					return ((double) m_elapseTime) / ((double) DRONE_HIT_TIME);
-				case Jump:
-					return ((double) m_elapseTime) / ((double) DRONE_JUMP_TIME);
-				case Move:
-					return ((double) m_elapseTime) / ((double) DRONE_MOVE_TIME);
-				case Pick:
-					return ((double) m_elapseTime) / ((double) DRONE_PICK_TIME);
-				case Pop:
-					return ((double) m_elapseTime) / ((double) DRONE_POP_TIME);
-				case Power:
-					return ((double) m_elapseTime) / ((double) DRONE_POWER_TIME);
-				case Protect:
-					return ((double) m_elapseTime) / ((double) DRONE_PROTECT_TIME);
-				case Store:
-					return ((double) m_elapseTime) / ((double) DRONE_STORE_TIME);
-				case Throw:
-					return ((double) m_elapseTime) / ((double) DRONE_THROW_TIME);
-				case Turn:
-					return ((double) m_elapseTime) / ((double) DRONE_TURN_TIME);
-				case Wait:
-					return ((double) m_elapseTime) / ((double) DRONE_WAIT_TIME);
-				case Wizz:
-					return ((double) m_elapseTime) / ((double) DRONE_WIZZ_TIME);
-			}
-		}
-		return 0;
-	}
 	
 	@Override
 	public void Egg(MyDirection dir) {

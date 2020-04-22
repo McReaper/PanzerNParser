@@ -29,12 +29,9 @@ public class TankBody extends MovingEntity {
 	public static final long TANK_BODY_THROW_TIME = 1000;
 	public static final long TANK_BODY_WAIT_TIME = 50;
 	public static final long TANK_BODY_WIZZ_TIME = 1000;
-	
-	long m_timeOfAction;
 
 	public TankBody(int x, int y, int width, int height, int health, int speed, Model model) {
 		super(x, y, width, height, health, speed, model);
-		m_timeOfAction = 0;
 	}
 
 	@Override
@@ -51,45 +48,6 @@ public class TankBody extends MovingEntity {
 		}
 	}
 
-	@Override
-	public double getActionProgress() {
-		if (m_currentAction != null) {
-			switch (m_currentAction) {
-				case Egg:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_EGG_TIME);
-				case Explode:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_EXPLODE_TIME);
-				case Get:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_GET_TIME);
-				case Hit:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_HIT_TIME);
-				case Jump:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_JUMP_TIME);
-				case Move:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_MOVE_TIME);
-				case Pick:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_PICK_TIME);
-				case Pop:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_POP_TIME);
-				case Power:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_POWER_TIME);
-				case Protect:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_PROTECT_TIME);
-				case Store:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_STORE_TIME);
-				case Throw:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_THROW_TIME);
-				case Turn:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_TURN_TIME);
-				case Wait:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_WAIT_TIME);
-				case Wizz:
-					return ((double) m_elapseTime) / ((double) TANK_BODY_WIZZ_TIME);
-			}
-		}
-		return 0;
-	}
-	
 	@Override
 	public void Egg(MyDirection dir) {
 		m_timeOfAction = TANK_BODY_MOVE_TIME;

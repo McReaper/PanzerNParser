@@ -28,12 +28,9 @@ public class Vein extends Ground {
 	public static final long VEIN_WAIT_TIME = 50;
 	public static final long VEIN_WIZZ_TIME = 1000;
 	
-	long m_timeOfAction;
-
 	
 	public Vein(int x, int y, int width, int height, Model model) {
 		super(x, y, width, height, model);
-		m_timeOfAction  =0;
 	}
 
 	int m_quantity;
@@ -50,45 +47,6 @@ public class Vein extends Ground {
 		} else  {
 			this.setState(m_automate.step(this));
 		}
-	}
-
-	@Override
-	public double getActionProgress() {
-		if (m_currentAction != null) {
-			switch (m_currentAction) {
-				case Egg:
-					return ((double) m_elapseTime) / ((double) VEIN_EGG_TIME);
-				case Explode:
-					return ((double) m_elapseTime) / ((double) VEIN_EXPLODE_TIME);
-				case Get:
-					return ((double) m_elapseTime) / ((double) VEIN_GET_TIME);
-				case Hit:
-					return ((double) m_elapseTime) / ((double) VEIN_HIT_TIME);
-				case Jump:
-					return ((double) m_elapseTime) / ((double) VEIN_JUMP_TIME);
-				case Move:
-					return ((double) m_elapseTime) / ((double) VEIN_MOVE_TIME);
-				case Pick:
-					return ((double) m_elapseTime) / ((double) VEIN_PICK_TIME);
-				case Pop:
-					return ((double) m_elapseTime) / ((double) VEIN_POP_TIME);
-				case Power:
-					return ((double) m_elapseTime) / ((double) VEIN_POWER_TIME);
-				case Protect:
-					return ((double) m_elapseTime) / ((double) VEIN_PROTECT_TIME);
-				case Store:
-					return ((double) m_elapseTime) / ((double) VEIN_STORE_TIME);
-				case Throw:
-					return ((double) m_elapseTime) / ((double) VEIN_THROW_TIME);
-				case Turn:
-					return ((double) m_elapseTime) / ((double) VEIN_TURN_TIME);
-				case Wait:
-					return ((double) m_elapseTime) / ((double) VEIN_WAIT_TIME);
-				case Wizz:
-					return ((double) m_elapseTime) / ((double) VEIN_WIZZ_TIME);
-			}
-		}
-		return 0;
 	}
 	
 	@Override

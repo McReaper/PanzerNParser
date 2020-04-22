@@ -13,6 +13,7 @@ public abstract class Entity {
 
 	long m_elapseTime;
 	LsAction m_currentAction;
+	long m_timeOfAction;
 	
 	boolean m_displayed; // Indique si il doit etre affiché a l'écran où non.
 	
@@ -42,9 +43,18 @@ public abstract class Entity {
 		m_model = model;
 		m_currentLookAtDir = MyDirection.NORTH; //par défault
 		m_currentActionDir = MyDirection.NORTH; //par défaut
+		
+		m_timeOfAction =0;
 	}
 
 	public abstract void step(long elapsed);
+	
+	public double getActionProgress() {
+		if (m_currentAction != null) {
+					return ((double) m_elapseTime) / ((double) m_timeOfAction);
+			}
+		return 0;
+	}
 	
 	public void setAutomaton(Automaton automate) {
 		m_automate=automate;
@@ -69,8 +79,6 @@ public abstract class Entity {
 	public LsAction getCurrentAction() {
 		return m_currentAction;
 	}
-	
-	public abstract double getActionProgress();
 	
 	public int getX() {
 		//System.out.println("Is GetXing");

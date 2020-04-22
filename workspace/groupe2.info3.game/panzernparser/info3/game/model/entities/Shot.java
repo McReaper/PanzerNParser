@@ -32,12 +32,9 @@ public class Shot extends MovingEntity {
 	public static final long SHOT_THROW_TIME = 1000;
 	public static final long SHOT_WAIT_TIME = 50;
 	public static final long SHOT_WIZZ_TIME = 1000;
-	
-	long m_timeOfAction;
 
 	public Shot(int x, int y, int width, int height, int health, int speed, Model model) {
 		super(x, y, width, height, health, speed, model);
-		// TODO Auto-generated constructor stub
 	}
 
 	int m_damage;
@@ -54,45 +51,6 @@ public class Shot extends MovingEntity {
 		} else  {
 			this.setState(m_automate.step(this));
 		}
-	}
-
-	@Override
-	public double getActionProgress() {
-		if (m_currentAction != null) {
-			switch (m_currentAction) {
-				case Egg:
-					return ((double) m_elapseTime) / ((double) SHOT_EGG_TIME);
-				case Explode:
-					return ((double) m_elapseTime) / ((double) SHOT_EXPLODE_TIME);
-				case Get:
-					return ((double) m_elapseTime) / ((double) SHOT_GET_TIME);
-				case Hit:
-					return ((double) m_elapseTime) / ((double) SHOT_HIT_TIME);
-				case Jump:
-					return ((double) m_elapseTime) / ((double) SHOT_JUMP_TIME);
-				case Move:
-					return ((double) m_elapseTime) / ((double) SHOT_MOVE_TIME);
-				case Pick:
-					return ((double) m_elapseTime) / ((double) SHOT_PICK_TIME);
-				case Pop:
-					return ((double) m_elapseTime) / ((double) SHOT_POP_TIME);
-				case Power:
-					return ((double) m_elapseTime) / ((double) SHOT_POWER_TIME);
-				case Protect:
-					return ((double) m_elapseTime) / ((double) SHOT_PROTECT_TIME);
-				case Store:
-					return ((double) m_elapseTime) / ((double) SHOT_STORE_TIME);
-				case Throw:
-					return ((double) m_elapseTime) / ((double) SHOT_THROW_TIME);
-				case Turn:
-					return ((double) m_elapseTime) / ((double) SHOT_TURN_TIME);
-				case Wait:
-					return ((double) m_elapseTime) / ((double) SHOT_WAIT_TIME);
-				case Wizz:
-					return ((double) m_elapseTime) / ((double) SHOT_WIZZ_TIME);
-			}
-		}
-		return 0;
 	}
 	
 	@Override

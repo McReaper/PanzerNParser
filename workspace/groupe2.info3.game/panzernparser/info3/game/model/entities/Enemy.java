@@ -34,13 +34,11 @@ public class Enemy extends MovingEntity {
 
 	boolean m_triggered; // indique si l'ennemi a détecté le joueur ou non.
 	Droppable m_drops;
-	long m_timeOfAction;
 
 	public Enemy(int x, int y, int width, int height, Model model) {
 		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, model);
 		m_triggered = false; // Valeur par défaut
 		m_drops = new Droppable(this.m_x, this.m_y, 1, 1, 1, MaterialType.ELECTRONIC, model);
-		m_timeOfAction = 0;
 	}
 
 	@Override
@@ -55,45 +53,6 @@ public class Enemy extends MovingEntity {
 		} else  {
 			this.setState(m_automate.step(this));
 		}
-	}
-
-	@Override
-	public double getActionProgress() {
-		if (m_currentAction != null) {
-			switch (m_currentAction) {
-				case Egg:
-					return ((double) m_elapseTime) / ((double) ENEMY_EGG_TIME);
-				case Explode:
-					return ((double) m_elapseTime) / ((double) ENEMY_EXPLODE_TIME);
-				case Get:
-					return ((double) m_elapseTime) / ((double) ENEMY_GET_TIME);
-				case Hit:
-					return ((double) m_elapseTime) / ((double) ENEMY_HIT_TIME);
-				case Jump:
-					return ((double) m_elapseTime) / ((double) ENEMY_JUMP_TIME);
-				case Move:
-					return ((double) m_elapseTime) / ((double) ENEMY_MOVE_TIME);
-				case Pick:
-					return ((double) m_elapseTime) / ((double) ENEMY_PICK_TIME);
-				case Pop:
-					return ((double) m_elapseTime) / ((double) ENEMY_POP_TIME);
-				case Power:
-					return ((double) m_elapseTime) / ((double) ENEMY_POWER_TIME);
-				case Protect:
-					return ((double) m_elapseTime) / ((double) ENEMY_PROTECT_TIME);
-				case Store:
-					return ((double) m_elapseTime) / ((double) ENEMY_STORE_TIME);
-				case Throw:
-					return ((double) m_elapseTime) / ((double) ENEMY_THROW_TIME);
-				case Turn:
-					return ((double) m_elapseTime) / ((double) ENEMY_TURN_TIME);
-				case Wait:
-					return ((double) m_elapseTime) / ((double) ENEMY_WAIT_TIME);
-				case Wizz:
-					return ((double) m_elapseTime) / ((double) ENEMY_WIZZ_TIME);
-			}
-		}
-		return 0;
 	}
 	
 	@Override

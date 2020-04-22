@@ -20,18 +20,12 @@ public class View extends Container {
 	Controller m_controller;
 	Model m_model;
 	LinkedList<Avatar> m_avatars;
-	AvatarFactory m_factory;
+	//AvatarFactory m_factory;
 
 	public View(Controller controller, Model model, File config_file) {
 		// créer la fenetre de jeu avec les bandeaux d'updrage et le canvas.
 		m_controller = controller;
 		m_model = model;
-		try {
-			m_factory = new AvatarFactory(config_file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}
 		m_canvas = new GameCanvas(m_controller);
 		this.setLayout(new BorderLayout());
 		this.add(m_canvas, BorderLayout.CENTER);
@@ -59,7 +53,7 @@ public class View extends Container {
 		if (mustRebuild) {
 			m_avatars = new LinkedList<Avatar>();
 			for (Entity entity : m_model.getEntities()) {
-				m_avatars.add(m_factory.newAvatar(entity));
+				m_avatars.add(AvatarFactory.newAvatar(entity));
 			}
 		}
 	}
@@ -74,7 +68,7 @@ public class View extends Container {
 		// TODO : dessiner la grille :
 		int nb_cells_X = m_model.getGrid().getNbCellsX();
 		int nb_cells_Y = m_model.getGrid().getNbCellsY();
-		g.setColor(Color.BLACK);
+		g.setColor(Color.BLUE);
 		g.fillRect(0, 0, width, height);
 
 		int case_width = width / nb_cells_X;

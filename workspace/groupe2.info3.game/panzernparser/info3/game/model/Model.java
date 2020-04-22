@@ -43,7 +43,7 @@ public class Model {
 			
 			/* si un seul fichier .gal commentez début try et décomenter fin */
 			BotBuilder bb8 = new BotBuilder();
-			AST myAST = AutomataParser.from_file("gal/drone.gal");
+			AST myAST = AutomataParser.from_file("gal/Drone.gal");
 			List<Automaton> lsAuto = (List<Automaton>) myAST.accept(bb8);
 			m_automatons = (lsAuto);
 		} catch (Exception e) {

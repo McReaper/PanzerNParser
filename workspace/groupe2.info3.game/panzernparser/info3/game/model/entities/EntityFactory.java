@@ -5,7 +5,7 @@ import info3.game.model.Model;
 
 public class EntityFactory {
 	public enum MyEntities {
-		WALL, GROUND, ENEMY, DROPPABLE, SHOT, VEIN; // TODO
+		Wall, Ground, Enemy, Droppable, Shot, Vein, Drone, Marker, TankBody, Turret;
 	}
 
 	public static Entity newTank() {
@@ -50,25 +50,25 @@ public class EntityFactory {
 	public static Entity newEntity(MyEntities entity, int x, int y) {
 		Entity res;
 		switch (entity) {
-			case WALL:
+			case Wall:
 				res = newGround(x, y);
 				/* voir comment transmettre le crossable */
 				break;
-			case GROUND:
+			case Ground:
 				res = newGround(x, y);
 				break;
-			case ENEMY:
+			case Enemy:
 				res = newEnemy(x, y);
 				break;
-			case DROPPABLE:
+			case Droppable:
 				res = newDroppable(x, y);
 				/* a voir où definir les quantités et le type de ressource */
 				break;
-			case VEIN:
+			case Vein:
 				res = newVein(x, y);
 				break;
 
-			case SHOT:
+			case Shot:
 				res = newShot(x, y);
 				break;
 

@@ -21,13 +21,13 @@ public class Enemy extends MovingEntity {
 	public static final long ENEMY_HIT_TIME = 1000;
 	public static final long ENEMY_JUMP_TIME = 1000;
 	public static final long ENEMY_EXPLODE_TIME = 1000;
-	public static final long ENEMY_MOVE_TIME = 200;
+	public static final long ENEMY_MOVE_TIME = 1000;
 	public static final long ENEMY_PICK_TIME = 1000;
 	public static final long ENEMY_POP_TIME = 10000;
 	public static final long ENEMY_POWER_TIME = 1000;
 	public static final long ENEMY_PROTECT_TIME = 1000;
 	public static final long ENEMY_STORE_TIME = 1000;
-	public static final long ENEMY_TURN_TIME = 1000;
+	public static final long ENEMY_TURN_TIME = 0;
 	public static final long ENEMY_THROW_TIME = 1000;
 	public static final long ENEMY_WAIT_TIME = 50;
 	public static final long ENEMY_WIZZ_TIME = 1000;

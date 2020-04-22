@@ -43,7 +43,7 @@ public abstract class Entity {
 
 		m_model = model;
 		m_currentLookAtDir = MyDirection.NORTH; // par défaut
-		m_currentActionDir = MyDirection.NORTH; // par défaut
+		m_currentActionDir = null; // par défaut
 
 		m_timeOfAction = 0;
 
@@ -73,6 +73,8 @@ public abstract class Entity {
 	public void setState(State state) {
 		if (state != null)
 			m_currentState = state;
+		else
+			System.out.println("setstate null");
 	}
 
 	public LsAction getCurrentAction() {
@@ -125,6 +127,7 @@ public abstract class Entity {
 
 	public void Explode() {
 		System.out.println("Is Exploding");
+		m_currentActionDir = null;
 		m_currentAction = LsAction.Explode;
 	}
 
@@ -324,6 +327,7 @@ public abstract class Entity {
 
 	public void Power() {
 		System.out.println("Is \"UNLIMITED PAWER!!\"-ing");
+		m_currentActionDir = null;
 		m_currentAction = LsAction.Power;
 	}
 
@@ -456,6 +460,7 @@ public abstract class Entity {
 
 	public void Wait() {
 		System.out.println("Is Waiting");
+		m_currentActionDir = null;
 		m_currentAction = LsAction.Wait;
 	}
 
@@ -468,8 +473,8 @@ public abstract class Entity {
 	public boolean myDir(MyDirection dir) {
 		// m_currentActionDir = dir;
 		// System.out.println("Is myDiring");
-		if (m_currentActionDir != null) {
-			return m_currentActionDir.equals(dir);
+		if (m_currentLookAtDir != null) {
+			return m_currentLookAtDir.equals(dir);
 		}
 		return false;
 	}

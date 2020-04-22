@@ -29,35 +29,35 @@ public class GameConfiguration {
 	public Animation getAnimation(MyEntities ent) {
 		return m_animations.get(ent);
 	}
-	
+
 	public Automaton getAutomaton(MyEntities ent) {
 		return m_automatons.get(ent);
 	}
-	
+
 	public static class ActionDirection {
 		public LsAction m_action;
-		public MyDirection m_direction; // peut être null
+		public MyDirection m_direction;
 
 		public ActionDirection(LsAction act, MyDirection dir) {
 			m_action = act;
 			m_direction = dir;
 		}
-		
+
 		@Override
 		public int hashCode() {
 			int actH = m_action.hashCode();
 			int dirH = 0;
-			if(m_direction != null) {
+			if (m_direction != null) {
 				dirH = m_direction.hashCode();
 			}
 			return actH + dirH;
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
-			if(obj instanceof ActionDirection) {
-				ActionDirection ad = (ActionDirection)obj;
-				return (ad.m_action.equals(this.m_action) && ad.m_direction.equals(this.m_direction));
+			if (obj instanceof ActionDirection) {
+				ActionDirection ad = (ActionDirection) obj;
+				return (ad.m_action == this.m_action && ad.m_direction == this.m_direction);
 			} else {
 				return false;
 			}
@@ -171,17 +171,17 @@ public class GameConfiguration {
 				LsAction action = LsAction.valueOf(actionName);
 				MyDirection direction = (directionName == null) ? null : MyDirection.valueOf(directionName);
 				ActionDirection actDir = new ActionDirection(action, direction);
-				animSeq.put(actDir , seqNumbers);
+				animSeq.put(actDir, seqNumbers);
 			}
 
-			//Création de l'animation :
+			// Création de l'animation :
 			Animation animation = new Animation(sprite, animSeq);
 			m_animations.put(MyEntities.valueOf(fields[0]), animation);
-			
-			//Fermeture du fichier .ani
+
+			// Fermeture du fichier .ani
 			sc_ani.close();
 		}
-		//Fermeture du fichier .cfg
+		// Fermeture du fichier .cfg
 		sc_cfg.close();
 	}
 

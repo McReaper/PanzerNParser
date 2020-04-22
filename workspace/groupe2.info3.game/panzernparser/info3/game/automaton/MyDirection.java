@@ -1,9 +1,11 @@
 package info3.game.automaton;
 
 public enum MyDirection {
-	NORTH, EAST, WEST, SOUTH, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST, LEFT, RIGHT, FRONT, BACK, HERE;
+	NORTH, EAST, WEST, SOUTH, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST, LEFT, RIGHT, FRONT, BACK;
 
 	public static MyDirection toAbsolute(MyDirection currentDir, MyDirection actionDir) {
+		if (actionDir == null)
+			return null;
 		switch (actionDir) {
 			case FRONT:
 				return currentDir;

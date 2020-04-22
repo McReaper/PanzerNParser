@@ -23,12 +23,16 @@ public class Animation {
 	}
 	
 	public Image getImage(double ActionProgress, LsAction ac, MyDirection dir) {
-		ActionDirection aD = new ActionDirection(ac,dir);
 		if (ac == null) {
 			//TODO : definir l'affichage dans le cas ou il n'y a pas d'action en cours
 			return null;
 		}
+		ActionDirection aD = new ActionDirection(ac,dir);
 		int[] seq = m_animationSequence.get(aD);
+		if (seq == null) {
+			//TODO : definir l'affichage dans le cas ou il n'y a pas d'animation associcée
+			return null;
+		}
 		int i = (int)(ActionProgress * seq.length);
 		if (i >= seq.length) i = seq.length -1;
 		return m_sprite.getSprite(seq[i]);

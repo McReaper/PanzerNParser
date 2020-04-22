@@ -114,7 +114,7 @@ public class BotBuilder implements IVisitor {
 				myDir = MyDirection.NORTHWEST;
 				break;
 			default:
-				myDir = MyDirection.HERE;
+				myDir = null;
 		}
 		return myDir;
 	}
@@ -279,7 +279,7 @@ public class BotBuilder implements IVisitor {
 		Object function = null;
 		int i = 0;
 		// paramètre par défaut
-		MyDirection param1 = MyDirection.FRONT;
+		MyDirection param1 = null;
 		MyCategory param2 = MyCategory.V;
 		int param3 = -1;
 		LsKey paramKey = null;

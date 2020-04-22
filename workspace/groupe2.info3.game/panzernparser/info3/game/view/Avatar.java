@@ -26,7 +26,7 @@ public class Avatar {
 		MyDirection e_dir = m_entity.getLookAtDir();
 		MyDirection e_actionDir = m_entity.getCurrentActionDir();
 		LsAction e_ac = m_entity.getCurrentAction();
-		MyDirection absoluteActionDir = MyDirection.toAbsolute(e_actionDir,e_dir);
+		MyDirection absoluteActionDir = MyDirection.toAbsolute(e_dir,e_actionDir);
 		
 		double progress = m_entity.getActionProgress();
 		
@@ -39,24 +39,24 @@ public class Avatar {
 				case NORTH:
 				case NORTHEAST:
 				case NORTHWEST:
-					y -= case_height * progress;
+					y -= (case_height * progress) + case_height;
 					break;
 				case SOUTH:
 				case SOUTHEAST:
 				case SOUTHWEST:
-					y += case_height * progress;
+					y += (case_height * progress) - case_height;
 					break;
 			}
 			switch (absoluteActionDir) {
 				case EAST:
 				case NORTHEAST:
 				case SOUTHEAST:
-					x += case_width * progress;
+					x += (case_width * progress) - case_width;
 					break;
 				case WEST:
 				case NORTHWEST:
 				case SOUTHWEST:
-					x -= case_width * progress;
+					x -= (case_width * progress) + case_width;
 					break;
 			}
 		}

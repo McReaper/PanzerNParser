@@ -71,7 +71,7 @@ public class Action {
 			i++;
 		}
 		if(i >= m_roueDeLaFortune.length) {
-			return false;
+			return true; // TODO : revoir
 		} else {
 			m_funCalls.get(i).execut(e);
 			return true;

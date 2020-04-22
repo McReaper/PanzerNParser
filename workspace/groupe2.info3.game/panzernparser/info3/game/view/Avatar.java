@@ -22,20 +22,27 @@ public class Avatar {
 		m_animation = animation;
 	}
 
+	/**
+	 * Fonction qui dessine l'Avatar d'une entité à l'écran.
+	 * @param g zone de dessin
+	 * @param case_width largeur d'une case dans la vue
+	 * @param case_height hauteur d'une case dans la vue
+	 */
 	public void paint(Graphics g, int case_width, int case_height) {
-		MyDirection e_dir = m_entity.getLookAtDir();
+		MyDirection e_lookAtDir = m_entity.getLookAtDir();
 		MyDirection e_actionDir = m_entity.getCurrentActionDir();
-		LsAction e_ac = m_entity.getCurrentAction();
-		MyDirection absoluteActionDir = MyDirection.toAbsolute(e_dir,e_actionDir);
-		
+		LsAction e_currAction = m_entity.getCurrentAction();
+		MyDirection e_absoluteActionDir = MyDirection.toAbsolute(e_lookAtDir,e_actionDir);
 		double progress = m_entity.getActionProgress();
 		
 		int width = m_entity.getWidth() * case_width;
 		int height = m_entity.getHeight() * case_height;
 		int x = m_entity.getX() * case_width;
 		int y = m_entity.getY() * case_height;
-		if (e_ac == LsAction.Move) {
-			switch (absoluteActionDir) {
+		
+		//Pour réaliser un affichage progressif dans le cas d'un move.
+		if (e_currAction == LsAction.Move) {
+			switch (e_absoluteActionDir) {
 				case NORTH:
 				case NORTHEAST:
 				case NORTHWEST:
@@ -46,8 +53,10 @@ public class Avatar {
 				case SOUTHWEST:
 					y += (case_height * progress) - case_height;
 					break;
+				default:
+					break;
 			}
-			switch (absoluteActionDir) {
+			switch (e_absoluteActionDir) {
 				case EAST:
 				case NORTHEAST:
 				case SOUTHEAST:
@@ -58,10 +67,12 @@ public class Avatar {
 				case SOUTHWEST:
 					x -= (case_width * progress) - case_width;
 					break;
+				default:
+					break;
 			}
 		}
 		
-		Image sprite = m_animation.getImage(progress,e_ac,absoluteActionDir);
+		Image sprite = m_animation.getImage(progress,e_currAction,e_absoluteActionDir);
 		
 		g.drawImage(sprite, x, y, width, height, null);
 	}

@@ -1,10 +1,9 @@
 package info3.game.automaton;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import info3.game.model.entities.*;
+import info3.game.model.entities.Entity;
 
 public class Behaviour {
 
@@ -13,8 +12,8 @@ public class Behaviour {
 	public Behaviour(List<Transition> transition) {
 		m_transitions = transition;
 	}
-	
-	State step (Entity e) {
+
+	State step(Entity e) {
 		ListIterator<Transition> iter = m_transitions.listIterator();
 		Transition current;
 		while (iter.hasNext()) {

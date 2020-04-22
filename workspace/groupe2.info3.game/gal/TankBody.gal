@@ -1,6 +1,5 @@
 TankChassis(Init){
 *(Init)
-	|Cell(H,P) ? Get() : (Init)
 	|Key(z) & Key(d) & MyDir(NE) ? Move(NE) : (Init)
 	|Key(z) & Key(d) & !MyDir(NE) ? Turn(NE) : (Init)
 
@@ -25,7 +24,8 @@ TankChassis(Init){
 	|Key(z) & MyDir(N) ? Move(N) : (Init)
 	|Key(z) & !MyDir(N) ? Turn(N) : (Init)
 
-	|Key(e) ? Pop() : (Init)
-	|Key(a) ? Wizz() : (Init)
+	|Key(e) ? Pop : (Init)
+	|Key(a) ? Wizz : (Init)
+	|True ? Wait : (Init)
 
 }

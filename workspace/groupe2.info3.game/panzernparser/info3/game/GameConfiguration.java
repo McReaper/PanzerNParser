@@ -19,7 +19,7 @@ import info3.game.view.Sprite;
 
 public class GameConfiguration {
 
-	///////////// DOMAIN PUBLIC ///////////////
+	///////////// DOMAINE PUBLIC ///////////////
 
 	public static GameConfiguration getConfig() {
 		createSingleton();
@@ -148,6 +148,7 @@ public class GameConfiguration {
 				throw new FileNotFoundException("Fichier " + fields_ani[1] + " Introuvable !");
 			}
 			// HashMap qui pour une Action et sa direction associe la séquence de sprite.
+			// TODO : revoir ce type de liste (c'est pas très beau à voir et utilisé)
 			HashMap<ActionDirection, int[]> animSeq = new HashMap<ActionDirection, int[]>();
 
 			// Pour chaque ligne du fichier .ani :

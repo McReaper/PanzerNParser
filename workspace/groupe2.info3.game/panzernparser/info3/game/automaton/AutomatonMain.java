@@ -3,10 +3,15 @@ package info3.game.automaton;
 import java.util.LinkedList;
 import java.util.List;
 
-import info3.game.automaton.action.*;
-import info3.game.automaton.condition.*;
+import info3.game.automaton.action.Egg;
+import info3.game.automaton.action.Move;
+import info3.game.automaton.action.Pop;
+import info3.game.automaton.action.Protect;
+import info3.game.automaton.condition.False;
+import info3.game.automaton.condition.Key;
 import info3.game.model.Model;
-import info3.game.model.entities.*;
+import info3.game.model.entities.Enemy;
+import info3.game.model.entities.Entity;
 
 public class AutomatonMain {
 	/*
@@ -58,7 +63,7 @@ public class AutomatonMain {
 		 * création de toutes les conditions qui vont être utilisés dans l'automate pour
 		 * le moment on utilise que True, False et (True || False)
 		 */
-		
+
 		LsKey A = LsKey.A;
 		Condition condTrue = new Key(A);
 		Condition condFalse = new False();

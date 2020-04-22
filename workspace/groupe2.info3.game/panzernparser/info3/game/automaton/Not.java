@@ -1,10 +1,10 @@
 package info3.game.automaton;
 
-import info3.game.model.entities.*;
+import info3.game.model.entities.Entity;
 
-public class Not extends Condition{
+public class Not extends Condition {
 	public Condition m_exp;
-	
+
 	public Not(Condition expression) {
 		m_exp = expression;
 	}

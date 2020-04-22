@@ -2,22 +2,16 @@ package info3.game;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.io.File;
-import java.io.FileNotFoundException;
 
 import javax.swing.JFrame;
 
-import info3.game.automaton.Automaton;
 import info3.game.controller.Controller;
 import info3.game.model.Model;
-import info3.game.model.entities.Drone;
-import info3.game.model.entities.Enemy;
-import info3.game.model.entities.Entity;
 import info3.game.view.View;
 
 public class GameMain {
 
-	static final String GAME_TITLE = "Panzer n' Parser - Ultra preAlpha Version";
+	static final String GAME_TITLE = "Panzer n' Parser - preAlpha Version";
 
 	Controller m_controller;
 	Model m_model;
@@ -33,8 +27,8 @@ public class GameMain {
 	}
 
 	GameMain(){
-		// On ouvre le fichier de config
-		File config_file = new File("panzernparser.cfg");
+		//On force le parsing le configuration du jeu avant de créer quoi que ce soit
+		GameConfiguration.getConfig();
 
 		// On créer l'univers du jeu
 		m_model = new Model();
@@ -43,7 +37,7 @@ public class GameMain {
 		m_controller = new Controller(m_model);
 
 		// On créer une vue de cette univers
-		m_view = new View(m_controller, m_model, config_file);
+		m_view = new View(m_controller, m_model);
 
 		// On attribut cette vue au controleur, qui écoute
 		m_controller.setView(m_view);

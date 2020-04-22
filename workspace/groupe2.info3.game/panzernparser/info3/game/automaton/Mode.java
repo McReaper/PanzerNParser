@@ -1,6 +1,6 @@
 package info3.game.automaton;
 
-import info3.game.model.entities.*;
+import info3.game.model.entities.Entity;
 
 public class Mode {
 	Behaviour m_behaviour;

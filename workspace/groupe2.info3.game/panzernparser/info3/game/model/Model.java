@@ -20,46 +20,17 @@ public class Model {
 	Grid m_grid;
 	LinkedList<Entity> m_entities;
 	public LinkedList<LsKey> m_keyPressed;
-	public List<Automaton> m_automatons;
 
 	public Model() {
 		// Génère la liste des automates
 		m_model = this;
 		m_keyPressed = new LinkedList<LsKey>();
-		try {
-//			m_automatons = new ArrayList<Automaton>();
-//			String path = "gal";
-//			File repertoire = new File(path);
-//			String[] fils = repertoire.list();
-//			BotBuilder bb8 = new BotBuilder();
-//			List<Automaton> lsAuto;
-//			for (String curFil : fils) {
-//				System.out.print(curFil);
-//				AST myAST = AutomataParser.from_file(path + "/" + curFil);
-//				System.out.println(" fait");
-//				lsAuto = (List<Automaton>) myAST.accept(bb8);
-//				m_automatons.addAll(lsAuto);
-//      } 
-			
-			/* si un seul fichier .gal commentez début try et décomenter fin */
-			BotBuilder bb8 = new BotBuilder();
-			AST myAST = AutomataParser.from_file("gal/Drone.gal");
-			List<Automaton> lsAuto = (List<Automaton>) myAST.accept(bb8);
-			m_automatons = (lsAuto);
-		} catch (Exception e) {
-			System.out.println();
-			System.out.println("fichier non trouvé pour la création des automates");
-			e.printStackTrace();
-		}
+		m_entities = new LinkedList<Entity>();
+		
 		// Génère la grille du jeu qui va créer a son tour toutes les entités et mettre
 		// la liste des entités à jour. La grille doit connaitre ses patterns lors de sa
 		// création, le model doit donc lui donner.
-		m_entities = new LinkedList<Entity>();
-		Automaton drone = m_model.m_automatons.get(0);
-		Entity e = new Enemy(2, 2, Enemy.ENEMY_WIDTH, Enemy.ENEMY_HEIGHT, m_model);
-		e.setAutomaton(drone);
-		e.setState(drone.getState());
-		m_entities.add(e);
+		
 		// Version de test ci-dessous :
 		m_grid = new Grid(this);
 		

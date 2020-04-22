@@ -121,9 +121,9 @@ public class Controller implements GameCanvasListener {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public LsKey toLsKey(KeyEvent e) {
-		switch(e.getKeyCode()) {
+		switch (e.getKeyCode()) {
 			case KeyEvent.VK_A:
 				return LsKey.A;
 			case KeyEvent.VK_B:

@@ -1,10 +1,9 @@
 package info3.game.automaton;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import info3.game.model.entities.*;
+import info3.game.model.entities.Entity;
 
 public class Automaton {
 	State m_state;
@@ -16,11 +15,11 @@ public class Automaton {
 		m_modes = modes;
 		m_name = name;
 	}
-	
+
 	public State getState() {
 		return m_state;
 	}
-	
+
 	public String getName() {
 		return m_name;
 	}

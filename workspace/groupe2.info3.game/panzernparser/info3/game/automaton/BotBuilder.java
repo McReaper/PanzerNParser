@@ -21,9 +21,28 @@ import info3.game.automata.ast.Transition;
 import info3.game.automata.ast.UnaryOp;
 import info3.game.automata.ast.Underscore;
 import info3.game.automata.ast.Value;
-import info3.game.automaton.action.*;
-import info3.game.automaton.condition.*;
+import info3.game.automaton.action.Egg;
+import info3.game.automaton.action.Explode;
+import info3.game.automaton.action.Get;
+import info3.game.automaton.action.Hit;
+import info3.game.automaton.action.Jump;
+import info3.game.automaton.action.Move;
+import info3.game.automaton.action.Pick;
+import info3.game.automaton.action.Pop;
+import info3.game.automaton.action.Power;
+import info3.game.automaton.action.Protect;
+import info3.game.automaton.action.Store;
+import info3.game.automaton.action.Throw;
+import info3.game.automaton.action.Turn;
+import info3.game.automaton.action.Wait;
+import info3.game.automaton.action.Wizz;
 //alias mAut = info3.game.myAutotmaton;
+import info3.game.automaton.condition.Cell;
+import info3.game.automaton.condition.Closest;
+import info3.game.automaton.condition.GotPower;
+import info3.game.automaton.condition.GotStuff;
+import info3.game.automaton.condition.MyDir;
+import info3.game.automaton.condition.True;
 
 public class BotBuilder implements IVisitor {
 

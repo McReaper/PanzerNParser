@@ -16,27 +16,28 @@ public class Animation {
 
 	Sprite m_sprite;
 	HashMap<ActionDirection, int[]> m_animationSequence;
-	
+
 	public Animation(Sprite sprite, HashMap<ActionDirection, int[]> animationSequence) {
 		m_sprite = sprite;
 		m_animationSequence = animationSequence;
 	}
-	
+
 	public Image getImage(double ActionProgress, LsAction ac, MyDirection dir) {
 		if (ac == null) {
-			//TODO : definir l'affichage dans le cas ou il n'y a pas d'action en cours
+			// TODO : definir l'affichage dans le cas ou il n'y a pas d'action en cours (ici
+			// rien ne sera affiché)
 			return null;
 		}
-		ActionDirection aD = new ActionDirection(ac,dir);
+		ActionDirection aD = new ActionDirection(ac, dir);
 		int[] seq = m_animationSequence.get(aD);
 		if (seq == null) {
-			//TODO : definir l'affichage dans le cas ou il n'y a pas d'animation associcée
+			// TODO : definir l'affichage dans le cas ou il n'y a pas d'animation associcée
+			// (ici rien ne sera affiché)
 			return null;
 		}
-		int i = (int)(ActionProgress * seq.length);
-		if (i >= seq.length) i = seq.length -1;
+		int i = (int) (ActionProgress * seq.length);
+		if (i >= seq.length)
+			i = seq.length - 1;
 		return m_sprite.getSprite(seq[i]);
 	}
-	
-	// TODO : ajouter une animation pour chaque actions (wizz/pop/turn/...)
 }

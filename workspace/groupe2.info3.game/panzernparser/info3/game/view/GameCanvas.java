@@ -356,13 +356,14 @@ public class GameCanvas extends Canvas {
 			enableEvents(RunnableEvent.EVENT_ID);
 		}
 
-		@Override
-		public final void update(Graphics g) {
-		}
-
-		@Override
-		public final void paint(Graphics g) {
-		}
+// Suite au mail de Pr.Gruber, nous commentons ces lignes :
+//		@Override
+//		public final void update(Graphics g) {
+//		}
+//
+//		@Override
+//		public final void paint(Graphics g) {
+//		}
 	}
 
 	public JFrame createFrame(Dimension d) {

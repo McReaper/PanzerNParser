@@ -2,6 +2,8 @@ package info3.game;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 import javax.swing.JFrame;
 
@@ -24,20 +26,24 @@ public class GameMain {
 
 	static GameMain game;
 
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		System.out.println("Starting game");
 		game = new GameMain();
 		System.out.println("Game started");
 	}
 
-	GameMain() {
+	GameMain(){
+		// On ouvre le fichier de config
+		File config_file = new File("panzernparser.cfg");
+
 		// On créer l'univers du jeu
 		m_model = new Model();
+
 		// On créer le contrôleur qui va intéragir avec cet univers
 		m_controller = new Controller(m_model);
 
 		// On créer une vue de cette univers
-		m_view = new View(m_controller, m_model);
+		m_view = new View(m_controller, m_model, config_file);
 
 		// On attribut cette vue au controleur, qui écoute
 		m_controller.setView(m_view);

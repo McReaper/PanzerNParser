@@ -21,6 +21,7 @@ public abstract class Entity {
 	int m_y;
 	int m_width;
 	int m_height;
+	int m_speed;
 	MyDirection m_currentLookAtDir;
 	MyDirection m_currentActionDir;
 	boolean m_stuff; // gotStuff ?
@@ -45,6 +46,8 @@ public abstract class Entity {
 		m_currentActionDir = MyDirection.NORTH; //par défaut
 		
 		m_timeOfAction =0;
+		
+		
 	}
 
 	public abstract void step(long elapsed);

@@ -6,7 +6,6 @@ import info3.game.model.Model;
 public abstract class MovingEntity extends Entity {
 
 	int m_health;
-	int m_speed;
 	// m_viewPort; //Dans la phase de tests on a pas de viewport...
 
 	public MovingEntity(int x, int y, int width, int height, int health, int speed, Model model) {

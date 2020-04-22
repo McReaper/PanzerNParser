@@ -3,6 +3,7 @@ package info3.game.view;
 import java.awt.Image;
 import java.util.HashMap;
 
+import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 
 /**
@@ -20,7 +21,7 @@ public class Animation {
 		m_animationSequence = animationSequence;
 	}
 	
-	public Image getImage(double ActionProgress, LsAction ac) {
+	public Image getImage(double ActionProgress, LsAction ac, MyDirection dir) {
 		if (ac == null) {
 			//TODO : definir l'affichage dans le cas ou il n'y a pas d'action en cours
 			return null;

@@ -20,6 +20,7 @@ public abstract class Entity {
 	int m_y;
 	int m_width;
 	int m_height;
+	MyDirection m_currentActionDir;
 	MyDirection m_dir;
 	boolean m_stuff; // gotStuff ?
 	// Automaton m_automate; //automate associé
@@ -66,6 +67,14 @@ public abstract class Entity {
 	
 	public LsAction getCurrentAction() {
 		return m_currentAction;
+	}
+	
+	public MyDirection getCurrentActionDir() {
+		return m_currentActionDir;
+	}
+	
+	public MyDirection getLookAtDir() {
+		return m_dir;
 	}
 	
 	public abstract double getActionProgress();

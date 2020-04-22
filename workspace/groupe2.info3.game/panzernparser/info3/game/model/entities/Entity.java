@@ -95,22 +95,31 @@ public abstract class Entity {
 
 	public void Egg(MyDirection dir) {
 		System.out.println("Is Egging");
+		m_currentActionDir = dir;
+		m_currentAction = LsAction.Egg;
 	}
 
 	public void Get(MyDirection dir) {
 		System.out.println("Is Getting");
+		m_currentActionDir = dir;
+		m_currentAction = LsAction.Get;
 	}
 
 	public void Hit(MyDirection dir) {
 		System.out.println("Is Hitting");
+		m_currentActionDir = dir;
+		m_currentAction = LsAction.Hit;
 	}
 
 	public void Explode() {
 		System.out.println("Is Exploding");
+		m_currentAction = LsAction.Explode;
 	}
 
 	public void Jump(MyDirection dir) {
 		System.out.println("Is Jumping");
+		m_currentActionDir = dir;
+		m_currentAction = LsAction.Jump;
 	}
 
 	public void Move(MyDirection dir) {
@@ -283,28 +292,38 @@ public abstract class Entity {
 			default:
 				break;
 		}
+		m_currentActionDir = dir;
 		System.out.println("Arrived and facing " + m_currentLookAtDir);
 		return;
 	}
 
 	public void Pick(MyDirection dir) {
 		System.out.println("Is Picking");
+		m_currentActionDir = dir;
+		m_currentAction = LsAction.Pick;
 	}
 
 	public void Pop(MyDirection dir) {
 		System.out.println("Is Poping");
+		m_currentActionDir = dir;
+		m_currentAction = LsAction.Pop;
 	}
 
 	public void Power() {
 		System.out.println("Is \"UNLIMITED PAWER!!\"-ing");
+		m_currentAction = LsAction.Power;
 	}
 
 	public void Protect(MyDirection dir) {
 		System.out.println("Is Protecting");
+		m_currentActionDir = dir;
+		m_currentAction = LsAction.Protect;
 	}
 
 	public void Store(MyDirection dir) {
 		System.out.println("Is Storing");
+		m_currentActionDir = dir;
+		m_currentAction = LsAction.Store;
 	}
 
 	public void Turn(MyDirection dir, int angle) {
@@ -412,21 +431,29 @@ public abstract class Entity {
 			default:
 				break;
 		}
+		m_currentActionDir = dir;
+		m_currentAction = LsAction.Turn;
 	}
 
 	public void Throw(MyDirection dir) {
 		System.out.println("Is Throwing");
+		m_currentActionDir = dir;
+		m_currentAction = LsAction.Throw;
 	}
 
 	public void Wait() {
 		System.out.println("Is Waiting");
+		m_currentAction = LsAction.Wait;
 	}
 
 	public void Wizz(MyDirection dir) {
 		System.out.println("Is Wizzing");
+		m_currentActionDir = dir;
+		m_currentAction = LsAction.Wizz;
 	}
 
 	public boolean myDir(MyDirection dir) {
+		//m_currentActionDir = dir;
 		//System.out.println("Is myDiring");
 		if (m_currentActionDir != null) {
 			return m_currentActionDir.equals(dir);
@@ -435,6 +462,7 @@ public abstract class Entity {
 	}
 
 	public boolean Cell(MyDirection dir, MyCategory type, int dist) {
+		//m_currentActionDir = dir;
 		return true;
 	}
 
@@ -449,6 +477,7 @@ public abstract class Entity {
 	}
 
 	public boolean Closest(MyDirection dir, MyCategory type) {
+		//m_currentActionDir = dir;
 		return false;
 
 	}

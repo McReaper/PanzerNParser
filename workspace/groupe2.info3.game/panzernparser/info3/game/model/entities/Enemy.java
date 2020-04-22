@@ -159,7 +159,6 @@ public class Enemy extends MovingEntity {
 		System.out.println("Turn !");
 		m_currentAction = LsAction.Turn;
 		super.Turn(dir, angle);
-		m_currentActionDir = m_currentLookAtDir;//l'action se fait dans la direction dans laquelle on regarde
 	}
 
 	@Override

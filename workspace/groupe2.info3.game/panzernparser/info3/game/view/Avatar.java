@@ -39,7 +39,7 @@ public class Avatar {
 				case NORTH:
 				case NORTHEAST:
 				case NORTHWEST:
-					y -= (case_height * progress) + case_height;
+					y -= (case_height * progress) - case_height;
 					break;
 				case SOUTH:
 				case SOUTHEAST:
@@ -56,7 +56,7 @@ public class Avatar {
 				case WEST:
 				case NORTHWEST:
 				case SOUTHWEST:
-					x -= (case_width * progress) + case_width;
+					x -= (case_width * progress) - case_width;
 					break;
 			}
 		}

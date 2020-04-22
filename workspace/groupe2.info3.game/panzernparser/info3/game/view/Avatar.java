@@ -34,6 +34,32 @@ public class Avatar {
 		int height = m_entity.getHeight() * case_height;
 		int x = m_entity.getX() * case_width;
 		int y = m_entity.getY() * case_height;
+		if (e_ac == LsAction.Move) {
+			switch (absoluteActionDir) {
+				case NORTH:
+				case NORTHEAST:
+				case NORTHWEST:
+					y -= case_height * progress;
+					break;
+				case SOUTH:
+				case SOUTHEAST:
+				case SOUTHWEST:
+					y += case_height * progress;
+					break;
+			}
+			switch (absoluteActionDir) {
+				case EAST:
+				case NORTHEAST:
+				case SOUTHEAST:
+					x += case_width * progress;
+					break;
+				case WEST:
+				case NORTHWEST:
+				case SOUTHWEST:
+					x -= case_width * progress;
+					break;
+			}
+		}
 		
 		Image sprite = m_animation.getImage(progress,e_ac,absoluteActionDir);
 		

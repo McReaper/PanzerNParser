@@ -27,6 +27,7 @@ public class Animation {
 		}
 		int[] seq = m_animationSequence.get(ac);
 		int i = (int)(ActionProgress * seq.length);
+		if (i >= seq.length) i--;
 		return m_sprite.getSprite(seq[i]);
 	}
 	

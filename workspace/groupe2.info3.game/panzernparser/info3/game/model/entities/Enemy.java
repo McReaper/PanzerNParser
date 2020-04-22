@@ -1,5 +1,6 @@
 package info3.game.model.entities;
 
+import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Material.MaterialType;
 import info3.game.model.Model;
@@ -38,7 +39,7 @@ public class Enemy extends MovingEntity {
 		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, model);
 		m_triggered = false; // Valeur par défaut
 		m_drops = new Droppable(this.m_x, this.m_y, 1, 1, 1, MaterialType.ELECTRONIC, model);
-		m_currentAction = LsAction.Nothing; // TODO : a retirer, c'est pour les tests.
+		m_currentAction = null; // TODO : a retirer, c'est pour les tests.
 	}
 
 	@Override
@@ -102,6 +103,8 @@ public class Enemy extends MovingEntity {
 			} else {
 				m_elapseTime += elapsed;
 			}
+		} else {
+			this.setState(m_automate.step(this));
 		}
 	}
 
@@ -142,6 +145,13 @@ public class Enemy extends MovingEntity {
 			}
 		}
 		return 0;
+	}
+	
+	@Override
+	public void Move(MyDirection dir) {
+		System.out.println("Move !");
+		m_currentAction = LsAction.Move;
+		super.Move(dir);
 	}
 
 }

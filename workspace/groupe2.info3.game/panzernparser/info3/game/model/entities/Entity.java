@@ -37,7 +37,6 @@ public abstract class Entity {
 		m_y = y;
 		m_width = width;
 		m_height = height;
-		m_dir = MyDirection.NORTH;
 		
 		m_model = model;
 		m_dir = MyDirection.NORTH; //par défault

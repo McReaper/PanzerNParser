@@ -28,7 +28,7 @@ public class Model {
 		m_keyPressed = new LinkedList<LsKey>();
 		try {
 //			m_automatons = new ArrayList<Automaton>();
-//			String path = "../../automate.gal";
+//			String path = "gal";
 //			File repertoire = new File(path);
 //			String[] fils = repertoire.list();
 //			BotBuilder bb8 = new BotBuilder();
@@ -43,7 +43,7 @@ public class Model {
 			
 			/* si un seul fichier .gal commentez début try et décomenter fin */
 			BotBuilder bb8 = new BotBuilder();
-			AST myAST = AutomataParser.from_file("../../automate.gal/drone.gal");
+			AST myAST = AutomataParser.from_file("gal/drone.gal");
 			List<Automaton> lsAuto = (List<Automaton>) myAST.accept(bb8);
 			m_automatons = (lsAuto);
 		} catch (Exception e) {

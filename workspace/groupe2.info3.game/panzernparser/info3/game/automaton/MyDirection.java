@@ -3,145 +3,33 @@ package info3.game.automaton;
 public enum MyDirection {
 	NORTH, EAST, WEST, SOUTH, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST, LEFT, RIGHT, FRONT, BACK, HERE;
 
-
-	public MyDirection ToAbsolute( MyDirection currentDir, MyDirection actionDir) {
+	public MyDirection toAbsolute(MyDirection currentDir, MyDirection actionDir) {
 		switch (actionDir) {
 			case FRONT:
+				return currentDir;
+			case LEFT:
 				switch (currentDir) {
 					case NORTH:
+						return NORTHWEST;
+					case EAST:
+						return NORTHEAST;
+					case SOUTH:
+						return SOUTHEAST;
+					case WEST:
+						return SOUTHWEST;
+					case NORTHEAST:
 						return NORTH;
-						break;
-					case EAST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTH:
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case WEST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHEAST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
 					case SOUTHEAST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
+						return EAST;
 					case SOUTHWEST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
+						return SOUTH;
 					case NORTHWEST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
+						return WEST;
 					default:
 						break;
 				}
-				break;
-			case LEFT:
-				switch (m_dir) {
-					case NORTH:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case EAST:
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTH:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						break;
-					case WEST:
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHEAST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTHEAST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTHWEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHWEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					default:
-						break;
-				}
-				break;
-			case RIGHT:
-				switch (m_dir) {
-					case NORTH:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						break;
-					case EAST:
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTH:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case WEST:
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHEAST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTHEAST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTHWEST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHWEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					default:
-						break;
-				}
-				break;
-			case BACK:
-				switch (m_dir) {
-					case NORTH:
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case EAST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTH:
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case WEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHEAST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTHEAST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTHWEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHWEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					default:
-						break;
-				}
-		
-	}
 
+		}
+
+	}
 }

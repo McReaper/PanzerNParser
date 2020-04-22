@@ -22,12 +22,13 @@ public abstract class Entity {
 	int m_height;
 	MyDirection m_currentActionDir;
 	MyDirection m_dir;
+	MyDirection m_actionDir;
 	boolean m_stuff; // gotStuff ?
 	// Automaton m_automate; //automate associé
 	State m_currentState;// Emilie : TODO gerer les cas null suite a l'automate
 	Automaton m_automate; //automate associé
 	public Model m_model;
-
+	
 	public Entity(int x, int y, int width, int height, Model model) {
 		m_elapseTime = 0;
 		m_currentAction = null;
@@ -117,9 +118,12 @@ public abstract class Entity {
 		System.out.println("Is Jumping");
 	}
 
+	
+	
 	public void Move(MyDirection dir) {
 		System.out.println("Is Moving to " + dir);
 		this.m_currentAction = LsAction.Move;
+		m_actionDir = dir;
 		switch (dir) {
 			case FRONT:
 				switch (m_dir) {

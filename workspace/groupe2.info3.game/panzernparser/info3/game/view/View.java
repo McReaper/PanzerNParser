@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -20,18 +19,12 @@ public class View extends Container {
 	Controller m_controller;
 	Model m_model;
 	LinkedList<Avatar> m_avatars;
-	AvatarFactory m_factory;
+	// AvatarFactory m_factory;
 
-	public View(Controller controller, Model model, File config_file) {
+	public View(Controller controller, Model model) {
 		// créer la fenetre de jeu avec les bandeaux d'updrage et le canvas.
 		m_controller = controller;
 		m_model = model;
-		try {
-			m_factory = new AvatarFactory(config_file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}
 		m_canvas = new GameCanvas(m_controller);
 		this.setLayout(new BorderLayout());
 		this.add(m_canvas, BorderLayout.CENTER);
@@ -53,13 +46,13 @@ public class View extends Container {
 		while (!mustRebuild && iter_ent.hasNext() && iter_avt.hasNext()) {
 			Entity entity = iter_ent.next();
 			Avatar avatar = iter_avt.next();
-			if (entity != avatar.m_entity) 
+			if (entity != avatar.m_entity)
 				mustRebuild = true;
 		}
 		if (mustRebuild) {
 			m_avatars = new LinkedList<Avatar>();
 			for (Entity entity : m_model.getEntities()) {
-				m_avatars.add(m_factory.newAvatar(entity));
+				m_avatars.add(AvatarFactory.newAvatar(entity));
 			}
 		}
 	}
@@ -71,22 +64,21 @@ public class View extends Container {
 		int width = m_canvas.getWidth();
 		int height = m_canvas.getHeight();
 
-		// TODO : dessiner la grille :
+		// Dessin précaire de la grille :
 		int nb_cells_X = m_model.getGrid().getNbCellsX();
 		int nb_cells_Y = m_model.getGrid().getNbCellsY();
-		g.setColor(Color.BLACK);
+		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, width, height);
 
 		int case_width = width / nb_cells_X;
 		int case_height = height / nb_cells_Y;
 
-		g.setColor(Color.WHITE);
+		g.setColor(Color.LIGHT_GRAY);
 		for (int x = 1; x < nb_cells_X; x++)
 			g.drawLine(x * case_width, 0, x * case_width, height);
 		for (int y = 1; y < nb_cells_Y; y++)
 			g.drawLine(0, y * case_height, width, y * case_height);
 
-		// TODO : dessiner chaque entité
 		updateAvatars();
 		for (Avatar avatar : m_avatars) {
 			avatar.paint(g, case_width, case_height); // TODO : revoir la zone avec le viewport plus tard.

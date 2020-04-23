@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.rmi.UnexpectedException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Grid {
 	/* entier pour le nombre de zone à charger dans la grille */
 	final static int TAILLE_MAP = 2;
 
-	public Grid(Model model) {
+	public Grid(Model model) throws UnexpectedException {
 		// Constructeur (phase de tests) :
 		m_patterns = new LinkedList<Pattern>();
 		m_model = model;
@@ -39,7 +40,7 @@ public class Grid {
 		return TAILLE_MAP * Pattern.SIZE;
 	}
 
-	public void generate() {
+	public void generate() throws UnexpectedException {
 		int Max = m_patterns.size() - 1;
 		int patterns_chose = 0;
 		int rand = 0;
@@ -59,7 +60,7 @@ public class Grid {
 			}
 			sendToModel(selectedPatterns);
 		} else {
-			System.out.println("ERROR : Not Enough Patterns to continue");
+			throw new UnexpectedException("Not Enough Patterns to continue");
 		}
 	}
 
@@ -68,7 +69,7 @@ public class Grid {
 			List<Entity> entities = pattern.getEntities();
 			for (Entity entity : entities) {
 				m_model.addEntity(entity);
-				System.out.println("Send " + EntityFactory.name(entity) + " : " + entity.getX() + "," + entity.getY());
+				//System.out.println("Send " + EntityFactory.name(entity) + " : " + entity.getX() + "," + entity.getY());
 			}
 		}
 	}
@@ -159,13 +160,13 @@ public class Grid {
 				MyEntities type = null;
 				switch (name) {
 					case "drop1":
-						type = MyEntities.DROPPABLE;
+						type = MyEntities.Droppable;
 						break;
 					case "enem1":
-						type = MyEntities.ENEMY;
+						type = MyEntities.Enemy;
 						break;
 					case "vein1":
-						type = MyEntities.VEIN;
+						type = MyEntities.Vein;
 						break;
 				}
 				int x = Integer.parseInt(sx);

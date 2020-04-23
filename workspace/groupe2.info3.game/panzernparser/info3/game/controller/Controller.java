@@ -16,7 +16,6 @@ public class Controller implements GameCanvasListener {
 
 	public Controller(Model model) {
 		m_model = model;
-		// Créer les timers pour la vue et le modele
 	}
 
 	public void setView(View view) {
@@ -87,6 +86,7 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		System.out.println("Une touche!!");
 		LsKey temp = toLsKey(e);
 		m_model.addKeyPressed(temp);
 	}
@@ -120,9 +120,9 @@ public class Controller implements GameCanvasListener {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public LsKey toLsKey(KeyEvent e) {
-		switch(e.getKeyCode()) {
+		switch (e.getKeyCode()) {
 			case KeyEvent.VK_A:
 				return LsKey.A;
 			case KeyEvent.VK_B:
@@ -203,6 +203,10 @@ public class Controller implements GameCanvasListener {
 				return LsKey.AL;
 			case KeyEvent.VK_RIGHT:
 				return LsKey.AR;
+			case KeyEvent.VK_SPACE:
+				return LsKey.SPACE;
+			case KeyEvent.VK_ENTER:
+				return LsKey.ENTER;
 		}
 		return null;
 	}

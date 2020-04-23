@@ -39,5 +39,5 @@ public class Sprite {
 	public BufferedImage getSprite(int index) throws IndexOutOfBoundsException {
 		return m_sprites[index - 1];
 	}
-	
+
 }

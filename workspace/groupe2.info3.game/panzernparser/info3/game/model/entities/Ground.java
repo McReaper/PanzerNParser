@@ -1,5 +1,6 @@
 package info3.game.model.entities;
 
+import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -26,12 +27,12 @@ public class Ground extends StaticEntity {
 	public static final long GROUND_STORE_TIME = 1000;
 	public static final long GROUND_TURN_TIME = 1000;
 	public static final long GROUND_THROW_TIME = 1000;
-	public static final long GROUND_WAIT_TIME = 50;
+	public static final long GROUND_WAIT_TIME = 1000;
 	public static final long GROUND_WIZZ_TIME = 1000;
 
 	
-	public Ground(int x, int y, int width, int height, Model model) {
-		super(x, y, width, height, model);
+	public Ground(int x, int y, int width, int height, Model model, Automaton aut) {
+		super(x, y, width, height, model, aut);
 	}
 
 	@Override

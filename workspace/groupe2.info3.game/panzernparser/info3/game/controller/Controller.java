@@ -204,6 +204,10 @@ public class Controller implements GameCanvasListener {
 				return LsKey.AL;
 			case KeyEvent.VK_RIGHT:
 				return LsKey.AR;
+			case KeyEvent.VK_SPACE:
+				return LsKey.SPACE;
+			case KeyEvent.VK_ENTER:
+				return LsKey.ENTER;
 		}
 		return null;
 	}

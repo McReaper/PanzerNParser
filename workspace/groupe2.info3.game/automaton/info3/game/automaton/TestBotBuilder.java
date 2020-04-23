@@ -16,7 +16,7 @@ public class TestBotBuilder {
 		List<Automaton> lsAuto = (List<Automaton>) myAST.accept(new BotBuilder());
 		System.out.println("c'est passé");
 		Model model = new Model();
-		Entity e = new Enemy(0, 0, 0, 0, model);
+		Entity e = new Enemy(0, 0, 0, 0, model, lsAuto.get(0));
 		e.setState(lsAuto.get(0).m_state);
 		while (true) {
 			State newStateAuto1 = lsAuto.get(0).step(e);

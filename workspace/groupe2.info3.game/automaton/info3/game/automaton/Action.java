@@ -57,14 +57,14 @@ public class Action {
 	}
 
 	boolean execute(Entity e) {
+		if (m_roueDeLaFortune.length == 0) return true;
 		int percent = (int) (Math.random() * 100);
 		int i = 0;
 		while (i < m_roueDeLaFortune.length && percent > m_roueDeLaFortune[i]) {
 			i++;
 		}
 		if (i >= m_roueDeLaFortune.length) {
-			return true; // TODO : revoir, car cette ligne passe de false à true pour des raisons
-										// justifiables
+			return false;
 		} else {
 			m_funCalls.get(i).execut(e);
 			return true;

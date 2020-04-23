@@ -1,5 +1,6 @@
 package info3.game.model.entities;
 
+import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -31,8 +32,8 @@ public class Turret extends MovingEntity {
 	public static final long TURRET_WAIT_TIME = 50;
 	public static final long TURRET_WIZZ_TIME = 1000;
 
-	public Turret(int x, int y, int width, int height, int health, int speed, Model model) {
-		super(x, y, width, height, health, speed, model);
+	public Turret(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
+		super(x, y, width, height, health, speed, model, aut);
 	}
 
 	int m_range;

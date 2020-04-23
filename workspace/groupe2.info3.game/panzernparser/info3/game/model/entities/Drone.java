@@ -1,5 +1,6 @@
 package info3.game.model.entities;
 
+import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
 import info3.game.automaton.action.LsAction;
@@ -31,8 +32,8 @@ public class Drone extends MovingEntity {
 	VisionType m_currentVisionType;
 
 
-	public Drone(int x, int y, int width, int height, int health, int speed, Model model) {
-		super(x, y, width, height, health, speed, model);
+	public Drone(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
+		super(x, y, width, height, health, speed, model, aut);
 		m_currentVisionType = VisionType.ENEMIES;
 	}
 

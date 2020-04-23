@@ -18,6 +18,8 @@ public class AvatarFactory {
 			return new Avatar(entity, config.getAnimation(MyEntities.Drone));
 		} else if (entity instanceof Enemy) {
 			return new Avatar(entity, config.getAnimation(MyEntities.Enemy));
+		} else if (entity instanceof Vein) {
+			return new Avatar(entity, config.getAnimation(MyEntities.Vein));
 		} else if (entity instanceof Ground) {
 			return new Avatar(entity, config.getAnimation(MyEntities.Ground));
 		} else if (entity instanceof Marker) {
@@ -28,8 +30,6 @@ public class AvatarFactory {
 			return new Avatar(entity, config.getAnimation(MyEntities.TankBody));
 		} else if (entity instanceof Turret) {
 			return new Avatar(entity, config.getAnimation(MyEntities.Turret));
-		} else if (entity instanceof Vein) {
-			return new Avatar(entity, config.getAnimation(MyEntities.Vein));
 		}
 
 		throw new IllegalArgumentException("This instance of Entity is not recognized by the view.");

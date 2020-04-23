@@ -1,7 +1,7 @@
 package info3.game.automaton;
 
 public enum MyDirection {
-	NORTH, EAST, WEST, SOUTH, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST, LEFT, RIGHT, FRONT, BACK;
+	NORTH, EAST, WEST, SOUTH, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST, LEFT, RIGHT, FRONT, BACK, HERE;
 
 	public static MyDirection toAbsolute(MyDirection currentDir, MyDirection actionDir) {
 		if (actionDir == null)

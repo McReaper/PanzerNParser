@@ -1,12 +1,13 @@
 package info3.game.model.entities;
 
+import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Material.MaterialType;
 import info3.game.model.Model;
 
 public class Droppable extends StaticEntity {
-	/*Champs pour donner size par defaut dans la EntityFactory */
+	/* Champs pour donner size par defaut dans la EntityFactory */
 	public final static int DROPPABLE_WIDTH = 1;
 	public final static int DROPPABLE_HEIGHT = 1;
 
@@ -15,7 +16,7 @@ public class Droppable extends StaticEntity {
 	public static final long DROPPABLE_HIT_TIME = 1000;
 	public static final long DROPPABLE_JUMP_TIME = 1000;
 	public static final long DROPPABLE_EXPLODE_TIME = 1000;
-	public static final long DROPPABLE_MOVE_TIME = 200;
+	public static final long DROPPABLE_MOVE_TIME = 2000;
 	public static final long DROPPABLE_PICK_TIME = 1000;
 	public static final long DROPPABLE_POP_TIME = 10000;
 	public static final long DROPPABLE_POWER_TIME = 1000;
@@ -23,32 +24,32 @@ public class Droppable extends StaticEntity {
 	public static final long DROPPABLE_STORE_TIME = 1000;
 	public static final long DROPPABLE_TURN_TIME = 1000;
 	public static final long DROPPABLE_THROW_TIME = 1000;
-	public static final long DROPPABLE_WAIT_TIME = 50;
+	public static final long DROPPABLE_WAIT_TIME = 10000;
 	public static final long DROPPABLE_WIZZ_TIME = 1000;
 
 	int m_quantity; // quantité de matériaux lachés
 	MaterialType m_mType; // Type de matériel laché
 
-	public Droppable(int x, int y, int width, int height, int quantity, MaterialType mtype, Model model) {
-		super(x, y, width, height, model);
+	public Droppable(int x, int y, int width, int height, int quantity, MaterialType mtype, Model model, Automaton aut) {
+		super(x, y, width, height, model, aut);
 		m_quantity = quantity;
 		m_mType = mtype;
 	}
 
 	@Override
 	public void step(long elapsed) {
-		if (m_currentAction != null ) {
+		if (m_currentAction != null) {
 			if (m_elapseTime > m_timeOfAction) {
 				m_elapseTime = 0;
 				m_currentAction = null;
 			} else {
 				m_elapseTime += elapsed;
 			}
-		} else  {
+		} else {
 			this.setState(m_automate.step(this));
 		}
 	}
-	
+
 	@Override
 	public void Egg(MyDirection dir) {
 		m_timeOfAction = DROPPABLE_MOVE_TIME;
@@ -56,7 +57,7 @@ public class Droppable extends StaticEntity {
 		m_currentAction = LsAction.Egg;
 		super.Egg(dir);
 	}
-	
+
 	@Override
 	public void Explode() {
 		m_timeOfAction = DROPPABLE_EXPLODE_TIME;
@@ -64,7 +65,7 @@ public class Droppable extends StaticEntity {
 		m_currentAction = LsAction.Explode;
 		super.Explode();
 	}
-	
+
 	@Override
 	public void Get(MyDirection dir) {
 		m_timeOfAction = DROPPABLE_GET_TIME;
@@ -80,7 +81,7 @@ public class Droppable extends StaticEntity {
 		m_currentAction = LsAction.Hit;
 		super.Hit(dir);
 	}
-	
+
 	@Override
 	public void Jump(MyDirection dir) {
 		m_timeOfAction = DROPPABLE_JUMP_TIME;
@@ -88,7 +89,7 @@ public class Droppable extends StaticEntity {
 		m_currentAction = LsAction.Jump;
 		super.Jump(dir);
 	}
-	
+
 	@Override
 	public void Move(MyDirection dir) {
 		m_timeOfAction = DROPPABLE_MOVE_TIME;
@@ -104,7 +105,6 @@ public class Droppable extends StaticEntity {
 		m_currentAction = LsAction.Pick;
 		super.Pick(dir);
 	}
-	
 
 	@Override
 	public void Pop(MyDirection dir) {
@@ -121,7 +121,6 @@ public class Droppable extends StaticEntity {
 		m_currentAction = LsAction.Power;
 		super.Power();
 	}
-	
 
 	@Override
 	public void Protect(MyDirection dir) {
@@ -153,7 +152,7 @@ public class Droppable extends StaticEntity {
 		System.out.println("Turn !");
 		m_currentAction = LsAction.Turn;
 		super.Turn(dir, angle);
-		m_currentActionDir = m_currentLookAtDir;//l'action se fait dans la direction dans laquelle on regarde
+		m_currentActionDir = m_currentLookAtDir;// l'action se fait dans la direction dans laquelle on regarde
 	}
 
 	@Override

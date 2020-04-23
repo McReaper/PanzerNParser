@@ -24,39 +24,34 @@ public class EntityFactory {
 
 	public static Entity newShot(int x, int y, Automaton aut) {
 		Model model = Model.getModel();
-		Entity shot = new Shot(x, y, Shot.SHOT_WIDTH, Shot.SHOT_HEIGHT, 10, 10, model);
-		shot.setAutomaton(aut);
+		Entity shot = new Shot(x, y, Shot.SHOT_WIDTH, Shot.SHOT_HEIGHT, 10, 10, model, aut);
 		return shot;
 		/* par defaut health et time_to_travel = 10 mais a voir où gerer ça */
 	}
 
 	public static Entity newEnemy(int x, int y, Automaton aut) {
 		Model model = Model.getModel();
-		Entity enemy = new Enemy(x, y, Enemy.ENEMY_WIDTH, Enemy.ENEMY_HEIGHT, model);
-		enemy.setAutomaton(aut);
+		Entity enemy = new Enemy(x, y, Enemy.ENEMY_WIDTH, Enemy.ENEMY_HEIGHT, model, aut);
 		return enemy;
 	}
 
 	public static Entity newDroppable(int x, int y, Automaton aut) {
 		Model model = Model.getModel();
 		Entity drop = new Droppable(x, y, Droppable.DROPPABLE_WIDTH, Droppable.DROPPABLE_HEIGHT, 1, MaterialType.ELECTRONIC,
-				model);
-		drop.setAutomaton(aut);
+				model, aut);
 		return drop;
 		// 1 en quantité mais à discuter
 	}
 
 	public static Entity newVein(int x, int y, Automaton aut) {
 		Model model = Model.getModel();
-		Entity vein = new Vein(x, y, Ground.GROUND_WIDTH, Ground.GROUND_HEIGHT, model);
-		vein.setAutomaton(aut);
+		Entity vein = new Vein(x, y, Vein.VEIN_WIDTH, Vein.VEIN_HEIGHT, model, aut);
 		return vein;
 	}
 
 	public static Entity newGround(int x, int y, Automaton aut) {
 		Model model = Model.getModel();
-		Entity ground = new Ground(x, y, Ground.GROUND_WIDTH, Ground.GROUND_HEIGHT, model);
-		ground.setAutomaton(aut);
+		Entity ground = new Ground(x, y, Ground.GROUND_WIDTH, Ground.GROUND_HEIGHT, model, aut);
 		return ground;
 	}
 
@@ -72,18 +67,18 @@ public class EntityFactory {
 				res = newGround(x, y, config.getAutomaton(MyEntities.Ground));
 				break;
 			case Enemy:
-				res = newEnemy(x, y, config.getAutomaton(MyEntities.Ground));
+				res = newEnemy(x, y, config.getAutomaton(MyEntities.Enemy));
 				break;
 			case Droppable:
-				res = newDroppable(x, y, config.getAutomaton(MyEntities.Ground));
+				res = newDroppable(x, y, config.getAutomaton(MyEntities.Droppable));
 				/* a voir où definir les quantités et le type de ressource */
 				break;
 			case Vein:
-				res = newVein(x, y, config.getAutomaton(MyEntities.Ground));
+				res = newVein(x, y, config.getAutomaton(MyEntities.Vein));
 				break;
 
 			case Shot:
-				res = newShot(x, y, config.getAutomaton(MyEntities.Ground));
+				res = newShot(x, y, config.getAutomaton(MyEntities.Shot));
 				break;
 			case Drone:
 			case Marker:

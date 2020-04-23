@@ -1,5 +1,6 @@
 package info3.game.model.entities;
 
+import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Material.MaterialType;
@@ -35,26 +36,26 @@ public class Enemy extends MovingEntity {
 	boolean m_triggered; // indique si l'ennemi a détecté le joueur ou non.
 	Droppable m_drops;
 
-	public Enemy(int x, int y, int width, int height, Model model) {
-		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, model);
+	public Enemy(int x, int y, int width, int height, Model model, Automaton aut) {
+		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, model, aut);
 		m_triggered = false; // Valeur par défaut
-		m_drops = new Droppable(this.m_x, this.m_y, 1, 1, 1, MaterialType.ELECTRONIC, model);
+//		m_drops = new Droppable(this.m_x, this.m_y, 1, 1, 1, MaterialType.ELECTRONIC, model);
 	}
 
 	@Override
 	public void step(long elapsed) {
-		if (m_currentAction != null ) {
+		if (m_currentAction != null) {
 			if (m_elapseTime > m_timeOfAction) {
 				m_elapseTime = 0;
 				m_currentAction = null;
 			} else {
 				m_elapseTime += elapsed;
 			}
-		} else  {
+		} else {
 			this.setState(m_automate.step(this));
 		}
 	}
-	
+
 	@Override
 	public void Egg(MyDirection dir) {
 		m_timeOfAction = ENEMY_MOVE_TIME;
@@ -62,7 +63,7 @@ public class Enemy extends MovingEntity {
 		m_currentAction = LsAction.Egg;
 		super.Egg(dir);
 	}
-	
+
 	@Override
 	public void Explode() {
 		m_timeOfAction = ENEMY_EXPLODE_TIME;
@@ -70,7 +71,7 @@ public class Enemy extends MovingEntity {
 		m_currentAction = LsAction.Explode;
 		super.Explode();
 	}
-	
+
 	@Override
 	public void Get(MyDirection dir) {
 		m_timeOfAction = ENEMY_GET_TIME;
@@ -86,7 +87,7 @@ public class Enemy extends MovingEntity {
 		m_currentAction = LsAction.Hit;
 		super.Hit(dir);
 	}
-	
+
 	@Override
 	public void Jump(MyDirection dir) {
 		m_timeOfAction = ENEMY_JUMP_TIME;
@@ -94,7 +95,7 @@ public class Enemy extends MovingEntity {
 		m_currentAction = LsAction.Jump;
 		super.Jump(dir);
 	}
-	
+
 	@Override
 	public void Move(MyDirection dir) {
 		m_timeOfAction = ENEMY_MOVE_TIME;
@@ -110,7 +111,6 @@ public class Enemy extends MovingEntity {
 		m_currentAction = LsAction.Pick;
 		super.Pick(dir);
 	}
-	
 
 	@Override
 	public void Pop(MyDirection dir) {
@@ -127,7 +127,6 @@ public class Enemy extends MovingEntity {
 		m_currentAction = LsAction.Power;
 		super.Power();
 	}
-	
 
 	@Override
 	public void Protect(MyDirection dir) {

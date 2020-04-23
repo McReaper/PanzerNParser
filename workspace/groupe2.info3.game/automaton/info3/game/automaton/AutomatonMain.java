@@ -29,7 +29,7 @@ public class AutomatonMain {
 		 * correspond à l'entité qui va appeler cet automate
 		 */
 
-		Entity e = new Enemy(0, 0, 0, 0, model);
+		Entity e = new Enemy(0, 0, 0, 0, model, null);
 
 		/*
 		 * création de la liste de modes (de l'automate)

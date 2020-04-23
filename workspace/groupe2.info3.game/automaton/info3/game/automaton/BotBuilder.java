@@ -132,6 +132,9 @@ public class BotBuilder implements IVisitor {
 			case "NW":
 				myDir = MyDirection.NORTHWEST;
 				break;
+			case "H":
+				myDir = MyDirection.HERE;
+				break;
 			default:
 				myDir = null;
 		}

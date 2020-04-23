@@ -1,5 +1,6 @@
 package info3.game.model.entities;
 
+import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -30,8 +31,8 @@ public class TankBody extends MovingEntity {
 	public static final long TANK_BODY_WAIT_TIME = 50;
 	public static final long TANK_BODY_WIZZ_TIME = 1000;
 
-	public TankBody(int x, int y, int width, int height, int health, int speed, Model model) {
-		super(x, y, width, height, health, speed, model);
+	public TankBody(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
+		super(x, y, width, height, health, speed, model, aut);
 	}
 
 	@Override

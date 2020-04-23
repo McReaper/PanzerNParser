@@ -1,5 +1,6 @@
 package info3.game.model.entities;
 
+import info3.game.automaton.Automaton;
 import info3.game.model.Model;
 
 /**
@@ -8,9 +9,9 @@ import info3.game.model.Model;
  */
 public abstract class StaticEntity extends Entity {
 
-	public StaticEntity(int x, int y, int width, int height, Model model) {
-		super(x, y, width, height, model);
-		m_speed  =0;
+	public StaticEntity(int x, int y, int width, int height, Model model, Automaton aut) {
+		super(x, y, width, height, model, aut);
+		m_speed = 0;
 	}
 
 }

@@ -114,15 +114,16 @@ public class GameConfiguration {
 			try {
 				myAST = AutomataParser.from_file("gal/" + fields[2]);
 			} catch (Exception e1) {
-				throw new FileNotFoundException("le fichier gal/" + fields[2] + " est introuvable.");
+				throw new FileNotFoundException("le fichier gal/" + fields[2] + " est introuvable ou erroné");
 			}
 			List<Automaton> lsAuto = (List<Automaton>) myAST.accept(builder);
-			for (Automaton aut : lsAuto) {
-				if (aut.getName().equals(fields[0])) {
-					m_automatons.put(MyEntities.valueOf(fields[0]), aut);
-					break;
-				}
-			}
+//			for (Automaton aut : lsAuto) {
+//				if (aut.getName().equals(fields[0])) {
+//					m_automatons.put(MyEntities.valueOf(fields[0]), aut);
+//					break;
+//				}
+//			}
+			m_automatons.put(MyEntities.valueOf(fields[0]), lsAuto.get(0));
 
 			// Parsing des fichiers .ani !
 			File ani_file = new File("animations/" + fields[4]);

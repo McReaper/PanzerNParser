@@ -30,7 +30,10 @@ public abstract class Entity {
 	Automaton m_automate; // automate associé
 	public Model m_model;
 
-	public Entity(int x, int y, int width, int height, Model model) {
+	public Entity(int x, int y, int width, int height, Model model, Automaton aut) {
+		m_automate = aut;
+		m_currentState = aut.getState();
+		
 		m_elapseTime = 0;
 		m_currentAction = null;
 
@@ -326,7 +329,7 @@ public abstract class Entity {
 	}
 
 	public void Power() {
-		System.out.println("Is \"UNLIMITED PAWER!!\"-ing");
+		System.out.println("Is Powering");
 		m_currentActionDir = null;
 		m_currentAction = LsAction.Power;
 	}
@@ -485,7 +488,7 @@ public abstract class Entity {
 	}
 
 	public boolean GotPower() {
-		System.out.println("Is Got\"UNLIMITED PAWER\"-ing");
+		System.out.println("Is Gotpower-ing");
 		return true;
 	}
 

@@ -1,5 +1,6 @@
 package info3.game.model.entities;
 
+import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -29,8 +30,8 @@ public class Marker extends StaticEntity {
 	public static final long MARKER_WIZZ_TIME = 1000;
 
 
-	public Marker(int x, int y, int width, int height, Model model) {
-		super(x, y, width, height, model);
+	public Marker(int x, int y, int width, int height, Model model, Automaton aut) {
+		super(x, y, width, height, model, aut);
 	}
 
 	@Override

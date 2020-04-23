@@ -1,5 +1,6 @@
 package info3.game.model.entities;
 
+import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -10,7 +11,7 @@ import info3.game.model.Model;
  */
 public class Shot extends MovingEntity {
 	/* Champs pour donner size par defaut dans la EntityFactory */
-	/* a voir comment les shots sont créés (factory ?)*/
+	/* a voir comment les shots sont créés (factory ?) */
 	final static int SHOT_WIDTH = 1;
 	final static int SHOT_HEIGHT = 3;
 
@@ -33,26 +34,26 @@ public class Shot extends MovingEntity {
 	public static final long SHOT_WAIT_TIME = 50;
 	public static final long SHOT_WIZZ_TIME = 1000;
 
-	public Shot(int x, int y, int width, int height, int health, int speed, Model model) {
-		super(x, y, width, height, health, speed, model);
+	public Shot(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
+		super(x, y, width, height, health, speed, model, aut);
 	}
 
 	int m_damage;
 
 	@Override
 	public void step(long elapsed) {
-		if (m_currentAction != null ) {
+		if (m_currentAction != null) {
 			if (m_elapseTime > m_timeOfAction) {
 				m_elapseTime = 0;
 				m_currentAction = null;
 			} else {
 				m_elapseTime += elapsed;
 			}
-		} else  {
+		} else {
 			this.setState(m_automate.step(this));
 		}
 	}
-	
+
 	@Override
 	public void Egg(MyDirection dir) {
 		m_timeOfAction = SHOT_MOVE_TIME;
@@ -60,7 +61,7 @@ public class Shot extends MovingEntity {
 		m_currentAction = LsAction.Egg;
 		super.Egg(dir);
 	}
-	
+
 	@Override
 	public void Explode() {
 		m_timeOfAction = SHOT_EXPLODE_TIME;
@@ -68,7 +69,7 @@ public class Shot extends MovingEntity {
 		m_currentAction = LsAction.Explode;
 		super.Explode();
 	}
-	
+
 	@Override
 	public void Get(MyDirection dir) {
 		m_timeOfAction = SHOT_GET_TIME;
@@ -84,7 +85,7 @@ public class Shot extends MovingEntity {
 		m_currentAction = LsAction.Hit;
 		super.Hit(dir);
 	}
-	
+
 	@Override
 	public void Jump(MyDirection dir) {
 		m_timeOfAction = SHOT_JUMP_TIME;
@@ -92,7 +93,7 @@ public class Shot extends MovingEntity {
 		m_currentAction = LsAction.Jump;
 		super.Jump(dir);
 	}
-	
+
 	@Override
 	public void Move(MyDirection dir) {
 		m_timeOfAction = SHOT_MOVE_TIME;
@@ -108,7 +109,6 @@ public class Shot extends MovingEntity {
 		m_currentAction = LsAction.Pick;
 		super.Pick(dir);
 	}
-	
 
 	@Override
 	public void Pop(MyDirection dir) {
@@ -125,7 +125,6 @@ public class Shot extends MovingEntity {
 		m_currentAction = LsAction.Power;
 		super.Power();
 	}
-	
 
 	@Override
 	public void Protect(MyDirection dir) {
@@ -157,7 +156,7 @@ public class Shot extends MovingEntity {
 		System.out.println("Turn !");
 		m_currentAction = LsAction.Turn;
 		super.Turn(dir, angle);
-		m_currentActionDir = m_currentLookAtDir;//l'action se fait dans la direction dans laquelle on regarde
+		m_currentActionDir = m_currentLookAtDir;// l'action se fait dans la direction dans laquelle on regarde
 	}
 
 	@Override

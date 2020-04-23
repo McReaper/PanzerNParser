@@ -10,7 +10,6 @@ public class Throw extends FunCall{
 	public Throw(int percent, MyDirection dir) {
 		super(percent);
 		m_direction = dir;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

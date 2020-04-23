@@ -7,7 +7,6 @@ public class Explode extends FunCall{
 
 	public Explode(int percent) {
 		super(percent);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

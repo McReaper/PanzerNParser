@@ -15,7 +15,8 @@ public class Avatar {
 	Animation m_animation;
 	Entity m_entity; // TODO : revoir ici pour potentiellement stocker toutes les entités associées
 										// au type d'avatar concerné : on aurait pour 2000 entités, seulent 2000 + le
-										// nombre de type d'entités, au lieu de 4000 objets (avatar + entités).
+										// nombre de type d'entités en nombre d'objets, au lieu de 4000 objets (avatar +
+										// entités).
 
 	public Avatar(Entity entity, Animation animation) {
 		m_entity = entity;
@@ -24,23 +25,24 @@ public class Avatar {
 
 	/**
 	 * Fonction qui dessine l'Avatar d'une entité à l'écran.
-	 * @param g zone de dessin
-	 * @param case_width largeur d'une case dans la vue
+	 * 
+	 * @param g           zone de dessin
+	 * @param case_width  largeur d'une case dans la vue
 	 * @param case_height hauteur d'une case dans la vue
 	 */
 	public void paint(Graphics g, int case_width, int case_height) {
 		MyDirection e_lookAtDir = m_entity.getLookAtDir();
 		MyDirection e_actionDir = m_entity.getCurrentActionDir();
 		LsAction e_currAction = m_entity.getCurrentAction();
-		MyDirection e_absoluteActionDir = MyDirection.toAbsolute(e_lookAtDir,e_actionDir);
+		MyDirection e_absoluteActionDir = MyDirection.toAbsolute(e_lookAtDir, e_actionDir);
 		double progress = m_entity.getActionProgress();
-		
+
 		int width = m_entity.getWidth() * case_width;
 		int height = m_entity.getHeight() * case_height;
 		int x = m_entity.getX() * case_width;
 		int y = m_entity.getY() * case_height;
-		
-		//Pour réaliser un affichage progressif dans le cas d'un move.
+
+		// Pour réaliser un affichage progressif dans le cas d'un move.
 		if (e_currAction == LsAction.Move) {
 			switch (e_absoluteActionDir) {
 				case NORTH:
@@ -71,11 +73,10 @@ public class Avatar {
 					break;
 			}
 		}
-		
-		Image sprite = m_animation.getImage(progress,e_currAction,e_absoluteActionDir);
-		
+
+		Image sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir);
+
 		g.drawImage(sprite, x, y, width, height, null);
 	}
-
 
 }

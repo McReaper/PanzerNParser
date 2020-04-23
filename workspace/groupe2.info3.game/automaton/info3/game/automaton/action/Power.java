@@ -7,7 +7,6 @@ public class Power extends FunCall{
 
 	public Power(int percent) {
 		super(percent);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

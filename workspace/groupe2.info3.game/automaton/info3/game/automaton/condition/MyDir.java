@@ -10,7 +10,6 @@ public class MyDir extends Condition{
 	
 	public MyDir(MyDirection dir) {
 		m_direction= dir;
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

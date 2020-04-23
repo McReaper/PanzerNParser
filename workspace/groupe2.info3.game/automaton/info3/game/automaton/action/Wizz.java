@@ -11,7 +11,6 @@ public class Wizz extends FunCall{
 	public Wizz(int percent, MyDirection dir) {
 		super(percent);
 		m_direction = dir;
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

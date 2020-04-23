@@ -1,5 +1,6 @@
 package info3.game.model;
 
+import java.rmi.UnexpectedException;
 import java.util.LinkedList;
 
 import info3.game.automaton.LsKey;
@@ -25,7 +26,14 @@ public class Model {
 		// création, le model doit donc lui donner.
 
 		// Version de test ci-dessous :
-		m_grid = new Grid(this);
+		try {
+			m_grid = new Grid(this);
+		} catch (UnexpectedException e) {
+			e.printStackTrace();
+			System.err.println("Impossible de créer la grille !");
+			// La il faudrait sortir du programme, en appelant le controller, pour arrêter
+			// la musique et les autres exécutions auxiliaires en cours.
+		}
 
 	}
 

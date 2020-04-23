@@ -11,13 +11,11 @@ public class Turn extends FunCall{
 	public Turn(int percent, MyDirection dir) {
 		super(percent);
 		m_direction = dir;
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Turn(int percent, int angle) {
 		super(percent);
 		m_angle = angle;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

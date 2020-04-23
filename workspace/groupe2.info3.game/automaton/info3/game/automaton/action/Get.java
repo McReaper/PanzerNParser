@@ -10,7 +10,6 @@ public class Get extends FunCall{
 	public Get(int percent, MyDirection dir) {
 		super(percent);
 		m_direction = dir;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

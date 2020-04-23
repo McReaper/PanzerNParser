@@ -58,7 +58,6 @@ public class Shot extends MovingEntity {
 	public void Egg(MyDirection dir) {
 		m_timeOfAction = SHOT_MOVE_TIME;
 		System.out.println("Egg !");
-		m_currentAction = LsAction.Egg;
 		super.Egg(dir);
 	}
 
@@ -66,7 +65,6 @@ public class Shot extends MovingEntity {
 	public void Explode() {
 		m_timeOfAction = SHOT_EXPLODE_TIME;
 		System.out.println("Explode !");
-		m_currentAction = LsAction.Explode;
 		super.Explode();
 	}
 
@@ -74,7 +72,6 @@ public class Shot extends MovingEntity {
 	public void Get(MyDirection dir) {
 		m_timeOfAction = SHOT_GET_TIME;
 		System.out.println("Get !");
-		m_currentAction = LsAction.Get;
 		super.Get(dir);
 	}
 
@@ -82,7 +79,6 @@ public class Shot extends MovingEntity {
 	public void Hit(MyDirection dir) {
 		m_timeOfAction = SHOT_HIT_TIME;
 		System.out.println("Hit !");
-		m_currentAction = LsAction.Hit;
 		super.Hit(dir);
 	}
 
@@ -90,7 +86,6 @@ public class Shot extends MovingEntity {
 	public void Jump(MyDirection dir) {
 		m_timeOfAction = SHOT_JUMP_TIME;
 		System.out.println("Jump !");
-		m_currentAction = LsAction.Jump;
 		super.Jump(dir);
 	}
 
@@ -98,7 +93,6 @@ public class Shot extends MovingEntity {
 	public void Move(MyDirection dir) {
 		m_timeOfAction = SHOT_MOVE_TIME;
 		System.out.println("Move !");
-		m_currentAction = LsAction.Move;
 		super.Move(dir);
 	}
 
@@ -106,7 +100,6 @@ public class Shot extends MovingEntity {
 	public void Pick(MyDirection dir) {
 		m_timeOfAction = SHOT_PICK_TIME;
 		System.out.println("Pick !");
-		m_currentAction = LsAction.Pick;
 		super.Pick(dir);
 	}
 
@@ -114,7 +107,6 @@ public class Shot extends MovingEntity {
 	public void Pop(MyDirection dir) {
 		m_timeOfAction = SHOT_POP_TIME;
 		System.out.println("Pop !");
-		m_currentAction = LsAction.Pop;
 		super.Pop(dir);
 	}
 
@@ -122,7 +114,6 @@ public class Shot extends MovingEntity {
 	public void Power() {
 		m_timeOfAction = SHOT_POWER_TIME;
 		System.out.println("Power !");
-		m_currentAction = LsAction.Power;
 		super.Power();
 	}
 
@@ -130,7 +121,6 @@ public class Shot extends MovingEntity {
 	public void Protect(MyDirection dir) {
 		m_timeOfAction = SHOT_PROTECT_TIME;
 		System.out.println("Protect !");
-		m_currentAction = LsAction.Protect;
 		super.Protect(dir);
 	}
 
@@ -138,7 +128,6 @@ public class Shot extends MovingEntity {
 	public void Store(MyDirection dir) {
 		m_timeOfAction = SHOT_STORE_TIME;
 		System.out.println("Store !");
-		m_currentAction = LsAction.Store;
 		super.Store(dir);
 	}
 
@@ -146,7 +135,6 @@ public class Shot extends MovingEntity {
 	public void Throw(MyDirection dir) {
 		m_timeOfAction = SHOT_THROW_TIME;
 		System.out.println("Throw !");
-		m_currentAction = LsAction.Throw;
 		super.Throw(dir);
 	}
 
@@ -154,7 +142,6 @@ public class Shot extends MovingEntity {
 	public void Turn(MyDirection dir, int angle) {
 		m_timeOfAction = SHOT_TURN_TIME;
 		System.out.println("Turn !");
-		m_currentAction = LsAction.Turn;
 		super.Turn(dir, angle);
 		m_currentActionDir = m_currentLookAtDir;// l'action se fait dans la direction dans laquelle on regarde
 	}
@@ -163,7 +150,6 @@ public class Shot extends MovingEntity {
 	public void Wait() {
 		m_timeOfAction = SHOT_WAIT_TIME;
 		System.out.println("Wait !");
-		m_currentAction = LsAction.Wait;
 		super.Wait();
 	}
 
@@ -171,7 +157,6 @@ public class Shot extends MovingEntity {
 	public void Wizz(MyDirection dir) {
 		m_timeOfAction = SHOT_WIZZ_TIME;
 		System.out.println("Wizz !");
-		m_currentAction = LsAction.Wizz;
 		super.Wizz(dir);
 	}
 

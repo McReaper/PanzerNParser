@@ -175,4 +175,35 @@ Continuer de travailler sur la partie MVC pour avoir une version très simple d'
 
 ---
 
+# JOURNAL du Mardi 21 Avril
+
+## Planning du jour
+
+- Compréhension du code des Avatars et de GameConfiguration (une classe qui parse un fichier de config pour associer aux entités un comportement (.gal) et une animation (.ani))
+- Implémentation de déplacements fluide entre deux cases en fonction de la progression de l'entité dans son move
+- Début de certains sprite pour l'aspect graphique du jeu.
+- Allégement des classes filles d'Entity quant aux corps des fonctions `step()` et `getActionProgress()`
+
+## Répartition des tâches
+
+- `Cyance>` *Est-ce que quelqu'un lit ce journal ?*
+
+---
+
+# JOURNAL du Mercredi 22 Avril
+
+**Jour de pause après une mise a plat du code et d'un push sur master**
+
+## Remarques :
+
+- Il va falloir commencer à penser à l'interface utilisateur (pour un accueil ou une fois dans le jeu)
+
+## Pour après
+
+- Avancer les Sprites/Automates/...
+- Commencer à implémenter le comportement des entités dans le modèle
+- Implémenter les fonctions `Move`, `Cell` & `Closest` dans Entity et effectuer des tests pour que les comportements soit ceux d'un Tore (à la pacman).
+- Voir la suite dans le planning de Jeudi.
+
+---
 

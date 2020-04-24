@@ -175,7 +175,7 @@ Continuer de travailler sur la partie MVC pour avoir une version très simple d'
 
 ---
 
-# JOURNAL du Mardi 21 Avril
+# JOURNAL du Mercredi 21 Avril
 
 ## Planning du jour
 
@@ -190,7 +190,7 @@ Continuer de travailler sur la partie MVC pour avoir une version très simple d'
 
 ---
 
-# JOURNAL du Mercredi 22 Avril
+# JOURNAL du Jeudi 22 Avril
 
 **Jour de pause après une mise a plat du code et d'un push sur master**
 
@@ -203,7 +203,7 @@ Continuer de travailler sur la partie MVC pour avoir une version très simple d'
 - Avancer les Sprites/Automates/...
 - Commencer à implémenter le comportement des entités dans le modèle
 - Implémenter les fonctions `Move`, `Cell` & `Closest` dans Entity et effectuer des tests pour que les comportements soit ceux d'un Tore (à la pacman).
-- Voir la suite dans le planning de Jeudi.
+- Voir la suite dans le planning de Vendredi.
 
 ---
 

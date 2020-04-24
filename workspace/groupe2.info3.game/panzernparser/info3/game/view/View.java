@@ -11,7 +11,10 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
 import info3.game.controller.Controller;
@@ -32,30 +35,50 @@ public class View extends Container {
 		m_controller = controller;
 		m_model = model;
 		m_canvas = new GameCanvas(m_controller);
-		//BoxLayout BL = new BoxLayout(this, 1);
-		//CardLayout CL = new CardLayout(200,200);
-		this.setLayout(new BorderLayout());
-		//this.setLayout(BL);
-		this.add(m_canvas);
+
+		BorderLayout BL = initiateHUD();
+
+		this.setLayout(BL);
 		m_avatars = new LinkedList<Avatar>();
 		updateAvatars();
-		initiateHUD();
 	}
 	
-	public void initiateHUD() {
-		Container m_container = new Container();
-		Component label = new javax.swing.JLabel("OUI");
-		label.setPreferredSize(new Dimension(10,30));
-		m_container.add(label);
-		Component label2 = new javax.swing.JLabel("OUI2");
-		label2.setPreferredSize(new Dimension(20,20));
-		m_container.add(label2);
-		Component label3 = new javax.swing.JLabel("OUI3");
-		label3.setPreferredSize(new Dimension(30,10));
-		m_container.add(label3);
-		m_container.setBackground(Color.GREEN);
-		m_container.setPreferredSize(new Dimension(200,200));
-		this.add(m_container);
+	public BorderLayout initiateHUD() {
+		BorderLayout BL = new BorderLayout();
+		BL.addLayoutComponent(m_canvas, BorderLayout.CENTER);
+		this.add(m_canvas);
+		
+		//SOUTH
+		Container south = new Container();
+		BorderLayout BLSouth = new BorderLayout();
+		
+		//SOUTH WEST ENERGY DRONE ET TANK
+		Container southWest = new Container();
+		JProgressBar health = new JProgressBar(JProgressBar.HORIZONTAL,0,100);
+		JProgressBar drone = new JProgressBar(JProgressBar.HORIZONTAL,0,100);
+		health.setPreferredSize(new Dimension(200,50));
+		drone.setPreferredSize(new Dimension(200,50));
+		health.setName("Health");
+		drone.setName("Drone");
+		health.setValue(25);
+		drone.setValue(50);
+		southWest.setPreferredSize(new Dimension(800,800));
+		southWest.add(new Box.Filler(getMinimumSize(), getPreferredSize(), getMaximumSize()));
+		southWest.add(health);
+		southWest.add(new Box.Filler(getMinimumSize(), getPreferredSize(), getMaximumSize()));
+		southWest.add(drone);
+		southWest.add(new Box.Filler(getMinimumSize(), getPreferredSize(), getMaximumSize()));
+		BoxLayout BLSouthWest = new BoxLayout(southWest,1);
+		southWest.setLayout(BLSouthWest);
+		
+		BLSouth.addLayoutComponent(southWest, BorderLayout.EAST);
+		
+		south.setLayout(BLSouth);
+		BL.addLayoutComponent(south, BorderLayout.SOUTH);
+		south.add(southWest);
+		south.setPreferredSize(new Dimension(200,200));
+		this.add(south);
+		return BL;
 	}
 
 	public void refreshHUD() {

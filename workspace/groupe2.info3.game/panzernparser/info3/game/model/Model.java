@@ -33,6 +33,7 @@ public class Model {
 		m_model = this;
 		int nb_entities =0;
 		m_keyPressed = new LinkedList<LsKey>();
+		 m_entities = new HashMap<EntityFactory.MyEntities, LinkedList<Entity>>();
 		for (MyEntities entityType : MyEntities.values()) {
 			m_entities.put(entityType, new LinkedList<Entity>());
 		}

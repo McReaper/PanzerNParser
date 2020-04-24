@@ -331,6 +331,7 @@ public class BotBuilder implements IVisitor {
 		switch (funcall.name) {
 			// poutr les condition
 			case "Cell":
+				if (param3 == -1) param3 = 1;
 				function = new Cell(param1, param2, param3);
 				break;
 			case "Closest":

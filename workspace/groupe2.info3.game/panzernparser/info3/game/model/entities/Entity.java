@@ -24,16 +24,20 @@ public abstract class Entity {
 	int m_speed;
 	MyDirection m_currentLookAtDir;
 	MyDirection m_currentActionDir;
-	boolean m_stuff; // gotStuff ?
-	// Automaton m_automate; //automate associé
+	MyCategory m_category; // La catégorie à laquelle l'entité appartient, utilisé principalement dans
+													// l'automate dans Cell et Closest
+
+	boolean m_stuff; // TODO : rediscuter de l'utilité de cette variable (pour le gotStuff)
+
 	State m_currentState;
 	Automaton m_automate; // automate associé
+
 	public Model m_model;
 
 	public Entity(int x, int y, int width, int height, Model model, Automaton aut) {
 		m_automate = aut;
 		m_currentState = aut.getState();
-		
+
 		m_elapseTime = 0;
 		m_currentAction = null;
 
@@ -61,10 +65,6 @@ public abstract class Entity {
 		return 0;
 	}
 
-	public void setAutomaton(Automaton automate) {
-		m_automate = automate;
-	}
-
 	public boolean isShown() {
 		return m_displayed;
 	}
@@ -90,6 +90,10 @@ public abstract class Entity {
 
 	public MyDirection getLookAtDir() {
 		return m_currentLookAtDir;
+	}
+
+	public MyCategory getCategory() {
+		return m_category;
 	}
 
 	public int getX() {
@@ -482,8 +486,51 @@ public abstract class Entity {
 		return false;
 	}
 
+	/**
+	 * Pour une diretion `dir` à partir de l'entité, on vérifie que la catégorie de
+	 * type `type` se trouve bien dans une distance `dist`
+	 * 
+	 * @param dir  la direction dans laquelle regarder
+	 * @param type le type d'entité visé
+	 * @param dist la distance maximale
+	 * @return vrai si l'entité existe dans cette direction a une distance donnée ou
+	 *         moins
+	 */
 	public boolean Cell(MyDirection dir, MyCategory type, int dist) {
-		// m_currentActionDir = dir;
+//		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
+//		int x_factor;
+//		int y_factor;
+//		int[][] cells_to_check;
+//		switch (absoluteDir) {
+//			case EAST:
+//			case NORTHEAST:
+//			case SOUTHEAST:
+//				x_factor = 1;
+//				break;
+//			case NORTHWEST:
+//			case SOUTHWEST:
+//			case WEST:
+//				x_factor = -1;
+//				break;
+//			default:
+//				x_factor = 0;
+//				break;
+//		}
+//		switch (absoluteDir) {
+//			case NORTH:
+//			case NORTHWEST:
+//			case NORTHEAST:
+//				y_factor = -1;
+//				break;
+//			case SOUTH:
+//			case SOUTHEAST:
+//			case SOUTHWEST:
+//				y_factor = 1;
+//				break;
+//			default:
+//				y_factor = 0;
+//				break;
+//		}
 		return true;
 	}
 
@@ -497,6 +544,14 @@ public abstract class Entity {
 		return m_stuff;
 	}
 
+	/**
+	 * Pour une direction donnée `dir` par rapport à l'entité, on regarde en
+	 * fonction de sa distance de vue si la catégorie `type` donnée est à portée
+	 * 
+	 * @param dir  la direction dans laquelle regarder
+	 * @param type la catégorie recherchée
+	 * @return vrai si l'entité de type recherché est "proche"
+	 */
 	public boolean Closest(MyDirection dir, MyCategory type) {
 		// m_currentActionDir = dir;
 		return false;

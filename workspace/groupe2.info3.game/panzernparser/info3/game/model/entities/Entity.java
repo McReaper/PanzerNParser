@@ -1,11 +1,16 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.MyCategory;
+
+import java.util.Collection;
+import java.util.LinkedList;
+
 import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
+import info3.game.model.Model.Coords;
 
 public abstract class Entity {
 
@@ -112,6 +117,10 @@ public abstract class Entity {
 
 	public int getHeight() {
 		return m_height;
+	}
+
+	public boolean isInMe(double x, double y) {
+		return !(x < m_x || y < m_y || y > m_y + m_height - 1 || x > m_x + m_width - 1);
 	}
 
 	public void Egg(MyDirection dir) {
@@ -497,40 +506,8 @@ public abstract class Entity {
 	 *         moins
 	 */
 	public boolean Cell(MyDirection dir, MyCategory type, int dist) {
-//		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
-//		int x_factor;
-//		int y_factor;
-//		int[][] cells_to_check;
-//		switch (absoluteDir) {
-//			case EAST:
-//			case NORTHEAST:
-//			case SOUTHEAST:
-//				x_factor = 1;
-//				break;
-//			case NORTHWEST:
-//			case SOUTHWEST:
-//			case WEST:
-//				x_factor = -1;
-//				break;
-//			default:
-//				x_factor = 0;
-//				break;
-//		}
-//		switch (absoluteDir) {
-//			case NORTH:
-//			case NORTHWEST:
-//			case NORTHEAST:
-//				y_factor = -1;
-//				break;
-//			case SOUTH:
-//			case SOUTHEAST:
-//			case SOUTHWEST:
-//				y_factor = 1;
-//				break;
-//			default:
-//				y_factor = 0;
-//				break;
-//		}
+		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
+
 		return true;
 	}
 
@@ -546,15 +523,120 @@ public abstract class Entity {
 
 	/**
 	 * Pour une direction donnée `dir` par rapport à l'entité, on regarde en
-	 * fonction de sa distance de vue si la catégorie `type` donnée est à portée
+	 * fonction de sa distance de vue si la catégorie `type` la plus proche donnée
+	 * est dans cette direction
 	 * 
 	 * @param dir  la direction dans laquelle regarder
 	 * @param type la catégorie recherchée
 	 * @return vrai si l'entité de type recherché est "proche"
 	 */
 	public boolean Closest(MyDirection dir, MyCategory type) {
-		// m_currentActionDir = dir;
+		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
+
 		return false;
 
+	}
+
+	/**
+	 * 
+	 * @param dir  must be one of thoses : NORTHEAST, SOUTHEAST, SOUTHWEST,
+	 *             NORTHWEST
+	 * @param dist
+	 * @return
+	 */
+	protected LinkedList<Coords> getCellsInDiagonalDir(MyDirection dir, int dist) {
+		double center_x = m_x + (double)(m_width) / 2.0;
+		double center_y = m_y + (double)(m_height) / 2.0;
+		LinkedList<Coords> cells = new LinkedList<Coords>();
+
+		int x_factor = 1;
+		int y_factor = 1;
+		switch (dir) {
+			case NORTHEAST:
+				y_factor = -1;
+				break;
+			case NORTHWEST:
+				y_factor = -1;
+				x_factor = -1;
+				break;
+			case SOUTHEAST:
+				break;
+			case SOUTHWEST:
+				x_factor = -1;
+				break;
+			default:
+				throw new IllegalArgumentException(
+						"Cette fonction est appelable uniquement avec les paramètres NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST");
+		}
+
+		// Ajout de toutes les cases dans un rectangle donné en dehors de l'entité.
+		int side_length = Math.max(m_width, m_height) + dist;
+		for (double x = 0; x < side_length; x++) {
+			for (double y = 0; y < side_length; y++) {
+				double actual_x = m_x + (x * x_factor) + 0.5; // +0.5 pour prendre en compte le milieu de la case
+				double actual_y = m_y + (y * y_factor) + 0.5;
+				if (!this.isInMe(actual_x, actual_y))
+					cells.add(new Coords(actual_x, actual_y));
+			}
+		}
+
+		Circle stencil = new Circle(center_x, center_y, (double) dist);
+		Collection<Coords> coords_to_remove = new LinkedList<Coords>();
+
+		for (Coords coord : cells) {
+			if (!stencil.isInMe(coord.X, coord.Y)) {
+				coords_to_remove.add(coord);
+			}
+		}
+		cells.removeAll(coords_to_remove);
+
+		return cells;
+	}
+
+	protected LinkedList<Coords> getCellsInOrthogonalDir(MyDirection dir, int dist) {
+		LinkedList<Coords> cells = new LinkedList<Coords>();
+
+		switch (dir) {
+			case NORTH:
+				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHEAST, dist));
+				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHWEST, dist));
+				break;
+			case WEST:
+				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHWEST, dist));
+				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHWEST, dist));
+				break;
+			case EAST:
+				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHEAST, dist));
+				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHEAST, dist));
+				break;
+			case SOUTH:
+				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHEAST, dist));
+				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHWEST, dist));
+				break;
+			default:
+				throw new IllegalArgumentException(
+						"Cette fonction est appelable uniquement avec les paramètres NORTH, EAST, WEST, SOUTH");
+		}
+		
+		//TODO : non-terminé...
+
+		return cells;
+
+	}
+
+	protected static class Circle {
+
+		double m_radius;
+		double m_x, m_y;
+
+		public Circle(double x, double y, double r) {
+			m_x = x;
+			m_y = y;
+			m_radius = r;
+		}
+
+		public boolean isInMe(double x, double y) {
+			return Math.pow((x - m_x), 2) + Math.pow((y - m_y), 2) <= Math.pow(m_radius, 2);
+		}
 	}
 }

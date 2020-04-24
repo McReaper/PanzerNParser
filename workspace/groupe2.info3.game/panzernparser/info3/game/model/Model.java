@@ -80,6 +80,29 @@ public class Model {
 	public void addEntity(Entity e) {
 		m_entities.add(e);
 	}
+	
+	public static class Coords {
+		
+		public double X, Y;
+		
+		public Coords(double x, double y) {
+			X = x;
+			Y = y;
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			return (((Coords) obj).X == this.X && ((Coords) obj).Y == this.Y);
+		}
+	}
+	
+	public boolean isInRadius(LinkedList<Coords> radius, Entity entity) {
+		for (Coords coord : radius) {
+			if (entity.isInMe(coord.X, coord.Y))
+				return true;
+		}
+		return false;
+	}
 
 	public Entity closestEntity(LinkedList<Entity> entities, int x, int y) {
 		double min = 0;
@@ -114,6 +137,7 @@ public class Model {
 	}
 
 	/*
+	 * TODO : a modifier en fonction du HashMap de Sami
 	 * Cette fonction crée une nouvelle liste d'entitées à partir d ela liste
 	 * d'entité presentes dans la game et de la catégorie demandée
 	 */

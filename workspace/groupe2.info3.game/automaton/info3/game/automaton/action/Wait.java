@@ -7,7 +7,6 @@ public class Wait extends FunCall{
 
 	public Wait(int percent) {
 		super(percent);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

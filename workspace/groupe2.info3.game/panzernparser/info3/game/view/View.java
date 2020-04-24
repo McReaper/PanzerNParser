@@ -67,13 +67,13 @@ public class View extends Container {
 		// Dessin précaire de la grille :
 		int nb_cells_X = m_model.getGrid().getNbCellsX();
 		int nb_cells_Y = m_model.getGrid().getNbCellsY();
-		g.setColor(Color.BLUE);
+		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, width, height);
 
 		int case_width = width / nb_cells_X;
 		int case_height = height / nb_cells_Y;
 
-		g.setColor(Color.WHITE);
+		g.setColor(Color.LIGHT_GRAY);
 		for (int x = 1; x < nb_cells_X; x++)
 			g.drawLine(x * case_width, 0, x * case_width, height);
 		for (int y = 1; y < nb_cells_Y; y++)

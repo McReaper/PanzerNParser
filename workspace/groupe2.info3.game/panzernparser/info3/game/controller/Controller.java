@@ -16,7 +16,6 @@ public class Controller implements GameCanvasListener {
 
 	public Controller(Model model) {
 		m_model = model;
-		// Créer les timers pour la vue et le modele
 	}
 
 	public void setView(View view) {

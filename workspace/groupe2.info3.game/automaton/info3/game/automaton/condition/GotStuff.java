@@ -6,7 +6,6 @@ import info3.game.model.entities.*;
 public class GotStuff extends Condition{
 
 	public GotStuff() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

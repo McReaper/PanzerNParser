@@ -10,7 +10,6 @@ public class Store extends FunCall{
 	public Store(int percent, MyDirection dir) {
 		super(percent);
 		m_direction = dir;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

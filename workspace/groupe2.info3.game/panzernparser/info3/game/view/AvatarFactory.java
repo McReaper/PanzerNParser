@@ -17,7 +17,7 @@ public class AvatarFactory {
 		} else if (entity instanceof Drone) {
 			return new Avatar(entity, config.getAnimation(MyEntities.Drone));
 		} else if (entity instanceof Enemy) {
-			return new Avatar(entity, config.getAnimation(MyEntities.Enemy));
+			return new ChassisAvatar(entity, config.getAnimation(MyEntities.Enemy));
 		} else if (entity instanceof Vein) {
 			return new Avatar(entity, config.getAnimation(MyEntities.Vein));
 		} else if (entity instanceof Ground) {

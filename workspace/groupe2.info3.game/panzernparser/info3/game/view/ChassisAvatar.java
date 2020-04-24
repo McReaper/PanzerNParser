@@ -59,13 +59,49 @@ public class ChassisAvatar extends Avatar {
 		}
 
 		Image sprite = null;
-		if(e_currAction == null || e_currAction == LsAction.Wait) {
+		if(e_currAction != LsAction.Move) {
 			sprite = m_animation.getImage(0, LsAction.Move,e_lookAtDir);
 		} else {
-			sprite =m_animation.getImage(progress, e_currAction, e_absoluteActionDir);			
+			sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir);			
 		}
-
 		g.drawImage(sprite, x, y, width, height, null);
+		if(e_currAction == LsAction.Pop) {
+			sprite = m_animation.getImage(progress, e_currAction, e_lookAtDir);
+			switch (e_lookAtDir) {
+				case NORTH:
+					y -= case_height - (case_height*3/32);
+					break;
+				case NORTHEAST:
+					y -= case_height - (case_height*11/32);
+					x += case_width - (case_width*11/32);
+					break;
+				case EAST:
+					x += case_width - (case_width*3/32);
+					break;
+				case SOUTHEAST:
+					y += case_height - (case_height*11/32);
+					x += case_width - (case_width*11/32);
+					break;
+				case SOUTH:
+					y += case_height - (case_height*3/32);
+					break;
+				case SOUTHWEST:
+					y += case_height - (case_height*11/32);
+					x -= case_width - (case_width*11/32);
+					break;
+				case WEST:
+					x -= case_width - (case_width*3/32);
+					break;
+				case NORTHWEST:
+					y -= case_height - (case_height*11/32);
+					x -= case_width - (case_width*11/32);
+					break;
+				default:
+					break;
+			}
+			g.drawImage(sprite, x, y, case_width, case_height,null);
+
+		}
 	}
 
 }

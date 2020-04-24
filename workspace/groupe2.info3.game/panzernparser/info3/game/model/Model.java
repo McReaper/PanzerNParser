@@ -4,7 +4,16 @@ import java.rmi.UnexpectedException;
 import java.util.LinkedList;
 
 import info3.game.automaton.LsKey;
+import info3.game.model.entities.Drone;
+import info3.game.model.entities.Droppable;
+import info3.game.model.entities.Enemy;
 import info3.game.model.entities.Entity;
+import info3.game.model.entities.EntityFactory.MyEntities;
+import info3.game.model.entities.Ground;
+import info3.game.model.entities.Marker;
+import info3.game.model.entities.Shot;
+import info3.game.model.entities.TankBody;
+import info3.game.model.entities.Turret;
 
 public class Model {
 
@@ -70,6 +79,113 @@ public class Model {
 
 	public void addEntity(Entity e) {
 		m_entities.add(e);
+	}
+
+	public Entity closestEntity(LinkedList<Entity> entities, int x, int y) {
+		double min = 0;
+		int indexMin = 0;
+		if (!entities.isEmpty()) {
+			if (entities.size() == 1) {
+				return entities.get(0);
+			} else {
+				int i = 0;
+				for (Entity entity : entities) {
+					/*
+					 * formule utilisée --> d = sqrt( pow((x2 -x1),2) + pow ((y2 - y1),2) )
+					 */
+					/*
+					 * x2 -x1 au carré :
+					 */
+					double part1 = Math.pow(entity.getX() - x, 2);
+					double part2 = Math.pow(entity.getY() - y, 2);
+					double d = Math.sqrt(part1 + part2);
+					if (i == 0) {
+						min = d;
+					} else if (d < min) {
+						min = d;
+						indexMin = i;
+					}
+
+				}
+				return entities.get(indexMin);
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * Cette fonction crée une nouvelle liste d'entitées à partir d ela liste
+	 * d'entité presentes dans la game et de la catégorie demandée
+	 */
+	public LinkedList<Entity> getCatEntity(MyEntities cat) {
+		LinkedList<Entity> newList = new LinkedList<Entity>();
+		switch( cat) {
+			case Drone :
+				for (Entity entity : m_entities) {
+					if (entity instanceof Drone) {
+						newList.add(entity);
+					}
+				}
+				return newList;
+			case Enemy :
+				for (Entity entity : m_entities) {
+					if (entity instanceof Enemy) {
+						newList.add(entity);
+					}
+				}
+				return newList;
+			case Droppable :
+				for (Entity entity : m_entities) {
+					if (entity instanceof Droppable) {
+						newList.add(entity);
+					}
+				}
+				return newList;
+			case Ground : 
+				for (Entity entity : m_entities) {
+					if (entity instanceof Ground) {
+						newList.add(entity);
+					}
+				}
+				return newList;
+			case Marker:
+				for (Entity entity : m_entities) {
+					if (entity instanceof Marker) {
+						newList.add(entity);
+					}
+				}
+				return newList;
+			case Shot :
+				for (Entity entity : m_entities) {
+					if (entity instanceof Shot) {
+						newList.add(entity);
+					}
+				}
+				return newList;
+			case TankBody :
+				for (Entity entity : m_entities) {
+					if (entity instanceof TankBody) {
+						newList.add(entity);
+					}
+				}
+				return newList;
+			case Turret:
+				for (Entity entity : m_entities) {
+					if (entity instanceof Turret) {
+						newList.add(entity);
+					}
+				}
+				return newList;
+			case Vein :
+				for (Entity entity : m_entities) {
+					if (entity instanceof Drone) {
+						newList.add(entity);
+					}
+				}
+				return newList;
+				default : 
+					return null;
+			}
 	}
 
 }

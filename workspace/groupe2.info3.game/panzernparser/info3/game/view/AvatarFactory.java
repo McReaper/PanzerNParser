@@ -27,7 +27,7 @@ public class AvatarFactory {
 		} else if (entity instanceof Shot) {
 			return new Avatar(entity, config.getAnimation(MyEntities.Shot));
 		} else if (entity instanceof TankBody) {
-			return new Avatar(entity, config.getAnimation(MyEntities.TankBody));
+			return new ChassisAvatar(entity, config.getAnimation(MyEntities.TankBody));
 		} else if (entity instanceof Turret) {
 			return new Avatar(entity, config.getAnimation(MyEntities.Turret));
 		}

@@ -54,6 +54,7 @@ public class View extends Container {
 		
 		//SOUTH WEST ENERGY DRONE ET TANK
 		Container southWest = new Container();
+		//Création des deux barres de vie
 		JProgressBar health = new JProgressBar(JProgressBar.HORIZONTAL,0,100);
 		JProgressBar drone = new JProgressBar(JProgressBar.HORIZONTAL,0,100);
 		health.setPreferredSize(new Dimension(200,50));
@@ -62,6 +63,8 @@ public class View extends Container {
 		drone.setName("Drone");
 		health.setValue(25);
 		drone.setValue(50);
+		
+		//Set du layout du componante SouthWest
 		southWest.setPreferredSize(new Dimension(800,800));
 		southWest.add(new Box.Filler(getMinimumSize(), getPreferredSize(), getMaximumSize()));
 		southWest.add(health);

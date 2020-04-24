@@ -31,9 +31,12 @@ public class Turret extends MovingEntity {
 	public static final long TURRET_THROW_TIME = 1000;
 	public static final long TURRET_WAIT_TIME = 50;
 	public static final long TURRET_WIZZ_TIME = 1000;
+	
+	boolean moved;
 
 	public Turret(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
 		super(x, y, width, height, health, speed, model, aut);
+		moved = false;
 	}
 
 	int m_range;
@@ -159,6 +162,14 @@ public class Turret extends MovingEntity {
 		System.out.println("Wizz !");
 		m_currentAction = LsAction.Wizz;
 		super.Wizz(dir);
+	}
+	
+	public boolean moved() {
+		return moved;
+	}
+	
+	public void setMoved(boolean bool) {
+		moved = bool;
 	}
 
 

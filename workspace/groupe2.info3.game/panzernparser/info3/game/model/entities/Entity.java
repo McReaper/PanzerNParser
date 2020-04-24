@@ -64,6 +64,11 @@ public abstract class Entity {
 	public void setAutomaton(Automaton automate) {
 		m_automate = automate;
 	}
+	
+	public void setPosition(int x, int y) {
+		m_x = x;
+		m_y = y;
+	}
 
 	public boolean isShown() {
 		return m_displayed;

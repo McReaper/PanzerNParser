@@ -168,12 +168,25 @@ public class Grid {
 					case "vein1":
 						type = MyEntities.Vein;
 						break;
+						/*
+						 * cas particulier car Tank n'est pas une entité mais il crée 2 entitées
+						 */
+					case "tankBody1":
+						type = MyEntities.TankBody;
+						break;
+						
+					case "tankTurret1":
+						type = MyEntities.Turret;
+						break;
 				}
 				int x = Integer.parseInt(sx);
 				int y = Integer.parseInt(sy);
 				if (x < SIZE && x >= 0 && y < SIZE && y >= 0) {
+					if (type != null) {
+						
 					EntityShade es = new EntityShade(x, y, type);
 					m_entitieShades.add(es);
+					}
 				}
 				line = br.readLine();
 			}

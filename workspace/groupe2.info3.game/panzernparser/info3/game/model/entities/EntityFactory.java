@@ -4,14 +4,23 @@ import info3.game.GameConfiguration;
 import info3.game.automaton.Automaton;
 import info3.game.model.Material.MaterialType;
 import info3.game.model.Model;
+import info3.game.model.Tank;
 
 public class EntityFactory {
 	public enum MyEntities {
 		Wall, Ground, Enemy, Droppable, Shot, Vein, Drone, Marker, TankBody, Turret;
 	}
-
-	public static Entity newTank() {
-		return null;
+	
+	public static Entity newTankBody(int x, int y, Automaton aut) {
+		Model model = Model.getModel();
+		Entity TankBody = new TankBody(x,y, Tank.TANK_BODY_WIDTH, Tank.TANK_BODY_HEIGHT, Tank.TANK_HEALTH, Tank.TANK_SPEED, model, aut);
+		return TankBody;
+		}
+	
+	public static Entity newTankTurret(int x, int y, Automaton aut) {
+		Model model = Model.getModel();
+		Entity Turret = new Turret(x,y, Tank.TANK_TURRET_WIDTH, Tank.TANK_TURRET_HEIGHT, Tank.TANK_HEALTH, Tank.TANK_SPEED, model, aut);
+		return Turret;
 	}
 
 	public static Entity newDrone() {
@@ -80,10 +89,17 @@ public class EntityFactory {
 			case Shot:
 				res = newShot(x, y, config.getAutomaton(MyEntities.Shot));
 				break;
+				
+			case TankBody:
+				res = newTankBody(x, y, config.getAutomaton(MyEntities.TankBody));
+				break;
+				
+			case Turret:
+				res = newTankTurret(x, y, config.getAutomaton(MyEntities.Turret));
+				break;
 			case Drone:
 			case Marker:
-			case TankBody:
-			case Turret:
+				
 			default:
 				System.out.println("tentative de création d'une entité relatif au joueur détectée");
 				throw new IllegalStateException();

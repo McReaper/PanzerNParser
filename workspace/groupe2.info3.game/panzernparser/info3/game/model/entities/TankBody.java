@@ -9,11 +9,6 @@ import info3.game.model.Model;
  * Chassis du tank
  */
 public class TankBody extends MovingEntity {
-	public final static int TANK_BODY_WIDTH = 1;
-	public final static int TANK_BODY_HEIGHT = 1;
-	
-	public static final int TANK_BODY_HEALTH = 100;
-	public static final int TANK_BODY_SPEED = 100;
 
 	public static final long TANK_BODY_EGG_TIME = 1000;
 	public static final long TANK_BODY_GET_TIME = 1000;
@@ -30,9 +25,12 @@ public class TankBody extends MovingEntity {
 	public static final long TANK_BODY_THROW_TIME = 1000;
 	public static final long TANK_BODY_WAIT_TIME = 50;
 	public static final long TANK_BODY_WIZZ_TIME = 1000;
+	
+	boolean moved;
 
 	public TankBody(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
 		super(x, y, width, height, health, speed, model, aut);
+		moved = false;
 	}
 
 	@Override
@@ -86,9 +84,9 @@ public class TankBody extends MovingEntity {
 	
 	@Override
 	public void Move(MyDirection dir) {
-		m_timeOfAction = TANK_BODY_MOVE_TIME;
 		System.out.println("Move !");
 		super.Move(dir);
+		moved = true;
 	}
 
 	@Override
@@ -155,6 +153,14 @@ public class TankBody extends MovingEntity {
 		m_timeOfAction = TANK_BODY_WIZZ_TIME;
 		System.out.println("Wizz !");
 		super.Wizz(dir);
+	}
+	
+	public boolean moved() {
+		return moved;
+	}
+	
+	public void setMoved(boolean bool) {
+		moved = bool;
 	}
 
 }

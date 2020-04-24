@@ -41,7 +41,7 @@ public abstract class Entity {
 
 	public Entity(int x, int y, int width, int height, Model model, Automaton aut) {
 		m_automate = aut;
-		m_currentState = aut.getState();
+		//m_currentState = aut.getState();
 
 		m_elapseTime = 0;
 		m_currentAction = null;
@@ -120,7 +120,7 @@ public abstract class Entity {
 	}
 
 	public boolean isInMe(double x, double y) {
-		return !(x < m_x || y < m_y || y > m_y + m_height - 1 || x > m_x + m_width - 1);
+		return !(x < m_x || y < m_y || y > m_y + m_height || x > m_x + m_width);
 	}
 
 	public void Egg(MyDirection dir) {
@@ -547,6 +547,7 @@ public abstract class Entity {
 	protected LinkedList<Coords> getCellsInDiagonalDir(MyDirection dir, int dist) {
 		double center_x = m_x + (double)(m_width) / 2.0;
 		double center_y = m_y + (double)(m_height) / 2.0;
+		System.out.println("center : "+"("+center_x+';'+center_y+")");
 		LinkedList<Coords> cells = new LinkedList<Coords>();
 
 		int x_factor = 1;
@@ -570,21 +571,26 @@ public abstract class Entity {
 		}
 
 		// Ajout de toutes les cases dans un rectangle donné en dehors de l'entité.
-		int side_length = Math.max(m_width, m_height) + dist;
+		int max_side = Math.max(m_width, m_height);
+		int side_length = max_side + dist;
 		for (double x = 0; x < side_length; x++) {
 			for (double y = 0; y < side_length; y++) {
-				double actual_x = m_x + (x * x_factor) + 0.5; // +0.5 pour prendre en compte le milieu de la case
-				double actual_y = m_y + (y * y_factor) + 0.5;
+				double actual_x = m_x + (x * x_factor) + 0.5 + m_width / 2; // +0.5 pour prendre en compte le milieu de la case
+				double actual_y = m_y + (y * y_factor) + 0.5 + m_height / 2;
 				if (!this.isInMe(actual_x, actual_y))
 					cells.add(new Coords(actual_x, actual_y));
 			}
 		}
 
-		Circle stencil = new Circle(center_x, center_y, (double) dist);
+		double rayon = (side_length) - (max_side)/2;
+		if (center_x % 1 != 0 || center_y % 1 != 0 ) rayon -= 0.5;
+		System.out.println("Rayon = "+rayon);
+		Circle stencil = new Circle(center_x, center_y, rayon);
 		Collection<Coords> coords_to_remove = new LinkedList<Coords>();
 
 		for (Coords coord : cells) {
 			if (!stencil.isInMe(coord.X, coord.Y)) {
+				System.out.println("Is not in ("+coord.X+";"+coord.Y+")");
 				coords_to_remove.add(coord);
 			}
 		}

@@ -1,12 +1,18 @@
 package info3.game.view;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
+
+import javax.swing.BoxLayout;
+import javax.swing.JProgressBar;
 
 import info3.game.controller.Controller;
 import info3.game.model.Model;
@@ -26,14 +32,34 @@ public class View extends Container {
 		m_controller = controller;
 		m_model = model;
 		m_canvas = new GameCanvas(m_controller);
+		//BoxLayout BL = new BoxLayout(this, 1);
+		//CardLayout CL = new CardLayout(200,200);
 		this.setLayout(new BorderLayout());
-		this.add(m_canvas, BorderLayout.CENTER);
+		//this.setLayout(BL);
+		this.add(m_canvas);
 		m_avatars = new LinkedList<Avatar>();
 		updateAvatars();
+		initiateHUD();
+	}
+	
+	public void initiateHUD() {
+		Container m_container = new Container();
+		Component label = new javax.swing.JLabel("OUI");
+		label.setPreferredSize(new Dimension(10,30));
+		m_container.add(label);
+		Component label2 = new javax.swing.JLabel("OUI2");
+		label2.setPreferredSize(new Dimension(20,20));
+		m_container.add(label2);
+		Component label3 = new javax.swing.JLabel("OUI3");
+		label3.setPreferredSize(new Dimension(30,10));
+		m_container.add(label3);
+		m_container.setBackground(Color.GREEN);
+		m_container.setPreferredSize(new Dimension(200,200));
+		this.add(m_container);
 	}
 
 	public void refreshHUD() {
-		// TODO met à jour l'ATH de l'interface de jeu en fonction du modèle.
+		
 	}
 
 	private void updateAvatars() {

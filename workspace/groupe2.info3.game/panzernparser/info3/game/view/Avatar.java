@@ -73,8 +73,12 @@ public class Avatar {
 					break;
 			}
 		}
-
-		Image sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir);
+		Image sprite;
+		//if (m_entity.getCurrentAction() != LsAction.Wait) {
+			sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir);
+//		}else {
+//			sprite = m_animation.getImage(1, e_currAction, e_absoluteActionDir);
+//		}
 
 		g.drawImage(sprite, x, y, width, height, null);
 	}

@@ -20,6 +20,7 @@ import info3.game.model.entities.EntityFactory.MyEntities;
 public class Grid {
 	Model m_model;
 	List<Pattern> m_patterns;
+	Pattern patTank;
 
 	/* entier pour le nombre de zone à charger dans la grille */
 	final static int TAILLE_MAP = 2;
@@ -50,12 +51,24 @@ public class Grid {
 		if (Max + 1 >= TAILLE_MAP * TAILLE_MAP) {
 			for (int i = 0; i < TAILLE_MAP; i++) {
 				for (int j = 0; j < TAILLE_MAP; j++) {
-					rand = (int) (Math.random() * (Max - patterns_chose));
-					Pattern tmp = patternSelector.get(rand);
-					tmp.setPosition(i, j);
-					selectedPatterns.add(tmp);
-					patternSelector.remove(tmp);
-					patterns_chose++;
+					if( i==0 && j==0) {
+						if (patTank != null) {
+							patTank.setPosition(i, j);
+							selectedPatterns.add(patTank);
+							patterns_chose ++;
+						}else {
+							System.out.println("pattern avec parser nul");
+						}
+						
+					}else {
+						rand = (int) (Math.random() * (Max - patterns_chose));
+						Pattern tmp = patternSelector.get(rand);
+						tmp.setPosition(i, j);
+						selectedPatterns.add(tmp);
+						patternSelector.remove(tmp);
+						patterns_chose++;
+					}
+					
 				}
 			}
 			sendToModel(selectedPatterns);
@@ -76,6 +89,7 @@ public class Grid {
 
 	public void load() {
 		String name = "pattern" + Pattern.SIZE + "x" + Pattern.SIZE + "_";
+		String namePatTank = "patTank" + Pattern.SIZE + "x" + Pattern.SIZE + "_" ;
 		File f;
 		Pattern p;
 		try {
@@ -90,6 +104,12 @@ public class Grid {
 					f = new File(path);
 					p.parse(f);
 					m_patterns.add(p);
+				}else if (subFile.equals(namePatTank)) {
+					p = new Pattern();
+					String path = "patterns/" + file;
+					f = new File(path);
+					p.parse(f);
+					patTank = p;
 				}
 			}
 		} catch (Exception e) {
@@ -168,14 +188,11 @@ public class Grid {
 					case "vein1":
 						type = MyEntities.Vein;
 						break;
-						/*
-						 * cas particulier car Tank n'est pas une entité mais il crée 2 entitées
-						 */
-					case "tankBody1":
+					case "chas1":
 						type = MyEntities.TankBody;
 						break;
 						
-					case "tankTurret1":
+					case "turr1":
 						type = MyEntities.Turret;
 						break;
 				}

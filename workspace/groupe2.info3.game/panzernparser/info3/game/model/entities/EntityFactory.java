@@ -13,9 +13,10 @@ public class EntityFactory {
 	
 	public static Entity newTankBody(int x, int y, Automaton aut) {
 		Model model = Model.getModel();
-		Entity TankBody = new TankBody(x,y, Tank.TANK_BODY_WIDTH, Tank.TANK_BODY_HEIGHT, Tank.TANK_HEALTH, Tank.TANK_SPEED, model, aut);
-		return TankBody;
+		Entity tankBody = new TankBody(x, y, Enemy.ENEMY_WIDTH, Enemy.ENEMY_HEIGHT, model, aut);
+		return tankBody;
 		}
+
 	
 	public static Entity newTankTurret(int x, int y, Automaton aut) {
 		Model model = Model.getModel();

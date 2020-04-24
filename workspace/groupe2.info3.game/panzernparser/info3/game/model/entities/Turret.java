@@ -21,17 +21,16 @@ public class Turret extends MovingEntity {
 	public static final long TURRET_HIT_TIME = 1000;
 	public static final long TURRET_JUMP_TIME = 1000;
 	public static final long TURRET_EXPLODE_TIME = 1000;
-	public static final long TURRET_MOVE_TIME = 200;
+	public static final long TURRET_MOVE_TIME = 1000;
 	public static final long TURRET_PICK_TIME = 1000;
 	public static final long TURRET_POP_TIME = 10000;
 	public static final long TURRET_POWER_TIME = 1000;
 	public static final long TURRET_PROTECT_TIME = 1000;
 	public static final long TURRET_STORE_TIME = 1000;
-	public static final long TURRET_TURN_TIME = 1000;
+	public static final long TURRET_TURN_TIME = 0;
 	public static final long TURRET_THROW_TIME = 1000;
 	public static final long TURRET_WAIT_TIME = 50;
 	public static final long TURRET_WIZZ_TIME = 1000;
-	
 	boolean moved;
 
 	public Turret(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
@@ -43,32 +42,32 @@ public class Turret extends MovingEntity {
 
 	@Override
 	public void step(long elapsed) {
-		if (m_currentAction != null ) {
+		if (m_currentAction != null) {
 			if (m_elapseTime > m_timeOfAction) {
 				m_elapseTime = 0;
 				m_currentAction = null;
 			} else {
 				m_elapseTime += elapsed;
 			}
-		} else  {
+		} else {
 			this.setState(m_automate.step(this));
 		}
 	}
-	
+
 	@Override
 	public void Egg(MyDirection dir) {
 		m_timeOfAction = TURRET_MOVE_TIME;
 		System.out.println("Egg !");
 		super.Egg(dir);
 	}
-	
+
 	@Override
 	public void Explode() {
 		m_timeOfAction = TURRET_EXPLODE_TIME;
 		System.out.println("Explode !");
 		super.Explode();
 	}
-	
+
 	@Override
 	public void Get(MyDirection dir) {
 		m_timeOfAction = TURRET_GET_TIME;
@@ -79,17 +78,21 @@ public class Turret extends MovingEntity {
 	@Override
 	public void Hit(MyDirection dir) {
 		m_timeOfAction = TURRET_HIT_TIME;
-		System.out.println("Hit !");
+		//System.out.println("Hit ! " + dir);
+		if (dir==null) {
+			dir = m_currentLookAtDir;
+		}
 		super.Hit(dir);
+		System.out.println("Canon HIT dans la direction " + dir);
 	}
-	
+
 	@Override
 	public void Jump(MyDirection dir) {
 		m_timeOfAction = TURRET_JUMP_TIME;
 		System.out.println("Jump !");
 		super.Jump(dir);
 	}
-	
+
 	@Override
 	public void Move(MyDirection dir) {
 		m_timeOfAction = TURRET_MOVE_TIME;
@@ -103,7 +106,6 @@ public class Turret extends MovingEntity {
 		System.out.println("Pick !");
 		super.Pick(dir);
 	}
-	
 
 	@Override
 	public void Pop(MyDirection dir) {
@@ -118,7 +120,6 @@ public class Turret extends MovingEntity {
 		System.out.println("Power !");
 		super.Power();
 	}
-	
 
 	@Override
 	public void Protect(MyDirection dir) {
@@ -146,13 +147,13 @@ public class Turret extends MovingEntity {
 		m_timeOfAction = TURRET_TURN_TIME;
 		System.out.println("Turn !");
 		super.Turn(dir, angle);
-		m_currentActionDir = m_currentLookAtDir;//l'action se fait dans la direction dans laquelle on regarde
+		System.out.println("Canon tourne dans la direction" + dir);
 	}
 
 	@Override
 	public void Wait() {
 		m_timeOfAction = TURRET_WAIT_TIME;
-		System.out.println("Wait !");
+		//System.out.println("Wait !");
 		super.Wait();
 	}
 
@@ -160,10 +161,8 @@ public class Turret extends MovingEntity {
 	public void Wizz(MyDirection dir) {
 		m_timeOfAction = TURRET_WIZZ_TIME;
 		System.out.println("Wizz !");
-		m_currentAction = LsAction.Wizz;
 		super.Wizz(dir);
 	}
-	
 	public boolean moved() {
 		return moved;
 	}

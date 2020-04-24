@@ -10,10 +10,10 @@ import info3.game.model.entities.Turret;
  * particulièrement lors des moves.
  */
 public class Tank {
-	public final static int TANK_BODY_WIDTH = 3;
-	public final static int TANK_BODY_HEIGHT = 3;
+	public final static int TANK_BODY_WIDTH = 1;
+	public final static int TANK_BODY_HEIGHT = 1;
 	public final static int TANK_TURRET_WIDTH = 1;
-	public final static int TANK_TURRET_HEIGHT = 3;
+	public final static int TANK_TURRET_HEIGHT = 1;
 	
 	public static final int TANK_HEALTH = 100;
 	public static final int TANK_SPEED = 100;

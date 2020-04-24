@@ -22,8 +22,8 @@ public abstract class Entity {
 	int m_width;
 	int m_height;
 	int m_speed;
-	MyDirection m_currentLookAtDir;
-	MyDirection m_currentActionDir;
+public	MyDirection m_currentLookAtDir;
+public	MyDirection m_currentActionDir;
 	boolean m_stuff; // gotStuff ?
 	// Automaton m_automate; //automate associé
 	State m_currentState;
@@ -129,7 +129,8 @@ public abstract class Entity {
 
 	public void Hit(MyDirection dir) {
 		System.out.println("Is Hitting");
-		m_currentActionDir = dir;
+		if (dir != null)
+			m_currentActionDir = dir;
 		m_currentAction = LsAction.Hit;
 	}
 
@@ -467,7 +468,6 @@ public abstract class Entity {
 	}
 
 	public void Wait() {
-		System.out.println("Is Waiting");
 		m_currentActionDir = null;
 		m_currentAction = LsAction.Wait;
 	}
@@ -493,7 +493,7 @@ public abstract class Entity {
 	}
 
 	public boolean GotPower() {
-		System.out.println("Is Gotpower-ing");
+	//	System.out.println("Is Gotpower-ing");
 		return true;
 	}
 

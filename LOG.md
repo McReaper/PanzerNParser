@@ -207,3 +207,42 @@ Continuer de travailler sur la partie MVC pour avoir une version très simple d'
 
 ---
 
+# JOURNAL du Vendredi 24 Avril
+
+## Planning du jour
+
+- Pas de planning prévu à l'avance ce jour là. Les décisions ont été prises le matin même et ont donné la répartition des tâches ci-dessous.
+
+## Répartition des tâches
+
+- `M>` Implémentation du ViewPort.
+- `E>` Implémentation de la classe tank, d'un moyen de générer le tank sur la map via la grid,
+mise en place de la coordination tank-tourelle.
+- `E/V>` Implémentation des mécanismes pour l'implémentation de cell et closest.
+- `B>` Implémentation de la classe chassisAvatar et création des sprites nécéssaires.
+- `JT>` Utilisation de swing pour commencer à implémenter du HUD.
+- `S>` Optimisation de la liste des entités, via la conversion de celle-ci en HashMap avec le type d'entité pour clé.
+- `Cyance>` Revues de code croisées de ce qui a été fait aujourd'hui.
+
+## Remarques :
+
+- Le travail du jour a été pour la plupart des tâches laborieux, beaucoup de formule mathématiques, exploration de nouvelles fonctionnalités de java, création de nombreuses sprites, etc... Il n'en reste pas moins que l'équipe a avancé sur beaucoup de champs en même temps et a aquis des outils qui permettront d'avancer plus vite dans les prochains jours.
+
+## Réflexions en cours :
+- Comment faire fonctionner efficacement l'affichage en bord de map ?
+- Comment optimiser la gestion de la liste des avatars ?
+- Comment imprimer les avatar dans un ordre selon le type d'entité ?
+- Choisir le design pour l'HUD (propositions existantes mais à délibérer).
+
+## Pour après
+
+- `Continuité travail de B/E>` Finaliser le lien entre tourelle et tank, notamment l'aspect graphique. (transition entre deux cases)
+- `Continuité travail de M>` Incorporer le ViewPort dans la View, la faire fonctionner, se questionner sur l'affichage des bords de map.
+- `Continuité travail de E>` Implémentation du drone et de la transition entre les deux mondes.
+- `Continuité travail de S>` Faire fonctionner l'affichage des entités dans un certain ordre.
+Mieux géré la génération des avatars.
+- `Continuité travail de V>` Faire fonctionner le Cell et Closest pour faire fonctionner des automates plus compliqués.
+- `Continuité travail de JT>` Continuer d'avancer dans le HUD.
+
+---
+

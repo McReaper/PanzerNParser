@@ -50,36 +50,45 @@ public class View extends Container {
 		
 		//SOUTH
 		Container south = new Container();
+		south.setPreferredSize(new Dimension(200, 200));
 		BorderLayout BLSouth = new BorderLayout();
-		
-		//SOUTH WEST ENERGY DRONE ET TANK
-		Container southWest = new Container();
-		//Création des deux barres de vie
-		JProgressBar health = new JProgressBar(JProgressBar.HORIZONTAL,0,100);
-		JProgressBar drone = new JProgressBar(JProgressBar.HORIZONTAL,0,100);
-		health.setPreferredSize(new Dimension(200,50));
-		drone.setPreferredSize(new Dimension(200,50));
-		health.setName("Health");
-		drone.setName("Drone");
-		health.setValue(25);
-		drone.setValue(50);
-		
-		//Set du layout du componante SouthWest
-		southWest.setPreferredSize(new Dimension(800,800));
-		southWest.add(new Box.Filler(getMinimumSize(), getPreferredSize(), getMaximumSize()));
-		southWest.add(health);
-		southWest.add(new Box.Filler(getMinimumSize(), getPreferredSize(), getMaximumSize()));
-		southWest.add(drone);
-		southWest.add(new Box.Filler(getMinimumSize(), getPreferredSize(), getMaximumSize()));
-		BoxLayout BLSouthWest = new BoxLayout(southWest,1);
-		southWest.setLayout(BLSouthWest);
-		
-		BLSouth.addLayoutComponent(southWest, BorderLayout.EAST);
-		
+		Container West = new Container();
+//		West.setPreferredSize(new Dimension((int) (m_canvas.getWidth()),200));
+		Container Center = new Container();
+		Container East = new Container();
+		JProgressBar health= new JProgressBar(JProgressBar.HORIZONTAL, 0, 100);
+		JProgressBar drone= new JProgressBar(JProgressBar.HORIZONTAL, 0, 100);
+		JButton buttonCenter = new JButton("CENTER");
+		buttonCenter.setAlignmentX(CENTER_ALIGNMENT);
+		buttonCenter.setAlignmentY(CENTER_ALIGNMENT);
+		JButton buttonEast = new JButton("EAST");
+		West.add(health);
+		West.add(drone);
+		Center.add(buttonCenter);
+		East.add(buttonEast);
+		BoxLayout BLWest = new BoxLayout(West, BoxLayout.Y_AXIS);
+		West.setLayout(BLWest);
+		BoxLayout BLCenter = new BoxLayout(Center, BoxLayout.Y_AXIS);
+		Center.setLayout(BLCenter);
+		BoxLayout BLEast = new BoxLayout(East, BoxLayout.Y_AXIS);
+		East.setLayout(BLEast);
+		south.add(East);
+		south.add(Center);
+		south.add(West);
+		BLSouth.addLayoutComponent(West, BorderLayout.WEST);
+		BLSouth.addLayoutComponent(Center, BorderLayout.CENTER);
+		BLSouth.addLayoutComponent(East, BorderLayout.EAST);
+//		Container SouthWest = new Container();
+//		JButton button = new JButton("test");
+//		SouthWest.add(button);
+//		BoxLayout BLSouthWest = new BoxLayout(SouthWest, 1);
+//		SouthWest.setLayout(BLSouthWest);
+//		south.add(SouthWest);
+//		
+//		BLSouth.addLayoutComponent(SouthWest, BorderLayout.WEST);
 		south.setLayout(BLSouth);
 		BL.addLayoutComponent(south, BorderLayout.SOUTH);
-		south.add(southWest);
-		south.setPreferredSize(new Dimension(200,200));
+		
 		this.add(south);
 		return BL;
 	}

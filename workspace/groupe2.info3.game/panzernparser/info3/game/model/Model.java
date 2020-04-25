@@ -12,13 +12,17 @@ import info3.game.model.entities.Turret;
 public class Model {
 
 	public static Model m_model;
+	
+	public static final int PLAYER_TANK= 1;
+	public static final int PLAYER_DRONE= 2;
+	
 
 	// Controller m_controller; //pour envoyer des information utiles.
 	Grid m_grid;
-	public Tank tank;
+	public Tank m_tank;
 	LinkedList<Entity> m_entities;
 	public LinkedList<LsKey> m_keyPressed;
-	public Object m_player;
+	public int m_player;//1 pour le tank et 2 pour le drone
 	public Model() {
 		// Génère la liste des automates
 		m_model = this;
@@ -52,8 +56,8 @@ public class Model {
 		}
 		
 		if (indexOfTankBody != -1 && indexOfTurret != -1) {
-			tank = new Tank(m_entities.get(indexOfTankBody), m_entities.get(indexOfTurret));
-			m_player = tank;
+			m_tank = new Tank(m_entities.get(indexOfTankBody), m_entities.get(indexOfTurret));
+			m_player = PLAYER_TANK;
 		}else {
 			System.out.println("ERROR : Pas de création du TankBody ET du tankChassis");
 		}
@@ -65,7 +69,7 @@ public class Model {
 		for (Entity entity : m_entities) {
 			entity.step(elapsed);
 		}
-		tank.step();
+		m_tank.step();
 		
 	}
 

@@ -5,10 +5,11 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
+import info3.game.model.Tank;
 
 public class Drone extends MovingEntity {
-	public final static int DRONE_WIDTH = 6;
-	public final static int DRONE_HEIGHT = 6;
+	public final static int DRONE_WIDTH = 3;
+	public final static int DRONE_HEIGHT = 3;
 
 	public static final int DRONE_HEALTH = 100;
 	public static final int DRONE_SPEED = 1; // nb de cases en 1 déplacement.
@@ -168,6 +169,13 @@ public class Drone extends MovingEntity {
 		super.Wizz(dir);
 	}
 
+	@Override
+	public boolean GotPower() {
+		return (m_model.m_player ==this);
+			
+	}
+	
+	
 	public void growViewPort() {
 	}
 
@@ -176,12 +184,15 @@ public class Drone extends MovingEntity {
 
 	/* Lorsque wizz, on appelle cette fonction */
 	public void callTank() {
+		m_model.m_player = (Tank) m_model.tank;
 		/*
+		 * 
 		 * TODO : si le wizz est appelé, on le remove de la liste d'entity de model
 		 * -> le update de view n'affichera lus le drone
 		 * ->
+		 * -> agir sur le viewport
+		 * m_model
 		 */
-		// transmettre au model la destruction du drone
 	}
 
 }

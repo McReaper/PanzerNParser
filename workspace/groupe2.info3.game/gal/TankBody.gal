@@ -27,7 +27,7 @@ TankChassis(Init){
 	|Key(e) ? Pop : (Init)
 	|Key(a) ? Wizz : (Init)
 	
-	|Key(SPACE) ? Hit : (Init)   
+	|Key(t) ? Hit : (Init)   
 	
 	|True ? Wait : (Init)
 

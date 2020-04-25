@@ -150,7 +150,7 @@ public class Enemy extends MovingEntity {
 	@Override
 	public void Wait() {
 		m_timeOfAction = ENEMY_WAIT_TIME;
-		System.out.println("Wait !");
+		//System.out.println("Wait !");
 		super.Wait();
 	}
 

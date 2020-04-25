@@ -22,8 +22,8 @@ public abstract class Entity {
 	int m_width;
 	int m_height;
 	int m_speed;
-	MyDirection m_currentLookAtDir;
-	MyDirection m_currentActionDir;
+	public MyDirection m_currentLookAtDir;
+	public MyDirection m_currentActionDir;
 	boolean m_stuff; // gotStuff ?
 	// Automaton m_automate; //automate associé
 	State m_currentState;
@@ -33,7 +33,7 @@ public abstract class Entity {
 	public Entity(int x, int y, int width, int height, Model model, Automaton aut) {
 		m_automate = aut;
 		m_currentState = aut.getState();
-		
+
 		m_elapseTime = 0;
 		m_currentAction = null;
 
@@ -63,6 +63,11 @@ public abstract class Entity {
 
 	public void setAutomaton(Automaton automate) {
 		m_automate = automate;
+	}
+
+	public void setPosition(int x, int y) {
+		m_x = x;
+		m_y = y;
 	}
 
 	public boolean isShown() {
@@ -124,7 +129,8 @@ public abstract class Entity {
 
 	public void Hit(MyDirection dir) {
 		System.out.println("Is Hitting");
-		m_currentActionDir = dir;
+		if (dir != null)
+			m_currentActionDir = dir;
 		m_currentAction = LsAction.Hit;
 	}
 
@@ -311,6 +317,17 @@ public abstract class Entity {
 			default:
 				break;
 		}
+		
+		/*Gestion TOR lors des move d'entity*/
+		if (m_x < 0)
+			m_x = m_model.getGrid().getNbCellsX() - m_width;
+		else if (m_x + m_width > m_model.getGrid().getNbCellsX())
+			m_x = 0;
+		if (m_y < 0)
+			m_y = m_model.getGrid().getNbCellsY() - m_height;
+		else if (m_y + m_height > m_model.getGrid().getNbCellsY())
+			m_y = 0;
+		
 		m_currentActionDir = dir;
 		System.out.println("Arrived and facing " + m_currentLookAtDir);
 		return;
@@ -462,7 +479,6 @@ public abstract class Entity {
 	}
 
 	public void Wait() {
-		System.out.println("Is Waiting");
 		m_currentActionDir = null;
 		m_currentAction = LsAction.Wait;
 	}
@@ -488,7 +504,7 @@ public abstract class Entity {
 	}
 
 	public boolean GotPower() {
-		System.out.println("Is Gotpower-ing");
+		// System.out.println("Is Gotpower-ing");
 		return true;
 	}
 

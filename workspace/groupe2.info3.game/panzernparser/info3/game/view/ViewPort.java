@@ -12,7 +12,7 @@ import info3.game.model.entities.Entity;
 
 public class ViewPort {
 
-	static final int RANGE_VIEW = 1;
+	static final int RANGE_VIEW = 3;
 
 	Model m_model;
 	Entity m_player;
@@ -52,14 +52,14 @@ public class ViewPort {
 	}
 
 	private void positionViewPort() {
-		System.out.println("player ("+m_player.getX()+";"+m_player.getY()+")");
+		System.out.println("player (" + m_player.getX() + ";" + m_player.getY() + ")");
 		m_x = m_player.getX();
 		m_x -= RANGE_VIEW * m_player.getWidth();
 		m_x = m_grid.realX(m_x);
 		m_y = m_player.getY();
 		m_y -= RANGE_VIEW * m_player.getWidth(); // c'est normal c'est pour les entité non carré
 		m_y = m_grid.realY(m_y);
-		System.out.println("("+m_x+";"+m_y+")");
+		System.out.println("(" + m_x + ";" + m_y + ")");
 	}
 
 	private void offset() {
@@ -111,9 +111,9 @@ public class ViewPort {
 		g.setColor(Color.BLACK);
 		System.out.println("la GRID");
 		System.out.println(case_width);
-		for (int i = -m_offsetX; i < m_nbCellsX * case_width; i+=case_width)
+		for (int i = -m_offsetX; i < m_nbCellsX * case_width; i += case_width)
 			g.drawLine(i, 0, i, case_height * m_nbCellsY);
-		for (int j = -m_offsetY; j < m_nbCellsY * case_height; j+=case_height)
+		for (int j = -m_offsetY; j < m_nbCellsY * case_height; j += case_height)
 			g.drawLine(0, j, case_width * m_nbCellsX, j);
 		for (Avatar avatar : lsAvatars) {
 			e = avatar.m_entity;
@@ -121,8 +121,8 @@ public class ViewPort {
 			y = e.getY();
 			w = e.getWidth();
 			h = e.getHeight();
-			int intView = inView(x, y, w, h);
-			if (intView != -1) {
+			int intView = this.inView(x, y, w, h);
+			if (intView != DO_NOT_PAINT) {
 				// position de la case dans le vp
 				x -= m_x;
 				y -= m_y;
@@ -132,31 +132,43 @@ public class ViewPort {
 				// position case en px avec décalage
 				x -= m_offsetX;
 				y -= m_offsetY;
-				if(intView == 1) {
-					x += m_grid.getNbCellsX() * case_width;
-				}else if(intView == 2) {
-					y += m_grid.getNbCellsY() * case_height;
-				}else if(intView == 3) {
-					x += m_grid.getNbCellsX() * case_width;
-					y += m_grid.getNbCellsY() * case_height;
+				switch (intView) {
+					case PAINT_MOVE_X:
+						x += m_grid.getNbCellsX() * case_width;
+						break;
+					case PAINT_MOVE_Y:
+						y += m_grid.getNbCellsY() * case_height;
+						break;
+					case PAINT_MOVE_XY:
+						x += m_grid.getNbCellsX() * case_width;
+						y += m_grid.getNbCellsY() * case_height;
+						break;
 				}
 				avatar.paint(g, x, y, case_width, case_height);
+
 			}
+
 		}
 
 	}
 
-		private static final int DO_NOT_PAINT = -1;
-		private static final int PAINT_HERE = 0;
-		private static final int PAINT_MOVE_X = 1;
-		private static final int PAINT_MOVE_Y = 2;
-		private static final int PAINT_MOVE_XY = 3;
-	
+	private static final int DO_NOT_PAINT = -1;
+	private static final int PAINT_HERE = 0;
+	private static final int PAINT_MOVE_X = 1;
+	private static final int PAINT_MOVE_Y = 2;
+	private static final int PAINT_MOVE_XY = 3;
+
 	private int inView(int x, int y, int w, int h) { // TODO géré les cas ou les viewport est sur "plusieurs map"
-																												// utiliser + et -
-		//if ((x + w) > (m_x - 2) && x < (m_x + m_nbCellsX + 2) && (y + h) > (m_y - 2) && y < (m_y + m_nbCellsY + 2)) {
-		///	return true;
-		//}
+																										// utiliser + et -
+		// if ((x + w) > (m_x - 2) && x < (m_x + m_nbCellsX + 2) && (y + h) > (m_y - 2)
+		// && y < (m_y + m_nbCellsY + 2)) {
+		/// return true;
+		// }
+		/*
+		 * TODO : Il reste un problème pour quand on est sur les deux cases du bord de
+		 * map (haut et gauche)
+		 * 
+		 */
 		int xL = m_grid.realX(m_x - 2);
 		int xR = m_grid.realX(m_x + m_nbCellsX + 2);
 		int yU = m_grid.realY(m_y - 2);
@@ -164,21 +176,23 @@ public class ViewPort {
 		boolean inX = false;
 		boolean inY = false;
 		int painting = PAINT_HERE;
-		if((x + w) > xL && x < xR) {
+		if ((x + w) > xL && x < xR) {
 			inX = true;
-		}else if( xL > xR && ((x + w) > xL || x < xR)) {
+		} else if (xL > xR && ((x + w) > xL || x < xR)) {
 			inX = true;
-			if(x<m_x) {
-			painting += PAINT_MOVE_X;
+			if (x < m_x) {
+				painting += PAINT_MOVE_X;
 			}
 		}
-		if((y + h) > yU && y < yD) {
+		if ((y + h) > yU && y < yD) {
 			inY = true;
-		}else if( yU > yD && ((y + h) > yU || y < yD)) {
+		} else if (yU > yD && ((y + h) > yU || y < yD)) {
 			inY = true;
-			painting += PAINT_MOVE_Y;
+			if (y < m_y) {
+				painting += PAINT_MOVE_Y;
+			}
 		}
-		
+
 		if (inX && inY) {
 			return painting;
 		}

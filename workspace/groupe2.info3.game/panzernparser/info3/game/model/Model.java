@@ -4,6 +4,7 @@ import java.rmi.UnexpectedException;
 import java.util.LinkedList;
 
 import info3.game.automaton.LsKey;
+import info3.game.automaton.MyCategory;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Droppable;
 import info3.game.model.entities.Enemy;
@@ -94,6 +95,12 @@ public class Model {
 		public boolean equals(Object obj) {
 			return (((Coords) obj).X == this.X && ((Coords) obj).Y == this.Y);
 		}
+
+		public Coords translate(double offX, double offY) {
+			X += offX;
+			Y += offY;
+			return null;
+		}
 	}
 	
 	public boolean isInRadius(LinkedList<Coords> radius, Entity entity) {
@@ -104,36 +111,16 @@ public class Model {
 		return false;
 	}
 
-	public Entity closestEntity(LinkedList<Entity> entities, int x, int y) {
-		double min = 0;
-		int indexMin = 0;
-		if (!entities.isEmpty()) {
-			if (entities.size() == 1) {
-				return entities.get(0);
-			} else {
-				int i = 0;
-				for (Entity entity : entities) {
-					/*
-					 * formule utilisée --> d = sqrt( pow((x2 -x1),2) + pow ((y2 - y1),2) )
-					 */
-					/*
-					 * x2 -x1 au carré :
-					 */
-					double part1 = Math.pow(entity.getX() - x, 2);
-					double part2 = Math.pow(entity.getY() - y, 2);
-					double d = Math.sqrt(part1 + part2);
-					if (i == 0) {
-						min = d;
-					} else if (d < min) {
-						min = d;
-						indexMin = i;
-					}
-
-				}
-				return entities.get(indexMin);
+	public Entity closestEntity(LinkedList<Entity> entities, int x, int y) {		
+		Entity closest = entities.get(0);
+		double min_dist = Math.pow(closest.getX() - x, 2) + Math.pow(closest.getY() - y, 2);
+		for (Entity curr : entities) {
+			double dist = Math.pow(curr.getX() - x, 2) + Math.pow(curr.getY() - y, 2);
+			if (dist < min_dist) {
+				closest = curr;
 			}
 		}
-		return null;
+		return closest;
 	}
 
 	/*
@@ -210,6 +197,16 @@ public class Model {
 				default : 
 					return null;
 			}
+	}
+
+	public LinkedList<Entity> getCategoried(MyCategory type) {
+		LinkedList<Entity> entities_to_return = new LinkedList<Entity>();
+		for (Entity entity : getAllEntities()) {
+			if (entity.getCategory() == type) {
+				entities_to_return.add(entity);
+			}
+		}
+		return entities_to_return;
 	}
 
 }

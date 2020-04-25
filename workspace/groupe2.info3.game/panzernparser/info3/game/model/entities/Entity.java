@@ -1,11 +1,9 @@
 package info3.game.model.entities;
 
-import info3.game.automaton.MyCategory;
-
-import java.util.Collection;
 import java.util.LinkedList;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
 import info3.game.automaton.action.LsAction;
@@ -27,6 +25,7 @@ public abstract class Entity {
 	int m_width;
 	int m_height;
 	int m_speed;
+	int m_lengthOfView;
 	MyDirection m_currentLookAtDir;
 	MyDirection m_currentActionDir;
 	MyCategory m_category; // La catégorie à laquelle l'entité appartient, utilisé principalement dans
@@ -41,13 +40,15 @@ public abstract class Entity {
 
 	public Entity(int x, int y, int width, int height, Model model, Automaton aut) {
 		m_automate = aut;
-		//m_currentState = aut.getState();
+		// m_currentState = aut.getState();
 
 		m_elapseTime = 0;
 		m_currentAction = null;
 
 		m_displayed = true;
+		
 
+		m_lengthOfView = 5; //Valeur par défaut a revisiter
 		m_x = x;
 		m_y = y;
 		m_width = width;
@@ -531,10 +532,46 @@ public abstract class Entity {
 	 * @return vrai si l'entité de type recherché est "proche"
 	 */
 	public boolean Closest(MyDirection dir, MyCategory type) {
-		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
-
+		Entity closest = m_model.closestEntity(m_model.getCategoried(type), m_x, m_y);
+		return closest.isInMe(getDetectionCone(dir, this.m_lengthOfView));
+	}
+	
+	public boolean isInMe(LinkedList<Coords> radius) {
+		for (Coords coord : radius) {
+			if (this.isInMe(coord.X, coord.Y))
+				return true;
+		}
 		return false;
+	}
 
+	protected LinkedList<Coords> getDetectionCone(MyDirection dir, int dist) {
+		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
+		switch (absoluteDir) {
+			case EAST:
+			case NORTH:
+			case SOUTH:
+			case WEST:
+				return getCellsInOrthogonalDir(absoluteDir, dist);
+			case NORTHEAST:
+			case NORTHWEST:
+			case SOUTHEAST:
+			case SOUTHWEST:
+				return getCellsInDiagonalDir(absoluteDir, dist);
+			case HERE:
+				return getCellsOnMe();
+			default:
+				return null;
+		}
+	}
+
+	protected LinkedList<Coords> getCellsOnMe() {
+		LinkedList<Coords> cells = new LinkedList<Coords>();
+		for (int y = 0; y < m_height; y++) {
+			for (int x = 0; x < m_width; x++) {
+				cells.add(new Coords(x + m_x, y + m_y));
+			}
+		}
+		return cells;
 	}
 
 	/**
@@ -545,15 +582,17 @@ public abstract class Entity {
 	 * @return
 	 */
 	protected LinkedList<Coords> getCellsInDiagonalDir(MyDirection dir, int dist) {
-		double center_x = m_x + (double)(m_width) / 2.0;
-		double center_y = m_y + (double)(m_height) / 2.0;
-		System.out.println("center : "+"("+center_x+';'+center_y+")");
+		double center_x = m_x + (double) (m_width) / 2.0;
+		double center_y = m_y + (double) (m_height) / 2.0;
 		LinkedList<Coords> cells = new LinkedList<Coords>();
 
-		int x_factor = 1;
-		int y_factor = 1;
+		boolean center_x_on_cell = (center_x % 1 != 0); // Le centre doit etre au milieu d'une case.
+		boolean center_y_on_cell = (center_y % 1 != 0); // Le centre doit etre au milieu d'une case.
+		int x_factor;
+		int y_factor;
 		switch (dir) {
 			case NORTHEAST:
+				x_factor = 1;
 				y_factor = -1;
 				break;
 			case NORTHWEST:
@@ -561,76 +600,108 @@ public abstract class Entity {
 				x_factor = -1;
 				break;
 			case SOUTHEAST:
+				x_factor = 1;
+				y_factor = 1;
 				break;
 			case SOUTHWEST:
 				x_factor = -1;
+				y_factor = 1;
 				break;
 			default:
 				throw new IllegalArgumentException(
 						"Cette fonction est appelable uniquement avec les paramètres NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST");
 		}
 
+		if (!center_x_on_cell)
+			center_x += (0.5 * x_factor);
+		if (!center_y_on_cell)
+			center_y += (0.5 * y_factor);
+
 		// Ajout de toutes les cases dans un rectangle donné en dehors de l'entité.
 		int max_side = Math.max(m_width, m_height);
-		int side_length = max_side + dist;
-		for (double x = 0; x < side_length; x++) {
-			for (double y = 0; y < side_length; y++) {
-				double actual_x = m_x + (x * x_factor) + 0.5 + m_width / 2; // +0.5 pour prendre en compte le milieu de la case
-				double actual_y = m_y + (y * y_factor) + 0.5 + m_height / 2;
+		double rayon = (double) (max_side) / 2 + dist;
+		for (double x = 0; x <= rayon; x++) {
+			for (double y = 0; y <= rayon; y++) {
+				double actual_x = center_x + (x * x_factor);
+				double actual_y = center_y + (y * y_factor);
 				if (!this.isInMe(actual_x, actual_y))
 					cells.add(new Coords(actual_x, actual_y));
 			}
 		}
 
-		double rayon = (side_length) - (max_side)/2;
-		if (center_x % 1 != 0 || center_y % 1 != 0 ) rayon -= 0.5;
-		System.out.println("Rayon = "+rayon);
 		Circle stencil = new Circle(center_x, center_y, rayon);
-		Collection<Coords> coords_to_remove = new LinkedList<Coords>();
+		LinkedList<Coords> coords_to_return = new LinkedList<Coords>();
 
 		for (Coords coord : cells) {
-			if (!stencil.isInMe(coord.X, coord.Y)) {
-				System.out.println("Is not in ("+coord.X+";"+coord.Y+")");
-				coords_to_remove.add(coord);
+			if (stencil.isInMe(coord.X, coord.Y)) {
+				coord.translate(-0.5, -0.5);
+				coords_to_return.add(coord);
 			}
 		}
-		cells.removeAll(coords_to_remove);
 
-		return cells;
+		return coords_to_return;
 	}
 
 	protected LinkedList<Coords> getCellsInOrthogonalDir(MyDirection dir, int dist) {
 		LinkedList<Coords> cells = new LinkedList<Coords>();
+		RectangleTriangle stencil1, stencil2;
+
+		double center_x = m_x + (double) (m_width) / 2.0;
+		double center_y = m_y + (double) (m_height) / 2.0;
+
+		int max_side = Math.max(m_width, m_height);
+		double rayon = (double) (max_side) / 2 + dist;
 
 		switch (dir) {
 			case NORTH:
 				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHEAST, dist));
 				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHWEST, dist));
+				stencil1 = new RectangleTriangle(center_x - rayon - 1, center_y, center_x, center_y, center_x - rayon - 1,
+						center_y - rayon - 1);
+				stencil2 = new RectangleTriangle(center_x + rayon + 1, center_y, center_x, center_y, center_x + rayon + 1,
+						center_y - rayon - 1);
 				break;
 			case WEST:
 				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHWEST, dist));
 				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHWEST, dist));
+				stencil1 = new RectangleTriangle(center_x, center_y - rayon - 1, center_x, center_y, center_x - rayon - 1,
+						center_y - rayon - 1);
+				stencil2 = new RectangleTriangle(center_x, center_y + rayon + 1, center_x, center_y, center_x - rayon - 1,
+						center_y + rayon + 1);
 				break;
 			case EAST:
 				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHEAST, dist));
 				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHEAST, dist));
+				stencil1 = new RectangleTriangle(center_x, center_y - rayon - 1, center_x, center_y, center_x + rayon + 1,
+						center_y - rayon - 1);
+				stencil2 = new RectangleTriangle(center_x, center_y + rayon + 1, center_x, center_y, center_x + rayon + 1,
+						center_y + rayon + 1);
 				break;
 			case SOUTH:
 				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHEAST, dist));
 				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHWEST, dist));
+				stencil1 = new RectangleTriangle(center_x - rayon - 1, center_y, center_x, center_y, center_x - rayon - 1,
+						center_y + rayon + 1);
+				stencil2 = new RectangleTriangle(center_x + rayon + 1, center_y, center_x, center_y, center_x + rayon + 1,
+						center_y + rayon + 1);
 				break;
 			default:
 				throw new IllegalArgumentException(
 						"Cette fonction est appelable uniquement avec les paramètres NORTH, EAST, WEST, SOUTH");
 		}
-		
-		//TODO : non-terminé...
 
-		return cells;
+		LinkedList<Coords> coords_to_return = new LinkedList<Coords>();
 
+		for (Coords coord : cells) {
+			if (!stencil1.isInMe(coord.X + 0.5, coord.Y + 0.5) && !stencil2.isInMe(coord.X + 0.5, coord.Y + 0.5)) {
+				coords_to_return.add(coord);
+			}
+		}
+
+		return coords_to_return;
 	}
 
-	protected static class Circle {
+	private static class Circle {
 
 		double m_radius;
 		double m_x, m_y;
@@ -643,6 +714,44 @@ public abstract class Entity {
 
 		public boolean isInMe(double x, double y) {
 			return Math.pow((x - m_x), 2) + Math.pow((y - m_y), 2) <= Math.pow(m_radius, 2);
+		}
+	}
+
+	private static class RectangleTriangle {
+
+		double m_xMax, m_yMax;
+		double m_xOffset, m_yOffset;
+
+		/**
+		 * <p style="color:red">
+		 * <b>Le triangle doit etre rectangle en A.</b>
+		 * </p>
+		 */
+		public RectangleTriangle(double Ax, double Ay, double Bx, double By, double Cx, double Cy) {
+			m_xOffset = Ax;
+			m_yOffset = Ay;
+			// On translate le triangle pour que A soit en (0;0)
+			m_xMax = Math.max(Bx - m_xOffset, Cx - m_xOffset);
+			if (m_xMax == 0)
+				m_xMax = Math.min(Bx - m_xOffset, Cx - m_xOffset);
+			m_yMax = Math.max(By - m_yOffset, Cy - m_yOffset);
+			if (m_yMax == 0)
+				m_yMax = Math.min(By - m_yOffset, Cy - m_yOffset);
+		}
+
+		/**
+		 * <p style="color:red">
+		 * <b>J'assume ici qu'on traite d'un triangle rectangle en A.</b>
+		 * </p>
+		 */
+		public boolean isInMe(double x, double y) {
+			double realX = x - m_xOffset;
+			double realY = y - m_yOffset;
+			if ((realX >= 0 && realX <= m_xMax || realX <= 0 && realX >= m_xMax)
+					&& (realY >= 0 && realY <= m_yMax || realY <= 0 && realY >= m_yMax)) {
+				return (realX / m_xMax + realY / m_yMax < 1.0);
+			}
+			return false;
 		}
 	}
 }

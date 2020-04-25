@@ -32,11 +32,9 @@ public class TankBody extends MovingEntity {
 	public static final long TANK_BODY_THROW_TIME = 1000;
 	public static final long TANK_BODY_WAIT_TIME = 50;
 	public static final long TANK_BODY_WIZZ_TIME = 1000;
-	boolean m_moved;
 
 	public TankBody(int x, int y, int width, int height, Model model, Automaton aut) {
 		super(x, y, width, height, Tank.TANK_HEALTH, Tank.TANK_SPEED, model, aut);
-		m_moved = false;
 	}
 
 	@Override
@@ -93,15 +91,6 @@ public class TankBody extends MovingEntity {
 		m_timeOfAction = TANK_BODY_MOVE_TIME;
 		System.out.println("Move !");
 		super.Move(dir);
-		m_moved = true;
-	}
-	
-	public boolean moved() {
-		return m_moved;
-	}
-	
-	public void setMoved(boolean bool) {
-		m_moved = bool;
 	}
 
 	@Override

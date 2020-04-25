@@ -1,6 +1,9 @@
 package info3.game.model;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.MyDirection;
+import info3.game.automaton.action.LsAction;
+import info3.game.automaton.condition.MyDir;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
@@ -33,13 +36,12 @@ public class Tank {
  	}
 	
 	public void step () {
-		if (m_body.moved()) {
+		if (m_turret.getX() != m_body.getX() || m_turret.getY() != m_body.getY()) {
 			m_turret.setPosition(m_body.getX(), m_body.getY());
-			m_body.setMoved(false);
-		}
-		if (m_turret.moved()) {
-			m_body.setPosition(m_turret.getX(), m_turret.getY());
-			m_turret.setMoved(false);
+			MyDirection bodyAbsoluteDir = MyDirection.toAbsolute(m_body.m_currentLookAtDir, m_body.m_currentActionDir);
+			m_turret.setBodyDirection(bodyAbsoluteDir);
+			m_turret.setBodyMoving(m_body.getCurrentAction()== LsAction.Move);
+			m_turret.setBodyProgress(m_body.getActionProgress());
 		}
 	}
 }

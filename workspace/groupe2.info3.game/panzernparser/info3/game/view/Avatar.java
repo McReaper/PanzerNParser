@@ -22,6 +22,42 @@ public class Avatar {
 		m_entity = entity;
 		m_animation = animation;
 	}
+	
+	public int progressivePaintY(MyDirection e_absoluteActionDir,int y, double progress, int case_height) {
+		switch (e_absoluteActionDir) {
+			case NORTH:
+			case NORTHEAST:
+			case NORTHWEST:
+				y -= (case_height * progress) - case_height;
+				break;
+			case SOUTH:
+			case SOUTHEAST:
+			case SOUTHWEST:
+				y += (case_height * progress) - case_height;
+				break;
+			default:
+				break;
+		}
+		return y;
+	}
+	
+	public int progressivePaintX(MyDirection e_absoluteActionDir, int x, double progress, int case_width) {
+		switch (e_absoluteActionDir) {
+			case EAST:
+			case NORTHEAST:
+			case SOUTHEAST:
+				x += (case_width * progress) - case_width;
+				break;
+			case WEST:
+			case NORTHWEST:
+			case SOUTHWEST:
+				x -= (case_width * progress) - case_width;
+				break;
+			default:
+				break;
+		}
+	return x;
+	}
 
 	/**
 	 * Fonction qui dessine l'Avatar d'une entité à l'écran.
@@ -44,42 +80,10 @@ public class Avatar {
 
 		// Pour réaliser un affichage progressif dans le cas d'un move.
 		if (e_currAction == LsAction.Move) {
-			switch (e_absoluteActionDir) {
-				case NORTH:
-				case NORTHEAST:
-				case NORTHWEST:
-					y -= (case_height * progress) - case_height;
-					break;
-				case SOUTH:
-				case SOUTHEAST:
-				case SOUTHWEST:
-					y += (case_height * progress) - case_height;
-					break;
-				default:
-					break;
-			}
-			switch (e_absoluteActionDir) {
-				case EAST:
-				case NORTHEAST:
-				case SOUTHEAST:
-					x += (case_width * progress) - case_width;
-					break;
-				case WEST:
-				case NORTHWEST:
-				case SOUTHWEST:
-					x -= (case_width * progress) - case_width;
-					break;
-				default:
-					break;
-			}
-		}
-		Image sprite;
-		//if (m_entity.getCurrentAction() != LsAction.Wait) {
-			sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir);
-//		}else {
-//			sprite = m_animation.getImage(1, e_currAction, e_absoluteActionDir);
-//		}
-
+			x= progressivePaintX(e_absoluteActionDir,x,progress,case_width);
+			y =progressivePaintY(e_absoluteActionDir, y, progress,case_height);
+		}		
+		Image sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir);
 		g.drawImage(sprite, x, y, width, height, null);
 	}
 

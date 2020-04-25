@@ -56,6 +56,7 @@ public class Grid {
 							patTank.setPosition(i, j);
 							selectedPatterns.add(patTank);
 							patterns_chose ++;
+							patTank=null;
 						}else {
 							System.out.println("pattern avec parser nul");
 						}

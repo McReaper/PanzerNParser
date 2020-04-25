@@ -9,7 +9,7 @@ import info3.game.model.Model;
  * Classe du canon du tank
  */
 public class Turret extends MovingEntity {
-	
+
 	public final static int TURRET_WIDTH = 1;
 	public final static int TURRET_HEIGHT = 1;
 
@@ -31,11 +31,17 @@ public class Turret extends MovingEntity {
 	public static final long TURRET_THROW_TIME = 1000;
 	public static final long TURRET_WAIT_TIME = 50;
 	public static final long TURRET_WIZZ_TIME = 1000;
-	boolean moved;
+
+	/*
+	 * flags pour savoir si le body TankBody bouge et si oui dans quelle direction
+	 * et a quel point en est-il ?
+	 */
+	private boolean m_bodyMoving;// if tankBoody utilise la fonction Move()
+	private double m_BodyProgress;// progression du body
+	private MyDirection m_bodyDir;// La direction dans laquelle va le body
 
 	public Turret(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
 		super(x, y, width, height, health, speed, model, aut);
-		moved = false;
 	}
 
 	int m_range;
@@ -78,8 +84,8 @@ public class Turret extends MovingEntity {
 	@Override
 	public void Hit(MyDirection dir) {
 		m_timeOfAction = TURRET_HIT_TIME;
-		//System.out.println("Hit ! " + dir);
-		if (dir==null) {
+		// System.out.println("Hit ! " + dir);
+		if (dir == null) {
 			dir = m_currentLookAtDir;
 		}
 		super.Hit(dir);
@@ -153,7 +159,7 @@ public class Turret extends MovingEntity {
 	@Override
 	public void Wait() {
 		m_timeOfAction = TURRET_WAIT_TIME;
-		//System.out.println("Wait !");
+		// System.out.println("Wait !");
 		super.Wait();
 	}
 
@@ -163,13 +169,32 @@ public class Turret extends MovingEntity {
 		System.out.println("Wizz !");
 		super.Wizz(dir);
 	}
-	public boolean moved() {
-		return moved;
-	}
-	
-	public void setMoved(boolean bool) {
-		moved = bool;
+
+	/*
+	 * Pour le cas ou le tankBody bouge et que le canon doit suivre le tank
+	 */
+	public void setBodyMoving(boolean bool) {
+		m_bodyMoving = bool;
 	}
 
+	public boolean isBodyMoving() {
+		return m_bodyMoving;
+	}
+
+	public void setBodyDirection(MyDirection dir) {
+		m_bodyDir = dir;
+	}
+
+	public MyDirection getBodyDirection() {
+		return m_bodyDir;
+	}
+
+	public void setBodyProgress(double progess) {
+		m_BodyProgress= progess;
+	}
+
+	public double getBodyProgress() {
+		return m_BodyProgress;
+	}
 
 }

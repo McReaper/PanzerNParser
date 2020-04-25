@@ -164,6 +164,10 @@ public class ViewPort {
 		// && y < (m_y + m_nbCellsY + 2)) {
 		/// return true;
 		// }
+		/* TODO : Il reste un problème pour quand on est sur les deux cases du bord
+		 * de map (haut et gauche)
+		 * 
+		 */
 		int xL = m_grid.realX(m_x - 2);
 		int xR = m_grid.realX(m_x + m_nbCellsX + 2);
 		int yU = m_grid.realY(m_y - 2);

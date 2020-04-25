@@ -12,7 +12,7 @@ import info3.game.model.entities.Entity;
 
 public class ViewPort {
 
-	static final int RANGE_VIEW = 3;
+	static final int RANGE_VIEW = 7;
 
 	Model m_model;
 	Entity m_player;
@@ -46,6 +46,7 @@ public class ViewPort {
 		m_nbCellsX *= m_player.getWidth(); // pour que ça dépende de la taille de l'entity
 		case_width = m_width / m_nbCellsX;
 		case_height = case_width; // case carré
+		m_nbCellsX += 4; // pour la marge
 		m_nbCellsY = m_nbCellsX;
 		// m_nbCellsY = m_height / case_height; // TODO géré si view porte pas carré
 		// m_height%case_height / 2 pour le decalage si pas le bon nombre de case
@@ -55,9 +56,11 @@ public class ViewPort {
 		System.out.println("player (" + m_player.getX() + ";" + m_player.getY() + ")");
 		m_x = m_player.getX();
 		m_x -= RANGE_VIEW * m_player.getWidth();
+		m_x -= 2; //pour la marge
 		m_x = m_grid.realX(m_x);
 		m_y = m_player.getY();
 		m_y -= RANGE_VIEW * m_player.getWidth(); // c'est normal c'est pour les entité non carré
+		m_y -= 2;
 		m_y = m_grid.realY(m_y);
 		System.out.println("(" + m_x + ";" + m_y + ")");
 	}
@@ -109,8 +112,6 @@ public class ViewPort {
 		Entity e;
 		int x, y, w, h;
 		g.setColor(Color.BLACK);
-		System.out.println("la GRID");
-		System.out.println(case_width);
 		for (int i = -m_offsetX; i < m_nbCellsX * case_width; i += case_width)
 			g.drawLine(i, 0, i, case_height * m_nbCellsY);
 		for (int j = -m_offsetY; j < m_nbCellsY * case_height; j += case_height)
@@ -126,6 +127,9 @@ public class ViewPort {
 				// position de la case dans le vp
 				x -= m_x;
 				y -= m_y;
+				// pour le décalage
+				x -= 2;
+				y -= 2;
 				// position en px de la case
 				x *= case_width;
 				y *= case_height;
@@ -169,10 +173,10 @@ public class ViewPort {
 		 * map (haut et gauche)
 		 * 
 		 */
-		int xL = m_grid.realX(m_x - 2);
-		int xR = m_grid.realX(m_x + m_nbCellsX + 2);
-		int yU = m_grid.realY(m_y - 2);
-		int yD = m_grid.realY(m_y + m_nbCellsY + 2);
+		int xL = m_x;
+		int xR = m_grid.realX(m_x + m_nbCellsX);
+		int yU = m_y;
+		int yD = m_grid.realY(m_y + m_nbCellsY);
 		boolean inX = false;
 		boolean inY = false;
 		int painting = PAINT_HERE;
@@ -180,7 +184,7 @@ public class ViewPort {
 			inX = true;
 		} else if (xL > xR && ((x + w) > xL || x < xR)) {
 			inX = true;
-			if (x < m_x) {
+			if (x < xL) {
 				painting += PAINT_MOVE_X;
 			}
 		}
@@ -188,7 +192,7 @@ public class ViewPort {
 			inY = true;
 		} else if (yU > yD && ((y + h) > yU || y < yD)) {
 			inY = true;
-			if (y < m_y) {
+			if (y < yU) {
 				painting += PAINT_MOVE_Y;
 			}
 		}

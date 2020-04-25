@@ -1,0 +1,4 @@
+vein1 1,8
+drop1 4,5
+vein1 5,7
+drop1 3,7

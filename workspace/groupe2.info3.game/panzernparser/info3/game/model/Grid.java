@@ -32,6 +32,22 @@ public class Grid {
 		load();
 		generate();
 	}
+	
+	public int realX(int x) {
+		x = x % getNbCellsX();
+		if (x < 0) {
+			x += getNbCellsX();
+		}
+		return x;
+	}
+	
+	public int realY(int y) {
+		y = y % getNbCellsY();
+		if (y < 0) {
+			y += getNbCellsY();
+		}
+		return y;
+	}
 
 	public int getNbCellsX() {
 		return TAILLE_MAP * Pattern.SIZE;
@@ -134,7 +150,7 @@ public class Grid {
 
 		}
 
-		public static final int SIZE = 3;
+		public static final int SIZE = 10;
 		int m_px, m_py;
 		List<EntityShade> m_entitieShades;
 

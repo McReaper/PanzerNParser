@@ -171,7 +171,7 @@ public class Drone extends MovingEntity {
 
 	@Override
 	public boolean GotPower() {
-		return (m_model.m_player ==this);
+		return (m_model.m_player == Model.PLAYER_DRONE);
 			
 	}
 	
@@ -184,7 +184,7 @@ public class Drone extends MovingEntity {
 
 	/* Lorsque wizz, on appelle cette fonction */
 	public void callTank() {
-		m_model.m_player = (Tank) m_model.tank;
+		m_model.m_player = Model.PLAYER_TANK;
 		/*
 		 * 
 		 * TODO : si le wizz est appelé, on le remove de la liste d'entity de model

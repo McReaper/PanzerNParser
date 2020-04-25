@@ -151,8 +151,11 @@ public class TankBody extends MovingEntity {
 
 	@Override
 	public void Wizz(MyDirection dir) {
-		m_timeOfAction = TANK_BODY_WIZZ_TIME;
-		System.out.println("Wizz !");
+		if (Model.getModel().m_player == Model.PLAYER_TANK ) {
+			Model.getModel().m_player = Model.PLAYER_DRONE;
+		}else {
+			Model.getModel().m_player = Model.PLAYER_TANK;
+		}
 		super.Wizz(dir);
 	}
 

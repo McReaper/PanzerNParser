@@ -29,7 +29,7 @@ public class AvatarFactory {
 		} else if (entity instanceof TankBody) {
 			return new Avatar(entity, config.getAnimation(MyEntities.TankBody));
 		} else if (entity instanceof Turret) {
-			return new Avatar(entity, config.getAnimation(MyEntities.Turret));
+			return new TurretAvatar(entity, config.getAnimation(MyEntities.Turret));
 		}
 
 		throw new IllegalArgumentException("This instance of Entity is not recognized by the view.");

@@ -2,6 +2,7 @@ package info3.game.model.entities;
 
 import info3.game.automaton.MyCategory;
 import info3.game.automaton.Automaton;
+import info3.game.automaton.LsKey;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
 import info3.game.automaton.action.LsAction;
@@ -141,7 +142,7 @@ public abstract class Entity {
 	}
 
 	public void Jump(MyDirection dir) {
-		System.out.println("Is Jumping");
+	//	System.out.println("Is Jumping");
 		m_currentActionDir = dir;
 		m_currentAction = LsAction.Jump;
 	}
@@ -519,5 +520,13 @@ public abstract class Entity {
 		// m_currentActionDir = dir;
 		return false;
 
+	}
+
+	public boolean Key(LsKey m_key) {
+		if (m_model.m_keyPressed.contains(m_key)) {
+//		//System.out.println("Call in the landside...");
+		return true;
+	}
+		return false;
 	}
 }

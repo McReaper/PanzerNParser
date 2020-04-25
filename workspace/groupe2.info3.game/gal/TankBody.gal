@@ -1,38 +1,37 @@
-TankChassis(OnControl){
+TankChassis(CheckControl){
 *(OnControl)
-	|Key(z) & Key(d) & MyDir(NE) ? Move(NE) : (OnControl)
-	|Key(z) & Key(d) & !MyDir(NE) ? Turn(NE) : (OnControl)
+	|Key(z) & Key(d) & MyDir(NE) ? Move(NE) : (CheckControl)
+	|Key(z) & Key(d) & !MyDir(NE) ? Turn(NE) : (CheckControl)
 
-	|Key(s) & Key(d) & MyDir(SE) ? Move(SE) : (OnControl)
-	|Key(s) & Key(d) & !MyDir(SE) ? Turn(SE) : (OnControl)
+	|Key(s) & Key(d) & MyDir(SE) ? Move(SE) : (CheckControl)
+	|Key(s) & Key(d) & !MyDir(SE) ? Turn(SE) : (CheckControl)
 
-	|Key(s) & Key(q) & MyDir(SW) ? Move(SW) : (OnControl)
-	|Key(s) & Key(q) & !MyDir(SW) ? Turn(SW) : (OnControl)
+	|Key(s) & Key(q) & MyDir(SW) ? Move(SW) : (CheckControl)
+	|Key(s) & Key(q) & !MyDir(SW) ? Turn(SW) : (CheckControl)
 
-	|Key(z) & Key(q) & MyDir(NW) ? Move(NW) : (OnControl)
-	|Key(z) & Key(q) & !MyDir(NW) ? Turn(NW) : (OnControl)
+	|Key(z) & Key(q) & MyDir(NW) ? Move(NW) : (CheckControl)
+	|Key(z) & Key(q) & !MyDir(NW) ? Turn(NW) : (CheckControl)
 
-	|Key(d) & MyDir(E) ? Move(E) : (OnControl)
-	|Key(d) & !MyDir(E) ? Turn(E) : (OnControl)
+	|Key(d) & MyDir(E) ? Move(E) : (CheckControl)
+	|Key(d) & !MyDir(E) ? Turn(E) : (CheckControl)
 
-	|Key(s) & MyDir(S) ? Move(S) : (OnControl)
-	|Key(s) & !MyDir(S) ? Turn(S) : (OnControl)
+	|Key(s) & MyDir(S) ? Move(S) : (CheckControl)
+	|Key(s) & !MyDir(S) ? Turn(S) : (CheckControl)
 
-	|Key(q) & MyDir(W) ? Move(W) : (OnControl)
-	|Key(q) & !MyDir(W) ? Turn(W) : (OnControl)
+	|Key(q) & MyDir(W) ? Move(W) : (CheckControl)
+	|Key(q) & !MyDir(W) ? Turn(W) : (CheckControl)
 	
-	|Key(z) & MyDir(N) ? Move(N) : (OnControl)
-	|Key(z) & !MyDir(N) ? Turn(N) : (OnControl)
+	|Key(z) & MyDir(N) ? Move(N) : (CheckControl)
+	|Key(z) & !MyDir(N) ? Turn(N) : (CheckControl)
 
-	|Key(e) ? Pop : (OnControl)
-	|Key(a) ? Wizz : (WithoutControl)
+	|Key(e) ? Pop : (CheckControl)
+	|Key(a) ? Wizz : (CheckControl)
 	
-	|Key(t) ? Hit : (OnControl)   
+	|Key(t) ? Hit : (CheckControl)   
 	
-	|True ? Wait : (OnControl)
+	|True ? Wait : (CheckControl)
 	
-*(WithoutControl)
-	|Key(a) ? Wizz() : (OnControl)
-	|True ? Wait : (WithoutControl)
+*(CheckControl)
+	|True ? Jump : (OnControl)
 
 }

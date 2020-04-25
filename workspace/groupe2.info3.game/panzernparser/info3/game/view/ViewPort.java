@@ -52,14 +52,14 @@ public class ViewPort {
 	}
 
 	private void positionViewPort() {
-		System.out.println("player (" + m_player.getX() + ";" + m_player.getY() + ")");
+//		System.out.println("player (" + m_player.getX() + ";" + m_player.getY() + ")");
 		m_x = m_player.getX();
 		m_x -= RANGE_VIEW * m_player.getWidth();
 		m_x = m_grid.realX(m_x);
 		m_y = m_player.getY();
 		m_y -= RANGE_VIEW * m_player.getWidth(); // c'est normal c'est pour les entité non carré
 		m_y = m_grid.realY(m_y);
-		System.out.println("(" + m_x + ";" + m_y + ")");
+//		System.out.println("(" + m_x + ";" + m_y + ")");
 	}
 
 	private void offset() {
@@ -109,8 +109,8 @@ public class ViewPort {
 		Entity e;
 		int x, y, w, h;
 		g.setColor(Color.BLACK);
-		System.out.println("la GRID");
-		System.out.println(case_width);
+//		System.out.println("la GRID");
+//		System.out.println(case_width);
 		for (int i = -m_offsetX; i < m_nbCellsX * case_width; i += case_width)
 			g.drawLine(i, 0, i, case_height * m_nbCellsY);
 		for (int j = -m_offsetY; j < m_nbCellsY * case_height; j += case_height)

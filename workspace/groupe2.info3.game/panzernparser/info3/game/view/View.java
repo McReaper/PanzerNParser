@@ -12,6 +12,7 @@ import info3.game.controller.Controller;
 import info3.game.model.Model;
 import info3.game.model.entities.Enemy;
 import info3.game.model.entities.Entity;
+import info3.game.model.entities.TankBody;
 
 public class View extends Container {
 
@@ -32,10 +33,10 @@ public class View extends Container {
 		this.add(m_canvas, BorderLayout.CENTER);
 		m_avatars = new LinkedList<Avatar>();
 		updateAvatars();
-		for (Entity e : model.getEntities()) {
-			if(e instanceof Enemy)
-				m_viewPort = new ViewPort(model,e, this);
-		}
+//		for (Entity e : model.getEntities()) {
+//			if(e instanceof Tank)
+				m_viewPort = new ViewPort(model,model.m_tank.m_body, this);
+//		}
 	}
 
 	public void refreshHUD() {

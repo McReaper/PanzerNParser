@@ -26,7 +26,7 @@ public class Tank {
 	//Explosion m_explosion;
 	
 	int m_level;
-	TankBody m_body;
+	public TankBody m_body;
 	Turret m_turret;
 	public Tank(Entity entityBody, Entity entityTurret){
 		m_body = (TankBody) entityBody;

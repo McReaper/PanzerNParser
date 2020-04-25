@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.LsKey;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -20,7 +21,7 @@ public class TankBody extends MovingEntity {
 	public static final long TANK_BODY_EGG_TIME = 1000;
 	public static final long TANK_BODY_GET_TIME = 1000;
 	public static final long TANK_BODY_HIT_TIME = 1000;
-	public static final long TANK_BODY_JUMP_TIME = 1000;
+	public static final long TANK_BODY_JUMP_TIME = 50;
 	public static final long TANK_BODY_EXPLODE_TIME = 1000;
 	public static final long TANK_BODY_MOVE_TIME = 1000;
 	public static final long TANK_BODY_PICK_TIME = 1000;
@@ -32,6 +33,8 @@ public class TankBody extends MovingEntity {
 	public static final long TANK_BODY_THROW_TIME = 1000;
 	public static final long TANK_BODY_WAIT_TIME = 50;
 	public static final long TANK_BODY_WIZZ_TIME = 1000;
+
+	private boolean hasControl;
 
 	public TankBody(int x, int y, int width, int height, Model model, Automaton aut) {
 		super(x, y, width, height, Tank.TANK_HEALTH, Tank.TANK_SPEED, model, aut);
@@ -49,6 +52,11 @@ public class TankBody extends MovingEntity {
 		} else {
 			this.setState(m_automate.step(this));
 		}
+//		if (hasControl) {
+//			System.out.println("Tank has Control");
+//		}else {
+//			System.out.println("Drone has control");
+//		}
 	}
 
 	@Override
@@ -82,7 +90,12 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Jump(MyDirection dir) {
 		m_timeOfAction = TANK_BODY_JUMP_TIME;
-		System.out.println("Jump !");
+	//	System.out.println("TankBody is Jumping !");
+		if (Model.getModel().m_player == Model.PLAYER_TANK) {
+			hasControl = true;
+		} else {
+			hasControl = false;
+		}
 		super.Jump(dir);
 	}
 
@@ -116,9 +129,11 @@ public class TankBody extends MovingEntity {
 
 	@Override
 	public void Protect(MyDirection dir) {
-		m_timeOfAction = TANK_BODY_PROTECT_TIME;
-		System.out.println("Protect !");
-		super.Protect(dir);
+		if (hasControl) {
+			m_timeOfAction = TANK_BODY_PROTECT_TIME;
+			System.out.println("Protect !");
+			super.Protect(dir);
+		}
 	}
 
 	@Override
@@ -145,18 +160,24 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Wait() {
 		m_timeOfAction = TANK_BODY_WAIT_TIME;
-	//	System.out.println("Wait !");
+		// System.out.println("Wait !");
 		super.Wait();
 	}
 
 	@Override
 	public void Wizz(MyDirection dir) {
-		if (Model.getModel().m_player == Model.PLAYER_TANK ) {
-			Model.getModel().m_player = Model.PLAYER_DRONE;
-		}else {
-			Model.getModel().m_player = Model.PLAYER_TANK;
-		}
+		Model.getModel().m_player = Model.PLAYER_DRONE;
+		System.out.println("TANK fait le wizz");
 		super.Wizz(dir);
 	}
 
+	@Override
+	public boolean Key(LsKey m_key) {
+		if (!hasControl) {
+			return false;
+		} else if (m_model.m_keyPressed.contains(m_key)) {
+			return true;
+		}
+		return false;
+	}
 }

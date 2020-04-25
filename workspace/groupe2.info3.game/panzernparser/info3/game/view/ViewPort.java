@@ -121,7 +121,8 @@ public class ViewPort {
 			y = e.getY();
 			w = e.getWidth();
 			h = e.getHeight();
-			if (inView(x, y, w, h)) {
+			int intView = inView(x, y, w, h);
+			if (intView != -1) {
 				// position de la case dans le vp
 				x -= m_x;
 				y -= m_y;
@@ -131,13 +132,27 @@ public class ViewPort {
 				// position case en px avec décalage
 				x -= m_offsetX;
 				y -= m_offsetY;
+				if(intView == 1) {
+					x += m_grid.getNbCellsX() * case_width;
+				}else if(intView == 2) {
+					y += m_grid.getNbCellsY() * case_height;
+				}else if(intView == 3) {
+					x += m_grid.getNbCellsX() * case_width;
+					y += m_grid.getNbCellsY() * case_height;
+				}
 				avatar.paint(g, x, y, case_width, case_height);
 			}
 		}
 
 	}
 
-	private boolean inView(int x, int y, int w, int h) { // TODO géré les cas ou les viewport est sur "plusieurs map"
+		private static final int DO_NOT_PAINT = -1;
+		private static final int PAINT_HERE = 0;
+		private static final int PAINT_MOVE_X = 1;
+		private static final int PAINT_MOVE_Y = 2;
+		private static final int PAINT_MOVE_XY = 3;
+	
+	private int inView(int x, int y, int w, int h) { // TODO géré les cas ou les viewport est sur "plusieurs map"
 																												// utiliser + et -
 		//if ((x + w) > (m_x - 2) && x < (m_x + m_nbCellsX + 2) && (y + h) > (m_y - 2) && y < (m_y + m_nbCellsY + 2)) {
 		///	return true;
@@ -148,21 +163,26 @@ public class ViewPort {
 		int yD = m_grid.realY(m_y + m_nbCellsY + 2);
 		boolean inX = false;
 		boolean inY = false;
+		int painting = PAINT_HERE;
 		if((x + w) > xL && x < xR) {
 			inX = true;
 		}else if( xL > xR && ((x + w) > xL || x < xR)) {
 			inX = true;
+			if(x<m_x) {
+			painting += PAINT_MOVE_X;
+			}
 		}
 		if((y + h) > yU && y < yD) {
 			inY = true;
 		}else if( yU > yD && ((y + h) > yU || y < yD)) {
 			inY = true;
+			painting += PAINT_MOVE_Y;
 		}
 		
 		if (inX && inY) {
-			return true;
+			return painting;
 		}
-		return false;
+		return DO_NOT_PAINT;
 	}
 
 }

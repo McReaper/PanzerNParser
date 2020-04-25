@@ -312,6 +312,8 @@ public abstract class Entity {
 				break;
 		}
 		m_currentActionDir = dir;
+		m_x = m_model.getGrid().realX(m_x);
+		m_y = m_model.getGrid().realY(m_y);
 		System.out.println("Arrived and facing " + m_currentLookAtDir);
 		return;
 	}

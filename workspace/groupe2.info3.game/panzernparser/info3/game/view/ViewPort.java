@@ -1,16 +1,18 @@
 package info3.game.view;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.List;
 
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Grid;
 import info3.game.model.Model;
 import info3.game.model.entities.Entity;
 
 public class ViewPort {
 
-	static final int AIRPORT_VIEW = 5;
+	static final int RANGE_VIEW = 1;
 
 	Model m_model;
 	Entity m_player;
@@ -25,37 +27,39 @@ public class ViewPort {
 	int m_y;
 	int m_offsetX;
 	int m_offsetY;
+	Grid m_grid;
 
 	public ViewPort(Model model, Entity player, View view) {
 		m_model = model;
-		setPlayer(player);
 		m_view = view;
-		m_width = m_view.m_canvas.getWidth();
-		m_height = m_view.m_canvas.getHeight();
+		m_grid = model.getGrid();
+		setPlayer(player);
 	}
 
 	public void setPlayer(Entity player) { /// pour quand on passe de done à tank et inversement
 		m_player = player;
-		calcul();
 	}
 
 	private void calcul() { // à refair quand on change la fenêtre
-		m_nbCellsX = AIRPORT_VIEW * 2; // pour les deux coté du tank
+		m_nbCellsX = RANGE_VIEW * 2; // pour les deux coté du tank
 		m_nbCellsX += 1; // pour le tank
 		m_nbCellsX *= m_player.getWidth(); // pour que ça dépende de la taille de l'entity
 		case_width = m_width / m_nbCellsX;
 		case_height = case_width; // case carré
+		m_nbCellsY = m_nbCellsX;
 		// m_nbCellsY = m_height / case_height; // TODO géré si view porte pas carré
 		// m_height%case_height / 2 pour le decalage si pas le bon nombre de case
 	}
 
 	private void positionViewPort() {
+		System.out.println("player ("+m_player.getX()+";"+m_player.getY()+")");
 		m_x = m_player.getX();
-		m_x -= AIRPORT_VIEW * m_player.getWidth();
-		m_x = m_model.getGrid().realX(m_x);
+		m_x -= RANGE_VIEW * m_player.getWidth();
+		m_x = m_grid.realX(m_x);
 		m_y = m_player.getY();
-		m_y -= AIRPORT_VIEW * m_player.getWidth(); // c'est normal c'est pour les entité non carré
-		m_y = m_model.getGrid().realY(m_y);
+		m_y -= RANGE_VIEW * m_player.getWidth(); // c'est normal c'est pour les entité non carré
+		m_y = m_grid.realY(m_y);
+		System.out.println("("+m_x+";"+m_y+")");
 	}
 
 	private void offset() {
@@ -96,10 +100,21 @@ public class ViewPort {
 	}
 
 	public void paint(Graphics g, List<Avatar> lsAvatars) {
+
+		m_width = m_view.m_canvas.getWidth();
+		m_height = m_view.m_canvas.getHeight();
+		calcul();
 		positionViewPort();
 		offset(); // décalage due au mouve du tank
 		Entity e;
 		int x, y, w, h;
+		g.setColor(Color.BLACK);
+		System.out.println("la GRID");
+		System.out.println(case_width);
+		for (int i = -m_offsetX; i < m_nbCellsX * case_width; i+=case_width)
+			g.drawLine(i, 0, i, case_height * m_nbCellsY);
+		for (int j = -m_offsetY; j < m_nbCellsY * case_height; j+=case_height)
+			g.drawLine(0, j, case_width * m_nbCellsX, j);
 		for (Avatar avatar : lsAvatars) {
 			e = avatar.m_entity;
 			x = e.getX();
@@ -124,7 +139,27 @@ public class ViewPort {
 
 	private boolean inView(int x, int y, int w, int h) { // TODO géré les cas ou les viewport est sur "plusieurs map"
 																												// utiliser + et -
-		if ((x + w) > (m_x - 1) && x < (m_x + m_nbCellsX + 1) && (y + h) > (m_y - 1) && y < (m_y + m_nbCellsY + 1)) {
+		//if ((x + w) > (m_x - 2) && x < (m_x + m_nbCellsX + 2) && (y + h) > (m_y - 2) && y < (m_y + m_nbCellsY + 2)) {
+		///	return true;
+		//}
+		int xL = m_grid.realX(m_x - 2);
+		int xR = m_grid.realX(m_x + m_nbCellsX + 2);
+		int yU = m_grid.realY(m_y - 2);
+		int yD = m_grid.realY(m_y + m_nbCellsY + 2);
+		boolean inX = false;
+		boolean inY = false;
+		if((x + w) > xL && x < xR) {
+			inX = true;
+		}else if( xL > xR && ((x + w) > xL || x < xR)) {
+			inX = true;
+		}
+		if((y + h) > yU && y < yD) {
+			inY = true;
+		}else if( yU > yD && ((y + h) > yU || y < yD)) {
+			inY = true;
+		}
+		
+		if (inX && inY) {
 			return true;
 		}
 		return false;

@@ -175,7 +175,7 @@ Continuer de travailler sur la partie MVC pour avoir une version très simple d'
 
 ---
 
-# JOURNAL du Mercredi 21 Avril
+# JOURNAL du Mercredi 22 Avril
 
 ## Planning du jour
 
@@ -190,7 +190,7 @@ Continuer de travailler sur la partie MVC pour avoir une version très simple d'
 
 ---
 
-# JOURNAL du Jeudi 22 Avril
+# JOURNAL du Jeudi 23 Avril
 
 **Jour de pause après une mise a plat du code et d'un push sur master**
 
@@ -233,6 +233,46 @@ mise en place de la coordination tank-tourelle.
 - Comment optimiser la gestion de la liste des avatars ?
 - Comment imprimer les avatar dans un ordre selon le type d'entité ?
 - Choisir le design pour l'HUD (propositions existantes mais à délibérer).
+
+## Pour après
+
+- `Continuité travail de B/E>` Finaliser le lien entre tourelle et tank, notamment l'aspect graphique. (transition entre deux cases)
+- `Continuité travail de M>` Incorporer le ViewPort dans la View, la faire fonctionner, se questionner sur l'affichage des bords de map.
+- `Continuité travail de E>` Implémentation du drone et de la transition entre les deux mondes.
+- `Continuité travail de S>` Faire fonctionner l'affichage des entités dans un certain ordre.
+Mieux géré la génération des avatars.
+- `Continuité travail de V>` Faire fonctionner le Cell et Closest pour faire fonctionner des automates plus compliqués.
+- `Continuité travail de JT>` Continuer d'avancer dans le HUD.
+
+---
+
+# JOURNAL du Samedi 25 Avril
+
+## Planning du jour
+
+- Avancer l'implémentation du Drone et du Tank
+- Avancer l'ATH
+- Implémenter un viewport fonctionnel
+- Implémenter la fonction Closest & Cell
+
+## Répartition des tâches
+
+- `JT>` Etude de l'ATH avec la bibliothèque Swing.
+- `E>` .
+- `E/S>` .
+- `B/M>` .
+- `V>` .
+- `Cyance>` Lecture des revues de code croisées de la veille.
+
+## Remarques :
+
+- Le travail du jour a été productif malgré les difficultés mathématiques et logiques sur certaines tâches.
+
+## Réflexions en cours :
+- **Vaut-il mieux utilisé Java AWT ou Swing ?**
+- Choisir le design pour l'HUD (propositions existantes mais à délibérer).
+- Comment gérer le passage du drone au tank et inversement ? (saisis des touches, ...)
+- 
 
 ## Pour après
 

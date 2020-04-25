@@ -12,8 +12,8 @@ import javax.imageio.ImageIO;
  */
 public class Sprite {
 
-	private static final int SPRITE_HEIGHT = 32;
-	private static final int SPRITE_WIDTH = 32;
+	public static final int SPRITE_HEIGHT = 32;
+	public static final int SPRITE_WIDTH = 32;
 
 	BufferedImage[] m_sprites;
 	int m_length;

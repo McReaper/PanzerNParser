@@ -1,5 +1,9 @@
 Drone(Init){
 	*(Init)
+	|!GotPower() ? Wait() :(Init)
+	|True ? : (Turning)
+	
+	*(Turning)
 	|Key(z) & Key(d) ? Turn(NE) : (Avance)
 	|Key(s) & Key(d) ? Turn(SE) : (Avance)
 	|Key(s) & Key(q) ? Turn(SW) : (Avance)

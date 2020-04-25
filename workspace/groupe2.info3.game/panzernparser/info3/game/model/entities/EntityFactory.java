@@ -64,6 +64,12 @@ public class EntityFactory {
 		Entity ground = new Ground(x, y, Ground.GROUND_WIDTH, Ground.GROUND_HEIGHT, model, aut);
 		return ground;
 	}
+	
+	private static Entity newDrone(int x, int y, Automaton automaton) {
+		Model model = Model.getModel();
+		Entity drone = new Drone(x, y, Drone.DRONE_WIDTH, Drone.DRONE_HEIGHT, Drone.DRONE_HEALTH,Drone.DRONE_SPEED, model, automaton);
+		return drone;
+	}
 
 	public static Entity newEntity(MyEntities entity, int x, int y) {
 		Entity res;
@@ -99,6 +105,8 @@ public class EntityFactory {
 				res = newTankTurret(x, y, config.getAutomaton(MyEntities.Turret));
 				break;
 			case Drone:
+				res = newDrone(x, y, config.getAutomaton(MyEntities.Drone));
+				break;
 			case Marker:
 				
 			default:
@@ -107,6 +115,8 @@ public class EntityFactory {
 		}
 		return res;
 	}
+
+
 
 	public static String name(Entity entity) {
 		// System.out.println("test de entityFactory");

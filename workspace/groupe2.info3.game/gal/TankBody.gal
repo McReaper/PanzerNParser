@@ -32,7 +32,7 @@ TankChassis(OnControl){
 	|True ? Wait : (OnControl)
 	
 *(WithoutControl)
-	|key(a) ? Wizz() : (OnControl)
+	|Key(a) ? Wizz() : (OnControl)
 	|True ? Wait : (WithoutControl)
 
 }

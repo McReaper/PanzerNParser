@@ -4,7 +4,6 @@ import java.rmi.UnexpectedException;
 import java.util.LinkedList;
 
 import info3.game.automaton.LsKey;
-import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
@@ -12,21 +11,22 @@ import info3.game.model.entities.Turret;
 public class Model {
 
 	public static Model m_model;
-	
-	public static final int PLAYER_TANK= 1;
-	public static final int PLAYER_DRONE= 2;
+
+	public static final int PLAYER_TANK = 1;
+	public static final int PLAYER_DRONE = 2;
 	// Controller m_controller; //pour envoyer des information utiles.
 	Grid m_grid;
 	public Tank m_tank;
 	LinkedList<Entity> m_entities;
 	public LinkedList<LsKey> m_keyPressed;
-	public int m_player;//1 pour le tank et 2 pour le drone
+	public int m_player;// 1 pour le tank et 2 pour le drone
+
 	public Model() {
 		// Génère la liste des automates
 		m_model = this;
 		m_keyPressed = new LinkedList<LsKey>();
 		m_entities = new LinkedList<Entity>();
-		//permet la recupération du body et du turret du tank
+		// permet la recupération du body et du turret du tank
 		int indexOfTankBody = -1;
 		int indexOfTurret = -1;
 		// Génère la grille du jeu qui va créer a son tour toutes les entités et mettre
@@ -42,7 +42,7 @@ public class Model {
 			// La il faudrait sortir du programme, en appelant le controller, pour arrêter
 			// la musique et les autres exécutions auxiliaires en cours.
 		}
-		int i =0;
+		int i = 0;
 		for (Entity entity : m_entities) {
 			if (entity instanceof TankBody) {
 				indexOfTankBody = i;
@@ -52,11 +52,11 @@ public class Model {
 			}
 			i++;
 		}
-		
+
 		if (indexOfTankBody != -1 && indexOfTurret != -1) {
 			m_tank = new Tank(m_entities.get(indexOfTankBody), m_entities.get(indexOfTurret));
 			m_player = PLAYER_TANK;
-		}else {
+		} else {
 			System.out.println("ERROR : Pas de création du TankBody ET du tankChassis");
 		}
 
@@ -68,7 +68,7 @@ public class Model {
 			entity.step(elapsed);
 		}
 		m_tank.step();
-		
+
 	}
 
 	public static Model getModel() {

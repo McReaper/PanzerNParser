@@ -14,13 +14,12 @@ public class Model {
 	Grid m_grid;
 	LinkedList<Entity> m_entities;
 	public LinkedList<LsKey> m_keyPressed;
-
+	Entity m_player;
 	public Model() {
 		// Génère la liste des automates
 		m_model = this;
 		m_keyPressed = new LinkedList<LsKey>();
 		m_entities = new LinkedList<Entity>();
-
 		// Génère la grille du jeu qui va créer a son tour toutes les entités et mettre
 		// la liste des entités à jour. La grille doit connaitre ses patterns lors de sa
 		// création, le model doit donc lui donner.

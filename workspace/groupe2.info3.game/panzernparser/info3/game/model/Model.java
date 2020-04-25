@@ -15,8 +15,6 @@ public class Model {
 	
 	public static final int PLAYER_TANK= 1;
 	public static final int PLAYER_DRONE= 2;
-	
-
 	// Controller m_controller; //pour envoyer des information utiles.
 	Grid m_grid;
 	public Tank m_tank;

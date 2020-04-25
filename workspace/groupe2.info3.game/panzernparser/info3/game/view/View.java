@@ -10,6 +10,7 @@ import java.util.LinkedList;
 
 import info3.game.controller.Controller;
 import info3.game.model.Model;
+import info3.game.model.entities.Enemy;
 import info3.game.model.entities.Entity;
 
 public class View extends Container {
@@ -19,6 +20,7 @@ public class View extends Container {
 	Controller m_controller;
 	Model m_model;
 	LinkedList<Avatar> m_avatars;
+	ViewPort m_viewPort;
 	// AvatarFactory m_factory;
 
 	public View(Controller controller, Model model) {
@@ -30,6 +32,10 @@ public class View extends Container {
 		this.add(m_canvas, BorderLayout.CENTER);
 		m_avatars = new LinkedList<Avatar>();
 		updateAvatars();
+		for (Entity e : model.getEntities()) {
+			if(e instanceof Enemy)
+				m_viewPort = new ViewPort(model,e, this);
+		}
 	}
 
 	public void refreshHUD() {
@@ -65,11 +71,11 @@ public class View extends Container {
 		int height = m_canvas.getHeight();
 
 		// Dessin précaire de la grille :
-		int nb_cells_X = m_model.getGrid().getNbCellsX();
-		int nb_cells_Y = m_model.getGrid().getNbCellsY();
+		//int nb_cells_X = m_model.getGrid().getNbCellsX();
+		//int nb_cells_Y = m_model.getGrid().getNbCellsY();
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, width, height);
-
+/*
 		int case_width = width / nb_cells_X;
 		int case_height = height / nb_cells_Y;
 
@@ -81,8 +87,10 @@ public class View extends Container {
 
 		updateAvatars();
 		for (Avatar avatar : m_avatars) {
-			avatar.paint(g, case_width, case_height); // TODO : revoir la zone avec le viewport plus tard.
+			avatar.paint(g, case_width, case_height); // TODO : revoir la zone avec le viewport plus tard.		
 		}
+		*/
+		m_viewPort.paint(g, m_avatars);
 	}
 
 }

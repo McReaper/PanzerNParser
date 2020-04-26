@@ -1,19 +1,15 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
-import info3.game.automaton.LsKey;
 import info3.game.automaton.MyDirection;
-import info3.game.automaton.State;
-import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
-import info3.game.model.Tank;
 
 public class Drone extends MovingEntity {
 	public final static int DRONE_WIDTH = 1;
 	public final static int DRONE_HEIGHT = 1;
 
 	public static final int DRONE_HEALTH = 100;
-	public static final int DRONE_SPEED = 1; // nb de cases en 1 déplacement.
+	public static final int DRONE_SPEED = 1;
 
 	public static final long DRONE_EGG_TIME = 1000;
 	public static final long DRONE_GET_TIME = 1000;
@@ -31,19 +27,27 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_WAIT_TIME = 50;
 	public static final long DRONE_WIZZ_TIME = 1000;
 
-	VisionType m_currentVisionType;
-	private boolean hasControl;
-
-	public Drone(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
-		super(x, y, width, height, health, speed, model, aut);
-		m_currentVisionType = VisionType.ENEMIES;
-	}
-
 	private enum VisionType {
 		RESSOURCES, ENEMIES;
 	}
 
-	VisionType m_visionType;
+	VisionType m_currentVisionType;
+
+	public Drone(int x, int y, int width, int height, int health, int speed, Automaton aut) {
+		super(x, y, width, height, health, speed, aut);
+		m_currentVisionType = VisionType.RESSOURCES;
+	}
+
+	private void switchVision() {
+		if (m_currentVisionType == VisionType.RESSOURCES)
+			m_currentVisionType = VisionType.ENEMIES;
+		else
+			m_currentVisionType = VisionType.RESSOURCES;
+	}
+
+	private boolean hasControl() {
+		return !Model.getModel().isPlayingTank();
+	}
 
 	@Override
 	public void step(long elapsed) {
@@ -82,28 +86,27 @@ public class Drone extends MovingEntity {
 
 	@Override
 	public void Hit(MyDirection dir) {
-		m_timeOfAction = DRONE_HIT_TIME;
-		System.out.println("Hit !");
-		super.Hit(dir);
+		if (this.hasControl()) {
+			m_timeOfAction = DRONE_HIT_TIME;
+			System.out.println("Pose un marqueur !");
+			super.Hit(dir);
+		}
 	}
 
 	@Override
 	public void Jump(MyDirection dir) {
 		m_timeOfAction = DRONE_JUMP_TIME;
-	//	System.out.println("Drone is Jumping !");
-		if (Model.getModel().m_player == Model.PLAYER_DRONE) {
-			hasControl = true;
-		} else {
-			hasControl = false;
-		}
+		System.out.println("Drone is Jumping !");
 		super.Jump(dir);
 	}
 
 	@Override
 	public void Move(MyDirection dir) {
-		m_timeOfAction = DRONE_MOVE_TIME;
-		System.out.println("Move !");
-		super.Move(dir);
+		if (this.hasControl()) {
+			m_timeOfAction = DRONE_MOVE_TIME;
+			System.out.println("Le drone avance !");
+			super.Move(dir);
+		}
 	}
 
 	@Override
@@ -116,11 +119,7 @@ public class Drone extends MovingEntity {
 	@Override
 	public void Pop(MyDirection dir) {
 		m_timeOfAction = DRONE_POP_TIME;
-		if (m_currentVisionType == VisionType.ENEMIES)
-			m_currentVisionType = VisionType.RESSOURCES;
-		else
-			m_currentVisionType = VisionType.ENEMIES;
-
+		switchVision();
 		System.out.println("Pop !");
 		super.Pop(dir);
 	}
@@ -155,9 +154,11 @@ public class Drone extends MovingEntity {
 
 	@Override
 	public void Turn(MyDirection dir, int angle) {
-		m_timeOfAction = DRONE_TURN_TIME;
-		System.out.println("Turn !");
-		super.Turn(dir, angle);
+		if (this.hasControl()) {
+			m_timeOfAction = DRONE_TURN_TIME;
+			System.out.println("Le drone tourne !");
+			super.Turn(dir, angle);
+		}
 	}
 
 	@Override
@@ -169,46 +170,20 @@ public class Drone extends MovingEntity {
 
 	@Override
 	public void Wizz(MyDirection dir) {
-		m_timeOfAction = DRONE_WIZZ_TIME;
-		m_model.m_player = Model.PLAYER_TANK;
-		// callTank();
-		System.out.println("DRONE fait le wizz !" +m_model.m_player+ ";"+ Model.PLAYER_TANK );
-		super.Wizz(dir);
-	}
-
-	@Override
-	public boolean GotPower() {
-		return (m_model.m_player == Model.PLAYER_DRONE);
-
+		if (this.hasControl()) {
+			m_timeOfAction = DRONE_WIZZ_TIME;
+			Model.getModel().switchControl();
+			System.out.println("DRONE fait le wizz !");
+			super.Wizz(dir);
+		}
 	}
 
 	public void growViewPort() {
+		// m_range++;
 	}
 
 	public void reduceViewPort() {
-	}
-
-	/* Lorsque wizz, on appelle cette fonction */
-	public void callTank() {
-		// m_model.m_player = Model.PLAYER_DRONE;
-		/*
-		 * 
-		 * TODO : si le wizz est appelé, on le remove de la liste d'entity de model ->
-		 * le update de view n'affichera lus le drone -> -> agir sur le viewport m_model
-		 */
-	}
-
-	/*
-	 * permet de ne ps prendre en compte les actions joueur si il n'a pas le control
-	 */
-	@Override
-	public boolean Key(LsKey m_key) {
-		if (!hasControl) {
-			return false;
-		} else if (m_model.m_keyPressed.contains(m_key)) {
-			return true;
-		}
-		return false;
+		// m_range--;
 	}
 
 }

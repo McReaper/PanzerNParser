@@ -24,9 +24,9 @@ public class TurretAvatar extends Avatar {
 
 		Turret turrEntity = (Turret) m_entity;
 
-		MyDirection e_bodyActionDir = turrEntity.getBodyDirection();
-		double bodyProgress = turrEntity.getBodyProgress();
-		boolean bodyMoving = turrEntity.isBodyMoving();
+		MyDirection e_bodyActionDir = turrEntity.getTank().getBodyDirection();
+		double bodyProgress = turrEntity.getTank().getBodyProgress();
+		boolean bodyMoving = turrEntity.getTank().isBodyMoving();
 
 		int width = m_entity.getWidth() * case_width;
 		int height = m_entity.getHeight() * case_height;

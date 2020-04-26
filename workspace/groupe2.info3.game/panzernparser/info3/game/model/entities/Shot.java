@@ -2,8 +2,6 @@ package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
-import info3.game.automaton.action.LsAction;
-import info3.game.model.Model;
 
 /**
  * Une entité représentant un tir simple, infligeant des dégats à d'autre
@@ -34,8 +32,8 @@ public class Shot extends MovingEntity {
 	public static final long SHOT_WAIT_TIME = 50;
 	public static final long SHOT_WIZZ_TIME = 1000;
 
-	public Shot(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
-		super(x, y, width, height, health, speed, model, aut);
+	public Shot(int x, int y, int width, int height, int health, int speed, Automaton aut) {
+		super(x, y, width, height, health, speed, aut);
 	}
 
 	int m_damage;

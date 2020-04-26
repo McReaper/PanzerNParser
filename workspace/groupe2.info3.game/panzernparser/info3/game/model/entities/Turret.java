@@ -1,10 +1,8 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
-import info3.game.automaton.LsKey;
 import info3.game.automaton.MyDirection;
-import info3.game.automaton.action.LsAction;
-import info3.game.model.Model;
+import info3.game.model.Tank;
 
 /**
  * Classe du canon du tank
@@ -33,20 +31,26 @@ public class Turret extends MovingEntity {
 	public static final long TURRET_WAIT_TIME = 50;
 	public static final long TURRET_WIZZ_TIME = 1000;
 
-	private boolean m_hasControl;
-	/*
-	 * flags pour savoir si le body TankBody bouge et si oui dans quelle direction
-	 * et a quel point en est-il ?
-	 */
-	private boolean m_bodyMoving;// if tankBoody utilise la fonction Move()
-	private double m_BodyProgress;// progression du body
-	private MyDirection m_bodyDir;// La direction dans laquelle va le body
+	private Tank m_tank;
+	// public int m_range;
 
-	public Turret(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
-		super(x, y, width, height, health, speed, model, aut);
+//	private boolean m_hasControl;
+//	/*
+//	 * flags pour savoir si le body TankBody bouge et si oui dans quelle direction
+//	 * et a quel point en est-il ?
+//	 */
+//	private boolean m_bodyMoving;// si tankBody utilise la fonction Move()
+//	private double m_BodyProgress;// progression du body
+//	private MyDirection m_bodyDir;// La direction dans laquelle va le body
+
+	public Turret(int x, int y, int width, int height, int health, int speed, Automaton aut) {
+		super(x, y, width, height, health, speed, aut);
+		m_tank = null;
 	}
-
-	int m_range;
+	
+	public void setTank(Tank tank) {
+		m_tank = tank;
+	}
 
 	@Override
 	public void step(long elapsed) {
@@ -60,11 +64,10 @@ public class Turret extends MovingEntity {
 		} else {
 			this.setState(m_automate.step(this));
 		}
-		if (m_hasControl) {
-		System.out.println("Tank has Control");
-	}else {
-		System.out.println("Drone has control");
 	}
+
+	public Tank getTank() {
+		return m_tank;
 	}
 
 	@Override
@@ -90,13 +93,15 @@ public class Turret extends MovingEntity {
 
 	@Override
 	public void Hit(MyDirection dir) {
-		m_timeOfAction = TURRET_HIT_TIME;
-		// System.out.println("Hit ! " + dir);
-		if (dir == null) {
-			dir = m_currentLookAtDir;
+		if (m_tank.hasControl()) {
+			m_timeOfAction = TURRET_HIT_TIME;
+// 		System.out.println("Hit ! " + dir);
+//		if (dir == null) {
+//			dir = m_currentLookAtDir;
+//		}
+			super.Hit(dir);
+			System.out.println("Canon HIT dans la direction " + dir);
 		}
-		super.Hit(dir);
-		System.out.println("Canon HIT dans la direction " + dir);
 	}
 
 	@Override
@@ -122,9 +127,12 @@ public class Turret extends MovingEntity {
 
 	@Override
 	public void Pop(MyDirection dir) {
-		m_timeOfAction = TURRET_POP_TIME;
-		System.out.println("Pop !");
-		super.Pop(dir);
+		if (m_tank.hasControl()) {
+			// TODO : changer d'arme
+			m_timeOfAction = TURRET_POP_TIME;
+			System.out.println("Pop : Changement d'arme !");
+			super.Pop(dir);
+		}
 	}
 
 	@Override
@@ -157,10 +165,11 @@ public class Turret extends MovingEntity {
 
 	@Override
 	public void Turn(MyDirection dir, int angle) {
-		m_timeOfAction = TURRET_TURN_TIME;
-		System.out.println("Turn !");
-		super.Turn(dir, angle);
-		System.out.println("Canon tourne dans la direction" + dir);
+		if (m_tank.hasControl()) {
+			m_timeOfAction = TURRET_TURN_TIME;
+			System.out.println("Canon tourne dans la direction" + dir);
+			super.Turn(dir, angle);
+		}
 	}
 
 	@Override
@@ -172,58 +181,12 @@ public class Turret extends MovingEntity {
 
 	@Override
 	public void Wizz(MyDirection dir) {
-		m_timeOfAction = TURRET_WIZZ_TIME;
-		System.out.println("Wizz !");
-		super.Wizz(dir);
-	}
-	
-	/*
-	 * permet de ne ps prendre en compte les actions joueur si il n'a pas le control
-	 */
-	@Override
-	public boolean Key(LsKey m_key) {
-		if(m_hasControl) {
-			return false;
-		} else if (m_model.m_keyPressed.contains(m_key)) {
-			return true;
+		if (m_tank.hasControl()) {
+			// TODO : recharger le cannon
+			m_timeOfAction = TURRET_WIZZ_TIME;
+			System.out.println("Wizz : rechargement du canon !");
+			super.Wizz(dir);
 		}
-		return false;
 	}
-
-	/*
-	 * Pour le cas ou le tankBody bouge et que le canon doit suivre le tank
-	 */
-	public void setBodyMoving(boolean bool) {
-		m_bodyMoving = bool;
-	}
-
-	public boolean isBodyMoving() {
-		return m_bodyMoving;
-	}
-
-	public void setBodyDirection(MyDirection dir) {
-		m_bodyDir = dir;
-	}
-
-	public MyDirection getBodyDirection() {
-		return m_bodyDir;
-	}
-
-	public void setBodyProgress(double progess) {
-		m_BodyProgress= progess;
-	}
-
-	public double getBodyProgress() {
-		return m_BodyProgress;
-	}
-
-	/*
-	 * récupère le control si possible mais avec une step de retard
-	 */
-	public void setControl(boolean hasControl) {
-		m_hasControl = hasControl;
-		
-	}
-	
 
 }

@@ -4,6 +4,7 @@ import java.rmi.UnexpectedException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import info3.game.automata.parser.ParseException;
 import info3.game.automaton.LsKey;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Droppable;
@@ -20,39 +21,34 @@ import info3.game.model.entities.Vein;
 
 public class Model {
 
-	private static Model self;
+	private static Model self; // Singleton du model
 
 	// Controller m_controller; //pour envoyer des information utiles.
 	private Grid m_grid;
 	private Tank m_tank;
 	private Drone m_drone;
-	private LinkedList<Entity> m_entities;
+	private HashMap<EntityFactory.MyEntities, LinkedList<Entity>> m_entities;
 	private LinkedList<LsKey> m_keyPressed;
 	private boolean m_playingTank;
-	HashMap<EntityFactory.MyEntities, LinkedList<Entity>> m_entities;
-	private int m_nb_entities;
+	private int m_nbEntities;
 
-		int nb_entities =0;
-	public Model getModel() {
-		if (self == null)
-			self = new Model();
-		return self;
-	}
-	
+	/**
+	 * Création du modèle (l'univers du jeu)
+	 */
 	private Model() {
+		// Création de la liste des touches enfoncées.
 		m_keyPressed = new LinkedList<LsKey>();
-		// permet la recupération du body et du turret du tank
-		int indexOfTankBody = -1;
-		int indexOfTurret = -1;
-		 m_entities = new HashMap<EntityFactory.MyEntities, LinkedList<Entity>>();
+
+		// Création de la liste des entités :
+		m_entities = new HashMap<EntityFactory.MyEntities, LinkedList<Entity>>();
 		for (MyEntities entityType : MyEntities.values()) {
 			m_entities.put(entityType, new LinkedList<Entity>());
 		}
+		m_nbEntities = 0;
+
 		// Génère la grille du jeu qui va créer a son tour toutes les entités et mettre
 		// la liste des entités à jour. La grille doit connaitre ses patterns lors de sa
 		// création, le model doit donc lui donner.
-
-		// Version de test ci-dessous :
 		try {
 			m_grid = new Grid(this);
 		} catch (UnexpectedException e) {
@@ -61,33 +57,38 @@ public class Model {
 			// La il faudrait sortir du programme, en appelant le controller, pour arrêter
 			// la musique et les autres exécutions auxiliaires en cours.
 		}
-		int i = 0;
-		for (Entity entity : m_entities) {
-			if (entity instanceof TankBody) {
-				indexOfTankBody = i;
-			}
-			if (entity instanceof Turret) {
-				indexOfTurret = i;
-			}
-			i++;
+
+		int playableEntitiesNumber = getEntities(MyEntities.TankBody).size() + getEntities(MyEntities.Turret).size()
+				+ getEntities(MyEntities.Drone).size();
+		if (playableEntitiesNumber != 3) {
+			System.err.println("Il semblerait que la grille comporte plusieurs Drone ou Tank...");
+			// La il faudrait sortir du programme, en appelant le controller, pour arrêter
+			// la musique et les autres exécutions auxiliaires en cours.
 		}
 
-		if (indexOfTankBody != -1 && indexOfTurret != -1) {
-			m_tank = new Tank(m_entities.get(indexOfTankBody), m_entities.get(indexOfTurret));
-			m_playingTank = true;
-		} else {
-			System.out.println("ERROR : Pas de création du TankBody ET du tankChassis");
-		}
+		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
+		Turret turret = (Turret) getEntities(MyEntities.Turret).get(0);
+		m_tank = new Tank(body, turret);
+		m_drone = (Drone) getEntities(MyEntities.Drone).get(0);
+		m_playingTank = true;
 
+	}
+
+	/**
+	 * Fonction qui gère le singleton du modèle (évite de créer plusieurs modèles).
+	 * 
+	 * @return le modèle
+	 */
+	public static Model getModel() {
+		if (self == null)
+			self = new Model();
+		return self;
 	}
 
 	public void step(long elapsed) {
 		// Effectue un pas de simulation sur chaque entités
-		for (MyEntities entity : m_entities.keySet()) {
-			LinkedList<Entity> iter_list = m_entities.get(entity);
-			for (Entity ent : iter_list) {
-				ent.step(elapsed);
-			}
+		for (Entity entity : getAllEntities()) {
+			entity.step(elapsed);
 		}
 		m_tank.step();
 	}
@@ -96,12 +97,23 @@ public class Model {
 		return m_grid;
 	}
 
-	/*
-	 * TODO : pas sur de la methode ci-dessous, est-ce interessant de return la
-	 * HashMap ?
-	 */
-	public HashMap<EntityFactory.MyEntities, LinkedList<Entity>> getAllEntities() {
+	public HashMap<EntityFactory.MyEntities, LinkedList<Entity>> getHashEntities() {
 		return m_entities;
+	}
+
+	/**
+	 * return une liste d'entité correspondant à la categorie d'entité
+	 */
+	public LinkedList<Entity> getEntities(MyEntities entityType) {
+		return m_entities.get(entityType);
+	}
+
+	public LinkedList<Entity> getAllEntities() {
+		LinkedList<Entity> entities = new LinkedList<Entity>();
+		for (MyEntities entityType : MyEntities.values()) {
+			entities.addAll(getEntities(entityType));
+		}
+		return entities;
 	}
 
 	public void addKeyPressed(LsKey temp) {
@@ -114,6 +126,10 @@ public class Model {
 		if (m_keyPressed.contains(temp))
 			m_keyPressed.remove(temp);
 		return;
+	}
+
+	public LinkedList<LsKey> getKeyPressed() {
+		return m_keyPressed;
 	}
 
 	public void addEntity(Entity e) {
@@ -135,19 +151,41 @@ public class Model {
 			getEntities(MyEntities.TankBody).add(e);
 		} else if (e instanceof Turret) {
 			getEntities(MyEntities.Turret).add(e);
+		} else {
+			throw new IllegalArgumentException("Entité non reconnue !");
 		}
-
+		m_nbEntities++;
 	}
 
-	public int getNb_entities() {
-		return m_nb_entities;
+	public int getNbEntities() {
+		return m_nbEntities;
 	}
-	
-	/*
-	 * return une liste d'entité correspondant à la categorie d'entité
-	 */
-	public LinkedList<Entity> getEntities(MyEntities entityType) {
-		return m_entities.get(entityType);
+
+	//////// Gestion du passage drone/tank ////////
+
+	public boolean isPlayingTank() {
+		return m_playingTank;
+	}
+
+	public void switchControl() {
+		m_playingTank = !m_playingTank;
+		if (m_playingTank) {
+			m_tank.showTank(true);
+			m_drone.showEntity(false);
+			System.out.println("Contrôles données au TANK");
+		} else {
+			m_tank.showTank(false);
+			m_drone.showEntity(true);
+			System.out.println("Contrôles données au DRONE");
+		}
+	}
+
+	public Entity getPlayed() {
+		if (isPlayingTank()) {
+			return m_tank.getBody();
+		} else {
+			return m_drone;
+		}
 	}
 
 }

@@ -2,9 +2,6 @@ package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
-import info3.game.automaton.action.LsAction;
-import info3.game.model.Material.MaterialType;
-import info3.game.model.Model;
 
 public class Enemy extends MovingEntity {
 	/*
@@ -33,12 +30,12 @@ public class Enemy extends MovingEntity {
 	public static final long ENEMY_WAIT_TIME = 50;
 	public static final long ENEMY_WIZZ_TIME = 1000;
 
-	boolean m_triggered; // indique si l'ennemi a détecté le joueur ou non.
-	Droppable m_drops;
+//	private boolean m_triggered; // indique si l'ennemi a détecté le joueur ou non.
+//	private Droppable m_drops;
 
-	public Enemy(int x, int y, int width, int height, Model model, Automaton aut) {
-		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, model, aut);
-		m_triggered = false; // Valeur par défaut
+	public Enemy(int x, int y, int width, int height, Automaton aut) {
+		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, aut);
+//		m_triggered = false; // Valeur par défaut
 //		m_drops = new Droppable(this.m_x, this.m_y, 1, 1, 1, MaterialType.ELECTRONIC, model);
 	}
 
@@ -59,7 +56,8 @@ public class Enemy extends MovingEntity {
 	@Override
 	public void Egg(MyDirection dir) {
 		m_timeOfAction = ENEMY_MOVE_TIME;
-		System.out.println("Egg !");
+		System.out.println("Enemy Egging !");
+		// TODO : pond des ressources a sa mort.
 		super.Egg(dir);
 	}
 
@@ -150,7 +148,7 @@ public class Enemy extends MovingEntity {
 	@Override
 	public void Wait() {
 		m_timeOfAction = ENEMY_WAIT_TIME;
-		//System.out.println("Wait !");
+		// System.out.println("Wait !");
 		super.Wait();
 	}
 

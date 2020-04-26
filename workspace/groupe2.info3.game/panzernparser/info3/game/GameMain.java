@@ -31,7 +31,7 @@ public class GameMain {
 		GameConfiguration.getConfig();
 
 		// On créer l'univers du jeu
-		m_model = new Model();
+		m_model = Model.getModel();
 
 		// On créer le contrôleur qui va intéragir avec cet univers
 		m_controller = new Controller(m_model);

@@ -29,9 +29,8 @@ public abstract class Entity {
 	// Automaton m_automate; //automate associé
 	State m_currentState;
 	Automaton m_automate; // automate associé
-	public Model m_model;
 
-	public Entity(int x, int y, int width, int height, Model model, Automaton aut) {
+	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
 		m_currentState = aut.getState();
 
@@ -45,7 +44,6 @@ public abstract class Entity {
 		m_width = width;
 		m_height = height;
 
-		m_model = model;
 		m_currentLookAtDir = MyDirection.NORTH; // par défaut
 		m_currentActionDir = null; // par défaut
 
@@ -73,6 +71,10 @@ public abstract class Entity {
 
 	public boolean isShown() {
 		return m_displayed;
+	}
+	
+	public void showEntity(boolean b) {
+		m_displayed = b;
 	}
 
 	public State getState() {
@@ -142,7 +144,7 @@ public abstract class Entity {
 	}
 
 	public void Jump(MyDirection dir) {
-	//	System.out.println("Is Jumping");
+		// System.out.println("Is Jumping");
 		m_currentActionDir = dir;
 		m_currentAction = LsAction.Jump;
 	}
@@ -318,20 +320,20 @@ public abstract class Entity {
 			default:
 				break;
 		}
-		
-		/*Gestion TOR lors des move d'entity*/
-		if (m_x < 0)
-			m_x = m_model.getGrid().getNbCellsX() - m_width;
-		else if (m_x + m_width > m_model.getGrid().getNbCellsX())
-			m_x = 0;
-		if (m_y < 0)
-			m_y = m_model.getGrid().getNbCellsY() - m_height;
-		else if (m_y + m_height > m_model.getGrid().getNbCellsY())
-			m_y = 0;
-		
+
+//		/*Gestion TOR lors des move d'entity*/
+//		if (m_x < 0)
+//			m_x = m_model.getGrid().getNbCellsX() - m_width;
+//		else if (m_x + m_width > m_model.getGrid().getNbCellsX())
+//			m_x = 0;
+//		if (m_y < 0)
+//			m_y = m_model.getGrid().getNbCellsY() - m_height;
+//		else if (m_y + m_height > m_model.getGrid().getNbCellsY())
+//			m_y = 0;
+
 		m_currentActionDir = dir;
-		m_x = m_model.getGrid().realX(m_x);
-		m_y = m_model.getGrid().realY(m_y);
+		m_x = Model.getModel().getGrid().realX(m_x);
+		m_y = Model.getModel().getGrid().realY(m_y);
 		System.out.println("Arrived and facing " + m_currentLookAtDir);
 		return;
 	}
@@ -523,10 +525,8 @@ public abstract class Entity {
 	}
 
 	public boolean Key(LsKey m_key) {
-		if (m_model.m_keyPressed.contains(m_key)) {
-//		//System.out.println("Call in the landside...");
-		return true;
-	}
+		if (Model.getModel().getKeyPressed().contains(m_key))
+			return true;
 		return false;
 	}
 }

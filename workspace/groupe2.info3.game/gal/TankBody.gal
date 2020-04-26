@@ -1,5 +1,5 @@
 TankChassis(Init){
-*(OnControl)
+*(Init)
 	|Key(z) & Key(d) & MyDir(NE) ? Move(NE) : (Init)
 	|Key(z) & Key(d) & !MyDir(NE) ? Turn(NE) : (Init)
 

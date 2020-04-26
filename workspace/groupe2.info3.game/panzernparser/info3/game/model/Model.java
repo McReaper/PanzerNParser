@@ -4,28 +4,33 @@ import java.rmi.UnexpectedException;
 import java.util.LinkedList;
 
 import info3.game.automaton.LsKey;
+import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
 
 public class Model {
 
-	public static Model m_model;
+	private static Model self;
 
-	public static final int PLAYER_TANK = 1;
-	public static final int PLAYER_DRONE = 2;
 	// Controller m_controller; //pour envoyer des information utiles.
-	Grid m_grid;
-	public Tank m_tank;
-	LinkedList<Entity> m_entities;
-	public LinkedList<LsKey> m_keyPressed;
-	public int m_player;// 1 pour le tank et 2 pour le drone
+	private Grid m_grid;
+	private Tank m_tank;
+	private Drone m_drone;
+	private LinkedList<Entity> m_entities;
+	private LinkedList<LsKey> m_keyPressed;
+	private boolean m_playingTank;
 
-	public Model() {
-		// Génère la liste des automates
-		m_model = this;
+	public Model getModel() {
+		if (self == null)
+			self = new Model();
+		return self;
+	}
+	
+	private Model() {
 		m_keyPressed = new LinkedList<LsKey>();
 		m_entities = new LinkedList<Entity>();
+		
 		// permet la recupération du body et du turret du tank
 		int indexOfTankBody = -1;
 		int indexOfTurret = -1;
@@ -55,7 +60,7 @@ public class Model {
 
 		if (indexOfTankBody != -1 && indexOfTurret != -1) {
 			m_tank = new Tank(m_entities.get(indexOfTankBody), m_entities.get(indexOfTurret));
-			m_player = PLAYER_TANK;
+			m_playingTank = true;
 		} else {
 			System.out.println("ERROR : Pas de création du TankBody ET du tankChassis");
 		}
@@ -68,11 +73,6 @@ public class Model {
 			entity.step(elapsed);
 		}
 		m_tank.step();
-
-	}
-
-	public static Model getModel() {
-		return m_model;
 	}
 
 	public Grid getGrid() {

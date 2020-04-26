@@ -1,37 +1,34 @@
-TankChassis(CheckControl){
+TankChassis(Init){
 *(OnControl)
-	|Key(z) & Key(d) & MyDir(NE) ? Move(NE) : (CheckControl)
-	|Key(z) & Key(d) & !MyDir(NE) ? Turn(NE) : (CheckControl)
+	|Key(z) & Key(d) & MyDir(NE) ? Move(NE) : (Init)
+	|Key(z) & Key(d) & !MyDir(NE) ? Turn(NE) : (Init)
 
-	|Key(s) & Key(d) & MyDir(SE) ? Move(SE) : (CheckControl)
-	|Key(s) & Key(d) & !MyDir(SE) ? Turn(SE) : (CheckControl)
+	|Key(s) & Key(d) & MyDir(SE) ? Move(SE) : (Init)
+	|Key(s) & Key(d) & !MyDir(SE) ? Turn(SE) : (Init)
 
-	|Key(s) & Key(q) & MyDir(SW) ? Move(SW) : (CheckControl)
-	|Key(s) & Key(q) & !MyDir(SW) ? Turn(SW) : (CheckControl)
+	|Key(s) & Key(q) & MyDir(SW) ? Move(SW) : (Init)
+	|Key(s) & Key(q) & !MyDir(SW) ? Turn(SW) : (Init)
 
-	|Key(z) & Key(q) & MyDir(NW) ? Move(NW) : (CheckControl)
-	|Key(z) & Key(q) & !MyDir(NW) ? Turn(NW) : (CheckControl)
+	|Key(z) & Key(q) & MyDir(NW) ? Move(NW) : (Init)
+	|Key(z) & Key(q) & !MyDir(NW) ? Turn(NW) : (Init)
 
-	|Key(d) & MyDir(E) ? Move(E) : (CheckControl)
-	|Key(d) & !MyDir(E) ? Turn(E) : (CheckControl)
+	|Key(d) & MyDir(E) ? Move(E) : (Init)
+	|Key(d) & !MyDir(E) ? Turn(E) : (Init)
 
-	|Key(s) & MyDir(S) ? Move(S) : (CheckControl)
-	|Key(s) & !MyDir(S) ? Turn(S) : (CheckControl)
+	|Key(s) & MyDir(S) ? Move(S) : (Init)
+	|Key(s) & !MyDir(S) ? Turn(S) : (Init)
 
-	|Key(q) & MyDir(W) ? Move(W) : (CheckControl)
-	|Key(q) & !MyDir(W) ? Turn(W) : (CheckControl)
+	|Key(q) & MyDir(W) ? Move(W) : (Init)
+	|Key(q) & !MyDir(W) ? Turn(W) : (Init)
 	
-	|Key(z) & MyDir(N) ? Move(N) : (CheckControl)
-	|Key(z) & !MyDir(N) ? Turn(N) : (CheckControl)
+	|Key(z) & MyDir(N) ? Move(N) : (Init)
+	|Key(z) & !MyDir(N) ? Turn(N) : (Init)
 
-	|Key(e) ? Pop : (CheckControl)
-	|Key(a) ? Wizz : (CheckControl)
+	|Key(e) ? Pop : (Init)
+	|Key(a) ? Wizz : (Init)
 	
-	|Key(t) ? Hit : (CheckControl)   
+	|Key(t) ? Hit : (Init)   
 	
-	|True ? Wait : (CheckControl)
-	
-*(CheckControl)
-	|True ? Jump : (OnControl)
+	|True ? Wait : (Init)
 
 }

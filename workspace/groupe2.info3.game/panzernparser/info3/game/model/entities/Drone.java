@@ -9,8 +9,8 @@ import info3.game.model.Model;
 import info3.game.model.Tank;
 
 public class Drone extends MovingEntity {
-	public final static int DRONE_WIDTH = 3;
-	public final static int DRONE_HEIGHT = 3;
+	public final static int DRONE_WIDTH = 1;
+	public final static int DRONE_HEIGHT = 1;
 
 	public static final int DRONE_HEALTH = 100;
 	public static final int DRONE_SPEED = 1; // nb de cases en 1 déplacement.
@@ -198,6 +198,9 @@ public class Drone extends MovingEntity {
 		 */
 	}
 
+	/*
+	 * permet de ne ps prendre en compte les actions joueur si il n'a pas le control
+	 */
 	@Override
 	public boolean Key(LsKey m_key) {
 		if (!hasControl) {

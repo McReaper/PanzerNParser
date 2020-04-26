@@ -22,6 +22,7 @@ public class Tank {
 	public static final int TANK_SPEED = 100;
 	
 	
+	
 	//Upgrade m_upgrade[];
 	//Explosion m_explosion;
 	
@@ -36,6 +37,7 @@ public class Tank {
  	}
 	
 	public void step () {
+		m_turret.setControl(m_body.hasControl);
 		if (m_turret.getX() != m_body.getX() || m_turret.getY() != m_body.getY()) {
 			m_turret.setPosition(m_body.getX(), m_body.getY());
 		}

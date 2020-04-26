@@ -34,7 +34,7 @@ public class TankBody extends MovingEntity {
 	public static final long TANK_BODY_WAIT_TIME = 50;
 	public static final long TANK_BODY_WIZZ_TIME = 1000;
 
-	private boolean hasControl;
+	public boolean hasControl;
 
 	public TankBody(int x, int y, int width, int height, Model model, Automaton aut) {
 		super(x, y, width, height, Tank.TANK_HEALTH, Tank.TANK_SPEED, model, aut);
@@ -171,6 +171,9 @@ public class TankBody extends MovingEntity {
 		super.Wizz(dir);
 	}
 
+	/*
+	 * permet de ne ps prendre en compte les actions joueur si il n'a pas le control
+	 */
 	@Override
 	public boolean Key(LsKey m_key) {
 		if (!hasControl) {

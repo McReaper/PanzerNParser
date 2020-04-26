@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.LsKey;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -32,6 +33,7 @@ public class Turret extends MovingEntity {
 	public static final long TURRET_WAIT_TIME = 50;
 	public static final long TURRET_WIZZ_TIME = 1000;
 
+	private boolean m_hasControl;
 	/*
 	 * flags pour savoir si le body TankBody bouge et si oui dans quelle direction
 	 * et a quel point en est-il ?
@@ -58,6 +60,11 @@ public class Turret extends MovingEntity {
 		} else {
 			this.setState(m_automate.step(this));
 		}
+		if (m_hasControl) {
+		System.out.println("Tank has Control");
+	}else {
+		System.out.println("Drone has control");
+	}
 	}
 
 	@Override
@@ -169,6 +176,19 @@ public class Turret extends MovingEntity {
 		System.out.println("Wizz !");
 		super.Wizz(dir);
 	}
+	
+	/*
+	 * permet de ne ps prendre en compte les actions joueur si il n'a pas le control
+	 */
+	@Override
+	public boolean Key(LsKey m_key) {
+		if(m_hasControl) {
+			return false;
+		} else if (m_model.m_keyPressed.contains(m_key)) {
+			return true;
+		}
+		return false;
+	}
 
 	/*
 	 * Pour le cas ou le tankBody bouge et que le canon doit suivre le tank
@@ -196,5 +216,14 @@ public class Turret extends MovingEntity {
 	public double getBodyProgress() {
 		return m_BodyProgress;
 	}
+
+	/*
+	 * récupère le control si possible mais avec une step de retard
+	 */
+	public void setControl(boolean hasControl) {
+		m_hasControl = hasControl;
+		
+	}
+	
 
 }

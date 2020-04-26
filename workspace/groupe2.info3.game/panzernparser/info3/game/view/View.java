@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.io.File;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -13,6 +14,7 @@ import info3.game.model.Model;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Enemy;
 import info3.game.model.entities.Entity;
+import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.TankBody;
 
 public class View extends Container {
@@ -52,23 +54,34 @@ public class View extends Container {
 
 	private void updateAvatars() {
 		boolean mustRebuild = false;
-		if (m_model.getEntities().size() != m_avatars.size())
+		if (m_model.getNb_entities() != m_avatars.size())
 			mustRebuild = true;
-		Iterator<Entity> iter_ent = m_model.getEntities().iterator();
-		Iterator<Avatar> iter_avt = m_avatars.iterator();
 		// TODO : optimisation -- revoir cette boucle pour la mise a jour des avatars.
-		while (!mustRebuild && iter_ent.hasNext() && iter_avt.hasNext()) {
-			Entity entity = iter_ent.next();
-			Avatar avatar = iter_avt.next();
-			if (entity != avatar.m_entity)
-				mustRebuild = true;
+		// iteration sur les clés et puis sur la liste associée
+		HashMap<EntityFactory.MyEntities, LinkedList<Entity>> entities = m_model.getAllEntities();
+		for (EntityFactory.MyEntities entity : entities.keySet()) {
+
+			LinkedList<Entity> listEntities = entities.get(entity);
+			Iterator<Avatar> iter_avt = m_avatars.iterator();
+			Iterator<Entity> iter_ent = listEntities.iterator();
+
+			while (!mustRebuild && iter_avt.hasNext() && iter_ent.hasNext()) {
+				Entity currentEntity = iter_ent.next();
+				Avatar avatar = iter_avt.next();
+				if (currentEntity != avatar.m_entity)
+					mustRebuild = true;
+			}
 		}
 		if (mustRebuild) {
 			m_avatars = new LinkedList<Avatar>();
-			for (Entity entity : m_model.getEntities()) {
-				m_avatars.add(AvatarFactory.newAvatar(entity));
+			for (EntityFactory.MyEntities entity : entities.keySet()) {
+				LinkedList<Entity> listEntities = entities.get(entity);
+				for (Entity currentEntity : listEntities) {
+					m_avatars.add(AvatarFactory.newAvatar(currentEntity));
+				}
 			}
 		}
+
 	}
 
 	/**

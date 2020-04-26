@@ -4,7 +4,7 @@ import info3.game.automaton.Automaton;
 
 public abstract class MovingEntity extends Entity {
 
-	int m_health;
+	private int m_health;
 
 	public MovingEntity(int x, int y, int width, int height, int health, int speed, Automaton aut) {
 		super(x, y, width, height, aut);

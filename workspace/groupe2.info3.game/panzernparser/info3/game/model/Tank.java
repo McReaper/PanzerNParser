@@ -68,7 +68,7 @@ public class Tank {
 	}
 
 	public MyDirection getBodyDirection() {
-		return MyDirection.toAbsolute(m_body.m_currentLookAtDir, m_body.m_currentActionDir);
+		return MyDirection.toAbsolute(m_body.getLookAtDir(), m_body.getCurrentActionDir());
 	}
 
 	public double getBodyProgress() {

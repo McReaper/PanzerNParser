@@ -258,31 +258,33 @@ Mieux géré la génération des avatars.
 ## Répartition des tâches
 
 - `JT>` Etude de l'ATH avec la bibliothèque Swing.
-- `E>` .
-- `E/S>` .
-- `B/M>` .
-- `V>` .
+- `S>` Finissions des modifications des listes d'entités dans le modèle.
+- `E>` Mise a jour de la vue qui fait suivre le corps du tank et son canon.
+- `E/S>` Ajustement du Move des entités pour prendre compte le Tore grâce au modèle. Première version du drone et du tank et de leur transition en appuyant sur une touche.
+- `B>` Création de TurretAvatar + Modularisation des move + Aide sur les mouvemnt du tank à Emilie.
+- `B/M>` Travail sur l'implémentation de la classe Viewport et d'une première version fonctionnelle qui prend en compte le Tore.
+- `V>` Implem de Closest (> *c'était vraiment pas simple, j'essairai d'expliquer le fonctionnement du code à la team*).
 - `Cyance>` Lecture des revues de code croisées de la veille.
 
 ## Remarques :
 
-- Le travail du jour a été productif malgré les difficultés mathématiques et logiques sur certaines tâches.
+- Le travail du jour a été productif malgré les difficultés mathématiques et logiques sur certaines tâches. Il faudra fusionner le travail dès demain en regardant ce que l'on garde ou non.
 
 ## Réflexions en cours :
 - **Vaut-il mieux utilisé Java AWT ou Swing ?**
 - Choisir le design pour l'HUD (propositions existantes mais à délibérer).
-- Comment gérer le passage du drone au tank et inversement ? (saisis des touches, ...)
+- Comment gérer le passage du drone au tank et inversement ? (saisis des touches, ...) Sans garder le contrôle sur les deux entités.
 - 
 
 ## Pour après
 
-- `Continuité travail de B/E>` Finaliser le lien entre tourelle et tank, notamment l'aspect graphique. (transition entre deux cases)
-- `Continuité travail de M>` Incorporer le ViewPort dans la View, la faire fonctionner, se questionner sur l'affichage des bords de map.
-- `Continuité travail de E>` Implémentation du drone et de la transition entre les deux mondes.
-- `Continuité travail de S>` Faire fonctionner l'affichage des entités dans un certain ordre.
-Mieux géré la génération des avatars.
-- `Continuité travail de V>` Faire fonctionner le Cell et Closest pour faire fonctionner des automates plus compliqués.
-- `Continuité travail de JT>` Continuer d'avancer dans le HUD.
+- `Continuité travail de JT>` Revoir si swing est un bon choix, peut etre checké AWT. 
+- `Continuité travail de S>` Merge avec dev
+- `Continuité travail de E>` Merge avec dev
+- `Continuité travail de E/S>` Debug + merge.
+- `Continuité travail de B>` Merge
+- `Continuité travail de V>` Merge, puis s'attaquer a la fonction cell.
+- `Continuité travail de B/M>` Debug + merge
 
 ---
 

@@ -18,6 +18,7 @@ import javax.swing.Box.Filler;
 import javax.swing.border.Border;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 

@@ -226,7 +226,7 @@ public class Model {
 
 	public LinkedList<Entity> getCategoried(MyCategory type) {
 		LinkedList<Entity> entities_to_return = new LinkedList<Entity>();
-		for (Entity entity : getAllEntities()) {
+		for (Entity entity : getEntities()) {
 			if (entity.getCategory() == type) {
 				entities_to_return.add(entity);
 			}

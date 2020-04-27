@@ -41,7 +41,7 @@ public class Tank {
 		if (m_turret.getX() != m_body.getX() || m_turret.getY() != m_body.getY()) {
 			m_turret.setPosition(m_body.getX(), m_body.getY());
 		}
-		MyDirection bodyAbsoluteDir = MyDirection.toAbsolute(m_body.m_currentLookAtDir, m_body.m_currentActionDir);
+		MyDirection bodyAbsoluteDir = MyDirection.toAbsolute(m_body.getLookAtDir(), m_body.getCurrentActionDir());
 		m_turret.setBodyDirection(bodyAbsoluteDir);
 		m_turret.setBodyMoving(m_body.getCurrentAction()== LsAction.Move);
 		m_turret.setBodyProgress(m_body.getActionProgress());

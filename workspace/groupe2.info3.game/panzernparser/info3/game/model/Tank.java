@@ -30,7 +30,7 @@ public class Tank {
 		m_body = body;
 		m_turret = turret;
 		m_body.setTank(this);
-		//m_turret.setTank(this);
+		m_turret.setTank(this);
 	}
 
 	public boolean hasControl() {

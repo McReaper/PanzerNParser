@@ -44,6 +44,10 @@ public class Turret extends MovingEntity {
 
 	int m_range;
 
+	public void setTank(Tank tank) {
+		m_tank = tank;
+	}
+	
 	public Tank getTank() {
 		return m_tank;
 	}

@@ -32,7 +32,7 @@ public class Grid {
 		load();
 		generate();
 	}
-	
+
 	public int realX(int x) {
 		x = x % getNbCellsX();
 		if (x < 0) {
@@ -40,7 +40,7 @@ public class Grid {
 		}
 		return x;
 	}
-	
+
 	public int realY(int y) {
 		y = y % getNbCellsY();
 		if (y < 0) {
@@ -240,6 +240,7 @@ public class Grid {
 			X = x;
 			Y = y;
 		}
+
 		@Override
 		public boolean equals(Object obj) {
 			return (((Coords) obj).X == this.X && ((Coords) obj).Y == this.Y);

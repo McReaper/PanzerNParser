@@ -288,3 +288,37 @@ Mieux géré la génération des avatars.
 
 ---
 
+# JOURNAL du Vendredi 27 Avril 
+
+## Planning du jour 
+
+- Continuer le travail commencé le week-end et tenter un merge du tout.
+
+## Répartition des tâches 
+
+- `M>` implémentation de la classe inventory et mise à jour des droppable
+- `E/V>`transition du drone au tank, modification du m
+- `B>` Modification des classes Avatar, correction du Viewport et implémentation de Cell de Entity.
+- `JT>` Implémentation de dev.ATH, ajout de lisibilité et restructuration du code lié à l’ATH.
+- `S>` Implémentation des markers pou le drone et ajout de la gestion de la souris.
+
+
+## Remarques : 
+
+- Le travail du jour a été efficace dans l’ensemble, chacun a pu avancer sur son travail tout en faisant avancé le projet. Des bugs sont apparus lors du merge sur dev ce qui a permis de revisité et corrigé le code afin d’apporter fluidité et lisibilité à celui-ci. L’intervention du tuteur a permis de débloquer le groupe sur l’ATH qui représentait jusque là une difficulté certaine.
+
+## Pour après 
+
+- `Continuité travail de B/JT>` avoir un bel ATH opérationnel.
+- Optimisation du doTurn
+- Interaction entre les entités
+- Complétion des Pop/Wizz/Hit de chaque entité
+- Créer plus de fichiers graphiques et sprites 
+- Faire fonctionner l'affichage des entités dans un certain ordre.
+- `S>` restructuré la classe marker et model ainsi que l’affichage des 	markers dans la view.
+- (peut être pas demain) Penser une implémentation pour les upgrades
+
+## Répartition des tâches 
+- `Cyance>` A votre bon cœur. A voir demain
+
+

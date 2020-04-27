@@ -1,4 +1,3 @@
-drop1 0,0
-vein1 5,5
-drop1 2,6
-drop1 7,1
+drop1 2,5
+enem1 6,4
+vein1 1,3

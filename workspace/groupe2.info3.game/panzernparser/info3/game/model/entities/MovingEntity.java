@@ -1,19 +1,20 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
-import info3.game.automaton.MyDirection;
-import info3.game.model.Model;
 
 public abstract class MovingEntity extends Entity {
 
-	int m_health;
-	// m_viewPort; //Dans la phase de tests on a pas de viewport...
+	private int m_health;
 
-	public MovingEntity(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
-		super(x, y, width, height, model, aut);
+	public MovingEntity(int x, int y, int width, int height, int health, int speed, Automaton aut) {
+		super(x, y, width, height, aut);
 		m_health = health;
 		m_speed = speed;
-		// m_dir = MyDirection.SOUTHEAST; // Valeur par défaut
+	}
+
+	@Override
+	public boolean GotPower() {
+		return m_health > 0;
 	}
 
 }

@@ -12,8 +12,6 @@ import info3.game.model.entities.Entity;
 
 public class ViewPort {
 
-	static final int RANGE_VIEW = 7;
-
 	Model m_model;
 	Entity m_player;
 	View m_view;
@@ -28,6 +26,7 @@ public class ViewPort {
 	int m_y;
 	int m_offsetX; // Décalage propre au animations du move du player
 	int m_offsetY;
+	int m_field_of_view;
 
 	public ViewPort(Model model, Entity player, View view) {
 		m_model = model;
@@ -41,9 +40,8 @@ public class ViewPort {
 	}
 
 	private void calcul() { // à refair quand on change la fenêtre
-		m_nbCellsX = RANGE_VIEW * 2; // pour les deux coté du tank
-		m_nbCellsX += 1; // pour le tank
-		m_nbCellsX *= m_player.getWidth(); // pour que ça dépende de la taille de l'entity
+		m_nbCellsX = m_field_of_view * 2; // pour les deux coté du tank
+		m_nbCellsX += m_player.getWidth(); // pour le tank
 		m_case_width = m_width / m_nbCellsX;
 		m_case_height = m_case_width; // case carré
 		m_nbCellsX += 4; // pour la marge
@@ -55,11 +53,11 @@ public class ViewPort {
 	private void positionViewPort() {
 //		System.out.println("player (" + m_player.getX() + ";" + m_player.getY() + ")");
 		m_x = m_player.getX();
-		m_x -= RANGE_VIEW * m_player.getWidth();
+		m_x -= m_field_of_view;
 		m_x -= 2; // pour la marge
 		m_x = m_grid.realX(m_x);
 		m_y = m_player.getY();
-		m_y -= RANGE_VIEW * m_player.getWidth(); // c'est normal c'est pour les entité non carré
+		m_y -= m_field_of_view; // c'est normal c'est pour les entité non carré
 		m_y -= 2;
 		m_y = m_grid.realY(m_y);
 //		System.out.println("(" + m_x + ";" + m_y + ")");
@@ -75,12 +73,12 @@ public class ViewPort {
 				case NORTH:
 				case NORTHEAST:
 				case NORTHWEST:
-					m_offsetY -= (m_case_height * progress) - m_case_height;
+					m_offsetY -= (m_case_height * progress);
 					break;
 				case SOUTH:
 				case SOUTHEAST:
 				case SOUTHWEST:
-					m_offsetY += (m_case_height * progress) - m_case_height;
+					m_offsetY += (m_case_height * progress);
 					break;
 				default:
 					break;
@@ -89,12 +87,12 @@ public class ViewPort {
 				case EAST:
 				case NORTHEAST:
 				case SOUTHEAST:
-					m_offsetX += (m_case_width * progress) - m_case_width;
+					m_offsetX += (m_case_width * progress);
 					break;
 				case WEST:
 				case NORTHWEST:
 				case SOUTHWEST:
-					m_offsetX -= (m_case_width * progress) - m_case_width;
+					m_offsetX -= (m_case_width * progress);
 					break;
 				default:
 					break;
@@ -106,6 +104,8 @@ public class ViewPort {
 
 		m_width = m_view.m_canvas.getWidth();
 		m_height = m_view.m_canvas.getHeight();
+		m_player = m_model.getPlayed();
+		m_field_of_view = m_player.getFieldOfView();
 		calcul();
 		positionViewPort();
 		offset(); // décalage due au mouve du tank

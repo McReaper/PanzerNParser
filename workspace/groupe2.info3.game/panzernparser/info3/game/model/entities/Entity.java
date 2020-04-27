@@ -3,76 +3,147 @@ package info3.game.model.entities;
 import java.util.LinkedList;
 
 import info3.game.automaton.Automaton;
-import info3.game.automaton.MyCategory;
 import info3.game.automaton.LsKey;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Grid;
 import info3.game.model.Model;
-import info3.game.model.Model.Coords;
+import info3.game.model.Grid.Coords;
 
 public abstract class Entity {
 
 	final static int DEFAULT_MOVING_DISTANCE = 1;
 
-	long m_elapseTime;
-	LsAction m_currentAction;
-	long m_timeOfAction;
+	public static final long DEFAULT_EGG_TIME = 1000;
+	public static final long DEFAULT_GET_TIME = 1000;
+	public static final long DEFAULT_HIT_TIME = 300;
+	public static final long DEFAULT_JUMP_TIME = 1000;
+	public static final long DEFAULT_EXPLODE_TIME = 1000;
+	public static final long DEFAULT_MOVE_TIME = 1000;
+	public static final long DEFAULT_PICK_TIME = 1000;
+	public static final long DEFAULT_POP_TIME = 1000;
+	public static final long DEFAULT_POWER_TIME = 1000;
+	public static final long DEFAULT_PROTECT_TIME = 1000;
+	public static final long DEFAULT_STORE_TIME = 1000;
+	public static final long DEFAULT_TURN_TIME = 100;
+	public static final long DEFAULT_THROW_TIME = 1000;
+	public static final long DEFAULT_WAIT_TIME = 100;
+	public static final long DEFAULT_WIZZ_TIME = 1000;
 
-	boolean m_displayed; // Indique si il doit etre affiché a l'écran où non.
+	protected long m_elapseTime;
+	protected LsAction m_currentAction;
+	protected long m_timeOfAction;
+	protected boolean m_displayed; // Indique si il doit etre affiché a l'écran où non.
+	protected int m_x;
+	protected int m_y;
+	protected int m_width;
+	protected int m_height;
+	protected int m_speed;
+	protected MyDirection m_currentLookAtDir;
+	protected MyDirection m_currentActionDir;
+	protected boolean m_stuff; // gotStuff ?
+	protected State m_currentState;
+	protected Automaton m_automate; // automate associé
+	protected boolean m_actionFinished;
+	protected MyCategory m_category;
+	protected int m_lengthOfView;
 
-	int m_x;
-	int m_y;
-	int m_width;
-	int m_height;
-	int m_speed;
-	int m_lengthOfView;
-	MyDirection m_currentLookAtDir;
-	MyDirection m_currentActionDir;
-	MyCategory m_category; // La catégorie à laquelle l'entité appartient, utilisé principalement dans
-													// l'automate dans Cell et Closest
-
-	boolean m_stuff; // TODO : rediscuter de l'utilité de cette variable (pour le gotStuff)
-	State m_currentState;
-	Automaton m_automate; // automate associé
-
-	public Model m_model;
-
-	public Entity(int x, int y, int width, int height, Model model, Automaton aut) {
+	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
-		m_currentState = aut.getState();
+		if (aut != null)
+			m_currentState = aut.getState();
 
 		m_elapseTime = 0;
 		m_currentAction = null;
+		m_timeOfAction = 0;
 
 		m_displayed = true;
-		
 
-		m_lengthOfView = 5; //Valeur par défaut a revisiter
+		m_lengthOfView = 5; // Valeur par défaut a revisiter
 		m_x = x;
 		m_y = y;
 		m_width = width;
 		m_height = height;
 
-		m_model = model;
 		m_currentLookAtDir = MyDirection.NORTH; // par défaut
 		m_currentActionDir = null; // par défaut
 
-		m_timeOfAction = 0;
+		m_actionFinished = true;
 
 	}
 
-	public abstract void step(long elapsed);
+	public void step(long elapsed) {
+		if (m_currentAction == null) {
+			this.setState(m_automate.step(this));
+		} else {
+			if (m_elapseTime < m_timeOfAction) {
+				m_elapseTime += elapsed;
+			} else {
+				m_elapseTime = 0;
+				m_actionFinished = true;
+
+				// Mission accomplie, on rappel l'action en cours pour lui signaler son
+				// accomplissement.
+				switch (m_currentAction) {
+					case Egg:
+						this.Egg(m_currentActionDir);
+						break;
+					case Explode:
+						this.Explode();
+						break;
+					case Get:
+						this.Get(m_currentActionDir);
+						break;
+					case Hit:
+						this.Hit(m_currentActionDir);
+						break;
+					case Jump:
+						this.Jump(m_currentActionDir);
+						break;
+					case Move:
+						this.Move(m_currentActionDir);
+						break;
+					case Pick:
+						this.Pick(m_currentActionDir);
+						break;
+					case Pop:
+						this.Pop(m_currentActionDir);
+						break;
+					case Power:
+						this.Power();
+						break;
+					case Protect:
+						this.Protect(m_currentActionDir);
+						break;
+					case Store:
+						this.Store(m_currentActionDir);
+						break;
+					case Throw:
+						this.Throw(m_currentActionDir);
+						break;
+					case Turn:
+						this.Turn(m_currentActionDir, 0 /* On prend pas compte de l'angle */);
+						break;
+					case Wait:
+						this.Wait();
+						break;
+					case Wizz:
+						this.Wizz(m_currentActionDir);
+						break;
+					default:
+						throw new IllegalStateException("Etat inconnu");
+				}
+			}
+		}
+	}
 
 	public double getActionProgress() {
-		if (m_currentAction != null) {
+		if (m_timeOfAction != 0) {
 			return ((double) m_elapseTime) / ((double) m_timeOfAction);
 		}
 		return 0;
-	}
-
-	public void setAutomaton(Automaton automate) {
-		m_automate = automate;
 	}
 
 	public void setPosition(int x, int y) {
@@ -84,6 +155,10 @@ public abstract class Entity {
 		return m_displayed;
 	}
 
+	public void showEntity(boolean b) {
+		m_displayed = b;
+	}
+
 	public State getState() {
 		return m_currentState;
 	}
@@ -92,7 +167,7 @@ public abstract class Entity {
 		if (state != null)
 			m_currentState = state;
 		else
-			System.out.println("setstate null");
+			System.err.println("setstate null !");
 	}
 
 	public LsAction getCurrentAction() {
@@ -129,45 +204,95 @@ public abstract class Entity {
 		return m_height;
 	}
 
+	public int getFieldOfView() {
+		return m_lengthOfView;
+	}
+
 	public boolean isInMe(double x, double y) {
 		return !(x < m_x || y < m_y || y > m_y + m_height || x > m_x + m_width);
 	}
 
+	//// METHODES DE L'AUTOMATE ////
+
+	/// Actions :
+
 	public void Egg(MyDirection dir) {
-		System.out.println("Is Egging");
-		m_currentActionDir = dir;
-		m_currentAction = LsAction.Egg;
+		if (m_actionFinished && m_currentAction == LsAction.Egg) {
+			System.out.println("Is Egging");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Egg;
+			m_timeOfAction = DEFAULT_EGG_TIME;
+		}
 	}
 
 	public void Get(MyDirection dir) {
-		System.out.println("Is Getting");
-		m_currentActionDir = dir;
-		m_currentAction = LsAction.Get;
+		if (m_actionFinished && m_currentAction == LsAction.Get) {
+			System.out.println("Is Getting");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Get;
+			m_timeOfAction = DEFAULT_GET_TIME;
+		}
 	}
 
 	public void Hit(MyDirection dir) {
-		System.out.println("Is Hitting");
-		if (dir != null)
-			m_currentActionDir = dir;
-		m_currentAction = LsAction.Hit;
+		if (m_actionFinished && m_currentAction == LsAction.Hit) {
+			System.out.println("Is Hitting");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			if (dir != null)
+				m_currentActionDir = dir;
+			m_currentAction = LsAction.Hit;
+			m_timeOfAction = DEFAULT_HIT_TIME;
+		}
 	}
 
 	public void Explode() {
-		System.out.println("Is Exploding");
-		m_currentActionDir = null;
-		m_currentAction = LsAction.Explode;
+		if (m_actionFinished && m_currentAction == LsAction.Explode) {
+			System.out.println("Is Exploding");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = null;
+			m_currentAction = LsAction.Explode;
+			m_timeOfAction = DEFAULT_EXPLODE_TIME;
+		}
 	}
 
 	public void Jump(MyDirection dir) {
-	//	System.out.println("Is Jumping");
-		m_currentActionDir = dir;
-		m_currentAction = LsAction.Jump;
+		if (m_actionFinished && m_currentAction == LsAction.Jump) {
+			System.out.println("Is Jumping");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Jump;
+			m_timeOfAction = DEFAULT_JUMP_TIME;
+		}
 	}
 
 	public void Move(MyDirection dir) {
-		System.out.println("Is Moving to " + dir);
-		this.m_currentAction = LsAction.Move;
-		m_currentActionDir = dir;
+		if (m_actionFinished && m_currentAction == LsAction.Move) {
+			System.out.println("Is Moving to " + dir);
+			m_actionFinished = false;
+			m_currentAction = null;
+			this.doMove(dir);
+			m_currentActionDir = dir;
+			System.out.println("Arrived and facing " + m_currentLookAtDir);
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			this.m_currentAction = LsAction.Move;
+			m_timeOfAction = DEFAULT_MOVE_TIME;
+		}
+	}
+
+	protected void doMove(MyDirection dir) {
 		switch (dir) {
 			case FRONT:
 				switch (m_currentActionDir) {
@@ -335,56 +460,85 @@ public abstract class Entity {
 			default:
 				break;
 		}
-		
-		/*Gestion TOR lors des move d'entity*/
-		if (m_x < 0)
-			m_x = m_model.getGrid().getNbCellsX() - m_width;
-		else if (m_x + m_width > m_model.getGrid().getNbCellsX())
-			m_x = 0;
-		if (m_y < 0)
-			m_y = m_model.getGrid().getNbCellsY() - m_height;
-		else if (m_y + m_height > m_model.getGrid().getNbCellsY())
-			m_y = 0;
-		
-		m_currentActionDir = dir;
-		m_x = m_model.getGrid().realX(m_x);
-		m_y = m_model.getGrid().realY(m_y);
-		System.out.println("Arrived and facing " + m_currentLookAtDir);
-		return;
+		m_x = Model.getModel().getGrid().realX(m_x);
+		m_y = Model.getModel().getGrid().realY(m_y);
 	}
 
 	public void Pick(MyDirection dir) {
-		System.out.println("Is Picking");
-		m_currentActionDir = dir;
-		m_currentAction = LsAction.Pick;
+		if (m_actionFinished && m_currentAction == LsAction.Pick) {
+			System.out.println("Is Picking");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Pick;
+			m_timeOfAction = DEFAULT_MOVE_TIME;
+		}
 	}
 
 	public void Pop(MyDirection dir) {
-		System.out.println("Is Poping");
-		m_currentActionDir = dir;
-		m_currentAction = LsAction.Pop;
+		if (m_actionFinished && m_currentAction == LsAction.Pop) {
+			System.out.println("Is Poping");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Pop;
+			m_timeOfAction = DEFAULT_POP_TIME;
+		}
 	}
 
 	public void Power() {
-		System.out.println("Is Powering");
-		m_currentActionDir = null;
-		m_currentAction = LsAction.Power;
+		if (m_actionFinished && m_currentAction == LsAction.Power) {
+			System.out.println("Is Powering");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = null;
+			m_currentAction = LsAction.Power;
+			m_timeOfAction = DEFAULT_POWER_TIME;
+		}
 	}
 
 	public void Protect(MyDirection dir) {
-		System.out.println("Is Protecting");
-		m_currentActionDir = dir;
-		m_currentAction = LsAction.Protect;
+		if (m_actionFinished && m_currentAction == LsAction.Protect) {
+			System.out.println("Is Protecting");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Protect;
+			m_timeOfAction = DEFAULT_PROTECT_TIME;
+		}
 	}
 
 	public void Store(MyDirection dir) {
-		System.out.println("Is Storing");
-		m_currentActionDir = dir;
-		m_currentAction = LsAction.Store;
+		if (m_actionFinished && m_currentAction == LsAction.Store) {
+			System.out.println("Is Storing");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Store;
+			m_timeOfAction = DEFAULT_STORE_TIME;
+		}
 	}
 
 	public void Turn(MyDirection dir, int angle) {
-		System.out.println("Is Turning");
+		if (m_actionFinished && m_currentAction == LsAction.Turn) {
+			System.out.println("Is Turning from " + m_currentLookAtDir);
+			this.doTurn(dir);
+			System.out.println("Is facing " + m_currentLookAtDir);
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Turn;
+			m_timeOfAction = DEFAULT_TURN_TIME;
+		}
+	}
+
+	protected void doTurn(MyDirection dir) {
 		switch (dir) {
 			case NORTH:
 			case SOUTH:
@@ -432,7 +586,7 @@ public abstract class Entity {
 						m_currentLookAtDir = MyDirection.NORTHEAST;
 						break;
 					case EAST:
-						m_currentLookAtDir = MyDirection.SOUTH;
+						m_currentLookAtDir = MyDirection.SOUTHEAST;
 						break;
 					case SOUTH:
 						m_currentLookAtDir = MyDirection.SOUTHWEST;
@@ -444,7 +598,7 @@ public abstract class Entity {
 						m_currentLookAtDir = MyDirection.EAST;
 						break;
 					case SOUTHEAST:
-						m_currentLookAtDir = MyDirection.SOUTHEAST;
+						m_currentLookAtDir = MyDirection.SOUTH;
 						break;
 					case SOUTHWEST:
 						m_currentLookAtDir = MyDirection.WEST;
@@ -488,30 +642,47 @@ public abstract class Entity {
 			default:
 				break;
 		}
-		m_currentActionDir = dir;
-		m_currentAction = LsAction.Turn;
 	}
 
 	public void Throw(MyDirection dir) {
-		System.out.println("Is Throwing");
-		m_currentActionDir = dir;
-		m_currentAction = LsAction.Throw;
+		if (m_actionFinished && m_currentAction == LsAction.Throw) {
+			System.out.println("Is Throwing");
+			m_currentAction = null;
+			m_actionFinished = false;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Throw;
+			m_timeOfAction = DEFAULT_THROW_TIME;
+		}
 	}
 
 	public void Wait() {
-		m_currentActionDir = null;
-		m_currentAction = LsAction.Wait;
+		if (m_actionFinished && m_currentAction == LsAction.Wait) {
+			// System.out.println("Is Waiting");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = null;
+			m_currentAction = LsAction.Wait;
+			m_timeOfAction = DEFAULT_WAIT_TIME;
+		}
 	}
 
 	public void Wizz(MyDirection dir) {
-		System.out.println("Is Wizzing");
-		m_currentActionDir = dir;
-		m_currentAction = LsAction.Wizz;
+		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
+			System.out.println("Is Wizzing");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Wizz;
+			m_timeOfAction = DEFAULT_WIZZ_TIME;
+		}
 	}
 
+	/// Conditions :
+
 	public boolean myDir(MyDirection dir) {
-		// m_currentActionDir = dir;
-		// System.out.println("Is myDiring");
 		if (m_currentLookAtDir != null) {
 			return m_currentLookAtDir.equals(dir);
 		}
@@ -554,10 +725,10 @@ public abstract class Entity {
 	 * @return vrai si l'entité de type recherché est "proche"
 	 */
 	public boolean Closest(MyDirection dir, MyCategory type) {
-		Entity closest = m_model.closestEntity(m_model.getCategoried(type), m_x, m_y);
+		Entity closest = Model.getModel().closestEntity(Model.getModel().getCategoried(type), m_x, m_y);
 		return closest.isInMe(getDetectionCone(dir, this.m_lengthOfView));
 	}
-	
+
 	public boolean isInMe(LinkedList<Coords> radius) {
 		for (Coords coord : radius) {
 			if (this.isInMe(coord.X, coord.Y))
@@ -568,22 +739,31 @@ public abstract class Entity {
 
 	protected LinkedList<Coords> getDetectionCone(MyDirection dir, int dist) {
 		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
+		LinkedList<Coords> cells;
 		switch (absoluteDir) {
 			case EAST:
 			case NORTH:
 			case SOUTH:
 			case WEST:
-				return getCellsInOrthogonalDir(absoluteDir, dist);
+				cells = getCellsInOrthogonalDir(absoluteDir, dist);
+				break;
 			case NORTHEAST:
 			case NORTHWEST:
 			case SOUTHEAST:
 			case SOUTHWEST:
-				return getCellsInDiagonalDir(absoluteDir, dist);
+				cells = getCellsInDiagonalDir(absoluteDir, dist);
+				break;
 			case HERE:
-				return getCellsOnMe();
+				cells = getCellsOnMe();
 			default:
 				return null;
 		}
+		Grid grid = Model.getModel().getGrid();
+		for (Coords coord : cells) {
+			coord.X = grid.realX((int) coord.X);
+			coord.Y = grid.realY((int) coord.Y);
+		}
+		return cells;
 	}
 
 	protected LinkedList<Coords> getCellsOnMe() {
@@ -778,10 +958,6 @@ public abstract class Entity {
 	}
 
 	public boolean Key(LsKey m_key) {
-		if (m_model.m_keyPressed.contains(m_key)) {
-//		//System.out.println("Call in the landside...");
-		return true;
-	}
-		return false;
+		return (Model.getModel().getKeyPressed().contains(m_key));
 	}
 }

@@ -3,7 +3,7 @@ package info3.game.model.entities;
 import java.util.LinkedList;
 
 import info3.game.automaton.MyDirection;
-import info3.game.model.Model.Coords;
+import info3.game.model.Grid.Coords;
 
 /**
  * Classe de test pour les cases sélectionnées en partant d'une entité dans une
@@ -71,21 +71,21 @@ public class EntityTest {
 //	}
 
 	static void detectionConeTest() {
-		int entity_length = 8;
-		Entity enemy = new Enemy(0, 0, entity_length, entity_length - 5, null, null); // commenté l'automate dans Entity
+		int entity_length = 4;
+		Entity enemy = new Enemy(5, 5, entity_length, entity_length, null); // commenté l'automate dans Entity
 		System.out.println("Ennemi créé.");
 		int dist = 10;
-		MyDirection dir = MyDirection.NORTHWEST;
+		MyDirection dir = MyDirection.SOUTHWEST;
 		LinkedList<Coords> cells = enemy.getDetectionCone(dir, dist);
-		char[][] tab = new char[entity_length * 2 + dist * 2 + 1][entity_length * 2 + dist * 2 + 1];
+		char[][] tab = new char[dist*2 + 1][dist*2 + 1];
 		for (Coords coord : cells) {
-			int ind_x = (int) (coord.X + Math.max(entity_length, dist) + Math.min(entity_length, dist));
-			int ind_y = (int) (coord.Y + Math.max(entity_length, dist) + Math.min(entity_length, dist));
+			int ind_x = (int) (coord.X);
+			int ind_y = (int) (coord.Y);
 			tab[ind_x][ind_y] = '#';
 		}
-		for (int y = 0; y < entity_length * 2 + dist * 2; y++) {
+		for (int y = 0; y < dist*2; y++) {
 			System.out.println();
-			for (int x = 0; x < entity_length * 2 + dist * 2; x++) {
+			for (int x = 0; x < dist*2; x++) {
 				if (tab[x][y] == '#') {
 					System.out.print(tab[x][y] + " ");
 				} else {

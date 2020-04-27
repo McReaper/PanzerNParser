@@ -131,7 +131,7 @@ public class Grid {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("ERROR : Something went wrong.");
+			System.err.println("ERROR : Something went wrong.");
 		}
 	}
 
@@ -187,7 +187,7 @@ public class Grid {
 			String line, name, sx, sy;
 			line = null;
 			line = br.readLine();
-			while (line != null) {
+			while (line != null && line.length() > 0) {
 				name = line.substring(0, 5);
 				int i = 6;
 				while (line.charAt(i) != ',') {
@@ -230,7 +230,26 @@ public class Grid {
 				line = br.readLine();
 			}
 		}
+	}
 
+	public static class Coords {
+
+		public double X, Y;
+
+		public Coords(double x, double y) {
+			X = x;
+			Y = y;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			return (((Coords) obj).X == this.X && ((Coords) obj).Y == this.Y);
+		}
+
+		public void translate(double offX, double offY) {
+			X += offX;
+			Y += offY;
+		}
 	}
 
 }

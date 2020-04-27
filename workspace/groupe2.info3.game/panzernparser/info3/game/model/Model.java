@@ -1,51 +1,55 @@
 package info3.game.model;
 
 import java.rmi.UnexpectedException;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
 import info3.game.model.entities.Clue;
+import info3.game.model.Grid.Coords;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Droppable;
 import info3.game.model.entities.Enemy;
 import info3.game.model.entities.Entity;
+import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
 import info3.game.model.entities.Ground;
 import info3.game.model.entities.Marker;
 import info3.game.model.entities.Shot;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
+import info3.game.model.entities.Vein;
 
 public class Model {
 
-	public static Model m_model;
-
-	public static final int PLAYER_TANK = 1;
-	public static final int PLAYER_DRONE = 2;
+	private static Model self; // Singleton du model
 	// Controller m_controller; //pour envoyer des information utiles.
-	Grid m_grid;
-	public Tank m_tank;
-	LinkedList<Entity> m_entities;
-	public LinkedList<LsKey> m_keyPressed;
-	public int m_player;// 1 pour le tank et 2 pour le drone
-	Marker[] m_markers;
-	Clue m_clue;
-
-	public Model() {
-		// Génère la liste des automates
-		m_model = this;
-		m_markers = new Marker[3];
+	private Grid m_grid;
+	private Tank m_tank;
+	private Drone m_drone;
+	private HashMap<EntityFactory.MyEntities, LinkedList<Entity>> m_entities;
+	private LinkedList<LsKey> m_keyPressed;
+	private boolean m_playingTank;
+	private int m_nbEntities;
+	private int m_nbMarkers;
+	private Coords m_clue;
+	/**
+	 * Création du modèle (l'univers du jeu)
+	 */
+	private Model() {
+		// Création de la liste des touches enfoncées.
 		m_keyPressed = new LinkedList<LsKey>();
-		m_entities = new LinkedList<Entity>();
-		// permet la recupération du body et du turret du tank
-		int indexOfTankBody = -1;
-		int indexOfTurret = -1;
+		// Création de la liste des entités :
+		m_entities = new HashMap<EntityFactory.MyEntities, LinkedList<Entity>>();
+		for (MyEntities entityType : MyEntities.values()) {
+			m_entities.put(entityType, new LinkedList<Entity>());
+		}
+		m_nbEntities = 0;
+
 		// Génère la grille du jeu qui va créer a son tour toutes les entités et mettre
 		// la liste des entités à jour. La grille doit connaitre ses patterns lors de sa
 		// création, le model doit donc lui donner.
-
-		// Version de test ci-dessous :
 		try {
 			m_grid = new Grid(this);
 		} catch (UnexpectedException e) {
@@ -54,50 +58,33 @@ public class Model {
 			// La il faudrait sortir du programme, en appelant le controller, pour arrêter
 			// la musique et les autres exécutions auxiliaires en cours.
 		}
-		int i = 0;
-		for (Entity entity : m_entities) {
-			if (entity instanceof TankBody) {
-				indexOfTankBody = i;
-			}
-			if (entity instanceof Turret) {
-				indexOfTurret = i;
-			}
-			i++;
+
+		int playableEntitiesNumber = getEntities(MyEntities.TankBody).size() + getEntities(MyEntities.Turret).size()
+				+ getEntities(MyEntities.Drone).size();
+		if (playableEntitiesNumber != 3) {
+			System.err.println("Il semblerait que la grille comporte plusieurs Drone ou Tank...");
+			// La il faudrait sortir du programme, en appelant le controller, pour arrêter
+			// la musique et les autres exécutions auxiliaires en cours.
 		}
 
-		if (indexOfTankBody != -1 && indexOfTurret != -1) {
-			m_tank = new Tank(m_entities.get(indexOfTankBody), m_entities.get(indexOfTurret));
-			m_player = PLAYER_TANK;
-		} else {
-			System.out.println("ERROR : Pas de création du TankBody ET du tankChassis");
-		}
+		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
+		Turret turret = (Turret) getEntities(MyEntities.Turret).get(0);
+		m_tank = new Tank(body, turret);
+		m_drone = (Drone) getEntities(MyEntities.Drone).get(0);
+		m_playingTank = true;
 
-	}
-
-	public void addMarker(Marker marker) {
-		/* Pour les tests, on utilise 3 comme limite de marker */
-
-		if (marker != null) {
-			for (int i = 0; i < 3; i++) {
-				if (markerIsEmpty(m_markers[i])) {
-					m_markers[i] = marker;
-					return;
-				}
-			}
-			m_markers[0] = marker;
-		}
 	}
 
 	public boolean markerIsEmpty(Marker marker) {
 		return marker == null;
 	}
 
-	public void addClue(Clue c) {
+	public void addClue(Coords c) {
 		if (c != null)
 			m_clue = c;
 	}
 
-	public Clue getClue() {
+	public Coords getClue() {
 		return m_clue;
 	}
 	
@@ -105,25 +92,75 @@ public class Model {
 		m_clue = null;
 	}
 
+	/**
+	 * Fonction qui gère le singleton du modèle (évite de créer plusieurs modèles).
+	 * 
+	 * @return le modèle
+	 */
+	public static Model getModel() {
+		if (self == null)
+			self = new Model();
+		return self;
+	}
+
 	public void step(long elapsed) {
 		// Effectue un pas de simulation sur chaque entités
-		for (Entity entity : m_entities) {
+		for (Entity entity : getAllEntities()) {
 			entity.step(elapsed);
 		}
 		m_tank.step();
-
 	}
 
-	public static Model getModel() {
-		return m_model;
+	//////// Gestion du passage drone/tank ////////
+
+	public boolean isPlayingTank() {
+		return m_playingTank;
 	}
+
+	public void switchControl() {
+		m_playingTank = !m_playingTank;
+		if (m_playingTank) {
+//			m_tank.showTank(true);
+//			m_drone.showEntity(false);
+			System.out.println("Contrôles données au TANK");
+		} else {
+//			m_tank.showTank(false);
+//			m_drone.showEntity(true);
+			System.out.println("Contrôles données au DRONE");
+		}
+	}
+
+	public Entity getPlayed() {
+		if (isPlayingTank()) {
+			return m_tank.getBody();
+		} else {
+			return m_drone;
+		}
+	}
+
+	/////////////////////////////////////////////////
 
 	public Grid getGrid() {
 		return m_grid;
 	}
 
-	public LinkedList<Entity> getEntities() {
+	public HashMap<EntityFactory.MyEntities, LinkedList<Entity>> getHashEntities() {
 		return m_entities;
+	}
+
+	/**
+	 * return une liste d'entité correspondant à la categorie d'entité
+	 */
+	public LinkedList<Entity> getEntities(MyEntities entityType) {
+		return m_entities.get(entityType);
+	}
+
+	public LinkedList<Entity> getAllEntities() {
+		LinkedList<Entity> entities = new LinkedList<Entity>();
+		for (MyEntities entityType : MyEntities.values()) {
+			entities.addAll(getEntities(entityType));
+		}
+		return entities;
 	}
 
 	public void addKeyPressed(LsKey temp) {
@@ -138,29 +175,37 @@ public class Model {
 		return;
 	}
 
-	public void addEntity(Entity e) {
-		m_entities.add(e);
+	public LinkedList<LsKey> getKeyPressed() {
+		return m_keyPressed;
 	}
 
-	public static class Coords {
-
-		public double X, Y;
-
-		public Coords(double x, double y) {
-			X = x;
-			Y = y;
+	public void addEntity(Entity e) {
+		if (e instanceof Droppable) {
+			getEntities(MyEntities.Droppable).add(e);
+		} else if (e instanceof Drone) {
+			getEntities(MyEntities.Drone).add(e);
+		} else if (e instanceof Enemy) {
+			getEntities(MyEntities.Enemy).add(e);
+		} else if (e instanceof Vein) {
+			getEntities(MyEntities.Vein).add(e);
+		} else if (e instanceof Ground) {
+			getEntities(MyEntities.Ground).add(e);
+		} else if (e instanceof Marker) {
+			getEntities(MyEntities.Marker).add(e);
+		} else if (e instanceof Shot) {
+			getEntities(MyEntities.Shot).add(e);
+		} else if (e instanceof TankBody) {
+			getEntities(MyEntities.TankBody).add(e);
+		} else if (e instanceof Turret) {
+			getEntities(MyEntities.Turret).add(e);
+		} else {
+			throw new IllegalArgumentException("Entité non reconnue !");
 		}
+		m_nbEntities++;
+	}
 
-		@Override
-		public boolean equals(Object obj) {
-			return (((Coords) obj).X == this.X && ((Coords) obj).Y == this.Y);
-		}
-
-		public Coords translate(double offX, double offY) {
-			X += offX;
-			Y += offY;
-			return null;
-		}
+	public int getNbEntities() {
+		return m_nbEntities;
 	}
 
 	public boolean isInRadius(LinkedList<Coords> radius, Entity entity) {
@@ -183,85 +228,9 @@ public class Model {
 		return closest;
 	}
 
-	/*
-	 * TODO : a modifier en fonction du HashMap de Sami Cette fonction crée une
-	 * nouvelle liste d'entitées à partir d ela liste d'entité presentes dans la
-	 * game et de la catégorie demandée
-	 */
-	public LinkedList<Entity> getCatEntity(MyEntities cat) {
-		LinkedList<Entity> newList = new LinkedList<Entity>();
-		switch (cat) {
-			case Drone:
-				for (Entity entity : m_entities) {
-					if (entity instanceof Drone) {
-						newList.add(entity);
-					}
-				}
-				return newList;
-			case Enemy:
-				for (Entity entity : m_entities) {
-					if (entity instanceof Enemy) {
-						newList.add(entity);
-					}
-				}
-				return newList;
-			case Droppable:
-				for (Entity entity : m_entities) {
-					if (entity instanceof Droppable) {
-						newList.add(entity);
-					}
-				}
-				return newList;
-			case Ground:
-				for (Entity entity : m_entities) {
-					if (entity instanceof Ground) {
-						newList.add(entity);
-					}
-				}
-				return newList;
-			case Marker:
-				for (Entity entity : m_entities) {
-					if (entity instanceof Marker) {
-						newList.add(entity);
-					}
-				}
-				return newList;
-			case Shot:
-				for (Entity entity : m_entities) {
-					if (entity instanceof Shot) {
-						newList.add(entity);
-					}
-				}
-				return newList;
-			case TankBody:
-				for (Entity entity : m_entities) {
-					if (entity instanceof TankBody) {
-						newList.add(entity);
-					}
-				}
-				return newList;
-			case Turret:
-				for (Entity entity : m_entities) {
-					if (entity instanceof Turret) {
-						newList.add(entity);
-					}
-				}
-				return newList;
-			case Vein:
-				for (Entity entity : m_entities) {
-					if (entity instanceof Drone) {
-						newList.add(entity);
-					}
-				}
-				return newList;
-			default:
-				return null;
-		}
-	}
-
 	public LinkedList<Entity> getCategoried(MyCategory type) {
 		LinkedList<Entity> entities_to_return = new LinkedList<Entity>();
-		for (Entity entity : getEntities()) {
+		for (Entity entity : getAllEntities()) {
 			if (entity.getCategory() == type) {
 				entities_to_return.add(entity);
 			}

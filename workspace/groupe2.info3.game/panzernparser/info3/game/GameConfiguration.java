@@ -91,6 +91,7 @@ public class GameConfiguration {
 			}
 	}
 
+	@SuppressWarnings("resource") // Le compilateur rale pour rien ...
 	private static void parseConfigFile() throws FileNotFoundException {
 		Scanner sc_cfg;
 		try {
@@ -116,6 +117,7 @@ public class GameConfiguration {
 			} catch (Exception e1) {
 				throw new FileNotFoundException("le fichier gal/" + fields[2] + " est introuvable ou erroné");
 			}
+			@SuppressWarnings("unchecked")
 			List<Automaton> lsAuto = (List<Automaton>) myAST.accept(builder);
 //			for (Automaton aut : lsAuto) {
 //				if (aut.getName().equals(fields[0])) {

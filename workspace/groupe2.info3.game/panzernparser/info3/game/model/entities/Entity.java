@@ -10,7 +10,7 @@ import info3.game.automaton.State;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Grid;
 import info3.game.model.Model;
-import info3.game.model.Model.Coords;
+import info3.game.model.Grid.Coords;
 
 public abstract class Entity {
 

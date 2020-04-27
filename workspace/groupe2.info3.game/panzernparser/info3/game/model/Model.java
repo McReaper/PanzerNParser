@@ -4,9 +4,9 @@ import java.rmi.UnexpectedException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import info3.game.automata.parser.ParseException;
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
+import info3.game.model.Grid.Coords;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Droppable;
 import info3.game.model.entities.Enemy;
@@ -120,7 +120,7 @@ public class Model {
 			return m_drone;
 		}
 	}
-	
+
 	/////////////////////////////////////////////////
 
 	public Grid getGrid() {
@@ -186,32 +186,11 @@ public class Model {
 		}
 		m_nbEntities++;
 	}
-	
-	public static class Coords {
-		
-		public double X, Y;
-		
-		public Coords(double x, double y) {
-			X = x;
-			Y = y;
-		}
-		
-		@Override
-		public boolean equals(Object obj) {
-			return (((Coords) obj).X == this.X && ((Coords) obj).Y == this.Y);
-		}
-
-		public Coords translate(double offX, double offY) {
-			X += offX;
-			Y += offY;
-			return null;
-		}
-	}
 
 	public int getNbEntities() {
 		return m_nbEntities;
 	}
-	
+
 	public boolean isInRadius(LinkedList<Coords> radius, Entity entity) {
 		for (Coords coord : radius) {
 			if (entity.isInMe(coord.X, coord.Y))
@@ -220,7 +199,7 @@ public class Model {
 		return false;
 	}
 
-	public Entity closestEntity(LinkedList<Entity> entities, int x, int y) {		
+	public Entity closestEntity(LinkedList<Entity> entities, int x, int y) {
 		Entity closest = entities.get(0);
 		double min_dist = Math.pow(closest.getX() - x, 2) + Math.pow(closest.getY() - y, 2);
 		for (Entity curr : entities) {

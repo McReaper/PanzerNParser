@@ -3,7 +3,7 @@ package info3.game.model.entities;
 import java.util.LinkedList;
 
 import info3.game.automaton.MyDirection;
-import info3.game.model.Model.Coords;
+import info3.game.model.Grid.Coords;
 
 /**
  * Classe de test pour les cases sélectionnées en partant d'une entité dans une

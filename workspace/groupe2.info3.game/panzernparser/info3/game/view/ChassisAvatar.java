@@ -28,34 +28,8 @@ public class ChassisAvatar extends Avatar {
 
 		// Pour réaliser un affichage progressif dans le cas d'un move.
 		if (e_currAction == LsAction.Move) {
-			switch (e_absoluteActionDir) {
-				case NORTH:
-				case NORTHEAST:
-				case NORTHWEST:
-					y -= (case_height * progress) - case_height;
-					break;
-				case SOUTH:
-				case SOUTHEAST:
-				case SOUTHWEST:
-					y += (case_height * progress) - case_height;
-					break;
-				default:
-					break;
-			}
-			switch (e_absoluteActionDir) {
-				case EAST:
-				case NORTHEAST:
-				case SOUTHEAST:
-					x += (case_width * progress) - case_width;
-					break;
-				case WEST:
-				case NORTHWEST:
-				case SOUTHWEST:
-					x -= (case_width * progress) - case_width;
-					break;
-				default:
-					break;
-			}
+			x = progressivePaintX(e_absoluteActionDir, x, progress, case_width);
+			y = progressivePaintY(e_absoluteActionDir, y, progress, case_height);
 		}
 
 		Image sprite = null;

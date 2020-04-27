@@ -73,12 +73,12 @@ public class ViewPort {
 				case NORTH:
 				case NORTHEAST:
 				case NORTHWEST:
-					m_offsetY -= (m_case_height * progress) - m_case_height;
+					m_offsetY -= (m_case_height * progress);
 					break;
 				case SOUTH:
 				case SOUTHEAST:
 				case SOUTHWEST:
-					m_offsetY += (m_case_height * progress) - m_case_height;
+					m_offsetY += (m_case_height * progress);
 					break;
 				default:
 					break;
@@ -87,12 +87,12 @@ public class ViewPort {
 				case EAST:
 				case NORTHEAST:
 				case SOUTHEAST:
-					m_offsetX += (m_case_width * progress) - m_case_width;
+					m_offsetX += (m_case_width * progress);
 					break;
 				case WEST:
 				case NORTHWEST:
 				case SOUTHWEST:
-					m_offsetX -= (m_case_width * progress) - m_case_width;
+					m_offsetX -= (m_case_width * progress);
 					break;
 				default:
 					break;

@@ -17,13 +17,13 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_HIT_TIME = 1000;
 	public static final long DRONE_JUMP_TIME = 50;
 	public static final long DRONE_EXPLODE_TIME = 1000;
-	public static final long DRONE_MOVE_TIME = 200;
+	public static final long DRONE_MOVE_TIME = 1000;
 	public static final long DRONE_PICK_TIME = 1000;
 	public static final long DRONE_POP_TIME = 10000;
 	public static final long DRONE_POWER_TIME = 1000;
 	public static final long DRONE_PROTECT_TIME = 1000;
 	public static final long DRONE_STORE_TIME = 1000;
-	public static final long DRONE_TURN_TIME = 1000;
+	public static final long DRONE_TURN_TIME = 50;
 	public static final long DRONE_THROW_TIME = 1000;
 	public static final long DRONE_WAIT_TIME = 50;
 	public static final long DRONE_WIZZ_TIME = 1000;
@@ -88,12 +88,12 @@ public class Drone extends MovingEntity {
 	@Override
 	public void Hit(MyDirection dir) {
 		if (this.hasControl()) {
-			if (m_actionFinished && m_currentAction == null) {
+			if (m_actionFinished && m_currentAction == LsAction.Hit) {
 				System.out.println("Pose un marqueur !");
 				m_actionFinished = false;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
-				m_currentAction = LsAction.Wizz;
+				m_currentAction = LsAction.Hit;
 				m_timeOfAction = DRONE_HIT_TIME;
 			}
 		}
@@ -110,8 +110,9 @@ public class Drone extends MovingEntity {
 	@Override
 	public void Move(MyDirection dir) {
 		if (this.hasControl()) {
-			if (m_actionFinished && m_currentAction == null) {
+			if (m_actionFinished && m_currentAction == LsAction.Move) {
 				System.out.println("Le drone avance !");
+				this.doMove(dir);
 				m_actionFinished = false;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
@@ -131,13 +132,13 @@ public class Drone extends MovingEntity {
 	@Override
 	public void Pop(MyDirection dir) {
 		if (this.hasControl()) {
-			if (m_actionFinished && m_currentAction == null) {
+			if (m_actionFinished && m_currentAction  == LsAction.Pop) {
 				switchVision();
 				System.out.println("Switch de vision !");
 				m_actionFinished = false;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
-				m_currentAction = LsAction.Wizz;
+				m_currentAction = LsAction.Pop;
 				m_timeOfAction = DRONE_POP_TIME;
 			}
 		}
@@ -175,12 +176,13 @@ public class Drone extends MovingEntity {
 	@Override
 	public void Turn(MyDirection dir, int angle) {
 		if (this.hasControl()) {
-			if (m_actionFinished && m_currentAction == null) {
+			if (m_actionFinished && m_currentAction == LsAction.Turn) {
 				System.out.println("Le drone tourne !");
+				this.doTurn(dir);
 				m_actionFinished = false;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
-				m_currentAction = LsAction.Wizz;
+				m_currentAction = LsAction.Turn;
 				m_timeOfAction = DRONE_TURN_TIME;
 			}
 		}

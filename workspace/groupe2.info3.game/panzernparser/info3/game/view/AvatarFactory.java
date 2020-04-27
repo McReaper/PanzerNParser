@@ -17,7 +17,7 @@ public class AvatarFactory {
 		} else if (entity instanceof Drone) {
 			return new Avatar(entity, config.getAnimation(MyEntities.Drone));
 		} else if (entity instanceof Enemy) {
-			return new Avatar(entity, config.getAnimation(MyEntities.Enemy));
+			return new ChassisAvatar(entity, config.getAnimation(MyEntities.Enemy));
 		} else if (entity instanceof Vein) {
 			return new Avatar(entity, config.getAnimation(MyEntities.Vein));
 		} else if (entity instanceof Ground) {
@@ -27,7 +27,7 @@ public class AvatarFactory {
 		} else if (entity instanceof Shot) {
 			return new Avatar(entity, config.getAnimation(MyEntities.Shot));
 		} else if (entity instanceof TankBody) {
-			return new Avatar(entity, config.getAnimation(MyEntities.TankBody));
+			return new ChassisAvatar(entity, config.getAnimation(MyEntities.TankBody));
 		} else if (entity instanceof Turret) {
 			return new TurretAvatar(entity, config.getAnimation(MyEntities.Turret));
 		}

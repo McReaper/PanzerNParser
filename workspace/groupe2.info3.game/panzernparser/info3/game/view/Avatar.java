@@ -22,6 +22,42 @@ public class Avatar {
 		m_entity = entity;
 		m_animation = animation;
 	}
+	
+	public int progressivePaintY(MyDirection e_absoluteActionDir,int y, double progress, int case_height) {
+		switch (e_absoluteActionDir) {
+			case NORTH:
+			case NORTHEAST:
+			case NORTHWEST:
+				y -= (case_height * progress) - case_height;
+				break;
+			case SOUTH:
+			case SOUTHEAST:
+			case SOUTHWEST:
+				y += (case_height * progress) - case_height;
+				break;
+			default:
+				break;
+		}
+		return y;
+	}
+	
+	public int progressivePaintX(MyDirection e_absoluteActionDir, int x, double progress, int case_width) {
+		switch (e_absoluteActionDir) {
+			case EAST:
+			case NORTHEAST:
+			case SOUTHEAST:
+				x += (case_width * progress) - case_width;
+				break;
+			case WEST:
+			case NORTHWEST:
+			case SOUTHWEST:
+				x -= (case_width * progress) - case_width;
+				break;
+			default:
+				break;
+		}
+	return x;
+	}
 
 	/**
 	 * Fonction qui dessine l'Avatar d'une entité à l'écran.
@@ -41,6 +77,27 @@ public class Avatar {
 		int height = m_entity.getHeight() * case_height;
 		int x = m_entity.getX() * case_width;
 		int y = m_entity.getY() * case_height;
+
+		// Pour réaliser un affichage progressif dans le cas d'un move.
+		if (e_currAction == LsAction.Move) {
+			x= progressivePaintX(e_absoluteActionDir,x,progress,case_width);
+			y =progressivePaintY(e_absoluteActionDir, y, progress,case_height);
+		}		
+		Image sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir);
+		g.drawImage(sprite, x, y, width, height, null);
+	}
+
+	public void paint(Graphics g, int xcase, int ycase, int case_width, int case_height) {
+		MyDirection e_lookAtDir = m_entity.getLookAtDir();
+		MyDirection e_actionDir = m_entity.getCurrentActionDir();
+		LsAction e_currAction = m_entity.getCurrentAction();
+		MyDirection e_absoluteActionDir = MyDirection.toAbsolute(e_lookAtDir, e_actionDir);
+		double progress = m_entity.getActionProgress();
+
+		int width = m_entity.getWidth() * case_width;
+		int height = m_entity.getHeight() * case_height;
+		int x = xcase;																						// deux seul changement
+		int y = ycase;
 
 		// Pour réaliser un affichage progressif dans le cas d'un move.
 		if (e_currAction == LsAction.Move) {

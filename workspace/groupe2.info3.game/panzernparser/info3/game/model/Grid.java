@@ -20,6 +20,7 @@ import info3.game.model.entities.EntityFactory.MyEntities;
 public class Grid {
 	Model m_model;
 	List<Pattern> m_patterns;
+	Pattern patTank;
 
 	/* entier pour le nombre de zone à charger dans la grille */
 	final static int TAILLE_MAP = 2;
@@ -30,6 +31,22 @@ public class Grid {
 		m_model = model;
 		load();
 		generate();
+	}
+	
+	public int realX(int x) {
+		x = x % getNbCellsX();
+		if (x < 0) {
+			x += getNbCellsX();
+		}
+		return x;
+	}
+	
+	public int realY(int y) {
+		y = y % getNbCellsY();
+		if (y < 0) {
+			y += getNbCellsY();
+		}
+		return y;
 	}
 
 	public int getNbCellsX() {
@@ -50,12 +67,25 @@ public class Grid {
 		if (Max + 1 >= TAILLE_MAP * TAILLE_MAP) {
 			for (int i = 0; i < TAILLE_MAP; i++) {
 				for (int j = 0; j < TAILLE_MAP; j++) {
-					rand = (int) (Math.random() * (Max - patterns_chose));
-					Pattern tmp = patternSelector.get(rand);
-					tmp.setPosition(i, j);
-					selectedPatterns.add(tmp);
-					patternSelector.remove(tmp);
-					patterns_chose++;
+					if (i == 0 && j == 0) {
+						if (patTank != null) {
+							patTank.setPosition(i, j);
+							selectedPatterns.add(patTank);
+							patterns_chose++;
+							patTank = null;
+						} else {
+							System.out.println("pattern avec parser nul");
+						}
+
+					} else {
+						rand = (int) (Math.random() * (Max - patterns_chose));
+						Pattern tmp = patternSelector.get(rand);
+						tmp.setPosition(i, j);
+						selectedPatterns.add(tmp);
+						patternSelector.remove(tmp);
+						patterns_chose++;
+					}
+
 				}
 			}
 			sendToModel(selectedPatterns);
@@ -69,13 +99,15 @@ public class Grid {
 			List<Entity> entities = pattern.getEntities();
 			for (Entity entity : entities) {
 				m_model.addEntity(entity);
-				//System.out.println("Send " + EntityFactory.name(entity) + " : " + entity.getX() + "," + entity.getY());
+				// System.out.println("Send " + EntityFactory.name(entity) + " : " +
+				// entity.getX() + "," + entity.getY());
 			}
 		}
 	}
 
 	public void load() {
 		String name = "pattern" + Pattern.SIZE + "x" + Pattern.SIZE + "_";
+		String namePatTank = "patTank" + Pattern.SIZE + "x" + Pattern.SIZE + "_";
 		File f;
 		Pattern p;
 		try {
@@ -90,6 +122,12 @@ public class Grid {
 					f = new File(path);
 					p.parse(f);
 					m_patterns.add(p);
+				} else if (subFile.equals(namePatTank)) {
+					p = new Pattern();
+					String path = "patterns/" + file;
+					f = new File(path);
+					p.parse(f);
+					patTank = p;
 				}
 			}
 		} catch (Exception e) {
@@ -112,7 +150,7 @@ public class Grid {
 
 		}
 
-		public static final int SIZE = 3;
+		public static final int SIZE = 10;
 		int m_px, m_py;
 		List<EntityShade> m_entitieShades;
 
@@ -168,12 +206,26 @@ public class Grid {
 					case "vein1":
 						type = MyEntities.Vein;
 						break;
+					case "chas1":
+						type = MyEntities.TankBody;
+						break;
+
+					case "turr1":
+						type = MyEntities.Turret;
+						break;
+
+					case "dron1":
+						type = MyEntities.Drone;
+						break;
 				}
 				int x = Integer.parseInt(sx);
 				int y = Integer.parseInt(sy);
 				if (x < SIZE && x >= 0 && y < SIZE && y >= 0) {
-					EntityShade es = new EntityShade(x, y, type);
-					m_entitieShades.add(es);
+					if (type != null) {
+
+						EntityShade es = new EntityShade(x, y, type);
+						m_entitieShades.add(es);
+					}
 				}
 				line = br.readLine();
 			}

@@ -528,10 +528,12 @@ public abstract class Entity {
 	 *         moins
 	 */
 	public boolean Cell(MyDirection dir, MyCategory type, int dist) {
+		//TODO case de base du dist ?
+		System.out.println("Salut");
 		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
 		int x_factor = 0;
 		int y_factor = 0;
-		switch (dir) {
+		switch (absoluteDir) {
 			case NORTH:
 				x_factor = 0;
 				y_factor = -1;
@@ -565,9 +567,13 @@ public abstract class Entity {
 				y_factor = 1;
 				break;
 			default:
-				System.err.println("La fonction n'est pas appellée avec une direction valide");
+				System.err.println("La fonction n'est pas appelée avec une direction valide : " + dir);
 		}
 		int x,y;
+		/* Etant donné que cell ne selectionne qu'une sucession de rectangles
+		 * Je testes la présence d'entité dans chacun d'eux. Ce qui permet de
+		 * couvrir plusieurs cases d'un seul coup.
+		 */
 		LinkedList<Entity> entities = Model.getModel().getCategoried(type);
 		for (Entity entity : entities) {
 			x = m_x;
@@ -575,9 +581,19 @@ public abstract class Entity {
 			for (int i = 0; i < dist; i++) {
 				x += x_factor;
 				y += y_factor;
+				int maxGauche = Math.max(x,entity.getX());
+				int minDroite = Math.min(x+m_width, entity.getX()+entity.getWidth());
+				if(maxGauche < minDroite) { // Tests à la suite pour optimiser
+					int maxBas = Math.max(y,entity.getY());
+					int minHaut = Math.min(y+m_height, entity.getY() + entity.getHeight());				
+					if(maxBas < minHaut) {
+						System.out.println("Bawe");
+						return true;
+					}
+				}
 			}
 		}
-		return true;
+		return false;
 	}
 
 	public boolean GotPower() {

@@ -78,6 +78,23 @@ public class Model {
 		m_tank.step();
 
 	}
+	
+	public Entity getPlayer() {
+		if(m_player ==PLAYER_DRONE) {
+			for (Entity entity : m_entities) {
+				if(entity instanceof Drone) {
+					return entity;
+				}
+			}
+		} else if (m_player == PLAYER_TANK) {
+			for(Entity entity : m_entities) {
+				if(entity instanceof TankBody) {
+					return entity;
+				}
+			}
+		}
+		return null;
+	}
 
 	public static Model getModel() {
 		return m_model;

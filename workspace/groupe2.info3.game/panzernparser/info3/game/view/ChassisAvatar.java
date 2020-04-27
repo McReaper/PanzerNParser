@@ -14,7 +14,7 @@ public class ChassisAvatar extends Avatar {
 	}
 	
 	@Override
-	public void paint(Graphics g, int case_width, int case_height) {
+	public void paint(Graphics g,int xcase, int ycase, int case_width, int case_height) {
 		MyDirection e_lookAtDir = m_entity.getLookAtDir();
 		MyDirection e_actionDir = m_entity.getCurrentActionDir();
 		LsAction e_currAction = m_entity.getCurrentAction();
@@ -23,8 +23,8 @@ public class ChassisAvatar extends Avatar {
 
 		int width = m_entity.getWidth() * case_width;
 		int height = m_entity.getHeight() * case_height;
-		int x = m_entity.getX() * case_width;
-		int y = m_entity.getY() * case_height;
+		int x = xcase;
+		int y = ycase;
 
 		// Pour réaliser un affichage progressif dans le cas d'un move.
 		if (e_currAction == LsAction.Move) {

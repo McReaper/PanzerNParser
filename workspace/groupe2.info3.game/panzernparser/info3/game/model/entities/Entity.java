@@ -128,6 +128,10 @@ public abstract class Entity {
 	public int getHeight() {
 		return m_height;
 	}
+	
+	public int getFieldOfView() {
+		return m_lengthOfView;
+	}
 
 	public boolean isInMe(double x, double y) {
 		return !(x < m_x || y < m_y || y > m_y + m_height || x > m_x + m_width);

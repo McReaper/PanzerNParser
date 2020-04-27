@@ -3,8 +3,8 @@ package info3.game.model.entities;
 import java.util.LinkedList;
 
 import info3.game.automaton.Automaton;
-import info3.game.automaton.MyCategory;
 import info3.game.automaton.LsKey;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
 import info3.game.automaton.action.LsAction;
@@ -586,7 +586,7 @@ public abstract class Entity {
 						m_currentLookAtDir = MyDirection.NORTHEAST;
 						break;
 					case EAST:
-						m_currentLookAtDir = MyDirection.SOUTH;
+						m_currentLookAtDir = MyDirection.SOUTHEAST;
 						break;
 					case SOUTH:
 						m_currentLookAtDir = MyDirection.SOUTHWEST;
@@ -598,7 +598,7 @@ public abstract class Entity {
 						m_currentLookAtDir = MyDirection.EAST;
 						break;
 					case SOUTHEAST:
-						m_currentLookAtDir = MyDirection.SOUTHEAST;
+						m_currentLookAtDir = MyDirection.SOUTH;
 						break;
 					case SOUTHWEST:
 						m_currentLookAtDir = MyDirection.WEST;
@@ -759,9 +759,9 @@ public abstract class Entity {
 				return null;
 		}
 		Grid grid = Model.getModel().getGrid();
-		for(Coords coord : cells) {
-			coord.X = grid.realX((int)coord.X);
-			coord.Y = grid.realY((int)coord.Y);
+		for (Coords coord : cells) {
+			coord.X = grid.realX((int) coord.X);
+			coord.Y = grid.realY((int) coord.Y);
 		}
 		return cells;
 	}

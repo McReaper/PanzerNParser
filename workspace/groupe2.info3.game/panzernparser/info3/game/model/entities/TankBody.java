@@ -1,7 +1,6 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
-import info3.game.automaton.LsKey;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -41,63 +40,11 @@ public class TankBody extends MovingEntity {
 		super(x, y, width, height, Tank.TANK_HEALTH, Tank.TANK_SPEED, aut);
 		m_tank = null;
 	}
-	
-//	@Override
-//	public void step(long elapsed) {
-//		super.step(elapsed);
-//	}
 
 	public void setTank(Tank tank) {
 		m_tank = tank;
 	}
-	
-//	@Override
-//	public void Egg(MyDirection dir) {
-//		if (m_currentAction == null) {
-//			m_timeOfAction = TANKBODY_EGG_TIME;
-//			System.out.println("Egg !");
-//			super.Egg(dir);
-//		}
-//	}
-//
-//	@Override
-//	public void Explode() {
-//		if (m_currentAction == null) {
-//			m_timeOfAction = TANKBODY_EXPLODE_TIME;
-//			System.out.println("Explode !");
-//			super.Explode();
-//		}
-//	}
-//
-//	@Override
-//	public void Get(MyDirection dir) {
-//		m_timeOfAction = TANKBODY_GET_TIME;
-//		System.out.println("Get !");
-//		super.Get(dir);
-//	}
-//
-	@Override
-	public void Hit(MyDirection dir) {
-		if (m_tank.hasControl()) {
-			if (m_actionFinished && m_currentAction == LsAction.Hit) {
-				System.out.println("Tank fait le hit !");
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Hit;
-				m_timeOfAction = TANKBODY_HIT_TIME;
-			}
-		}
-	}
-//
-//	@Override
-//	public void Jump(MyDirection dir) {
-//		m_timeOfAction = TANKBODY_JUMP_TIME;
-//		System.out.println("TankBody is Jumping !");
-//		super.Jump(dir);
-//	}
-//
+
 	@Override
 	public void Move(MyDirection dir) {
 		if (m_tank.hasControl()) {
@@ -113,14 +60,7 @@ public class TankBody extends MovingEntity {
 			}
 		}
 	}
-//
-//	@Override
-//	public void Pick(MyDirection dir) {
-//		m_timeOfAction = TANKBODY_PICK_TIME;
-//		System.out.println("Pick !");
-//		super.Pick(dir);
-//	}
-//
+
 	@Override
 	public void Pop(MyDirection dir) {
 		if (m_tank.hasControl()) {
@@ -135,37 +75,7 @@ public class TankBody extends MovingEntity {
 			}
 		}
 	}
-//
-//	@Override
-//	public void Power() {
-//		m_timeOfAction = TANKBODY_POWER_TIME;
-//		System.out.println("Power !");
-//		super.Power();
-//	}
-//
-//	@Override
-//	public void Protect(MyDirection dir) {
-//		if (m_tank.hasControl()) {
-//			m_timeOfAction = TANKBODY_PROTECT_TIME;
-//			System.out.println("Protect !");
-//			super.Protect(dir);
-//		}
-//	}
-//
-//	@Override
-//	public void Store(MyDirection dir) {
-//		m_timeOfAction = TANKBODY_STORE_TIME;
-//		System.out.println("Store !");
-//		super.Store(dir);
-//	}
-//
-//	@Override
-//	public void Throw(MyDirection dir) {
-//		m_timeOfAction = TANKBODY_THROW_TIME;
-//		System.out.println("Throw !");
-//		super.Throw(dir);
-//	}
-//
+
 	@Override
 	public void Turn(MyDirection dir, int angle) {
 		if (m_tank.hasControl()) {
@@ -181,14 +91,7 @@ public class TankBody extends MovingEntity {
 			}
 		}
 	}
-//
-	@Override
-	public void Wait() {
-		m_timeOfAction = TANKBODY_WAIT_TIME;
-		// System.out.println("Wait !");
-		super.Wait();
-	}
-//
+
 	@Override
 	public void Wizz(MyDirection dir) {
 		if (m_tank.hasControl()) {
@@ -204,13 +107,4 @@ public class TankBody extends MovingEntity {
 			}
 		}
 	}
-	
-//	@Override
-//	public boolean Key(LsKey key) {
-//		if (m_tank.hasControl())
-//			return super.Key(key);
-//		//System.out.println("TankBody ne controle pas les touches");
-//					
-//		return false;
-//	}
 }

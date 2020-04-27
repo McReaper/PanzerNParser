@@ -44,24 +44,6 @@ public class Turret extends MovingEntity {
 
 	int m_range;
 
-	@Override
-	public void step(long elapsed) {
-		if (m_currentAction != null) {
-			if (m_elapseTime > m_timeOfAction) {
-				m_elapseTime = 0;
-				m_currentAction = null;
-			} else {
-				m_elapseTime += elapsed;
-			}
-		} else {
-			this.setState(m_automate.step(this));
-		}
-		if (m_hasControl) {
-		//System.out.println("Tank has Control");
-	}else {
-		//System.out.println("Drone has control");
-	}
-
 	public Tank getTank() {
 		return m_tank;
 	}

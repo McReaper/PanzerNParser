@@ -5,6 +5,7 @@ import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.model.Tank;
 import info3.game.model.entities.EntityFactory.MyEntities;
@@ -15,6 +16,8 @@ public class Drone extends MovingEntity {
 
 	public static final int DRONE_HEALTH = 100;
 	public static final int DRONE_SPEED = 1;
+
+	public static int MARKER_MAX = 3;
 
 	public static final long DRONE_EGG_TIME = 1000;
 	public static final long DRONE_GET_TIME = 1000;
@@ -32,39 +35,36 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_WAIT_TIME = 50;
 	public static final long DRONE_WIZZ_TIME = 1000;
 
+	private int m_nbMarkers;
 	VisionType m_currentVisionType;
 	private boolean hasControl;
-	public Drone(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
-		super(x, y, width, height, health, speed, model, aut);
+
+	public Drone(int x, int y, int width, int height, int health, int speed, Automaton aut) {
+		super(x, y, width, height, health, speed, aut);
 		m_currentVisionType = VisionType.ENEMIES;
 		m_category = MyCategory.AT;
+		m_nbMarkers = 0;
 	}
 
 	private enum VisionType {
 		RESSOURCES, ENEMIES;
 	}
 
-	VisionType m_currentVisionType;
-
-	public Drone(int x, int y, int width, int height, int health, int speed, Automaton aut) {
-		super(x, y, width, height, health, speed, aut);
-		m_currentVisionType = VisionType.RESSOURCES;
-	}
-
 	@Override
 	public boolean Closest(MyDirection dir, MyCategory type) {
-		if(type == MyCategory.C && Model.getModel().getClue() != null)
+		if (type == MyCategory.C && Model.getModel().getClue() != null)
 			return true;
-		//return super.Closest(dir, type);
-		return false;//temporaire
+		// return super.Closest(dir, type);
+		return false;// temporaire
 	}
-	
-	
+
 	@Override
 	public void Egg(MyDirection dir) {
 		m_timeOfAction = DRONE_MOVE_TIME;
 		System.out.println("Egg !");
 		super.Egg(dir);
+	}
+
 	private void switchVision() {
 		if (m_currentVisionType == VisionType.RESSOURCES)
 			m_currentVisionType = VisionType.ENEMIES;
@@ -123,23 +123,13 @@ public class Drone extends MovingEntity {
 				m_currentAction = LsAction.Hit;
 				m_timeOfAction = DRONE_HIT_TIME;
 			}
-		m_timeOfAction = DRONE_HIT_TIME;
-		Clue c = m_model.getClue();
-		Marker marker = (Marker) EntityFactory.newEntity(MyEntities.Marker, c.getX(), c.getY());
-		m_model.addMarker(marker);
-		System.out.println("Hit du drone depot de marker !");
-		m_model.cleanClue();
-		super.Hit(dir);
-	}
-
-	@Override
-	public void Jump(MyDirection dir) {
-		m_timeOfAction = DRONE_JUMP_TIME;
-	//	System.out.println("Drone is Jumping !");
-		if (Model.getModel().m_player == Model.PLAYER_DRONE) {
-			hasControl = true;
-		} else {
-			hasControl = false;
+			m_timeOfAction = DRONE_HIT_TIME;
+			Coords c = Model.getModel().getClue();
+			Marker marker = (Marker) EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
+			Model.getModel().addEntity(marker);
+			System.out.println("Hit du drone depot de marker !");
+			Model.getModel().cleanClue();
+			super.Hit(dir);
 		}
 	}
 
@@ -177,7 +167,7 @@ public class Drone extends MovingEntity {
 	@Override
 	public void Pop(MyDirection dir) {
 		if (this.hasControl()) {
-			if (m_actionFinished && m_currentAction  == LsAction.Pop) {
+			if (m_actionFinished && m_currentAction == LsAction.Pop) {
 				switchVision();
 				System.out.println("Switch de vision !");
 				m_actionFinished = false;
@@ -257,12 +247,12 @@ public class Drone extends MovingEntity {
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean Key(LsKey key) {
 		if (hasControl())
 			return super.Key(key);
-					
+
 		return false;
 	}
 
@@ -273,7 +263,5 @@ public class Drone extends MovingEntity {
 	public void reduceViewPort() {
 		// m_range--;
 	}
-	
-	
 
 }

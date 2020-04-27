@@ -6,7 +6,6 @@ import java.util.LinkedList;
 
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
-import info3.game.model.entities.Clue;
 import info3.game.model.Grid.Coords;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Droppable;
@@ -32,8 +31,8 @@ public class Model {
 	private LinkedList<LsKey> m_keyPressed;
 	private boolean m_playingTank;
 	private int m_nbEntities;
-	private int m_nbMarkers;
 	private Coords m_clue;
+
 	/**
 	 * Création du modèle (l'univers du jeu)
 	 */
@@ -87,7 +86,7 @@ public class Model {
 	public Coords getClue() {
 		return m_clue;
 	}
-	
+
 	public void cleanClue() {
 		m_clue = null;
 	}

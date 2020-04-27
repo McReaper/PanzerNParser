@@ -5,9 +5,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import info3.game.automaton.LsKey;
+import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
-import info3.game.model.entities.Clue;
-import info3.game.model.entities.Marker;
 import info3.game.view.GameCanvasListener;
 import info3.game.view.View;
 
@@ -40,8 +39,8 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (m_model.m_player == m_model.PLAYER_DRONE) {
-			Clue c = new Clue(e.getX(), e.getY());
+		if (!m_model.isPlayingTank()) {
+			Coords c = new Coords(e.getX(), e.getY());
 			m_model.addClue(c);
 		}
 		System.out.println("mouseClicked at " + "(" + e.getX() + ", " + e.getY() + ")");

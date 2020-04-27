@@ -30,7 +30,6 @@ public class Marker extends StaticEntity {
 	public static final long MARKER_WAIT_TIME = 50;
 	public static final long MARKER_WIZZ_TIME = 1000;
 
-
 	public Marker(int x, int y, int width, int height, Model model, Automaton aut) {
 		super(x, y, width, height, aut);
 		m_category = MyCategory.P;

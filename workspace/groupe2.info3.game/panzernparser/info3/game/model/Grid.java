@@ -240,7 +240,6 @@ public class Grid {
 			X = x;
 			Y = y;
 		}
-
 		@Override
 		public boolean equals(Object obj) {
 			return (((Coords) obj).X == this.X && ((Coords) obj).Y == this.Y);

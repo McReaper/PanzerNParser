@@ -28,12 +28,12 @@ public class Avatar {
 			case NORTH:
 			case NORTHEAST:
 			case NORTHWEST:
-				y -= (case_height * progress) - case_height;
+				y -= (case_height * progress);
 				break;
 			case SOUTH:
 			case SOUTHEAST:
 			case SOUTHWEST:
-				y += (case_height * progress) - case_height;
+				y += (case_height * progress);
 				break;
 			default:
 				break;
@@ -46,12 +46,12 @@ public class Avatar {
 			case EAST:
 			case NORTHEAST:
 			case SOUTHEAST:
-				x += (case_width * progress) - case_width;
+				x += (case_width * progress);
 				break;
 			case WEST:
 			case NORTHWEST:
 			case SOUTHWEST:
-				x -= (case_width * progress) - case_width;
+				x -= (case_width * progress);
 				break;
 			default:
 				break;
@@ -66,26 +66,6 @@ public class Avatar {
 	 * @param case_width  largeur d'une case dans la vue
 	 * @param case_height hauteur d'une case dans la vue
 	 */
-	public void paint(Graphics g, int case_width, int case_height) {
-		MyDirection e_lookAtDir = m_entity.getLookAtDir();
-		MyDirection e_actionDir = m_entity.getCurrentActionDir();
-		LsAction e_currAction = m_entity.getCurrentAction();
-		MyDirection e_absoluteActionDir = MyDirection.toAbsolute(e_lookAtDir, e_actionDir);
-		double progress = m_entity.getActionProgress();
-
-		int width = m_entity.getWidth() * case_width;
-		int height = m_entity.getHeight() * case_height;
-		int x = m_entity.getX() * case_width;
-		int y = m_entity.getY() * case_height;
-
-		// Pour réaliser un affichage progressif dans le cas d'un move.
-		if (e_currAction == LsAction.Move) {
-			x= progressivePaintX(e_absoluteActionDir,x,progress,case_width);
-			y =progressivePaintY(e_absoluteActionDir, y, progress,case_height);
-		}		
-		Image sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir);
-		g.drawImage(sprite, x, y, width, height, null);
-	}
 
 	public void paint(Graphics g, int xcase, int ycase, int case_width, int case_height) {
 		MyDirection e_lookAtDir = m_entity.getLookAtDir();
@@ -101,34 +81,8 @@ public class Avatar {
 
 		// Pour réaliser un affichage progressif dans le cas d'un move.
 		if (e_currAction == LsAction.Move) {
-			switch (e_absoluteActionDir) {
-				case NORTH:
-				case NORTHEAST:
-				case NORTHWEST:
-					y -= (case_height * progress) - case_height;
-					break;
-				case SOUTH:
-				case SOUTHEAST:
-				case SOUTHWEST:
-					y += (case_height * progress) - case_height;
-					break;
-				default:
-					break;
-			}
-			switch (e_absoluteActionDir) {
-				case EAST:
-				case NORTHEAST:
-				case SOUTHEAST:
-					x += (case_width * progress) - case_width;
-					break;
-				case WEST:
-				case NORTHWEST:
-				case SOUTHWEST:
-					x -= (case_width * progress) - case_width;
-					break;
-				default:
-					break;
-			}
+			x = progressivePaintX(e_absoluteActionDir, x, progress, case_width);
+			y = progressivePaintY(e_absoluteActionDir, y, progress, case_height);
 		}
 
 		Image sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir);

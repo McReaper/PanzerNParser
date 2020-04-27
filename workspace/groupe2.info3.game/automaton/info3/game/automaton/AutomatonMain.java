@@ -9,7 +9,6 @@ import info3.game.automaton.action.Pop;
 import info3.game.automaton.action.Protect;
 import info3.game.automaton.condition.False;
 import info3.game.automaton.condition.Key;
-import info3.game.model.Model;
 import info3.game.model.entities.Enemy;
 import info3.game.model.entities.Entity;
 
@@ -24,12 +23,12 @@ public class AutomatonMain {
 	 * False ? Protect() : (init) |true ? Egg() : (gauche) *(gauche) |true or false
 	 * ? Pop() : (init)
 	 */
-	public static void run(Model model) {
+	public static void run() {
 		/*
 		 * correspond à l'entité qui va appeler cet automate
 		 */
 
-		Entity e = new Enemy(0, 0, 0, 0, model, null);
+		Entity e = new Enemy(0, 0, 0, 0, null);
 
 		/*
 		 * création de la liste de modes (de l'automate)

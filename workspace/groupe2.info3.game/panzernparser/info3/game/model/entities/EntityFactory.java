@@ -3,24 +3,21 @@ package info3.game.model.entities;
 import info3.game.GameConfiguration;
 import info3.game.automaton.Automaton;
 import info3.game.model.Material.MaterialType;
-import info3.game.model.Model;
 import info3.game.model.Tank;
 
 public class EntityFactory {
 	public enum MyEntities {
 		Wall, Ground, Enemy, Droppable, Shot, Vein, Drone, Marker, TankBody, Turret;
 	}
-	
-	public static Entity newTankBody(int x, int y, Automaton aut) {
-		Model model = Model.getModel();
-		Entity tankBody = new TankBody(x, y, Enemy.ENEMY_WIDTH, Enemy.ENEMY_HEIGHT, model, aut);
-		return tankBody;
-		}
 
-	
+	public static Entity newTankBody(int x, int y, Automaton aut) {
+		Entity tankBody = new TankBody(x, y, Enemy.ENEMY_WIDTH, Enemy.ENEMY_HEIGHT, aut);
+		return tankBody;
+	}
+
 	public static Entity newTankTurret(int x, int y, Automaton aut) {
-		Model model = Model.getModel();
-		Entity Turret = new Turret(x,y, Tank.TANK_TURRET_WIDTH, Tank.TANK_TURRET_HEIGHT, Tank.TANK_HEALTH, Tank.TANK_SPEED, model, aut);
+		Entity Turret = new Turret(x, y, Tank.TANK_TURRET_WIDTH, Tank.TANK_TURRET_HEIGHT, Tank.TANK_HEALTH, Tank.TANK_SPEED,
+				aut);
 		return Turret;
 	}
 
@@ -33,41 +30,36 @@ public class EntityFactory {
 	}
 
 	public static Entity newShot(int x, int y, Automaton aut) {
-		Model model = Model.getModel();
-		Entity shot = new Shot(x, y, Shot.SHOT_WIDTH, Shot.SHOT_HEIGHT, 10, 10, model, aut);
+		Entity shot = new Shot(x, y, Shot.SHOT_WIDTH, Shot.SHOT_HEIGHT, 10, 10, aut);
 		return shot;
 		/* par defaut health et time_to_travel = 10 mais a voir où gerer ça */
 	}
 
 	public static Entity newEnemy(int x, int y, Automaton aut) {
-		Model model = Model.getModel();
-		Entity enemy = new Enemy(x, y, Enemy.ENEMY_WIDTH, Enemy.ENEMY_HEIGHT, model, aut);
+		Entity enemy = new Enemy(x, y, Enemy.ENEMY_WIDTH, Enemy.ENEMY_HEIGHT, aut);
 		return enemy;
 	}
 
 	public static Entity newDroppable(int x, int y, Automaton aut) {
-		Model model = Model.getModel();
 		Entity drop = new Droppable(x, y, Droppable.DROPPABLE_WIDTH, Droppable.DROPPABLE_HEIGHT, 1, MaterialType.ELECTRONIC,
-				model, aut);
+				aut);
 		return drop;
 		// 1 en quantité mais à discuter
 	}
 
 	public static Entity newVein(int x, int y, Automaton aut) {
-		Model model = Model.getModel();
-		Entity vein = new Vein(x, y, Vein.VEIN_WIDTH, Vein.VEIN_HEIGHT, model, aut);
+		Entity vein = new Vein(x, y, Vein.VEIN_WIDTH, Vein.VEIN_HEIGHT, aut);
 		return vein;
 	}
 
 	public static Entity newGround(int x, int y, Automaton aut) {
-		Model model = Model.getModel();
-		Entity ground = new Ground(x, y, Ground.GROUND_WIDTH, Ground.GROUND_HEIGHT, model, aut);
+		Entity ground = new Ground(x, y, Ground.GROUND_WIDTH, Ground.GROUND_HEIGHT, aut);
 		return ground;
 	}
-	
+
 	private static Entity newDrone(int x, int y, Automaton automaton) {
-		Model model = Model.getModel();
-		Entity drone = new Drone(x, y, Drone.DRONE_WIDTH, Drone.DRONE_HEIGHT, Drone.DRONE_HEALTH,Drone.DRONE_SPEED, model, automaton);
+		Entity drone = new Drone(x, y, Drone.DRONE_WIDTH, Drone.DRONE_HEIGHT, Drone.DRONE_HEALTH, Drone.DRONE_SPEED,
+				automaton);
 		return drone;
 	}
 
@@ -96,11 +88,11 @@ public class EntityFactory {
 			case Shot:
 				res = newShot(x, y, config.getAutomaton(MyEntities.Shot));
 				break;
-				
+
 			case TankBody:
 				res = newTankBody(x, y, config.getAutomaton(MyEntities.TankBody));
 				break;
-				
+
 			case Turret:
 				res = newTankTurret(x, y, config.getAutomaton(MyEntities.Turret));
 				break;
@@ -108,15 +100,13 @@ public class EntityFactory {
 				res = newDrone(x, y, config.getAutomaton(MyEntities.Drone));
 				break;
 			case Marker:
-				
+
 			default:
 				System.out.println("tentative de création d'une entité relatif au joueur détectée");
 				throw new IllegalStateException();
 		}
 		return res;
 	}
-
-
 
 	public static String name(Entity entity) {
 		// System.out.println("test de entityFactory");

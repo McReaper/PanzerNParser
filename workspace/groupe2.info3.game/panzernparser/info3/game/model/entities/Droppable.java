@@ -1,10 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
-import info3.game.automaton.MyDirection;
-import info3.game.automaton.action.LsAction;
 import info3.game.model.Material.MaterialType;
-import info3.game.model.Model;
 
 public class Droppable extends StaticEntity {
 	/* Champs pour donner size par defaut dans la EntityFactory */
@@ -30,130 +27,10 @@ public class Droppable extends StaticEntity {
 	int m_quantity; // quantité de matériaux lachés
 	MaterialType m_mType; // Type de matériel laché
 
-	public Droppable(int x, int y, int width, int height, int quantity, MaterialType mtype, Model model, Automaton aut) {
-		super(x, y, width, height, model, aut);
+	public Droppable(int x, int y, int width, int height, int quantity, MaterialType mtype, Automaton aut) {
+		super(x, y, width, height, aut);
 		m_quantity = quantity;
 		m_mType = mtype;
-	}
-
-	@Override
-	public void step(long elapsed) {
-		if (m_currentAction != null) {
-			if (m_elapseTime > m_timeOfAction) {
-				m_elapseTime = 0;
-				m_currentAction = null;
-			} else {
-				m_elapseTime += elapsed;
-			}
-		} else {
-			this.setState(m_automate.step(this));
-		}
-	}
-
-	@Override
-	public void Egg(MyDirection dir) {
-		m_timeOfAction = DROPPABLE_MOVE_TIME;
-		System.out.println("Egg !");
-		super.Egg(dir);
-	}
-
-	@Override
-	public void Explode() {
-		m_timeOfAction = DROPPABLE_EXPLODE_TIME;
-		System.out.println("Explode !");
-		super.Explode();
-	}
-
-	@Override
-	public void Get(MyDirection dir) {
-		m_timeOfAction = DROPPABLE_GET_TIME;
-		System.out.println("Get !");
-		super.Get(dir);
-	}
-
-	@Override
-	public void Hit(MyDirection dir) {
-		m_timeOfAction = DROPPABLE_HIT_TIME;
-		System.out.println("Hit !");
-		super.Hit(dir);
-	}
-
-	@Override
-	public void Jump(MyDirection dir) {
-		m_timeOfAction = DROPPABLE_JUMP_TIME;
-		System.out.println("Jump !");
-		super.Jump(dir);
-	}
-
-	@Override
-	public void Move(MyDirection dir) {
-		m_timeOfAction = DROPPABLE_MOVE_TIME;
-		System.out.println("Move !");
-		super.Move(dir);
-	}
-
-	@Override
-	public void Pick(MyDirection dir) {
-		m_timeOfAction = DROPPABLE_PICK_TIME;
-		System.out.println("Pick !");
-		super.Pick(dir);
-	}
-
-	@Override
-	public void Pop(MyDirection dir) {
-		m_timeOfAction = DROPPABLE_POP_TIME;
-		System.out.println("Pop !");
-		super.Pop(dir);
-	}
-
-	@Override
-	public void Power() {
-		m_timeOfAction = DROPPABLE_POWER_TIME;
-		System.out.println("Power !");
-		super.Power();
-	}
-
-	@Override
-	public void Protect(MyDirection dir) {
-		m_timeOfAction = DROPPABLE_PROTECT_TIME;
-		System.out.println("Protect !");
-		super.Protect(dir);
-	}
-
-	@Override
-	public void Store(MyDirection dir) {
-		m_timeOfAction = DROPPABLE_STORE_TIME;
-		System.out.println("Store !");
-		super.Store(dir);
-	}
-
-	@Override
-	public void Throw(MyDirection dir) {
-		m_timeOfAction = DROPPABLE_THROW_TIME;
-		System.out.println("Throw !");
-		super.Throw(dir);
-	}
-
-	@Override
-	public void Turn(MyDirection dir, int angle) {
-		m_timeOfAction = DROPPABLE_TURN_TIME;
-		System.out.println("Turn !");
-		super.Turn(dir, angle);
-		m_currentActionDir = m_currentLookAtDir;// l'action se fait dans la direction dans laquelle on regarde
-	}
-
-	@Override
-	public void Wait() {
-		m_timeOfAction = DROPPABLE_WAIT_TIME;
-		System.out.println("Wait !");
-		super.Wait();
-	}
-
-	@Override
-	public void Wizz(MyDirection dir) {
-		m_timeOfAction = DROPPABLE_WIZZ_TIME;
-		System.out.println("Wizz !");
-		super.Wizz(dir);
 	}
 
 }

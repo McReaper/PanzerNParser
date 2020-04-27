@@ -91,6 +91,7 @@ public class Drone extends MovingEntity {
 			if (m_actionFinished && m_currentAction == LsAction.Hit) {
 				System.out.println("Pose un marqueur !");
 				m_actionFinished = false;
+				m_currentAction = null;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Hit;
@@ -114,6 +115,7 @@ public class Drone extends MovingEntity {
 				System.out.println("Le drone avance !");
 				this.doMove(dir);
 				m_actionFinished = false;
+				m_currentAction = null;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Move;
@@ -136,6 +138,7 @@ public class Drone extends MovingEntity {
 				switchVision();
 				System.out.println("Switch de vision !");
 				m_actionFinished = false;
+				m_currentAction = null;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Pop;
@@ -180,6 +183,7 @@ public class Drone extends MovingEntity {
 				System.out.println("Le drone tourne !");
 				this.doTurn(dir);
 				m_actionFinished = false;
+				m_currentAction = null;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Turn;
@@ -202,6 +206,7 @@ public class Drone extends MovingEntity {
 				Model.getModel().switchControl();
 				System.out.println("DRONE fait le wizz !");
 				m_actionFinished = false;
+				m_currentAction = null;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Wizz;

@@ -46,7 +46,8 @@ public abstract class Entity {
 
 	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
-		m_currentState = aut.getState();
+		if (aut != null)
+			m_currentState = aut.getState();
 
 		m_elapseTime = 0;
 		m_currentAction = null;
@@ -63,7 +64,7 @@ public abstract class Entity {
 		m_currentActionDir = null; // par défaut
 
 		m_actionFinished = true;
-		
+
 	}
 
 	public void step(long elapsed) {
@@ -73,14 +74,12 @@ public abstract class Entity {
 			if (m_elapseTime < m_timeOfAction) {
 				m_elapseTime += elapsed;
 			} else {
-				LsAction finishedAction = m_currentAction;
 				m_elapseTime = 0;
-				m_currentAction = null;
 				m_actionFinished = true;
 
 				// Mission accomplie, on rappel l'action en cours pour lui signaler son
 				// accomplissement.
-				switch (finishedAction) {
+				switch (m_currentAction) {
 					case Egg:
 						this.Egg(m_currentActionDir);
 						break;
@@ -199,9 +198,10 @@ public abstract class Entity {
 	/// Actions :
 
 	public void Egg(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == null) {
+		if (m_actionFinished && m_currentAction == LsAction.Egg) {
 			System.out.println("Is Egging");
 			m_actionFinished = false;
+			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Egg;
@@ -210,9 +210,10 @@ public abstract class Entity {
 	}
 
 	public void Get(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == null) {
+		if (m_actionFinished && m_currentAction == LsAction.Get) {
 			System.out.println("Is Getting");
 			m_actionFinished = false;
+			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Get;
@@ -221,9 +222,10 @@ public abstract class Entity {
 	}
 
 	public void Hit(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == null) {
+		if (m_actionFinished && m_currentAction == LsAction.Hit) {
 			System.out.println("Is Hitting");
 			m_actionFinished = false;
+			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			if (dir != null)
 				m_currentActionDir = dir;
@@ -233,9 +235,10 @@ public abstract class Entity {
 	}
 
 	public void Explode() {
-		if (m_actionFinished && m_currentAction == null) {
+		if (m_actionFinished && m_currentAction == LsAction.Explode) {
 			System.out.println("Is Exploding");
 			m_actionFinished = false;
+			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = null;
 			m_currentAction = LsAction.Explode;
@@ -244,9 +247,10 @@ public abstract class Entity {
 	}
 
 	public void Jump(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == null) {
+		if (m_actionFinished && m_currentAction == LsAction.Jump) {
 			System.out.println("Is Jumping");
 			m_actionFinished = false;
+			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Jump;
@@ -255,9 +259,10 @@ public abstract class Entity {
 	}
 
 	public void Move(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == null) {
+		if (m_actionFinished && m_currentAction == LsAction.Move) {
 			System.out.println("Is Moving to " + dir);
 			m_actionFinished = false;
+			m_currentAction = null;
 			this.doMove(dir);
 			m_currentActionDir = dir;
 			m_x = Model.getModel().getGrid().realX(m_x);
@@ -271,7 +276,7 @@ public abstract class Entity {
 
 	}
 
-	public void doMove(MyDirection dir) {
+	protected void doMove(MyDirection dir) {
 		switch (dir) {
 			case FRONT:
 				switch (m_currentActionDir) {
@@ -440,11 +445,12 @@ public abstract class Entity {
 				break;
 		}
 	}
-	
+
 	public void Pick(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == null) {
+		if (m_actionFinished && m_currentAction == LsAction.Pick) {
 			System.out.println("Is Picking");
 			m_actionFinished = false;
+			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pick;
@@ -453,9 +459,10 @@ public abstract class Entity {
 	}
 
 	public void Pop(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == null) {
+		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			System.out.println("Is Poping");
 			m_actionFinished = false;
+			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
@@ -464,9 +471,10 @@ public abstract class Entity {
 	}
 
 	public void Power() {
-		if (m_actionFinished && m_currentAction == null) {
+		if (m_actionFinished && m_currentAction == LsAction.Power) {
 			System.out.println("Is Powering");
 			m_actionFinished = false;
+			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = null;
 			m_currentAction = LsAction.Power;
@@ -475,9 +483,10 @@ public abstract class Entity {
 	}
 
 	public void Protect(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == null) {
+		if (m_actionFinished && m_currentAction == LsAction.Protect) {
 			System.out.println("Is Protecting");
 			m_actionFinished = false;
+			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Protect;
@@ -486,9 +495,10 @@ public abstract class Entity {
 	}
 
 	public void Store(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == null) {
+		if (m_actionFinished && m_currentAction == LsAction.Store) {
 			System.out.println("Is Storing");
 			m_actionFinished = false;
+			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Store;
@@ -497,18 +507,19 @@ public abstract class Entity {
 	}
 
 	public void Turn(MyDirection dir, int angle) {
-		if (m_actionFinished && m_currentAction == null) {
-			System.out.println("Is Turning from "+m_currentLookAtDir);
+		if (m_actionFinished && m_currentAction == LsAction.Turn) {
+			System.out.println("Is Turning from " + m_currentLookAtDir);
 			m_actionFinished = false;
+			m_currentAction = null;
 			this.doTurn(dir);
-			System.out.println("Is facing "+m_currentLookAtDir );
+			System.out.println("Is facing " + m_currentLookAtDir);
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Turn;
 			m_timeOfAction = DEFAULT_TURN_TIME;
 		}
 	}
-	
+
 	protected void doTurn(MyDirection dir) {
 		switch (dir) {
 			case NORTH:
@@ -616,8 +627,9 @@ public abstract class Entity {
 	}
 
 	public void Throw(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == null) {
+		if (m_actionFinished && m_currentAction == LsAction.Throw) {
 			System.out.println("Is Throwing");
+			m_currentAction = null;
 			m_actionFinished = false;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
@@ -627,9 +639,10 @@ public abstract class Entity {
 	}
 
 	public void Wait() {
-		if (m_actionFinished && m_currentAction == null) {
-			//System.out.println("Is Waiting");
+		if (m_actionFinished && m_currentAction == LsAction.Wait) {
+			// System.out.println("Is Waiting");
 			m_actionFinished = false;
+			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = null;
 			m_currentAction = LsAction.Wait;
@@ -638,9 +651,10 @@ public abstract class Entity {
 	}
 
 	public void Wizz(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == null) {
+		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			System.out.println("Is Wizzing");
 			m_actionFinished = false;
+			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Wizz;
@@ -679,8 +693,6 @@ public abstract class Entity {
 	}
 
 	public boolean Key(LsKey m_key) {
-		if (Model.getModel().getKeyPressed().contains(m_key))
-			return true;
-		return false;
+		return (Model.getModel().getKeyPressed().contains(m_key));
 	}
 }

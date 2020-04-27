@@ -170,12 +170,12 @@ public class Model {
 	public void switchControl() {
 		m_playingTank = !m_playingTank;
 		if (m_playingTank) {
-			m_tank.showTank(true);
-			m_drone.showEntity(false);
+//			m_tank.showTank(true);
+//			m_drone.showEntity(false);
 			System.out.println("Contrôles données au TANK");
 		} else {
-			m_tank.showTank(false);
-			m_drone.showEntity(true);
+//			m_tank.showTank(false);
+//			m_drone.showEntity(true);
 			System.out.println("Contrôles données au DRONE");
 		}
 	}

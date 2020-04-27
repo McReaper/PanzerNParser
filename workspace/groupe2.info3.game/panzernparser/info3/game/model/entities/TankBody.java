@@ -159,10 +159,11 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Wizz(MyDirection dir) {
 		if (m_tank.hasControl()) {
-			if (m_actionFinished && m_currentAction == null) {
+			if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 				Model.getModel().switchControl();
 				System.out.println("TANK fait le wizz");
 				m_actionFinished = false;
+				m_currentAction = null;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Wizz;

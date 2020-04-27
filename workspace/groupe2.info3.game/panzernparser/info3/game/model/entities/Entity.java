@@ -62,6 +62,8 @@ public abstract class Entity {
 		m_currentLookAtDir = MyDirection.NORTH; // par défaut
 		m_currentActionDir = null; // par défaut
 
+		m_actionFinished = true;
+		
 	}
 
 	public void step(long elapsed) {
@@ -256,175 +258,7 @@ public abstract class Entity {
 		if (m_actionFinished && m_currentAction == null) {
 			System.out.println("Is Moving to " + dir);
 			m_actionFinished = false;
-
-			switch (dir) {
-				case FRONT:
-					switch (m_currentActionDir) {
-						case NORTH:
-							m_y -= DEFAULT_MOVING_DISTANCE;
-							break;
-						case EAST:
-							m_x += DEFAULT_MOVING_DISTANCE;
-							break;
-						case SOUTH:
-							m_y += DEFAULT_MOVING_DISTANCE;
-							break;
-						case WEST:
-							m_x -= DEFAULT_MOVING_DISTANCE;
-							break;
-						case NORTHEAST:
-							m_x += DEFAULT_MOVING_DISTANCE;
-							m_y -= DEFAULT_MOVING_DISTANCE;
-							break;
-						case SOUTHEAST:
-							m_x += DEFAULT_MOVING_DISTANCE;
-							m_y += DEFAULT_MOVING_DISTANCE;
-							break;
-						case SOUTHWEST:
-							m_x -= DEFAULT_MOVING_DISTANCE;
-							m_y += DEFAULT_MOVING_DISTANCE;
-							break;
-						case NORTHWEST:
-							m_x -= DEFAULT_MOVING_DISTANCE;
-							m_y -= DEFAULT_MOVING_DISTANCE;
-							break;
-						default:
-							break;
-					}
-					break;
-				case LEFT:
-					switch (m_currentActionDir) {
-						case NORTH:
-							m_x -= DEFAULT_MOVING_DISTANCE;
-							break;
-						case EAST:
-							m_y -= DEFAULT_MOVING_DISTANCE;
-							break;
-						case SOUTH:
-							m_x += DEFAULT_MOVING_DISTANCE;
-							break;
-						case WEST:
-							m_y += DEFAULT_MOVING_DISTANCE;
-							break;
-						case NORTHEAST:
-							m_x -= DEFAULT_MOVING_DISTANCE;
-							m_y -= DEFAULT_MOVING_DISTANCE;
-							break;
-						case SOUTHEAST:
-							m_x += DEFAULT_MOVING_DISTANCE;
-							m_y -= DEFAULT_MOVING_DISTANCE;
-							break;
-						case SOUTHWEST:
-							m_x += DEFAULT_MOVING_DISTANCE;
-							m_y += DEFAULT_MOVING_DISTANCE;
-							break;
-						case NORTHWEST:
-							m_x += DEFAULT_MOVING_DISTANCE;
-							m_y -= DEFAULT_MOVING_DISTANCE;
-							break;
-						default:
-							break;
-					}
-					break;
-				case RIGHT:
-					switch (m_currentActionDir) {
-						case NORTH:
-							m_x += DEFAULT_MOVING_DISTANCE;
-							break;
-						case EAST:
-							m_y += DEFAULT_MOVING_DISTANCE;
-							break;
-						case SOUTH:
-							m_x -= DEFAULT_MOVING_DISTANCE;
-							break;
-						case WEST:
-							m_y -= DEFAULT_MOVING_DISTANCE;
-							break;
-						case NORTHEAST:
-							m_x += DEFAULT_MOVING_DISTANCE;
-							m_y += DEFAULT_MOVING_DISTANCE;
-							break;
-						case SOUTHEAST:
-							m_x -= DEFAULT_MOVING_DISTANCE;
-							m_y += DEFAULT_MOVING_DISTANCE;
-							break;
-						case SOUTHWEST:
-							m_x -= DEFAULT_MOVING_DISTANCE;
-							m_y -= DEFAULT_MOVING_DISTANCE;
-							break;
-						case NORTHWEST:
-							m_x += DEFAULT_MOVING_DISTANCE;
-							m_y -= DEFAULT_MOVING_DISTANCE;
-							break;
-						default:
-							break;
-					}
-					break;
-				case BACK:
-					switch (m_currentActionDir) {
-						case NORTH:
-							m_y += DEFAULT_MOVING_DISTANCE;
-							break;
-						case EAST:
-							m_x -= DEFAULT_MOVING_DISTANCE;
-							break;
-						case SOUTH:
-							m_y -= DEFAULT_MOVING_DISTANCE;
-							break;
-						case WEST:
-							m_x += DEFAULT_MOVING_DISTANCE;
-							break;
-						case NORTHEAST:
-							m_x -= DEFAULT_MOVING_DISTANCE;
-							m_y += DEFAULT_MOVING_DISTANCE;
-							break;
-						case SOUTHEAST:
-							m_x -= DEFAULT_MOVING_DISTANCE;
-							m_y -= DEFAULT_MOVING_DISTANCE;
-							break;
-						case SOUTHWEST:
-							m_x += DEFAULT_MOVING_DISTANCE;
-							m_y -= DEFAULT_MOVING_DISTANCE;
-							break;
-						case NORTHWEST:
-							m_x += DEFAULT_MOVING_DISTANCE;
-							m_y += DEFAULT_MOVING_DISTANCE;
-							break;
-						default:
-							break;
-					}
-				case NORTH:
-					m_y -= DEFAULT_MOVING_DISTANCE;
-					break;
-				case SOUTH:
-					m_y += DEFAULT_MOVING_DISTANCE;
-					break;
-				case EAST:
-					m_x += DEFAULT_MOVING_DISTANCE;
-					break;
-				case WEST:
-					m_x -= DEFAULT_MOVING_DISTANCE;
-					break;
-				case NORTHEAST:
-					m_x += DEFAULT_MOVING_DISTANCE;
-					m_y -= DEFAULT_MOVING_DISTANCE;
-					break;
-				case NORTHWEST:
-					m_x -= DEFAULT_MOVING_DISTANCE;
-					m_y -= DEFAULT_MOVING_DISTANCE;
-					break;
-				case SOUTHEAST:
-					m_x += DEFAULT_MOVING_DISTANCE;
-					m_y += DEFAULT_MOVING_DISTANCE;
-					break;
-				case SOUTHWEST:
-					m_x -= DEFAULT_MOVING_DISTANCE;
-					m_y += DEFAULT_MOVING_DISTANCE;
-					break;
-				default:
-					break;
-			}
-
+			this.doMove(dir);
 			m_currentActionDir = dir;
 			m_x = Model.getModel().getGrid().realX(m_x);
 			m_y = Model.getModel().getGrid().realY(m_y);
@@ -437,6 +271,176 @@ public abstract class Entity {
 
 	}
 
+	public void doMove(MyDirection dir) {
+		switch (dir) {
+			case FRONT:
+				switch (m_currentActionDir) {
+					case NORTH:
+						m_y -= DEFAULT_MOVING_DISTANCE;
+						break;
+					case EAST:
+						m_x += DEFAULT_MOVING_DISTANCE;
+						break;
+					case SOUTH:
+						m_y += DEFAULT_MOVING_DISTANCE;
+						break;
+					case WEST:
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						break;
+					case NORTHEAST:
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
+						break;
+					case SOUTHEAST:
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
+						break;
+					case SOUTHWEST:
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
+						break;
+					case NORTHWEST:
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
+						break;
+					default:
+						break;
+				}
+				break;
+			case LEFT:
+				switch (m_currentActionDir) {
+					case NORTH:
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						break;
+					case EAST:
+						m_y -= DEFAULT_MOVING_DISTANCE;
+						break;
+					case SOUTH:
+						m_x += DEFAULT_MOVING_DISTANCE;
+						break;
+					case WEST:
+						m_y += DEFAULT_MOVING_DISTANCE;
+						break;
+					case NORTHEAST:
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
+						break;
+					case SOUTHEAST:
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
+						break;
+					case SOUTHWEST:
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
+						break;
+					case NORTHWEST:
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
+						break;
+					default:
+						break;
+				}
+				break;
+			case RIGHT:
+				switch (m_currentActionDir) {
+					case NORTH:
+						m_x += DEFAULT_MOVING_DISTANCE;
+						break;
+					case EAST:
+						m_y += DEFAULT_MOVING_DISTANCE;
+						break;
+					case SOUTH:
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						break;
+					case WEST:
+						m_y -= DEFAULT_MOVING_DISTANCE;
+						break;
+					case NORTHEAST:
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
+						break;
+					case SOUTHEAST:
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
+						break;
+					case SOUTHWEST:
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
+						break;
+					case NORTHWEST:
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
+						break;
+					default:
+						break;
+				}
+				break;
+			case BACK:
+				switch (m_currentActionDir) {
+					case NORTH:
+						m_y += DEFAULT_MOVING_DISTANCE;
+						break;
+					case EAST:
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						break;
+					case SOUTH:
+						m_y -= DEFAULT_MOVING_DISTANCE;
+						break;
+					case WEST:
+						m_x += DEFAULT_MOVING_DISTANCE;
+						break;
+					case NORTHEAST:
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
+						break;
+					case SOUTHEAST:
+						m_x -= DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
+						break;
+					case SOUTHWEST:
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y -= DEFAULT_MOVING_DISTANCE;
+						break;
+					case NORTHWEST:
+						m_x += DEFAULT_MOVING_DISTANCE;
+						m_y += DEFAULT_MOVING_DISTANCE;
+						break;
+					default:
+						break;
+				}
+			case NORTH:
+				m_y -= DEFAULT_MOVING_DISTANCE;
+				break;
+			case SOUTH:
+				m_y += DEFAULT_MOVING_DISTANCE;
+				break;
+			case EAST:
+				m_x += DEFAULT_MOVING_DISTANCE;
+				break;
+			case WEST:
+				m_x -= DEFAULT_MOVING_DISTANCE;
+				break;
+			case NORTHEAST:
+				m_x += DEFAULT_MOVING_DISTANCE;
+				m_y -= DEFAULT_MOVING_DISTANCE;
+				break;
+			case NORTHWEST:
+				m_x -= DEFAULT_MOVING_DISTANCE;
+				m_y -= DEFAULT_MOVING_DISTANCE;
+				break;
+			case SOUTHEAST:
+				m_x += DEFAULT_MOVING_DISTANCE;
+				m_y += DEFAULT_MOVING_DISTANCE;
+				break;
+			case SOUTHWEST:
+				m_x -= DEFAULT_MOVING_DISTANCE;
+				m_y += DEFAULT_MOVING_DISTANCE;
+				break;
+			default:
+				break;
+		}
+	}
+	
 	public void Pick(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == null) {
 			System.out.println("Is Picking");

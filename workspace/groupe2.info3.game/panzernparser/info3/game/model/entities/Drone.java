@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.LsKey;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -207,6 +208,14 @@ public class Drone extends MovingEntity {
 			}
 		}
 	}
+	
+	@Override
+	public boolean Key(LsKey key) {
+		if (hasControl())
+			return super.Key(key);
+					
+		return false;
+	}
 
 	public void growViewPort() {
 		// m_range++;
@@ -215,5 +224,7 @@ public class Drone extends MovingEntity {
 	public void reduceViewPort() {
 		// m_range--;
 	}
+	
+	
 
 }

@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.LsKey;
 import info3.game.automaton.MyDirection;
 import info3.game.model.Tank;
 
@@ -54,6 +55,14 @@ public class Turret extends MovingEntity {
 	
 	public Tank getTank() {
 		return m_tank;
+	}
+	
+	@Override
+	public boolean Key(LsKey key) {
+		if (m_tank.hasControl())
+			return super.Key(key);
+					
+		return false;
 	}
 
 

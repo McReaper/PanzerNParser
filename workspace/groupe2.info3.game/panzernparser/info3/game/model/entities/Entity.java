@@ -493,7 +493,6 @@ public abstract class Entity {
 	}
 
 	public void Turn(MyDirection dir, int angle) {
-
 		if (m_actionFinished && m_currentAction == null) {
 			System.out.println("Is Turning");
 			m_actionFinished = false;
@@ -600,11 +599,11 @@ public abstract class Entity {
 				default:
 					break;
 			}
-		} else if (m_currentAction == null) {
+		}// else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Turn;
 			m_timeOfAction = DEFAULT_TURN_TIME;
-		}
+		//}
 	}
 
 	public void Throw(MyDirection dir) {

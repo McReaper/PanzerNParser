@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.LsKey;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -89,12 +90,12 @@ public class TankBody extends MovingEntity {
 //		super.Jump(dir);
 //	}
 //
-//	@Override
-//	public void Move(MyDirection dir) {
-//		m_timeOfAction = TANKBODY_MOVE_TIME;
-//		System.out.println("Move !");
-//		super.Move(dir);
-//	}
+	@Override
+	public void Move(MyDirection dir) {
+		m_timeOfAction = TANKBODY_MOVE_TIME;
+		System.out.println("Move !");
+		super.Move(dir);
+	}
 //
 //	@Override
 //	public void Pick(MyDirection dir) {
@@ -140,21 +141,21 @@ public class TankBody extends MovingEntity {
 //		super.Throw(dir);
 //	}
 //
-//	@Override
-//	public void Turn(MyDirection dir, int angle) {
-//		if (m_tank.hasControl()) {
-//			m_timeOfAction = TANKBODY_TURN_TIME;
-//			System.out.println("Turn !");
-//			super.Turn(dir, angle);
-//		}
-//	}
+	@Override
+	public void Turn(MyDirection dir, int angle) {
+		//if (m_tank.hasControl()) {
+			m_timeOfAction = TANKBODY_TURN_TIME;
+			System.out.println("Turn !");
+			super.Turn(dir, angle);
+		//}
+	}
 //
-//	@Override
-//	public void Wait() {
-//		m_timeOfAction = TANKBODY_WAIT_TIME;
-//		// System.out.println("Wait !");
-//		super.Wait();
-//	}
+	@Override
+	public void Wait() {
+		m_timeOfAction = TANKBODY_WAIT_TIME;
+		// System.out.println("Wait !");
+		super.Wait();
+	}
 //
 	@Override
 	public void Wizz(MyDirection dir) {
@@ -169,5 +170,14 @@ public class TankBody extends MovingEntity {
 				m_timeOfAction = TANKBODY_WIZZ_TIME;
 			}
 		}
+	}
+	
+	@Override
+	public boolean Key(LsKey key) {
+		if (m_tank.hasControl())
+			return super.Key(key);
+		System.out.println("TankBody ne controle pas les touches");
+					
+		return false;
 	}
 }

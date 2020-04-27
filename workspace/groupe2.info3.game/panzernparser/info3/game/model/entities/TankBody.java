@@ -2,6 +2,7 @@ package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
 import info3.game.automaton.LsKey;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -38,6 +39,7 @@ public class TankBody extends MovingEntity {
 
 	public TankBody(int x, int y, int width, int height, Model model, Automaton aut) {
 		super(x, y, width, height, Tank.TANK_HEALTH, Tank.TANK_SPEED, model, aut);
+		m_category = MyCategory.AT;
 	}
 
 	@Override

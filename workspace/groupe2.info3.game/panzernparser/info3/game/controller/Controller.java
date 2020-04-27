@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 
 import info3.game.automaton.LsKey;
 import info3.game.model.Model;
+import info3.game.model.entities.Clue;
+import info3.game.model.entities.Marker;
 import info3.game.view.GameCanvasListener;
 import info3.game.view.View;
 
@@ -38,31 +40,32 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		if (m_model.m_player == m_model.PLAYER_DRONE) {
+			Clue c = new Clue(e.getX(), e.getY());
+			m_model.addClue(c);
+		}
+		System.out.println("mouseClicked at " + "(" + e.getX() + ", " + e.getY() + ")");
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
+		System.out.println("mouseEntered at " + "(" + e.getX() + ", " + e.getY() + ")");
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
+		System.out.println("mouseExited at " + "(" + e.getX() + ", " + e.getY() + ")");
 
 	}
 

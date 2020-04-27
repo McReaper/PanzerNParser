@@ -40,7 +40,7 @@ public class View extends Container {
 //			m_viewPort = new ViewPort(model,model.m_tank.m_body, this);
 //		}else {
 			for (Entity e : model.getEntities()) {
-				if(e instanceof Drone)
+				if(e instanceof TankBody)
 					m_viewPort = new ViewPort(model,e, this);
 			}//TODO passage de l'un a l'autre
 //		}

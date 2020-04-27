@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
+import info3.game.model.entities.Clue;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Droppable;
 import info3.game.model.entities.Enemy;
@@ -28,10 +29,13 @@ public class Model {
 	LinkedList<Entity> m_entities;
 	public LinkedList<LsKey> m_keyPressed;
 	public int m_player;// 1 pour le tank et 2 pour le drone
+	Marker[] m_markers;
+	Clue m_clue;
 
 	public Model() {
 		// Génère la liste des automates
 		m_model = this;
+		m_markers = new Marker[3];
 		m_keyPressed = new LinkedList<LsKey>();
 		m_entities = new LinkedList<Entity>();
 		// permet la recupération du body et du turret du tank
@@ -70,6 +74,37 @@ public class Model {
 
 	}
 
+	public void addMarker(Marker marker) {
+		/* Pour les tests, on utilise 3 comme limite de marker */
+
+		if (marker != null) {
+			for (int i = 0; i < 3; i++) {
+				if (markerIsEmpty(m_markers[i])) {
+					m_markers[i] = marker;
+					return;
+				}
+			}
+			m_markers[0] = marker;
+		}
+	}
+
+	public boolean markerIsEmpty(Marker marker) {
+		return marker == null;
+	}
+
+	public void addClue(Clue c) {
+		if (c != null)
+			m_clue = c;
+	}
+
+	public Clue getClue() {
+		return m_clue;
+	}
+	
+	public void cleanClue() {
+		m_clue = null;
+	}
+
 	public void step(long elapsed) {
 		// Effectue un pas de simulation sur chaque entités
 		for (Entity entity : m_entities) {
@@ -106,16 +141,16 @@ public class Model {
 	public void addEntity(Entity e) {
 		m_entities.add(e);
 	}
-	
+
 	public static class Coords {
-		
+
 		public double X, Y;
-		
+
 		public Coords(double x, double y) {
 			X = x;
 			Y = y;
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
 			return (((Coords) obj).X == this.X && ((Coords) obj).Y == this.Y);
@@ -127,7 +162,7 @@ public class Model {
 			return null;
 		}
 	}
-	
+
 	public boolean isInRadius(LinkedList<Coords> radius, Entity entity) {
 		for (Coords coord : radius) {
 			if (entity.isInMe(coord.X, coord.Y))
@@ -136,7 +171,7 @@ public class Model {
 		return false;
 	}
 
-	public Entity closestEntity(LinkedList<Entity> entities, int x, int y) {		
+	public Entity closestEntity(LinkedList<Entity> entities, int x, int y) {
 		Entity closest = entities.get(0);
 		double min_dist = Math.pow(closest.getX() - x, 2) + Math.pow(closest.getY() - y, 2);
 		for (Entity curr : entities) {
@@ -149,35 +184,35 @@ public class Model {
 	}
 
 	/*
-	 * TODO : a modifier en fonction du HashMap de Sami
-	 * Cette fonction crée une nouvelle liste d'entitées à partir d ela liste
-	 * d'entité presentes dans la game et de la catégorie demandée
+	 * TODO : a modifier en fonction du HashMap de Sami Cette fonction crée une
+	 * nouvelle liste d'entitées à partir d ela liste d'entité presentes dans la
+	 * game et de la catégorie demandée
 	 */
 	public LinkedList<Entity> getCatEntity(MyEntities cat) {
 		LinkedList<Entity> newList = new LinkedList<Entity>();
-		switch( cat) {
-			case Drone :
+		switch (cat) {
+			case Drone:
 				for (Entity entity : m_entities) {
 					if (entity instanceof Drone) {
 						newList.add(entity);
 					}
 				}
 				return newList;
-			case Enemy :
+			case Enemy:
 				for (Entity entity : m_entities) {
 					if (entity instanceof Enemy) {
 						newList.add(entity);
 					}
 				}
 				return newList;
-			case Droppable :
+			case Droppable:
 				for (Entity entity : m_entities) {
 					if (entity instanceof Droppable) {
 						newList.add(entity);
 					}
 				}
 				return newList;
-			case Ground : 
+			case Ground:
 				for (Entity entity : m_entities) {
 					if (entity instanceof Ground) {
 						newList.add(entity);
@@ -191,14 +226,14 @@ public class Model {
 					}
 				}
 				return newList;
-			case Shot :
+			case Shot:
 				for (Entity entity : m_entities) {
 					if (entity instanceof Shot) {
 						newList.add(entity);
 					}
 				}
 				return newList;
-			case TankBody :
+			case TankBody:
 				for (Entity entity : m_entities) {
 					if (entity instanceof TankBody) {
 						newList.add(entity);
@@ -212,16 +247,16 @@ public class Model {
 					}
 				}
 				return newList;
-			case Vein :
+			case Vein:
 				for (Entity entity : m_entities) {
 					if (entity instanceof Drone) {
 						newList.add(entity);
 					}
 				}
 				return newList;
-				default : 
-					return null;
-			}
+			default:
+				return null;
+		}
 	}
 
 	public LinkedList<Entity> getCategoried(MyCategory type) {

@@ -2,11 +2,13 @@ package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
 import info3.game.automaton.LsKey;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Tank;
+import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class Drone extends MovingEntity {
 	public final static int DRONE_WIDTH = 1;
@@ -33,10 +35,10 @@ public class Drone extends MovingEntity {
 
 	VisionType m_currentVisionType;
 	private boolean hasControl;
-
 	public Drone(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
 		super(x, y, width, height, health, speed, model, aut);
 		m_currentVisionType = VisionType.ENEMIES;
+		m_category = MyCategory.AT;
 	}
 
 	private enum VisionType {
@@ -59,6 +61,15 @@ public class Drone extends MovingEntity {
 		}
 	}
 
+	@Override
+	public boolean Closest(MyDirection dir, MyCategory type) {
+		if(type == MyCategory.C && m_model.getClue() != null)
+			return true;
+		//return super.Closest(dir, type);
+		return false;//temporaire
+	}
+	
+	
 	@Override
 	public void Egg(MyDirection dir) {
 		m_timeOfAction = DRONE_MOVE_TIME;
@@ -83,7 +94,11 @@ public class Drone extends MovingEntity {
 	@Override
 	public void Hit(MyDirection dir) {
 		m_timeOfAction = DRONE_HIT_TIME;
-		System.out.println("Hit !");
+		Clue c = m_model.getClue();
+		Marker marker = (Marker) EntityFactory.newEntity(MyEntities.Marker, c.getX(), c.getY());
+		m_model.addMarker(marker);
+		System.out.println("Hit du drone depot de marker !");
+		m_model.cleanClue();
 		super.Hit(dir);
 	}
 

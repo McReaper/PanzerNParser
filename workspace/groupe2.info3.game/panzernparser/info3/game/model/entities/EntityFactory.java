@@ -70,6 +70,12 @@ public class EntityFactory {
 		Entity drone = new Drone(x, y, Drone.DRONE_WIDTH, Drone.DRONE_HEIGHT, Drone.DRONE_HEALTH,Drone.DRONE_SPEED, model, automaton);
 		return drone;
 	}
+	
+	public static Entity newMarker(int x, int y, Automaton aut) {
+		Model model = Model.getModel();
+		Entity marker = new Marker(x, y, Marker.MARKER_WIDTH, Marker.MARKER_HEIGHT, model, aut);
+		return marker;
+		}
 
 	public static Entity newEntity(MyEntities entity, int x, int y) {
 		Entity res;
@@ -108,7 +114,8 @@ public class EntityFactory {
 				res = newDrone(x, y, config.getAutomaton(MyEntities.Drone));
 				break;
 			case Marker:
-				
+				res = newMarker(x, y, config.getAutomaton(MyEntities.Droppable));
+				break;
 			default:
 				System.out.println("tentative de création d'une entité relatif au joueur détectée");
 				throw new IllegalStateException();

@@ -2,6 +2,7 @@ package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
 import info3.game.automaton.LsKey;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -44,6 +45,7 @@ public class Turret extends MovingEntity {
 
 	public Turret(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
 		super(x, y, width, height, health, speed, model, aut);
+		m_category = MyCategory.AT;
 	}
 
 	int m_range;
@@ -61,9 +63,9 @@ public class Turret extends MovingEntity {
 			this.setState(m_automate.step(this));
 		}
 		if (m_hasControl) {
-		System.out.println("Tank has Control");
+		//System.out.println("Tank has Control");
 	}else {
-		System.out.println("Drone has control");
+		//System.out.println("Drone has control");
 	}
 	}
 

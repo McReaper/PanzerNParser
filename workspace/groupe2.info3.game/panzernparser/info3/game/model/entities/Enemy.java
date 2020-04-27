@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Material.MaterialType;
@@ -39,6 +40,7 @@ public class Enemy extends MovingEntity {
 	public Enemy(int x, int y, int width, int height, Model model, Automaton aut) {
 		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, model, aut);
 		m_triggered = false; // Valeur par défaut
+		m_category = MyCategory.A;
 //		m_drops = new Droppable(this.m_x, this.m_y, 1, 1, 1, MaterialType.ELECTRONIC, model);
 	}
 

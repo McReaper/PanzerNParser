@@ -1,7 +1,9 @@
 Drone(CheckControl){
 	*(CheckControl)
 	|True ? Jump : (OnControl)
+	
 	*(OnControl)
+	|Closest(N,C) ? Hit() : (OnControl)
 	|Key(a) ? Wizz() : (CheckControl)
 	|Key(z) & Key(d) ? Turn(NE) : (Avance)
 	|Key(s) & Key(d) ? Turn(SE) : (Avance)

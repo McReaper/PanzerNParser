@@ -7,11 +7,15 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.swing.Box;
+import javax.swing.Box.Filler;
+import javax.swing.border.Border;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -42,59 +46,65 @@ public class View extends Container {
 		m_avatars = new LinkedList<Avatar>();
 		updateAvatars();
 	}
-	
+
 	public BorderLayout initiateHUD() {
 		BorderLayout BL = new BorderLayout();
 		BL.addLayoutComponent(m_canvas, BorderLayout.CENTER);
 		this.add(m_canvas);
-		
-		//SOUTH
+
+		// SOUTH
 		Container south = new Container();
 		south.setPreferredSize(new Dimension(200, 200));
-		BorderLayout BLSouth = new BorderLayout();
+		GridLayout BLSouth = new GridLayout(0, 3);
 		Container West = new Container();
 //		West.setPreferredSize(new Dimension((int) (m_canvas.getWidth()),200));
-		Container Center = new Container();
+//		Container Center = new Container();
 		Container East = new Container();
-		JProgressBar health= new JProgressBar(JProgressBar.HORIZONTAL, 0, 100);
-		JProgressBar drone= new JProgressBar(JProgressBar.HORIZONTAL, 0, 100);
+		JProgressBar health = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
+		JProgressBar drone = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
+		health.setAlignmentX(CENTER_ALIGNMENT);
+		drone.setAlignmentX(CENTER_ALIGNMENT);
+		health.setPreferredSize(new Dimension(100,100));
+		drone.setPreferredSize(new Dimension(100,100));
+		health.setForeground(Color.RED);
+		health.setValue(100);
+		drone.setValue(50);
+		drone.setSize(200, 50);
+		
 		JButton buttonCenter = new JButton("CENTER");
 		buttonCenter.setAlignmentX(CENTER_ALIGNMENT);
 		buttonCenter.setAlignmentY(CENTER_ALIGNMENT);
 		JButton buttonEast = new JButton("EAST");
+		buttonEast.setAlignmentX(CENTER_ALIGNMENT);
+		West.add(new Box.Filler(new Dimension(0, 0), new Dimension(50, 50), new Dimension(200, 200)));
 		West.add(health);
+		West.add(new Box.Filler(new Dimension(0, 0), new Dimension(50, 50), new Dimension(200, 200)));
 		West.add(drone);
-		Center.add(buttonCenter);
+		West.add(new Box.Filler(new Dimension(0, 0), new Dimension(50, 50), new Dimension(200, 200)));
+
+//		Center.add(buttonCenter);
 		East.add(buttonEast);
-		BoxLayout BLWest = new BoxLayout(West, BoxLayout.Y_AXIS);
+		BoxLayout BLWest = new BoxLayout(West, BoxLayout.X_AXIS);
 		West.setLayout(BLWest);
-		BoxLayout BLCenter = new BoxLayout(Center, BoxLayout.Y_AXIS);
-		Center.setLayout(BLCenter);
+//		BoxLayout BLCenter = new BoxLayout(Center, BoxLayout.Y_AXIS);
+//		Center.setLayout(BLCenter);
 		BoxLayout BLEast = new BoxLayout(East, BoxLayout.Y_AXIS);
 		East.setLayout(BLEast);
-		south.add(East);
-		south.add(Center);
 		south.add(West);
-		BLSouth.addLayoutComponent(West, BorderLayout.WEST);
-		BLSouth.addLayoutComponent(Center, BorderLayout.CENTER);
-		BLSouth.addLayoutComponent(East, BorderLayout.EAST);
-//		Container SouthWest = new Container();
-//		JButton button = new JButton("test");
-//		SouthWest.add(button);
-//		BoxLayout BLSouthWest = new BoxLayout(SouthWest, 1);
-//		SouthWest.setLayout(BLSouthWest);
-//		south.add(SouthWest);
-//		
-//		BLSouth.addLayoutComponent(SouthWest, BorderLayout.WEST);
+		south.add(buttonCenter);
+//		south.add(Center);
+		south.add(East);
+		BLSouth.addLayoutComponent("West", West);
+		BLSouth.addLayoutComponent("center", buttonCenter);
+		BLSouth.addLayoutComponent("east", East);
 		south.setLayout(BLSouth);
 		BL.addLayoutComponent(south, BorderLayout.SOUTH);
-		
+
 		this.add(south);
 		return BL;
 	}
 
 	public void refreshHUD() {
-		
 	}
 
 	private void updateAvatars() {
@@ -144,6 +154,7 @@ public class View extends Container {
 		for (Avatar avatar : m_avatars) {
 			avatar.paint(g, case_width, case_height); // TODO : revoir la zone avec le viewport plus tard.
 		}
+		refreshHUD();
 	}
 
 }

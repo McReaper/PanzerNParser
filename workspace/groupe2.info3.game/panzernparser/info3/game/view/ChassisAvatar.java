@@ -69,37 +69,37 @@ public class ChassisAvatar extends Avatar {
 			sprite = m_animation.getImage(progress, e_currAction, e_lookAtDir);
 			switch (e_lookAtDir) {
 				case NORTH:
-					y -= case_height - (case_height*3/Sprite.SPRITE_HEIGHT);
+					y -= height - (height*3/Sprite.SPRITE_HEIGHT);
 					break;
 				case NORTHEAST:
-					y -= case_height - (case_height*11/Sprite.SPRITE_HEIGHT);
-					x += case_width - (case_width*11/Sprite.SPRITE_WIDTH);
+					y -= height - (height*11/Sprite.SPRITE_HEIGHT);
+					x += width - (width*11/Sprite.SPRITE_WIDTH);
 					break;
 				case EAST:
-					x += case_width - (case_width*3/Sprite.SPRITE_WIDTH);
+					x += width - (width*3/Sprite.SPRITE_WIDTH);
 					break;
 				case SOUTHEAST:
-					y += case_height - (case_height*11/Sprite.SPRITE_HEIGHT);
-					x += case_width - (case_width*11/Sprite.SPRITE_WIDTH);
+					y += height - (height*11/Sprite.SPRITE_HEIGHT);
+					x += width - (width*11/Sprite.SPRITE_WIDTH);
 					break;
 				case SOUTH:
-					y += case_height - (case_height*3/Sprite.SPRITE_HEIGHT);
+					y += height - (height*3/Sprite.SPRITE_HEIGHT);
 					break;
 				case SOUTHWEST:
-					y += case_height - (case_height*11/Sprite.SPRITE_HEIGHT);
-					x -= case_width - (case_width*11/Sprite.SPRITE_WIDTH);
+					y += height - (height*11/Sprite.SPRITE_HEIGHT);
+					x -= width - (width*11/Sprite.SPRITE_WIDTH);
 					break;
 				case WEST:
-					x -= case_width - (case_width*3/Sprite.SPRITE_WIDTH);
+					x -= width - (width*3/Sprite.SPRITE_WIDTH);
 					break;
 				case NORTHWEST:
-					y -= case_height - (case_height*11/Sprite.SPRITE_HEIGHT);
-					x -= case_width - (case_width*11/Sprite.SPRITE_WIDTH);
+					y -= height - (height*11/Sprite.SPRITE_HEIGHT);
+					x -= width - (width*11/Sprite.SPRITE_WIDTH);
 					break;
 				default:
 					break;
 			}
-			g.drawImage(sprite, x, y, case_width, case_height,null);
+			g.drawImage(sprite, x, y, width, height,null);
 
 		}
 	}

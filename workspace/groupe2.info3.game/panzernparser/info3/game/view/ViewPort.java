@@ -53,11 +53,11 @@ public class ViewPort {
 	private void positionViewPort() {
 //		System.out.println("player (" + m_player.getX() + ";" + m_player.getY() + ")");
 		m_x = m_player.getX();
-		m_x -= m_field_of_view - m_player.getWidth()/2;
+		m_x -= m_field_of_view;
 		m_x -= 2; // pour la marge
 		m_x = m_grid.realX(m_x);
 		m_y = m_player.getY();
-		m_y -= m_field_of_view - m_player.getWidth()/2; // c'est normal c'est pour les entité non carré
+		m_y -= m_field_of_view; // c'est normal c'est pour les entité non carré
 		m_y -= 2;
 		m_y = m_grid.realY(m_y);
 //		System.out.println("(" + m_x + ";" + m_y + ")");

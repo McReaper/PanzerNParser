@@ -76,12 +76,20 @@ public class TankBody extends MovingEntity {
 //		super.Get(dir);
 //	}
 //
-//	@Override
-//	public void Hit(MyDirection dir) {
-//		m_timeOfAction = TANKBODY_HIT_TIME;
-//		System.out.println("Hit !");
-//		super.Hit(dir);
-//	}
+	@Override
+	public void Hit(MyDirection dir) {
+		if (m_tank.hasControl()) {
+			if (m_actionFinished && m_currentAction == LsAction.Hit) {
+				System.out.println("Tank fait le hit !");
+				m_actionFinished = false;
+				m_currentAction = null;
+			} else if (m_currentAction == null) {
+				m_currentActionDir = dir;
+				m_currentAction = LsAction.Hit;
+				m_timeOfAction = TANKBODY_HIT_TIME;
+			}
+		}
+	}
 //
 //	@Override
 //	public void Jump(MyDirection dir) {
@@ -92,9 +100,18 @@ public class TankBody extends MovingEntity {
 //
 	@Override
 	public void Move(MyDirection dir) {
-		m_timeOfAction = TANKBODY_MOVE_TIME;
-		System.out.println("Tank Move !");
-		super.Move(dir);
+		if (m_tank.hasControl()) {
+			if (m_actionFinished && m_currentAction == LsAction.Move) {
+				System.out.println("Tank fait le move !");
+				this.doMove(dir);
+				m_actionFinished = false;
+				m_currentAction = null;
+			} else if (m_currentAction == null) {
+				m_currentActionDir = dir;
+				m_currentAction = LsAction.Move;
+				m_timeOfAction = TANKBODY_MOVE_TIME;
+			}
+		}
 	}
 //
 //	@Override
@@ -104,12 +121,20 @@ public class TankBody extends MovingEntity {
 //		super.Pick(dir);
 //	}
 //
-//	@Override
-//	public void Pop(MyDirection dir) {
-//		m_timeOfAction = TANKBODY_POP_TIME;
-//		System.out.println("Pop !");
-//		super.Pop(dir);
-//	}
+	@Override
+	public void Pop(MyDirection dir) {
+		if (m_tank.hasControl()) {
+			if (m_actionFinished && m_currentAction == LsAction.Pop) {
+				System.out.println("Tank fait le Pop !");
+				m_actionFinished = false;
+				m_currentAction = null;
+			} else if (m_currentAction == null) {
+				m_currentActionDir = dir;
+				m_currentAction = LsAction.Pop;
+				m_timeOfAction = TANKBODY_POP_TIME;
+			}
+		}
+	}
 //
 //	@Override
 //	public void Power() {
@@ -143,11 +168,18 @@ public class TankBody extends MovingEntity {
 //
 	@Override
 	public void Turn(MyDirection dir, int angle) {
-		//if (m_tank.hasControl()) {
-			m_timeOfAction = TANKBODY_TURN_TIME;
-			System.out.println("Turn !");
-			super.Turn(dir, angle);
-		//}
+		if (m_tank.hasControl()) {
+			if (m_actionFinished && m_currentAction == LsAction.Turn) {
+				System.out.println("Tank fait le Turn !");
+				this.doTurn(dir);
+				m_actionFinished = false;
+				m_currentAction = null;
+			} else if (m_currentAction == null) {
+				m_currentActionDir = dir;
+				m_currentAction = LsAction.Turn;
+				m_timeOfAction = TANKBODY_TURN_TIME;
+			}
+		}
 	}
 //
 	@Override

@@ -46,9 +46,8 @@ public abstract class Entity {
 		m_currentAction = null;
 
 		m_displayed = true;
-		
 
-		m_lengthOfView = 5; //Valeur par défaut a revisiter
+		m_lengthOfView = 5; // Valeur par défaut a revisiter
 		m_x = x;
 		m_y = y;
 		m_width = width;
@@ -159,7 +158,7 @@ public abstract class Entity {
 	}
 
 	public void Jump(MyDirection dir) {
-	//	System.out.println("Is Jumping");
+		// System.out.println("Is Jumping");
 		m_currentActionDir = dir;
 		m_currentAction = LsAction.Jump;
 	}
@@ -335,8 +334,8 @@ public abstract class Entity {
 			default:
 				break;
 		}
-		
-		/*Gestion TOR lors des move d'entity*/
+
+		/* Gestion TOR lors des move d'entity */
 		if (m_x < 0)
 			m_x = m_model.getGrid().getNbCellsX() - m_width;
 		else if (m_x + m_width > m_model.getGrid().getNbCellsX())
@@ -345,7 +344,7 @@ public abstract class Entity {
 			m_y = m_model.getGrid().getNbCellsY() - m_height;
 		else if (m_y + m_height > m_model.getGrid().getNbCellsY())
 			m_y = 0;
-		
+
 		m_currentActionDir = dir;
 		m_x = m_model.getGrid().realX(m_x);
 		m_y = m_model.getGrid().realY(m_y);
@@ -530,7 +529,54 @@ public abstract class Entity {
 	 */
 	public boolean Cell(MyDirection dir, MyCategory type, int dist) {
 		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
-
+		int x_factor = 0;
+		int y_factor = 0;
+		switch (dir) {
+			case NORTH:
+				x_factor = 0;
+				y_factor = -1;
+				break;
+			case EAST:
+				x_factor = 1;
+				y_factor = 0;
+				break;
+			case SOUTH:
+				x_factor = 0;
+				y_factor = 1;
+				break;
+			case WEST:
+				x_factor = -1;
+				y_factor = 0;
+				break;
+			case NORTHEAST:
+				x_factor = 1;
+				y_factor = -1;
+				break;
+			case NORTHWEST:
+				y_factor = -1;
+				x_factor = -1;
+				break;
+			case SOUTHEAST:
+				x_factor = 1;
+				y_factor = 1;
+				break;
+			case SOUTHWEST:
+				x_factor = -1;
+				y_factor = 1;
+				break;
+			default:
+				System.err.println("La fonction n'est pas appellée avec une direction valide");
+		}
+		int x,y;
+		LinkedList<Entity> entities = Model.getModel().getCategoried(type);
+		for (Entity entity : entities) {
+			x = m_x;
+			y = m_y;
+			for (int i = 0; i < dist; i++) {
+				x += x_factor;
+				y += y_factor;
+			}
+		}
 		return true;
 	}
 
@@ -557,7 +603,7 @@ public abstract class Entity {
 		Entity closest = m_model.closestEntity(m_model.getCategoried(type), m_x, m_y);
 		return closest.isInMe(getDetectionCone(dir, this.m_lengthOfView));
 	}
-	
+
 	public boolean isInMe(LinkedList<Coords> radius) {
 		for (Coords coord : radius) {
 			if (this.isInMe(coord.X, coord.Y))
@@ -780,8 +826,8 @@ public abstract class Entity {
 	public boolean Key(LsKey m_key) {
 		if (m_model.m_keyPressed.contains(m_key)) {
 //		//System.out.println("Call in the landside...");
-		return true;
-	}
+			return true;
+		}
 		return false;
 	}
 }

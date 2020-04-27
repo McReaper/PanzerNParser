@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import info3.game.automata.parser.ParseException;
 import info3.game.automaton.LsKey;
+import info3.game.automaton.MyCategory;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Droppable;
 import info3.game.model.entities.Enemy;
@@ -93,6 +94,35 @@ public class Model {
 		m_tank.step();
 	}
 
+	//////// Gestion du passage drone/tank ////////
+
+	public boolean isPlayingTank() {
+		return m_playingTank;
+	}
+
+	public void switchControl() {
+		m_playingTank = !m_playingTank;
+		if (m_playingTank) {
+//			m_tank.showTank(true);
+//			m_drone.showEntity(false);
+			System.out.println("Contrôles données au TANK");
+		} else {
+//			m_tank.showTank(false);
+//			m_drone.showEntity(true);
+			System.out.println("Contrôles données au DRONE");
+		}
+	}
+
+	public Entity getPlayed() {
+		if (isPlayingTank()) {
+			return m_tank.getBody();
+		} else {
+			return m_drone;
+		}
+	}
+	
+	/////////////////////////////////////////////////
+
 	public Grid getGrid() {
 		return m_grid;
 	}
@@ -156,36 +186,60 @@ public class Model {
 		}
 		m_nbEntities++;
 	}
+	
+	public static class Coords {
+		
+		public double X, Y;
+		
+		public Coords(double x, double y) {
+			X = x;
+			Y = y;
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			return (((Coords) obj).X == this.X && ((Coords) obj).Y == this.Y);
+		}
+
+		public Coords translate(double offX, double offY) {
+			X += offX;
+			Y += offY;
+			return null;
+		}
+	}
 
 	public int getNbEntities() {
 		return m_nbEntities;
 	}
-
-	//////// Gestion du passage drone/tank ////////
-
-	public boolean isPlayingTank() {
-		return m_playingTank;
+	
+	public boolean isInRadius(LinkedList<Coords> radius, Entity entity) {
+		for (Coords coord : radius) {
+			if (entity.isInMe(coord.X, coord.Y))
+				return true;
+		}
+		return false;
 	}
 
-	public void switchControl() {
-		m_playingTank = !m_playingTank;
-		if (m_playingTank) {
-			m_tank.showTank(true);
-			m_drone.showEntity(false);
-			System.out.println("Contrôles données au TANK");
-		} else {
-			m_tank.showTank(false);
-			m_drone.showEntity(true);
-			System.out.println("Contrôles données au DRONE");
+	public Entity closestEntity(LinkedList<Entity> entities, int x, int y) {		
+		Entity closest = entities.get(0);
+		double min_dist = Math.pow(closest.getX() - x, 2) + Math.pow(closest.getY() - y, 2);
+		for (Entity curr : entities) {
+			double dist = Math.pow(curr.getX() - x, 2) + Math.pow(curr.getY() - y, 2);
+			if (dist < min_dist) {
+				closest = curr;
+			}
 		}
+		return closest;
 	}
 
-	public Entity getPlayed() {
-		if (isPlayingTank()) {
-			return m_tank.getBody();
-		} else {
-			return m_drone;
+	public LinkedList<Entity> getCategoried(MyCategory type) {
+		LinkedList<Entity> entities_to_return = new LinkedList<Entity>();
+		for (Entity entity : getAllEntities()) {
+			if (entity.getCategory() == type) {
+				entities_to_return.add(entity);
+			}
 		}
+		return entities_to_return;
 	}
 
 }

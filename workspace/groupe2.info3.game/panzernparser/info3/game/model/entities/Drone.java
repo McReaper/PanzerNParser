@@ -94,7 +94,7 @@ public class Drone extends MovingEntity {
 				m_actionFinished = false;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
-				m_currentAction = LsAction.Wizz;
+				m_currentAction = LsAction.Move;
 				m_timeOfAction = DRONE_HIT_TIME;
 			}
 		}
@@ -116,7 +116,7 @@ public class Drone extends MovingEntity {
 				m_actionFinished = false;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
-				m_currentAction = LsAction.Wizz;
+				m_currentAction = LsAction.Move;
 				m_timeOfAction = DRONE_MOVE_TIME;
 			}
 		}
@@ -138,7 +138,7 @@ public class Drone extends MovingEntity {
 				m_actionFinished = false;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
-				m_currentAction = LsAction.Wizz;
+				m_currentAction = LsAction.Move;
 				m_timeOfAction = DRONE_POP_TIME;
 			}
 		}
@@ -181,7 +181,7 @@ public class Drone extends MovingEntity {
 				m_actionFinished = false;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
-				m_currentAction = LsAction.Wizz;
+				m_currentAction = LsAction.Move;
 				m_timeOfAction = DRONE_TURN_TIME;
 			}
 		}
@@ -197,7 +197,7 @@ public class Drone extends MovingEntity {
 	@Override
 	public void Wizz(MyDirection dir) {
 		if (this.hasControl()) {
-			if (m_actionFinished && m_currentAction == null) {
+			if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 				Model.getModel().switchControl();
 				System.out.println("DRONE fait le wizz !");
 				m_actionFinished = false;

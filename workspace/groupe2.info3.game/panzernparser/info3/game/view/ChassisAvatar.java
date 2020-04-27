@@ -14,7 +14,7 @@ public class ChassisAvatar extends Avatar {
 	}
 	
 	@Override
-	public void paint(Graphics g, int case_width, int case_height) {
+	public void paint(Graphics g,int xcase, int ycase, int case_width, int case_height) {
 		MyDirection e_lookAtDir = m_entity.getLookAtDir();
 		MyDirection e_actionDir = m_entity.getCurrentActionDir();
 		LsAction e_currAction = m_entity.getCurrentAction();
@@ -23,8 +23,8 @@ public class ChassisAvatar extends Avatar {
 
 		int width = m_entity.getWidth() * case_width;
 		int height = m_entity.getHeight() * case_height;
-		int x = m_entity.getX() * case_width;
-		int y = m_entity.getY() * case_height;
+		int x = xcase;
+		int y = ycase;
 
 		// Pour réaliser un affichage progressif dans le cas d'un move.
 		if (e_currAction == LsAction.Move) {
@@ -69,37 +69,37 @@ public class ChassisAvatar extends Avatar {
 			sprite = m_animation.getImage(progress, e_currAction, e_lookAtDir);
 			switch (e_lookAtDir) {
 				case NORTH:
-					y -= case_height - (case_height*3/32);
+					y -= height - (height*3/Sprite.SPRITE_HEIGHT);
 					break;
 				case NORTHEAST:
-					y -= case_height - (case_height*11/32);
-					x += case_width - (case_width*11/32);
+					y -= height - (height*11/Sprite.SPRITE_HEIGHT);
+					x += width - (width*11/Sprite.SPRITE_WIDTH);
 					break;
 				case EAST:
-					x += case_width - (case_width*3/32);
+					x += width - (width*3/Sprite.SPRITE_WIDTH);
 					break;
 				case SOUTHEAST:
-					y += case_height - (case_height*11/32);
-					x += case_width - (case_width*11/32);
+					y += height - (height*11/Sprite.SPRITE_HEIGHT);
+					x += width - (width*11/Sprite.SPRITE_WIDTH);
 					break;
 				case SOUTH:
-					y += case_height - (case_height*3/32);
+					y += height - (height*3/Sprite.SPRITE_HEIGHT);
 					break;
 				case SOUTHWEST:
-					y += case_height - (case_height*11/32);
-					x -= case_width - (case_width*11/32);
+					y += height - (height*11/Sprite.SPRITE_HEIGHT);
+					x -= width - (width*11/Sprite.SPRITE_WIDTH);
 					break;
 				case WEST:
-					x -= case_width - (case_width*3/32);
+					x -= width - (width*3/Sprite.SPRITE_WIDTH);
 					break;
 				case NORTHWEST:
-					y -= case_height - (case_height*11/32);
-					x -= case_width - (case_width*11/32);
+					y -= height - (height*11/Sprite.SPRITE_HEIGHT);
+					x -= width - (width*11/Sprite.SPRITE_WIDTH);
 					break;
 				default:
 					break;
 			}
-			g.drawImage(sprite, x, y, case_width, case_height,null);
+			g.drawImage(sprite, x, y, width, height,null);
 
 		}
 	}

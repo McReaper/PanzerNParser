@@ -93,7 +93,7 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Move(MyDirection dir) {
 		m_timeOfAction = TANKBODY_MOVE_TIME;
-		System.out.println("Move !");
+		System.out.println("Tank Move !");
 		super.Move(dir);
 	}
 //
@@ -160,10 +160,11 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Wizz(MyDirection dir) {
 		if (m_tank.hasControl()) {
-			if (m_actionFinished && m_currentAction == null) {
+			if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 				Model.getModel().switchControl();
 				System.out.println("TANK fait le wizz");
 				m_actionFinished = false;
+				m_currentAction = null;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Wizz;
@@ -172,12 +173,12 @@ public class TankBody extends MovingEntity {
 		}
 	}
 	
-	@Override
-	public boolean Key(LsKey key) {
-		if (m_tank.hasControl())
-			return super.Key(key);
-		System.out.println("TankBody ne controle pas les touches");
-					
-		return false;
-	}
+//	@Override
+//	public boolean Key(LsKey key) {
+//		if (m_tank.hasControl())
+//			return super.Key(key);
+//		//System.out.println("TankBody ne controle pas les touches");
+//					
+//		return false;
+//	}
 }

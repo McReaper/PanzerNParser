@@ -28,6 +28,7 @@ public class ViewPort {
 	int m_y;
 	int m_offsetX; // Décalage propre au animations du move du player
 	int m_offsetY;
+	int m_field_of_view;
 
 	public ViewPort(Model model, Entity player, View view) {
 		m_model = model;

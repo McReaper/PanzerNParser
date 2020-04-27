@@ -4,12 +4,13 @@ Turret(Init){
 	|Key(FD) & Key(FR) & !MyDir(SE) ? Turn(SE) : (Init)
 	|Key(FD) & Key(FL) & !MyDir(SW) ? Turn(SW) : (Init)
 	|Key(FU) & Key(FL) & !MyDir(NW) ? Turn(NW) : (Init)
-
+	
 	|Key(FR) & !MyDir(E) ? Turn(E) : (Init)
 	|Key(FD) & !MyDir(S) ? Turn(S) : (Init)
 	|Key(FL) & !MyDir(W) ? Turn(W) : (Init)
 	|Key(FU) & !MyDir(N) ? Turn(N) : (Init)
-	|Key(SPACE) ? Hit : (Init)   
+	
+	|Key(SPACE) ? Hit(F) : (Init)   
 	
 	|True ? Wait : (Init)
 }

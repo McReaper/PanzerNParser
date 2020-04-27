@@ -17,7 +17,7 @@ public abstract class Entity {
 
 	public static final long DEFAULT_EGG_TIME = 1000;
 	public static final long DEFAULT_GET_TIME = 1000;
-	public static final long DEFAULT_HIT_TIME = 1000;
+	public static final long DEFAULT_HIT_TIME = 300;
 	public static final long DEFAULT_JUMP_TIME = 1000;
 	public static final long DEFAULT_EXPLODE_TIME = 1000;
 	public static final long DEFAULT_MOVE_TIME = 1000;
@@ -26,9 +26,9 @@ public abstract class Entity {
 	public static final long DEFAULT_POWER_TIME = 1000;
 	public static final long DEFAULT_PROTECT_TIME = 1000;
 	public static final long DEFAULT_STORE_TIME = 1000;
-	public static final long DEFAULT_TURN_TIME = 1000;
+	public static final long DEFAULT_TURN_TIME = 100;
 	public static final long DEFAULT_THROW_TIME = 1000;
-	public static final long DEFAULT_WAIT_TIME = 50;
+	public static final long DEFAULT_WAIT_TIME = 100;
 	public static final long DEFAULT_WIZZ_TIME = 1000;
 
 	protected long m_elapseTime;
@@ -59,9 +59,8 @@ public abstract class Entity {
 		m_timeOfAction = 0;
 
 		m_displayed = true;
-		
 
-		m_lengthOfView = 5; //Valeur par défaut a revisiter
+		m_lengthOfView = 5; // Valeur par défaut a revisiter
 		m_x = x;
 		m_y = y;
 		m_width = width;
@@ -140,7 +139,7 @@ public abstract class Entity {
 	}
 
 	public double getActionProgress() {
-		if (m_currentAction != null) {
+		if (m_timeOfAction != 0) {
 			return ((double) m_elapseTime) / ((double) m_timeOfAction);
 		}
 		return 0;
@@ -203,7 +202,7 @@ public abstract class Entity {
 	public int getHeight() {
 		return m_height;
 	}
-	
+
 	public int getFieldOfView() {
 		return m_lengthOfView;
 	}
@@ -284,15 +283,12 @@ public abstract class Entity {
 			m_currentAction = null;
 			this.doMove(dir);
 			m_currentActionDir = dir;
-			m_x = Model.getModel().getGrid().realX(m_x);
-			m_y = Model.getModel().getGrid().realY(m_y);
 			System.out.println("Arrived and facing " + m_currentLookAtDir);
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			this.m_currentAction = LsAction.Move;
 			m_timeOfAction = DEFAULT_MOVE_TIME;
 		}
-
 	}
 
 	protected void doMove(MyDirection dir) {
@@ -463,6 +459,8 @@ public abstract class Entity {
 			default:
 				break;
 		}
+		m_x = Model.getModel().getGrid().realX(m_x);
+		m_y = Model.getModel().getGrid().realY(m_y);
 	}
 
 	public void Pick(MyDirection dir) {
@@ -528,114 +526,17 @@ public abstract class Entity {
 	public void Turn(MyDirection dir, int angle) {
 		if (m_actionFinished && m_currentAction == LsAction.Turn) {
 			System.out.println("Is Turning from " + m_currentLookAtDir);
-			m_actionFinished = false;
-			switch (dir) {
-				case NORTH:
-				case SOUTH:
-				case WEST:
-				case EAST:
-				case NORTHEAST:
-				case NORTHWEST:
-				case SOUTHEAST:
-				case SOUTHWEST:
-					m_currentLookAtDir = dir;
-					break;
-				case LEFT:
-					switch (m_currentLookAtDir) {
-						case NORTH:
-							m_currentLookAtDir = MyDirection.NORTHWEST;
-							break;
-						case WEST:
-							m_currentLookAtDir = MyDirection.SOUTHWEST;
-							break;
-						case SOUTH:
-							m_currentLookAtDir = MyDirection.SOUTHEAST;
-							break;
-						case EAST:
-							m_currentLookAtDir = MyDirection.NORTHEAST;
-							break;
-						case NORTHEAST:
-							m_currentLookAtDir = MyDirection.NORTH;
-							break;
-						case NORTHWEST:
-							m_currentLookAtDir = MyDirection.WEST;
-							break;
-						case SOUTHWEST:
-							m_currentLookAtDir = MyDirection.SOUTH;
-							break;
-						case SOUTHEAST:
-							m_currentLookAtDir = MyDirection.EAST;
-							break;
-						default:
-							break;
-					}
-					break;
-				case RIGHT:
-					switch (m_currentLookAtDir) {
-						case NORTH:
-							m_currentLookAtDir = MyDirection.NORTHEAST;
-							break;
-						case EAST:
-							m_currentLookAtDir = MyDirection.SOUTH;
-							break;
-						case SOUTH:
-							m_currentLookAtDir = MyDirection.SOUTHWEST;
-							break;
-						case WEST:
-							m_currentLookAtDir = MyDirection.NORTHWEST;
-							break;
-						case NORTHEAST:
-							m_currentLookAtDir = MyDirection.EAST;
-							break;
-						case SOUTHEAST:
-							m_currentLookAtDir = MyDirection.SOUTHEAST;
-							break;
-						case SOUTHWEST:
-							m_currentLookAtDir = MyDirection.WEST;
-							break;
-						case NORTHWEST:
-							m_currentLookAtDir = MyDirection.NORTH;
-							break;
-						default:
-							break;
-					}
-					break;
-				case BACK:
-					switch (m_currentLookAtDir) {
-						case NORTH:
-							m_currentLookAtDir = MyDirection.SOUTH;
-							break;
-						case EAST:
-							m_currentLookAtDir = MyDirection.WEST;
-							break;
-						case SOUTH:
-							m_currentLookAtDir = MyDirection.NORTH;
-							break;
-						case WEST:
-							m_currentLookAtDir = MyDirection.EAST;
-							break;
-						case NORTHEAST:
-							m_currentLookAtDir = MyDirection.SOUTHWEST;
-							break;
-						case SOUTHEAST:
-							m_currentLookAtDir = MyDirection.NORTHWEST;
-							break;
-						case SOUTHWEST:
-							m_currentLookAtDir = MyDirection.NORTHEAST;
-							break;
-						case NORTHWEST:
-							m_currentLookAtDir = MyDirection.SOUTHEAST;
-							break;
-						default:
-							break;
-					}
-				default:
-					break;
-			}
-		}// else if (m_currentAction == null) {
 			this.doTurn(dir);
-			System.out.println("Is facing "+m_currentLookAtDir );
+			System.out.println("Is facing " + m_currentLookAtDir);
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Turn;
+			m_timeOfAction = DEFAULT_TURN_TIME;
+		}
 	}
+
 	protected void doTurn(MyDirection dir) {
 		switch (dir) {
 			case NORTH:
@@ -826,7 +727,7 @@ public abstract class Entity {
 		Entity closest = Model.getModel().closestEntity(Model.getModel().getCategoried(type), m_x, m_y);
 		return closest.isInMe(getDetectionCone(dir, this.m_lengthOfView));
 	}
-	
+
 	public boolean isInMe(LinkedList<Coords> radius) {
 		for (Coords coord : radius) {
 			if (this.isInMe(coord.X, coord.Y))

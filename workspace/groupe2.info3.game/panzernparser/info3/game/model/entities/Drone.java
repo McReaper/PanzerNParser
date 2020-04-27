@@ -53,7 +53,6 @@ public class Drone extends MovingEntity {
 
 	@Override
 	public void Hit(MyDirection dir) {
-		if (this.hasControl()) {
 			if (m_actionFinished && m_currentAction == LsAction.Hit) {
 				System.out.println("Pose un marqueur !");
 				m_actionFinished = false;
@@ -63,7 +62,6 @@ public class Drone extends MovingEntity {
 				m_currentAction = LsAction.Hit;
 				m_timeOfAction = DRONE_HIT_TIME;
 			}
-		}
 	}
 
 	@Override
@@ -84,7 +82,6 @@ public class Drone extends MovingEntity {
 
 	@Override
 	public void Pop(MyDirection dir) {
-		if (this.hasControl()) {
 			if (m_actionFinished && m_currentAction  == LsAction.Pop) {
 				switchVision();
 				System.out.println("Switch de vision !");
@@ -95,12 +92,10 @@ public class Drone extends MovingEntity {
 				m_currentAction = LsAction.Pop;
 				m_timeOfAction = DRONE_POP_TIME;
 			}
-		}
 	}
 
 	@Override
 	public void Turn(MyDirection dir, int angle) {
-		if (this.hasControl()) {
 			if (m_actionFinished && m_currentAction == LsAction.Turn) {
 				System.out.println("Le drone tourne !");
 				this.doTurn(dir);
@@ -111,12 +106,10 @@ public class Drone extends MovingEntity {
 				m_currentAction = LsAction.Turn;
 				m_timeOfAction = DRONE_TURN_TIME;
 			}
-		}
 	}
 
 	@Override
 	public void Wizz(MyDirection dir) {
-		if (this.hasControl()) {
 			if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 				Model.getModel().switchControl();
 				System.out.println("DRONE fait le wizz !");
@@ -127,7 +120,6 @@ public class Drone extends MovingEntity {
 				m_currentAction = LsAction.Wizz;
 				m_timeOfAction = DRONE_WIZZ_TIME;
 			}
-		}
 	}
 	
 	@Override

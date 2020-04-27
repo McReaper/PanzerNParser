@@ -107,6 +107,13 @@ public class Model {
 //			m_drone.showEntity(false);
 			System.out.println("Contrôles données au TANK");
 		} else {
+			// Le drone apparait au niveau du tank
+			m_drone.setX(m_tank.getBody().getX());
+			m_drone.setY(m_tank.getBody().getY());
+			
+			//Le drone apparait avec direction d'action et de regard identique à celle du tank
+			m_drone.setActionDir(m_tank.getBody().getCurrentActionDir());
+			m_drone.setLookDir(m_tank.getBody().getLookAtDir());
 //			m_tank.showTank(false);
 //			m_drone.showEntity(true);
 			System.out.println("Contrôles données au DRONE");

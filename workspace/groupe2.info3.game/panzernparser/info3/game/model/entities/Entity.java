@@ -177,9 +177,17 @@ public abstract class Entity {
 	public MyDirection getCurrentActionDir() {
 		return m_currentActionDir;
 	}
+	
+	public void setActionDir(MyDirection dir) {
+		m_currentActionDir = dir;
+	}
 
 	public MyDirection getLookAtDir() {
 		return m_currentLookAtDir;
+	}
+	
+	public void setLookDir(MyDirection dir) {
+		m_currentLookAtDir = dir;
 	}
 
 	public MyCategory getCategory() {
@@ -194,6 +202,14 @@ public abstract class Entity {
 	public int getY() {
 		// System.out.println("Is GetYing");
 		return m_y;
+	}
+	
+	public void setX(int x) {
+		m_x = x;
+	}
+	
+	public void setY(int y) {
+		m_y = y;
 	}
 
 	public int getWidth() {

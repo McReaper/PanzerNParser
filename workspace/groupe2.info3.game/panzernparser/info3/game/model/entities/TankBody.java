@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.LsKey;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -47,7 +48,6 @@ public class TankBody extends MovingEntity {
 
 	@Override
 	public void Move(MyDirection dir) {
-		if (m_tank.hasControl()) {
 			if (m_actionFinished && m_currentAction == LsAction.Move) {
 				System.out.println("Tank fait le move !");
 				this.doMove(dir);
@@ -58,12 +58,10 @@ public class TankBody extends MovingEntity {
 				m_currentAction = LsAction.Move;
 				m_timeOfAction = TANKBODY_MOVE_TIME;
 			}
-		}
 	}
 
 	@Override
 	public void Pop(MyDirection dir) {
-		if (m_tank.hasControl()) {
 			if (m_actionFinished && m_currentAction == LsAction.Pop) {
 				System.out.println("Tank fait le Pop !");
 				m_actionFinished = false;
@@ -73,12 +71,10 @@ public class TankBody extends MovingEntity {
 				m_currentAction = LsAction.Pop;
 				m_timeOfAction = TANKBODY_POP_TIME;
 			}
-		}
 	}
 
 	@Override
 	public void Turn(MyDirection dir, int angle) {
-		if (m_tank.hasControl()) {
 			if (m_actionFinished && m_currentAction == LsAction.Turn) {
 				System.out.println("Tank fait le Turn !");
 				this.doTurn(dir);
@@ -89,12 +85,10 @@ public class TankBody extends MovingEntity {
 				m_currentAction = LsAction.Turn;
 				m_timeOfAction = TANKBODY_TURN_TIME;
 			}
-		}
 	}
 
 	@Override
 	public void Wizz(MyDirection dir) {
-		if (m_tank.hasControl()) {
 			if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 				Model.getModel().switchControl();
 				System.out.println("TANK fait le wizz");
@@ -105,6 +99,12 @@ public class TankBody extends MovingEntity {
 				m_currentAction = LsAction.Wizz;
 				m_timeOfAction = TANKBODY_WIZZ_TIME;
 			}
-		}
+	}
+	
+	@Override
+	public boolean Key(LsKey key) {
+		if (m_tank.hasControl())
+			return super.Key(key);
+		return false;
 	}
 }

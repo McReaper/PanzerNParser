@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.LsKey;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Tank;
@@ -49,7 +50,6 @@ public class Turret extends MovingEntity {
 
 	@Override
 	public void Hit(MyDirection dir) {
-		if (m_tank.hasControl()) {
 			if (m_actionFinished && m_currentAction == LsAction.Hit) {
 				System.out.println("FIRE !");
 				m_actionFinished = false;
@@ -59,12 +59,10 @@ public class Turret extends MovingEntity {
 				m_currentAction = LsAction.Hit;
 				m_timeOfAction = TURRET_HIT_TIME;
 			}
-		}
 	}
 
 	@Override
 	public void Pop(MyDirection dir) {
-		if (m_tank.hasControl()) {
 			if (m_actionFinished && m_currentAction == LsAction.Pop) {
 				System.out.println("Changement d'arme !");
 				m_actionFinished = false;
@@ -74,12 +72,10 @@ public class Turret extends MovingEntity {
 				m_currentAction = LsAction.Pop;
 				m_timeOfAction = TURRET_POP_TIME;
 			}
-		}
 	}
 
 	@Override
 	public void Turn(MyDirection dir, int angle) {
-		if (m_tank.hasControl()) {
 			if (m_actionFinished && m_currentAction == LsAction.Turn) {
 				System.out.println("Turret turning !");
 				this.doTurn(dir);
@@ -90,12 +86,10 @@ public class Turret extends MovingEntity {
 				m_currentAction = LsAction.Turn;
 				m_timeOfAction = TURRET_TURN_TIME;
 			}
-		}
 	}
 
 	@Override
 	public void Wizz(MyDirection dir) {
-		if (m_tank.hasControl()) {
 			if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 				System.out.println("La tourelle recharge.");
 				m_actionFinished = false;
@@ -105,7 +99,13 @@ public class Turret extends MovingEntity {
 				m_currentAction = LsAction.Wizz;
 				m_timeOfAction = TURRET_WIZZ_TIME;
 			}
-		}
+	}
+	
+	@Override
+	public boolean Key(LsKey key) {
+		if (m_tank.hasControl())
+			return super.Key(key);
+		return false;
 	}
 
 }

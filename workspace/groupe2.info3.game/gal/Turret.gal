@@ -5,9 +5,9 @@ Turret(Init){
 	|Key(FD) & Key(FL) & !MyDir(SW) ? Turn(SW) : (Init)
 	|Key(FU) & Key(FL) & !MyDir(NW) ? Turn(NW) : (Init)
 
-	|Key(FL) & !MyDir(E) ? Turn(E) : (Init)
+	|Key(FR) & !MyDir(E) ? Turn(E) : (Init)
 	|Key(FD) & !MyDir(S) ? Turn(S) : (Init)
-	|Key(FR) & !MyDir(W) ? Turn(W) : (Init)
+	|Key(FL) & !MyDir(W) ? Turn(W) : (Init)
 	|Key(FU) & !MyDir(N) ? Turn(N) : (Init)
 	|Key(SPACE) ? Hit : (Init)   
 	

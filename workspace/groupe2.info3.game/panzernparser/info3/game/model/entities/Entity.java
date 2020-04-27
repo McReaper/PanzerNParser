@@ -28,7 +28,7 @@ public abstract class Entity {
 	public static final long DEFAULT_STORE_TIME = 1000;
 	public static final long DEFAULT_TURN_TIME = 1000;
 	public static final long DEFAULT_THROW_TIME = 1000;
-	public static final long DEFAULT_WAIT_TIME = 1000;
+	public static final long DEFAULT_WAIT_TIME = 50;
 	public static final long DEFAULT_WIZZ_TIME = 1000;
 
 	protected long m_elapseTime;

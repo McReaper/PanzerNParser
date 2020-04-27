@@ -46,7 +46,7 @@ public abstract class Entity {
 
 	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
-		m_currentState = aut.getState();
+		//m_currentState = aut.getState();
 
 		m_elapseTime = 0;
 		m_currentAction = null;

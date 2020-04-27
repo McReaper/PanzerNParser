@@ -143,7 +143,7 @@ public class Droppable extends StaticEntity {
 	@Override
 	public void Wait() {
 		m_timeOfAction = DROPPABLE_WAIT_TIME;
-		System.out.println("Wait !");
+		//System.out.println("Wait !");
 		super.Wait();
 	}
 

@@ -156,13 +156,18 @@ public class TankBody extends MovingEntity {
 //		super.Wait();
 //	}
 //
-//	@Override
-//	public void Wizz(MyDirection dir) {
-//		if (m_tank.hasControl()) {
-//			m_timeOfAction = TANKBODY_WIZZ_TIME;
-//			Model.getModel().switchControl();
-//			System.out.println("TANK fait le wizz");
-//			super.Wizz(dir);
-//		}
-//	}
+	@Override
+	public void Wizz(MyDirection dir) {
+		if (m_tank.hasControl()) {
+			if (m_actionFinished && m_currentAction == null) {
+				Model.getModel().switchControl();
+				System.out.println("TANK fait le wizz");
+				m_actionFinished = false;
+			} else if (m_currentAction == null) {
+				m_currentActionDir = dir;
+				m_currentAction = LsAction.Wizz;
+				m_timeOfAction = TANKBODY_WIZZ_TIME;
+			}
+		}
+	}
 }

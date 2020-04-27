@@ -7,9 +7,9 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.entities.Entity;
 
-public class ChassisAvatar extends Avatar {
+public class TankBodyAvatar extends Avatar {
 
-	public ChassisAvatar(Entity entity, Animation animation) {
+	public TankBodyAvatar(Entity entity, Animation animation) {
 		super(entity, animation);
 	}
 	

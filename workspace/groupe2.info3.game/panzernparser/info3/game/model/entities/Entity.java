@@ -8,6 +8,7 @@ import info3.game.automaton.LsKey;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Grid;
 import info3.game.model.Model;
 import info3.game.model.Model.Coords;
 
@@ -738,22 +739,31 @@ public abstract class Entity {
 
 	protected LinkedList<Coords> getDetectionCone(MyDirection dir, int dist) {
 		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
+		LinkedList<Coords> cells;
 		switch (absoluteDir) {
 			case EAST:
 			case NORTH:
 			case SOUTH:
 			case WEST:
-				return getCellsInOrthogonalDir(absoluteDir, dist);
+				cells = getCellsInOrthogonalDir(absoluteDir, dist);
+				break;
 			case NORTHEAST:
 			case NORTHWEST:
 			case SOUTHEAST:
 			case SOUTHWEST:
-				return getCellsInDiagonalDir(absoluteDir, dist);
+				cells = getCellsInDiagonalDir(absoluteDir, dist);
+				break;
 			case HERE:
-				return getCellsOnMe();
+				cells = getCellsOnMe();
 			default:
 				return null;
 		}
+		Grid grid = Model.getModel().getGrid();
+		for(Coords coord : cells) {
+			coord.X = grid.realX((int)coord.X);
+			coord.Y = grid.realY((int)coord.Y);
+		}
+		return cells;
 	}
 
 	protected LinkedList<Coords> getCellsOnMe() {

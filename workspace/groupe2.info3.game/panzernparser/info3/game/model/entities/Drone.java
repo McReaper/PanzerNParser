@@ -51,41 +51,6 @@ public class Drone extends MovingEntity {
 		return !Model.getModel().isPlayingTank();
 	}
 
-//	@Override
-//	public void step(long elapsed) {
-//		if (m_currentAction != null) {
-//			if (m_elapseTime > m_timeOfAction) {
-//				m_elapseTime = 0;
-//				m_currentAction = null;
-//			} else {
-//				m_elapseTime += elapsed;
-//			}
-//		} else {
-//			this.setState(m_automate.step(this));
-//		}
-//	}
-//
-//	@Override
-//	public void Egg(MyDirection dir) {
-//		m_timeOfAction = DRONE_MOVE_TIME;
-//		System.out.println("Egg !");
-//		super.Egg(dir);
-//	}
-//
-//	@Override
-//	public void Explode() {
-//		m_timeOfAction = DRONE_EXPLODE_TIME;
-//		System.out.println("Explode !");
-//		super.Explode();
-//	}
-//
-//	@Override
-//	public void Get(MyDirection dir) {
-//		m_timeOfAction = DRONE_GET_TIME;
-//		System.out.println("Get !");
-//		super.Get(dir);
-//	}
-//
 	@Override
 	public void Hit(MyDirection dir) {
 		if (this.hasControl()) {
@@ -101,14 +66,6 @@ public class Drone extends MovingEntity {
 		}
 	}
 
-//
-//	@Override
-//	public void Jump(MyDirection dir) {
-//		m_timeOfAction = DRONE_JUMP_TIME;
-//		System.out.println("Drone is Jumping !");
-//		super.Jump(dir);
-//	}
-//
 	@Override
 	public void Move(MyDirection dir) {
 		if (this.hasControl()) {
@@ -124,13 +81,6 @@ public class Drone extends MovingEntity {
 			}
 		}
 	}
-//
-//	@Override
-//	public void Pick(MyDirection dir) {
-//		m_timeOfAction = DRONE_PICK_TIME;
-//		System.out.println("Pick !");
-//		super.Pick(dir);
-//	}
 
 	@Override
 	public void Pop(MyDirection dir) {
@@ -148,35 +98,6 @@ public class Drone extends MovingEntity {
 		}
 	}
 
-//
-//	@Override
-//	public void Power() {
-//		m_timeOfAction = DRONE_POWER_TIME;
-//		System.out.println("Power !");
-//		super.Power();
-//	}
-//
-//	@Override
-//	public void Protect(MyDirection dir) {
-//		m_timeOfAction = DRONE_PROTECT_TIME;
-//		System.out.println("Protect !");
-//		super.Protect(dir);
-//	}
-//
-//	@Override
-//	public void Store(MyDirection dir) {
-//		m_timeOfAction = DRONE_STORE_TIME;
-//		System.out.println("Store !");
-//		super.Store(dir);
-//	}
-//
-//	@Override
-//	public void Throw(MyDirection dir) {
-//		m_timeOfAction = DRONE_THROW_TIME;
-//		System.out.println("Throw !");
-//		super.Throw(dir);
-//	}
-//
 	@Override
 	public void Turn(MyDirection dir, int angle) {
 		if (this.hasControl()) {
@@ -192,13 +113,6 @@ public class Drone extends MovingEntity {
 			}
 		}
 	}
-//
-//	@Override
-//	public void Wait() {
-//		m_timeOfAction = DRONE_WAIT_TIME;
-//		// System.out.println("Wait !");
-//		super.Wait();
-//	}
 
 	@Override
 	public void Wizz(MyDirection dir) {

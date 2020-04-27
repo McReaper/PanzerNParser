@@ -10,8 +10,8 @@ import info3.game.model.Tank;
  */
 public class Turret extends MovingEntity {
 
-	public final static int TURRET_WIDTH = 1;
-	public final static int TURRET_HEIGHT = 1;
+	public final static int TURRET_WIDTH = 2;
+	public final static int TURRET_HEIGHT = 2;
 
 	public static final int TURRET_HEALTH = 100;
 	public static final int TURRET_SPEED = 100;

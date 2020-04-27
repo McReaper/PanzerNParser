@@ -3,7 +3,6 @@ package info3.game.model.entities;
 import info3.game.GameConfiguration;
 import info3.game.automaton.Automaton;
 import info3.game.model.Material.MaterialType;
-import info3.game.model.Tank;
 
 public class EntityFactory {
 	public enum MyEntities {
@@ -11,14 +10,14 @@ public class EntityFactory {
 	}
 
 	public static Entity newTankBody(int x, int y, Automaton aut) {
-		Entity tankBody = new TankBody(x, y, Enemy.ENEMY_WIDTH, Enemy.ENEMY_HEIGHT, aut);
+		Entity tankBody = new TankBody(x, y, TankBody.TANKBODY_WIDTH, TankBody.TANKBODY_HEIGHT, aut);
 		return tankBody;
 	}
 
 	public static Entity newTankTurret(int x, int y, Automaton aut) {
-		Entity Turret = new Turret(x, y, Tank.TANK_TURRET_WIDTH, Tank.TANK_TURRET_HEIGHT, Tank.TANK_HEALTH, Tank.TANK_SPEED,
-				aut);
-		return Turret;
+		Entity turret = new Turret(x, y, Turret.TURRET_WIDTH, Turret.TURRET_HEIGHT, Turret.TURRET_HEALTH,
+				Turret.TURRET_SPEED, aut);
+		return turret;
 	}
 
 	public static Entity newDrone() {

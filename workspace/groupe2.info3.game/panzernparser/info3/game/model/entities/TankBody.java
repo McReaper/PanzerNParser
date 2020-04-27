@@ -11,8 +11,8 @@ import info3.game.model.Tank;
  */
 public class TankBody extends MovingEntity {
 
-	public final static int TANKBODY_WIDTH = 1;
-	public final static int TANKBODY_HEIGHT = 1;
+	public final static int TANKBODY_WIDTH = 2;
+	public final static int TANKBODY_HEIGHT = 2;
 
 	public static final int TANKBODY_HEALTH = 100;
 	public static final int TANKBODY_SPEED = 100;

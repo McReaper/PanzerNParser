@@ -9,8 +9,8 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Grid;
-import info3.game.model.Model;
 import info3.game.model.Grid.Coords;
+import info3.game.model.Model;
 
 public abstract class Entity {
 
@@ -61,7 +61,7 @@ public abstract class Entity {
 
 		m_displayed = true;
 
-		m_lengthOfView = 5; // Valeur par défaut a revisiter
+		m_lengthOfView = 4; // Valeur par défaut a revisiter
 		m_x = x;
 		m_y = y;
 		m_width = width;

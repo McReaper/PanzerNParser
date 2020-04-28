@@ -37,7 +37,7 @@ public class View extends Container {
 //		if (model.m_player == model.PLAYER_TANK) {
 //			m_viewPort = new ViewPort(model,model.m_tank.m_body, this);
 //		}else {
-		m_viewPort = new ViewPort(model, m_model.getPlayed(), this);
+		m_viewPort = new ViewPort(m_model.getPlayed(), this);
 		// }//TODO passage de l'un a l'autre
 //		}
 	}

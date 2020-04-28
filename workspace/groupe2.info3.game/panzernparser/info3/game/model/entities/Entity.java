@@ -280,6 +280,11 @@ public abstract class Entity {
 			m_timeOfAction = DEFAULT_EXPLODE_TIME;
 		}
 	}
+	
+	public void doExplode() {
+		System.out.println("Le tir explose et disparait !");
+		Model.getModel().removeEntity(this);
+	}
 
 	public void Jump(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Jump) {
@@ -718,7 +723,7 @@ public abstract class Entity {
 	public boolean Cell(MyDirection dir, MyCategory type, int dist) {
 		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
 
-		return true;
+		return false;
 	}
 
 	public boolean GotPower() {
@@ -971,6 +976,19 @@ public abstract class Entity {
 			}
 			return false;
 		}
+	}
+	
+	public boolean isInMeCase(int x, int y) {
+		if (m_x <= x && x < m_x + this.m_width) {
+			if (y <= m_y && m_y - this.m_height< y ) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void collide() {
+		System.out.println("Il y a eu une collision");
 	}
 
 	public boolean Key(LsKey m_key) {

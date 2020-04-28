@@ -42,7 +42,6 @@ public class Turret extends MovingEntity {
 		m_category = MyCategory.AT;
 	}
 
-	int m_range;
 
 	public void setTank(Tank tank) {
 		m_tank = tank;

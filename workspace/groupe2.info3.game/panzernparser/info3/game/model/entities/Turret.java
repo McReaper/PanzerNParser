@@ -4,6 +4,7 @@ import info3.game.automaton.Automaton;
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Model;
 import info3.game.model.Tank;
 
 /**
@@ -54,6 +55,7 @@ public class Turret extends MovingEntity {
 				System.out.println("FIRE !");
 				m_actionFinished = false;
 				m_currentAction = null;
+				Model.getModel().m_sounds.add("oof");
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Hit;

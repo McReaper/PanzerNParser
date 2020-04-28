@@ -32,6 +32,7 @@ public class Model {
 	private LinkedList<LsKey> m_keyPressed;
 	private boolean m_playingTank;
 	private int m_nbEntities;
+	public LinkedList<String> m_sounds;
 
 	/**
 	 * Création du modèle (l'univers du jeu)
@@ -72,6 +73,7 @@ public class Model {
 		m_tank = new Tank(body, turret);
 		m_drone = (Drone) getEntities(MyEntities.Drone).get(0);
 		m_playingTank = true;
+		m_sounds = new LinkedList<String>();
 
 	}
 

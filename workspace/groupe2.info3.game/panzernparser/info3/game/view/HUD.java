@@ -1,6 +1,5 @@
 package info3.game.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -14,80 +13,82 @@ import javax.swing.JProgressBar;
 
 public class HUD {
 
-	JPanel West;
-	JPanel East;
+	JPanel m_West;
+	JPanel m_East;
 
-	JPanel MinToolsWeapon;
-	JLabel Minerals;
-	JLabel minerals;
-	JLabel Tools;
-	JLabel tools;
-	JLabel Weapon;
-	JLabel weapon;
-	JPanel HPStamina;
-	JProgressBar health;
-	JProgressBar drone;
+	JPanel m_MinToolsWeapon;
+	JLabel m_mineralsLabel;
+	JLabel m_mineralsImage;
+	JLabel m_toolsLabel;
+	JLabel m_toolsImage;
+	JLabel m_weaponLabel;
+	JLabel m_weaponImage;
+	JPanel m_HPStamina;
+	JProgressBar m_health;
+	JProgressBar m_drone;
 
 	public HUD() {
-		West = new JPanel();
-		West.setBackground(Color.DARK_GRAY);
-		West.setPreferredSize(new Dimension(150, 150));
-		GridLayout GLWest = new GridLayout(2, 0);
-		West.setLayout(GLWest);
+		m_West = new JPanel();
+		m_West.setBackground(Color.DARK_GRAY);
+		m_West.setPreferredSize(new Dimension(150, 150));
+		GridLayout GLm_West = new GridLayout(2, 0);
+		m_West.setLayout(GLm_West);
 
-		MinToolsWeapon = new JPanel();
-		BoxLayout BLMinToolsWeapon = new BoxLayout(MinToolsWeapon, BoxLayout.Y_AXIS);
-		MinToolsWeapon.setLayout(BLMinToolsWeapon);
-		MinToolsWeapon.setBackground(Color.DARK_GRAY);// ce
+		m_MinToolsWeapon = new JPanel();
+		BoxLayout BLm_Minm_toolsm_weapon = new BoxLayout(m_MinToolsWeapon, BoxLayout.Y_AXIS);
+		m_MinToolsWeapon.setLayout(BLm_Minm_toolsm_weapon);
+		m_MinToolsWeapon.setBackground(Color.DARK_GRAY);// ce
 
-		Minerals = new JLabel(new ImageIcon("sprites/Trou.png"));
-		Tools = new JLabel(new ImageIcon("sprites/Trou.png"));
-		Weapon = new JLabel(new ImageIcon("sprites/Trou.png"));
+		m_mineralsImage = new JLabel(new ImageIcon("sprites/Trou.png"));
+		m_toolsImage = new JLabel(new ImageIcon("sprites/Trou.png"));
+		m_weaponImage = new JLabel(new ImageIcon("sprites/Trou.png"));
 
-		minerals = new JLabel("Minerals : ");
-		tools = new JLabel("Tools : ");
-		weapon = new JLabel("Current Weapon : ");
+		m_mineralsLabel = new JLabel("Minerals : ");
+		m_toolsLabel = new JLabel("Tools : ");
+		m_weaponLabel = new JLabel("Current Weapon : ");
 
-		Minerals.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		Tools.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		Weapon.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		minerals.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		tools.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		weapon.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+		m_mineralsLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+		m_toolsLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+		m_weaponLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+		m_mineralsImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+		m_toolsImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+		m_weaponImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 
-		MinToolsWeapon.add(Box.createVerticalGlue());
-		MinToolsWeapon.add(minerals);
-		MinToolsWeapon.add(Minerals);
-		MinToolsWeapon.add(Box.createVerticalGlue());
-		MinToolsWeapon.add(tools);
-		MinToolsWeapon.add(Tools);
-		MinToolsWeapon.add(Box.createVerticalGlue());
-		MinToolsWeapon.add(weapon);
-		MinToolsWeapon.add(Weapon);
-		MinToolsWeapon.add(Box.createVerticalGlue());
+		m_MinToolsWeapon.add(Box.createVerticalGlue());
+		m_MinToolsWeapon.add(m_mineralsLabel);
+		m_MinToolsWeapon.add(m_mineralsImage);
+		m_MinToolsWeapon.add(Box.createVerticalGlue());
+		m_MinToolsWeapon.add(m_toolsLabel);
+		m_MinToolsWeapon.add(m_toolsImage);
+		m_MinToolsWeapon.add(Box.createVerticalGlue());
+		m_MinToolsWeapon.add(m_weaponLabel);
+		m_MinToolsWeapon.add(m_weaponImage);
+		m_MinToolsWeapon.add(Box.createVerticalGlue());
 
-//		Init de HPStamina et de son BL		
-		HPStamina = new JPanel();
-		BoxLayout BLWestSorth = new BoxLayout(HPStamina, BoxLayout.Y_AXIS);
-		HPStamina.setLayout(BLWestSorth);
-		HPStamina.setBackground(Color.DARK_GRAY);
+//		Init de m_HPStamina et de son BL		
+		m_HPStamina = new JPanel();
+		BoxLayout BLm_WestSorth = new BoxLayout(m_HPStamina, BoxLayout.Y_AXIS);
+		m_HPStamina.setLayout(BLm_WestSorth);
+		m_HPStamina.setBackground(Color.DARK_GRAY);
 
-//		HPStamina avec les deux barres d'HP et DP
-//		HPStamina.setPreferredSize(new Dimension(100, 100));
-		HPStamina.add(Box.createVerticalGlue());
-		health = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
-		health.setForeground(Color.RED);
-		health.setMaximumSize(new Dimension(50, 200));
-		health.setValue(100);
-		HPStamina.add(health);
-		HPStamina.add(Box.createVerticalGlue());
-		drone = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
-		drone.setForeground(Color.YELLOW);
-		drone.setMaximumSize(new Dimension(50, 200));
-		drone.setValue(50);
-		HPStamina.add(drone);
-		HPStamina.add(Box.createVerticalGlue());
-		West.add(HPStamina);
-		West.add(MinToolsWeapon);
+//		m_HPStamina avec les deux barres d'HP et DP
+//		m_HPStamina.setPreferredSize(new Dimension(100, 100));
+		m_HPStamina.add(Box.createVerticalGlue());
+		m_health = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
+		m_health.setForeground(Color.RED);
+		m_health.setMaximumSize(new Dimension(50, 200));
+		m_health.setValue(100);
+		m_HPStamina.add(m_health);
+		m_HPStamina.add(Box.createVerticalGlue());
+		m_drone = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
+		m_drone.setForeground(Color.YELLOW);
+		m_drone.setMaximumSize(new Dimension(50, 200));
+		m_drone.setValue(50);
+		m_HPStamina.add(m_drone);
+		m_HPStamina.add(Box.createVerticalGlue());
+		m_West.add(m_HPStamina);
+		m_West.add(m_MinToolsWeapon);
+
+		m_East = new JPanel();
 	}
 }

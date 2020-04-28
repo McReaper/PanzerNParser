@@ -50,9 +50,9 @@ public class View extends Container {
 
 		HUD HUD = new HUD();
 
-		BL.addLayoutComponent(HUD.West, BorderLayout.WEST);
+		BL.addLayoutComponent(HUD.m_West, BorderLayout.WEST);
 
-		this.add(HUD.West);
+		this.add(HUD.m_West);
 
 		return BL;
 	}

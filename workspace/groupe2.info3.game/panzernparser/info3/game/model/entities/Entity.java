@@ -979,8 +979,9 @@ public abstract class Entity {
 	}
 	
 	public boolean isInMeCase(int x, int y) {
+		//TODO gerer les bords de case
 		if (m_x <= x && x < m_x + this.m_width) {
-			if (y <= m_y && m_y - this.m_height< y ) {
+			if (m_y <= y && y < m_y + this.m_height) {
 				return true;
 			}
 		}
@@ -988,7 +989,7 @@ public abstract class Entity {
 	}
 	
 	public void collide() {
-		System.out.println("Il y a eu une collision");
+		//System.out.println("Il y a eu une collision");
 	}
 
 	public boolean Key(LsKey m_key) {

@@ -10,7 +10,7 @@ import info3.game.automaton.action.LsAction;
  */
 public class Shot extends MovingEntity {
 	/* Champs pour donner size par defaut dans la EntityFactory */
-	/* a voir comment les shots sont créés (factory ?) */
+	/* a voir comment les SHOTs sont créés (factory ?) */
 	final static int SHOT_WIDTH = 1;
 	final static int SHOT_HEIGHT = 1;
 
@@ -22,7 +22,7 @@ public class Shot extends MovingEntity {
 	public static final long SHOT_HIT_TIME = 1000;
 	public static final long SHOT_JUMP_TIME = 1000;
 	public static final long SHOT_EXPLODE_TIME = 1000;
-	public static final long SHOT_MOVE_TIME = 2000;
+	public static final long SHOT_MOVE_TIME = 200;
 	public static final long SHOT_PICK_TIME = 1000;
 	public static final long SHOT_POP_TIME = 10000;
 	public static final long SHOT_POWER_TIME = 1000;
@@ -35,21 +35,21 @@ public class Shot extends MovingEntity {
 
 	public Shot(int x, int y, int width, int height, int health, int speed, Automaton aut) {
 		super(x, y, width, height, health, speed, aut);
-		System.out.println("un shot a été créé");
+		m_health = this.SHOT_HEALTH;
 	}
 
-	int m_damage;
+	int m_health;
 	
 	@Override
 	public void step(long elapsed) {
-	//	System.out.println("Le shot fait un step");
+	//	System.out.println("Le SHOT fait un step");
 		super.step(elapsed);
 	}
 	
 	@Override
 	public void Move(MyDirection dir) {
-		//System.out.println("Le Shot avance !");
-		System.out.println("il est en position " + m_x + ";" + m_y);
+		//System.out.println("Le SHOT avance !");
+	//	System.out.println("il est en position " + m_x + ";" + m_y);
 			if (m_actionFinished && m_currentAction == LsAction.Move) {
 				
 				this.doMove(dir);
@@ -65,7 +65,7 @@ public class Shot extends MovingEntity {
 	@Override
 	public void Explode() {
 			if (m_actionFinished && m_currentAction == LsAction.Move) {
-				System.out.println("Le Shot Explose !");
+				System.out.println("Le SHOT Explose !");
 				this.doExplode();
 				m_actionFinished = false;
 				m_currentAction = null;
@@ -76,8 +76,18 @@ public class Shot extends MovingEntity {
 	}
 	
 	@Override
+	public boolean GotPower() {
+		if (m_health>0) {
+			m_health  -= 10;
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
 	public void collide(){
-		this.Explode();
+		this.m_health = 0;
 	}
 
 }

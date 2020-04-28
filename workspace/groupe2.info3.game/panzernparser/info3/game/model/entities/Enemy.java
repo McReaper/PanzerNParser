@@ -7,8 +7,8 @@ public class Enemy extends MovingEntity {
 	 * Champs pour donner size par defaut dans la EntityFactory. A voir si on donne
 	 * des size differentes pour des categories d'ennemis differents
 	 */
-	public final static int ENEMY_WIDTH = 1;
-	public final static int ENEMY_HEIGHT = 1;
+	public final static int ENEMY_WIDTH = 2;
+	public final static int ENEMY_HEIGHT = 2;
 
 	public static final int ENEMY_HEALTH = 100;
 	public static final int ENEMY_SPEED = 100;

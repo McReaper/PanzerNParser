@@ -309,169 +309,35 @@ public abstract class Entity {
 	}
 
 	protected void doMove(MyDirection dir) {
-		switch (dir) {
-			case FRONT:
-				switch (m_currentActionDir) {
-					case NORTH:
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case EAST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTH:
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case WEST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHEAST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTHEAST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTHWEST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHWEST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					default:
-						break;
-				}
+		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
+		switch (absoluteDir) {
+			case EAST:
+				m_x += DEFAULT_MOVING_DISTANCE;
 				break;
-			case LEFT:
-				switch (m_currentActionDir) {
-					case NORTH:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case EAST:
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTH:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						break;
-					case WEST:
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHEAST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTHEAST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTHWEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHWEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					default:
-						break;
-				}
-				break;
-			case RIGHT:
-				switch (m_currentActionDir) {
-					case NORTH:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						break;
-					case EAST:
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTH:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case WEST:
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHEAST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTHEAST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTHWEST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHWEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					default:
-						break;
-				}
-				break;
-			case BACK:
-				switch (m_currentActionDir) {
-					case NORTH:
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case EAST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTH:
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case WEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHEAST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTHEAST:
-						m_x -= DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case SOUTHWEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y -= DEFAULT_MOVING_DISTANCE;
-						break;
-					case NORTHWEST:
-						m_x += DEFAULT_MOVING_DISTANCE;
-						m_y += DEFAULT_MOVING_DISTANCE;
-						break;
-					default:
-						break;
-				}
 			case NORTH:
 				m_y -= DEFAULT_MOVING_DISTANCE;
 				break;
 			case SOUTH:
 				m_y += DEFAULT_MOVING_DISTANCE;
 				break;
-			case EAST:
-				m_x += DEFAULT_MOVING_DISTANCE;
-				break;
 			case WEST:
 				m_x -= DEFAULT_MOVING_DISTANCE;
 				break;
 			case NORTHEAST:
-				m_x += DEFAULT_MOVING_DISTANCE;
 				m_y -= DEFAULT_MOVING_DISTANCE;
+				m_x += DEFAULT_MOVING_DISTANCE;
 				break;
 			case NORTHWEST:
-				m_x -= DEFAULT_MOVING_DISTANCE;
 				m_y -= DEFAULT_MOVING_DISTANCE;
+				m_x -= DEFAULT_MOVING_DISTANCE;
 				break;
 			case SOUTHEAST:
-				m_x += DEFAULT_MOVING_DISTANCE;
 				m_y += DEFAULT_MOVING_DISTANCE;
+				m_x += DEFAULT_MOVING_DISTANCE;
 				break;
 			case SOUTHWEST:
-				m_x -= DEFAULT_MOVING_DISTANCE;
 				m_y += DEFAULT_MOVING_DISTANCE;
+				m_x -= DEFAULT_MOVING_DISTANCE;
 				break;
 			default:
 				break;
@@ -555,109 +421,7 @@ public abstract class Entity {
 	}
 
 	protected void doTurn(MyDirection dir) {
-		switch (dir) {
-			case NORTH:
-			case SOUTH:
-			case WEST:
-			case EAST:
-			case NORTHEAST:
-			case NORTHWEST:
-			case SOUTHEAST:
-			case SOUTHWEST:
-				m_currentLookAtDir = dir;
-				break;
-			case LEFT:
-				switch (m_currentLookAtDir) {
-					case NORTH:
-						m_currentLookAtDir = MyDirection.NORTHWEST;
-						break;
-					case WEST:
-						m_currentLookAtDir = MyDirection.SOUTHWEST;
-						break;
-					case SOUTH:
-						m_currentLookAtDir = MyDirection.SOUTHEAST;
-						break;
-					case EAST:
-						m_currentLookAtDir = MyDirection.NORTHEAST;
-						break;
-					case NORTHEAST:
-						m_currentLookAtDir = MyDirection.NORTH;
-						break;
-					case NORTHWEST:
-						m_currentLookAtDir = MyDirection.WEST;
-						break;
-					case SOUTHWEST:
-						m_currentLookAtDir = MyDirection.SOUTH;
-						break;
-					case SOUTHEAST:
-						m_currentLookAtDir = MyDirection.EAST;
-						break;
-					default:
-						break;
-				}
-				break;
-			case RIGHT:
-				switch (m_currentLookAtDir) {
-					case NORTH:
-						m_currentLookAtDir = MyDirection.NORTHEAST;
-						break;
-					case EAST:
-						m_currentLookAtDir = MyDirection.SOUTHEAST;
-						break;
-					case SOUTH:
-						m_currentLookAtDir = MyDirection.SOUTHWEST;
-						break;
-					case WEST:
-						m_currentLookAtDir = MyDirection.NORTHWEST;
-						break;
-					case NORTHEAST:
-						m_currentLookAtDir = MyDirection.EAST;
-						break;
-					case SOUTHEAST:
-						m_currentLookAtDir = MyDirection.SOUTH;
-						break;
-					case SOUTHWEST:
-						m_currentLookAtDir = MyDirection.WEST;
-						break;
-					case NORTHWEST:
-						m_currentLookAtDir = MyDirection.NORTH;
-						break;
-					default:
-						break;
-				}
-				break;
-			case BACK:
-				switch (m_currentLookAtDir) {
-					case NORTH:
-						m_currentLookAtDir = MyDirection.SOUTH;
-						break;
-					case EAST:
-						m_currentLookAtDir = MyDirection.WEST;
-						break;
-					case SOUTH:
-						m_currentLookAtDir = MyDirection.NORTH;
-						break;
-					case WEST:
-						m_currentLookAtDir = MyDirection.EAST;
-						break;
-					case NORTHEAST:
-						m_currentLookAtDir = MyDirection.SOUTHWEST;
-						break;
-					case SOUTHEAST:
-						m_currentLookAtDir = MyDirection.NORTHWEST;
-						break;
-					case SOUTHWEST:
-						m_currentLookAtDir = MyDirection.NORTHEAST;
-						break;
-					case NORTHWEST:
-						m_currentLookAtDir = MyDirection.SOUTHEAST;
-						break;
-					default:
-						break;
-				}
-			default:
-				break;
-		}
+		m_currentLookAtDir = MyDirection.toAbsolute(getLookAtDir(), dir);
 	}
 
 	public void Throw(MyDirection dir) {

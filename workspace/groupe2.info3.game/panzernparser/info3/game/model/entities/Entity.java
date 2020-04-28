@@ -167,7 +167,7 @@ public abstract class Entity {
 		if (state != null)
 			m_currentState = state;
 		else
-			System.err.println("setstate null !");
+			System.err.println("setstate null !" + this);
 	}
 
 	public LsAction getCurrentAction() {
@@ -258,7 +258,7 @@ public abstract class Entity {
 
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
-			System.out.println("Is Hitting");
+		//	System.out.println("Is Hitting");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -989,7 +989,9 @@ public abstract class Entity {
 	}
 	
 	public void collide() {
-		//System.out.println("Il y a eu une collision");
+		/*
+		 * l'implem dépend de chaque entité
+		 */
 	}
 
 	public boolean Key(LsKey m_key) {

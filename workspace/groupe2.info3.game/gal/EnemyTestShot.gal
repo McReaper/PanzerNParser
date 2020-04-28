@@ -1,15 +1,20 @@
-EnemyTest(Tunr0){
-*(Turn0)
-	|!MyDir(N) ? Turn(N) : (Turn0)
-	|True ? Hit() : (Turn1)
-*(Turn1)
-	|!MyDir(N) ? Turn(N) : (Turn1)
-	|True ? Hit() : (Turn2)
-*(Turn2)
-	|!MyDir(N) ? Turn(N) : (Turn2)
-	|True ? Hit() : (Turn3)
-*(Turn3)
-	|!MyDir(N) ? Turn(N) : (Turn3)
-	|True ? Hit() : (Turn0)
+EnemyTest(Tunrning0){
+*(Tunrning0)
+	|!GotPower() ? Explode() : (Tunrning0)
+	|!MyDir(N) ? Turn(N) : (Tunrning0)
+	|True ? Hit() : (Tunrning1)
+*(Tunrning1)
+	|!GotPower() ? Explode() : (Tunrning0)
+	|!MyDir(E) ? Turn(E) : (Tunrning1)
+	|True ? Hit() : (Tunrning2)
+*(Tunrning2)
+	|!GotPower() ? Explode() : (Tunrning0)
+	|!MyDir(S) ? Turn(S) : (Tunrning2)
+	|True ? Hit() : (Tunrning3)
+*(Tunrning3)
+
+	|!GotPower() ? Explode() : (Tunrning0)
+	|!MyDir(W) ? Turn(W) : (Tunrning3)
+	|True ? Hit() : (Tunrning0)
 }
 

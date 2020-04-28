@@ -1,6 +1,6 @@
 Tir(Moving){
 *(Moving)
-	|!GotPower() ? Explode : ()
+	|!GotPower() ? Explode() : (Dead)
 	|MyDir(NE) ? Move(NE) : (Moving)
 	|MyDir(NW) ? Move(NW) : (Moving)
 	|MyDir(SE) ? Move(SE) : (Moving)
@@ -9,4 +9,8 @@ Tir(Moving){
 	|MyDir(W) ? Move(W) : (Moving)
 	|MyDir(E) ? Move(E) : (Moving)
 	|MyDir(S) ? Move(S) : (Moving)
+	|True ? Wait() : (Moving)
+	
+*(Dead)
+	|True ? Wait() : (Dead)
 }

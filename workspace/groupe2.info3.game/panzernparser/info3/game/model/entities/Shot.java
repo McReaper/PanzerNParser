@@ -97,7 +97,7 @@ public class Shot extends MovingEntity {
 		m_owner = ent;
 	}
 	
-	public Entity getOwner(){
+	public Entity getOwner() {
 		return m_owner;
 	}
 

@@ -6,7 +6,7 @@ import java.util.ListIterator;
 import info3.game.model.entities.Entity;
 
 public class Automaton {
-	State m_state;
+	public State m_state;
 	List<Mode> m_modes;
 	String m_name;
 

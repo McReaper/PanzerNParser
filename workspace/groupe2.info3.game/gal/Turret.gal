@@ -1,0 +1,15 @@
+TankCanon(Init){
+*(Init)
+	|Key(FU) & Key(FR) ? Turn(NE) : (Init)
+	|Key(FD) & Key(FR) ? Turn(SE) : (Init)
+ 	|Key(FD) & Key(FL) ? Turn(SW) : (Init)
+	|Key(FU) & Key(FL) ? Turn(NW) : (Init)
+	|Key(FU) ? Turn(N) : (Init)
+	|Key(FR) ? Turn(E) : (Init)
+	|Key(FD) ? Turn(S) : (Init)
+	|Key(FL) ? Turn(W) : (Init)
+	|Key(SPACE) ? Hit : (Init)
+	|Key(r) ? Pop() : (Init)
+	|Key(f) ? Wizz() : (Init)
+	
+}

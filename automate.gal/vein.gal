@@ -1,5 +1,0 @@
-Vein(init) {
- * (init):
-	| !GotPower() ? Explode() : ()
-	| True ? : (init)
-}

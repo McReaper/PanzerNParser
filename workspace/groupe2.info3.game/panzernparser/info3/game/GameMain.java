@@ -11,7 +11,7 @@ import info3.game.view.View;
 
 public class GameMain {
 
-	static final String GAME_TITLE = "Panzer n' Parser - Ultra preAlpha Version";
+	static final String GAME_TITLE = "Panzer n' Parser - preAlpha Version";
 
 	Controller m_controller;
 	Model m_model;
@@ -20,23 +20,26 @@ public class GameMain {
 
 	static GameMain game;
 
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		System.out.println("Starting game");
 		game = new GameMain();
 		System.out.println("Game started");
 	}
 
-	GameMain() {
-		//On créer l'univers du jeu
+	GameMain(){
+		//On force le parsing le configuration du jeu avant de créer quoi que ce soit
+		GameConfiguration.getConfig();
+
+		// On créer l'univers du jeu
 		m_model = new Model();
-		
-		//On créer le contrôleur qui va intéragir avec cet univers
+
+		// On créer le contrôleur qui va intéragir avec cet univers
 		m_controller = new Controller(m_model);
-		
-		//On créer une vue de cette univers
+
+		// On créer une vue de cette univers
 		m_view = new View(m_controller, m_model);
-		
-		//On attribut cette vue au controleur, qui écoute
+
+		// On attribut cette vue au controleur, qui écoute
 		m_controller.setView(m_view);
 
 		System.out.println("Creating frame");
@@ -44,6 +47,7 @@ public class GameMain {
 		m_frame = m_view.m_canvas.createFrame(d);
 		System.out.println("Frame created");
 		setupFrame();
+		
 	}
 
 	private void setupFrame() {

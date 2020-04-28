@@ -18,11 +18,11 @@ public class ViewPort {
 	Grid m_grid;
 	int m_width; // Taille du canvas en pixel
 	int m_height;
-	int m_nbCellsX; //Nombre de cellule du view port
+	int m_nbCellsX; // Nombre de cellule du view port
 	int m_nbCellsY;
 	int m_case_width; // Taille d'une case en pixel
 	int m_case_height;
-	int m_x; //Position du viewPort dans la grid /!\ Marge de 2 autour de ce que l'on voit
+	int m_x; // Position du viewPort dans la grid /!\ Marge de 2 autour de ce que l'on voit
 	int m_y;
 	int m_offsetX; // Décalage propre au animations du move du player
 	int m_offsetY;
@@ -100,6 +100,14 @@ public class ViewPort {
 		}
 	}
 
+	public int getCaseWidth() {
+		return m_case_width;
+	}
+
+	public int getCaseHeight() {
+		return m_case_height;
+	}
+
 	public void paint(Graphics g, List<Avatar> lsAvatars) {
 
 		m_width = m_view.m_canvas.getWidth();
@@ -111,8 +119,8 @@ public class ViewPort {
 		offset(); // décalage due au mouve du tank
 		Entity e;
 		int x, y, w, h;
-		
-		//Décalage du aux dimensions de la fenêtre (centrage en y)
+
+		// Décalage du aux dimensions de la fenêtre (centrage en y)
 		int offsetWindow = (m_nbCellsY * m_case_height - (m_height + 4 * m_case_height)) / 2;
 		g.setColor(Color.BLACK);
 		for (int i = -m_offsetX; i < m_nbCellsX * m_case_width; i += m_case_width)
@@ -140,7 +148,7 @@ public class ViewPort {
 				x -= m_offsetX;
 				y -= m_offsetY + offsetWindow;
 				switch (intView) {
-					//Téléportation pour rentrer dans le viewPort
+					// Téléportation pour rentrer dans le viewPort
 					case PAINT_MOVE_X:
 						x += m_grid.getNbCellsX() * m_case_width;
 						break;
@@ -157,7 +165,7 @@ public class ViewPort {
 			}
 
 		}
-		//Pour empêcher de regarder plus loin grâce à la redimension de la fenêtre
+		// Pour empêcher de regarder plus loin grâce à la redimension de la fenêtre
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, m_width, (m_height - m_width) / 2);
 		g.fillRect(0, (m_height + m_width) / 2, m_width, (m_height - m_width) / 2);

@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import info3.game.automaton.LsKey;
+import info3.game.model.Grid;
 import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.view.GameCanvasListener;
@@ -39,9 +40,14 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		/*
+		 * TODO prendre en compte l'ATH en drone car si on clique sur la barre de vie,
+		 * on a pas envie d'avoir un marqueur en cette position
+		 */
 		if (!m_model.isPlayingTank()) {
 			Coords c = new Coords(e.getX(), e.getY());
-			m_model.addClue(c);
+			c = m_view.toGridCoord(c);
+			Model.getModel().addClue(c);
 		}
 		System.out.println("mouseClicked at " + "(" + e.getX() + ", " + e.getY() + ")");
 	}

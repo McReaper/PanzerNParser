@@ -1,4 +1,4 @@
-sprite_sheet = sprites/GenericTest.png
+sprite_sheet = sprites/Marker.png
 Egg = 1,2,3,4,5,6,7
 Get = 1,2,3,4,5,6,7
 Hit = 1,2,3,4,5,6,7

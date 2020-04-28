@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import info3.game.controller.Controller;
+import info3.game.model.Grid;
+import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
@@ -44,6 +46,19 @@ public class View extends Container {
 
 	public void refreshHUD() {
 		// TODO met à jour l'ATH de l'interface de jeu en fonction du modèle.
+	}
+
+	public Coords toGridCoord(Coords c) {
+		Grid g = Model.getModel().getGrid();
+		int grid_width = m_viewPort.getCaseWidth();
+		int grid_height = m_viewPort.getCaseHeight();
+		double x = (c.X / grid_width);
+		double y = (c.Y / grid_height);
+		double x_p = m_model.getPlayed().getX() + m_model.getPlayed().getWidth() / 2;
+		double y_p = m_model.getPlayed().getY() + m_model.getPlayed().getHeight() / 2;
+		int Rx = g.realX((int) (x + x_p + 2 - (m_viewPort.m_nbCellsX) / 2));
+		int Ry = g.realY((int) (y + y_p + 2 - (m_viewPort.m_nbCellsY) / 2));
+		return new Coords(Rx, Ry);
 	}
 
 	private void updateAvatars() {

@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Insets;
@@ -61,34 +62,43 @@ public class View extends Container {
 		
 		JPanel North = new JPanel();
 		North.setBackground(Color.DARK_GRAY);
-		GridLayout GLNorth = new GridLayout(0,4);
+		GridLayout GLNorth = new GridLayout(2,4);
 		North.setLayout(GLNorth);
 		
 		//Init de NorthWest et de son BL		
 		JPanel NorthWest = new JPanel();
-		BoxLayout BLNorthWest = new BoxLayout(NorthWest, BoxLayout.X_AXIS);
+		BoxLayout BLNorthWest = new BoxLayout(NorthWest, BoxLayout.Y_AXIS);
+		JPanel UnderNorthWest = new JPanel();
+		UnderNorthWest.setBackground(Color.cyan);
+		BoxLayout BLUnderNorthWest = new BoxLayout(UnderNorthWest, BoxLayout.X_AXIS);
 		NorthWest.setLayout(BLNorthWest);
-		NorthWest.setBackground(new Color(0,150,20));
-		
+		NorthWest.setBackground(Color.DARK_GRAY);
+		GLNorth.addLayoutComponent("etst", UnderNorthWest);
+
 		//NorthWest avec les deux barres d'HP et DP
 		NorthWest.setPreferredSize(new Dimension(100, 100));
-		NorthWest.add(new Box.Filler(new Dimension(0,0), new Dimension(20,0), new Dimension(20,0)));
-		JProgressBar health = new JProgressBar(JProgressBar.HORIZONTAL,0,100);
+		NorthWest.add(new Box.Filler(new Dimension(0,0), new Dimension(15,15), new Dimension(15,15)));
+		JProgressBar health = new JProgressBar(JProgressBar.VERTICAL,0,100);
 		health.setForeground(Color.RED);
-		health.setMaximumSize(new Dimension(50,50));
+		health.setMaximumSize(new Dimension(50,200));
 		health.setValue(100);
 		NorthWest.add(health);
-		NorthWest.add(new Box.Filler(new Dimension(0,0), new Dimension(20,0), new Dimension(20,0)));
-		JProgressBar drone = new JProgressBar(JProgressBar.HORIZONTAL,0,100);
+		JLabel healthName = new JLabel("Health");
+		
+		NorthWest.add(new Box.Filler(new Dimension(0,0), new Dimension(15,15), new Dimension(15,15)));
+		JProgressBar drone = new JProgressBar(JProgressBar.VERTICAL,0,100);
 		drone.setForeground(Color.YELLOW);
-		drone.setMaximumSize(new Dimension(50,50));
-		drone.setValue(100);
+		drone.setMaximumSize(new Dimension(50,200));
+		drone.setValue(50);
 		NorthWest.add(drone);
-		NorthWest.add(new Box.Filler(new Dimension(0,0), new Dimension(20,0), new Dimension(20,0)));
+		NorthWest.add(new Box.Filler(new Dimension(0,0), new Dimension(15,15), new Dimension(15,15)));
 		North.add(NorthWest);
 		
+		UnderNorthWest.setLayout(BLUnderNorthWest);
+		North.add(UnderNorthWest);
 		
-		BL.addLayoutComponent(North, BorderLayout.NORTH);
+		
+		BL.addLayoutComponent(North, BorderLayout.WEST);
 		BL.addLayoutComponent(South, BorderLayout.SOUTH);
 		
 		//Init de SouthCenter et des bouton d'upgrade

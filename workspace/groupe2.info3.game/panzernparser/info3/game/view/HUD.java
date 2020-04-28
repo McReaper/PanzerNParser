@@ -16,6 +16,7 @@ public class HUD {
 
 	JPanel West;
 	JPanel East;
+
 	JPanel MinToolsWeapon;
 	JLabel Minerals;
 	JLabel minerals;
@@ -73,19 +74,19 @@ public class HUD {
 
 //		HPStamina avec les deux barres d'HP et DP
 //		HPStamina.setPreferredSize(new Dimension(100, 100));
-		HPStamina.add(new Box.Filler(new Dimension(0, 0), new Dimension(15, 15), new Dimension(15, 15)));
+		HPStamina.add(Box.createVerticalGlue());
 		health = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
 		health.setForeground(Color.RED);
 		health.setMaximumSize(new Dimension(50, 200));
 		health.setValue(100);
 		HPStamina.add(health);
-		HPStamina.add(new Box.Filler(new Dimension(0, 0), new Dimension(15, 15), new Dimension(15, 15)));
+		HPStamina.add(Box.createVerticalGlue());
 		drone = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
 		drone.setForeground(Color.YELLOW);
 		drone.setMaximumSize(new Dimension(50, 200));
 		drone.setValue(50);
 		HPStamina.add(drone);
-		HPStamina.add(new Box.Filler(new Dimension(0, 0), new Dimension(15, 15), new Dimension(15, 15)));
+		HPStamina.add(Box.createVerticalGlue());
 		West.add(HPStamina);
 		West.add(MinToolsWeapon);
 	}

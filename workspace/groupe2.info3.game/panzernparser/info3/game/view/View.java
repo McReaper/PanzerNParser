@@ -56,16 +56,13 @@ public class View extends Container {
 		BorderLayout BL = new BorderLayout();
 		BL.addLayoutComponent(m_canvas, BorderLayout.CENTER);
 		this.add(m_canvas);
-		
-		HUD HUD= new HUD();
-		
+
+		HUD HUD = new HUD();
+
 		BL.addLayoutComponent(HUD.West, BorderLayout.WEST);
-		
-//		Init de SouthCenter et des bouton d'upgrade
-		JPanel SouthCenter = new JPanel();
-		
+
 		this.add(HUD.West);
-		
+
 		return BL;
 	}
 

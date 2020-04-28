@@ -11,10 +11,10 @@ import info3.game.model.entities.Turret;
  */
 public class Tank {
 
-	public final static int TANK_BODY_WIDTH = 1;
-	public final static int TANK_BODY_HEIGHT = 1;
-	public final static int TANK_TURRET_WIDTH = 1;
-	public final static int TANK_TURRET_HEIGHT = 1;
+	public final static int TANKBODY_WIDTH = TankBody.TANKBODY_WIDTH;
+	public final static int TANKBODY_HEIGHT = TankBody.TANKBODY_HEIGHT;
+	public final static int TANKTURRET_WIDTH = Turret.TURRET_WIDTH;
+	public final static int TANKTURRET_HEIGHT = Turret.TURRET_HEIGHT;
 
 	public static final int TANK_HEALTH = 100;
 	public static final int TANK_SPEED = 100;

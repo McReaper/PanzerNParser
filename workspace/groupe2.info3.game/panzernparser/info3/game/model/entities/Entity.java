@@ -9,8 +9,8 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.State;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Grid;
-import info3.game.model.Model;
 import info3.game.model.Grid.Coords;
+import info3.game.model.Model;
 
 public abstract class Entity {
 
@@ -61,7 +61,7 @@ public abstract class Entity {
 
 		m_displayed = true;
 
-		m_lengthOfView = 5; // Valeur par défaut a revisiter
+		m_lengthOfView = 4; // Valeur par défaut a revisiter
 		m_x = x;
 		m_y = y;
 		m_width = width;
@@ -177,9 +177,17 @@ public abstract class Entity {
 	public MyDirection getCurrentActionDir() {
 		return m_currentActionDir;
 	}
+	
+	public void setActionDir(MyDirection dir) {
+		m_currentActionDir = dir;
+	}
 
 	public MyDirection getLookAtDir() {
 		return m_currentLookAtDir;
+	}
+	
+	public void setLookDir(MyDirection dir) {
+		m_currentLookAtDir = dir;
 	}
 
 	public MyCategory getCategory() {
@@ -194,6 +202,14 @@ public abstract class Entity {
 	public int getY() {
 		// System.out.println("Is GetYing");
 		return m_y;
+	}
+	
+	public void setX(int x) {
+		m_x = x;
+	}
+	
+	public void setY(int y) {
+		m_y = y;
 	}
 
 	public int getWidth() {

@@ -3,7 +3,10 @@ package info3.game.controller;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
 
+import info3.game.GameMain;
 import info3.game.automaton.LsKey;
 import info3.game.model.Model;
 import info3.game.view.GameCanvasListener;
@@ -98,8 +101,7 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void windowOpened() {
-		// TODO Auto-generated method stub
-
+		loadMusic("1812");
 	}
 
 	@Override
@@ -208,6 +210,18 @@ public class Controller implements GameCanvasListener {
 				return LsKey.ENTER;
 		}
 		return null;
+	}
+	
+	void loadMusic(String name) {
+		String filename = "sounds/"+ name + ".ogg";
+		try {
+      File file = new File(filename);
+      FileInputStream fis = new FileInputStream(file);
+      m_view.m_canvas.play(name, fis, -1);
+    } catch (Throwable th) {
+      th.printStackTrace(System.err);
+      System.exit(-1);
+    }
 	}
 
 }

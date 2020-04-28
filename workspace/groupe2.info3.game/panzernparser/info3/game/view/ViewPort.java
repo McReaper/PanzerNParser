@@ -118,13 +118,10 @@ public class ViewPort {
 		int offsetWindowX = (m_width - m_paintSize) / 2;
 		int offsetWindowY = (m_height - m_paintSize) / 2;
 		g.setColor(Color.BLACK);
-		
 		for (int i = offsetWindowX - m_offsetX; i < m_paintSize + offsetWindowX; i += m_caseSize)
 			g.drawLine(i, offsetWindowY, i, offsetWindowY + m_paintSize);
-		
 		for (int j = offsetWindowY - m_offsetY; j < m_paintSize + offsetWindowY; j += m_caseSize)
 			g.drawLine(offsetWindowX, j, offsetWindowX + m_paintSize, j);
-		
 		for (Avatar avatar : lsAvatars) {
 			e = avatar.m_entity;
 			x = e.getX();

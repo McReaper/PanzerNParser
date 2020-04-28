@@ -20,6 +20,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 import info3.game.controller.Controller;
@@ -52,56 +53,49 @@ public class View extends Container {
 		BorderLayout BL = new BorderLayout();
 		BL.addLayoutComponent(m_canvas, BorderLayout.CENTER);
 		this.add(m_canvas);
-
-		// SOUTH
-		Container south = new Container();
-		south.setPreferredSize(new Dimension(200, 200));
-		GridLayout BLSouth = new GridLayout(0, 3);
-		Container West = new Container();
-//		West.setPreferredSize(new Dimension((int) (m_canvas.getWidth()),200));
-//		Container Center = new Container();
-		Container East = new Container();
-		JProgressBar health = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
-		JProgressBar drone = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
-		health.setAlignmentX(CENTER_ALIGNMENT);
-		drone.setAlignmentX(CENTER_ALIGNMENT);
-		health.setPreferredSize(new Dimension(100,100));
-		drone.setPreferredSize(new Dimension(100,100));
-		health.setForeground(Color.RED);
-		health.setValue(100);
-		drone.setValue(50);
-		drone.setSize(200, 50);
 		
-		JButton buttonCenter = new JButton("CENTER");
-		buttonCenter.setAlignmentX(CENTER_ALIGNMENT);
-		buttonCenter.setAlignmentY(CENTER_ALIGNMENT);
-		JButton buttonEast = new JButton("EAST");
-		buttonEast.setAlignmentX(CENTER_ALIGNMENT);
-		West.add(new Box.Filler(new Dimension(0, 0), new Dimension(50, 50), new Dimension(200, 200)));
-		West.add(health);
-		West.add(new Box.Filler(new Dimension(0, 0), new Dimension(50, 50), new Dimension(200, 200)));
-		West.add(drone);
-		West.add(new Box.Filler(new Dimension(0, 0), new Dimension(50, 50), new Dimension(200, 200)));
-
-//		Center.add(buttonCenter);
-		East.add(buttonEast);
-		BoxLayout BLWest = new BoxLayout(West, BoxLayout.X_AXIS);
-		West.setLayout(BLWest);
-//		BoxLayout BLCenter = new BoxLayout(Center, BoxLayout.Y_AXIS);
-//		Center.setLayout(BLCenter);
-		BoxLayout BLEast = new BoxLayout(East, BoxLayout.Y_AXIS);
-		East.setLayout(BLEast);
-		south.add(West);
-		south.add(buttonCenter);
-//		south.add(Center);
-		south.add(East);
-		BLSouth.addLayoutComponent("West", West);
-		BLSouth.addLayoutComponent("center", buttonCenter);
-		BLSouth.addLayoutComponent("east", East);
-		south.setLayout(BLSouth);
-		BL.addLayoutComponent(south, BorderLayout.SOUTH);
-
-		this.add(south);
+		JPanel South = new JPanel();
+		South.setBackground(new Color(0,150,20));
+		GridLayout GLSouth = new GridLayout(0,3);
+		South.setLayout(GLSouth);
+		
+		JPanel North = new JPanel();
+		North.setBackground(Color.DARK_GRAY);
+		GridLayout GLNorth = new GridLayout(0,4);
+		North.setLayout(GLNorth);
+		
+		//Init de NorthWest et de son BL		
+		JPanel NorthWest = new JPanel();
+		BoxLayout BLNorthWest = new BoxLayout(NorthWest, BoxLayout.X_AXIS);
+		NorthWest.setLayout(BLNorthWest);
+		NorthWest.setBackground(new Color(0,150,20));
+		
+		//NorthWest avec les deux barres d'HP et DP
+		NorthWest.setPreferredSize(new Dimension(100, 100));
+		NorthWest.add(new Box.Filler(new Dimension(0,0), new Dimension(20,0), new Dimension(20,0)));
+		JProgressBar health = new JProgressBar(JProgressBar.HORIZONTAL,0,100);
+		health.setForeground(Color.RED);
+		health.setMaximumSize(new Dimension(50,50));
+		health.setValue(100);
+		NorthWest.add(health);
+		NorthWest.add(new Box.Filler(new Dimension(0,0), new Dimension(20,0), new Dimension(20,0)));
+		JProgressBar drone = new JProgressBar(JProgressBar.HORIZONTAL,0,100);
+		drone.setForeground(Color.YELLOW);
+		drone.setMaximumSize(new Dimension(50,50));
+		drone.setValue(100);
+		NorthWest.add(drone);
+		NorthWest.add(new Box.Filler(new Dimension(0,0), new Dimension(20,0), new Dimension(20,0)));
+		North.add(NorthWest);
+		
+		
+		BL.addLayoutComponent(North, BorderLayout.NORTH);
+		BL.addLayoutComponent(South, BorderLayout.SOUTH);
+		
+		//Init de SouthCenter et des bouton d'upgrade
+		JPanel SouthCenter = new JPanel();
+		
+		this.add(North);
+		
 		return BL;
 	}
 

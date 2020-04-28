@@ -12,6 +12,9 @@ import info3.game.model.entities.Entity;
 
 public class ViewPort {
 
+	public static final int MINIMAL_WIDTH = 200; // TODO : a revisiter
+	public static final int MINIMAL_HEIGHT = 200;
+	
 	Model m_model;
 	Entity m_player;
 	View m_view;

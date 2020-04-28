@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import info3.game.GameMain;
 import info3.game.automaton.LsKey;
 import info3.game.model.Model;
 import info3.game.view.GameCanvasListener;
@@ -86,6 +87,9 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() ==  KeyEvent.VK_F11) {
+			GameMain.getGame().goFullscreen();
+		}
 		LsKey temp = toLsKey(e);
 		m_model.addKeyPressed(temp);
 	}

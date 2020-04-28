@@ -1,0 +1,15 @@
+EnemyTest(Tunr0){
+*(Turn0)
+	|!MyDir(N) ? Turn(N) : (Turn0)
+	|True ? Hit() : (Turn1)
+*(Turn1)
+	|!MyDir(N) ? Turn(N) : (Turn1)
+	|True ? Hit() : (Turn2)
+*(Turn2)
+	|!MyDir(N) ? Turn(N) : (Turn2)
+	|True ? Hit() : (Turn3)
+*(Turn3)
+	|!MyDir(N) ? Turn(N) : (Turn3)
+	|True ? Hit() : (Turn0)
+}
+

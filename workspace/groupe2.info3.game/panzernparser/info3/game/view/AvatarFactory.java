@@ -23,7 +23,7 @@ public class AvatarFactory {
 		} else if (entity instanceof Ground) {
 			return new Avatar(entity, config.getAnimation(MyEntities.Ground));
 		} else if (entity instanceof Marker) {
-			return new Avatar(entity, config.getAnimation(MyEntities.Marker));
+			return new MarkerAvatar(entity, config.getAnimation(MyEntities.Marker));
 		} else if (entity instanceof Shot) {
 			return new Avatar(entity, config.getAnimation(MyEntities.Shot));
 		} else if (entity instanceof TankBody) {

@@ -7,7 +7,6 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
-import info3.game.model.Tank;
 import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class Drone extends MovingEntity {
@@ -37,7 +36,6 @@ public class Drone extends MovingEntity {
 
 	private int m_nbMarkers;
 	VisionType m_currentVisionType;
-	private boolean hasControl;
 
 	public Drone(int x, int y, int width, int height, int health, int speed, Automaton aut) {
 		super(x, y, width, height, health, speed, aut);
@@ -78,22 +76,23 @@ public class Drone extends MovingEntity {
 
 	@Override
 	public void Hit(MyDirection dir) {
-			if (m_actionFinished && m_currentAction == LsAction.Hit) {
-				System.out.println("Pose un marqueur !");
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Hit;
-				m_timeOfAction = DRONE_HIT_TIME;
-			}
-			m_timeOfAction = DRONE_HIT_TIME;
+		if (m_actionFinished && m_currentAction == LsAction.Hit) {
 			Coords c = Model.getModel().getClue();
 			Marker marker = (Marker) EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
-			Model.getModel().addEntity(marker);
+			if (m_nbMarkers == MARKER_MAX)
+				Model.getModel().update(marker);
+			else {
+				Model.getModel().addEntity(marker);
+				m_nbMarkers++;
+			}
 			System.out.println("Hit du drone depot de marker !");
 			Model.getModel().cleanClue();
-			super.Hit(dir);
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Hit;
+			m_timeOfAction = DRONE_HIT_TIME;
 		}
 	}
 
@@ -115,44 +114,44 @@ public class Drone extends MovingEntity {
 
 	@Override
 	public void Pop(MyDirection dir) {
-			if (m_actionFinished && m_currentAction  == LsAction.Pop) {
-				switchVision();
-				System.out.println("Switch de vision !");
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Pop;
-				m_timeOfAction = DRONE_POP_TIME;
-			}
+		if (m_actionFinished && m_currentAction == LsAction.Pop) {
+			switchVision();
+			System.out.println("Switch de vision !");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Pop;
+			m_timeOfAction = DRONE_POP_TIME;
+		}
 	}
 
 	@Override
 	public void Turn(MyDirection dir, int angle) {
-			if (m_actionFinished && m_currentAction == LsAction.Turn) {
-				System.out.println("Le drone tourne !");
-				this.doTurn(dir);
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Turn;
-				m_timeOfAction = DRONE_TURN_TIME;
-			}
+		if (m_actionFinished && m_currentAction == LsAction.Turn) {
+			System.out.println("Le drone tourne !");
+			this.doTurn(dir);
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Turn;
+			m_timeOfAction = DRONE_TURN_TIME;
+		}
 	}
 
 	@Override
 	public void Wizz(MyDirection dir) {
-			if (m_actionFinished && m_currentAction == LsAction.Wizz) {
-				Model.getModel().switchControl();
-				System.out.println("DRONE fait le wizz !");
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Wizz;
-				m_timeOfAction = DRONE_WIZZ_TIME;
-			}
+		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
+			Model.getModel().switchControl();
+			System.out.println("DRONE fait le wizz !");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Wizz;
+			m_timeOfAction = DRONE_WIZZ_TIME;
+		}
 	}
 
 	@Override

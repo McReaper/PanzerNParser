@@ -74,10 +74,11 @@ public class Model {
 
 	}
 
-	public boolean markerIsEmpty(Marker marker) {
-		return marker == null;
+	public void update(Marker marker) {
+	getEntities( MyEntities.Marker).add(marker);
+	getEntities( MyEntities.Marker).remove(0);
 	}
-
+	
 	public void addClue(Coords c) {
 		if (c != null)
 			m_clue = c;
@@ -243,5 +244,6 @@ public class Model {
 		}
 		return entities_to_return;
 	}
+
 
 }

@@ -1,10 +1,7 @@
-Drone(CheckControl){
-	*(CheckControl)
-	|True ? Jump : (OnControl)
-	
-	*(OnControl)
-	|Closest(N,C) ? Hit() : (OnControl)
-	|Key(a) ? Wizz() : (CheckControl)
+Drone(Init){
+	*(Init)
+	|Closest(N,C) ? Hit() : (Init)
+	|Key(a) ? Wizz() : (Init)
 	|Key(z) & Key(d) ? Turn(NE) : (Avance)
 	|Key(s) & Key(d) ? Turn(SE) : (Avance)
 	|Key(s) & Key(q) ? Turn(SW) : (Avance)

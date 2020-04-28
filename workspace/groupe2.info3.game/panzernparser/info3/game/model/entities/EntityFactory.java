@@ -63,8 +63,7 @@ public class EntityFactory {
 	}
 	
 	public static Entity newMarker(int x, int y, Automaton aut) {
-		Model model = Model.getModel();
-		Entity marker = new Marker(x, y, Marker.MARKER_WIDTH, Marker.MARKER_HEIGHT, model, aut);
+		Entity marker = new Marker(x, y, Marker.MARKER_WIDTH, Marker.MARKER_HEIGHT, aut);
 		return marker;
 		}
 

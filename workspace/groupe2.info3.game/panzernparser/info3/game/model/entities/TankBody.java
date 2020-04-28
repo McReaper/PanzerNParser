@@ -38,7 +38,7 @@ public class TankBody extends MovingEntity {
 	private Tank m_tank;
 	// public int m_range;
 
-	public TankBody(int x, int y, int width, int height, Model model, Automaton aut) {
+	public TankBody(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, Tank.TANK_HEALTH, Tank.TANK_SPEED, aut);
 		m_category = MyCategory.AT;
 	}

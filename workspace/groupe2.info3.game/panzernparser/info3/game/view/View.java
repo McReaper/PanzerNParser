@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.image.ImageProducer;
 import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -18,6 +19,7 @@ import javax.swing.Box;
 import javax.swing.Box.Filler;
 import javax.swing.border.Border;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -60,51 +62,74 @@ public class View extends Container {
 		GridLayout GLSouth = new GridLayout(0,3);
 		South.setLayout(GLSouth);
 		
-		JPanel North = new JPanel();
-		North.setBackground(Color.DARK_GRAY);
-		GridLayout GLNorth = new GridLayout(2,4);
-		North.setLayout(GLNorth);
+		JPanel West = new JPanel();
+		West.setBackground(Color.DARK_GRAY);
+		West.setPreferredSize(new Dimension(150, 150));
+		GridLayout GLWest = new GridLayout(2,0);
+		West.setLayout(GLWest);
 		
-		//Init de NorthWest et de son BL		
-		JPanel NorthWest = new JPanel();
-		BoxLayout BLNorthWest = new BoxLayout(NorthWest, BoxLayout.Y_AXIS);
-		JPanel UnderNorthWest = new JPanel();
-		UnderNorthWest.setBackground(Color.cyan);
-		BoxLayout BLUnderNorthWest = new BoxLayout(UnderNorthWest, BoxLayout.X_AXIS);
-		NorthWest.setLayout(BLNorthWest);
-		NorthWest.setBackground(Color.DARK_GRAY);
-		GLNorth.addLayoutComponent("etst", UnderNorthWest);
+		JPanel MinToolsWeapon = new JPanel();
+		BoxLayout BLMinToolsWeapon = new BoxLayout(MinToolsWeapon, BoxLayout.Y_AXIS);
+		MinToolsWeapon.setLayout(BLMinToolsWeapon);
+		MinToolsWeapon.setBackground(Color.DARK_GRAY);//ce
+		
+		JLabel Minerals = new JLabel(new ImageIcon("sprites/Trou.png"));
+		JLabel Tools = new JLabel(new ImageIcon("sprites/Trou.png"));
+		JLabel Weapon = new JLabel(new ImageIcon("sprites/Trou.png"));
+		
+		JLabel minerals = new JLabel("Minerals : ");
+		JLabel tools = new JLabel("Tools : ");
+		JLabel weapon = new JLabel("Current Weapon : ");
+		
+		Minerals.setAlignmentX(CENTER_ALIGNMENT);
+		Tools.setAlignmentX(CENTER_ALIGNMENT);
+		Weapon.setAlignmentX(CENTER_ALIGNMENT);
+		minerals.setAlignmentX(CENTER_ALIGNMENT);
+		tools.setAlignmentX(CENTER_ALIGNMENT);
+		weapon.setAlignmentX(CENTER_ALIGNMENT);
+		
+		MinToolsWeapon.add(Box.createVerticalGlue());
+		MinToolsWeapon.add(minerals);
+		MinToolsWeapon.add(Minerals);
+		MinToolsWeapon.add(Box.createVerticalGlue());
+		MinToolsWeapon.add(tools);
+		MinToolsWeapon.add(Tools);
+		MinToolsWeapon.add(Box.createVerticalGlue());
+		MinToolsWeapon.add(weapon);
+		MinToolsWeapon.add(Weapon);
+		MinToolsWeapon.add(Box.createVerticalGlue());
+				
+//		Init de HPStamina et de son BL		
+		JPanel HPStamina = new JPanel();
+		BoxLayout BLWestSorth = new BoxLayout(HPStamina, BoxLayout.Y_AXIS);
+		HPStamina.setLayout(BLWestSorth);
+		HPStamina.setBackground(Color.DARK_GRAY);
 
-		//NorthWest avec les deux barres d'HP et DP
-		NorthWest.setPreferredSize(new Dimension(100, 100));
-		NorthWest.add(new Box.Filler(new Dimension(0,0), new Dimension(15,15), new Dimension(15,15)));
+//		HPStamina avec les deux barres d'HP et DP
+//		HPStamina.setPreferredSize(new Dimension(100, 100));
+		HPStamina.add(new Box.Filler(new Dimension(0,0), new Dimension(15,15), new Dimension(15,15)));
 		JProgressBar health = new JProgressBar(JProgressBar.VERTICAL,0,100);
 		health.setForeground(Color.RED);
 		health.setMaximumSize(new Dimension(50,200));
 		health.setValue(100);
-		NorthWest.add(health);
-		JLabel healthName = new JLabel("Health");
-		
-		NorthWest.add(new Box.Filler(new Dimension(0,0), new Dimension(15,15), new Dimension(15,15)));
+		HPStamina.add(health);
+		HPStamina.add(new Box.Filler(new Dimension(0,0), new Dimension(15,15), new Dimension(15,15)));
 		JProgressBar drone = new JProgressBar(JProgressBar.VERTICAL,0,100);
 		drone.setForeground(Color.YELLOW);
 		drone.setMaximumSize(new Dimension(50,200));
 		drone.setValue(50);
-		NorthWest.add(drone);
-		NorthWest.add(new Box.Filler(new Dimension(0,0), new Dimension(15,15), new Dimension(15,15)));
-		North.add(NorthWest);
+		HPStamina.add(drone);
+		HPStamina.add(new Box.Filler(new Dimension(0,0), new Dimension(15,15), new Dimension(15,15)));
+		West.add(HPStamina);
+		West.add(MinToolsWeapon);
 		
-		UnderNorthWest.setLayout(BLUnderNorthWest);
-		North.add(UnderNorthWest);
-		
-		
-		BL.addLayoutComponent(North, BorderLayout.WEST);
+		BL.addLayoutComponent(West, BorderLayout.WEST);
 		BL.addLayoutComponent(South, BorderLayout.SOUTH);
 		
-		//Init de SouthCenter et des bouton d'upgrade
+//		Init de SouthCenter et des bouton d'upgrade
 		JPanel SouthCenter = new JPanel();
 		
-		this.add(North);
+		this.add(West);
 		
 		return BL;
 	}

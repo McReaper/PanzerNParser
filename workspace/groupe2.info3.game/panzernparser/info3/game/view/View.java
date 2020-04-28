@@ -50,8 +50,6 @@ public class View extends Container {
 		boolean mustRebuild = false;
 		if (m_model.getNbEntities() != m_avatars.size())
 			mustRebuild = true;
-		// TODO : optimisation -- revoir cette boucle pour la mise a jour des avatars.
-		// iteration sur les clés et puis sur la liste associée
 		HashMap<EntityFactory.MyEntities, LinkedList<Entity>> entities = m_model.getHashEntities();
 		for (EntityFactory.MyEntities entity : entities.keySet()) {
 

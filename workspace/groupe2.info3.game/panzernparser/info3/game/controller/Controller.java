@@ -32,7 +32,7 @@ public class Controller implements GameCanvasListener {
 		// a chaque tick on fait un pas de simulation, et donc met à jour le modèle.
 		m_model.step(elapsed);
 		if (!m_model.m_sounds.isEmpty()) {
-			Iterator iter = m_model.m_sounds.iterator();
+			Iterator<String> iter = m_model.m_sounds.iterator();
 			while (iter.hasNext()) {
 				String name = (String) iter.next();
 				loadMusic(name);
@@ -110,8 +110,6 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void windowOpened() {
-		
-
 	}
 
 	@Override

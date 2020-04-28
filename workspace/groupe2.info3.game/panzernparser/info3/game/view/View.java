@@ -57,79 +57,14 @@ public class View extends Container {
 		BL.addLayoutComponent(m_canvas, BorderLayout.CENTER);
 		this.add(m_canvas);
 		
-		JPanel South = new JPanel();
-		South.setBackground(new Color(0,150,20));
-		GridLayout GLSouth = new GridLayout(0,3);
-		South.setLayout(GLSouth);
+		HUD HUD= new HUD();
 		
-		JPanel West = new JPanel();
-		West.setBackground(Color.DARK_GRAY);
-		West.setPreferredSize(new Dimension(150, 150));
-		GridLayout GLWest = new GridLayout(2,0);
-		West.setLayout(GLWest);
-		
-		JPanel MinToolsWeapon = new JPanel();
-		BoxLayout BLMinToolsWeapon = new BoxLayout(MinToolsWeapon, BoxLayout.Y_AXIS);
-		MinToolsWeapon.setLayout(BLMinToolsWeapon);
-		MinToolsWeapon.setBackground(Color.DARK_GRAY);//ce
-		
-		JLabel Minerals = new JLabel(new ImageIcon("sprites/Trou.png"));
-		JLabel Tools = new JLabel(new ImageIcon("sprites/Trou.png"));
-		JLabel Weapon = new JLabel(new ImageIcon("sprites/Trou.png"));
-		
-		JLabel minerals = new JLabel("Minerals : ");
-		JLabel tools = new JLabel("Tools : ");
-		JLabel weapon = new JLabel("Current Weapon : ");
-		
-		Minerals.setAlignmentX(CENTER_ALIGNMENT);
-		Tools.setAlignmentX(CENTER_ALIGNMENT);
-		Weapon.setAlignmentX(CENTER_ALIGNMENT);
-		minerals.setAlignmentX(CENTER_ALIGNMENT);
-		tools.setAlignmentX(CENTER_ALIGNMENT);
-		weapon.setAlignmentX(CENTER_ALIGNMENT);
-		
-		MinToolsWeapon.add(Box.createVerticalGlue());
-		MinToolsWeapon.add(minerals);
-		MinToolsWeapon.add(Minerals);
-		MinToolsWeapon.add(Box.createVerticalGlue());
-		MinToolsWeapon.add(tools);
-		MinToolsWeapon.add(Tools);
-		MinToolsWeapon.add(Box.createVerticalGlue());
-		MinToolsWeapon.add(weapon);
-		MinToolsWeapon.add(Weapon);
-		MinToolsWeapon.add(Box.createVerticalGlue());
-				
-//		Init de HPStamina et de son BL		
-		JPanel HPStamina = new JPanel();
-		BoxLayout BLWestSorth = new BoxLayout(HPStamina, BoxLayout.Y_AXIS);
-		HPStamina.setLayout(BLWestSorth);
-		HPStamina.setBackground(Color.DARK_GRAY);
-
-//		HPStamina avec les deux barres d'HP et DP
-//		HPStamina.setPreferredSize(new Dimension(100, 100));
-		HPStamina.add(new Box.Filler(new Dimension(0,0), new Dimension(15,15), new Dimension(15,15)));
-		JProgressBar health = new JProgressBar(JProgressBar.VERTICAL,0,100);
-		health.setForeground(Color.RED);
-		health.setMaximumSize(new Dimension(50,200));
-		health.setValue(100);
-		HPStamina.add(health);
-		HPStamina.add(new Box.Filler(new Dimension(0,0), new Dimension(15,15), new Dimension(15,15)));
-		JProgressBar drone = new JProgressBar(JProgressBar.VERTICAL,0,100);
-		drone.setForeground(Color.YELLOW);
-		drone.setMaximumSize(new Dimension(50,200));
-		drone.setValue(50);
-		HPStamina.add(drone);
-		HPStamina.add(new Box.Filler(new Dimension(0,0), new Dimension(15,15), new Dimension(15,15)));
-		West.add(HPStamina);
-		West.add(MinToolsWeapon);
-		
-		BL.addLayoutComponent(West, BorderLayout.WEST);
-		BL.addLayoutComponent(South, BorderLayout.SOUTH);
+		BL.addLayoutComponent(HUD.West, BorderLayout.WEST);
 		
 //		Init de SouthCenter et des bouton d'upgrade
 		JPanel SouthCenter = new JPanel();
 		
-		this.add(West);
+		this.add(HUD.West);
 		
 		return BL;
 	}
@@ -184,7 +119,6 @@ public class View extends Container {
 		for (Avatar avatar : m_avatars) {
 			avatar.paint(g, case_width, case_height); // TODO : revoir la zone avec le viewport plus tard.
 		}
-		refreshHUD();
 	}
 
 }

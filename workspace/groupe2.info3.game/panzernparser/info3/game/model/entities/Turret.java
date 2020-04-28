@@ -60,12 +60,19 @@ public class Turret extends MovingEntity {
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Hit;
 				m_timeOfAction = TURRET_HIT_TIME;
+				
+				//creation du shot
 				Entity ent = EntityFactory.newEntity(MyEntities.Shot, this.m_x + m_width/2, m_y + m_height/2);
-				ent.setLookDir(MyDirection.toAbsolute(this.m_currentLookAtDir, this.m_currentActionDir));
-				ent.setActionDir(MyDirection.toAbsolute(this.m_currentLookAtDir, this.m_currentActionDir));
+				
+				//Donne la direction de regard et d'action
+				ent.setLookDir(MyDirection.toAbsolute(this.m_currentLookAtDir, dir));
+				ent.setActionDir(MyDirection.toAbsolute(this.m_currentActionDir, dir));
+				
+				//Donne l'entité qui l'a tiré (ici le tankBody)
+				((Shot ) ent).setOwner(m_tank.getBody());
+				
+				//Ajoute l'entité au model
 				Model.getModel().addEntity(ent);
-				//MyEntities.Shot, m_tank.getXMiddle()
-//			//m_tank.getYMiddle()
 			}
 	}
 

@@ -32,6 +32,9 @@ public class Shot extends MovingEntity {
 	public static final long SHOT_THROW_TIME = 1000;
 	public static final long SHOT_WAIT_TIME = 50;
 	public static final long SHOT_WIZZ_TIME = 1000;
+	
+	//entité qui a tiré ce shot
+	Entity m_owner;
 
 	public Shot(int x, int y, int width, int height, int health, int speed, Automaton aut) {
 		super(x, y, width, height, health, speed, aut);
@@ -88,6 +91,14 @@ public class Shot extends MovingEntity {
 	@Override
 	public void collide(){
 		this.m_health = 0;
+	}
+	
+	public void setOwner(Entity ent) {
+		m_owner = ent;
+	}
+	
+	public Entity getOwner(){
+		return m_owner;
 	}
 
 }

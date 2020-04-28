@@ -22,6 +22,10 @@ import info3.game.model.entities.Vein;
 
 public class Model {
 
+	public enum VisionType {
+		TANK, RESSOURCES, ENEMIES;
+	}
+
 	private static Model self; // Singleton du model
 
 	// Controller m_controller; //pour envoyer des information utiles.
@@ -110,14 +114,22 @@ public class Model {
 			// Le drone apparait au niveau du tank
 			m_drone.setX(m_tank.getBody().getX());
 			m_drone.setY(m_tank.getBody().getY());
-			
-			//Le drone apparait avec direction d'action et de regard identique à celle du tank
+
+			// Le drone apparait avec direction d'action et de regard identique à celle du
+			// tank
 			m_drone.setActionDir(m_tank.getBody().getCurrentActionDir());
 			m_drone.setLookDir(m_tank.getBody().getLookAtDir());
 //			m_tank.showTank(false);
 //			m_drone.showEntity(true);
 			System.out.println("Contrôles données au DRONE");
 		}
+	}
+
+	public VisionType getVisionType() {
+		if (m_playingTank) {
+			return VisionType.TANK;
+		}
+		return m_drone.getVisionType();
 	}
 
 	public Entity getPlayed() {

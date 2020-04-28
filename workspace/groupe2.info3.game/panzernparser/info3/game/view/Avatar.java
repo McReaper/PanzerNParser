@@ -5,6 +5,8 @@ import java.awt.Image;
 
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Model;
+import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Entity;
 
 /**
@@ -22,8 +24,8 @@ public class Avatar {
 		m_entity = entity;
 		m_animation = animation;
 	}
-	
-	public int progressivePaintY(MyDirection e_absoluteActionDir,int y, double progress, int case_height) {
+
+	public int progressivePaintY(MyDirection e_absoluteActionDir, int y, double progress, int case_height) {
 		switch (e_absoluteActionDir) {
 			case NORTH:
 			case NORTHEAST:
@@ -40,7 +42,7 @@ public class Avatar {
 		}
 		return y;
 	}
-	
+
 	public int progressivePaintX(MyDirection e_absoluteActionDir, int x, double progress, int case_width) {
 		switch (e_absoluteActionDir) {
 			case EAST:
@@ -56,7 +58,7 @@ public class Avatar {
 			default:
 				break;
 		}
-	return x;
+		return x;
 	}
 
 	/**
@@ -68,6 +70,7 @@ public class Avatar {
 	 */
 
 	public void paint(Graphics g, int xcase, int ycase, int case_width, int case_height) {
+		VisionType vision = Model.getModel().getVisionType();
 		MyDirection e_lookAtDir = m_entity.getLookAtDir();
 		MyDirection e_actionDir = m_entity.getCurrentActionDir();
 		LsAction e_currAction = m_entity.getCurrentAction();
@@ -76,7 +79,7 @@ public class Avatar {
 
 		int width = m_entity.getWidth() * case_width;
 		int height = m_entity.getHeight() * case_height;
-		int x = xcase;																						// deux seul changement
+		int x = xcase; 
 		int y = ycase;
 
 		// Pour réaliser un affichage progressif dans le cas d'un move.
@@ -85,7 +88,7 @@ public class Avatar {
 			y = progressivePaintY(e_absoluteActionDir, y, progress, case_height);
 		}
 
-		Image sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir);
+		Image sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir, vision);
 
 		g.drawImage(sprite, x, y, width, height, null);
 	}

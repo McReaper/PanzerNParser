@@ -17,11 +17,20 @@ public class CompassWidget extends JComponent implements SwingConstants {
 		m_arrows = new LinkedList<Arrow>();
 	}
 
+	/** Ajoute une flèche à la boussole.
+	 *  
+	 *  @param color	La couleur de la flèche.
+	 *  @param angle	angle en degré.
+	 */
+	
 	public void addArrow(Color color, int angle) {
 		Arrow ar = new Arrow(color, angle);
 		m_arrows.add(ar);
 	}
 
+	/** Supprime toutes les flèches de la boussole.
+	 */
+	
 	public void resetArrow() {
 		m_arrows = new LinkedList<Arrow>();
 	}

@@ -26,28 +26,44 @@ public class Menu {
 
 	GameMain m_gameMain;
 	JPanelImaged m_mainMenu;
+	Border m_buttonBorder;
 	
 	Menu(GameMain gameMain) {
 		
 		Border inset = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 		LineBorder buttonLineBorder = (LineBorder)BorderFactory.createLineBorder(new Color(52,109,46),3);
-		Border buttonBorder = BorderFactory.createCompoundBorder(buttonLineBorder, inset);
+		m_buttonBorder = BorderFactory.createCompoundBorder(buttonLineBorder, inset);
 		
 		m_gameMain = gameMain;
 		m_mainMenu = new JPanelImaged();
 		m_mainMenu.setImage("sprites/Menu.png");
+		drawMainMenu();
+	}
+	
+	public void drawMainMenu() {
+		
+		//Le layout en deux partie du menu
 		GridLayout mainGrid = new GridLayout(2,1);
 		m_mainMenu.setLayout(mainGrid);
+		
+		//Partie haute
 		JPanel upperPart = new JPanel();
 		upperPart.setOpaque(false);
 		upperPart.setBackground(Color.DARK_GRAY);
+		
+		//Layout pour l'upperPart
+		BoxLayout upperPartLayout = new BoxLayout(upperPart, BoxLayout.Y_AXIS);
+		upperPart.setLayout(upperPartLayout);
+		
+		//Le bouton launch
 		Font fontLaunch = new Font(null,0,30);
 		JButton launch = new JButton("Lauch Game");
 		Color buttonColor = new Color(22,63,23);
 		launch.setBackground(buttonColor);
 		launch.setForeground(Color.WHITE);
 		launch.setFont(fontLaunch);
-		launch.setBorder(buttonBorder);
+		launch.setBorder(m_buttonBorder);
+		launch.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		launch.addActionListener(new ActionListener() {
 
 			@Override
@@ -56,33 +72,38 @@ public class Menu {
 			}
 			
 		});
-		BoxLayout upperPartLayout = new BoxLayout(upperPart, BoxLayout.Y_AXIS);
-		upperPart.setLayout(upperPartLayout);
+		
+		//Remplissage upperPart
 		upperPart.add(Box.createVerticalGlue());
-		launch.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		upperPart.add(launch);
 		upperPart.add(Box.createRigidArea(new Dimension(10,15)));
 		
+		//Zone du bas
 		JPanel underPart = new JPanel();
 		underPart.setOpaque(false);
 		underPart.setBackground(Color.DARK_GRAY);
+		
+		//Layout du bas
+		BoxLayout underPartLayout = new BoxLayout(underPart, BoxLayout.Y_AXIS);
+		underPart.setLayout(underPartLayout);
+		
+		//Bouton des config
 		Font fontConfig = new Font(null,0,25);
 		JButton config = new JButton("Configuration menu");
 		config.setFont(fontConfig);
-		config.setBorder(buttonBorder);
+		config.setBorder(m_buttonBorder);
 		config.setBackground(buttonColor);
 		config.setForeground(Color.WHITE);
-		BoxLayout underPartLayout = new BoxLayout(underPart, BoxLayout.Y_AXIS);
-		underPart.setLayout(underPartLayout);
 		config.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+		
+		//Remplissage bas
 		underPart.add(Box.createRigidArea(new Dimension(10,15)));
 		underPart.add(config);
 		underPart.add(Box.createVerticalGlue());
 		
+		//Remplissage menu
 		m_mainMenu.add(upperPart);
 		m_mainMenu.add(underPart);
-		m_mainMenu.doLayout();
-		m_mainMenu.repaint();
 	}
 	
 	public JPanel getMainMenu() {

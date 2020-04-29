@@ -65,13 +65,13 @@ public class TankBody extends MovingEntity {
 				case EAST:
 				case WEST:
 				case SOUTH:
-					m_timeOfAction = TANKBODY_MOVE_TIME;
+					m_timeOfAction = m_speed;
 					break;
 				case NORTHEAST:
 				case NORTHWEST:
 				case SOUTHEAST:
 				case SOUTHWEST:
-					m_timeOfAction = (long) Math.sqrt(2 * TANKBODY_MOVE_TIME * TANKBODY_MOVE_TIME);
+					m_timeOfAction = (long) Math.sqrt(2 * m_speed * m_speed);
 
 			}
 			m_currentActionDir = dir;
@@ -156,7 +156,7 @@ public class TankBody extends MovingEntity {
 						Model.getModel().removeEntity(ent);// et il disparait de la liste des entités du model.
 						System.out.println("Dans l'inventaire il y a " + m_tank.getInventory().getQuantity(((Droppable) ent).getMType()) + " matériaux ");
 					}
-				}if (ent instanceof Marker){
+				}else if (ent instanceof Marker){
 					if (isPickable(ent)) {
 						Model.getModel().removeEntity(ent);// et il disparait de la liste des entités du model.
 					}

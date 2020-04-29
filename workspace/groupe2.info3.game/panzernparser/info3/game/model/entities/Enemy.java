@@ -108,13 +108,13 @@ public class Enemy extends MovingEntity {
 				case EAST:
 				case WEST:
 				case SOUTH:
-					m_timeOfAction = ENEMY_MOVE_TIME;
+					m_timeOfAction = m_speed;
 					break;
 				case NORTHEAST:
 				case NORTHWEST:
 				case SOUTHEAST:
 				case SOUTHWEST:
-					m_timeOfAction = (long) Math.sqrt(2 * ENEMY_MOVE_TIME * ENEMY_MOVE_TIME);
+					m_timeOfAction = (long) Math.sqrt(2 * m_speed * m_speed);
 
 			}
 			m_currentActionDir = dir;

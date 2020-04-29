@@ -108,13 +108,13 @@ public class Drone extends MovingEntity {
 					case EAST:
 					case WEST:
 					case SOUTH:
-						m_timeOfAction = DRONE_MOVE_TIME;
+						m_timeOfAction = m_speed;
 						break;
 					case NORTHEAST:
 					case NORTHWEST:
 					case SOUTHEAST:
 					case SOUTHWEST:
-						m_timeOfAction = (long) Math.sqrt(2 * DRONE_MOVE_TIME * DRONE_MOVE_TIME);
+						m_timeOfAction = (long) Math.sqrt(2 * m_speed * m_speed);
 
 				}
 				m_currentActionDir = dir;

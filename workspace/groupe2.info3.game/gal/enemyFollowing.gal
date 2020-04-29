@@ -1,6 +1,6 @@
 EnnemiFollowing(Init){
 	* (Init) :
-	| !GotPower() ? Explode() : (Dying)
+	| !GotPower() ? Egg() : (Dying)
 	| Closest(@, N) & !Closest(@, NE) ? Turn(N) : (Step)
 	| Closest(@, E) & !Closest(@, NE) ? Turn(E) : (Step)
 	| Closest(@, NE) ? Turn(NE) : (Step)
@@ -16,12 +16,12 @@ EnnemiFollowing(Init){
 	| True ? Wait () : (Init)
 	
 	* (Step) :
-	| !GotPower() ? Explode() : (Dying)
+	| !GotPower() ? Egg() : (Dying)
 	| !Cell(N,@) & ! Cell(N,O) ? Move(F) : (Attack)
 	| True ? : (Attack)
 	
 	* (Attack) :
-	| !GotPower() ? Explode() : (Dying)
+	| !GotPower() ? Egg() : (Dying)
 	| True ? Hit() : (Init)
 	
 	* (Dying)

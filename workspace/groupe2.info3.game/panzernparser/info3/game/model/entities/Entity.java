@@ -568,7 +568,7 @@ public abstract class Entity {
 	 * @param dist
 	 * @return
 	 */
-	protected LinkedList<Coords> getCellsInDiagonalDir(MyDirection dir, int dist) {
+	protected LinkedList<Coords> getQuarterInDiagonalDir(MyDirection dir, int dist) {
 		double center_x = m_x + (double) (m_width) / 2.0;
 		double center_y = m_y + (double) (m_height) / 2.0;
 		LinkedList<Coords> cells = new LinkedList<Coords>();
@@ -629,6 +629,62 @@ public abstract class Entity {
 		return coords_to_return;
 	}
 
+	protected LinkedList<Coords> getCellsInDiagonalDir(MyDirection dir, int dist) {
+		LinkedList<Coords> cells = new LinkedList<Coords>();
+		RectangleTriangle stencil1, stencil2;
+
+		double center_x = m_x + (double) (m_width) / 2.0;
+		double center_y = m_y + (double) (m_height) / 2.0;
+
+		int max_side = Math.max(m_width, m_height);
+		double rayon = (double) (max_side) / 2 + dist;
+		double angle = Math.toRadians(67.5);
+		
+		switch (dir) {
+			case NORTHEAST:
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.NORTHEAST, dist));
+				stencil1 = new RectangleTriangle(center_x + rayon + 1, center_y, center_x, center_y, center_x + rayon + 1,
+						center_y - rayon*Math.tan(angle) - 1);
+				stencil2 = new RectangleTriangle(center_x, center_y - rayon - 1, center_x, center_y, center_x + rayon*Math.tan(angle) + 1,
+						center_y - rayon - 1);
+				break;
+			case NORTHWEST:
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.NORTHWEST, dist));
+				stencil1 = new RectangleTriangle(center_x - rayon - 1, center_y, center_x, center_y, center_x - rayon - 1,
+						center_y - rayon*Math.tan(angle) - 1);
+				stencil2 = new RectangleTriangle(center_x, center_y - rayon - 1, center_x, center_y, center_x - rayon*Math.tan(angle) - 1,
+						center_y - rayon - 1);
+				break;
+			case SOUTHEAST:
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.SOUTHEAST, dist));
+				stencil1 = new RectangleTriangle(center_x + rayon + 1, center_y, center_x, center_y, center_x + rayon + 1,
+						center_y + rayon*Math.tan(angle) + 1);
+				stencil2 = new RectangleTriangle(center_x, center_y + rayon + 1, center_x, center_y, center_x + rayon*Math.tan(angle) + 1,
+						center_y + rayon + 1);
+				break;
+			case SOUTHWEST:
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.SOUTHWEST, dist));
+				stencil1 = new RectangleTriangle(center_x - rayon - 1, center_y, center_x, center_y, center_x - rayon - 1,
+						center_y + rayon*Math.tan(angle) + 1);
+				stencil2 = new RectangleTriangle(center_x, center_y + rayon + 1, center_x, center_y, center_x - rayon*Math.tan(angle) - 1,
+						center_y + rayon + 1);
+				break;
+			default:
+				throw new IllegalArgumentException(
+						"Cette fonction est appelable uniquement avec les paramètres NORTH, EAST, WEST, SOUTH");
+		}
+
+		LinkedList<Coords> coords_to_return = new LinkedList<Coords>();
+
+		for (Coords coord : cells) {
+			if (stencil1.isInMe(coord.X + 0.5, coord.Y + 0.5) && stencil2.isInMe(coord.X + 0.5, coord.Y + 0.5)) {
+				coords_to_return.add(coord);
+			}
+		}
+
+		return coords_to_return;
+	}
+	
 	protected LinkedList<Coords> getCellsInOrthogonalDir(MyDirection dir, int dist) {
 		LinkedList<Coords> cells = new LinkedList<Coords>();
 		RectangleTriangle stencil1, stencil2;
@@ -638,39 +694,40 @@ public abstract class Entity {
 
 		int max_side = Math.max(m_width, m_height);
 		double rayon = (double) (max_side) / 2 + dist;
-
+		double angle = Math.toRadians(67.5);
+		
 		switch (dir) {
 			case NORTH:
-				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHEAST, dist));
-				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHWEST, dist));
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.NORTHEAST, dist));
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.NORTHWEST, dist));
 				stencil1 = new RectangleTriangle(center_x - rayon - 1, center_y, center_x, center_y, center_x - rayon - 1,
-						center_y - rayon - 1);
+						center_y - rayon*Math.tan(angle) - 1);
 				stencil2 = new RectangleTriangle(center_x + rayon + 1, center_y, center_x, center_y, center_x + rayon + 1,
-						center_y - rayon - 1);
+						center_y - rayon*Math.tan(angle) - 1);
 				break;
 			case WEST:
-				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHWEST, dist));
-				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHWEST, dist));
-				stencil1 = new RectangleTriangle(center_x, center_y - rayon - 1, center_x, center_y, center_x - rayon - 1,
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.SOUTHWEST, dist));
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.NORTHWEST, dist));
+				stencil1 = new RectangleTriangle(center_x, center_y - rayon - 1, center_x, center_y, center_x - rayon*Math.tan(angle) - 1,
 						center_y - rayon - 1);
-				stencil2 = new RectangleTriangle(center_x, center_y + rayon + 1, center_x, center_y, center_x - rayon - 1,
+				stencil2 = new RectangleTriangle(center_x, center_y + rayon + 1, center_x, center_y, center_x - rayon*Math.tan(angle) - 1,
 						center_y + rayon + 1);
 				break;
 			case EAST:
-				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHEAST, dist));
-				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHEAST, dist));
-				stencil1 = new RectangleTriangle(center_x, center_y - rayon - 1, center_x, center_y, center_x + rayon + 1,
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.NORTHEAST, dist));
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.SOUTHEAST, dist));
+				stencil1 = new RectangleTriangle(center_x, center_y - rayon - 1, center_x, center_y, center_x + rayon*Math.tan(angle) + 1,
 						center_y - rayon - 1);
-				stencil2 = new RectangleTriangle(center_x, center_y + rayon + 1, center_x, center_y, center_x + rayon + 1,
+				stencil2 = new RectangleTriangle(center_x, center_y + rayon + 1, center_x, center_y, center_x + rayon*Math.tan(angle) + 1,
 						center_y + rayon + 1);
 				break;
 			case SOUTH:
-				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHEAST, dist));
-				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHWEST, dist));
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.SOUTHEAST, dist));
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.SOUTHWEST, dist));
 				stencil1 = new RectangleTriangle(center_x - rayon - 1, center_y, center_x, center_y, center_x - rayon - 1,
-						center_y + rayon + 1);
+						center_y + rayon*Math.tan(angle) + 1);
 				stencil2 = new RectangleTriangle(center_x + rayon + 1, center_y, center_x, center_y, center_x + rayon + 1,
-						center_y + rayon + 1);
+						center_y + rayon*Math.tan(angle) + 1);
 				break;
 			default:
 				throw new IllegalArgumentException(

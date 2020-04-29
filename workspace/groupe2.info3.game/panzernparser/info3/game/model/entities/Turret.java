@@ -56,6 +56,7 @@ public class Turret extends MovingEntity {
 				System.out.println("FIRE !");
 				m_actionFinished = false;
 				m_currentAction = null;
+				Model.getModel().m_sounds.add("oof");
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Hit;

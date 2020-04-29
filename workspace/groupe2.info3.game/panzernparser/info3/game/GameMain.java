@@ -2,6 +2,10 @@ package info3.game;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 
@@ -18,7 +22,7 @@ public class GameMain {
 	Model m_model;
 	View m_view;
 	JFrame m_frame;
-	boolean m_fullscreen;
+	public HashMap<String,File> m_file;
 
 	static GameMain game;
 
@@ -28,13 +32,16 @@ public class GameMain {
 		System.out.println("Game started");
 	}
 
-	GameMain() {
-		// On force le parsing le configuration du jeu avant de créer quoi que ce soit
+	GameMain(){
+		m_file = new HashMap<String, File>();
+		//On force le parsing le configuration du jeu avant de créer quoi que ce soit
 		GameConfiguration.getConfig();
 
 		// On créer l'univers du jeu
 		m_model = Model.getModel();
 
+		initSounds(new File("sounds/"));
+		
 		// On créer le contrôleur qui va intéragir avec cet univers
 		m_controller = new Controller(m_model);
 
@@ -92,4 +99,17 @@ public class GameMain {
 		m_fullscreen = !m_fullscreen;
 		setupFrame();
 	}
+	
+	public void initSounds(File folder) {
+		for (final File fileEntry : folder.listFiles()) {
+			String name = fileEntry.getName();
+			name = name.substring(0,name.length()-4);
+			m_file.put(name, fileEntry);
+		}
+	}
+	
+	public static GameMain getGame() {
+		return game;
+	}
+		
 }

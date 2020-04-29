@@ -50,7 +50,6 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Move(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Move) {
-		//	System.out.println("Tank fait le move !");
 			this.doMove(dir);
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -91,7 +90,6 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Turn(MyDirection dir, int angle) {
 		if (m_actionFinished && m_currentAction == LsAction.Turn) {
-		//	System.out.println("Tank fait le Turn !");
 			this.doTurn(dir);
 			m_actionFinished = false;
 			m_currentAction = null;

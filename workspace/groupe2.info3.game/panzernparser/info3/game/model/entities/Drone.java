@@ -40,7 +40,6 @@ public class Drone extends MovingEntity {
 
 	public Drone(int x, int y, int width, int height, int health, int speed, Automaton aut) {
 		super(x, y, width, height, health, speed, aut);
-		m_category = MyCategory.AT;
 		m_nbMarkers = 0;
 		m_lengthOfView = 10;
 		m_currentVisionType = VisionType.RESSOURCES;
@@ -79,7 +78,6 @@ public class Drone extends MovingEntity {
 			if (m_nbMarkers == MARKER_MAX)
 				Model.getModel().update(marker);
 			else {
-				Model.getModel().addEntity(marker);
 				m_nbMarkers++;
 			}
 			System.out.println("Hit du drone depot de marker !");

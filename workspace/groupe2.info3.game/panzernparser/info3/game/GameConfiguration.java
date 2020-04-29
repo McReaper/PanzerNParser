@@ -119,12 +119,6 @@ public class GameConfiguration {
 			}
 			@SuppressWarnings("unchecked")
 			List<Automaton> lsAuto = (List<Automaton>) myAST.accept(builder);
-//			for (Automaton aut : lsAuto) {
-//				if (aut.getName().equals(fields[0])) {
-//					m_automatons.put(MyEntities.valueOf(fields[0]), aut);
-//					break;
-//				}
-//			}
 			m_automatons.put(MyEntities.valueOf(fields[0]), lsAuto.get(0));
 
 			// Parsing des fichiers .ani !

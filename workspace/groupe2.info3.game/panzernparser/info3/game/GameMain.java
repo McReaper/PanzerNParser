@@ -9,12 +9,15 @@ import javax.swing.JFrame;
 
 import info3.game.controller.Controller;
 import info3.game.model.Model;
+import info3.game.view.HUD;
 import info3.game.view.View;
 import info3.game.view.ViewPort;
 
 public class GameMain {
 
 	static final String GAME_TITLE = "Panzer n' Parser - preAlpha Version";
+	private static final int FRAME_WIDTH = 1024;
+	private static final int FRAME_HEIGHT = 768;
 
 	Controller m_controller;
 	Model m_model;
@@ -28,12 +31,11 @@ public class GameMain {
 	public static void main(String[] args) {
 		System.out.println("Starting game");
 		game = new GameMain();
-		System.out.println("Game started");
 	}
 
 	GameMain() {
 		m_file = new HashMap<String, File>();
-		// On force le parsing le configuration du jeu avant de créer quoi que ce soit
+		// On force le parsing de configuration du jeu avant de créer quoi que ce soit
 		GameConfiguration.getConfig();
 
 		// On créer l'univers du jeu
@@ -54,7 +56,6 @@ public class GameMain {
 		m_frame = null;
 		System.out.println("Creating frame");
 		setupFrame();
-		System.out.println("Frame created");
 	}
 
 	public static GameMain getGame() {
@@ -63,7 +64,7 @@ public class GameMain {
 
 	private void setupFrame() {
 
-		Dimension d = new Dimension(1024, 768);
+		Dimension d = new Dimension(FRAME_WIDTH, FRAME_HEIGHT);
 		m_frame = m_view.m_canvas.createFrame(d);
 
 		m_frame.setTitle(GAME_TITLE);
@@ -74,12 +75,12 @@ public class GameMain {
 		// Centre la fenêtre à l'écran :
 		m_frame.setLocationRelativeTo(null);
 
-		int min_width_hud = 100 * 2;
-		int min_height_hud = 100 * 2;
+		int min_width_hud = HUD.MINIMAL_WIDTH;
+		int min_height_hud = HUD.MINIMAL_HEIGHT;
 		int min_width_vp = ViewPort.MINIMAL_WIDTH;
 		int min_height_vp = ViewPort.MINIMAL_HEIGHT;
 
-		m_frame.setMinimumSize(new Dimension(min_width_hud + min_width_vp, min_height_hud + min_height_vp));
+		m_frame.setMinimumSize(new Dimension(min_width_hud + min_width_vp, Math.max(min_height_hud, min_height_vp)));
 
 		if (m_fullscreen) {
 			m_frame.setExtendedState(JFrame.MAXIMIZED_BOTH);

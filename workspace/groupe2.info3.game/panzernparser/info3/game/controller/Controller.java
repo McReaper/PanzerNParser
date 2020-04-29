@@ -10,7 +10,6 @@ import java.util.Iterator;
 
 import info3.game.GameMain;
 import info3.game.automaton.LsKey;
-import info3.game.model.Grid;
 import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.view.GameCanvasListener;

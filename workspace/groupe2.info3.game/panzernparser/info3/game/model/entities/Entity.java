@@ -198,12 +198,10 @@ public abstract class Entity {
 	}
 
 	public int getX() {
-		// System.out.println("Is GetXing");
 		return m_x;
 	}
 
 	public int getY() {
-		// System.out.println("Is GetYing");
 		return m_y;
 	}
 
@@ -446,7 +444,6 @@ public abstract class Entity {
 
 	public void Wait() {
 		if (m_actionFinished && m_currentAction == LsAction.Wait) {
-			// System.out.println("Is Waiting");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -613,10 +610,7 @@ public abstract class Entity {
 	}
 
 	public boolean GotPower() {
-		if (m_health > 0) {
-			return true;
-		}
-		return false;
+		return m_health > 0;
 	}
 
 	public boolean GotStuff() {

@@ -18,17 +18,15 @@ import info3.game.model.entities.EntityFactory.MyEntities;
  * plusieurs fichiers patterns.
  */
 public class Grid {
-	Model m_model;
 	List<Pattern> m_patterns;
 	Pattern patTank;
 
 	/* entier pour le nombre de zone à charger dans la grille */
 	final static int TAILLE_MAP = 2;
 
-	public Grid(Model model) throws UnexpectedException {
+	public Grid() throws UnexpectedException {
 		// Constructeur (phase de tests) :
 		m_patterns = new LinkedList<Pattern>();
-		m_model = model;
 		load();
 		generate();
 	}
@@ -96,12 +94,7 @@ public class Grid {
 
 	public void sendToModel(List<Pattern> patterns) {
 		for (Pattern pattern : patterns) {
-			List<Entity> entities = pattern.getEntities();
-			for (Entity entity : entities) {
-				m_model.addEntity(entity);
-				// System.out.println("Send " + EntityFactory.name(entity) + " : " +
-				// entity.getX() + "," + entity.getY());
-			}
+			pattern.buildEntities();
 		}
 	}
 
@@ -165,15 +158,12 @@ public class Grid {
 			m_py = y;
 		}
 
-		List<Entity> getEntities() {
-			List<Entity> realEntities = new LinkedList<Entity>();
+		void buildEntities() {
 			for (EntityShade entityShade : m_entitieShades) {
 				int global_x = entityShade.m_ex + m_px * SIZE;
 				int global_y = entityShade.m_ey + m_py * SIZE;
-				Entity ent = EntityFactory.newEntity(entityShade.m_type, global_x, global_y);
-				realEntities.add(ent);
+				EntityFactory.newEntity(entityShade.m_type, global_x, global_y);
 			}
-			return realEntities;
 		}
 
 		public void parse(File file) throws IOException {

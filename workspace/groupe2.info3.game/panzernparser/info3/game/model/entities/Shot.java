@@ -47,14 +47,11 @@ public class Shot extends MovingEntity {
 	
 	@Override
 	public void step(long elapsed) {
-	//	System.out.println("Le SHOT fait un step");
 		super.step(elapsed);
 	}
 	
 	@Override
 	public void Move(MyDirection dir) {
-		//System.out.println("Le SHOT avance !");
-	//	System.out.println("il est en position " + m_x + ";" + m_y);
 			if (m_actionFinished && m_currentAction == LsAction.Move) {
 				
 				this.doMove(dir);
@@ -70,7 +67,6 @@ public class Shot extends MovingEntity {
 	@Override
 	public void Explode() {
 			if (m_actionFinished && m_currentAction == LsAction.Move) {
-				System.out.println("Le SHOT Explose !");
 				this.doExplode();
 				m_actionFinished = false;
 				m_currentAction = null;

@@ -38,7 +38,7 @@ public class Enemy extends MovingEntity {
 //	private Droppable m_drops;
 	public Enemy(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, aut);
-		m_category = MyCategory.O;
+		m_category = MyCategory.A;
 		m_lengthOfView = 5;
 	}
 
@@ -67,9 +67,6 @@ public class Enemy extends MovingEntity {
 
 			// Donne l'entité qui l'a tiré (ici le tankBody)
 			((Shot) ent).setOwner(this);
-
-			// Ajoute l'entité au model
-			Model.getModel().addEntity(ent);
 		}
 	}
 
@@ -85,10 +82,7 @@ public class Enemy extends MovingEntity {
 			m_timeOfAction = DEFAULT_EGG_TIME;
 
 			// creation de la ressource a répendre
-			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);//TODO si dir est diff de Here
-
-			// Ajoute l'entité au model
-			Model.getModel().addEntity(ent);
+			EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);//TODO si dir est diff de Here
 		}
 	}
 

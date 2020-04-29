@@ -59,7 +59,6 @@ public class ViewPort {
 	}
 
 	private void positionViewPort() {
-//		System.out.println("player (" + m_player.getX() + ";" + m_player.getY() + ")");
 		m_x = m_player.getX();
 		m_x -= m_field_of_view;
 		m_x -= 2; // pour la marge
@@ -68,7 +67,6 @@ public class ViewPort {
 		m_y -= m_field_of_view;
 		m_y -= 2;
 		m_y = m_grid.realY(m_y);
-//		System.out.println("(" + m_x + ";" + m_y + ")");
 	}
 
 	private void offset() {

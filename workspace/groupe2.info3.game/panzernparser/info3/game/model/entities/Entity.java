@@ -177,7 +177,7 @@ public abstract class Entity {
 	public MyDirection getCurrentActionDir() {
 		return m_currentActionDir;
 	}
-	
+
 	public void setActionDir(MyDirection dir) {
 		m_currentActionDir = dir;
 	}
@@ -185,7 +185,7 @@ public abstract class Entity {
 	public MyDirection getLookAtDir() {
 		return m_currentLookAtDir;
 	}
-	
+
 	public void setLookDir(MyDirection dir) {
 		m_currentLookAtDir = dir;
 	}
@@ -203,11 +203,11 @@ public abstract class Entity {
 		// System.out.println("Is GetYing");
 		return m_y;
 	}
-	
+
 	public void setX(int x) {
 		m_x = x;
 	}
-	
+
 	public void setY(int y) {
 		m_y = y;
 	}
@@ -258,7 +258,7 @@ public abstract class Entity {
 
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
-		//	System.out.println("Is Hitting");
+			// System.out.println("Is Hitting");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -280,7 +280,7 @@ public abstract class Entity {
 			m_timeOfAction = DEFAULT_EXPLODE_TIME;
 		}
 	}
-	
+
 	public void doExplode() {
 		System.out.println("Le tir explose et disparait !");
 		Model.getModel().removeEntity(this);
@@ -741,9 +741,9 @@ public abstract class Entity {
 			return false;
 		}
 	}
-	
+
 	public boolean isInMeCase(int x, int y) {
-		//TODO gerer les bords de case
+		// TODO gerer les bords de case
 		if (m_x <= x && x < m_x + this.m_width) {
 			if (m_y <= y && y < m_y + this.m_height) {
 				return true;
@@ -751,7 +751,7 @@ public abstract class Entity {
 		}
 		return false;
 	}
-	
+
 	public void collide() {
 		/*
 		 * l'implem dépend de chaque entité

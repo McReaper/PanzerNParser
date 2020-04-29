@@ -38,13 +38,7 @@ public class Shot extends MovingEntity {
 
 	public Shot(int x, int y, int width, int height, int health, int speed, Automaton aut) {
 		super(x, y, width, height, health, speed, aut);
-		m_health = this.SHOT_HEALTH;
-	}
-	
-	@Override
-	public void Move(MyDirection dir) {
-		
-		return;
+		m_health = SHOT_HEALTH;
 	}
 
 	int m_health;

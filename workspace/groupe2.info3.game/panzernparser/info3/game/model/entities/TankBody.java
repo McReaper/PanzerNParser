@@ -12,8 +12,8 @@ import info3.game.model.Tank;
  */
 public class TankBody extends MovingEntity {
 
-	public final static int TANKBODY_WIDTH = 2;
-	public final static int TANKBODY_HEIGHT = 2;
+	public final static int TANKBODY_WIDTH = 3;
+	public final static int TANKBODY_HEIGHT = 3;
 
 	public static final int TANKBODY_HEALTH = 100;
 	public static final int TANKBODY_SPEED = 100;
@@ -54,9 +54,23 @@ public class TankBody extends MovingEntity {
 				m_actionFinished = false;
 				m_currentAction = null;
 			} else if (m_currentAction == null) {
+				MyDirection absoluteDir = MyDirection.toAbsolute(m_currentActionDir, dir);
+				switch (absoluteDir) {
+					case NORTH:
+					case EAST:
+					case WEST:
+					case SOUTH:
+						m_timeOfAction = TANKBODY_MOVE_TIME;
+						break;
+					case NORTHEAST:
+					case NORTHWEST:
+					case SOUTHEAST:
+					case SOUTHWEST:
+						m_timeOfAction =(long) Math.sqrt(2*TANKBODY_MOVE_TIME*TANKBODY_MOVE_TIME);
+						
+				}
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Move;
-				m_timeOfAction = TANKBODY_MOVE_TIME;
 			}
 	}
 

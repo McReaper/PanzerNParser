@@ -4,22 +4,24 @@ import info3.game.automaton.Automaton;
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Model;
 import info3.game.model.Tank;
+import info3.game.model.entities.EntityFactory.MyEntities;
 
 /**
  * Classe du canon du tank
  */
 public class Turret extends MovingEntity {
 
-	public final static int TURRET_WIDTH = 2;
-	public final static int TURRET_HEIGHT = 2;
+	public final static int TURRET_WIDTH = 3;
+	public final static int TURRET_HEIGHT = 3;
 
 	public static final int TURRET_HEALTH = 100;
 	public static final int TURRET_SPEED = 100;
 
 	public static final long TURRET_EGG_TIME = 1000;
 	public static final long TURRET_GET_TIME = 1000;
-	public static final long TURRET_HIT_TIME = 300;
+	public static final long TURRET_HIT_TIME = 3000;
 	public static final long TURRET_JUMP_TIME = 1000;
 	public static final long TURRET_EXPLODE_TIME = 1000;
 	public static final long TURRET_MOVE_TIME = 1000;
@@ -58,6 +60,19 @@ public class Turret extends MovingEntity {
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Hit;
 				m_timeOfAction = TURRET_HIT_TIME;
+				
+				//creation du shot
+				Entity ent = EntityFactory.newEntity(MyEntities.Shot, this.m_x + m_width/2, m_y + m_height/2);
+				
+				//Donne la direction de regard et d'action
+				ent.setLookDir(MyDirection.toAbsolute(this.m_currentLookAtDir, dir));
+				ent.setActionDir(MyDirection.toAbsolute(this.m_currentActionDir, dir));
+				
+				//Donne l'entité qui l'a tiré (ici le tankBody)
+				((Shot ) ent).setOwner(m_tank.getBody());
+				
+				//Ajoute l'entité au model
+				Model.getModel().addEntity(ent);
 			}
 	}
 

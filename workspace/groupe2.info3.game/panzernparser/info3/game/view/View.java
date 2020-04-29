@@ -101,6 +101,7 @@ public class View extends Container {
 		 * case_width, case_height); // TODO : revoir la zone avec le viewport plus
 		 * tard. }
 		 */
+		updateAvatars();
 		m_viewPort.paint(g, m_avatars);
 	}
 

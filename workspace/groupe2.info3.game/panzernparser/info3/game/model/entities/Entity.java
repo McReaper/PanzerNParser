@@ -167,7 +167,7 @@ public abstract class Entity {
 		if (state != null)
 			m_currentState = state;
 		else
-			System.err.println("setstate null !");
+			System.err.println("setstate null !" + this);
 	}
 
 	public LsAction getCurrentAction() {
@@ -258,7 +258,7 @@ public abstract class Entity {
 
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
-			System.out.println("Is Hitting");
+		//	System.out.println("Is Hitting");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -279,6 +279,11 @@ public abstract class Entity {
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = DEFAULT_EXPLODE_TIME;
 		}
+	}
+	
+	public void doExplode() {
+		System.out.println("Le tir explose et disparait !");
+		Model.getModel().removeEntity(this);
 	}
 
 	public void Jump(MyDirection dir) {
@@ -482,7 +487,7 @@ public abstract class Entity {
 	public boolean Cell(MyDirection dir, MyCategory type, int dist) {
 		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
 
-		return true;
+		return false;
 	}
 
 	public boolean GotPower() {
@@ -735,6 +740,22 @@ public abstract class Entity {
 			}
 			return false;
 		}
+	}
+	
+	public boolean isInMeCase(int x, int y) {
+		//TODO gerer les bords de case
+		if (m_x <= x && x < m_x + this.m_width) {
+			if (m_y <= y && y < m_y + this.m_height) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void collide() {
+		/*
+		 * l'implem dépend de chaque entité
+		 */
 	}
 
 	public boolean Key(LsKey m_key) {

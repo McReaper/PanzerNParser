@@ -5,7 +5,6 @@ import info3.game.automaton.MyCategory;
 import info3.game.model.MaterialType;
 
 public class Droppable extends StaticEntity {
-	/* Champs pour donner size par defaut dans la EntityFactory */
 	public final static int DROPPABLE_WIDTH = 1;
 	public final static int DROPPABLE_HEIGHT = 1;
 

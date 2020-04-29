@@ -10,11 +10,10 @@ import info3.game.model.entities.Shot;
 public class CollisionManager {
 
 	public CollisionManager() {
-		System.out.println("Création de la classe CollisionManager");
 	}
 
 	public void controlCollisionsShotsEntity() {
-		// Regardons si les shots touches qqc
+		// Regardons si les shots touches quelque chose
 		LinkedList<Entity> shots;
 		LinkedList<Entity> enemy;
 		LinkedList<Entity> tankPlayer;
@@ -24,7 +23,7 @@ public class CollisionManager {
 		tankPlayer = Model.getModel().getEntities(MyEntities.TankBody);
 		for (Entity entShot : shots) {
 
-			//verifie si le shot est encore encore en vie
+			// verifie si le shot est encore encore en vie
 			if (entShot.getCurrentAction() != LsAction.Explode) {
 				// regarde si le shot traverse un enemy
 				for (Entity entEnemy : enemy) {

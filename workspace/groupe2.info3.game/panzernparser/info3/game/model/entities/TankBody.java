@@ -7,16 +7,17 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Tank;
+
 /**
  * Chassis du tank
  */
 public class TankBody extends MovingEntity {
 
-	public final static int TANKBODY_WIDTH = 3;
-	public final static int TANKBODY_HEIGHT = 3;
+	public final static int TANKBODY_WIDTH = Tank.TANK_WIDTH;
+	public final static int TANKBODY_HEIGHT = Tank.TANK_HEIGHT;
 
-	public static final int TANKBODY_HEALTH = 100;
-	public static final int TANKBODY_SPEED = 100;
+	public static final int TANKBODY_HEALTH = Tank.TANK_HEALTH;
+	public static final int TANKBODY_SPEED = Tank.TANK_SPEED;
 
 	public static final long TANKBODY_EGG_TIME = 1000;
 	public static final long TANKBODY_GET_TIME = 1000;
@@ -35,7 +36,6 @@ public class TankBody extends MovingEntity {
 	public static final long TANKBODY_WIZZ_TIME = 1000;
 
 	private Tank m_tank;
-	// public int m_range;
 
 	public TankBody(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, Tank.TANK_HEALTH, Tank.TANK_SPEED, aut);
@@ -50,7 +50,6 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Move(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Move) {
-		//	System.out.println("Tank fait le move !");
 			this.doMove(dir);
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -68,7 +67,8 @@ public class TankBody extends MovingEntity {
 				case SOUTHEAST:
 				case SOUTHWEST:
 					m_timeOfAction = (long) Math.sqrt(2 * TANKBODY_MOVE_TIME * TANKBODY_MOVE_TIME);
-
+				default:
+					break;
 			}
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Move;
@@ -78,7 +78,6 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Pop(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
-			System.out.println("Tank fait le Pop !");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -91,7 +90,6 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Turn(MyDirection dir, int angle) {
 		if (m_actionFinished && m_currentAction == LsAction.Turn) {
-		//	System.out.println("Tank fait le Turn !");
 			this.doTurn(dir);
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -106,7 +104,6 @@ public class TankBody extends MovingEntity {
 	public void Wizz(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			Model.getModel().switchControl();
-			System.out.println("TANK fait le wizz");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -115,17 +112,15 @@ public class TankBody extends MovingEntity {
 			m_timeOfAction = TANKBODY_WIZZ_TIME;
 		}
 	}
-	
+
 	@Override
 	public void Explode() {
 		/*
 		 * TODO faire un GAME OVER
 		 */
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
-			System.out.println("Le TANK et le Canon Explose !");
-//			m_tank.getTurret().doExplode();
-//			this.doExplode();
-			this.m_health = 100;//je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
+			// m_tank.doExplode();
+			m_tank.setLife(Tank.TANK_HEALTH);// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -140,10 +135,18 @@ public class TankBody extends MovingEntity {
 			return super.Key(key);
 		return false;
 	}
-	
+
 	@Override
 	public void collide() {
-		m_health -=50;
+		m_tank.getDamages(50 /*
+													 * TODO (Victor) : d'un point de vue objet il faudrait que le collide passe un
+													 * objet.
+													 */);
 	}
 	
+	@Override
+	public boolean GotPower() {
+		return m_tank.gotPower();
+	}
+
 }

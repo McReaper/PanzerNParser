@@ -10,8 +10,6 @@ import info3.game.automaton.action.LsAction;
  * MovingEntity.
  */
 public class Shot extends MovingEntity {
-	/* Champs pour donner size par defaut dans la EntityFactory */
-	/* a voir comment les SHOTs sont créés (factory ?) */
 	final static int SHOT_WIDTH = 1;
 	final static int SHOT_HEIGHT = 1;
 
@@ -35,28 +33,17 @@ public class Shot extends MovingEntity {
 	public static final long SHOT_WIZZ_TIME = 1000;
 	
 	//entité qui a tiré ce shot
-	Entity m_owner;
+	private Entity m_owner;
 
 	public Shot(int x, int y, int width, int height, int health, int speed, Automaton aut) {
 		super(x, y, width, height, health, speed, aut);
 		m_health = SHOT_HEALTH;
 		m_category = MyCategory.M;
 	}
-
-	int m_health;
-	
-	@Override
-	public void step(long elapsed) {
-	//	System.out.println("Le SHOT fait un step");
-		super.step(elapsed);
-	}
 	
 	@Override
 	public void Move(MyDirection dir) {
-		//System.out.println("Le SHOT avance !");
-	//	System.out.println("il est en position " + m_x + ";" + m_y);
 			if (m_actionFinished && m_currentAction == LsAction.Move) {
-				
 				this.doMove(dir);
 				m_actionFinished = false;
 				m_currentAction = null;
@@ -70,7 +57,6 @@ public class Shot extends MovingEntity {
 	@Override
 	public void Explode() {
 			if (m_actionFinished && m_currentAction == LsAction.Move) {
-				System.out.println("Le SHOT Explose !");
 				this.doExplode();
 				m_actionFinished = false;
 				m_currentAction = null;
@@ -82,17 +68,13 @@ public class Shot extends MovingEntity {
 	
 	@Override
 	public boolean GotPower() {
-		if (m_health>0) {
-			m_health  -= 10;
-			return true;
-		}
-		
-		return false;
+		m_health -= 10;
+		return m_health > 0;
 	}
 	
 	@Override
 	public void collide(){
-		this.m_health = 0;
+		m_health = 0;
 	}
 	
 	public void setOwner(Entity ent) {

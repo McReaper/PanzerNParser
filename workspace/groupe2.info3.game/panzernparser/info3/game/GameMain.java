@@ -14,32 +14,34 @@ import info3.game.view.ViewPort;
 
 public class GameMain {
 
-	static final String GAME_TITLE = "Panzer n' Parser - preAlpha Version";
+	private static final String GAME_TITLE = "Panzer n' Parser - Made by talented students";
 
-	Controller m_controller;
-	Model m_model;
-	View m_view;
-	JFrame m_frame;
-	boolean m_fullscreen;
-	public HashMap<String, File> m_file;
+	private Controller m_controller;
+	private Model m_model;
+	private View m_view;
+	private JFrame m_frame;
+	private boolean m_fullscreen;
+	private HashMap<String, File> m_soundFiles;
 
-	static GameMain game;
+	private static GameMain game;
 
 	public static void main(String[] args) {
 		System.out.println("Starting game");
-		game = new GameMain();
+		getGame();
 		System.out.println("Game started");
 	}
 
-	GameMain() {
-		m_file = new HashMap<String, File>();
+	private GameMain() {
+		m_soundFiles = new HashMap<String, File>();
+		
 		// On force le parsing le configuration du jeu avant de créer quoi que ce soit
 		GameConfiguration.getConfig();
 
+		// On charge les fichiers de sons en mémoire
+		initSounds(new File(GameConfiguration.SOUND_PATH));
+		
 		// On créer l'univers du jeu
 		m_model = Model.getModel();
-
-		initSounds(new File("sounds/"));
 
 		// On créer le contrôleur qui va intéragir avec cet univers
 		m_controller = new Controller(m_model);
@@ -52,12 +54,14 @@ public class GameMain {
 
 		m_fullscreen = false;
 		m_frame = null;
-		System.out.println("Creating frame");
+		System.out.println("Setting up the frame ...");
 		setupFrame();
-		System.out.println("Frame created");
+		System.out.println("Frame set !");
 	}
 
 	public static GameMain getGame() {
+		if (game == null)
+			game = new GameMain();
 		return game;
 	}
 
@@ -103,8 +107,12 @@ public class GameMain {
 		for (final File fileEntry : folder.listFiles()) {
 			String name = fileEntry.getName();
 			name = name.substring(0, name.length() - 4);
-			m_file.put(name, fileEntry);
+			m_soundFiles.put(name, fileEntry);
 		}
+	}
+	
+	public HashMap<String, File> getSounds() {
+		return m_soundFiles;
 	}
 
 }

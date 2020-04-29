@@ -5,7 +5,7 @@ import java.util.HashMap;
 import info3.game.model.entities.Droppable;
 
 /**
- * L'invetaire contient une liste des matériaux.
+ * L'invetaire contient une liste de matériaux.
  */
 public class Inventory {
 	HashMap<MaterialType, Integer> m_materialList;

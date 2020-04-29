@@ -6,15 +6,13 @@ import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
 
 /**
- * Classe qui va servir de jointure entre le chassis et le canon
+ * Classe qui set de jointure entre le chassis et le canon
  * particulièrement lors des moves.
  */
 public class Tank {
 
-	public final static int TANKBODY_WIDTH = TankBody.TANKBODY_WIDTH;
-	public final static int TANKBODY_HEIGHT = TankBody.TANKBODY_HEIGHT;
-	public final static int TANKTURRET_WIDTH = Turret.TURRET_WIDTH;
-	public final static int TANKTURRET_HEIGHT = Turret.TURRET_HEIGHT;
+	public final static int TANK_WIDTH = 3;
+	public final static int TANK_HEIGHT = 3;
 
 	public static final int TANK_HEALTH = 100;
 	public static final int TANK_SPEED = 100;
@@ -25,7 +23,8 @@ public class Tank {
 	
 	private TankBody m_body;
 	private Turret m_turret;
-
+	private int m_health;
+	
 	public Tank(TankBody body, Turret turret) {
 		m_body = body;
 		m_turret = turret;
@@ -59,6 +58,23 @@ public class Tank {
 	
 	public Turret getTurret() {
 		return m_turret;
+	}
+	
+	public void doExplode() {
+		m_turret.doExplode();
+		m_body.doExplode();
+	}
+
+	public void setLife(int tankHealth) {
+		m_health = tankHealth;
+	}
+	
+	public void getDamages(int damages) {
+		m_health -= damages;
+	}
+	
+	public boolean gotPower() {
+		return m_health > 0;
 	}
 
 	///// METHODES POUR LA VUE /////

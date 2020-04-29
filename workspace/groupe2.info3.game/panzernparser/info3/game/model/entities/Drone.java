@@ -11,13 +11,14 @@ import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class Drone extends MovingEntity {
-	public final static int DRONE_WIDTH = 1;
-	public final static int DRONE_HEIGHT = 1;
+	public final static int DRONE_WIDTH = 5;
+	public final static int DRONE_HEIGHT = 5;
 
 	public static final int DRONE_HEALTH = 100;
 	public static final int DRONE_SPEED = 1;
 
-	public static int MARKER_MAX = 3;
+	public static final int MARKER_MAX = 3;
+	public static final int DRONE_FOV = 10;
 
 	public static final long DRONE_EGG_TIME = 1000;
 	public static final long DRONE_GET_TIME = 1000;
@@ -36,25 +37,20 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_WIZZ_TIME = 1000;
 
 	private int m_nbMarkers;
-	VisionType m_currentVisionType;
+	private VisionType m_currentVisionType;
 
 	public Drone(int x, int y, int width, int height, int health, int speed, Automaton aut) {
 		super(x, y, width, height, health, speed, aut);
-		m_category = MyCategory.AT;
 		m_nbMarkers = 0;
-		m_lengthOfView = 10;
+		m_lengthOfView = DRONE_FOV;
 		m_currentVisionType = VisionType.RESSOURCES;
 		m_category = MyCategory.V;
 	}
 
 	@Override
 	public boolean Closest(MyDirection dir, MyCategory type) {
-		if (type == MyCategory.C && Model.getModel().getClue() != null)
-			return true;
-		// return super.Closest(dir, type);
-		return false;// temporaire
+		return (type == MyCategory.C && Model.getModel().getClue() != null);
 	}
-
 
 	private void switchVision() {
 		if (m_currentVisionType == VisionType.RESSOURCES)
@@ -62,7 +58,7 @@ public class Drone extends MovingEntity {
 		else
 			m_currentVisionType = VisionType.RESSOURCES;
 	}
-	
+
 	public VisionType getVisionType() {
 		return m_currentVisionType;
 	}
@@ -82,7 +78,6 @@ public class Drone extends MovingEntity {
 				Model.getModel().addEntity(marker);
 				m_nbMarkers++;
 			}
-			System.out.println("Hit du drone depot de marker !");
 			Model.getModel().cleanClue();
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -97,7 +92,6 @@ public class Drone extends MovingEntity {
 	public void Move(MyDirection dir) {
 		if (this.hasControl()) {
 			if (m_actionFinished && m_currentAction == LsAction.Move) {
-				System.out.println("Le drone avance !");
 				this.doMove(dir);
 				m_actionFinished = false;
 				m_currentAction = null;
@@ -113,7 +107,6 @@ public class Drone extends MovingEntity {
 	public void Pop(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			switchVision();
-			System.out.println("Switch de vision !");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -126,7 +119,6 @@ public class Drone extends MovingEntity {
 	@Override
 	public void Turn(MyDirection dir, int angle) {
 		if (m_actionFinished && m_currentAction == LsAction.Turn) {
-			System.out.println("Le drone tourne !");
 			this.doTurn(dir);
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -141,7 +133,6 @@ public class Drone extends MovingEntity {
 	public void Wizz(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			Model.getModel().switchControl();
-			System.out.println("DRONE fait le wizz !");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -155,16 +146,20 @@ public class Drone extends MovingEntity {
 	public boolean Key(LsKey key) {
 		if (hasControl())
 			return super.Key(key);
-
 		return false;
 	}
 
 	public void growViewPort() {
-		// m_range++;
+		m_lengthOfView++;
 	}
 
 	public void reduceViewPort() {
-		// m_range--;
+		m_lengthOfView--;
+	}
+
+	@Override
+	public void collide() {
+		return; // Le drone n'entre jamais en collision.
 	}
 
 }

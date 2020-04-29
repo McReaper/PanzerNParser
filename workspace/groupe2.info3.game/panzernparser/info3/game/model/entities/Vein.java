@@ -28,7 +28,7 @@ public class Vein extends Entity {
 	public static final long VEIN_THROW_TIME = 1000;
 	public static final long VEIN_WAIT_TIME = 5000;
 	public static final long VEIN_WIZZ_TIME = 1000;
-
+	
 	public Vein(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, aut);
 		m_category = MyCategory.P;
@@ -38,11 +38,5 @@ public class Vein extends Entity {
 	public void step(long elapsed) {
 		m_displayed = (Model.getModel().getVisionType() == VisionType.RESSOURCES);
 		super.step(elapsed);
-	}
-
-	int m_quantity;
-
-	void mine() {
-
 	}
 }

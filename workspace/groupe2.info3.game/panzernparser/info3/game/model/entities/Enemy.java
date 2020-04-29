@@ -5,27 +5,25 @@ import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
+import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class Enemy extends MovingEntity {
-	/*
-	 * Champs pour donner size par defaut dans la EntityFactory. A voir si on donne
-	 * des size differentes pour des categories d'ennemis differents
-	 */
 	public final static int ENEMY_WIDTH = 1;
 	public final static int ENEMY_HEIGHT = 1;
 
 	public static final int ENEMY_HEALTH = 100;
 	public static final int ENEMY_SPEED = 100;
+	public static final int ENEMY_FOV = 4;
 
 	public static final long ENEMY_EGG_TIME = 1000;
 	public static final long ENEMY_GET_TIME = 1000;
 	public static final long ENEMY_HIT_TIME = 500;
 	public static final long ENEMY_JUMP_TIME = 1000;
 	public static final long ENEMY_EXPLODE_TIME = 1000;
-	public static final long ENEMY_MOVE_TIME = 500;
+	public static final long ENEMY_MOVE_TIME = 1000;
 	public static final long ENEMY_PICK_TIME = 1000;
-	public static final long ENEMY_POP_TIME = 10000;
+	public static final long ENEMY_POP_TIME = 1000;
 	public static final long ENEMY_POWER_TIME = 1000;
 	public static final long ENEMY_PROTECT_TIME = 1000;
 	public static final long ENEMY_STORE_TIME = 1000;
@@ -34,23 +32,21 @@ public class Enemy extends MovingEntity {
 	public static final long ENEMY_WAIT_TIME = 50;
 	public static final long ENEMY_WIZZ_TIME = 1000;
 
-//	private boolean m_triggered; // indique si l'ennemi a détecté le joueur ou non.
-//	private Droppable m_drops;
 	public Enemy(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, aut);
-		m_category = MyCategory.O;
-		m_lengthOfView = 5;
+		m_category = MyCategory.A;
+		m_lengthOfView = ENEMY_FOV;
 	}
 
 	@Override
 	public void step(long elapsed) {
+		m_displayed = (Model.getModel().getVisionType() != VisionType.RESSOURCES);
 		super.step(elapsed);
 	}
-
+	
 	@Override
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
-			// System.out.println("FIRE !");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -65,7 +61,7 @@ public class Enemy extends MovingEntity {
 			ent.setLookDir(this.m_currentLookAtDir);
 			ent.setActionDir(this.m_currentActionDir);
 
-			// Donne l'entité qui l'a tiré (ici le tankBody)
+			// Donne l'entité qui l'a tiré
 			((Shot) ent).setOwner(this);
 
 			// Ajoute l'entité au model
@@ -75,8 +71,8 @@ public class Enemy extends MovingEntity {
 
 	@Override
 	public void Egg(MyDirection dir) {
+		//On ignore dir ici (tout le temps HERE)...
 		if (m_actionFinished && m_currentAction == LsAction.Egg) {
-			System.out.println("Is Egging (dans Enemy)");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -85,7 +81,7 @@ public class Enemy extends MovingEntity {
 			m_timeOfAction = DEFAULT_EGG_TIME;
 
 			// creation de la ressource a répendre
-			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);//TODO si dir est diff de Here
+			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);
 
 			// Ajoute l'entité au model
 			Model.getModel().addEntity(ent);
@@ -95,7 +91,6 @@ public class Enemy extends MovingEntity {
 	@Override
 	public void Move(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Move) {
-
 			this.doMove(dir);
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -113,18 +108,17 @@ public class Enemy extends MovingEntity {
 				case SOUTHEAST:
 				case SOUTHWEST:
 					m_timeOfAction = (long) Math.sqrt(2 * ENEMY_MOVE_TIME * ENEMY_MOVE_TIME);
-
+				default:
+					break;
 			}
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Move;
-			m_timeOfAction = ENEMY_MOVE_TIME;
 		}
 	}
 
 	@Override
 	public void Turn(MyDirection dir, int angle) {
 		if (m_actionFinished && m_currentAction == LsAction.Turn) {
-			System.out.println("Turret turning !");
 			this.doTurn(dir);
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -138,7 +132,6 @@ public class Enemy extends MovingEntity {
 	@Override
 	public void Explode() {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
-			System.out.println("L'enemy Explose !");
 			this.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -150,7 +143,8 @@ public class Enemy extends MovingEntity {
 
 	@Override
 	public void collide() {
-		m_health -= 100;
+		m_health = 0;
+		//TODO : revoir cette fonction collide...
 	}
 
 }

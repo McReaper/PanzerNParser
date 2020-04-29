@@ -10,14 +10,11 @@ public class EntityFactory {
 	}
 
 	public static Entity newTankBody(int x, int y, Automaton aut) {
-		Entity tankBody = new TankBody(x, y, TankBody.TANKBODY_WIDTH, TankBody.TANKBODY_HEIGHT, aut);
-		return tankBody;
+		return new TankBody(x, y, TankBody.TANKBODY_WIDTH, TankBody.TANKBODY_HEIGHT, aut);
 	}
 
 	public static Entity newTankTurret(int x, int y, Automaton aut) {
-		Entity turret = new Turret(x, y, Turret.TURRET_WIDTH, Turret.TURRET_HEIGHT, Turret.TURRET_HEALTH,
-				Turret.TURRET_SPEED, aut);
-		return turret;
+		return new Turret(x, y, Turret.TURRET_WIDTH, Turret.TURRET_HEIGHT, Turret.TURRET_HEALTH, Turret.TURRET_SPEED, aut);
 	}
 
 	public static Entity newDrone() {
@@ -61,11 +58,11 @@ public class EntityFactory {
 				automaton);
 		return drone;
 	}
-	
+
 	public static Entity newMarker(int x, int y, Automaton aut) {
 		Entity marker = new Marker(x, y, Marker.MARKER_WIDTH, Marker.MARKER_HEIGHT, aut);
 		return marker;
-		}
+	}
 
 	public static Entity newEntity(MyEntities entity, int x, int y) {
 		Entity res;
@@ -107,15 +104,13 @@ public class EntityFactory {
 				res = newMarker(x, y, config.getAutomaton(MyEntities.Droppable));
 				break;
 			default:
-				System.out.println("tentative de création d'une entité relatif au joueur détectée");
+				System.err.println("tentative de création d'une entité relatif au joueur détectée");
 				throw new IllegalStateException();
 		}
 		return res;
 	}
 
 	public static String name(Entity entity) {
-		// System.out.println("test de entityFactory");
-		// System.out.println(entity.getClass().getName());
 		return entity.getClass().getName();
 	}
 

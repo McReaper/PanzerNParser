@@ -9,6 +9,7 @@ import java.rmi.UnexpectedException;
 import java.util.LinkedList;
 import java.util.List;
 
+import info3.game.GameConfiguration;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
@@ -25,8 +26,27 @@ public class Grid {
 	/* entier pour le nombre de zone à charger dans la grille */
 	final static int TAILLE_MAP = 2;
 
+	public static class Coords {
+
+		public double X, Y;
+
+		public Coords(double x, double y) {
+			X = x;
+			Y = y;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			return (((Coords) obj).X == this.X && ((Coords) obj).Y == this.Y);
+		}
+
+		public void translate(double offX, double offY) {
+			X += offX;
+			Y += offY;
+		}
+	}
+
 	public Grid(Model model) throws UnexpectedException {
-		// Constructeur (phase de tests) :
 		m_patterns = new LinkedList<Pattern>();
 		m_model = model;
 		load();
@@ -48,7 +68,7 @@ public class Grid {
 		}
 		return y;
 	}
-	
+
 	public int getNbCellsX() {
 		return TAILLE_MAP * Pattern.SIZE;
 	}
@@ -74,7 +94,7 @@ public class Grid {
 							patterns_chose++;
 							patTank = null;
 						} else {
-							System.out.println("pattern avec parser nul");
+							System.err.println("pattern avec parser nul");
 						}
 
 					} else {
@@ -99,8 +119,6 @@ public class Grid {
 			List<Entity> entities = pattern.getEntities();
 			for (Entity entity : entities) {
 				m_model.addEntity(entity);
-				// System.out.println("Send " + EntityFactory.name(entity) + " : " +
-				// entity.getX() + "," + entity.getY());
 			}
 		}
 	}
@@ -111,20 +129,20 @@ public class Grid {
 		File f;
 		Pattern p;
 		try {
-			File repository = new File("patterns");
+			File repository = new File(GameConfiguration.PATTERN_PATH);
 			String[] fileList = repository.list();
 			for (int j = 0; j < fileList.length; j++) {
 				String file = fileList[j];
 				String subFile = file.substring(0, file.length() - 5);
 				if (subFile.equals(name)) {
 					p = new Pattern();
-					String path = "patterns/" + file;
+					String path = GameConfiguration.PATTERN_PATH + file;
 					f = new File(path);
 					p.parse(f);
 					m_patterns.add(p);
 				} else if (subFile.equals(namePatTank)) {
 					p = new Pattern();
-					String path = "patterns/" + file;
+					String path = GameConfiguration.PATTERN_PATH + file;
 					f = new File(path);
 					p.parse(f);
 					patTank = p;
@@ -136,6 +154,8 @@ public class Grid {
 	}
 
 	private class Pattern {
+
+		public static final int SIZE = 20;
 
 		private class EntityShade {
 
@@ -150,7 +170,6 @@ public class Grid {
 
 		}
 
-		public static final int SIZE = 20;
 		int m_px, m_py;
 		List<EntityShade> m_entitieShades;
 
@@ -229,26 +248,6 @@ public class Grid {
 				}
 				line = br.readLine();
 			}
-		}
-	}
-
-	public static class Coords {
-
-		public double X, Y;
-
-		public Coords(double x, double y) {
-			X = x;
-			Y = y;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			return (((Coords) obj).X == this.X && ((Coords) obj).Y == this.Y);
-		}
-
-		public void translate(double offX, double offY) {
-			X += offX;
-			Y += offY;
 		}
 	}
 

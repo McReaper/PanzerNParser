@@ -7,6 +7,7 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
+import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class Drone extends MovingEntity {
@@ -25,7 +26,7 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_EXPLODE_TIME = 1000;
 	public static final long DRONE_MOVE_TIME = 1000;
 	public static final long DRONE_PICK_TIME = 1000;
-	public static final long DRONE_POP_TIME = 10000;
+	public static final long DRONE_POP_TIME = 1000;
 	public static final long DRONE_POWER_TIME = 1000;
 	public static final long DRONE_PROTECT_TIME = 1000;
 	public static final long DRONE_STORE_TIME = 1000;
@@ -39,13 +40,10 @@ public class Drone extends MovingEntity {
 
 	public Drone(int x, int y, int width, int height, int health, int speed, Automaton aut) {
 		super(x, y, width, height, health, speed, aut);
-		m_currentVisionType = VisionType.ENEMIES;
 		m_category = MyCategory.AT;
 		m_nbMarkers = 0;
-	}
-
-	private enum VisionType {
-		RESSOURCES, ENEMIES;
+		m_lengthOfView = 10;
+		m_currentVisionType = VisionType.RESSOURCES;
 	}
 
 	@Override
@@ -56,18 +54,16 @@ public class Drone extends MovingEntity {
 		return false;// temporaire
 	}
 
-	@Override
-	public void Egg(MyDirection dir) {
-		m_timeOfAction = DRONE_MOVE_TIME;
-		System.out.println("Egg !");
-		super.Egg(dir);
-	}
 
 	private void switchVision() {
 		if (m_currentVisionType == VisionType.RESSOURCES)
 			m_currentVisionType = VisionType.ENEMIES;
 		else
 			m_currentVisionType = VisionType.RESSOURCES;
+	}
+	
+	public VisionType getVisionType() {
+		return m_currentVisionType;
 	}
 
 	private boolean hasControl() {

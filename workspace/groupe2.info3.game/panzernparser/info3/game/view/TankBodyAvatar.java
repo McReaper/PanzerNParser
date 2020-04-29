@@ -5,6 +5,8 @@ import java.awt.Image;
 
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Model;
+import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Entity;
 
 public class TankBodyAvatar extends Avatar {
@@ -12,9 +14,10 @@ public class TankBodyAvatar extends Avatar {
 	public TankBodyAvatar(Entity entity, Animation animation) {
 		super(entity, animation);
 	}
-	
+
 	@Override
-	public void paint(Graphics g,int xcase, int ycase, int case_width, int case_height) {
+	public void paint(Graphics g, int xcase, int ycase, int case_width, int case_height) {
+		VisionType vision = Model.getModel().getVisionType();
 		MyDirection e_lookAtDir = m_entity.getLookAtDir();
 		MyDirection e_actionDir = m_entity.getCurrentActionDir();
 		LsAction e_currAction = m_entity.getCurrentAction();
@@ -33,47 +36,47 @@ public class TankBodyAvatar extends Avatar {
 		}
 
 		Image sprite = null;
-		if(e_currAction != LsAction.Move) {
-			sprite = m_animation.getImage(0, LsAction.Move,e_lookAtDir);
+		if (e_currAction != LsAction.Move) {
+			sprite = m_animation.getImage(0, LsAction.Move, e_lookAtDir, vision);
 		} else {
-			sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir);			
+			sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir, vision);
 		}
 		g.drawImage(sprite, x, y, width, height, null);
-		if(e_currAction == LsAction.Pop) {
-			sprite = m_animation.getImage(progress, e_currAction, e_lookAtDir);
+		if (e_currAction == LsAction.Pop) {
+			sprite = m_animation.getImage(progress, e_currAction, e_lookAtDir, vision);
 			switch (e_lookAtDir) {
 				case NORTH:
-					y -= height - (height*3/Sprite.SPRITE_HEIGHT);
+					y -= height - (height * 3 / Sprite.SPRITE_HEIGHT);
 					break;
 				case NORTHEAST:
-					y -= height - (height*11/Sprite.SPRITE_HEIGHT);
-					x += width - (width*11/Sprite.SPRITE_WIDTH);
+					y -= height - (height * 11 / Sprite.SPRITE_HEIGHT);
+					x += width - (width * 11 / Sprite.SPRITE_WIDTH);
 					break;
 				case EAST:
-					x += width - (width*3/Sprite.SPRITE_WIDTH);
+					x += width - (width * 3 / Sprite.SPRITE_WIDTH);
 					break;
 				case SOUTHEAST:
-					y += height - (height*11/Sprite.SPRITE_HEIGHT);
-					x += width - (width*11/Sprite.SPRITE_WIDTH);
+					y += height - (height * 11 / Sprite.SPRITE_HEIGHT);
+					x += width - (width * 11 / Sprite.SPRITE_WIDTH);
 					break;
 				case SOUTH:
-					y += height - (height*3/Sprite.SPRITE_HEIGHT);
+					y += height - (height * 3 / Sprite.SPRITE_HEIGHT);
 					break;
 				case SOUTHWEST:
-					y += height - (height*11/Sprite.SPRITE_HEIGHT);
-					x -= width - (width*11/Sprite.SPRITE_WIDTH);
+					y += height - (height * 11 / Sprite.SPRITE_HEIGHT);
+					x -= width - (width * 11 / Sprite.SPRITE_WIDTH);
 					break;
 				case WEST:
-					x -= width - (width*3/Sprite.SPRITE_WIDTH);
+					x -= width - (width * 3 / Sprite.SPRITE_WIDTH);
 					break;
 				case NORTHWEST:
-					y -= height - (height*11/Sprite.SPRITE_HEIGHT);
-					x -= width - (width*11/Sprite.SPRITE_WIDTH);
+					y -= height - (height * 11 / Sprite.SPRITE_HEIGHT);
+					x -= width - (width * 11 / Sprite.SPRITE_WIDTH);
 					break;
 				default:
 					break;
 			}
-			g.drawImage(sprite, x, y, width, height,null);
+			g.drawImage(sprite, x, y, width, height, null);
 
 		}
 	}

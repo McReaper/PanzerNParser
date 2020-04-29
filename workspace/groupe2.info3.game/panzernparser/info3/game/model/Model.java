@@ -22,6 +22,10 @@ import info3.game.model.entities.Vein;
 
 public class Model {
 
+	public enum VisionType {
+		TANK, RESSOURCES, ENEMIES;
+	}
+
 	private static Model self; // Singleton du model
 	// Controller m_controller; //pour envoyer des information utiles.
 	private Grid m_grid;
@@ -63,9 +67,8 @@ public class Model {
 			// la musique et les autres exécutions auxiliaires en cours.
 		}
 
-		int playableEntitiesNumber = getEntities(MyEntities.TankBody).size() + getEntities(MyEntities.Turret).size()
-				+ getEntities(MyEntities.Drone).size();
-		if (playableEntitiesNumber != 3) {
+		if (getEntities(MyEntities.TankBody).size() != 1 || getEntities(MyEntities.Turret).size() != 1
+				|| getEntities(MyEntities.Drone).size() != 1) {
 			System.err.println("Il semblerait que la grille comporte plusieurs Drone ou Tank...");
 			// La il faudrait sortir du programme, en appelant le controller, pour arrêter
 			// la musique et les autres exécutions auxiliaires en cours.
@@ -134,14 +137,22 @@ public class Model {
 			// Le drone apparait au niveau du tank
 			m_drone.setX(m_tank.getBody().getX());
 			m_drone.setY(m_tank.getBody().getY());
-			
-			//Le drone apparait avec direction d'action et de regard identique à celle du tank
+
+			// Le drone apparait avec direction d'action et de regard identique à celle du
+			// tank
 			m_drone.setActionDir(m_tank.getBody().getCurrentActionDir());
 			m_drone.setLookDir(m_tank.getBody().getLookAtDir());
 //			m_tank.showTank(false);
 //			m_drone.showEntity(true);
 			System.out.println("Contrôles données au DRONE");
 		}
+	}
+
+	public VisionType getVisionType() {
+		if (m_playingTank) {
+			return VisionType.TANK;
+		}
+		return m_drone.getVisionType();
 	}
 
 	public Entity getPlayed() {
@@ -194,6 +205,7 @@ public class Model {
 	}
 
 	public void addEntity(Entity e) {
+		//TODO : peut etre opti avec la factory.
 		if (e instanceof Droppable) {
 			getEntities(MyEntities.Droppable).add(e);
 		} else if (e instanceof Drone) {

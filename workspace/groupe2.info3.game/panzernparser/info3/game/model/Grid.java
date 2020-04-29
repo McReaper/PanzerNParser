@@ -49,11 +49,11 @@ public class Grid {
 		return y;
 	}
 	
-	static public int getNbCellsX() {
+	public int getNbCellsX() {
 		return TAILLE_MAP * Pattern.SIZE;
 	}
 
-	static public int getNbCellsY() {
+	public int getNbCellsY() {
 		return TAILLE_MAP * Pattern.SIZE;
 	}
 

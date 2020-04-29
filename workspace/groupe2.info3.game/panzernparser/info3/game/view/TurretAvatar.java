@@ -5,6 +5,8 @@ import java.awt.Image;
 
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Model;
+import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.Turret;
 
@@ -16,6 +18,7 @@ public class TurretAvatar extends Avatar {
 
 	@Override
 	public void paint(Graphics g, int xcase, int ycase, int case_width, int case_height) {
+		VisionType vision = Model.getModel().getVisionType();
 		MyDirection e_lookAtDir = m_entity.getLookAtDir();
 		MyDirection e_actionDir = m_entity.getCurrentActionDir();
 		LsAction e_currAction = m_entity.getCurrentAction();
@@ -41,9 +44,9 @@ public class TurretAvatar extends Avatar {
 		}
 		Image sprite;
 		if (e_currAction != LsAction.Hit) {
-			sprite = m_animation.getImage(0, LsAction.Hit, e_lookAtDir);
+			sprite = m_animation.getImage(0, LsAction.Hit, e_lookAtDir, vision);
 		} else {
-			sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir);
+			sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir, vision);
 		}
 		switch (e_lookAtDir) {
 			case NORTH:

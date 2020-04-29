@@ -20,6 +20,7 @@ public class GameMain {
 	Model m_model;
 	View m_view;
 	JFrame m_frame;
+	Menu m_menu;
 	boolean m_fullscreen;
 	public HashMap<String, File> m_file;
 
@@ -32,6 +33,7 @@ public class GameMain {
 	}
 
 	GameMain() {
+		m_menu = new Menu(this);
 		m_file = new HashMap<String, File>();
 		// On force le parsing le configuration du jeu avant de créer quoi que ce soit
 		GameConfiguration.getConfig();
@@ -43,19 +45,29 @@ public class GameMain {
 
 		// On créer le contrôleur qui va intéragir avec cet univers
 		m_controller = new Controller(m_model);
-
+		
+		
 		// On créer une vue de cette univers
 		m_view = new View(m_controller, m_model);
 
 		// On attribut cette vue au controleur, qui écoute
-		m_controller.setView(m_view);
-
+		m_controller.setView(m_view);	
+		
 		m_fullscreen = false;
 		m_frame = null;
 		System.out.println("Creating frame");
 		setupFrame();
 		System.out.println("Frame created");
 	}
+	
+	public void launch() {
+		m_frame.remove(m_menu.getMainMenu());
+		m_frame.add(m_view, BorderLayout.CENTER);
+		m_frame.invalidate();
+		m_frame.validate();
+		m_frame.repaint();
+	}
+	
 
 	public static GameMain getGame() {
 		return game;
@@ -69,7 +81,7 @@ public class GameMain {
 		m_frame.setTitle(GAME_TITLE);
 		m_frame.setLayout(new BorderLayout());
 
-		m_frame.add(m_view, BorderLayout.CENTER);
+		m_frame.add(m_menu.getMainMenu(), BorderLayout.CENTER);
 
 		// Centre la fenêtre à l'écran :
 		m_frame.setLocationRelativeTo(null);

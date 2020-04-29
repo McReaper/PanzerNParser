@@ -94,7 +94,7 @@ public class View extends Container {
 			m_HUD.m_compass.addArrow(null, (int) angle);
 			
 		}
-		m_HUD.m_compass.paint(getGraphics());
+		m_HUD.m_compass.paint(m_HUD.m_compass.getGraphics());
 
 		if (m_model.getPlayed() instanceof TankBody) {
 			TankBody tank = (TankBody) m_model.getPlayed();
@@ -121,7 +121,7 @@ public class View extends Container {
 		offY = offY / m_viewPort.getCaseHeight();
 		Rx = m_viewPort.getX() + 2 + (int) offX;
 		Ry = m_viewPort.getY() + 2 + (int) offY;
-		return new Coords(Rx, Ry);
+		return new Coords(g.realX(Rx), g.realY(Ry));
 	}
 
 	private void updateAvatars() {

@@ -2,6 +2,7 @@ package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
 import info3.game.automaton.LsKey;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -38,6 +39,7 @@ public class Drone extends MovingEntity {
 	public Drone(int x, int y, int width, int height, int health, int speed, Automaton aut) {
 		super(x, y, width, height, health, speed, aut);
 		m_currentVisionType = VisionType.RESSOURCES;
+		m_category = MyCategory.V;
 	}
 
 	private void switchVision() {

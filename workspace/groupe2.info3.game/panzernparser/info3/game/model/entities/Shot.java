@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 
@@ -39,6 +40,7 @@ public class Shot extends MovingEntity {
 	public Shot(int x, int y, int width, int height, int health, int speed, Automaton aut) {
 		super(x, y, width, height, health, speed, aut);
 		m_health = SHOT_HEALTH;
+		m_category = MyCategory.M;
 	}
 
 	int m_health;

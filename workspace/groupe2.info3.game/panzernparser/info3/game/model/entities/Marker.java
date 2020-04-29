@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.MyCategory;
 
 /**
  * Un marqueur est disposé par le drone lors d'un clic dans le canvas
@@ -28,6 +29,7 @@ public class Marker extends StaticEntity {
 
 	public Marker(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, aut);
+		m_category = MyCategory.P;
 	}
 
 }

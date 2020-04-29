@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.MyCategory;
 
 public class Vein extends Entity {
 
@@ -28,6 +29,7 @@ public class Vein extends Entity {
 
 	public Vein(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, aut);
+		m_category = MyCategory.P;
 	}
 
 	int m_quantity;

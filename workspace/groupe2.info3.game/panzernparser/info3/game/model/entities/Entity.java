@@ -41,6 +41,7 @@ public abstract class Entity {
 	protected int m_width;
 	protected int m_height;
 	protected int m_speed;
+	protected int m_health;
 	protected MyDirection m_currentLookAtDir;
 	protected MyDirection m_currentActionDir;
 	protected boolean m_stuff; // gotStuff ?
@@ -66,6 +67,8 @@ public abstract class Entity {
 		m_y = y;
 		m_width = width;
 		m_height = height;
+		m_health = 100;//TODO
+	
 
 		m_currentLookAtDir = MyDirection.NORTH; // par défaut
 		m_currentActionDir = null; // par défaut
@@ -234,7 +237,7 @@ public abstract class Entity {
 
 	public void Egg(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Egg) {
-			System.out.println("Is Egging");
+			System.out.println("Is Egging (dans entity)");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -491,8 +494,10 @@ public abstract class Entity {
 	}
 
 	public boolean GotPower() {
-		// System.out.println("Is Gotpower-ing");
-		return true;
+		if (m_health > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	public boolean GotStuff() {
@@ -511,7 +516,11 @@ public abstract class Entity {
 	 */
 	public boolean Closest(MyDirection dir, MyCategory type) {
 		Entity closest = Model.getModel().closestEntity(Model.getModel().getCategoried(type), m_x, m_y);
-		return closest.isInMe(getDetectionCone(dir, this.m_lengthOfView));
+		if( closest.isInMe(getDetectionCone(dir, this.m_lengthOfView))) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	public boolean isInMe(LinkedList<Coords> radius) {

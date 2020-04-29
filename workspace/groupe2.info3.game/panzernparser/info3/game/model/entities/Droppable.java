@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.MyCategory;
 import info3.game.model.MaterialType;
 
 public class Droppable extends StaticEntity {
@@ -31,6 +32,7 @@ public class Droppable extends StaticEntity {
 		super(x, y, width, height, aut);
 		m_quantity = quantity;
 		m_mType = mtype;
+		m_category = MyCategory.P;
 	}
 
 	public MaterialType getMType() {

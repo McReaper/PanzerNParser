@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -19,10 +20,10 @@ public class Enemy extends MovingEntity {
 
 	public static final long ENEMY_EGG_TIME = 1000;
 	public static final long ENEMY_GET_TIME = 1000;
-	public static final long ENEMY_HIT_TIME = 1000;
+	public static final long ENEMY_HIT_TIME = 500;
 	public static final long ENEMY_JUMP_TIME = 1000;
 	public static final long ENEMY_EXPLODE_TIME = 1000;
-	public static final long ENEMY_MOVE_TIME = 1000;
+	public static final long ENEMY_MOVE_TIME = 500;
 	public static final long ENEMY_PICK_TIME = 1000;
 	public static final long ENEMY_POP_TIME = 10000;
 	public static final long ENEMY_POWER_TIME = 1000;
@@ -40,6 +41,8 @@ public class Enemy extends MovingEntity {
 	public Enemy(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, aut);
 		m_health = ENEMY_HEALTH;
+		m_category = MyCategory.O;
+		m_lengthOfView = 15;
 	}
 
 	@Override
@@ -50,7 +53,7 @@ public class Enemy extends MovingEntity {
 	@Override
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
-			System.out.println("FIRE !");
+		//	System.out.println("FIRE !");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {

@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.MyCategory;
 
 /**
  * Représente une unité immobile comme un trou, un arbre, un caillou, ...
@@ -29,6 +30,7 @@ public class Ground extends StaticEntity {
 
 	public Ground(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, aut);
+		m_category = MyCategory.V;
 	}
 
 }

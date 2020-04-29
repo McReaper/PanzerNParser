@@ -2,11 +2,12 @@ package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
 import info3.game.automaton.LsKey;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Tank;
-
+//& !Cell(N,@) & ! Cell(N,O) & !Cell(N,@)
 /**
  * Chassis du tank
  */
@@ -40,6 +41,7 @@ public class TankBody extends MovingEntity {
 	public TankBody(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, Tank.TANK_HEALTH, Tank.TANK_SPEED, aut);
 		m_tank = null;
+		m_category = MyCategory.AT;
 	}
 
 	public void setTank(Tank tank) {
@@ -49,7 +51,7 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Move(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Move) {
-			System.out.println("Tank fait le move !");
+		//	System.out.println("Tank fait le move !");
 			this.doMove(dir);
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -90,7 +92,7 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Turn(MyDirection dir, int angle) {
 		if (m_actionFinished && m_currentAction == LsAction.Turn) {
-			System.out.println("Tank fait le Turn !");
+		//	System.out.println("Tank fait le Turn !");
 			this.doTurn(dir);
 			m_actionFinished = false;
 			m_currentAction = null;

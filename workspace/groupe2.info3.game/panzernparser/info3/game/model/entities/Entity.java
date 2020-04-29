@@ -511,7 +511,14 @@ public abstract class Entity {
 	 */
 	public boolean Closest(MyDirection dir, MyCategory type) {
 		Entity closest = Model.getModel().closestEntity(Model.getModel().getCategoried(type), m_x, m_y);
-		return closest.isInMe(getDetectionCone(dir, this.m_lengthOfView));
+		System.out.println("length of view ="+ this.m_lengthOfView);
+		if( closest.isInMe(getDetectionCone(dir, this.m_lengthOfView))) {
+			System.out.println("closest return true");
+			return true;
+		}else {
+			System.out.println("closest return false");
+			return false;
+		}
 	}
 
 	public boolean isInMe(LinkedList<Coords> radius) {

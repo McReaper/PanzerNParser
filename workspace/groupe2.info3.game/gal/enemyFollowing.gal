@@ -1,0 +1,24 @@
+EnnemiFollowing(Init){
+	* (Init) :
+	| !GotPower() ? Explode() : (Dying)
+	| Closest(@, NE) ? Turn(NE) : (Step)
+	| Closest(@, SE) ? Turn(SE) : (Step)
+	| Closest(@, SW) ? Turn(SW) : (Step)
+	| Closest(@, NW) ? Turn(NW) : (Step)
+	| Closest(@, N) ? Turn(N) : (Step)
+	| Closest(@, E) ? Turn(E) : (Step)
+	| Closest(@, S) ? Turn(S) : (Step)
+	| Closest(@, W) ? Turn(W) : (Step)
+	| True ? Wait () : (Init)
+	
+	* (Step) :
+	| !GotPower() ? Explode() : (Dying)
+	| True ? Move(F) : (Attack)
+	
+	* (Attack) :
+	| !GotPower() ? Explode() : (Dying)
+	| True ? Hit() : (Init)
+	
+	* (Dying)
+	| True ? Explode() : ()
+}

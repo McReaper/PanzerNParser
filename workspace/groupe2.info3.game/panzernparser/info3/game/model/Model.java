@@ -162,6 +162,10 @@ public class Model {
 			return m_drone;
 		}
 	}
+	
+	public Tank getTank() {
+		return m_tank;
+	}
 
 	/////////////////////////////////////////////////
 

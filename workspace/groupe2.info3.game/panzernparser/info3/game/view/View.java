@@ -7,12 +7,17 @@ import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+
+import info3.game.automaton.MyCategory;
 import info3.game.controller.Controller;
 import info3.game.model.Grid;
 import info3.game.model.Grid.Coords;
+import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
+import info3.game.model.entities.EntityFactory.MyEntities;
+import info3.game.model.entities.Marker;
 import info3.game.model.entities.TankBody;
 
 public class View extends Container {
@@ -64,14 +69,45 @@ public class View extends Container {
 
 //TODO
 	public void refreshHUD() {
+		m_HUD.m_compass.resetArrow();
+		LinkedList<Entity> markers = m_model.getEntities(MyEntities.Marker);
+		
+		Iterator iter = markers.iterator();
+		while(iter.hasNext()) {
+			Marker mark = (Marker) iter.next();
+			float xMark = mark.getX();
+			float yMark = mark.getY();
+			float x = m_model.getPlayed().getX() + m_model.getPlayed().getWidth()/2;
+			float y = m_model.getPlayed().getY() + m_model.getPlayed().getHeight()/2;
+			
+			double angle = (double) Math.atan(((double)(yMark-y))/((double)(xMark-x)));
+			angle = Math.toDegrees(angle);
+			if(xMark-x<0 && yMark-y<0) {
+				angle -= 90;
+			}
+			if(xMark-x<0 && yMark-y>0) {
+				angle += 90;
+			}
+			if(yMark-y<0) {
+				angle = -angle;
+			}
+			m_HUD.m_compass.addArrow(null, (int) angle);
+			
+		}
+		m_HUD.m_compass.paint(getGraphics());
+
 		if (m_model.getPlayed() instanceof TankBody) {
 			TankBody tank = (TankBody) m_model.getPlayed();
 
 			m_HUD.m_health.setMaximum(tank.getMaxHealth());
 			m_HUD.m_health.setValue(tank.getHealth());
-			
-			int level = tank.getLevel();
 			m_HUD.m_level.setText("Level : ".concat(Integer.toString(tank.getLevel())));
+			
+			
+			m_HUD.m_toolsLabel.setText(
+					"Tools :".concat(Integer.toString(m_model.getTank().getInventory().getQuantity(MaterialType.ELECTRONIC))));
+			m_HUD.m_mineralsLabel.setText(
+					"Minerals :".concat(Integer.toString(m_model.getTank().getInventory().getQuantity(MaterialType.MINERAL))));
 		}
 
 	}

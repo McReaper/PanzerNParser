@@ -700,7 +700,7 @@ public abstract class Entity {
 	 *         moins
 	 */
 	public boolean Cell(MyDirection dir, MyCategory type, int dist) {
-		//TODO case de base du dist ?
+		// TODO case de base du dist ?
 		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
 		int x_factor = 0;
 		int y_factor = 0;
@@ -740,12 +740,13 @@ public abstract class Entity {
 			default:
 				System.err.println("La fonction n'est pas appelée avec une direction valide : " + dir);
 		}
-		int x,y;
+		int x, y;
 		int grid_width = Model.getModel().getGrid().getNbCellsX();
 		int grid_height = Model.getModel().getGrid().getNbCellsY();
-		/* Etant donné que cell ne selectionne qu'une sucession de rectangles
-		 * Je testes la présence d'entité dans chacun d'eux. Ce qui permet de
-		 * couvrir plusieurs cases d'un seul coup.
+		/*
+		 * Etant donné que cell ne selectionne qu'une sucession de rectangles Je testes
+		 * la présence d'entité dans chacun d'eux. Ce qui permet de couvrir plusieurs
+		 * cases d'un seul coup.
 		 */
 		LinkedList<Entity> entities = Model.getModel().getCategoried(type);
 		for (Entity entity : entities) {
@@ -757,21 +758,21 @@ public abstract class Entity {
 				y = Model.getModel().getGrid().realX(y + y_factor);
 				boolean depasse_horizontal = x + m_width > grid_width;
 				boolean depasse_vertical = y + m_height > grid_height;
-				if(checkHere(x,y,entity)) {
+				if (checkHere(x, y, entity)) {
 					return true;
 				}
-				if(depasse_horizontal) {
-					if(checkHere(x-grid_width,y,entity)) {
+				if (depasse_horizontal) {
+					if (checkHere(x - grid_width, y, entity)) {
 						return true;
 					}
 				}
-				if(depasse_vertical) {
-					if(checkHere(x,y-grid_height,entity)) {
+				if (depasse_vertical) {
+					if (checkHere(x, y - grid_height, entity)) {
 						return true;
 					}
 				}
-				if(depasse_horizontal && depasse_vertical) {
-					if(checkHere(x-grid_width,y-grid_height,entity)) {
+				if (depasse_horizontal && depasse_vertical) {
+					if (checkHere(x - grid_width, y - grid_height, entity)) {
 						return true;
 					}
 				}
@@ -779,18 +780,22 @@ public abstract class Entity {
 		}
 		return false;
 	}
-	
+
 	private boolean checkHere(int x, int y, Entity entity) {
-		int maxGauche = Math.max(x,entity.getX());
-		int minDroite = Math.min(x+m_width, entity.getX()+entity.getWidth());
-		if(maxGauche < minDroite) { // Tests à la suite pour optimiser
-			int maxBas = Math.max(y,entity.getY());
-			int minHaut = Math.min(y+m_height, entity.getY() + entity.getHeight());				
-			if(maxBas < minHaut) {
-				return true;
-			}
+		int x_intersect = Math.max(x, entity.getX());
+		int y_intersect = Math.max(y, entity.getY());
+		int width_intersect = Math.min(x + m_width, entity.getX() + entity.getWidth()) - x_intersect;
+		int height_intersect = Math.min(y + m_height, entity.getY() + entity.getHeight()) - y_intersect;
+		if(width_intersect <= 0) {
+			return false;
+		} else if(height_intersect <= 0) {
+			return false;
+		} else if(x_intersect >= m_x && x_intersect + width_intersect <= m_x + m_width
+				&& y_intersect >= m_y && y_intersect + width_intersect <= m_y + m_height) {
+			return false;
+		} else {
+			return true;
 		}
-		return false;
 	}
 
 	public boolean GotPower() {

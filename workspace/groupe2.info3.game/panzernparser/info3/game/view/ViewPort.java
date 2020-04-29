@@ -14,7 +14,7 @@ public class ViewPort {
 
 	public static final int MINIMAL_WIDTH = 200; // TODO : a revisiter
 	public static final int MINIMAL_HEIGHT = 200;
-	
+
 	Model m_model;
 	Entity m_player;
 	View m_view;
@@ -29,6 +29,8 @@ public class ViewPort {
 	int m_offsetY;
 	int m_field_of_view;
 	int m_paintSize;
+	private int m_offsetWindowX;
+	private int m_offsetWindowY;
 
 	public ViewPort(Entity player, View view) {
 		m_view = view;
@@ -114,6 +116,30 @@ public class ViewPort {
 		return m_caseSize;
 	}
 
+	public int getOffsetWindowX() {
+		return m_offsetWindowX;
+	}
+
+	public int getOffsetWindowY() {
+		return m_offsetWindowY;
+	}
+
+	public int getOffsetX() {
+		return m_offsetX;
+	}
+
+	public int getOffsetY() {
+		return m_offsetY;
+	}
+	
+	public int getX() {
+		return m_x;
+	}
+	
+	public int getY() {
+		return m_y;
+	}
+
 	public void paint(Graphics g, List<Avatar> lsAvatars) {
 		Entity play = Model.getModel().getPlayed();
 		if (m_player != play) {
@@ -126,13 +152,13 @@ public class ViewPort {
 		int x, y, w, h;
 
 		// Décalage du aux dimensions de la fenêtre (centrage en y)
-		int offsetWindowX = (m_width - m_paintSize) / 2;
-		int offsetWindowY = (m_height - m_paintSize) / 2;
+		m_offsetWindowX = (m_width - m_paintSize) / 2;
+		m_offsetWindowY = (m_height - m_paintSize) / 2;
 		g.setColor(Color.BLACK);
-		for (int i = offsetWindowX - m_offsetX; i < m_paintSize + offsetWindowX; i += m_caseSize)
-			g.drawLine(i, offsetWindowY, i, offsetWindowY + m_paintSize);
-		for (int j = offsetWindowY - m_offsetY; j < m_paintSize + offsetWindowY; j += m_caseSize)
-			g.drawLine(offsetWindowX, j, offsetWindowX + m_paintSize, j);
+		for (int i = m_offsetWindowX - m_offsetX; i < m_paintSize + m_offsetWindowX; i += m_caseSize)
+			g.drawLine(i, m_offsetWindowY, i, m_offsetWindowY + m_paintSize);
+		for (int j = m_offsetWindowY - m_offsetY; j < m_paintSize + m_offsetWindowY; j += m_caseSize)
+			g.drawLine(m_offsetWindowX, j, m_offsetWindowX + m_paintSize, j);
 		for (Avatar avatar : lsAvatars) {
 			e = avatar.m_entity;
 			x = e.getX();
@@ -151,8 +177,8 @@ public class ViewPort {
 				x *= m_caseSize;
 				y *= m_caseSize;
 				// position case en px avec décalage
-				x += offsetWindowX - m_offsetX;
-				y += offsetWindowY - m_offsetY;
+				x += m_offsetWindowX - m_offsetX;
+				y += m_offsetWindowY - m_offsetY;
 				switch (intView) {
 					// Téléportation pour rentrer dans le viewPort
 					case PAINT_MOVE_X:
@@ -173,10 +199,10 @@ public class ViewPort {
 		}
 		// Pour empêcher de regarder plus loin grâce à la redimension de la fenêtre
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, m_width, offsetWindowY);
-		g.fillRect(0, offsetWindowY + m_paintSize, m_width, offsetWindowY);
-		g.fillRect(0, 0, offsetWindowX, m_height);
-		g.fillRect(offsetWindowX + m_paintSize, 0, offsetWindowX, m_height);
+		g.fillRect(0, 0, m_width, m_offsetWindowY);
+		g.fillRect(0, m_offsetWindowY + m_paintSize, m_width, m_offsetWindowY);
+		g.fillRect(0, 0, m_offsetWindowX, m_height);
+		g.fillRect(m_offsetWindowX + m_paintSize, 0, m_offsetWindowX, m_height);
 
 	}
 

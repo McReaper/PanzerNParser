@@ -66,15 +66,14 @@ public class View extends Container {
 
 	public Coords toGridCoord(Coords c) {
 		Grid g = Model.getModel().getGrid();
-		int grid_width = m_viewPort.getCaseWidth();
-		int grid_height = m_viewPort.getCaseHeight();
-		double x = (c.X / grid_width);
-		double y = (c.Y / grid_height);
-		double x_p = m_model.getPlayed().getX() + m_model.getPlayed().getWidth() / 2;
-		double y_p = m_model.getPlayed().getY() + m_model.getPlayed().getHeight() / 2;
-		int Rx = g.realX((int) (x + x_p + 2 - (m_viewPort.m_nbCells) / 2));
-		int Ry = g.realY((int) (y + y_p + 2 - (m_viewPort.m_nbCells) / 2));
-		return new Coords(Rx, Ry);
+		int Rx,Ry;
+		double offX = c.X + m_viewPort.getOffsetX() - m_viewPort.getOffsetWindowX();
+		double offY = c.Y + m_viewPort.getOffsetY() - m_viewPort.getOffsetWindowY();
+		offX = offX/m_viewPort.getCaseWidth();
+		offY = offY/m_viewPort.getCaseHeight();
+		Rx = m_viewPort.getX()+2+(int)offX;
+		Ry = m_viewPort.getY()+2+(int)offY;
+		return new Coords(Rx,Ry);
 	}
 
 	private void updateAvatars() {

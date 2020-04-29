@@ -750,13 +750,23 @@ public abstract class Entity {
 	}
 
 	public boolean isInMeCase(int x, int y) {
-		// TODO gerer les bords de case
-		if (m_x <= x && x < m_x + this.m_width) {
-			if (m_y <= y && y < m_y + this.m_height) {
-				return true;
-			}
+		int xL = m_x;
+		int xR = Model.getModel().getGrid().realX(m_x + m_width);
+		int yU = m_y;
+		int yD = Model.getModel().getGrid().realY(m_y + m_height);
+		boolean inX = false;
+		boolean inY = false;
+		if (x >= xL && x < xR) {
+			inX = true;
+		}else if (xL > xR && (x >= xL || x < xR)) {
+			inX = true;
 		}
-		return false;
+		if (y >= yU && y < yD) {
+			inY = true;
+		}else if (yU > yD && (x >= yU || x < yD)) {
+			inY = true;
+		}
+		return inX && inY;
 	}
 
 	public void collide() {

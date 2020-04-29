@@ -240,14 +240,30 @@ public class Model {
 
 	public Entity closestEntity(LinkedList<Entity> entities, int x, int y) {
 		Entity closest = entities.get(0);
-		double min_dist = Math.pow(closest.getX() - x, 2) + Math.pow(closest.getY() - y, 2);
+		double min_dist = distanceXAtPow2(closest.getX(), x) + distanceYAtPow2(closest.getY(), y);
 		for (Entity curr : entities) {
-			double dist = Math.pow(curr.getX() - x, 2) + Math.pow(curr.getY() - y, 2);
+			double dist = distanceXAtPow2(closest.getX(), x) + distanceYAtPow2(closest.getY(), y);
 			if (dist < min_dist) {
 				closest = curr;
 			}
 		}
 		return closest;
+	}
+	
+	public double distanceXAtPow2(int a, int b) {
+		double baicDst = Math.pow(a - b, 2);
+		double toreDst = Math.min(a, b);
+		toreDst += m_grid.getNbCellsX() -  Math.max(a, b);
+		toreDst = Math.pow(toreDst, 2);
+		return Math.min(baicDst, toreDst);
+	}
+	
+	public double distanceYAtPow2(int a, int b) {
+		double baicDst = Math.pow(a - b, 2);
+		double toreDst = Math.min(a, b);
+		toreDst += m_grid.getNbCellsY() -  Math.max(a, b);
+		toreDst = Math.pow(toreDst, 2);
+		return Math.min(baicDst, toreDst);
 	}
 
 	public LinkedList<Entity> getCategoried(MyCategory type) {

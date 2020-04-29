@@ -353,4 +353,33 @@ Pas de remarques particulières. Toujours quelques difficultés sur l'ATH mais c
 ## Répartition des tâches 
 - `Cyance>` A votre bon cœur. A voir demain
 
+# JOURNAL du Mercredi 29 Avril
 
+## Planning du jour
+
+- Drop des ennemies implémentation et la récupération des drops
+- Système des pooints de vie mis en place
+- Interraction entre les entités partiellement implémenté
+- Gestion de la vision du drone
+- Implémentation d'un menu
+- Implémentation d'un ATH dynamique
+
+## Répartition des tâches
+
+- `M>` Ajout de l'effet de tore pour les colisions et closest
+- `M/V>` Debug général du code, gestion de la vision du drone.
+- `JT>` Dessin de sprites enemy en mode vision thermique et en diagonal, implémentation d'un ATH dynamique
+- `E>` Implémentation de features pour les ennemies : Drop, automate, colision (avec Sami). Ainsi le Tank : Ramassage des droppable et mise à jour de l'inventaire.
+- `B>` Implémentation d'un menu, modification de Cell, getGridCoord, et de Marker(avec Sami). Ainsi que dessins de sprite
+- `V>` Mise à jour de Closest, Merge des branchs
+- `S>` Mise à jour du contrat, travail sur les Marker (avec Bertrand), travail sur les colisions (avec Emilie)
+
+## Remarques :
+
+Problème potentiel sur la gestion de la grille.
+
+## Pour après :
+
+- Réfléchir à une éventuelle refonte de la grille.
+- Implémenter les amélioration
+- Perfectionner ENCORE l'ATH

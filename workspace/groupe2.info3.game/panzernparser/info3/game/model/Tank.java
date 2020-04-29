@@ -25,12 +25,14 @@ public class Tank {
 	
 	private TankBody m_body;
 	private Turret m_turret;
+	private Inventory m_inventory;
 
 	public Tank(TankBody body, Turret turret) {
 		m_body = body;
 		m_turret = turret;
 		m_body.setTank(this);
 		m_turret.setTank(this);
+		m_inventory = new Inventory();
 	}
 
 	public boolean hasControl() {
@@ -59,6 +61,10 @@ public class Tank {
 	
 	public Turret getTurret() {
 		return m_turret;
+	}
+	
+	public Inventory getInventory() {
+		return m_inventory;
 	}
 
 	///// METHODES POUR LA VUE /////

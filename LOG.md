@@ -288,7 +288,7 @@ Mieux géré la génération des avatars.
 
 ---
 
-# JOURNAL du Vendredi 27 Avril 
+# JOURNAL du Lundi 27 Avril 
 
 ## Planning du jour 
 
@@ -297,7 +297,7 @@ Mieux géré la génération des avatars.
 ## Répartition des tâches 
 
 - `M>` implémentation de la classe inventory et mise à jour des droppable
-- `E/V>`transition du drone au tank, modification du m
+- `E/V>`transition du drone au tank, modification de divers fonctionnalités liées au drone et au tank
 - `B>` Modification des classes Avatar, correction du Viewport et implémentation de Cell de Entity.
 - `JT>` Implémentation de dev.ATH, ajout de lisibilité et restructuration du code lié à l’ATH.
 - `S>` Implémentation des markers pou le drone et ajout de la gestion de la souris.
@@ -317,6 +317,38 @@ Mieux géré la génération des avatars.
 - Faire fonctionner l'affichage des entités dans un certain ordre.
 - `S>` restructuré la classe marker et model ainsi que l’affichage des 	markers dans la view.
 - (peut être pas demain) Penser une implémentation pour les upgrades
+
+## Répartition des tâches 
+- `Cyance>` A votre bon cœur. A voir demain
+
+# JOURNAL du Mardi 28 Avril 
+
+## Planning du jour 
+
+- Interaction des entités entre elles
+- créer plus de sprites
+- terminé les features non achevées de la veille
+
+## Répartition des tâches 
+
+- `M>` implementation du nouveau viewPort et changement visuel lorsque on change de monde
+- `E>`Implementation de Shots et interaction des entités entre elles et gestion des collisions
+- `V>` création de sprites et modification de l'ATH
+- `B>` implementation de l'ATH et creation d'un Widget Boussole indiquant les markers
+- `JT>` Implementation ATH et creation de sprites. Implementation de son pour le jeu
+- `S>` Completion du marker et des avatars liés au marker. 
+- `V/S/M>` tentaive de modification du calcul de coordonnées pour l'affichage des markers
+
+## Remarques : 
+
+Pas de remarques particulières. Toujours quelques difficultés sur l'ATH mais celui-ci devient de plus en plus familié. Chaque feature a bien progressé, il va falloir faire un merge prochainement. Prendre en compte les retours du prof pour les animations (ex : le move)
+
+## Pour après 
+
+- Perfectioner l'ATH
+- Implementation des ennemis
+- Des sprites pour ennemis et drone
+- Vision du drone
 
 ## Répartition des tâches 
 - `Cyance>` A votre bon cœur. A voir demain

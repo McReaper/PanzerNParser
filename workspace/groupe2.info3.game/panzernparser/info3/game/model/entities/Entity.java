@@ -488,9 +488,128 @@ public abstract class Entity {
 	 *         moins
 	 */
 	public boolean Cell(MyDirection dir, MyCategory type, int dist) {
+		LinkedList<Entity> entities = Model.getModel().getCategoried(type);
+		if (dir == MyDirection.HERE) {
+			for (Entity entity : entities) {
+				int xH = m_x;
+				int yH = m_y;
+				int maxGauche = Math.max(xH, entity.getX());
+				int minDroite = Math.min(xH + m_width, entity.getX() + entity.getWidth());
+				if(maxGauche < minDroite) {
+					int maxBas = Math.max(yH, entity.getY());
+					int minHaut = Math.min(yH + m_height, entity.getY() + entity.getHeight());
+					if(maxBas < minHaut) {
+						return true;
+					}
+				}
+			 
+			}
+			return false;
+		}
 		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
-
+		int x_factor = 0;
+		int y_factor = 0;
+		switch (absoluteDir) {
+			case NORTH:
+				x_factor = 0;
+				y_factor = -1;
+				break;
+			case EAST:
+				x_factor = 1;
+				y_factor = 0;
+				break;
+			case SOUTH:
+				x_factor = 0;
+				y_factor = 1;
+				break;
+			case WEST:
+				x_factor = -1;
+				y_factor = 0;
+				break;
+			case NORTHEAST:
+				x_factor = 1;
+				y_factor = -1;
+				break;
+			case NORTHWEST:
+				y_factor = -1;
+				x_factor = -1;
+				break;
+			case SOUTHEAST:
+				x_factor = 1;
+				y_factor = 1;
+				break;
+			case SOUTHWEST:
+				x_factor = -1;
+				y_factor = 1;
+				break;
+			default:
+				System.err.println("La fonction n'est pas appelée avec une direction valide : " + dir);
+		}
+		int x, y;
+		int grid_width = Model.getModel().getGrid().getNbCellsX();
+		int grid_height = Model.getModel().getGrid().getNbCellsY();
+		/*
+		 * Etant donné que cell ne selectionne qu'une sucession de rectangles Je testes
+		 * la présence d'entité dans chacun d'eux. Ce qui permet de couvrir plusieurs
+		 * cases d'un seul coup.
+		 */
+		for (Entity entity : entities) {
+			x = m_x;
+			y = m_y;
+			System.out.println(x + "," + y);
+			for (int i = 0; i < dist; i++) {
+				x = Model.getModel().getGrid().realX(x + x_factor);
+				y = Model.getModel().getGrid().realX(y + y_factor);
+				boolean depasse_horizontal = x + m_width > grid_width;
+				boolean depasse_vertical = y + m_height > grid_height;
+				if (checkHere(x, y, entity)) {
+					return true;
+				}
+				if (depasse_horizontal) {
+					if (checkHere(x - grid_width, y, entity)) {
+						return true;
+					}
+				}
+				if (depasse_vertical) {
+					if (checkHere(x, y - grid_height, entity)) {
+						return true;
+					}
+				}
+				if (depasse_horizontal && depasse_vertical) {
+					if (checkHere(x - grid_width, y - grid_height, entity)) {
+						return true;
+					}
+				}
+			}
+		}
 		return false;
+	}
+
+	private boolean checkHere(int x, int y, Entity entity) {
+		int offsetX = 0;
+		int offsetY = 0;
+		int grid_width = Model.getModel().getGrid().getNbCellsX();
+		int grid_height = Model.getModel().getGrid().getNbCellsY();
+		if (m_x + m_width > grid_width) {
+			offsetX = grid_width;
+		}
+		if (m_y + m_height > grid_height) {
+			offsetY = grid_height;
+		}
+		int x_intersect = Math.max(x, entity.getX());
+		int y_intersect = Math.max(y, entity.getY());
+		int width_intersect = Math.min(x + m_width, entity.getX() + entity.getWidth()) - x_intersect;
+		int height_intersect = Math.min(y + m_height, entity.getY() + entity.getHeight()) - y_intersect;
+		if (width_intersect <= 0) {
+			return false;
+		} else if (height_intersect <= 0) {
+			return false;
+		} else if (x_intersect >= m_x - offsetX && x_intersect + width_intersect <= m_x - offsetX + m_width
+				&& y_intersect >= m_y - offsetY && y_intersect + width_intersect <= m_y - offsetY + m_height) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public boolean GotPower() {

@@ -150,7 +150,7 @@ public class Grid {
 
 		}
 
-		public static final int SIZE = 10;
+		public static final int SIZE = 20;
 		int m_px, m_py;
 		List<EntityShade> m_entitieShades;
 

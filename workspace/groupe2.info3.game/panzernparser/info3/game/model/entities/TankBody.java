@@ -156,6 +156,10 @@ public class TankBody extends MovingEntity {
 						Model.getModel().removeEntity(ent);// et il disparait de la liste des entités du model.
 						System.out.println("Dans l'inventaire il y a " + m_tank.getInventory().getQuantity(((Droppable) ent).getMType()) + " matériaux ");
 					}
+				}if (ent instanceof Marker){
+					if (isPickable(ent)) {
+						Model.getModel().removeEntity(ent);// et il disparait de la liste des entités du model.
+					}
 				}
 			}
 		}
@@ -179,13 +183,13 @@ public class TankBody extends MovingEntity {
 	 */
 	private boolean isPickable(Entity ent) {
 		//TODO si l'objet est sur plus d'une case
-//		for (int i = ent.getX(); i < ent.getX() + ent.getWidth(); i++) {
-//			for (int j = ent.getY(); i < ent.getY() + ent.getHeight(); i++) {
-				if (this.isInMeCase(ent.getX(), ent.getY())) {
+		for (int i = ent.getX(); i < ent.getX() + ent.getWidth(); i++) {
+			for (int j = ent.getY(); j < ent.getY() + ent.getHeight(); j++) {
+				if (this.isInMeCase(i, j)) {
 					return true;
 				}
-//			}
-//		}
+			}
+		}
 		return false;
 	}
 }

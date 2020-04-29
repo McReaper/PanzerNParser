@@ -85,7 +85,7 @@ public class Enemy extends MovingEntity {
 			m_timeOfAction = DEFAULT_EGG_TIME;
 
 			// creation de la ressource a répendre
-			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);//TODO si dir est diff de Here
+			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);
 			int rand = (int) (Math.random()*(20 -1));//20 correspond au nombre max de ressource dispo et 1 le min
 			System.out.println("Le nombre aléatoire choisi est " + rand);
 			((Droppable) ent).setQuantity(rand);

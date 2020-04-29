@@ -3,7 +3,12 @@ package info3.game.controller;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Iterator;
 
+import info3.game.GameMain;
 import info3.game.automaton.LsKey;
 import info3.game.model.Grid;
 import info3.game.model.Grid.Coords;
@@ -28,6 +33,14 @@ public class Controller implements GameCanvasListener {
 	public void tick(long elapsed) {
 		// a chaque tick on fait un pas de simulation, et donc met à jour le modèle.
 		m_model.step(elapsed);
+		if (!m_model.m_sounds.isEmpty()) {
+			Iterator<String> iter = m_model.m_sounds.iterator();
+			while (iter.hasNext()) {
+				String name = (String) iter.next();
+				loadMusic(name);
+			}
+			m_model.m_sounds.removeAll(m_model.m_sounds);
+		}
 	}
 
 	/**
@@ -65,7 +78,6 @@ public class Controller implements GameCanvasListener {
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		System.out.println("mouseEntered at " + "(" + e.getX() + ", " + e.getY() + ")");
-
 	}
 
 	@Override
@@ -94,6 +106,9 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() ==  KeyEvent.VK_F11) {
+			GameMain.getGame().goFullscreen();
+		}
 		LsKey temp = toLsKey(e);
 		m_model.addKeyPressed(temp);
 	}
@@ -106,8 +121,6 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void windowOpened() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -216,6 +229,18 @@ public class Controller implements GameCanvasListener {
 				return LsKey.ENTER;
 		}
 		return null;
+	}
+	
+	void loadMusic(String name) {
+		GameMain game = GameMain.getGame();
+		File file = game.m_file.get(name);
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(file);
+			m_view.m_canvas.play(name, fis, -1);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

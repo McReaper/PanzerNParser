@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-
 import info3.game.controller.Controller;
 import info3.game.model.Grid;
 import info3.game.model.Grid.Coords;
@@ -30,8 +29,10 @@ public class View extends Container {
 		m_controller = controller;
 		m_model = model;
 		m_canvas = new GameCanvas(m_controller);
-		this.setLayout(new BorderLayout());
-		this.add(m_canvas, BorderLayout.CENTER);
+
+		BorderLayout BL = initiateHUD();
+
+		this.setLayout(BL);
 		m_avatars = new LinkedList<Avatar>();
 		updateAvatars();
 //		for (Entity e : model.getEntities()) {
@@ -39,13 +40,28 @@ public class View extends Container {
 //		if (model.m_player == model.PLAYER_TANK) {
 //			m_viewPort = new ViewPort(model,model.m_tank.m_body, this);
 //		}else {
-		m_viewPort = new ViewPort(model, m_model.getPlayed(), this);
+		m_viewPort = new ViewPort(m_model.getPlayed(), this);
 		// }//TODO passage de l'un a l'autre
 //		}
 	}
 
+	public BorderLayout initiateHUD() {
+		BorderLayout BL = new BorderLayout();
+		BL.addLayoutComponent(m_canvas, BorderLayout.CENTER);
+		this.add(m_canvas);
+
+		HUD HUD = new HUD();
+
+		BL.addLayoutComponent(HUD.m_West, BorderLayout.WEST);
+		BL.addLayoutComponent(HUD.m_East, BorderLayout.EAST);
+
+		this.add(HUD.m_East);
+		this.add(HUD.m_West);
+
+		return BL;
+	}
+
 	public void refreshHUD() {
-		// TODO met à jour l'ATH de l'interface de jeu en fonction du modèle.
 	}
 
 	public Coords toGridCoord(Coords c) {
@@ -56,8 +72,8 @@ public class View extends Container {
 		double y = (c.Y / grid_height);
 		double x_p = m_model.getPlayed().getX() + m_model.getPlayed().getWidth() / 2;
 		double y_p = m_model.getPlayed().getY() + m_model.getPlayed().getHeight() / 2;
-		int Rx = g.realX((int) (x + x_p + 2 - (m_viewPort.m_nbCellsX) / 2));
-		int Ry = g.realY((int) (y + y_p + 2 - (m_viewPort.m_nbCellsY) / 2));
+		int Rx = g.realX((int) (x + x_p + 2 - (m_viewPort.m_nbCells) / 2));
+		int Ry = g.realY((int) (y + y_p + 2 - (m_viewPort.m_nbCells) / 2));
 		return new Coords(Rx, Ry);
 	}
 

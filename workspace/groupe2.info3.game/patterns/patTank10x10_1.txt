@@ -1,3 +1,4 @@
-chas1 1,1
-turr1 1,1
-dron1 1,1
+chas1 5,5
+turr1 5,5
+dron1 5,5
+enem1 5,3

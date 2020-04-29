@@ -29,9 +29,11 @@ public class Model {
 	private Drone m_drone;
 	private HashMap<EntityFactory.MyEntities, LinkedList<Entity>> m_entities;
 	private LinkedList<LsKey> m_keyPressed;
+	private CollisionManager m_collisionManager;
 	private boolean m_playingTank;
 	private int m_nbEntities;
 	private Coords m_clue;
+	public LinkedList<String> m_sounds;
 
 	/**
 	 * Création du modèle (l'univers du jeu)
@@ -45,6 +47,9 @@ public class Model {
 			m_entities.put(entityType, new LinkedList<Entity>());
 		}
 		m_nbEntities = 0;
+		
+		//Creation de la classe CollisionEntity
+		m_collisionManager = new CollisionManager();
 
 		// Génère la grille du jeu qui va créer a son tour toutes les entités et mettre
 		// la liste des entités à jour. La grille doit connaitre ses patterns lors de sa
@@ -71,6 +76,7 @@ public class Model {
 		m_tank = new Tank(body, turret);
 		m_drone = (Drone) getEntities(MyEntities.Drone).get(0);
 		m_playingTank = true;
+		m_sounds = new LinkedList<String>();
 
 	}
 
@@ -109,6 +115,7 @@ public class Model {
 			entity.step(elapsed);
 		}
 		m_tank.step();
+		m_collisionManager.controlCollisionsShotsEntity();
 	}
 
 	//////// Gestion du passage drone/tank ////////
@@ -205,6 +212,31 @@ public class Model {
 			getEntities(MyEntities.TankBody).add(e);
 		} else if (e instanceof Turret) {
 			getEntities(MyEntities.Turret).add(e);
+		} else {
+			throw new IllegalArgumentException("Entité non reconnue !");
+		}
+		m_nbEntities++;
+	}
+	
+	public void removeEntity(Entity e) {
+		if (e instanceof Droppable) {
+			getEntities(MyEntities.Droppable).remove(e);
+		} else if (e instanceof Drone) {
+			getEntities(MyEntities.Drone).remove(e);
+		} else if (e instanceof Enemy) {
+			getEntities(MyEntities.Enemy).remove(e);
+		} else if (e instanceof Vein) {
+			getEntities(MyEntities.Vein).remove(e);
+		} else if (e instanceof Ground) {
+			getEntities(MyEntities.Ground).remove(e);
+		} else if (e instanceof Marker) {
+			getEntities(MyEntities.Marker).remove(e);
+		} else if (e instanceof Shot) {
+			getEntities(MyEntities.Shot).remove(e);
+		} else if (e instanceof TankBody) {
+			getEntities(MyEntities.TankBody).remove(e);
+		} else if (e instanceof Turret) {
+			getEntities(MyEntities.Turret).remove(e);
 		} else {
 			throw new IllegalArgumentException("Entité non reconnue !");
 		}

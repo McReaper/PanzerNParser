@@ -13,8 +13,8 @@ import info3.game.model.Tank;
  */
 public class TankBody extends MovingEntity {
 
-	public final static int TANKBODY_WIDTH = 2;
-	public final static int TANKBODY_HEIGHT = 2;
+	public final static int TANKBODY_WIDTH = 3;
+	public final static int TANKBODY_HEIGHT = 3;
 
 	public static final int TANKBODY_HEALTH = 100;
 	public static final int TANKBODY_SPEED = 100;
@@ -49,59 +49,73 @@ public class TankBody extends MovingEntity {
 
 	@Override
 	public void Move(MyDirection dir) {
-			if (m_actionFinished && m_currentAction == LsAction.Move) {
-				System.out.println("Tank fait le move !");
-				this.doMove(dir);
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Move;
-				m_timeOfAction = TANKBODY_MOVE_TIME;
+		if (m_actionFinished && m_currentAction == LsAction.Move) {
+			System.out.println("Tank fait le move !");
+			this.doMove(dir);
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			MyDirection absoluteDir = MyDirection.toAbsolute(m_currentActionDir, dir);
+			switch (absoluteDir) {
+				case NORTH:
+				case EAST:
+				case WEST:
+				case SOUTH:
+					m_timeOfAction = TANKBODY_MOVE_TIME;
+					break;
+				case NORTHEAST:
+				case NORTHWEST:
+				case SOUTHEAST:
+				case SOUTHWEST:
+					m_timeOfAction = (long) Math.sqrt(2 * TANKBODY_MOVE_TIME * TANKBODY_MOVE_TIME);
+
 			}
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Move;
+		}
 	}
 
 	@Override
 	public void Pop(MyDirection dir) {
-			if (m_actionFinished && m_currentAction == LsAction.Pop) {
-				System.out.println("Tank fait le Pop !");
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Pop;
-				m_timeOfAction = TANKBODY_POP_TIME;
-			}
+		if (m_actionFinished && m_currentAction == LsAction.Pop) {
+			System.out.println("Tank fait le Pop !");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Pop;
+			m_timeOfAction = TANKBODY_POP_TIME;
+		}
 	}
 
 	@Override
 	public void Turn(MyDirection dir, int angle) {
-			if (m_actionFinished && m_currentAction == LsAction.Turn) {
-				System.out.println("Tank fait le Turn !");
-				this.doTurn(dir);
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Turn;
-				m_timeOfAction = TANKBODY_TURN_TIME;
-			}
+		if (m_actionFinished && m_currentAction == LsAction.Turn) {
+			System.out.println("Tank fait le Turn !");
+			this.doTurn(dir);
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Turn;
+			m_timeOfAction = TANKBODY_TURN_TIME;
+		}
 	}
 
 	@Override
 	public void Wizz(MyDirection dir) {
-			if (m_actionFinished && m_currentAction == LsAction.Wizz) {
-				Model.getModel().switchControl();
-				System.out.println("TANK fait le wizz");
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Wizz;
-				m_timeOfAction = TANKBODY_WIZZ_TIME;
-			}
+		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
+			Model.getModel().switchControl();
+			System.out.println("TANK fait le wizz");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Wizz;
+			m_timeOfAction = TANKBODY_WIZZ_TIME;
+		}
 	}
-	
+
 	@Override
 	public boolean Key(LsKey key) {
 		if (m_tank.hasControl())

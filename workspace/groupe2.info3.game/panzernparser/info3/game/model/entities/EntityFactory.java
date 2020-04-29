@@ -2,7 +2,7 @@ package info3.game.model.entities;
 
 import info3.game.GameConfiguration;
 import info3.game.automaton.Automaton;
-import info3.game.model.Material.MaterialType;
+import info3.game.model.MaterialType;
 
 public class EntityFactory {
 	public enum MyEntities {

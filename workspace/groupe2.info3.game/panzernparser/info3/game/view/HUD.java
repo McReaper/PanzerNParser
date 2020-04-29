@@ -215,7 +215,7 @@ public class HUD {
 		m_upgrade.setBorder(upgradeTitledBorder);
 		
 		//Création d'un premier bouton
-		JButton upgradeButton1 = new JButton("Upgrade 1");
+		JButton upgradeButton1 = new JButton("HP Max +100");
 		upgradeButton1.setForeground(Color.BLACK);
 		upgradeButton1.setBackground(new Color(29,73,25));
 		

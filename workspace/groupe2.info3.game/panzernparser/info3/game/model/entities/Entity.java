@@ -956,4 +956,8 @@ public abstract class Entity {
 	public boolean Key(LsKey m_key) {
 		return (Model.getModel().getKeyPressed().contains(m_key));
 	}
+	
+	public int getHealth() {
+		return m_health;
+	}
 }

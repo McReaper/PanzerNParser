@@ -13,6 +13,7 @@ import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
+import info3.game.model.entities.TankBody;
 
 public class View extends Container {
 
@@ -22,6 +23,7 @@ public class View extends Container {
 	Model m_model;
 	LinkedList<Avatar> m_avatars;
 	ViewPort m_viewPort;
+	HUD m_HUD;
 	// AvatarFactory m_factory;
 
 	public View(Controller controller, Model model) {
@@ -30,6 +32,7 @@ public class View extends Container {
 		m_model = model;
 		m_canvas = new GameCanvas(m_controller);
 
+		m_HUD = new HUD();
 		BorderLayout BL = initiateHUD();
 
 		this.setLayout(BL);
@@ -50,18 +53,24 @@ public class View extends Container {
 		BL.addLayoutComponent(m_canvas, BorderLayout.CENTER);
 		this.add(m_canvas);
 
-		HUD HUD = new HUD();
 
-		BL.addLayoutComponent(HUD.m_West, BorderLayout.WEST);
-		BL.addLayoutComponent(HUD.m_East, BorderLayout.EAST);
+		BL.addLayoutComponent(m_HUD.m_West, BorderLayout.WEST);
+		BL.addLayoutComponent(m_HUD.m_East, BorderLayout.EAST);
 
-		this.add(HUD.m_East);
-		this.add(HUD.m_West);
+		this.add(m_HUD.m_East);
+		this.add(m_HUD.m_West);
 
 		return BL;
 	}
 
 	public void refreshHUD() {
+		
+		m_HUD.m_health.setMaximum(TankBody.TANKBODY_HEALTH);
+		
+		m_HUD.m_health.setValue(m_model.getPlayed().getHealth());
+		
+		
+		
 	}
 
 	public Coords toGridCoord(Coords c) {

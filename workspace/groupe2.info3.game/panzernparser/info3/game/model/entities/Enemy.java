@@ -32,8 +32,8 @@ public class Enemy extends MovingEntity {
 	public static final long ENEMY_WAIT_TIME = 50;
 	public static final long ENEMY_WIZZ_TIME = 1000;
 
-	public Enemy(int x, int y, int width, int height, Automaton aut) {
-		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, aut);
+	public Enemy(int x, int y, Automaton aut) {
+		super(x, y, ENEMY_WIDTH, ENEMY_HEIGHT,  aut);
 		m_category = MyCategory.A;
 		m_lengthOfView = ENEMY_FOV;
 	}

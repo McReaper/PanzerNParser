@@ -38,8 +38,8 @@ public class Turret extends MovingEntity {
 
 	private Tank m_tank;
 
-	public Turret(int x, int y, int width, int height, int health, int speed, Automaton aut) {
-		super(x, y, width, height, health, speed, aut);
+	public Turret(int x, int y, Automaton aut) {
+		super(x, y, TURRET_WIDTH, TURRET_HEIGHT, aut);
 		m_tank = null;
 		m_category = MyCategory.AT;
 	}

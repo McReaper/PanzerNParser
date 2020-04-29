@@ -33,7 +33,7 @@ public class CollisionManager {
 					 */
 					if (!entEnemy.equals(((Shot) entShot).getOwner())) {
 
-						if (entEnemy.isInMeCase(entShot.getX(), entShot.getY())) {
+						if (entEnemy.isInMe(entShot.getX(), entShot.getY())) {
 							entEnemy.collide();
 							entShot.collide();
 						}
@@ -48,7 +48,7 @@ public class CollisionManager {
 					 */
 					if (!entPlayer.equals(((Shot) entShot).getOwner())) {
 
-						if (entPlayer.isInMeCase(entShot.getX(), entShot.getY())) {
+						if (entPlayer.isInMe(entShot.getX(), entShot.getY())) {
 							entPlayer.collide();
 							entShot.collide();
 						}

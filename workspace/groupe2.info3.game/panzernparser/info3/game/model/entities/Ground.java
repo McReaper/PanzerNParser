@@ -8,10 +8,9 @@ import info3.game.automaton.MyCategory;
  */
 public class Ground extends StaticEntity {
 
-	/* Champs pour donner size par defaut dans la EntityFactory */
-	final static int GROUND_WIDTH = 1;
-	final static int GROUND_HEIGHT = 1;
-
+	private static final int GROUND_WIDTH = 1;
+	private static final int GROUND_HEIGHT = 1;
+	
 	public static final long GROUND_EGG_TIME = 1000;
 	public static final long GROUND_GET_TIME = 1000;
 	public static final long GROUND_HIT_TIME = 1000;
@@ -28,8 +27,8 @@ public class Ground extends StaticEntity {
 	public static final long GROUND_WAIT_TIME = 1000;
 	public static final long GROUND_WIZZ_TIME = 1000;
 
-	public Ground(int x, int y, int width, int height, Automaton aut) {
-		super(x, y, width, height, aut);
+	public Ground(int x, int y, Automaton aut) {
+		super(x, y, GROUND_WIDTH, GROUND_HEIGHT, aut);
 		m_category = MyCategory.V;
 	}
 

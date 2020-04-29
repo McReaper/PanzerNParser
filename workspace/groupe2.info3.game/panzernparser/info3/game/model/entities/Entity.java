@@ -31,6 +31,10 @@ public abstract class Entity {
 	public static final long DEFAULT_THROW_TIME = 1000;
 	public static final long DEFAULT_WAIT_TIME = 100;
 	public static final long DEFAULT_WIZZ_TIME = 1000;
+	
+	public static final int DEFAULT_HEALTH = 100;
+	public static final int DEFAULT_WIDTH = 1;
+	public static final int DEFAULT_HEIGHT = 1;
 
 	protected long m_elapseTime;
 	protected LsAction m_currentAction;
@@ -67,7 +71,7 @@ public abstract class Entity {
 		m_y = y;
 		m_width = width;
 		m_height = height;
-		m_health = 100;// TODO
+		m_health = DEFAULT_HEALTH;
 
 		m_currentLookAtDir = MyDirection.NORTH; // par défaut
 		m_currentActionDir = null; // par défaut
@@ -173,7 +177,7 @@ public abstract class Entity {
 		if (state != null)
 			m_currentState = state;
 		else
-			System.err.println("setstate null !" + this);
+			throw new IllegalStateException("setState null");
 	}
 
 	public LsAction getCurrentAction() {
@@ -226,10 +230,6 @@ public abstract class Entity {
 
 	public int getFieldOfView() {
 		return m_lengthOfView;
-	}
-
-	public boolean isInMe(double x, double y) {
-		return !(x < m_x || y < m_y || y > m_y + m_height || x > m_x + m_width);
 	}
 
 	//// METHODES DE L'AUTOMATE ////
@@ -625,7 +625,7 @@ public abstract class Entity {
 
 	public boolean isInMe(LinkedList<Coords> radius) {
 		for (Coords coord : radius) {
-			if (this.isInMe(coord.X, coord.Y))
+			if (this.isInMe((int)coord.X, (int)coord.Y))
 				return true;
 		}
 		return false;
@@ -720,7 +720,7 @@ public abstract class Entity {
 			for (double y = 0; y <= rayon; y++) {
 				double actual_x = center_x + (x * x_factor);
 				double actual_y = center_y + (y * y_factor);
-				if (!this.isInMe(actual_x, actual_y))
+				if (!this.isInMe((int)actual_x, (int)actual_y))
 					cells.add(new Coords(actual_x, actual_y));
 			}
 		}
@@ -908,7 +908,7 @@ public abstract class Entity {
 		}
 	}
 
-	public boolean isInMeCase(int x, int y) {
+	public boolean isInMe(int x, int y) {
 		int xL = m_x;
 		int xR = Model.getModel().getGrid().realX(m_x + m_width);
 		int yU = m_y;

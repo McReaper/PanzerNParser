@@ -39,8 +39,8 @@ public class Drone extends MovingEntity {
 	private int m_nbMarkers;
 	private VisionType m_currentVisionType;
 
-	public Drone(int x, int y, int width, int height, int health, int speed, Automaton aut) {
-		super(x, y, width, height, health, speed, aut);
+	public Drone(int x, int y, Automaton aut) {
+		super(x, y, DRONE_WIDTH, DRONE_HEIGHT, aut);
 		m_nbMarkers = 0;
 		m_lengthOfView = DRONE_FOV;
 		m_currentVisionType = VisionType.RESSOURCES;

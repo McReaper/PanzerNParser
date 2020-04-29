@@ -271,7 +271,7 @@ public class Model {
 
 	public boolean isInRadius(LinkedList<Coords> radius, Entity entity) {
 		for (Coords coord : radius) {
-			if (entity.isInMe(coord.X, coord.Y))
+			if (entity.isInMe((int)coord.X, (int)coord.Y))
 				return true;
 		}
 		return false;

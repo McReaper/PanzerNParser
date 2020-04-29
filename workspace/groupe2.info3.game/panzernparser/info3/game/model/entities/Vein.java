@@ -29,8 +29,8 @@ public class Vein extends Entity {
 	public static final long VEIN_WAIT_TIME = 5000;
 	public static final long VEIN_WIZZ_TIME = 1000;
 	
-	public Vein(int x, int y, int width, int height, Automaton aut) {
-		super(x, y, width, height, aut);
+	public Vein(int x, int y, Automaton aut) {
+		super(x, y, VEIN_WIDTH, VEIN_HEIGHT, aut);
 		m_category = MyCategory.P;
 	}
 	

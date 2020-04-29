@@ -35,8 +35,8 @@ public class Shot extends MovingEntity {
 	//entité qui a tiré ce shot
 	private Entity m_owner;
 
-	public Shot(int x, int y, int width, int height, int health, int speed, Automaton aut) {
-		super(x, y, width, height, health, speed, aut);
+	public Shot(int x, int y, Automaton aut) {
+		super(x, y, SHOT_WIDTH, SHOT_HEIGHT, aut);
 		m_health = SHOT_HEALTH;
 		m_category = MyCategory.M;
 	}

@@ -10,57 +10,46 @@ public class EntityFactory {
 	}
 
 	public static Entity newTankBody(int x, int y, Automaton aut) {
-		return new TankBody(x, y, TankBody.TANKBODY_WIDTH, TankBody.TANKBODY_HEIGHT, aut);
+		return new TankBody(x, y,aut);
 	}
 
 	public static Entity newTankTurret(int x, int y, Automaton aut) {
-		return new Turret(x, y, Turret.TURRET_WIDTH, Turret.TURRET_HEIGHT, Turret.TURRET_HEALTH, Turret.TURRET_SPEED, aut);
+		return new Turret(x, y, aut);
 	}
-
-	public static Entity newDrone() {
-		return null;
-	}
-
-	public static Entity newMarker() {
-		return null;
-	}
-
+	
 	public static Entity newShot(int x, int y, Automaton aut) {
-		Entity shot = new Shot(x, y, Shot.SHOT_WIDTH, Shot.SHOT_HEIGHT, 10, 10, aut);
+		Entity shot = new Shot(x, y, aut);
 		return shot;
-		/* par defaut health et time_to_travel = 10 mais a voir où gerer ça */
 	}
 
 	public static Entity newEnemy(int x, int y, Automaton aut) {
-		Entity enemy = new Enemy(x, y, Enemy.ENEMY_WIDTH, Enemy.ENEMY_HEIGHT, aut);
+		Entity enemy = new Enemy(x, y, aut);
 		return enemy;
 	}
 
 	public static Entity newDroppable(int x, int y, Automaton aut) {
-		Entity drop = new Droppable(x, y, Droppable.DROPPABLE_WIDTH, Droppable.DROPPABLE_HEIGHT, 1, MaterialType.ELECTRONIC,
-				aut);
+		Entity drop = new Droppable(x, y, MaterialType.ELECTRONIC, aut);
 		return drop;
 		// 1 en quantité mais à discuter
 	}
 
 	public static Entity newVein(int x, int y, Automaton aut) {
-		Entity vein = new Vein(x, y, Vein.VEIN_WIDTH, Vein.VEIN_HEIGHT, aut);
+		Entity vein = new Vein(x, y, aut);
 		return vein;
 	}
 
 	public static Entity newGround(int x, int y, Automaton aut) {
-		Entity ground = new Ground(x, y, Ground.GROUND_WIDTH, Ground.GROUND_HEIGHT, aut);
+		Entity ground = new Ground(x, y, aut);
 		return ground;
 	}
 
-	private static Entity newDrone(int x, int y, Automaton automaton) {
-		Entity drone = new Drone(x, y, Drone.DRONE_WIDTH, Drone.DRONE_HEIGHT, Drone.DRONE_HEALTH, Drone.DRONE_SPEED,
-				automaton);
+	private static Entity newDrone(int x, int y, Automaton aut) {
+		Entity drone = new Drone(x, y, aut);
 		return drone;
 	}
 
 	public static Entity newMarker(int x, int y, Automaton aut) {
-		Entity marker = new Marker(x, y, Marker.MARKER_WIDTH, Marker.MARKER_HEIGHT, aut);
+		Entity marker = new Marker(x, y, aut);
 		return marker;
 	}
 

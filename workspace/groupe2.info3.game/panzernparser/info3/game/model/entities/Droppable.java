@@ -27,9 +27,9 @@ public class Droppable extends StaticEntity {
 	int m_quantity; // quantité de matériaux lachés
 	MaterialType m_mType; // Type de matériel laché
 
-	public Droppable(int x, int y, int width, int height, int quantity, MaterialType mtype, Automaton aut) {
-		super(x, y, width, height, aut);
-		m_quantity = quantity;
+	public Droppable(int x, int y, MaterialType mtype, Automaton aut) {
+		super(x, y, DROPPABLE_WIDTH, DROPPABLE_HEIGHT,  aut);
+		m_quantity = 1; //TODO : revoir
 		m_mType = mtype;
 		m_category = MyCategory.P;
 	}

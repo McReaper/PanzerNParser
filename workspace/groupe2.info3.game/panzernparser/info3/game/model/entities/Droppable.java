@@ -26,7 +26,7 @@ public class Droppable extends StaticEntity {
 	public static final long DROPPABLE_WIZZ_TIME = 1000;
 
 	int m_quantity; // quantité de matériaux lachés
-	MaterialType m_mType; // Type de matériel laché
+	private MaterialType m_mType; // Type de matériel laché
 
 	public Droppable(int x, int y, int width, int height, int quantity, MaterialType mtype, Automaton aut) {
 		super(x, y, width, height, aut);
@@ -41,6 +41,10 @@ public class Droppable extends StaticEntity {
 
 	public int getQuantity() {
 		return m_quantity;
+	}
+	
+	public void setQuantity(int quantity) {
+		m_quantity = quantity;
 	}
 
 }

@@ -86,7 +86,9 @@ public class Enemy extends MovingEntity {
 
 			// creation de la ressource a répendre
 			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);//TODO si dir est diff de Here
-
+			int rand = (int) (Math.random()*(20 -1));//20 correspond au nombre max de ressource dispo et 1 le min
+			System.out.println("Le nombre aléatoire choisi est " + rand);
+			((Droppable) ent).setQuantity(rand);
 			// Ajoute l'entité au model
 			Model.getModel().addEntity(ent);
 		}

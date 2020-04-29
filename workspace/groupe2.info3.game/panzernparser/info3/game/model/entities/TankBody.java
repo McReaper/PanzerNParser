@@ -1,5 +1,7 @@
 package info3.game.model.entities;
 
+import java.util.LinkedList;
+
 import info3.game.automaton.Automaton;
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
@@ -7,6 +9,8 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Tank;
+import info3.game.model.entities.EntityFactory.MyEntities;
+
 /**
  * Chassis du tank
  */
@@ -24,7 +28,7 @@ public class TankBody extends MovingEntity {
 	public static final long TANKBODY_JUMP_TIME = 1000;
 	public static final long TANKBODY_EXPLODE_TIME = 1000;
 	public static final long TANKBODY_MOVE_TIME = 800;
-	public static final long TANKBODY_PICK_TIME = 1000;
+	public static final long TANKBODY_PICK_TIME = 50;
 	public static final long TANKBODY_POP_TIME = 10000;
 	public static final long TANKBODY_POWER_TIME = 1000;
 	public static final long TANKBODY_PROTECT_TIME = 1000;
@@ -50,7 +54,7 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Move(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Move) {
-		//	System.out.println("Tank fait le move !");
+			// System.out.println("Tank fait le move !");
 			this.doMove(dir);
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -91,7 +95,7 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Turn(MyDirection dir, int angle) {
 		if (m_actionFinished && m_currentAction == LsAction.Turn) {
-		//	System.out.println("Tank fait le Turn !");
+			// System.out.println("Tank fait le Turn !");
 			this.doTurn(dir);
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -115,7 +119,7 @@ public class TankBody extends MovingEntity {
 			m_timeOfAction = TANKBODY_WIZZ_TIME;
 		}
 	}
-	
+
 	@Override
 	public void Explode() {
 		/*
@@ -125,7 +129,7 @@ public class TankBody extends MovingEntity {
 			System.out.println("Le TANK et le Canon Explose !");
 //			m_tank.getTurret().doExplode();
 //			this.doExplode();
-			this.m_health = 100;//je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
+			this.m_health = 100;// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -135,15 +139,53 @@ public class TankBody extends MovingEntity {
 	}
 
 	@Override
+	public void Pick(MyDirection dir) {
+		if (m_actionFinished && m_currentAction == LsAction.Pick) {
+			System.out.println("Le Tank rammasse un objet!");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentAction = LsAction.Pick;
+			m_timeOfAction = TANKBODY_PICK_TIME;
+			LinkedList<Entity> pickables = Model.getModel().getCategoried(MyCategory.P);
+			for (Entity ent : pickables) {
+				// vérifie si le pickable est dans la zone notre tank
+				if (ent instanceof Droppable) {
+					if (isPickable(ent)) {
+						m_tank.getInventory().add(((Droppable) ent).getMType(), ((Droppable) ent).getQuantity());// on le met dans l'inventaire
+						Model.getModel().removeEntity(ent);// et il disparait de la liste des entités du model.
+						System.out.println("Dans l'inventaire il y a " + m_tank.getInventory().getQuantity(((Droppable) ent).getMType()) + " matériaux ");
+					}
+				}
+			}
+		}
+	}
+
+	@Override
 	public boolean Key(LsKey key) {
 		if (m_tank.hasControl())
 			return super.Key(key);
 		return false;
 	}
-	
+
 	@Override
 	public void collide() {
-		m_health -=50;
+		m_health -= 50;
 	}
-	
+
+	/*
+	 * vérifie si l'netité pickable donné en param est sous le tank elle vérifie
+	 * pour toutes les cases de l'objet à ramasser
+	 */
+	private boolean isPickable(Entity ent) {
+		//TODO si l'objet est sur plus d'une case
+//		for (int i = ent.getX(); i < ent.getX() + ent.getWidth(); i++) {
+//			for (int j = ent.getY(); i < ent.getY() + ent.getHeight(); i++) {
+				if (this.isInMeCase(ent.getX(), ent.getY())) {
+					return true;
+				}
+//			}
+//		}
+		return false;
+	}
 }

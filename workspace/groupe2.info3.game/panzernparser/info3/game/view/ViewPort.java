@@ -123,40 +123,42 @@ public class ViewPort {
 		for (int j = offsetWindowY - m_offsetY; j < m_paintSize + offsetWindowY; j += m_caseSize)
 			g.drawLine(offsetWindowX, j, offsetWindowX + m_paintSize, j);
 		for (Avatar avatar : lsAvatars) {
-			e = avatar.m_entity;
-			x = e.getX();
-			y = e.getY();
-			w = e.getWidth();
-			h = e.getHeight();
-			int intView = this.inView(x, y, w, h);
-			if (intView != DO_NOT_PAINT) {
-				// position de la case dans le vp
-				x -= m_x;
-				y -= m_y;
-				// pour le décalage
-				x -= 2;
-				y -= 2;
-				// position en px de la case
-				x *= m_caseSize;
-				y *= m_caseSize;
-				// position case en px avec décalage
-				x += offsetWindowX - m_offsetX;
-				y += offsetWindowY - m_offsetY;
-				switch (intView) {
-					// Téléportation pour rentrer dans le viewPort
-					case PAINT_MOVE_X:
-						x += m_grid.getNbCellsX() * m_caseSize;
-						break;
-					case PAINT_MOVE_Y:
-						y += m_grid.getNbCellsY() * m_caseSize;
-						break;
-					case PAINT_MOVE_XY:
-						x += m_grid.getNbCellsX() * m_caseSize;
-						y += m_grid.getNbCellsY() * m_caseSize;
-						break;
-				}
-				avatar.paint(g, x, y, m_caseSize, m_caseSize);
+			if (avatar.isPainted()) {
+				e = avatar.m_entity;
+				x = e.getX();
+				y = e.getY();
+				w = e.getWidth();
+				h = e.getHeight();
+				int intView = this.inView(x, y, w, h);
+				if (intView != DO_NOT_PAINT) {
+					// position de la case dans le vp
+					x -= m_x;
+					y -= m_y;
+					// pour le décalage
+					x -= 2;
+					y -= 2;
+					// position en px de la case
+					x *= m_caseSize;
+					y *= m_caseSize;
+					// position case en px avec décalage
+					x += offsetWindowX - m_offsetX;
+					y += offsetWindowY - m_offsetY;
+					switch (intView) {
+						// Téléportation pour rentrer dans le viewPort
+						case PAINT_MOVE_X:
+							x += m_grid.getNbCellsX() * m_caseSize;
+							break;
+						case PAINT_MOVE_Y:
+							y += m_grid.getNbCellsY() * m_caseSize;
+							break;
+						case PAINT_MOVE_XY:
+							x += m_grid.getNbCellsX() * m_caseSize;
+							y += m_grid.getNbCellsY() * m_caseSize;
+							break;
+					}
+					avatar.paint(g, x, y, m_caseSize, m_caseSize);
 
+				}
 			}
 
 		}

@@ -24,6 +24,10 @@ public class Avatar {
 		m_entity = entity;
 		m_animation = animation;
 	}
+	
+	public boolean isPainted() {
+		return m_entity.isShown();
+	}
 
 	public int progressivePaintY(MyDirection e_absoluteActionDir, int y, double progress, int case_height) {
 		switch (e_absoluteActionDir) {

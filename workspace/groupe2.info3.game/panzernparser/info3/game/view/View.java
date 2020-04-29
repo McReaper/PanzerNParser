@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-
 import info3.game.controller.Controller;
 import info3.game.model.Model;
 import info3.game.model.entities.Entity;
@@ -28,8 +27,10 @@ public class View extends Container {
 		m_controller = controller;
 		m_model = model;
 		m_canvas = new GameCanvas(m_controller);
-		this.setLayout(new BorderLayout());
-		this.add(m_canvas, BorderLayout.CENTER);
+
+		BorderLayout BL = initiateHUD();
+
+		this.setLayout(BL);
 		m_avatars = new LinkedList<Avatar>();
 		updateAvatars();
 //		for (Entity e : model.getEntities()) {
@@ -37,13 +38,28 @@ public class View extends Container {
 //		if (model.m_player == model.PLAYER_TANK) {
 //			m_viewPort = new ViewPort(model,model.m_tank.m_body, this);
 //		}else {
-		m_viewPort = new ViewPort(model, m_model.getPlayed(), this);
+		m_viewPort = new ViewPort(m_model.getPlayed(), this);
 		// }//TODO passage de l'un a l'autre
 //		}
 	}
 
+	public BorderLayout initiateHUD() {
+		BorderLayout BL = new BorderLayout();
+		BL.addLayoutComponent(m_canvas, BorderLayout.CENTER);
+		this.add(m_canvas);
+
+		HUD HUD = new HUD();
+
+		BL.addLayoutComponent(HUD.m_West, BorderLayout.WEST);
+		BL.addLayoutComponent(HUD.m_East, BorderLayout.EAST);
+
+		this.add(HUD.m_East);
+		this.add(HUD.m_West);
+
+		return BL;
+	}
+
 	public void refreshHUD() {
-		// TODO met à jour l'ATH de l'interface de jeu en fonction du modèle.
 	}
 
 	private void updateAvatars() {

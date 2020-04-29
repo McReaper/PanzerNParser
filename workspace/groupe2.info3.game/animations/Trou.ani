@@ -1,4 +1,6 @@
-sprite_sheet = sprites/Trou.png
+sprite_sheet1 = sprites/Trou.png
+sprite_sheet2 = sprites/Trou.png
+sprite_sheet3 = sprites/Trou.png
 Egg = 1,2,3,4
 Get = 1,2,3,4
 Hit = 1,2,3,4

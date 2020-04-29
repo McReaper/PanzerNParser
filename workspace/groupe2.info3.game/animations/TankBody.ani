@@ -1,4 +1,6 @@
-sprite_sheet = sprites/TankBody2.png
+sprite_sheet1 = sprites/TankBody.png
+sprite_sheet2 = sprites/TankBody.png
+sprite_sheet3 = sprites/TankBody.png
 Hit = 1,5,9,13,17,21,25,29
 Move_NORTH = 1,2,3,4
 Move_NORTHEAST = 5,6,7,8

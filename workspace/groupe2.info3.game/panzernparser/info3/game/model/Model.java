@@ -63,9 +63,8 @@ public class Model {
 			// la musique et les autres exécutions auxiliaires en cours.
 		}
 
-		int playableEntitiesNumber = getEntities(MyEntities.TankBody).size() + getEntities(MyEntities.Turret).size()
-				+ getEntities(MyEntities.Drone).size();
-		if (playableEntitiesNumber != 3) {
+		if (getEntities(MyEntities.TankBody).size() != 1 || getEntities(MyEntities.Turret).size() != 1
+				|| getEntities(MyEntities.Drone).size() != 1) {
 			System.err.println("Il semblerait que la grille comporte plusieurs Drone ou Tank...");
 			// La il faudrait sortir du programme, en appelant le controller, pour arrêter
 			// la musique et les autres exécutions auxiliaires en cours.
@@ -182,6 +181,7 @@ public class Model {
 	}
 
 	public void addEntity(Entity e) {
+		//TODO : peut etre opti avec la factory.
 		if (e instanceof Droppable) {
 			getEntities(MyEntities.Droppable).add(e);
 		} else if (e instanceof Drone) {

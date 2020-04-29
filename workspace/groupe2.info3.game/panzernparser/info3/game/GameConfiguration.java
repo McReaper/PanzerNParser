@@ -132,23 +132,30 @@ public class GameConfiguration {
 //			
 //			 Les fichiers .ani ont la forme : 
 //			 
-//			 sprite_sheet = chemin 
+//			 sprite_sheet1 = chemin 
+//			 sprite_sheet2 = chemin <- vision enemie
+//			 sprite_sheet3 = chemin <- vision ressources
 //			 NomAction = 1,2,4,5,...
 //			 NomAction_DIR = 2,8,11,...
 //			  ...
 //			 
 			Scanner sc_ani = new Scanner(ani_file);
+			Sprite[] sprites = new Sprite[3];
+			String[] fields_ani;
 
-			line = sc_ani.nextLine(); // En-tête avec le chemin du sprite_sheet.
-			String[] fields_ani = line.split(" = ");
+			for (int i = 0; i < 3; i++) {
+				line = sc_ani.nextLine(); // En-tête avec le chemin du sprite_sheet.
+				fields_ani = line.split(" = ");
 
-			Sprite sprite = null;
-			try {
-				// On essaye de récupérer le sprite associé a cette animation.
-				sprite = new Sprite(fields_ani[1]);
-			} catch (IOException e) {
-				sc_ani.close();
-				throw new FileNotFoundException("Fichier " + fields_ani[1] + " Introuvable !");
+				Sprite sprite = null;
+				try {
+					// On essaye de récupérer le sprite associé a cette animation.
+					sprite = new Sprite(fields_ani[1]);
+					sprites[i] = sprite;
+				} catch (IOException e) {
+					sc_ani.close();
+					throw new FileNotFoundException("Fichier " + fields_ani[1] + " Introuvable !");
+				}
 			}
 			// HashMap qui pour une Action et sa direction associe la séquence de sprite.
 			HashMap<ActionDirection, int[]> animSeq = new HashMap<ActionDirection, int[]>();
@@ -178,7 +185,7 @@ public class GameConfiguration {
 			}
 
 			// Création de l'animation :
-			Animation animation = new Animation(sprite, animSeq);
+			Animation animation = new Animation(sprites, animSeq);
 			m_animations.put(MyEntities.valueOf(fields[0]), animation);
 
 			// Fermeture du fichier .ani

@@ -15,11 +15,11 @@ import info3.game.model.Model.VisionType;
  */
 public class Animation {
 
-	Sprite m_sprite; // TODO Sprite[3] m_sprite;
+	Sprite[] m_sprites;
 	HashMap<ActionDirection, int[]> m_animationSequence;
 
-	public Animation(Sprite sprite, HashMap<ActionDirection, int[]> animationSequence) {
-		m_sprite = sprite;
+	public Animation(Sprite[] sprites, HashMap<ActionDirection, int[]> animationSequence) {
+		m_sprites = sprites;
 		m_animationSequence = animationSequence;
 	}
 
@@ -29,12 +29,20 @@ public class Animation {
 			// rien ne sera affiché)
 			return null;
 		}
-		// TODO
-		/*
-		 * Sprite curSrite; switch (vision) { case ENEMIES: curSrite = m_sprite[1];
-		 * break; case RESSOURCES: curSrite = m_sprite[2]; break; case TANK: default:
-		 * curSrite = m_sprite[0]; break; }
-		 */
+
+		Sprite currSprite;
+		switch (vision) {
+			case ENEMIES:
+				currSprite = m_sprites[1]; // deuxieme ligne du .ani
+				break;
+			case RESSOURCES:
+				currSprite = m_sprites[2]; // troisieme ligne du .ani
+				break;
+			default:
+				currSprite = m_sprites[0]; // premiere ligne du .ani
+				break;
+		}
+
 		ActionDirection aD = new ActionDirection(ac, dir);
 		int[] seq = m_animationSequence.get(aD);
 		if (seq == null) {
@@ -45,6 +53,6 @@ public class Animation {
 		int i = (int) (ActionProgress * seq.length);
 		if (i >= seq.length)
 			i = seq.length - 1;
-		return m_sprite.getSprite(seq[i]); // TODO return curSrite.getSprite(seq[i]);
+		return currSprite.getSprite(seq[i]); // TODO return curSrite.getSprite(seq[i]);
 	}
 }

@@ -41,6 +41,7 @@ public abstract class Entity {
 	protected int m_width;
 	protected int m_height;
 	protected int m_speed;
+	protected int m_health;
 	protected MyDirection m_currentLookAtDir;
 	protected MyDirection m_currentActionDir;
 	protected boolean m_stuff; // gotStuff ?
@@ -66,6 +67,8 @@ public abstract class Entity {
 		m_y = y;
 		m_width = width;
 		m_height = height;
+		m_health = 100;//TODO
+	
 
 		m_currentLookAtDir = MyDirection.NORTH; // par défaut
 		m_currentActionDir = null; // par défaut
@@ -234,7 +237,7 @@ public abstract class Entity {
 
 	public void Egg(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Egg) {
-			System.out.println("Is Egging");
+			System.out.println("Is Egging (dans entity)");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -491,8 +494,10 @@ public abstract class Entity {
 	}
 
 	public boolean GotPower() {
-		// System.out.println("Is Gotpower-ing");
-		return true;
+		if (m_health > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	public boolean GotStuff() {
@@ -511,7 +516,11 @@ public abstract class Entity {
 	 */
 	public boolean Closest(MyDirection dir, MyCategory type) {
 		Entity closest = Model.getModel().closestEntity(Model.getModel().getCategoried(type), m_x, m_y);
-		return closest.isInMe(getDetectionCone(dir, this.m_lengthOfView));
+		if( closest.isInMe(getDetectionCone(dir, this.m_lengthOfView))) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	public boolean isInMe(LinkedList<Coords> radius) {
@@ -568,7 +577,7 @@ public abstract class Entity {
 	 * @param dist
 	 * @return
 	 */
-	protected LinkedList<Coords> getCellsInDiagonalDir(MyDirection dir, int dist) {
+	protected LinkedList<Coords> getQuarterInDiagonalDir(MyDirection dir, int dist) {
 		double center_x = m_x + (double) (m_width) / 2.0;
 		double center_y = m_y + (double) (m_height) / 2.0;
 		LinkedList<Coords> cells = new LinkedList<Coords>();
@@ -629,6 +638,62 @@ public abstract class Entity {
 		return coords_to_return;
 	}
 
+	protected LinkedList<Coords> getCellsInDiagonalDir(MyDirection dir, int dist) {
+		LinkedList<Coords> cells = new LinkedList<Coords>();
+		RectangleTriangle stencil1, stencil2;
+
+		double center_x = m_x + (double) (m_width) / 2.0;
+		double center_y = m_y + (double) (m_height) / 2.0;
+
+		int max_side = Math.max(m_width, m_height);
+		double rayon = (double) (max_side) / 2 + dist;
+		double angle = Math.toRadians(67.5);
+		
+		switch (dir) {
+			case NORTHEAST:
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.NORTHEAST, dist));
+				stencil1 = new RectangleTriangle(center_x + rayon + 1, center_y, center_x, center_y, center_x + rayon + 1,
+						center_y - rayon*Math.tan(angle) - 1);
+				stencil2 = new RectangleTriangle(center_x, center_y - rayon - 1, center_x, center_y, center_x + rayon*Math.tan(angle) + 1,
+						center_y - rayon - 1);
+				break;
+			case NORTHWEST:
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.NORTHWEST, dist));
+				stencil1 = new RectangleTriangle(center_x - rayon - 1, center_y, center_x, center_y, center_x - rayon - 1,
+						center_y - rayon*Math.tan(angle) - 1);
+				stencil2 = new RectangleTriangle(center_x, center_y - rayon - 1, center_x, center_y, center_x - rayon*Math.tan(angle) - 1,
+						center_y - rayon - 1);
+				break;
+			case SOUTHEAST:
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.SOUTHEAST, dist));
+				stencil1 = new RectangleTriangle(center_x + rayon + 1, center_y, center_x, center_y, center_x + rayon + 1,
+						center_y + rayon*Math.tan(angle) + 1);
+				stencil2 = new RectangleTriangle(center_x, center_y + rayon + 1, center_x, center_y, center_x + rayon*Math.tan(angle) + 1,
+						center_y + rayon + 1);
+				break;
+			case SOUTHWEST:
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.SOUTHWEST, dist));
+				stencil1 = new RectangleTriangle(center_x - rayon - 1, center_y, center_x, center_y, center_x - rayon - 1,
+						center_y + rayon*Math.tan(angle) + 1);
+				stencil2 = new RectangleTriangle(center_x, center_y + rayon + 1, center_x, center_y, center_x - rayon*Math.tan(angle) - 1,
+						center_y + rayon + 1);
+				break;
+			default:
+				throw new IllegalArgumentException(
+						"Cette fonction est appelable uniquement avec les paramètres NORTH, EAST, WEST, SOUTH");
+		}
+
+		LinkedList<Coords> coords_to_return = new LinkedList<Coords>();
+
+		for (Coords coord : cells) {
+			if (stencil1.isInMe(coord.X + 0.5, coord.Y + 0.5) && stencil2.isInMe(coord.X + 0.5, coord.Y + 0.5)) {
+				coords_to_return.add(coord);
+			}
+		}
+
+		return coords_to_return;
+	}
+	
 	protected LinkedList<Coords> getCellsInOrthogonalDir(MyDirection dir, int dist) {
 		LinkedList<Coords> cells = new LinkedList<Coords>();
 		RectangleTriangle stencil1, stencil2;
@@ -638,39 +703,40 @@ public abstract class Entity {
 
 		int max_side = Math.max(m_width, m_height);
 		double rayon = (double) (max_side) / 2 + dist;
-
+		double angle = Math.toRadians(67.5);
+		
 		switch (dir) {
 			case NORTH:
-				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHEAST, dist));
-				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHWEST, dist));
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.NORTHEAST, dist));
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.NORTHWEST, dist));
 				stencil1 = new RectangleTriangle(center_x - rayon - 1, center_y, center_x, center_y, center_x - rayon - 1,
-						center_y - rayon - 1);
+						center_y - rayon*Math.tan(angle) - 1);
 				stencil2 = new RectangleTriangle(center_x + rayon + 1, center_y, center_x, center_y, center_x + rayon + 1,
-						center_y - rayon - 1);
+						center_y - rayon*Math.tan(angle) - 1);
 				break;
 			case WEST:
-				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHWEST, dist));
-				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHWEST, dist));
-				stencil1 = new RectangleTriangle(center_x, center_y - rayon - 1, center_x, center_y, center_x - rayon - 1,
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.SOUTHWEST, dist));
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.NORTHWEST, dist));
+				stencil1 = new RectangleTriangle(center_x, center_y - rayon - 1, center_x, center_y, center_x - rayon*Math.tan(angle) - 1,
 						center_y - rayon - 1);
-				stencil2 = new RectangleTriangle(center_x, center_y + rayon + 1, center_x, center_y, center_x - rayon - 1,
+				stencil2 = new RectangleTriangle(center_x, center_y + rayon + 1, center_x, center_y, center_x - rayon*Math.tan(angle) - 1,
 						center_y + rayon + 1);
 				break;
 			case EAST:
-				cells.addAll(getCellsInDiagonalDir(MyDirection.NORTHEAST, dist));
-				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHEAST, dist));
-				stencil1 = new RectangleTriangle(center_x, center_y - rayon - 1, center_x, center_y, center_x + rayon + 1,
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.NORTHEAST, dist));
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.SOUTHEAST, dist));
+				stencil1 = new RectangleTriangle(center_x, center_y - rayon - 1, center_x, center_y, center_x + rayon*Math.tan(angle) + 1,
 						center_y - rayon - 1);
-				stencil2 = new RectangleTriangle(center_x, center_y + rayon + 1, center_x, center_y, center_x + rayon + 1,
+				stencil2 = new RectangleTriangle(center_x, center_y + rayon + 1, center_x, center_y, center_x + rayon*Math.tan(angle) + 1,
 						center_y + rayon + 1);
 				break;
 			case SOUTH:
-				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHEAST, dist));
-				cells.addAll(getCellsInDiagonalDir(MyDirection.SOUTHWEST, dist));
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.SOUTHEAST, dist));
+				cells.addAll(getQuarterInDiagonalDir(MyDirection.SOUTHWEST, dist));
 				stencil1 = new RectangleTriangle(center_x - rayon - 1, center_y, center_x, center_y, center_x - rayon - 1,
-						center_y + rayon + 1);
+						center_y + rayon*Math.tan(angle) + 1);
 				stencil2 = new RectangleTriangle(center_x + rayon + 1, center_y, center_x, center_y, center_x + rayon + 1,
-						center_y + rayon + 1);
+						center_y + rayon*Math.tan(angle) + 1);
 				break;
 			default:
 				throw new IllegalArgumentException(
@@ -743,13 +809,23 @@ public abstract class Entity {
 	}
 
 	public boolean isInMeCase(int x, int y) {
-		// TODO gerer les bords de case
-		if (m_x <= x && x < m_x + this.m_width) {
-			if (m_y <= y && y < m_y + this.m_height) {
-				return true;
-			}
+		int xL = m_x;
+		int xR = Model.getModel().getGrid().realX(m_x + m_width);
+		int yU = m_y;
+		int yD = Model.getModel().getGrid().realY(m_y + m_height);
+		boolean inX = false;
+		boolean inY = false;
+		if (x >= xL && x < xR) {
+			inX = true;
+		}else if (xL > xR && (x >= xL || x < xR)) {
+			inX = true;
 		}
-		return false;
+		if (y >= yU && y < yD) {
+			inY = true;
+		}else if (yU > yD && (x >= yU || x < yD)) {
+			inY = true;
+		}
+		return inX && inY;
 	}
 
 	public void collide() {

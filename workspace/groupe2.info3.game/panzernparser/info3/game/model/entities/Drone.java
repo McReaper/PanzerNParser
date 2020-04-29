@@ -44,6 +44,7 @@ public class Drone extends MovingEntity {
 		m_nbMarkers = 0;
 		m_lengthOfView = 10;
 		m_currentVisionType = VisionType.RESSOURCES;
+		m_category = MyCategory.V;
 	}
 
 	@Override

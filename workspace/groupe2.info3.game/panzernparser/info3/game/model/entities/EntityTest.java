@@ -71,21 +71,28 @@ public class EntityTest {
 //	}
 
 	static void detectionConeTest() {
-		int entity_length = 4;
-		Entity enemy = new Enemy(5, 5, entity_length, entity_length, null); // commenté l'automate dans Entity
+		int entity_length = 2;
+		Entity enemy = new Enemy(9, 9, entity_length, entity_length, null); // commenté l'automate dans Entity
 		System.out.println("Ennemi créé.");
-		int dist = 10;
-		MyDirection dir = MyDirection.SOUTHWEST;
-		LinkedList<Coords> cells = enemy.getDetectionCone(dir, dist);
-		char[][] tab = new char[dist*2 + 1][dist*2 + 1];
+		int dist = 8;
+		LinkedList<Coords> cells = new LinkedList<Coords>();
+		//cells.addAll(enemy.getDetectionCone(MyDirection.NORTHEAST, dist));
+		//cells.addAll(enemy.getDetectionCone(MyDirection.EAST, dist));
+		//cells.addAll(enemy.getDetectionCone(MyDirection.SOUTHEAST, dist));
+		cells.addAll(enemy.getDetectionCone(MyDirection.NORTHWEST, dist));
+		cells.addAll(enemy.getDetectionCone(MyDirection.WEST, dist));
+		cells.addAll(enemy.getDetectionCone(MyDirection.SOUTHWEST, dist));
+		cells.addAll(enemy.getDetectionCone(MyDirection.NORTH, dist));
+		cells.addAll(enemy.getDetectionCone(MyDirection.SOUTH, dist));
+		char[][] tab = new char[dist*2 + 4][dist*2 + 4];
 		for (Coords coord : cells) {
 			int ind_x = (int) (coord.X);
 			int ind_y = (int) (coord.Y);
 			tab[ind_x][ind_y] = '#';
 		}
-		for (int y = 0; y < dist*2; y++) {
+		for (int y = 0; y < dist*2 + 4; y++) {
 			System.out.println();
-			for (int x = 0; x < dist*2; x++) {
+			for (int x = 0; x < dist*2 + 4; x++) {
 				if (tab[x][y] == '#') {
 					System.out.print(tab[x][y] + " ");
 				} else {

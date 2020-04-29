@@ -2,6 +2,7 @@ EnemyTest(Tunrning0){
 *(Tunrning0)
 	|!GotPower() ? Explode() : (Tunrning0)
 	|!MyDir(N) ? Turn(N) : (Tunrning0)
+	| MyDir(N) &  Closest(@, N) ? Move(N) : (Tunrning1)
 	|True ? Hit() : (Tunrning1)
 *(Tunrning1)
 	|!GotPower() ? Explode() : (Tunrning0)

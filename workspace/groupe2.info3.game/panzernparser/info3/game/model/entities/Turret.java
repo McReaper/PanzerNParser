@@ -22,7 +22,7 @@ public class Turret extends MovingEntity {
 
 	public static final long TURRET_EGG_TIME = 1000;
 	public static final long TURRET_GET_TIME = 1000;
-	public static final long TURRET_HIT_TIME = 3000;
+	public static final long TURRET_HIT_TIME = 500;
 	public static final long TURRET_JUMP_TIME = 1000;
 	public static final long TURRET_EXPLODE_TIME = 1000;
 	public static final long TURRET_MOVE_TIME = 1000;
@@ -40,6 +40,7 @@ public class Turret extends MovingEntity {
 
 	public Turret(int x, int y, int width, int height, int health, int speed, Automaton aut) {
 		super(x, y, width, height, health, speed, aut);
+		m_tank = null;
 		m_category = MyCategory.AT;
 	}
 
@@ -55,7 +56,7 @@ public class Turret extends MovingEntity {
 	@Override
 	public void Hit(MyDirection dir) {
 			if (m_actionFinished && m_currentAction == LsAction.Hit) {
-				System.out.println("FIRE !");
+				//System.out.println("FIRE !");
 				m_actionFinished = false;
 				m_currentAction = null;
 				Model.getModel().m_sounds.add("oof");
@@ -95,7 +96,7 @@ public class Turret extends MovingEntity {
 	@Override
 	public void Turn(MyDirection dir, int angle) {
 			if (m_actionFinished && m_currentAction == LsAction.Turn) {
-				System.out.println("Turret turning !");
+			//	System.out.println("Turret turning !");
 				this.doTurn(dir);
 				m_actionFinished = false;
 				m_currentAction = null;

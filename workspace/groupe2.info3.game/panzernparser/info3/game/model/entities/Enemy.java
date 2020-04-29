@@ -1,6 +1,7 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -19,10 +20,10 @@ public class Enemy extends MovingEntity {
 
 	public static final long ENEMY_EGG_TIME = 1000;
 	public static final long ENEMY_GET_TIME = 1000;
-	public static final long ENEMY_HIT_TIME = 1000;
+	public static final long ENEMY_HIT_TIME = 500;
 	public static final long ENEMY_JUMP_TIME = 1000;
 	public static final long ENEMY_EXPLODE_TIME = 1000;
-	public static final long ENEMY_MOVE_TIME = 1000;
+	public static final long ENEMY_MOVE_TIME = 500;
 	public static final long ENEMY_PICK_TIME = 1000;
 	public static final long ENEMY_POP_TIME = 10000;
 	public static final long ENEMY_POWER_TIME = 1000;
@@ -35,11 +36,10 @@ public class Enemy extends MovingEntity {
 
 //	private boolean m_triggered; // indique si l'ennemi a détecté le joueur ou non.
 //	private Droppable m_drops;
-	private int m_health;
-
 	public Enemy(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, aut);
-		m_health = ENEMY_HEALTH;
+		m_category = MyCategory.O;
+		m_lengthOfView = 5;
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class Enemy extends MovingEntity {
 	@Override
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
-			System.out.println("FIRE !");
+			// System.out.println("FIRE !");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -67,6 +67,25 @@ public class Enemy extends MovingEntity {
 
 			// Donne l'entité qui l'a tiré (ici le tankBody)
 			((Shot) ent).setOwner(this);
+
+			// Ajoute l'entité au model
+			Model.getModel().addEntity(ent);
+		}
+	}
+
+	@Override
+	public void Egg(MyDirection dir) {
+		if (m_actionFinished && m_currentAction == LsAction.Egg) {
+			System.out.println("Is Egging (dans Enemy)");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Egg;
+			m_timeOfAction = DEFAULT_EGG_TIME;
+
+			// creation de la ressource a répendre
+			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);//TODO si dir est diff de Here
 
 			// Ajoute l'entité au model
 			Model.getModel().addEntity(ent);
@@ -130,16 +149,8 @@ public class Enemy extends MovingEntity {
 	}
 
 	@Override
-	public boolean GotPower() {
-		if (m_health > 0) {
-			return true;
-		}
-		return false;
-	}
-
-	@Override
 	public void collide() {
-		m_health -= 25;
+		m_health -= 100;
 	}
 
 }

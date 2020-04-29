@@ -13,7 +13,8 @@ EnnemiFollowing(Init){
 	
 	* (Step) :
 	| !GotPower() ? Explode() : (Dying)
-	| True ? Move(F) : (Attack)
+	| !Cell(N,@) & ! Cell(N,O) ? Move(F) : (Attack)
+	| True ? : (Attack)
 	
 	* (Attack) :
 	| !GotPower() ? Explode() : (Dying)

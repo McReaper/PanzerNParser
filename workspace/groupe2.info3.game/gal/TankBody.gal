@@ -1,5 +1,6 @@
 TankChassis(Init){
 *(Init)
+	|!GotPower() ? Explode() : (Init)
 	|Key(z) & Key(d) & MyDir(NE) ? Move(NE) : (Init)
 	|Key(z) & Key(d) & !MyDir(NE) ? Turn(NE) : (Init)
 

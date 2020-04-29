@@ -7,7 +7,6 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Tank;
-//& !Cell(N,@) & ! Cell(N,O) & !Cell(N,@)
 /**
  * Chassis du tank
  */
@@ -116,6 +115,24 @@ public class TankBody extends MovingEntity {
 			m_timeOfAction = TANKBODY_WIZZ_TIME;
 		}
 	}
+	
+	@Override
+	public void Explode() {
+		/*
+		 * TODO faire un GAME OVER
+		 */
+		if (m_actionFinished && m_currentAction == LsAction.Explode) {
+			System.out.println("Le TANK et le Canon Explose !");
+//			m_tank.getTurret().doExplode();
+//			this.doExplode();
+			this.m_health = 100;//je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentAction = LsAction.Explode;
+			m_timeOfAction = TANKBODY_EXPLODE_TIME;
+		}
+	}
 
 	@Override
 	public boolean Key(LsKey key) {
@@ -123,4 +140,10 @@ public class TankBody extends MovingEntity {
 			return super.Key(key);
 		return false;
 	}
+	
+	@Override
+	public void collide() {
+		m_health -=50;
+	}
+	
 }

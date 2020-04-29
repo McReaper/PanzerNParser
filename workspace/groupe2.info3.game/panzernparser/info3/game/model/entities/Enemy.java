@@ -39,7 +39,7 @@ public class Enemy extends MovingEntity {
 	public Enemy(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, aut);
 		m_category = MyCategory.O;
-		m_lengthOfView = 15;
+		m_lengthOfView = 5;
 	}
 
 	@Override

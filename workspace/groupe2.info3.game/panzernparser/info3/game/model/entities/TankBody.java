@@ -39,8 +39,10 @@ public class TankBody extends MovingEntity {
 
 	public TankBody(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, Tank.TANK_HEALTH, Tank.TANK_SPEED, aut);
+		m_maxHealth=TANKBODY_HEALTH;
 		m_tank = null;
 		m_category = MyCategory.AT;
+		m_level = 1;
 	}
 
 	public void setTank(Tank tank) {
@@ -125,7 +127,7 @@ public class TankBody extends MovingEntity {
 			System.out.println("Le TANK et le Canon Explose !");
 //			m_tank.getTurret().doExplode();
 //			this.doExplode();
-			this.m_health = 100;//je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
+			this.m_health = getMaxHealth();//je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {

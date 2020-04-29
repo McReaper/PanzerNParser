@@ -32,7 +32,7 @@ public class View extends Container {
 		m_model = model;
 		m_canvas = new GameCanvas(m_controller);
 
-		m_HUD = new HUD();
+		m_HUD = new HUD(this);
 		BorderLayout BL = initiateHUD();
 
 		this.setLayout(BL);
@@ -53,7 +53,6 @@ public class View extends Container {
 		BL.addLayoutComponent(m_canvas, BorderLayout.CENTER);
 		this.add(m_canvas);
 
-
 		BL.addLayoutComponent(m_HUD.m_West, BorderLayout.WEST);
 		BL.addLayoutComponent(m_HUD.m_East, BorderLayout.EAST);
 
@@ -63,26 +62,30 @@ public class View extends Container {
 		return BL;
 	}
 
+//TODO
 	public void refreshHUD() {
-		
-		m_HUD.m_health.setMaximum(TankBody.TANKBODY_HEALTH);
-		
-		m_HUD.m_health.setValue(m_model.getPlayed().getHealth());
-		
-		
-		
+		if (m_model.getPlayed() instanceof TankBody) {
+			TankBody tank = (TankBody) m_model.getPlayed();
+
+			m_HUD.m_health.setMaximum(tank.getMaxHealth());
+			m_HUD.m_health.setValue(tank.getHealth());
+			
+			int level = tank.getLevel();
+			m_HUD.m_level.setText("Level : ".concat(Integer.toString(tank.getLevel())));
+		}
+
 	}
 
 	public Coords toGridCoord(Coords c) {
 		Grid g = Model.getModel().getGrid();
-		int Rx,Ry;
+		int Rx, Ry;
 		double offX = c.X + m_viewPort.getOffsetX() - m_viewPort.getOffsetWindowX();
 		double offY = c.Y + m_viewPort.getOffsetY() - m_viewPort.getOffsetWindowY();
-		offX = offX/m_viewPort.getCaseWidth();
-		offY = offY/m_viewPort.getCaseHeight();
-		Rx = m_viewPort.getX()+2+(int)offX;
-		Ry = m_viewPort.getY()+2+(int)offY;
-		return new Coords(Rx,Ry);
+		offX = offX / m_viewPort.getCaseWidth();
+		offY = offY / m_viewPort.getCaseHeight();
+		Rx = m_viewPort.getX() + 2 + (int) offX;
+		Ry = m_viewPort.getY() + 2 + (int) offY;
+		return new Coords(Rx, Ry);
 	}
 
 	private void updateAvatars() {

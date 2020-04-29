@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -17,7 +20,11 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import info3.game.model.entities.TankBody;
+
 public class HUD {
+
+	View m_view;
 
 	JPanel m_West;
 	JPanel m_East;
@@ -27,18 +34,22 @@ public class HUD {
 	JLabel m_weaponLabel;
 	JProgressBar m_health;
 	JProgressBar m_drone;
-	
+
 	JLabel m_score;
 	JLabel m_level;
 	JLabel m_time;
 	JLabel m_ammo;
 	CompassWidget m_compass;
 	JPanel m_upgrade;
+	JButton[] m_availableUpgrades;
 
-	public HUD() {
-		//La font des futurs labels
+	public HUD(View view) {
+
+		m_view = view;
+
+		// La font des futurs labels
 		Font fontWest = new Font(null, 0, 15);
-		
+
 		m_West = new JPanel();
 		m_West.setBackground(Color.DARK_GRAY);
 		m_West.setPreferredSize(new Dimension(120, 150));
@@ -49,9 +60,12 @@ public class HUD {
 		BoxLayout BLMintoolsweapon = new BoxLayout(MinToolsWeapon, BoxLayout.Y_AXIS);
 		MinToolsWeapon.setLayout(BLMintoolsweapon);
 		MinToolsWeapon.setBackground(Color.DARK_GRAY);// ce
-
-		JLabel mineralsImage = new JLabel(new ImageIcon("sprites/Trou.png"));
-		JLabel toolsImage = new JLabel(new ImageIcon("sprites/Trou.png"));
+		
+		ImageIcon mineralsIcone = new ImageIcon(new ImageIcon("sprites/Minerals.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		ImageIcon toolsIcone = new ImageIcon(new ImageIcon("sprites/Electronics.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		
+		JLabel mineralsImage = new JLabel(mineralsIcone);
+		JLabel toolsImage = new JLabel(toolsIcone);
 		JLabel weaponImage = new JLabel(new ImageIcon("sprites/Trou.png"));
 
 		m_mineralsLabel = new JLabel("Minerals :");
@@ -91,7 +105,7 @@ public class HUD {
 //		m_HPStamina avec les deux barres d'HP et DP
 //		m_HPStamina.setPreferredSize(new Dimension(100, 100));
 		HPStamina.add(Box.createVerticalGlue());
-		LineBorder progressBarBorder = (LineBorder)BorderFactory.createLineBorder(Color.BLACK, 3);
+		LineBorder progressBarBorder = (LineBorder) BorderFactory.createLineBorder(Color.BLACK, 3);
 		m_health = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
 		m_health.setBorder(progressBarBorder);
 		m_health.setForeground(Color.RED);
@@ -110,121 +124,127 @@ public class HUD {
 		HPStamina.add(Box.createVerticalGlue());
 		m_West.add(HPStamina);
 		m_West.add(MinToolsWeapon);
-		
-		//ATH droit
-		
-		//La font des futurs labels
+
+		// ATH droit
+
+		// La font des futurs labels
 		Font font = new Font(null, 0, 20);
-		
+
 		m_East = new JPanel();
 		m_East.setBackground(Color.DARK_GRAY);
-		m_East.setPreferredSize(new Dimension(120,150));
+		m_East.setPreferredSize(new Dimension(120, 150));
 		BoxLayout BLEast = new BoxLayout(m_East, BoxLayout.Y_AXIS);
 		m_East.setLayout(BLEast);
-		
-		//La boussole
+
+		// La boussole
 		m_compass = new CompassWidget();
-		m_compass.setBackground(new Color(18,16,38));
+		m_compass.setBackground(new Color(18, 16, 38));
 		m_compass.setForeground(Color.BLACK);
-		Dimension CompassSize = new Dimension(120,120);
+		Dimension CompassSize = new Dimension(120, 120);
 		m_compass.setMinimumSize(CompassSize);
 		m_compass.setMaximumSize(CompassSize);
 		m_compass.setPreferredSize(CompassSize);
-		
+
 		m_East.add(m_compass);
-		
-		//Zone des stats
+
+		// Zone des stats
 		JPanel Stats = new JPanel();
 		Stats.setBackground(Color.DARK_GRAY);
-		Dimension statsDimension = new Dimension(120,130);
+		Dimension statsDimension = new Dimension(120, 130);
 		Stats.setMaximumSize(statsDimension);
 		Stats.setPreferredSize(statsDimension);
-		
-		//Border pour les stats
+
+		// Border pour les stats
 		Border blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
-		TitledBorder statsBorder = BorderFactory.createTitledBorder(blackLineBorder,"Stats");
+		TitledBorder statsBorder = BorderFactory.createTitledBorder(blackLineBorder, "Stats");
 		statsBorder.setTitleColor(Color.BLACK);
 		statsBorder.setTitleJustification(TitledBorder.CENTER);
 		Stats.setBorder(statsBorder);
-		
-		
-		
-		//Label du niveau
+
+		// Label du niveau
 		m_level = new JLabel("Level : 45");
 		m_level.setForeground(Color.BLACK);
 		m_level.setFont(font);
 		m_level.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		
+
 		Stats.add(m_level);
-		
-		//Label des points
+
+		// Label des points
 		m_score = new JLabel("450 pts");
 		m_score.setForeground(Color.BLACK);
 		m_score.setFont(font);
 		m_score.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		
+
 		Stats.add(m_score);
-		
-		//Cadrant de l'horloge
+
+		// Cadrant de l'horloge
 		JPanel timePanel = new JPanel();
 		timePanel.setBackground(Color.BLACK);
-		
-		//Border de l'horloge
+
+		// Border de l'horloge
 		Border timePanelBorder = BorderFactory.createLineBorder(Color.GRAY);
 		timePanel.setBorder(timePanelBorder);
-		
-		//Label Temps
+
+		// Label Temps
 		m_time = new JLabel("4 : 35");
 		m_time.setForeground(Color.RED);
 		m_time.setFont(font);
 		m_time.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		
+
 		timePanel.add(m_time);
 		Stats.add(timePanel);
 		m_East.add(Stats);
-		
-		//Espace munition
+
+		// Espace munition
 		JPanel ammoPanel = new JPanel();
 		ammoPanel.setBackground(Color.DARK_GRAY);
 
-		//Ajout d'une border à ammo
+		// Ajout d'une border à ammo
 		Border ammoBorder = BorderFactory.createLineBorder(Color.BLACK);
-		TitledBorder ammoTitledBorder = BorderFactory.createTitledBorder(ammoBorder,"Ammo");
+		TitledBorder ammoTitledBorder = BorderFactory.createTitledBorder(ammoBorder, "Ammo");
 		ammoTitledBorder.setTitleColor(Color.BLACK);
 		ammoTitledBorder.setTitleJustification(TitledBorder.CENTER);
 		ammoPanel.setBorder(ammoTitledBorder);
 
-		//Label des munitions
+		// Label des munitions
 		m_ammo = new JLabel("5/10");
 		m_ammo.setFont(font);
 		m_ammo.setForeground(Color.BLACK);
-		
+
 		ammoPanel.add(m_ammo);
-		ammoPanel.setMaximumSize(new Dimension(120,30));
+		ammoPanel.setMaximumSize(new Dimension(120, 30));
 		m_East.add(ammoPanel);
-		
-		//Zone des boutons d'upgrade
+
+		// Zone des boutons d'upgrade
 		m_upgrade = new JPanel();
 		m_upgrade.setBackground(Color.DARK_GRAY);
-		
-		//Ajout d'une border à upgrade
+
+		// Ajout d'une border à upgrade
 		Border upgradeBorder = BorderFactory.createLineBorder(Color.BLACK);
-		TitledBorder upgradeTitledBorder = BorderFactory.createTitledBorder(upgradeBorder,"Upgrades");
+		TitledBorder upgradeTitledBorder = BorderFactory.createTitledBorder(upgradeBorder, "Upgrades");
 		upgradeTitledBorder.setTitleColor(Color.BLACK);
 		upgradeTitledBorder.setTitleJustification(TitledBorder.CENTER);
 		m_upgrade.setBorder(upgradeTitledBorder);
-		
-		//Création d'un premier bouton
+
+		// Création d'un premier bouton
 		JButton upgradeButton1 = new JButton("HP Max +100");
+//		upgradeButton1.addActionListener(new ActionListener() {
+//	TODO
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				TankBody tankbody = (TankBody) m_view.m_model.getPlayed();
+//				tankbody.m_maxHealth+=100;
+//			}
+//		});
 		upgradeButton1.setForeground(Color.BLACK);
-		upgradeButton1.setBackground(new Color(29,73,25));
-		
-		//Ajout d'une border au bouton
+		upgradeButton1.setBackground(new Color(29, 73, 25));
+
+		// Ajout d'une border au bouton
 		Border inset = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-		LineBorder buttonLineBorder = (LineBorder)BorderFactory.createLineBorder(new Color(52,109,46));
+		LineBorder buttonLineBorder = (LineBorder) BorderFactory.createLineBorder(new Color(52, 109, 46));
 		Border buttonBorder = BorderFactory.createCompoundBorder(buttonLineBorder, inset);
 		upgradeButton1.setBorder(buttonBorder);
-		
+
 		m_upgrade.add(upgradeButton1);
 		m_East.add(m_upgrade);
 	}

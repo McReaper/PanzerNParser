@@ -50,6 +50,8 @@ public abstract class Entity {
 	protected boolean m_actionFinished;
 	protected MyCategory m_category;
 	protected int m_lengthOfView;
+	protected int m_level;
+	protected int m_maxHealth;
 
 	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
@@ -959,5 +961,13 @@ public abstract class Entity {
 	
 	public int getHealth() {
 		return m_health;
+	}
+
+	public int getMaxHealth() {
+		return m_maxHealth;
+	}
+	
+	public int getLevel() {
+		return m_level;
 	}
 }

@@ -1,6 +1,6 @@
 Drone(Init){
 	*(Init)
-	|Closest(N,C) ? Hit() : (Init)
+	|Closest(H,C) ? Hit() : (Init)
 	|Key(a) ? Wizz() : (Init)
 	|Key(e) ? Pop() : (Init)
 	|Key(z) & Key(d) ? Turn(NE) : (Avance)

@@ -35,7 +35,6 @@ public class TurretAvatar extends Avatar {
 		int height = m_entity.getHeight() * case_height;
 		int x = xcase;
 		int y = ycase;
-//		System.out.println(bodyMoving + "|" + bodyProgress + "|" + e_bodyActionDir);
 
 		// Pour réaliser un affichage progressif dans le cas d'un move.
 		if (bodyMoving) {

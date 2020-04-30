@@ -14,11 +14,11 @@ import info3.game.model.entities.EntityFactory.MyEntities;
  */
 public class Turret extends MovingEntity {
 
-	public final static int TURRET_WIDTH = 3;
-	public final static int TURRET_HEIGHT = 3;
+	public final static int TURRET_WIDTH = Tank.TANK_WIDTH;
+	public final static int TURRET_HEIGHT = Tank.TANK_HEIGHT;
 
-	public static final int TURRET_HEALTH = 100;
-	public static final int TURRET_SPEED = 100;
+	public static final int TURRET_HEALTH = Tank.TANK_HEALTH;
+	public static final int TURRET_SPEED = Tank.TANK_SPEED;
 
 	public static final long TURRET_EGG_TIME = 1000;
 	public static final long TURRET_GET_TIME = 1000;
@@ -38,8 +38,8 @@ public class Turret extends MovingEntity {
 
 	private Tank m_tank;
 
-	public Turret(int x, int y, int width, int height, int health, int speed, Automaton aut) {
-		super(x, y, width, height, health, speed, aut);
+	public Turret(int x, int y, Automaton aut) {
+		super(x, y, TURRET_WIDTH, TURRET_HEIGHT, aut);
 		m_tank = null;
 		m_category = MyCategory.AT;
 	}
@@ -56,10 +56,9 @@ public class Turret extends MovingEntity {
 	@Override
 	public void Hit(MyDirection dir) {
 			if (m_actionFinished && m_currentAction == LsAction.Hit) {
-				//System.out.println("FIRE !");
 				m_actionFinished = false;
 				m_currentAction = null;
-				Model.getModel().m_sounds.add("oof");
+				Model.getModel().addSound("oof");
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Hit;
@@ -74,16 +73,12 @@ public class Turret extends MovingEntity {
 				
 				//Donne l'entité qui l'a tiré (ici le tankBody)
 				((Shot ) ent).setOwner(m_tank.getBody());
-				
-				//Ajoute l'entité au model
-				Model.getModel().addEntity(ent);
 			}
 	}
 
 	@Override
 	public void Pop(MyDirection dir) {
 			if (m_actionFinished && m_currentAction == LsAction.Pop) {
-				System.out.println("Changement d'arme !");
 				m_actionFinished = false;
 				m_currentAction = null;
 			} else if (m_currentAction == null) {
@@ -96,7 +91,6 @@ public class Turret extends MovingEntity {
 	@Override
 	public void Turn(MyDirection dir, int angle) {
 			if (m_actionFinished && m_currentAction == LsAction.Turn) {
-			//	System.out.println("Turret turning !");
 				this.doTurn(dir);
 				m_actionFinished = false;
 				m_currentAction = null;
@@ -110,7 +104,6 @@ public class Turret extends MovingEntity {
 	@Override
 	public void Wizz(MyDirection dir) {
 			if (m_actionFinished && m_currentAction == LsAction.Wizz) {
-				System.out.println("La tourelle recharge.");
 				m_actionFinished = false;
 				m_currentAction = null;
 			} else if (m_currentAction == null) {

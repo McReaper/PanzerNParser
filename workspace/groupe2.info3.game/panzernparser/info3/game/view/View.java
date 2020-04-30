@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import info3.game.controller.Controller;
-import info3.game.model.Grid;
 import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.model.entities.Entity;
@@ -34,14 +33,7 @@ public class View extends Container {
 		this.setLayout(BL);
 		m_avatars = new LinkedList<Avatar>();
 		initAvatars();
-//		for (Entity e : model.getEntities()) {
-//			if(e instanceof Tank)
-//		if (model.m_player == model.PLAYER_TANK) {
-//			m_viewPort = new ViewPort(model,model.m_tank.m_body, this);
-//		}else {
 		m_viewPort = new ViewPort(m_model.getPlayed(), this);
-		// }//TODO passage de l'un a l'autre
-//		}
 	}
  /*liste d'avatar devient une liste d'avatar representant une categorie d'entité
   *au lieu du nombre d'entité */
@@ -72,8 +64,7 @@ public class View extends Container {
 	}
 
 	public Coords toGridCoord(Coords c) {
-		Grid g = Model.getModel().getGrid();
-		int Rx, Ry;
+		int Rx,Ry;
 		double offX = c.X + m_viewPort.getOffsetX() - m_viewPort.getOffsetWindowX();
 		double offY = c.Y + m_viewPort.getOffsetY() - m_viewPort.getOffsetWindowY();
 		offX = offX / m_viewPort.getCaseWidth();
@@ -91,22 +82,8 @@ public class View extends Container {
 		int width = m_canvas.getWidth();
 		int height = m_canvas.getHeight();
 
-		// Dessin précaire de la grille :
-		// int nb_cells_X = m_model.getGrid().getNbCellsX();
-		// int nb_cells_Y = m_model.getGrid().getNbCellsY();
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, width, height);
-		/*
-		 * int case_width = width / nb_cells_X; int case_height = height / nb_cells_Y;
-		 * 
-		 * g.setColor(Color.LIGHT_GRAY); for (int x = 1; x < nb_cells_X; x++)
-		 * g.drawLine(x * case_width, 0, x * case_width, height); for (int y = 1; y <
-		 * nb_cells_Y; y++) g.drawLine(0, y * case_height, width, y * case_height);
-		 * 
-		 * updateAvatars(); for (Avatar avatar : m_avatars) { avatar.paint(g,
-		 * case_width, case_height); // TODO : revoir la zone avec le viewport plus
-		 * tard. }
-		 */
 
 		m_viewPort.paint(g, m_avatars);
 	}

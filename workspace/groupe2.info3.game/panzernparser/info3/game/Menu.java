@@ -57,7 +57,7 @@ public class Menu {
 		
 		//Le bouton launch
 		Font fontLaunch = new Font(null,0,30);
-		JButton launch = new JButton("Lauch Game");
+		JButton launch = new JButton("Launch Game");
 		Color buttonColor = new Color(22,63,23);
 		launch.setBackground(buttonColor);
 		launch.setForeground(Color.WHITE);

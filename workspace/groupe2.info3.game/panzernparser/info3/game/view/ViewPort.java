@@ -2,6 +2,8 @@ package info3.game.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import info3.game.automaton.MyDirection;
@@ -9,6 +11,7 @@ import info3.game.automaton.action.LsAction;
 import info3.game.model.Grid;
 import info3.game.model.Model;
 import info3.game.model.entities.Entity;
+import info3.game.model.entities.EntityFactory;
 
 public class ViewPort {
 
@@ -156,7 +159,14 @@ public class ViewPort {
 			g.drawLine(i, m_offsetWindowY, i, m_offsetWindowY + m_paintSize);
 		for (int j = m_offsetWindowY - m_offsetY; j < m_paintSize + m_offsetWindowY; j += m_caseSize)
 			g.drawLine(m_offsetWindowX, j, m_offsetWindowX + m_paintSize, j);
-		for (Avatar avatar : lsAvatars) {
+		
+		HashMap<EntityFactory.MyEntities, LinkedList<Entity>>  entities;
+		entities = Model.getModel().getHashEntities();
+		for(Avatar avatar :m_view.m_avatars) {
+			
+		}
+			
+			
 			if (avatar.isPainted()) {
 				e = avatar.m_entity;
 				x = e.getX();

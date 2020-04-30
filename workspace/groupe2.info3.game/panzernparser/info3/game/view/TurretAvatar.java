@@ -12,27 +12,27 @@ import info3.game.model.entities.Turret;
 
 public class TurretAvatar extends Avatar {
 
-	public TurretAvatar(Entity entity, Animation animation) {
-		super(entity, animation);
+	public TurretAvatar(Animation animation) {
+		super(animation);
 	}
 
 	@Override
-	public void paint(Graphics g, int xcase, int ycase, int case_width, int case_height) {
+	public void paint(Graphics g, Entity entity, int xcase, int ycase, int case_width, int case_height) {
 		VisionType vision = Model.getModel().getVisionType();
-		MyDirection e_lookAtDir = m_entity.getLookAtDir();
-		MyDirection e_actionDir = m_entity.getCurrentActionDir();
-		LsAction e_currAction = m_entity.getCurrentAction();
+		MyDirection e_lookAtDir = entity.getLookAtDir();
+		MyDirection e_actionDir = entity.getCurrentActionDir();
+		LsAction e_currAction = entity.getCurrentAction();
 		MyDirection e_absoluteActionDir = MyDirection.toAbsolute(e_lookAtDir, e_actionDir);
-		double progress = m_entity.getActionProgress();
+		double progress = entity.getActionProgress();
 
-		Turret turrEntity = (Turret) m_entity;
+		Turret turrEntity = (Turret) entity;
 
 		MyDirection e_bodyActionDir = turrEntity.getTank().getBodyDirection();
 		double bodyProgress = turrEntity.getTank().getBodyProgress();
 		boolean bodyMoving = turrEntity.getTank().isBodyMoving();
 
-		int width = m_entity.getWidth() * case_width;
-		int height = m_entity.getHeight() * case_height;
+		int width = entity.getWidth() * case_width;
+		int height = entity.getHeight() * case_height;
 		int x = xcase;
 		int y = ycase;
 

@@ -11,21 +11,21 @@ import info3.game.model.entities.Entity;
 
 public class TankBodyAvatar extends Avatar {
 
-	public TankBodyAvatar(Entity entity, Animation animation) {
-		super(entity, animation);
+	public TankBodyAvatar(Animation animation) {
+		super(animation);
 	}
 
 	@Override
-	public void paint(Graphics g, int xcase, int ycase, int case_width, int case_height) {
+	public void paint(Graphics g,Entity entity, int xcase, int ycase, int case_width, int case_height) {
 		VisionType vision = Model.getModel().getVisionType();
-		MyDirection e_lookAtDir = m_entity.getLookAtDir();
-		MyDirection e_actionDir = m_entity.getCurrentActionDir();
-		LsAction e_currAction = m_entity.getCurrentAction();
+		MyDirection e_lookAtDir = entity.getLookAtDir();
+		MyDirection e_actionDir = entity.getCurrentActionDir();
+		LsAction e_currAction = entity.getCurrentAction();
 		MyDirection e_absoluteActionDir = MyDirection.toAbsolute(e_lookAtDir, e_actionDir);
-		double progress = m_entity.getActionProgress();
+		double progress = entity.getActionProgress();
 
-		int width = m_entity.getWidth() * case_width;
-		int height = m_entity.getHeight() * case_height;
+		int width = entity.getWidth() * case_width;
+		int height = entity.getHeight() * case_height;
 		int x = xcase;
 		int y = ycase;
 

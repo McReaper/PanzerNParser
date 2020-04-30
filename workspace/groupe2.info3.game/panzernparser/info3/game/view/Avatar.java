@@ -15,18 +15,13 @@ import info3.game.model.entities.Entity;
  */
 public class Avatar {
 	Animation m_animation;
-	Entity m_entity; // TODO : revoir ici pour potentiellement stocker toutes les entités associées
-										// au type d'avatar concerné : on aurait pour 2000 entités, seulent 2000 + le
-										// nombre de type d'entités en nombre d'objets, au lieu de 4000 objets (avatar +
-										// entités).
 
-	public Avatar(Entity entity, Animation animation) {
-		m_entity = entity;
+	public Avatar( Animation animation) {
 		m_animation = animation;
 	}
 	
-	public boolean isPainted() {
-		return m_entity.isShown();
+	public boolean isPainted(Entity entity) {
+		return entity.isShown();
 	}
 
 	public int progressivePaintY(MyDirection e_absoluteActionDir, int y, double progress, int case_height) {
@@ -73,16 +68,16 @@ public class Avatar {
 	 * @param case_height hauteur d'une case dans la vue
 	 */
 
-	public void paint(Graphics g, int xcase, int ycase, int case_width, int case_height) {
+	public void paint(Graphics g, Entity entity, int xcase, int ycase, int case_width, int case_height) {
 		VisionType vision = Model.getModel().getVisionType();
-		MyDirection e_lookAtDir = m_entity.getLookAtDir();
-		MyDirection e_actionDir = m_entity.getCurrentActionDir();
-		LsAction e_currAction = m_entity.getCurrentAction();
+		MyDirection e_lookAtDir = entity.getLookAtDir();
+		MyDirection e_actionDir = entity.getCurrentActionDir();
+		LsAction e_currAction = entity.getCurrentAction();
 		MyDirection e_absoluteActionDir = MyDirection.toAbsolute(e_lookAtDir, e_actionDir);
-		double progress = m_entity.getActionProgress();
+		double progress = entity.getActionProgress();
 
-		int width = m_entity.getWidth() * case_width;
-		int height = m_entity.getHeight() * case_height;
+		int width = entity.getWidth() * case_width;
+		int height = entity.getHeight() * case_height;
 		int x = xcase; 
 		int y = ycase;
 

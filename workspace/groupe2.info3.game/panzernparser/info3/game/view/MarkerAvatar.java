@@ -11,19 +11,19 @@ import info3.game.model.entities.Entity;
 
 public class MarkerAvatar extends Avatar {
 
-	public MarkerAvatar(Entity entity, Animation animation) {
-		super(entity, animation);
+	public MarkerAvatar(Animation animation) {
+		super(animation);
 	}
 
 	@Override
-	public void paint(Graphics g, int xcase, int ycase, int case_width, int case_height) {
+	public void paint(Graphics g, Entity entity, int xcase, int ycase, int case_width, int case_height) {
 		VisionType vision = Model.getModel().getVisionType();
 		MyDirection e_actionDir = null;
 		LsAction e_currAction = LsAction.Wait;
-		double progress = m_entity.getActionProgress();
+		double progress = entity.getActionProgress();
 
-		int width = m_entity.getWidth() * case_width;
-		int height = m_entity.getHeight() * case_height;
+		int width = entity.getWidth() * case_width;
+		int height = entity.getHeight() * case_height;
 		int x = xcase; // deux seul changement
 		int y = ycase;
 

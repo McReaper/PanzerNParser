@@ -20,9 +20,8 @@ public class View extends Container {
 	public GameCanvas m_canvas;
 	Controller m_controller;
 	Model m_model;
-	LinkedList<Avatar> m_avatars;
+	LinkedList<Avatar> m_avatars;// type d'avatar
 	ViewPort m_viewPort;
-	// AvatarFactory m_factory;
 
 	public View(Controller controller, Model model) {
 		// créer la fenetre de jeu avec les bandeaux d'updrage et le canvas.
@@ -34,7 +33,7 @@ public class View extends Container {
 
 		this.setLayout(BL);
 		m_avatars = new LinkedList<Avatar>();
-		updateAvatars();
+		initAvatars();
 //		for (Entity e : model.getEntities()) {
 //			if(e instanceof Tank)
 //		if (model.m_player == model.PLAYER_TANK) {
@@ -43,6 +42,14 @@ public class View extends Container {
 		m_viewPort = new ViewPort(m_model.getPlayed(), this);
 		// }//TODO passage de l'un a l'autre
 //		}
+	}
+ /*liste d'avatar devient une liste d'avatar representant une categorie d'entité
+  *au lieu du nombre d'entité */
+	private void initAvatars() {
+		HashMap<EntityFactory.MyEntities, LinkedList<Entity>> entities = m_model.getHashEntities();
+		for (EntityFactory.MyEntities listEntities : entities.keySet()) {
+			m_avatars.add(AvatarFactory.newAvatar(entities.get(listEntities).get(0)));
+		}
 	}
 
 	public BorderLayout initiateHUD() {
@@ -66,45 +73,16 @@ public class View extends Container {
 
 	public Coords toGridCoord(Coords c) {
 		Grid g = Model.getModel().getGrid();
-		int Rx,Ry;
+		int Rx, Ry;
 		double offX = c.X + m_viewPort.getOffsetX() - m_viewPort.getOffsetWindowX();
 		double offY = c.Y + m_viewPort.getOffsetY() - m_viewPort.getOffsetWindowY();
-		offX = offX/m_viewPort.getCaseWidth();
-		offY = offY/m_viewPort.getCaseHeight();
-		Rx = m_viewPort.getX()+2+(int)offX;
-		Ry = m_viewPort.getY()+2+(int)offY;
-		return new Coords(Rx,Ry);
+		offX = offX / m_viewPort.getCaseWidth();
+		offY = offY / m_viewPort.getCaseHeight();
+		Rx = m_viewPort.getX() + 2 + (int) offX;
+		Ry = m_viewPort.getY() + 2 + (int) offY;
+		return new Coords(Rx, Ry);
 	}
 
-	private void updateAvatars() {
-		boolean mustRebuild = false;
-		if (m_model.getNbEntities() != m_avatars.size())
-			mustRebuild = true;
-		HashMap<EntityFactory.MyEntities, LinkedList<Entity>> entities = m_model.getHashEntities();
-		for (EntityFactory.MyEntities entity : entities.keySet()) {
-
-			LinkedList<Entity> listEntities = entities.get(entity);
-			Iterator<Avatar> iter_avt = m_avatars.iterator();
-			Iterator<Entity> iter_ent = listEntities.iterator();
-
-			while (!mustRebuild && iter_avt.hasNext() && iter_ent.hasNext()) {
-				Entity currentEntity = iter_ent.next();
-				Avatar avatar = iter_avt.next();
-				if (currentEntity != avatar.m_entity)
-					mustRebuild = true;
-			}
-		}
-		if (mustRebuild) {
-			m_avatars = new LinkedList<Avatar>();
-			for (EntityFactory.MyEntities entity : entities.keySet()) {
-				LinkedList<Entity> listEntities = entities.get(entity);
-				for (Entity currentEntity : listEntities) {
-					m_avatars.add(AvatarFactory.newAvatar(currentEntity));
-				}
-			}
-		}
-
-	}
 
 	/**
 	 * Méthode qui dessine la grille et les entités sur celle-ci.
@@ -129,7 +107,7 @@ public class View extends Container {
 		 * case_width, case_height); // TODO : revoir la zone avec le viewport plus
 		 * tard. }
 		 */
-		updateAvatars();
+
 		m_viewPort.paint(g, m_avatars);
 	}
 

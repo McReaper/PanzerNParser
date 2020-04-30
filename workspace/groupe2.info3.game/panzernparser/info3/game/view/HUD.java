@@ -5,8 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -20,7 +19,14 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import info3.game.model.MaterialType;
+import info3.game.model.Model;
+import info3.game.model.Tank;
+import info3.game.model.entities.Drone;
+import info3.game.model.entities.Entity;
+import info3.game.model.entities.EntityFactory.MyEntities;
 import info3.game.model.entities.TankBody;
+import info3.game.model.entities.Turret;
 
 public class HUD {
 
@@ -60,10 +66,12 @@ public class HUD {
 		BoxLayout BLMintoolsweapon = new BoxLayout(MinToolsWeapon, BoxLayout.Y_AXIS);
 		MinToolsWeapon.setLayout(BLMintoolsweapon);
 		MinToolsWeapon.setBackground(Color.DARK_GRAY);// ce
-		
-		ImageIcon mineralsIcone = new ImageIcon(new ImageIcon("sprites/Minerals.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		ImageIcon toolsIcone = new ImageIcon(new ImageIcon("sprites/Electronics.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		
+
+		ImageIcon mineralsIcone = new ImageIcon(
+				new ImageIcon("sprites/Minerals.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		ImageIcon toolsIcone = new ImageIcon(
+				new ImageIcon("sprites/Electronics.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+
 		JLabel mineralsImage = new JLabel(mineralsIcone);
 		JLabel toolsImage = new JLabel(toolsIcone);
 		JLabel weaponImage = new JLabel(new ImageIcon("sprites/Trou.png"));
@@ -232,7 +240,7 @@ public class HUD {
 //	TODO
 //			@Override
 //			public void actionPerformed(ActionEvent e) {
-//				TankBody tankbody = (TankBody) m_view.m_model.getPlayed();
+//				TankBody tankbody = (TankBody) m_view.Model.getModel().getPlayed();
 //				tankbody.m_maxHealth+=100;
 //			}
 //		});
@@ -248,4 +256,65 @@ public class HUD {
 		m_upgrade.add(upgradeButton1);
 		m_East.add(m_upgrade);
 	}
+
+//TODO
+	public void refreshHUD() {
+		Model model = Model.getModel();
+		Tank tank = model.getTank();
+		Drone drone = model.getDrone();
+		TankBody tankBody = tank.getBody();
+		Turret tankTurret = tank.getTurret();
+		Entity played = model.getPlayed();
+
+		float x = played.getX() + played.getWidth() / 2;
+		float y = played.getY() + played.getHeight() / 2;
+
+		m_compass.resetArrow();
+		LinkedList<Entity> markers = model.getEntities(MyEntities.Marker);
+
+		for (Entity mark : markers) {
+			float xMark = mark.getX();
+			float yMark = mark.getY();
+			boolean isLeft = isLeft((int) x, (int) xMark);
+			boolean isUp = isUp((int) y, (int) yMark);
+
+			//TODO Si les drapeaux sont plus grand, prendre en compte leur taille
+			double angle = (double) Math.atan(((double) (yMark - y)) / ((double) (xMark - x)));
+			angle = Math.toDegrees(angle);
+			if (isLeft && (angle<90 && angle >-90)) {
+				angle = 180-angle;
+			}
+			if(isUp)
+				angle*=-1;
+			m_compass.addArrow(null, (int) angle);
+		}
+
+		m_compass.repaint();
+
+		Model.getModel().getDrone();
+		m_level.setText("Level : ".concat(Integer.toString(tankBody.getLevel())));
+
+		m_health.setMaximum(tankBody.getMaxHealth());
+		m_health.setValue(tankBody.getHealth());
+		m_drone.setMaximum(drone.getMaxHealth());
+		m_drone.setValue(drone.getHealth());
+
+		m_toolsLabel.setText("Tools :".concat(Integer.toString(tank.getInventory().getQuantity(MaterialType.ELECTRONIC))));
+		m_mineralsLabel
+				.setText("Minerals :".concat(Integer.toString(tank.getInventory().getQuantity(MaterialType.MINERAL))));
+
+	}
+
+	boolean isLeft(int x, int xMark) {
+		int dstXdir = Math.abs(x - xMark);
+		int dstXtore = Math.min(x, xMark) + Model.getModel().getGrid().getNbCellsX() - Math.max(x, xMark);
+		return ((dstXdir>dstXtore)==(xMark>x)); //equiv (dstXdir>dstXtore && x<xMark) || (dstXdir<dstXtore && x>xMark)
+	}
+	
+	boolean isUp(int y, int yMark) {
+		int dstYdir = Math.abs(y - yMark);
+		int dstYtore = Math.min(y, yMark) + Model.getModel().getGrid().getNbCellsY() - Math.max(y, yMark);
+		return ((dstYdir>dstYtore && y<yMark) || (dstYdir<dstYtore && y>yMark)); //equiv  (dstYdir>dstYtore)==(yMark>y)
+	}
+
 }

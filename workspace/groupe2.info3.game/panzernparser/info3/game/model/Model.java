@@ -135,13 +135,13 @@ public class Model {
 			System.out.println("Contrôles données au TANK");
 		} else {
 			// Le drone apparait au niveau du tank
-			m_drone.setX(m_tank.getBody().getX());
-			m_drone.setY(m_tank.getBody().getY());
+			getDrone().setX(m_tank.getBody().getX());
+			getDrone().setY(m_tank.getBody().getY());
 
 			// Le drone apparait avec direction d'action et de regard identique à celle du
 			// tank
-			m_drone.setActionDir(m_tank.getBody().getCurrentActionDir());
-			m_drone.setLookDir(m_tank.getBody().getLookAtDir());
+			getDrone().setActionDir(m_tank.getBody().getCurrentActionDir());
+			getDrone().setLookDir(m_tank.getBody().getLookAtDir());
 //			m_tank.showTank(false);
 //			m_drone.showEntity(true);
 			System.out.println("Contrôles données au DRONE");
@@ -152,14 +152,14 @@ public class Model {
 		if (m_playingTank) {
 			return VisionType.TANK;
 		}
-		return m_drone.getVisionType();
+		return getDrone().getVisionType();
 	}
 
 	public Entity getPlayed() {
 		if (isPlayingTank()) {
 			return m_tank.getBody();
 		} else {
-			return m_drone;
+			return getDrone();
 		}
 	}
 	
@@ -167,6 +167,10 @@ public class Model {
 		return m_tank;
 	}
 
+	public Drone getDrone() {
+		return m_drone;
+	}
+	
 	/////////////////////////////////////////////////
 
 	public Grid getGrid() {
@@ -308,6 +312,5 @@ public class Model {
 		}
 		return entities_to_return;
 	}
-
 
 }

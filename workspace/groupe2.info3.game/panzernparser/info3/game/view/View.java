@@ -28,7 +28,7 @@ public class View extends Container {
 	Model m_model;
 	LinkedList<Avatar> m_avatars;
 	ViewPort m_viewPort;
-	HUD m_HUD;
+	public HUD m_HUD;
 	// AvatarFactory m_factory;
 
 	public View(Controller controller, Model model) {
@@ -65,51 +65,6 @@ public class View extends Container {
 		this.add(m_HUD.m_West);
 
 		return BL;
-	}
-
-//TODO
-	public void refreshHUD() {
-		m_HUD.m_compass.resetArrow();
-		LinkedList<Entity> markers = m_model.getEntities(MyEntities.Marker);
-		
-		Iterator iter = markers.iterator();
-		while(iter.hasNext()) {
-			Marker mark = (Marker) iter.next();
-			float xMark = mark.getX();
-			float yMark = mark.getY();
-			float x = m_model.getPlayed().getX() + m_model.getPlayed().getWidth()/2;
-			float y = m_model.getPlayed().getY() + m_model.getPlayed().getHeight()/2;
-			
-			double angle = (double) Math.atan(((double)(yMark-y))/((double)(xMark-x)));
-			angle = Math.toDegrees(angle);
-			if(xMark-x<0 && yMark-y<0) {
-				angle -= 90;
-			}
-			if(xMark-x<0 && yMark-y>0) {
-				angle += 90;
-			}
-			if(yMark-y<0) {
-				angle = -angle;
-			}
-			m_HUD.m_compass.addArrow(null, (int) angle);
-			
-		}
-		m_HUD.m_compass.paint(m_HUD.m_compass.getGraphics());
-
-		if (m_model.getPlayed() instanceof TankBody) {
-			TankBody tank = (TankBody) m_model.getPlayed();
-
-			m_HUD.m_health.setMaximum(tank.getMaxHealth());
-			m_HUD.m_health.setValue(tank.getHealth());
-			m_HUD.m_level.setText("Level : ".concat(Integer.toString(tank.getLevel())));
-			
-			
-			m_HUD.m_toolsLabel.setText(
-					"Tools :".concat(Integer.toString(m_model.getTank().getInventory().getQuantity(MaterialType.ELECTRONIC))));
-			m_HUD.m_mineralsLabel.setText(
-					"Minerals :".concat(Integer.toString(m_model.getTank().getInventory().getQuantity(MaterialType.MINERAL))));
-		}
-
 	}
 
 	public Coords toGridCoord(Coords c) {

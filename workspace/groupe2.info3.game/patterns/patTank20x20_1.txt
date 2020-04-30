@@ -1,12 +1,6 @@
 chas1 5,5
 turr1 5,5
 dron1 5,5
-enem1 5,3
-enem2 8,6
-enem3 8,8
-enem4 5,7
-enem1 7,4
-drop1 5,5
 drop2 7,4
 drop1 9,5
 drop2 5,7

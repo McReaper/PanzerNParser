@@ -78,7 +78,12 @@ public class Enemy extends MovingEntity {
 			m_timeOfAction = DEFAULT_EGG_TIME;
 
 			// creation de la ressource a répendre
-			EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);//TODO si dir est diff de Here
+			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);
+			int rand = (int) (Math.random()*(20 -1));//20 correspond au nombre max de ressource dispo et 1 le min
+			System.out.println("Le nombre aléatoire choisi est " + rand);
+			((Droppable) ent).setQuantity(rand);
+			// Ajoute l'entité au model
+			Model.getModel().addEntity(ent);
 		}
 	}
 
@@ -95,13 +100,13 @@ public class Enemy extends MovingEntity {
 				case EAST:
 				case WEST:
 				case SOUTH:
-					m_timeOfAction = ENEMY_MOVE_TIME;
+					m_timeOfAction = m_speed;
 					break;
 				case NORTHEAST:
 				case NORTHWEST:
 				case SOUTHEAST:
 				case SOUTHWEST:
-					m_timeOfAction = (long) Math.sqrt(2 * ENEMY_MOVE_TIME * ENEMY_MOVE_TIME);
+					m_timeOfAction = (long) Math.sqrt(2 * m_speed * m_speed);
 				default:
 					break;
 			}

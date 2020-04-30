@@ -95,9 +95,23 @@ public class Drone extends MovingEntity {
 				m_actionFinished = false;
 				m_currentAction = null;
 			} else if (m_currentAction == null) {
+				MyDirection absoluteDir = MyDirection.toAbsolute(m_currentActionDir, dir);
+				switch (absoluteDir) {
+					case NORTH:
+					case EAST:
+					case WEST:
+					case SOUTH:
+						m_timeOfAction = m_speed;
+						break;
+					case NORTHEAST:
+					case NORTHWEST:
+					case SOUTHEAST:
+					case SOUTHWEST:
+						m_timeOfAction = (long) Math.sqrt(2 * m_speed * m_speed);
+
+				}
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Move;
-				m_timeOfAction = DRONE_MOVE_TIME;
 			}
 		}
 	}

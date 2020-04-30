@@ -75,4 +75,8 @@ public class Inventory {
 		return true;
 	}
 	
+	public int getQuantity(MaterialType type) {
+		return this.m_materialList.get(type);
+	}
+	
 }

@@ -97,7 +97,6 @@ public class EntityFactory {
 				throw new IllegalStateException("Entité non reconnue !");
 		}
 		Model.getModel().getEntities(entity).add(res);
-		Model.getModel().addEntity();
 		return res;
 	}
 

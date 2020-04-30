@@ -68,9 +68,9 @@ public class View extends Container {
 	}
 
 	private void updateAvatars() {
-		boolean mustRebuild = false;
-		if (m_model.getNbEntities() != m_avatars.size())
-			mustRebuild = true;
+		boolean mustRebuild = true;
+//		if (m_model.getNbEntities() != m_avatars.size())
+//			mustRebuild = true;
 		HashMap<EntityFactory.MyEntities, LinkedList<Entity>> entities = m_model.getHashEntities();
 		for (EntityFactory.MyEntities entity : entities.keySet()) {
 

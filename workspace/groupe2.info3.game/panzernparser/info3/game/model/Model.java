@@ -35,7 +35,6 @@ public class Model {
 	private LinkedList<LsKey> m_keyPressed;
 	private CollisionManager m_collisionManager;
 	private boolean m_playingTank;
-	private int m_nbEntities;
 	private Coords m_clue;
 	private LinkedList<String> m_soundsToPlay;
 
@@ -64,7 +63,6 @@ public class Model {
 		for (MyEntities entityType : MyEntities.values()) {
 			m_entities.put(entityType, new LinkedList<Entity>());
 		}
-		m_nbEntities = 0;
 
 		// Creation de la classe CollisionEntity
 		System.out.println("Création de la classe CollisionManager");
@@ -216,10 +214,6 @@ public class Model {
 		return entities;
 	}
 
-	public void addEntity() {
-		m_nbEntities++;
-	}
-
 	public void removeEntity(Entity e) {
 		if (e instanceof Droppable) {
 			getEntities(MyEntities.Droppable).remove(e);
@@ -242,11 +236,6 @@ public class Model {
 		} else {
 			throw new IllegalArgumentException("Entité non reconnue !");
 		}
-		m_nbEntities--;
-	}
-
-	public int getNbEntities() {
-		return m_nbEntities;
 	}
 
 	public boolean isInRadius(LinkedList<Coords> radius, Entity entity) {

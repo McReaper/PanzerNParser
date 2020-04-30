@@ -5,10 +5,10 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.util.LinkedList;
-
 import info3.game.GameConfiguration;
 import info3.game.controller.Controller;
 import info3.game.model.Grid.Coords;
+import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.entities.EntityFactory.MyEntities;
 
@@ -20,6 +20,7 @@ public class View extends Container {
 	Model m_model;
 	LinkedList<Avatar> m_avatars;// type d'avatar
 	ViewPort m_viewPort;
+	public HUD m_HUD;
 	public LinkedList<MyEntities> orderEntities;
 
 	public View(Controller controller, Model model) {
@@ -28,6 +29,7 @@ public class View extends Container {
 		m_model = model;
 		m_canvas = new GameCanvas(m_controller);
 		orderEntities = new LinkedList<MyEntities>();
+		m_HUD = new HUD(this);
 		BorderLayout BL = initiateHUD();
 
 		this.setLayout(BL);
@@ -70,21 +72,17 @@ public class View extends Container {
 		BL.addLayoutComponent(m_canvas, BorderLayout.CENTER);
 		this.add(m_canvas);
 
-		HUD HUD = new HUD();
+		BL.addLayoutComponent(m_HUD.m_West, BorderLayout.WEST);
+		BL.addLayoutComponent(m_HUD.m_East, BorderLayout.EAST);
 
-		BL.addLayoutComponent(HUD.m_West, BorderLayout.WEST);
-		BL.addLayoutComponent(HUD.m_East, BorderLayout.EAST);
-
-		this.add(HUD.m_East);
-		this.add(HUD.m_West);
+		this.add(m_HUD.m_East);
+		this.add(m_HUD.m_West);
 
 		return BL;
 	}
 
-	public void refreshHUD() {
-	}
-
 	public Coords toGridCoord(Coords c) {
+		Grid g = Model.getModel().getGrid();
 		int Rx, Ry;
 		double offX = c.X + m_viewPort.getOffsetX() - m_viewPort.getOffsetWindowX();
 		double offY = c.Y + m_viewPort.getOffsetY() - m_viewPort.getOffsetWindowY();
@@ -92,7 +90,7 @@ public class View extends Container {
 		offY = offY / m_viewPort.getCaseHeight();
 		Rx = m_viewPort.getX() + 2 + (int) offX;
 		Ry = m_viewPort.getY() + 2 + (int) offY;
-		return new Coords(Rx, Ry);
+		return new Coords(g.realX(Rx), g.realY(Ry));
 	}
 
 	/**

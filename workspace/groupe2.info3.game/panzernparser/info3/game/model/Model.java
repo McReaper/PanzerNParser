@@ -31,6 +31,7 @@ public class Model {
 	private CollisionManager m_collisionManager;
 	private boolean m_playingTank;
 	private Coords m_clue;
+	private long m_time;
 	private LinkedList<String> m_soundsToPlay;
 
 	/**
@@ -87,10 +88,12 @@ public class Model {
 		m_drone = (Drone) getEntities(MyEntities.Drone).get(0);
 		m_playingTank = true;
 		m_soundsToPlay = new LinkedList<String>();
+		m_time = 0;
 
 	}
 
 	public void step(long elapsed) {
+		m_time += elapsed;
 		// Effectue un pas de simulation sur chaque entités
 		for (Entity entity : getAllEntities()) {
 			entity.step(elapsed);
@@ -128,17 +131,29 @@ public class Model {
 		if (m_playingTank) {
 			return VisionType.TANK;
 		}
-		return m_drone.getVisionType();
+		return getDrone().getVisionType();
 	}
 
 	public Entity getPlayed() {
 		if (isPlayingTank()) {
 			return m_tank.getBody();
 		} else {
-			return m_drone;
+			return getDrone();
 		}
 	}
+	
+	public Tank getTank() {
+		return m_tank;
+	}
 
+	public Drone getDrone() {
+		return m_drone;
+	}
+	
+	public long getTime() {
+		return m_time;
+	}
+	
 	/////////////////////////////////////////////////
 
 	public void addSound(String soundName) {

@@ -44,8 +44,10 @@ public class TankBody extends MovingEntity {
 
 	public TankBody(int x, int y, Automaton aut) {
 		super(x, y, TANKBODY_WIDTH, TANKBODY_HEIGHT, aut);
+		m_maxHealth=TANKBODY_HEALTH;
 		m_tank = null;
 		m_category = MyCategory.AT;
+		m_level = 1;
 		m_dammage_dealt = TANKBODY_DAMMAGE_DEALT;
 		m_speed = TANKBODY_SPEED;
 	}
@@ -128,6 +130,7 @@ public class TankBody extends MovingEntity {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
 			m_tank.setLife(Tank.TANK_HEALTH);// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
 			// m_tank.doExplode();
+			this.m_health = getMaxHealth();//je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {

@@ -50,6 +50,8 @@ public abstract class Entity {
 	protected boolean m_actionFinished;
 	protected MyCategory m_category;
 	protected int m_lengthOfView;
+	protected int m_level;
+	protected int m_maxHealth;
 
 	protected int m_dammage_dealt;
 
@@ -946,6 +948,18 @@ public abstract class Entity {
 
 	public boolean Key(LsKey m_key) {
 		return (Model.getModel().getKeyPressed().contains(m_key));
+	}
+	
+	public int getHealth() {
+		return m_health;
+	}
+
+	public int getMaxHealth() {
+		return m_maxHealth;
+	}
+	
+	public int getLevel() {
+		return m_level;
 	}
 
 	public abstract boolean GotPower() ;

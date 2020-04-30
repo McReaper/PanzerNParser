@@ -58,7 +58,7 @@ public class Controller implements GameCanvasListener {
 	 * Méthode appelée par le GameCanvasListener, appelé par le GameCanvas.
 	 */
 	public void paint(Graphics g) {
-		m_view.refreshHUD();
+		m_view.m_HUD.refreshHUD();
 		m_view.paintCanvas(g);
 	}
 

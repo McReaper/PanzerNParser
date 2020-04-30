@@ -129,6 +129,10 @@ public class Turret extends StaticEntity {
 			return super.Key(key);
 		return false;
 	}
+	
+	public int getWeapon() {
+		return m_weapon;
+	}
 
 	private int changeGun() {
 		m_typeGun++;

@@ -15,7 +15,7 @@ public class Drone extends MovingEntity {
 	public final static int DRONE_HEIGHT = 5;
 
 	public static final int DRONE_HEALTH = 100;
-	public static final int DRONE_SPEED = 1;
+	public static final int DRONE_SPEED = 200;
 
 	public static final int MARKER_MAX = 3;
 	public static final int DRONE_FOV = 10;
@@ -36,7 +36,7 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_WAIT_TIME = 50;
 	public static final long DRONE_WIZZ_TIME = 1000;
 
-	public static final int DRONE_DAMMAGE_TAKEN = 0;
+	public static final int DRONE_DAMMAGE_DEALT= 0;
 
 	private int m_nbMarkers;
 	private VisionType m_currentVisionType;
@@ -47,7 +47,8 @@ public class Drone extends MovingEntity {
 		m_nbMarkers = 0;
 		m_lengthOfView = DRONE_FOV;
 		m_currentVisionType = VisionType.RESSOURCES;
-		m_dammage_taken = DRONE_DAMMAGE_TAKEN;
+		m_dammage_dealt = DRONE_DAMMAGE_DEALT;
+		m_speed = DRONE_SPEED;
 	}
 
 	@Override
@@ -171,11 +172,6 @@ public class Drone extends MovingEntity {
 
 	public void reduceViewPort() {
 		m_lengthOfView--;
-	}
-
-	@Override
-	public void collide() {
-		return; // Le drone n'entre jamais en collision.
 	}
 
 }

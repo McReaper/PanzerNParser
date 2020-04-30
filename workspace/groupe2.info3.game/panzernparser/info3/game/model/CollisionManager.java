@@ -35,8 +35,8 @@ public class CollisionManager {
 					if (!entEnemy.equals(((Shot) entShot).getOwner())) {
 
 						if (entEnemy.isInMe(entShot.getX(), entShot.getY())) {
-							((MovingEntity) entEnemy).collide();
-							((MovingEntity) entShot).collide();
+							((MovingEntity) entEnemy).collide(entShot.getDammageDealt());
+							((MovingEntity) entShot).collide(entEnemy.getDammageDealt());
 						}
 					}
 
@@ -50,8 +50,8 @@ public class CollisionManager {
 					if (!entPlayer.equals(((Shot) entShot).getOwner())) {
 
 						if (entPlayer.isInMe(entShot.getX(), entShot.getY())) {
-							((MovingEntity) entPlayer).collide();
-							((MovingEntity) entShot).collide();
+							((MovingEntity) entPlayer).collide(entShot.getDammageDealt());
+							((MovingEntity) entShot).collide(entPlayer.getDammageDealt());
 						}
 					}
 				}

@@ -1,6 +1,7 @@
 Tir(Moving){
 *(Moving)
 	|!GotPower() ? Explode() : (Dead)
+	|Key(h) ? Egg(F) : (Moving)
 	|MyDir(NE) ? Move(NE) : (Moving)
 	|MyDir(NW) ? Move(NW) : (Moving)
 	|MyDir(SE) ? Move(SE) : (Moving)

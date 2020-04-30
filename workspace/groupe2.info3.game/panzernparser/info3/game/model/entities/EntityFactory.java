@@ -17,11 +17,6 @@ public class EntityFactory {
 	public static Entity newTankTurret(int x, int y, Automaton aut) {
 		return new Turret(x, y, aut);
 	}
-	
-	public static Entity newShot(int x, int y, Automaton aut) {
-		Entity shot = new Shot(x, y, aut);
-		return shot;
-	}
 
 	public static Entity newEnemy(int x, int y, Automaton aut) {
 		Entity enemy = new Enemy(x, y, aut);
@@ -52,6 +47,22 @@ public class EntityFactory {
 		Entity marker = new Marker(x, y, aut);
 		return marker;
 	}
+	//////////////////Creation des différents type de shot///////////////
+	public static Entity newShotSlow(int x, int y, Automaton aut) {
+		Entity shot = new ShotSlow(x, y, aut);
+		return shot;
+	}
+	
+	public static Entity newShotFast(int x, int y, Automaton aut) {
+		Entity shot = new ShotFast(x, y, aut);
+		return shot;
+	}
+	
+	public static Entity newShotBig(int x, int y, Automaton aut) {
+		Entity shot = new ShotBig(x, y, aut);
+		return shot;
+	}
+	//////////////////////////////////////////////////////////////////////
 
 	public static Entity newEntity(MyEntities entity, int x, int y) {
 		Entity res;
@@ -75,8 +86,8 @@ public class EntityFactory {
 				res = newVein(x, y, config.getAutomaton(MyEntities.Vein));
 				break;
 
-			case Shot:
-				res = newShot(x, y, config.getAutomaton(MyEntities.Shot));
+			case Shot://par défaut on prend les balles lentes
+				res = newShotSlow(x, y, config.getAutomaton(MyEntities.Shot));
 				break;
 
 			case TankBody:
@@ -91,6 +102,26 @@ public class EntityFactory {
 				break;
 			case Marker:
 				res = newMarker(x, y, config.getAutomaton(MyEntities.Droppable));
+				break;
+			default:
+				throw new IllegalStateException("Entité non reconnue !");
+		}
+		Model.getModel().getEntities(entity).add(res);
+		return res;
+	}
+	
+	public static Entity newEntityShot(MyEntities entity, int x, int y, int typeShot) {
+		Entity res;
+		GameConfiguration config = GameConfiguration.getConfig();
+		switch (typeShot) {
+			case Turret.GUN_BULLET_SLOW:
+				res = newShotSlow(x, y, config.getAutomaton(MyEntities.Shot));
+				break;
+			case Turret.GUN_BULLET_FAST:
+				res = newShotFast(x, y, config.getAutomaton(MyEntities.Shot));
+				break;
+			case Turret.GUN_BIG_BULLET:
+				res = newShotBig(x, y, config.getAutomaton(MyEntities.Shot));
 				break;
 			default:
 				throw new IllegalStateException("Entité non reconnue !");

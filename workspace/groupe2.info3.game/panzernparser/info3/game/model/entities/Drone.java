@@ -35,16 +35,20 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_WAIT_TIME = 50;
 	public static final long DRONE_WIZZ_TIME = 1000;
 
+	public static final int DRONE_DAMMAGE_TAKEN = 0;
+
 	private int m_nbMarkers;
 	VisionType m_currentVisionType;
 
 	public Drone(int x, int y, int width, int height, int health, int speed, Automaton aut) {
-		super(x, y, width, height, health, speed, aut);
-		m_category = MyCategory.AT;
+		super(x, y, width, height, DRONE_HEALTH, DRONE_SPEED, aut);
+		// TODO choisir la catégorie
+		// m_category = MyCategory.AT;
+		m_category = MyCategory.V;
 		m_nbMarkers = 0;
 		m_lengthOfView = 10;
 		m_currentVisionType = VisionType.RESSOURCES;
-		m_category = MyCategory.V;
+		m_dammage_taken = DRONE_DAMMAGE_TAKEN;
 	}
 
 	@Override
@@ -55,14 +59,13 @@ public class Drone extends MovingEntity {
 		return false;// temporaire
 	}
 
-
 	private void switchVision() {
 		if (m_currentVisionType == VisionType.RESSOURCES)
 			m_currentVisionType = VisionType.ENEMIES;
 		else
 			m_currentVisionType = VisionType.RESSOURCES;
 	}
-	
+
 	public VisionType getVisionType() {
 		return m_currentVisionType;
 	}

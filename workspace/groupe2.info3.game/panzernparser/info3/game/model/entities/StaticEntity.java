@@ -10,7 +10,10 @@ public abstract class StaticEntity extends Entity {
 
 	public StaticEntity(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, aut);
-		m_speed = 0; // Valeur par défaut pour une entité statique
+	}
+	
+	public boolean GotPower() {
+		return true;
 	}
 
 }

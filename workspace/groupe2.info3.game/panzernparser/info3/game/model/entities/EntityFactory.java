@@ -15,8 +15,7 @@ public class EntityFactory {
 	}
 
 	public static Entity newTankTurret(int x, int y, Automaton aut) {
-		Entity turret = new Turret(x, y, Turret.TURRET_WIDTH, Turret.TURRET_HEIGHT, Turret.TURRET_HEALTH,
-				Turret.TURRET_SPEED, aut);
+		Entity turret = new Turret(x, y, Turret.TURRET_WIDTH, Turret.TURRET_HEIGHT, aut);
 		return turret;
 	}
 
@@ -29,7 +28,7 @@ public class EntityFactory {
 	}
 
 	public static Entity newShot(int x, int y, Automaton aut) {
-		Entity shot = new Shot(x, y, Shot.SHOT_WIDTH, Shot.SHOT_HEIGHT, 10, 10, aut);
+		Entity shot = new Shot(x, y, Shot.SHOT_WIDTH, Shot.SHOT_HEIGHT, aut);
 		return shot;
 		/* par defaut health et time_to_travel = 10 mais a voir où gerer ça */
 	}
@@ -40,7 +39,7 @@ public class EntityFactory {
 	}
 
 	public static Entity newDroppable(int x, int y, Automaton aut) {
-		Entity drop = new Droppable(x, y, Droppable.DROPPABLE_WIDTH, Droppable.DROPPABLE_HEIGHT, 1, MaterialType.ELECTRONIC,
+		Entity drop = new Droppable(x, y, Droppable.DROPPABLE_WIDTH, Droppable.DROPPABLE_HEIGHT, MaterialType.ELECTRONIC,
 				aut);
 		return drop;
 		// 1 en quantité mais à discuter

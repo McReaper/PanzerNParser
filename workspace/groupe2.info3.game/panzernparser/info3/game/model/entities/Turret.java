@@ -12,13 +12,10 @@ import info3.game.model.entities.EntityFactory.MyEntities;
 /**
  * Classe du canon du tank
  */
-public class Turret extends MovingEntity {
+public class Turret extends StaticEntity {
 
 	public final static int TURRET_WIDTH = 3;
 	public final static int TURRET_HEIGHT = 3;
-
-	public static final int TURRET_HEALTH = 100;
-	public static final int TURRET_SPEED = 100;
 
 	public static final long TURRET_EGG_TIME = 1000;
 	public static final long TURRET_GET_TIME = 1000;
@@ -38,8 +35,8 @@ public class Turret extends MovingEntity {
 
 	private Tank m_tank;
 
-	public Turret(int x, int y, int width, int height, int health, int speed, Automaton aut) {
-		super(x, y, width, height, health, speed, aut);
+	public Turret(int x, int y, int width, int height, Automaton aut) {
+		super(x, y, width, height, aut);
 		m_tank = null;
 		m_category = MyCategory.AT;
 	}
@@ -74,8 +71,6 @@ public class Turret extends MovingEntity {
 				
 				//Donne l'entité qui l'a tiré (ici le tankBody)
 				((Shot ) ent).setOwner(m_tank.getBody());
-				
-				//Ajoute l'entité au model
 				Model.getModel().addEntity(ent);
 			}
 	}

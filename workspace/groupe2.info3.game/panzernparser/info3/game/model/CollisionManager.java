@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory.MyEntities;
+import info3.game.model.entities.MovingEntity;
 import info3.game.model.entities.Shot;
 
 public class CollisionManager {
@@ -35,8 +36,8 @@ public class CollisionManager {
 					if (!entEnemy.equals(((Shot) entShot).getOwner())) {
 
 						if (entEnemy.isInMeCase(entShot.getX(), entShot.getY())) {
-							entEnemy.collide();
-							entShot.collide();
+							((MovingEntity) entEnemy).collide();
+							((MovingEntity) entShot).collide();
 						}
 					}
 
@@ -50,8 +51,8 @@ public class CollisionManager {
 					if (!entPlayer.equals(((Shot) entShot).getOwner())) {
 
 						if (entPlayer.isInMeCase(entShot.getX(), entShot.getY())) {
-							entPlayer.collide();
-							entShot.collide();
+							((MovingEntity) entPlayer).collide();
+							((MovingEntity) entShot).collide();
 						}
 					}
 				}

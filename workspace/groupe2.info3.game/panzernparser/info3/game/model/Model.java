@@ -252,7 +252,7 @@ public class Model {
 		} else {
 			throw new IllegalArgumentException("Entité non reconnue !");
 		}
-		m_nbEntities++;
+		m_nbEntities--;
 	}
 
 	public int getNbEntities() {

@@ -24,13 +24,14 @@ public class Droppable extends StaticEntity {
 	public static final long DROPPABLE_THROW_TIME = 1000;
 	public static final long DROPPABLE_WAIT_TIME = 10000;
 	public static final long DROPPABLE_WIZZ_TIME = 1000;
+	public static final int DROPPABLE_QUANTITY  =1;
 
 	int m_quantity; // quantité de matériaux lachés
 	private MaterialType m_mType; // Type de matériel laché
 
-	public Droppable(int x, int y, int width, int height, int quantity, MaterialType mtype, Automaton aut) {
+	public Droppable(int x, int y, int width, int height, MaterialType mtype, Automaton aut) {
 		super(x, y, width, height, aut);
-		m_quantity = quantity;
+		m_quantity = DROPPABLE_QUANTITY;
 		m_mType = mtype;
 		m_category = MyCategory.P;
 	}

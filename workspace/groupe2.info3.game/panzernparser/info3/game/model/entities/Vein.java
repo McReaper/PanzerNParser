@@ -5,7 +5,7 @@ import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.automaton.MyCategory;
 
-public class Vein extends Entity {
+public class Vein extends StaticEntity {
 
 	public final static int VEIN_WIDTH = 1;
 	public final static int VEIN_HEIGHT = 1;

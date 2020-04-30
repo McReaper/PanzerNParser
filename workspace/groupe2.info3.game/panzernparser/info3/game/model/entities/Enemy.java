@@ -33,6 +33,8 @@ public class Enemy extends MovingEntity {
 	public static final long ENEMY_THROW_TIME = 1000;
 	public static final long ENEMY_WAIT_TIME = 50;
 	public static final long ENEMY_WIZZ_TIME = 1000;
+	
+	public static final int ENEMY_DAMMAGE_TAKEN = 50;
 
 //	private boolean m_triggered; // indique si l'ennemi a détecté le joueur ou non.
 //	private Droppable m_drops;
@@ -40,6 +42,7 @@ public class Enemy extends MovingEntity {
 		super(x, y, width, height, ENEMY_HEALTH, ENEMY_SPEED, aut);
 		m_category = MyCategory.O;
 		m_lengthOfView = 5;
+		m_dammage_taken = ENEMY_DAMMAGE_TAKEN;
 	}
 
 	@Override
@@ -66,11 +69,9 @@ public class Enemy extends MovingEntity {
 			ent.setActionDir(this.m_currentActionDir);
 
 			// Donne l'entité qui l'a tiré (ici le tankBody)
-			((Shot) ent).setOwner(this);
-
-			// Ajoute l'entité au model
+			((Shot) ent).setOwner(this);		
 			Model.getModel().addEntity(ent);
-		}
+			}
 	}
 
 	@Override
@@ -79,18 +80,16 @@ public class Enemy extends MovingEntity {
 			System.out.println("Is Egging (dans Enemy)");
 			m_actionFinished = false;
 			m_currentAction = null;
+		// creation de la ressource a répendre
+					Entity ent = EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);
+					int rand = (int) (Math.random()*(20 -1));//20 correspond au nombre max de ressource dispo et 1 le min
+					System.out.println("Le nombre aléatoire choisi est " + rand);
+					((Droppable) ent).setQuantity(rand);
+					Model.getModel().addEntity(ent);
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Egg;
 			m_timeOfAction = DEFAULT_EGG_TIME;
-
-			// creation de la ressource a répendre
-			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);
-			int rand = (int) (Math.random()*(20 -1));//20 correspond au nombre max de ressource dispo et 1 le min
-			System.out.println("Le nombre aléatoire choisi est " + rand);
-			((Droppable) ent).setQuantity(rand);
-			// Ajoute l'entité au model
-			Model.getModel().addEntity(ent);
 		}
 	}
 
@@ -148,11 +147,6 @@ public class Enemy extends MovingEntity {
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = ENEMY_EXPLODE_TIME;
 		}
-	}
-
-	@Override
-	public void collide() {
-		m_health -= 100;
 	}
 
 }

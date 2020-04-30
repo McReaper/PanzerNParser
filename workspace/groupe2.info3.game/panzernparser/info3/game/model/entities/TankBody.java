@@ -38,6 +38,8 @@ public class TankBody extends MovingEntity {
 	public static final long TANKBODY_WAIT_TIME = 50;
 	public static final long TANKBODY_WIZZ_TIME = 1000;
 
+	public static final int TANKBODY_DAMMAGE_TAKEN = 25;
+
 	private Tank m_tank;
 	// public int m_range;
 
@@ -45,6 +47,7 @@ public class TankBody extends MovingEntity {
 		super(x, y, width, height, Tank.TANK_HEALTH, Tank.TANK_SPEED, aut);
 		m_tank = null;
 		m_category = MyCategory.AT;
+		m_dammage_taken = TANKBODY_DAMMAGE_TAKEN;
 	}
 
 	public void setTank(Tank tank) {
@@ -148,20 +151,28 @@ public class TankBody extends MovingEntity {
 			m_currentAction = LsAction.Pick;
 			m_timeOfAction = TANKBODY_PICK_TIME;
 			LinkedList<Entity> pickables = Model.getModel().getCategoried(MyCategory.P);
+			LinkedList<Entity> clues = Model.getModel().getCategoried(MyCategory.C);
 			for (Entity ent : pickables) {
 				// vérifie si le pickable est dans la zone notre tank
 				if (ent instanceof Droppable) {
 					if (isPickable(ent)) {
-						m_tank.getInventory().add(((Droppable) ent).getMType(), ((Droppable) ent).getQuantity());// on le met dans l'inventaire
+						m_tank.getInventory().add(((Droppable) ent).getMType(), ((Droppable) ent).getQuantity());// on le met dans
+																																																			// l'inventaire
 						Model.getModel().removeEntity(ent);// et il disparait de la liste des entités du model.
-						System.out.println("Dans l'inventaire il y a " + m_tank.getInventory().getQuantity(((Droppable) ent).getMType()) + " matériaux ");
+						System.out.println("Dans l'inventaire il y a "
+								+ m_tank.getInventory().getQuantity(((Droppable) ent).getMType()) + " matériaux ");
 					}
-				}else if (ent instanceof Marker){
+				} 
+			}
+			for (Entity ent : clues) {
+				// vérifie si le pickable est dans la zone notre tank
+				if (ent instanceof Marker) {
 					if (isPickable(ent)) {
 						Model.getModel().removeEntity(ent);// et il disparait de la liste des entités du model.
 					}
 				}
 			}
+
 		}
 	}
 
@@ -172,17 +183,11 @@ public class TankBody extends MovingEntity {
 		return false;
 	}
 
-	@Override
-	public void collide() {
-		m_health -= 50;
-	}
-
 	/*
 	 * vérifie si l'netité pickable donné en param est sous le tank elle vérifie
 	 * pour toutes les cases de l'objet à ramasser
 	 */
 	private boolean isPickable(Entity ent) {
-		//TODO si l'objet est sur plus d'une case
 		for (int i = ent.getX(); i < ent.getX() + ent.getWidth(); i++) {
 			for (int j = ent.getY(); j < ent.getY() + ent.getHeight(); j++) {
 				if (this.isInMeCase(i, j)) {

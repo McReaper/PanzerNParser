@@ -32,7 +32,7 @@ public class Marker extends StaticEntity {
 
 	public Marker(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, aut);
-		m_category = MyCategory.P;
+		m_category = MyCategory.C;
 	}
 
 }

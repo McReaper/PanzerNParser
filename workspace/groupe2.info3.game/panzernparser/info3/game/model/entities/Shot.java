@@ -33,74 +33,63 @@ public class Shot extends MovingEntity {
 	public static final long SHOT_THROW_TIME = 1000;
 	public static final long SHOT_WAIT_TIME = 50;
 	public static final long SHOT_WIZZ_TIME = 1000;
-	
-	//entité qui a tiré ce shot
-	Entity m_owner;
 
-	public Shot(int x, int y, int width, int height, int health, int speed, Automaton aut) {
-		super(x, y, width, height, health, speed, aut);
-		m_health = SHOT_HEALTH;
+	public static final int SHOT_DAMMAGE_TAKEN = 100;
+
+	// entité qui a tiré ce shot
+	private Entity m_owner;
+
+	public Shot(int x, int y, int width, int height, Automaton aut) {
+		super(x, y, width, height,SHOT_HEALTH, SHOT_SPEED, aut);
 		m_category = MyCategory.M;
+		m_dammage_taken = SHOT_DAMMAGE_TAKEN;
 	}
 
 	int m_health;
-	
+
 	@Override
 	public void step(long elapsed) {
-	//	System.out.println("Le SHOT fait un step");
+		// System.out.println("Le SHOT fait un step");
 		super.step(elapsed);
 	}
-	
+
 	@Override
 	public void Move(MyDirection dir) {
-		//System.out.println("Le SHOT avance !");
-	//	System.out.println("il est en position " + m_x + ";" + m_y);
-			if (m_actionFinished && m_currentAction == LsAction.Move) {
-				
-				this.doMove(dir);
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Move;
-				m_timeOfAction = SHOT_MOVE_TIME;
-			}
+
+		m_health -=20;//TODO je comprends pas pourquoi ca marche pas
+		if (m_actionFinished && m_currentAction == LsAction.Move) {
+
+			this.doMove(dir);
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Move;
+			m_timeOfAction = SHOT_MOVE_TIME;
+		}
 	}
-	
+
 	@Override
 	public void Explode() {
-			if (m_actionFinished && m_currentAction == LsAction.Move) {
-				System.out.println("Le SHOT Explose !");
-				this.doExplode();
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentAction = LsAction.Explode;
-				m_timeOfAction = SHOT_EXPLODE_TIME;
-			}
-	}
-	
-	@Override
-	public boolean GotPower() {
-		if (m_health>0) {
-			m_health  -= 10;
-			return true;
+		if (m_actionFinished && m_currentAction == LsAction.Explode) {
+			System.out.println("Le SHOT Explose !");
+			this.doExplode();
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentAction = LsAction.Explode;
+			m_timeOfAction = SHOT_EXPLODE_TIME;
 		}
-		
-		return false;
 	}
-	
-	@Override
-	public void collide(){
-		this.m_health = 0;
-	}
-	
+
 	public void setOwner(Entity ent) {
 		m_owner = ent;
 	}
-	
+
 	public Entity getOwner() {
 		return m_owner;
 	}
+	
+	
 
 }

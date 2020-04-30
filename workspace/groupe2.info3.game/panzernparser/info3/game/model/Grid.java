@@ -48,7 +48,7 @@ public class Grid {
 		int y = entity.getY();
 		for (int i = x; i < x + width; i++) {
 			for (int j = y; j < y + height; j++) {
-				m_entityGrid[i][j].add(entity);
+				m_entityGrid[realX(i)][realY(j)].add(entity);
 			}
 		}
 	}
@@ -175,7 +175,7 @@ public class Grid {
 		}
 		for (int i = toX; i < toX + width; i++) {
 			for (int j = toY; j < toY + height; j++) {
-				m_entityGrid[i][j].add(entity);
+				m_entityGrid[realX(i)][realY(j)].add(entity);
 			}
 		}
 	}

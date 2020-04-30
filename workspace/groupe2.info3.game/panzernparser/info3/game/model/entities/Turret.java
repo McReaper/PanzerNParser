@@ -131,7 +131,7 @@ public class Turret extends StaticEntity {
 	}
 	
 	public int getWeapon() {
-		return m_weapon;
+		return m_typeGun;
 	}
 
 	private int changeGun() {

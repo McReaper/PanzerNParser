@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.util.LinkedList;
 import info3.game.GameConfiguration;
 import info3.game.controller.Controller;
+import info3.game.model.Grid;
 import info3.game.model.Grid.Coords;
 import info3.game.model.MaterialType;
 import info3.game.model.Model;

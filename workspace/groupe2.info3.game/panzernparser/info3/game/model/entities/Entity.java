@@ -31,7 +31,7 @@ public abstract class Entity {
 	public static final long DEFAULT_THROW_TIME = 1000;
 	public static final long DEFAULT_WAIT_TIME = 100;
 	public static final long DEFAULT_WIZZ_TIME = 1000;
-	
+	public static final int DEFAULT_HEALTH= 100;
 	public static final int DEFAULT_DAMMAGE_DEALT = 100;
 
 	protected long m_elapseTime;
@@ -52,14 +52,14 @@ public abstract class Entity {
 	protected int m_lengthOfView;
 	protected int m_level;
 	protected int m_maxHealth;
-
+	protected int m_health;
 	protected int m_dammage_dealt;
 
 	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
 		if (aut != null)
 			m_currentState = aut.getState();
-
+		m_health = DEFAULT_HEALTH;
 		m_elapseTime = 0;
 		m_currentAction = null;
 		m_timeOfAction = 0;

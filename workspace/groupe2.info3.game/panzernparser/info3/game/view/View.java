@@ -23,12 +23,14 @@ public class View extends Container {
 	Model m_model;
 	LinkedList<Avatar> m_avatars;// type d'avatar
 	ViewPort m_viewPort;
+	public LinkedList<MyEntities> orderEntities;
+
 	public View(Controller controller, Model model) {
 		// créer la fenetre de jeu avec les bandeaux d'updrage et le canvas.
 		m_controller = controller;
 		m_model = model;
 		m_canvas = new GameCanvas(m_controller);
-
+		orderEntities = new LinkedList<MyEntities>();
 		BorderLayout BL = initiateHUD();
 
 		this.setLayout(BL);
@@ -43,18 +45,26 @@ public class View extends Container {
 	 */
 	private void initAvatars() {
 		GameConfiguration config = GameConfiguration.getConfig();
-			m_avatars.add( new Avatar(config.getAnimation(MyEntities.Ground)));
-			m_avatars.add( new Avatar(config.getAnimation(MyEntities.Vein)));
-			m_avatars.add( new Avatar(config.getAnimation(MyEntities.Droppable)));
-			m_avatars.add( new Avatar(config.getAnimation(MyEntities.Shot)));
-			m_avatars.add( new Avatar(config.getAnimation(MyEntities.Enemy)));
-			m_avatars.add( new Avatar(config.getAnimation(MyEntities.Marker)));
-			m_avatars.add( new TankBodyAvatar(config.getAnimation(MyEntities.TankBody)));
-			m_avatars.add( new TurretAvatar(config.getAnimation(MyEntities.Turret)));
-			m_avatars.add( new Avatar(config.getAnimation(MyEntities.Drone)));
-
-			
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Ground)));
+		orderEntities.add(MyEntities.Ground);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Vein)));
+		orderEntities.add(MyEntities.Vein);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Droppable)));
+		orderEntities.add(MyEntities.Droppable);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Shot)));
+		orderEntities.add(MyEntities.Shot);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Enemy)));
+		orderEntities.add(MyEntities.Enemy);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Marker)));
+		orderEntities.add(MyEntities.Marker);
+		m_avatars.add(new TankBodyAvatar(config.getAnimation(MyEntities.TankBody)));
+		orderEntities.add(MyEntities.TankBody);
+		m_avatars.add(new TurretAvatar(config.getAnimation(MyEntities.Turret)));
+		orderEntities.add(MyEntities.Turret);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Drone)));
+		orderEntities.add(MyEntities.Drone);
 	}
+
 
 	public BorderLayout initiateHUD() {
 		BorderLayout BL = new BorderLayout();

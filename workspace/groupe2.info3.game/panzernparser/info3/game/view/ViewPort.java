@@ -12,6 +12,7 @@ import info3.game.model.Grid;
 import info3.game.model.Model;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
+import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class ViewPort {
 
@@ -131,11 +132,11 @@ public class ViewPort {
 	public int getOffsetY() {
 		return m_offsetY;
 	}
-	
+
 	public int getX() {
 		return m_x;
 	}
-	
+
 	public int getY() {
 		return m_y;
 	}
@@ -148,7 +149,6 @@ public class ViewPort {
 		calcul();
 		positionViewPort();
 		offset(); // décalage due au mouve du tank
-		Entity e;
 		int x, y, w, h;
 
 		// Décalage du aux dimensions de la fenêtre (centrage en y)
@@ -159,50 +159,50 @@ public class ViewPort {
 			g.drawLine(i, m_offsetWindowY, i, m_offsetWindowY + m_paintSize);
 		for (int j = m_offsetWindowY - m_offsetY; j < m_paintSize + m_offsetWindowY; j += m_caseSize)
 			g.drawLine(m_offsetWindowX, j, m_offsetWindowX + m_paintSize, j);
-		
-		HashMap<EntityFactory.MyEntities, LinkedList<Entity>>  entities;
-		entities = Model.getModel().getHashEntities();
-		for(Avatar avatar :m_view.m_avatars) {
-			
-		}
-			
-			
-			if (avatar.isPainted()) {
-				e = avatar.m_entity;
-				x = e.getX();
-				y = e.getY();
-				w = e.getWidth();
-				h = e.getHeight();
-				int intView = this.inView(x, y, w, h);
-				if (intView != DO_NOT_PAINT) {
-					// position de la case dans le vp
-					x -= m_x;
-					y -= m_y;
-					// pour le décalage
-					x -= 2;
-					y -= 2;
-					// position en px de la case
-					x *= m_caseSize;
-					y *= m_caseSize;
-					// position case en px avec décalage
-					x += m_offsetWindowX - m_offsetX;
-					y += m_offsetWindowY - m_offsetY;
-					switch (intView) {
-						// Téléportation pour rentrer dans le viewPort
-						case PAINT_MOVE_X:
-							x += m_grid.getNbCellsX() * m_caseSize;
-							break;
-						case PAINT_MOVE_Y:
-							y += m_grid.getNbCellsY() * m_caseSize;
-							break;
-						case PAINT_MOVE_XY:
-							x += m_grid.getNbCellsX() * m_caseSize;
-							y += m_grid.getNbCellsY() * m_caseSize;
-							break;
-					}
-					avatar.paint(g, x, y, m_caseSize, m_caseSize);
 
+		LinkedList<Entity> entityList;
+		int i = 0;
+		for (Avatar avatar : m_view.m_avatars) {
+			entityList = Model.getModel().getEntities(m_view.orderEntities.get(i));
+			i++;
+			for (Entity e : entityList) {
+				if (avatar.isPainted(e)) {
+					x = e.getX();
+					y = e.getY();
+					w = e.getWidth();
+					h = e.getHeight();
+					int intView = this.inView(x, y, w, h);
+					if (intView != DO_NOT_PAINT) {
+						// position de la case dans le vp
+						x -= m_x;
+						y -= m_y;
+						// pour le décalage
+						x -= 2;
+						y -= 2;
+						// position en px de la case
+						x *= m_caseSize;
+						y *= m_caseSize;
+						// position case en px avec décalage
+						x += m_offsetWindowX - m_offsetX;
+						y += m_offsetWindowY - m_offsetY;
+						switch (intView) {
+							// Téléportation pour rentrer dans le viewPort
+							case PAINT_MOVE_X:
+								x += m_grid.getNbCellsX() * m_caseSize;
+								break;
+							case PAINT_MOVE_Y:
+								y += m_grid.getNbCellsY() * m_caseSize;
+								break;
+							case PAINT_MOVE_XY:
+								x += m_grid.getNbCellsX() * m_caseSize;
+								y += m_grid.getNbCellsY() * m_caseSize;
+								break;
+						}
+						avatar.paint(g, e, x, y, m_caseSize, m_caseSize);
+
+					}
 				}
+
 			}
 
 		}

@@ -27,7 +27,7 @@ public class Turret extends MovingEntity {
 	public static final long TURRET_EXPLODE_TIME = 1000;
 	public static final long TURRET_MOVE_TIME = 1000;
 	public static final long TURRET_PICK_TIME = 1000;
-	public static final long TURRET_POP_TIME = 10000;
+	public static final long TURRET_POP_TIME = 1000;
 	public static final long TURRET_POWER_TIME = 1000;
 	public static final long TURRET_PROTECT_TIME = 1000;
 	public static final long TURRET_STORE_TIME = 1000;
@@ -37,11 +37,13 @@ public class Turret extends MovingEntity {
 	public static final long TURRET_WIZZ_TIME = 1000;
 
 	private Tank m_tank;
+	private int m_weapon;
 
 	public Turret(int x, int y, int width, int height, int health, int speed, Automaton aut) {
 		super(x, y, width, height, health, speed, aut);
 		m_tank = null;
 		m_category = MyCategory.AT;
+		m_weapon = 0;
 	}
 
 
@@ -125,6 +127,10 @@ public class Turret extends MovingEntity {
 		if (m_tank.hasControl())
 			return super.Key(key);
 		return false;
+	}
+	
+	public int getWeapon() {
+		return m_weapon;
 	}
 
 }

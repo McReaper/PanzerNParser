@@ -37,6 +37,7 @@ public class Model {
 	private boolean m_playingTank;
 	private int m_nbEntities;
 	private Coords m_clue;
+	private long m_time;
 	public LinkedList<String> m_sounds;
 
 	/**
@@ -80,6 +81,7 @@ public class Model {
 		m_drone = (Drone) getEntities(MyEntities.Drone).get(0);
 		m_playingTank = true;
 		m_sounds = new LinkedList<String>();
+		m_time = 0;
 
 	}
 
@@ -113,6 +115,7 @@ public class Model {
 	}
 
 	public void step(long elapsed) {
+		m_time += elapsed;
 		// Effectue un pas de simulation sur chaque entités
 		for (Entity entity : getAllEntities()) {
 			entity.step(elapsed);
@@ -169,6 +172,10 @@ public class Model {
 
 	public Drone getDrone() {
 		return m_drone;
+	}
+	
+	public long getTime() {
+		return m_time;
 	}
 	
 	/////////////////////////////////////////////////

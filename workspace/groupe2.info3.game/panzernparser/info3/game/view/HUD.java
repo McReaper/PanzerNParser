@@ -21,6 +21,7 @@ import javax.swing.border.TitledBorder;
 
 import info3.game.model.MaterialType;
 import info3.game.model.Model;
+import info3.game.model.Model.VisionType;
 import info3.game.model.Tank;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
@@ -38,8 +39,11 @@ public class HUD {
 	JLabel m_mineralsLabel;
 	JLabel m_toolsLabel;
 	JLabel m_weaponLabel;
+	JLabel m_weaponImage;
+	ImageIcon[] m_weaponArray;
 	JProgressBar m_health;
 	JProgressBar m_drone;
+	TitledBorder m_ammoTitledBorder;
 
 	JLabel m_score;
 	JLabel m_level;
@@ -65,16 +69,28 @@ public class HUD {
 		JPanel MinToolsWeapon = new JPanel();
 		BoxLayout BLMintoolsweapon = new BoxLayout(MinToolsWeapon, BoxLayout.Y_AXIS);
 		MinToolsWeapon.setLayout(BLMintoolsweapon);
-		MinToolsWeapon.setBackground(Color.DARK_GRAY);// ce
+		MinToolsWeapon.setBackground(Color.DARK_GRAY);
 
+		m_weaponArray = new ImageIcon[5];
+
+		m_weaponArray[0] = new ImageIcon(
+				new ImageIcon("sprites/Weapon0.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		m_weaponArray[1] = new ImageIcon(
+				new ImageIcon("sprites/Weapon1.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		m_weaponArray[2] = new ImageIcon(
+				new ImageIcon("sprites/Weapon2.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		m_weaponArray[3] = new ImageIcon(
+				new ImageIcon("sprites/VueRessourceIcon.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		m_weaponArray[4] = new ImageIcon(
+				new ImageIcon("sprites/VueEnemyIcon.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		
 		ImageIcon mineralsIcone = new ImageIcon(
 				new ImageIcon("sprites/Minerals.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
 		ImageIcon toolsIcone = new ImageIcon(
 				new ImageIcon("sprites/Electronics.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-
 		JLabel mineralsImage = new JLabel(mineralsIcone);
 		JLabel toolsImage = new JLabel(toolsIcone);
-		JLabel weaponImage = new JLabel(new ImageIcon("sprites/Trou.png"));
+		m_weaponImage = new JLabel(m_weaponArray[0]);
 
 		m_mineralsLabel = new JLabel("Minerals :");
 		m_mineralsLabel.setForeground(Color.BLACK);
@@ -91,7 +107,7 @@ public class HUD {
 		m_weaponLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		mineralsImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		toolsImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		weaponImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+		m_weaponImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 
 		MinToolsWeapon.add(Box.createVerticalGlue());
 		MinToolsWeapon.add(m_mineralsLabel);
@@ -101,7 +117,7 @@ public class HUD {
 		MinToolsWeapon.add(toolsImage);
 		MinToolsWeapon.add(Box.createVerticalGlue());
 		MinToolsWeapon.add(m_weaponLabel);
-		MinToolsWeapon.add(weaponImage);
+		MinToolsWeapon.add(m_weaponImage);
 		MinToolsWeapon.add(Box.createVerticalGlue());
 
 //		Init de m_HPStamina et de son BL		
@@ -196,7 +212,7 @@ public class HUD {
 		// Label Temps
 		m_time = new JLabel("4 : 35");
 		m_time.setForeground(Color.RED);
-		m_time.setFont(font);
+		m_time.setFont(new Font("monospaced", 0, 20));
 		m_time.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 
 		timePanel.add(m_time);
@@ -209,10 +225,10 @@ public class HUD {
 
 		// Ajout d'une border à ammo
 		Border ammoBorder = BorderFactory.createLineBorder(Color.BLACK);
-		TitledBorder ammoTitledBorder = BorderFactory.createTitledBorder(ammoBorder, "Ammo");
-		ammoTitledBorder.setTitleColor(Color.BLACK);
-		ammoTitledBorder.setTitleJustification(TitledBorder.CENTER);
-		ammoPanel.setBorder(ammoTitledBorder);
+		m_ammoTitledBorder = BorderFactory.createTitledBorder(ammoBorder, "Ammo");
+		m_ammoTitledBorder.setTitleColor(Color.BLACK);
+		m_ammoTitledBorder.setTitleJustification(TitledBorder.CENTER);
+		ammoPanel.setBorder(m_ammoTitledBorder);
 
 		// Label des munitions
 		m_ammo = new JLabel("5/10");
@@ -265,7 +281,27 @@ public class HUD {
 		TankBody tankBody = tank.getBody();
 		Turret tankTurret = tank.getTurret();
 		Entity played = model.getPlayed();
+		long time = model.getTime();
+		long seconde = time / 1000;
+		long minutes = seconde / 60;
+		seconde = seconde % 60;
+		String timeString = "";
+		if (minutes <= 9) {
+			timeString += "0" + minutes;
+		} else {
+			timeString += minutes;
+		}
+		if (time % 1000 < 500)
+			timeString += ":";
+		else
+			timeString += " ";
+		if (seconde <= 9) {
+			timeString += "0" + seconde;
+		} else {
+			timeString += seconde;
+		}
 
+		m_time.setText(timeString);
 		float x = played.getX() + played.getWidth() / 2;
 		float y = played.getY() + played.getHeight() / 2;
 
@@ -280,10 +316,10 @@ public class HUD {
 			xMark += model.getGrid().getNbCellsX() * throughToreW;
 			yMark += model.getGrid().getNbCellsY() * throughToreH;
 
-			//TODO Si les drapeaux sont plus grand, prendre en compte leur taille
+			// TODO Si les drapeaux sont plus grand, prendre en compte leur taille
 			double angle = (double) Math.atan(((double) (yMark - y)) / ((double) (xMark - x)));
 			angle = Math.toDegrees(angle);
-			if(xMark < x) {
+			if (xMark < x) {
 				angle += 180;
 			}
 			m_compass.addArrow(null, (int) angle);
@@ -302,31 +338,47 @@ public class HUD {
 		m_toolsLabel.setText("Tools :".concat(Integer.toString(tank.getInventory().getQuantity(MaterialType.ELECTRONIC))));
 		m_mineralsLabel
 				.setText("Minerals :".concat(Integer.toString(tank.getInventory().getQuantity(MaterialType.MINERAL))));
+		switch (model.getVisionType()) {
+			case TANK:
+				m_weaponLabel.setText("Weapon :");
+				m_weaponImage.setIcon(m_weaponArray[tankTurret.getWeapon()]);
+				break;
+			case RESSOURCES:
+				m_weaponLabel.setText("Vision :");
+				m_weaponImage.setIcon(m_weaponArray[3]);
+				m_ammoTitledBorder.setTitle("Marker");
+//				m_ammo.setText(Integer.toString(model));
+				break;
+			case ENEMIES:
+				m_weaponLabel.setText("Vision :");
+				m_weaponImage.setIcon(m_weaponArray[4]);
+				break;
+		}
 
 	}
 
 	public static final int DIRECT = 0;
 	public static final int THROUGH_POSITIVE = 1;
 	public static final int THROUGH_NEGATIVE = -1;
-	
+
 	int throughToreW(int x, int xMark) {
 		int dstXdir = Math.abs(x - xMark);
 		int dstXtore = Math.min(x, xMark) + Model.getModel().getGrid().getNbCellsX() - Math.max(x, xMark);
-		if(dstXdir<=dstXtore) {
+		if (dstXdir <= dstXtore) {
 			return DIRECT;
-		} else if(xMark<x) {
+		} else if (xMark < x) {
 			return THROUGH_POSITIVE;
 		} else {
 			return THROUGH_NEGATIVE;
 		}
 	}
-	
+
 	int throughToreH(int y, int yMark) {
 		int dstYdir = Math.abs(y - yMark);
 		int dstYtore = Math.min(y, yMark) + Model.getModel().getGrid().getNbCellsY() - Math.max(y, yMark);
-		if(dstYdir<=dstYtore) {
+		if (dstYdir <= dstYtore) {
 			return DIRECT;
-		} else if(yMark<y) {
+		} else if (yMark < y) {
 			return THROUGH_POSITIVE;
 		} else {
 			return THROUGH_NEGATIVE;

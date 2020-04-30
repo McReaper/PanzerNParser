@@ -61,7 +61,7 @@ public class Shot extends MovingEntity {
 
 	@Override
 	public void Explode() {
-			if (m_actionFinished && m_currentAction == LsAction.Move) {
+			if (m_actionFinished && m_currentAction == LsAction.Explode) {
 				this.doExplode();
 				m_actionFinished = false;
 				m_currentAction = null;

@@ -10,10 +10,14 @@ public abstract class MovingEntity extends Entity {
 	protected int m_speed;
 
 	public static final int DEFAULT_SPEED = 1000;
+	public static final int DEFAULT_HEALTH = 100;
+	public static final int DEFAULT_DAMAGE_TAKEN = 100;
 
 	public MovingEntity(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, aut);
 		m_speed = DEFAULT_SPEED;
+		m_health = DEFAULT_SPEED;
+		m_dammage_taken = DEFAULT_DAMAGE_TAKEN;
 	}
 
 	

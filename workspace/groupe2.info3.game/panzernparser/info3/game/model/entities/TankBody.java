@@ -47,6 +47,7 @@ public class TankBody extends MovingEntity {
 		m_tank = null;
 		m_category = MyCategory.AT;
 		m_dammage_taken = TANKBODY_DAMMAGE_TAKEN;
+		m_speed = TANKBODY_SPEED;
 	}
 
 	public void setTank(Tank tank) {

@@ -36,15 +36,18 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_WAIT_TIME = 50;
 	public static final long DRONE_WIZZ_TIME = 1000;
 
+	public static final int DRONE_DAMMAGE_TAKEN = 0;
+
 	private int m_nbMarkers;
 	private VisionType m_currentVisionType;
 
 	public Drone(int x, int y, Automaton aut) {
 		super(x, y, DRONE_WIDTH, DRONE_HEIGHT, aut);
+		m_category = MyCategory.V;
 		m_nbMarkers = 0;
 		m_lengthOfView = DRONE_FOV;
 		m_currentVisionType = VisionType.RESSOURCES;
-		m_category = MyCategory.V;
+		m_dammage_taken = DRONE_DAMMAGE_TAKEN;
 	}
 
 	@Override

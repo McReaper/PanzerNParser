@@ -12,7 +12,7 @@ import info3.game.model.entities.EntityFactory.MyEntities;
 /**
  * Classe du canon du tank
  */
-public class Turret extends MovingEntity {
+public class Turret extends StaticEntity {
 
 	public final static int TURRET_WIDTH = Tank.TANK_WIDTH;
 	public final static int TURRET_HEIGHT = Tank.TANK_HEIGHT;

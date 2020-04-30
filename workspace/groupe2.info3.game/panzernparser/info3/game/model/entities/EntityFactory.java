@@ -31,7 +31,6 @@ public class EntityFactory {
 	public static Entity newDroppable(int x, int y, Automaton aut) {
 		Entity drop = new Droppable(x, y, MaterialType.ELECTRONIC, aut);
 		return drop;
-		// 1 en quantité mais à discuter
 	}
 
 	public static Entity newVein(int x, int y, Automaton aut) {

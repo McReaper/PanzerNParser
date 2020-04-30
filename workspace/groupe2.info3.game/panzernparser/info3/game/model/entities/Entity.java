@@ -31,10 +31,6 @@ public abstract class Entity {
 	public static final long DEFAULT_THROW_TIME = 1000;
 	public static final long DEFAULT_WAIT_TIME = 100;
 	public static final long DEFAULT_WIZZ_TIME = 1000;
-	
-	public static final int DEFAULT_HEALTH = 100;
-	public static final int DEFAULT_WIDTH = 1;
-	public static final int DEFAULT_HEIGHT = 1;
 
 	protected long m_elapseTime;
 	protected LsAction m_currentAction;
@@ -44,8 +40,6 @@ public abstract class Entity {
 	protected int m_y;
 	protected int m_width;
 	protected int m_height;
-	protected int m_speed;
-	protected int m_health;
 	protected MyDirection m_currentLookAtDir;
 	protected MyDirection m_currentActionDir;
 	protected boolean m_stuff; // gotStuff ?
@@ -71,7 +65,6 @@ public abstract class Entity {
 		m_y = y;
 		m_width = width;
 		m_height = height;
-		m_health = DEFAULT_HEALTH;
 
 		m_currentLookAtDir = MyDirection.NORTH; // par défaut
 		m_currentActionDir = null; // par défaut
@@ -594,10 +587,6 @@ public abstract class Entity {
 		}
 	}
 
-	public boolean GotPower() {
-		return m_health > 0;
-	}
-
 	public boolean GotStuff() {
 		return m_stuff;
 	}
@@ -928,4 +917,7 @@ public abstract class Entity {
 	public boolean Key(LsKey m_key) {
 		return (Model.getModel().getKeyPressed().contains(m_key));
 	}
+
+	public abstract boolean GotPower() ;
+
 }

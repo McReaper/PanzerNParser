@@ -31,29 +31,34 @@ public class Shot extends MovingEntity {
 	public static final long SHOT_THROW_TIME = 1000;
 	public static final long SHOT_WAIT_TIME = 50;
 	public static final long SHOT_WIZZ_TIME = 1000;
-	
+
+	public static final int SHOT_DAMMAGE_TAKEN = 100;
+
 	//entité qui a tiré ce shot
 	private Entity m_owner;
-
+    
 	public Shot(int x, int y, Automaton aut) {
 		super(x, y, SHOT_WIDTH, SHOT_HEIGHT, aut);
 		m_health = SHOT_HEALTH;
 		m_category = MyCategory.M;
+		m_dammage_taken = SHOT_DAMMAGE_TAKEN;
 	}
+
 	
 	@Override
 	public void Move(MyDirection dir) {
-			if (m_actionFinished && m_currentAction == LsAction.Move) {
-				this.doMove(dir);
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Move;
-				m_timeOfAction = SHOT_MOVE_TIME;
-			}
+		if (m_actionFinished && m_currentAction == LsAction.Move) {
+			this.doMove(dir);
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Move;
+			m_timeOfAction = SHOT_MOVE_TIME;
+			m_health -=10;
+		}
 	}
-	
+
 	@Override
 	public void Explode() {
 			if (m_actionFinished && m_currentAction == LsAction.Move) {
@@ -66,23 +71,16 @@ public class Shot extends MovingEntity {
 			}
 	}
 	
-	@Override
-	public boolean GotPower() {
-		m_health -= 10;
-		return m_health > 0;
-	}
 	
-	@Override
-	public void collide(){
-		m_health = 0;
-	}
-	
+
 	public void setOwner(Entity ent) {
 		m_owner = ent;
 	}
-	
+
 	public Entity getOwner() {
 		return m_owner;
 	}
+	
+	
 
 }

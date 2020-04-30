@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.util.Hashtable;
 import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
@@ -23,6 +24,7 @@ import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.Tank;
+import info3.game.model.Upgrades;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory.MyEntities;
@@ -35,6 +37,10 @@ public class HUD {
 
 	JPanel m_West;
 	JPanel m_East;
+	
+	JPanel m_ammoPanel;
+	JPanel m_viewModePanel;
+	JLabel m_viewModeLabel;
 
 	JLabel m_mineralsLabel;
 	JLabel m_toolsLabel;
@@ -51,7 +57,7 @@ public class HUD {
 	JLabel m_ammo;
 	CompassWidget m_compass;
 	JPanel m_upgrade;
-	JButton[] m_availableUpgrades;
+	Hashtable<Upgrades, JButton> m_availableUpgrades;
 
 	public HUD(View view) {
 
@@ -71,7 +77,7 @@ public class HUD {
 		MinToolsWeapon.setLayout(BLMintoolsweapon);
 		MinToolsWeapon.setBackground(Color.DARK_GRAY);
 
-		m_weaponArray = new ImageIcon[5];
+		m_weaponArray = new ImageIcon[6];
 
 		m_weaponArray[0] = new ImageIcon(
 				new ImageIcon("sprites/Weapon0.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
@@ -83,6 +89,8 @@ public class HUD {
 				new ImageIcon("sprites/VueRessourceIcon.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
 		m_weaponArray[4] = new ImageIcon(
 				new ImageIcon("sprites/VueEnemyIcon.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		m_weaponArray[5] = new ImageIcon(
+				new ImageIcon("sprites/MarkerSingle.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
 		
 		ImageIcon mineralsIcone = new ImageIcon(
 				new ImageIcon("sprites/Minerals.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
@@ -95,7 +103,7 @@ public class HUD {
 		m_mineralsLabel = new JLabel("Minerals :");
 		m_mineralsLabel.setForeground(Color.BLACK);
 		m_mineralsLabel.setFont(fontWest);
-		m_toolsLabel = new JLabel("Tools :");
+		m_toolsLabel = new JLabel("Electronics :");
 		m_toolsLabel.setForeground(Color.BLACK);
 		m_toolsLabel.setFont(fontWest);
 		m_weaponLabel = new JLabel("Weapon :");
@@ -220,24 +228,24 @@ public class HUD {
 		m_East.add(Stats);
 
 		// Espace munition
-		JPanel ammoPanel = new JPanel();
-		ammoPanel.setBackground(Color.DARK_GRAY);
+		m_ammoPanel = new JPanel();
+		m_ammoPanel.setBackground(Color.DARK_GRAY);
 
 		// Ajout d'une border à ammo
 		Border ammoBorder = BorderFactory.createLineBorder(Color.BLACK);
 		m_ammoTitledBorder = BorderFactory.createTitledBorder(ammoBorder, "Ammo");
 		m_ammoTitledBorder.setTitleColor(Color.BLACK);
 		m_ammoTitledBorder.setTitleJustification(TitledBorder.CENTER);
-		ammoPanel.setBorder(m_ammoTitledBorder);
+		m_ammoPanel.setBorder(m_ammoTitledBorder);
 
 		// Label des munitions
-		m_ammo = new JLabel("5/10");
+		m_ammo = new JLabel("10/10");
 		m_ammo.setFont(font);
 		m_ammo.setForeground(Color.BLACK);
 
-		ammoPanel.add(m_ammo);
-		ammoPanel.setMaximumSize(new Dimension(120, 30));
-		m_East.add(ammoPanel);
+		m_ammoPanel.add(m_ammo);
+		m_ammoPanel.setMaximumSize(new Dimension(120, 30));
+		m_East.add(m_ammoPanel);
 
 		// Zone des boutons d'upgrade
 		m_upgrade = new JPanel();
@@ -249,17 +257,12 @@ public class HUD {
 		upgradeTitledBorder.setTitleColor(Color.BLACK);
 		upgradeTitledBorder.setTitleJustification(TitledBorder.CENTER);
 		m_upgrade.setBorder(upgradeTitledBorder);
-
+		
+		//TODO implémenter un affichage dynamique pour les upgrade après avoir implémenté les upgrades
+		m_availableUpgrades=new Hashtable<Upgrades, JButton>();
+				
 		// Création d'un premier bouton
 		JButton upgradeButton1 = new JButton("HP Max +100");
-//		upgradeButton1.addActionListener(new ActionListener() {
-//	TODO
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				TankBody tankbody = (TankBody) m_view.Model.getModel().getPlayed();
-//				tankbody.m_maxHealth+=100;
-//			}
-//		});
 		upgradeButton1.setForeground(Color.BLACK);
 		upgradeButton1.setBackground(new Color(29, 73, 25));
 
@@ -271,6 +274,17 @@ public class HUD {
 
 		m_upgrade.add(upgradeButton1);
 		m_East.add(m_upgrade);
+		
+		m_viewModePanel = new JPanel();
+		Border viewModeBorder = BorderFactory.createLineBorder(Color.BLACK);
+		TitledBorder viewModeTitledBorder = BorderFactory.createTitledBorder(viewModeBorder, "View Mode :");
+		viewModeTitledBorder.setTitleColor(Color.BLACK);
+		viewModeTitledBorder.setTitleJustification(TitledBorder.CENTER);
+		m_viewModePanel.setBorder(viewModeTitledBorder);
+		m_viewModePanel.setBackground(Color.DARK_GRAY);
+		m_viewModeLabel = new JLabel(m_weaponArray[3]);
+		m_viewModePanel.add(m_viewModeLabel);
+		
 	}
 
 //TODO
@@ -281,6 +295,8 @@ public class HUD {
 		TankBody tankBody = tank.getBody();
 		Turret tankTurret = tank.getTurret();
 		Entity played = model.getPlayed();
+		
+		//Timer
 		long time = model.getTime();
 		long seconde = time / 1000;
 		long minutes = seconde / 60;
@@ -300,7 +316,8 @@ public class HUD {
 		} else {
 			timeString += seconde;
 		}
-
+		
+		//Boussole
 		m_time.setText(timeString);
 		float x = played.getX() + played.getWidth() / 2;
 		float y = played.getY() + played.getHeight() / 2;
@@ -325,33 +342,64 @@ public class HUD {
 			m_compass.addArrow(null, (int) angle);
 		}
 
-		m_compass.repaint();
-
 		Model.getModel().getDrone();
 		m_level.setText("Level : ".concat(Integer.toString(tankBody.getLevel())));
-
+		
+		//Barres HP et Drone
 		m_health.setMaximum(tankBody.getMaxHealth());
 		m_health.setValue(tankBody.getHealth());
 		m_drone.setMaximum(drone.getMaxHealth());
 		m_drone.setValue(drone.getHealth());
 
-		m_toolsLabel.setText("Tools :".concat(Integer.toString(tank.getInventory().getQuantity(MaterialType.ELECTRONIC))));
+		//Minerals, Electronics, Weapons et Markers
+		m_toolsLabel.setText("Electronics :".concat(Integer.toString(tank.getInventory().getQuantity(MaterialType.ELECTRONIC))));
 		m_mineralsLabel
 				.setText("Minerals :".concat(Integer.toString(tank.getInventory().getQuantity(MaterialType.MINERAL))));
 		switch (model.getVisionType()) {
 			case TANK:
 				m_weaponLabel.setText("Weapon :");
 				m_weaponImage.setIcon(m_weaponArray[tankTurret.getWeapon()]);
+				m_ammoTitledBorder.setTitle("Ammo");
+				m_ammo.setText("10 / 10");
+				m_ammoPanel.setBorder(m_ammoTitledBorder);
+				m_ammoPanel.repaint();
+				m_East.remove(m_viewModePanel);
+				m_East.add(m_upgrade);
+				m_East.repaint();
+								
+				/*
+				 * for each m_availableUpgrade as upgrade
+				 * if upgrade.available() == true
+				 * m_upgrade.add(m_availableUpgrade.get(upgrade));
+				 */
+				
+				
 				break;
 			case RESSOURCES:
-				m_weaponLabel.setText("Vision :");
-				m_weaponImage.setIcon(m_weaponArray[3]);
+				m_weaponLabel.setText("Marker :");
+				m_weaponImage.setIcon(m_weaponArray[5]);
 				m_ammoTitledBorder.setTitle("Marker");
-//				m_ammo.setText(Integer.toString(model));
+				m_ammo.setText(markers.size() + " / " + drone.MARKER_MAX);
+				m_ammoPanel.setBorder(m_ammoTitledBorder);
+				m_ammoPanel.repaint();
+				
+				m_East.remove(m_upgrade);
+				m_viewModeLabel.setIcon(m_weaponArray[3]);
+				m_East.add(m_viewModePanel);
+				m_East.repaint();
 				break;
 			case ENEMIES:
-				m_weaponLabel.setText("Vision :");
-				m_weaponImage.setIcon(m_weaponArray[4]);
+				m_weaponLabel.setText("Marker :");
+				m_weaponImage.setIcon(m_weaponArray[5]);
+				m_ammoTitledBorder.setTitle("Marker");
+				m_ammo.setText(markers.size() + " / " + drone.MARKER_MAX);
+				m_ammoPanel.setBorder(m_ammoTitledBorder);
+				m_ammoPanel.repaint();
+				
+				m_East.remove(m_upgrade);
+				m_viewModeLabel.setIcon(m_weaponArray[4]);
+				m_East.add(m_viewModePanel);
+				m_East.repaint();
 				break;
 		}
 

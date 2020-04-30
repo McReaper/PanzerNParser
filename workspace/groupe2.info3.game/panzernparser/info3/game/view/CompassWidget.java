@@ -26,6 +26,7 @@ public class CompassWidget extends JComponent implements SwingConstants {
 	public void addArrow(Color color, int angle) {
 		Arrow ar = new Arrow(color, angle);
 		m_arrows.add(ar);
+		repaint();
 	}
 
 	/** Supprime toutes les flèches de la boussole.
@@ -33,6 +34,7 @@ public class CompassWidget extends JComponent implements SwingConstants {
 	
 	public void resetArrow() {
 		m_arrows = new LinkedList<Arrow>();
+		repaint();
 	}
 
 	private class Arrow {

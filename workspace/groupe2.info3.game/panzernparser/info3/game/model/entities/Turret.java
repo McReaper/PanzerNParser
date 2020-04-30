@@ -1,5 +1,7 @@
 package info3.game.model.entities;
 
+import com.sun.javadoc.Type;
+
 import info3.game.automaton.Automaton;
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
@@ -27,7 +29,7 @@ public class Turret extends StaticEntity {
 	public static final long TURRET_EXPLODE_TIME = 1000;
 	public static final long TURRET_MOVE_TIME = 1000;
 	public static final long TURRET_PICK_TIME = 1000;
-	public static final long TURRET_POP_TIME = 10000;
+	public static final long TURRET_POP_TIME = 500;
 	public static final long TURRET_POWER_TIME = 1000;
 	public static final long TURRET_PROTECT_TIME = 1000;
 	public static final long TURRET_STORE_TIME = 1000;
@@ -35,13 +37,22 @@ public class Turret extends StaticEntity {
 	public static final long TURRET_THROW_TIME = 1000;
 	public static final long TURRET_WAIT_TIME = 0;
 	public static final long TURRET_WIZZ_TIME = 1000;
+	
+	public static final int GUN_BULLET_SLOW = 0;
+	public static final int GUN_BULLET_FAST = 1;
+	public static final int GUN_BIG_BULLET = 2;
+	
 
 	private Tank m_tank;
+	private int m_typeGun;
+	private int m_nbGun;
 
 	public Turret(int x, int y, Automaton aut) {
 		super(x, y, TURRET_WIDTH, TURRET_HEIGHT, aut);
 		m_tank = null;
 		m_category = MyCategory.AT;
+		m_typeGun = GUN_BULLET_SLOW;
+		m_nbGun = 3;
 	}
 
 
@@ -64,8 +75,9 @@ public class Turret extends StaticEntity {
 				m_currentAction = LsAction.Hit;
 				m_timeOfAction = TURRET_HIT_TIME;
 				
-				//creation du shot
-				Entity ent = EntityFactory.newEntity(MyEntities.Shot, this.m_x + m_width/2, m_y + m_height/2);
+				//creation du shot en fonction de l'arme
+				//TODO gerer la position de création de shot de plus d'une case
+				Entity ent = EntityFactory.newEntityShot(MyEntities.Shot, this.m_x + m_width/2, m_y + m_height/2, m_typeGun);
 				
 				//Donne la direction de regard et d'action
 				ent.setLookDir(MyDirection.toAbsolute(this.m_currentLookAtDir, dir));
@@ -77,13 +89,15 @@ public class Turret extends StaticEntity {
 	}
 
 	@Override
-	public void Pop(MyDirection dir) {
+	public void Pop(MyDirection dir) {//Permet le changement d'arme
 			if (m_actionFinished && m_currentAction == LsAction.Pop) {
 				m_actionFinished = false;
 				m_currentAction = null;
 			} else if (m_currentAction == null) {
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Pop;
+				m_typeGun = changeGun();
+				printConsolGun();
 				m_timeOfAction = TURRET_POP_TIME;
 			}
 	}
@@ -118,6 +132,29 @@ public class Turret extends StaticEntity {
 		if (m_tank.hasControl())
 			return super.Key(key);
 		return false;
+	}
+	
+	private int changeGun() {
+		m_typeGun ++;
+		return m_typeGun %m_nbGun;
+	}
+	
+	private void printConsolGun() {
+		switch(m_typeGun) {
+			case GUN_BULLET_SLOW : 
+				System.out.println("Changement d'arme pour GUN_BULLET_SLOW");
+				break;
+			case GUN_BULLET_FAST : 
+				System.out.println("Changement d'arme pour GUN_BULLET_FAST");
+				break;
+			case GUN_BIG_BULLET : 
+				System.out.println("Changement d'arme pour GUN_BIG_BULLET");
+				break;
+			default:
+					System.out.println("Arme non reconnue");
+					break;
+				
+		}
 	}
 
 }

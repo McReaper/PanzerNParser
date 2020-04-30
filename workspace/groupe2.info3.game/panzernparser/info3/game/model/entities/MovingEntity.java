@@ -4,8 +4,6 @@ import info3.game.automaton.Automaton;
 
 public abstract class MovingEntity extends Entity {
 	
-	
-	protected int m_dammage_taken;
 	protected int m_health;
 	protected int m_speed;
 
@@ -22,8 +20,8 @@ public abstract class MovingEntity extends Entity {
 
 	
 	
-	public void collide() {
-		m_health -= m_dammage_taken;
+	public void collide(int dammage) {
+		m_health -= dammage;
 	}
 	
 	public boolean GotPower() {

@@ -1,6 +1,7 @@
 Turret(Init){
 *(Init)
 	|Key(SPACE) ? Hit(F) : (Init)   
+	|Key(FD) ? Pop() : (Init)
 	
 	|Key(FR) ? Turn(R) : (Init)
 	|Key(FL) ? Turn(L) : (Init)

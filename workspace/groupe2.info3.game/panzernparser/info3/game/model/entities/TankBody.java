@@ -38,7 +38,7 @@ public class TankBody extends MovingEntity {
 	public static final long TANKBODY_WAIT_TIME = 50;
 	public static final long TANKBODY_WIZZ_TIME = 1000;
 
-	public static final int TANKBODY_DAMMAGE_TAKEN = 25;
+	public static final int TANKBODY_DAMMAGE_DEALT= 100;
 
 	private Tank m_tank;
 
@@ -46,7 +46,7 @@ public class TankBody extends MovingEntity {
 		super(x, y, TANKBODY_WIDTH, TANKBODY_HEIGHT, aut);
 		m_tank = null;
 		m_category = MyCategory.AT;
-		m_dammage_taken = TANKBODY_DAMMAGE_TAKEN;
+		m_dammage_dealt = TANKBODY_DAMMAGE_DEALT;
 		m_speed = TANKBODY_SPEED;
 	}
 

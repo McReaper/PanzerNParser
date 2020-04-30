@@ -31,6 +31,8 @@ public abstract class Entity {
 	public static final long DEFAULT_THROW_TIME = 1000;
 	public static final long DEFAULT_WAIT_TIME = 100;
 	public static final long DEFAULT_WIZZ_TIME = 1000;
+	
+	public static final int DEFAULT_DAMMAGE_DEALT = 100;
 
 	protected long m_elapseTime;
 	protected LsAction m_currentAction;
@@ -48,6 +50,8 @@ public abstract class Entity {
 	protected boolean m_actionFinished;
 	protected MyCategory m_category;
 	protected int m_lengthOfView;
+
+	protected int m_dammage_dealt;
 
 	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
@@ -70,6 +74,9 @@ public abstract class Entity {
 		m_currentActionDir = null; // par défaut
 
 		m_actionFinished = true;
+		
+
+		m_dammage_dealt = DEFAULT_DAMMAGE_DEALT;
 
 	}
 
@@ -138,9 +145,7 @@ public abstract class Entity {
 		}
 	}
 
-	// TODO : rendre abstrait :
-	public void collide() {
-	}
+	public abstract void collide(int dammage);
 
 	public double getActionProgress() {
 		if (m_timeOfAction != 0) {
@@ -228,6 +233,10 @@ public abstract class Entity {
 
 	public int getFieldOfView() {
 		return m_lengthOfView;
+	}
+	
+	public int getDammageDealt() {
+		return m_dammage_dealt;
 	}
 
 	//// METHODES DE L'AUTOMATE ////

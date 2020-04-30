@@ -4,15 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 import info3.game.GameConfiguration;
 import info3.game.controller.Controller;
 import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
-import info3.game.model.entities.Entity;
-import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class View extends Container {
@@ -55,7 +52,7 @@ public class View extends Container {
 		orderEntities.add(MyEntities.Wall);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Shot)));
 		orderEntities.add(MyEntities.Shot);
-		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Enemy)));
+		m_avatars.add(new EnemyAvatar(config.getAnimation(MyEntities.Enemy)));
 		orderEntities.add(MyEntities.Enemy);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Marker)));
 		orderEntities.add(MyEntities.Marker);

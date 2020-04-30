@@ -15,20 +15,19 @@ public class ViewPort {
 	public static final int MINIMAL_WIDTH = 200; // TODO : a revisiter
 	public static final int MINIMAL_HEIGHT = 200;
 
-	Model m_model;
-	Entity m_player;
-	View m_view;
-	Grid m_grid;
-	int m_width; // Taille du canvas en pixel
-	int m_height;
-	int m_nbCells; // Nombre de cellule du view port en une dimention
-	int m_caseSize; // Taille d'une case en pixel
-	int m_x; // Position du viewPort dans la grid /!\ Marge de 2 autour de ce que l'on voit
-	int m_y;
-	int m_offsetX; // Décalage propre au animations du move du player
-	int m_offsetY;
-	int m_field_of_view;
-	int m_paintSize;
+	private Entity m_player;
+	private View m_view;
+	private Grid m_grid;
+	private int m_width; // Taille du canvas en pixel
+	private int m_height;
+	private int m_nbCells; // Nombre de cellule du view port en une dimention
+	private int m_caseSize; // Taille d'une case en pixel
+	private int m_x; // Position du viewPort dans la grid /!\ Marge de 2 autour de ce que l'on voit
+	private int m_y;
+	private int m_offsetX; // Décalage propre au animations du move du player
+	private int m_offsetY;
+	private int m_field_of_view;
+	private int m_paintSize;
 	private int m_offsetWindowX;
 	private int m_offsetWindowY;
 
@@ -59,7 +58,6 @@ public class ViewPort {
 	}
 
 	private void positionViewPort() {
-//		System.out.println("player (" + m_player.getX() + ";" + m_player.getY() + ")");
 		m_x = m_player.getX();
 		m_x -= m_field_of_view;
 		m_x -= 2; // pour la marge
@@ -68,7 +66,6 @@ public class ViewPort {
 		m_y -= m_field_of_view;
 		m_y -= 2;
 		m_y = m_grid.realY(m_y);
-//		System.out.println("(" + m_x + ";" + m_y + ")");
 	}
 
 	private void offset() {

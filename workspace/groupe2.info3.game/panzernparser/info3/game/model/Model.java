@@ -27,7 +27,7 @@ public class Model {
 	}
 
 	private static Model self; // Singleton du model
-	// Controller m_controller; //pour envoyer des information utiles.
+
 	private Grid m_grid;
 	private Tank m_tank;
 	private Drone m_drone;
@@ -37,69 +37,7 @@ public class Model {
 	private boolean m_playingTank;
 	private int m_nbEntities;
 	private Coords m_clue;
-	public LinkedList<String> m_sounds;
-
-	/**
-	 * Création du modèle (l'univers du jeu)
-	 */
-	private Model() {
-		// Création de la liste des touches enfoncées.
-		m_keyPressed = new LinkedList<LsKey>();
-		// Création de la liste des entités :
-		m_entities = new HashMap<EntityFactory.MyEntities, LinkedList<Entity>>();
-		for (MyEntities entityType : MyEntities.values()) {
-			m_entities.put(entityType, new LinkedList<Entity>());
-		}
-		m_nbEntities = 0;
-		
-		//Creation de la classe CollisionEntity
-		m_collisionManager = new CollisionManager();
-
-		// Génère la grille du jeu qui va créer a son tour toutes les entités et mettre
-		// la liste des entités à jour. La grille doit connaitre ses patterns lors de sa
-		// création, le model doit donc lui donner.
-		try {
-			m_grid = new Grid(this);
-		} catch (UnexpectedException e) {
-			e.printStackTrace();
-			System.err.println("Impossible de créer la grille !");
-			// La il faudrait sortir du programme, en appelant le controller, pour arrêter
-			// la musique et les autres exécutions auxiliaires en cours.
-		}
-
-		if (getEntities(MyEntities.TankBody).size() != 1 || getEntities(MyEntities.Turret).size() != 1
-				|| getEntities(MyEntities.Drone).size() != 1) {
-			System.err.println("Il semblerait que la grille comporte plusieurs Drone ou Tank...");
-			// La il faudrait sortir du programme, en appelant le controller, pour arrêter
-			// la musique et les autres exécutions auxiliaires en cours.
-		}
-
-		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
-		Turret turret = (Turret) getEntities(MyEntities.Turret).get(0);
-		m_tank = new Tank(body, turret);
-		m_drone = (Drone) getEntities(MyEntities.Drone).get(0);
-		m_playingTank = true;
-		m_sounds = new LinkedList<String>();
-
-	}
-
-	public void update(Marker marker) {
-	getEntities( MyEntities.Marker).add(marker);
-	getEntities( MyEntities.Marker).remove(0);
-	}
-	
-	public void addClue(Coords c) {
-		if (c != null)
-			m_clue = c;
-	}
-
-	public Coords getClue() {
-		return m_clue;
-	}
-
-	public void cleanClue() {
-		m_clue = null;
-	}
+	private LinkedList<String> m_soundsToPlay;
 
 	/**
 	 * Fonction qui gère le singleton du modèle (évite de créer plusieurs modèles).
@@ -108,8 +46,54 @@ public class Model {
 	 */
 	public static Model getModel() {
 		if (self == null)
-			self = new Model();
+			new Model();
 		return self;
+	}
+	
+	/**
+	 * Création du modèle (l'univers du jeu)
+	 */
+	private Model() {
+		self = this; // Pour éviter des appels récursifs infinis.
+		
+		// Création de la liste des touches enfoncées connues du modèle.
+		m_keyPressed = new LinkedList<LsKey>();
+
+		// Création de la liste des entités :
+		m_entities = new HashMap<EntityFactory.MyEntities, LinkedList<Entity>>();
+		for (MyEntities entityType : MyEntities.values()) {
+			m_entities.put(entityType, new LinkedList<Entity>());
+		}
+		m_nbEntities = 0;
+
+		// Creation de la classe CollisionEntity
+		System.out.println("Création de la classe CollisionManager");
+		m_collisionManager = new CollisionManager();
+		System.out.println("CollisionManager créé !");
+
+		// Génère la grille du jeu qui va créer a son tour toutes les entités et mettre
+		// la liste des entités à jour.
+		try {
+			m_grid = new Grid();
+		} catch (UnexpectedException e) {
+			e.printStackTrace();
+			System.err.println("Impossible de créer la grille !");
+			System.exit(-1);
+		}
+
+		if (getEntities(MyEntities.TankBody).size() != 1 || getEntities(MyEntities.Turret).size() != 1
+				|| getEntities(MyEntities.Drone).size() != 1) {
+			System.err.println("Il semblerait que la grille comporte plusieurs Drone ou Tank...");
+			System.exit(-1);
+		}
+
+		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
+		Turret turret = (Turret) getEntities(MyEntities.Turret).get(0);
+		m_tank = new Tank(body, turret);
+		m_drone = (Drone) getEntities(MyEntities.Drone).get(0);
+		m_playingTank = true;
+		m_soundsToPlay = new LinkedList<String>();
+
 	}
 
 	public void step(long elapsed) {
@@ -120,7 +104,8 @@ public class Model {
 		m_tank.step();
 		m_collisionManager.controlCollisionsShotsEntity();
 	}
-
+	
+	
 	//////// Gestion du passage drone/tank ////////
 
 	public boolean isPlayingTank() {
@@ -130,21 +115,15 @@ public class Model {
 	public void switchControl() {
 		m_playingTank = !m_playingTank;
 		if (m_playingTank) {
-//			m_tank.showTank(true);
-//			m_drone.showEntity(false);
-			System.out.println("Contrôles données au TANK");
+			m_drone.showEntity(false);
 		} else {
 			// Le drone apparait au niveau du tank
 			m_drone.setX(m_tank.getBody().getX());
 			m_drone.setY(m_tank.getBody().getY());
-
-			// Le drone apparait avec direction d'action et de regard identique à celle du
-			// tank
+			// et avec direction d'action et de regard identique à celle du tank
 			m_drone.setActionDir(m_tank.getBody().getCurrentActionDir());
 			m_drone.setLookDir(m_tank.getBody().getLookAtDir());
-//			m_tank.showTank(false);
-//			m_drone.showEntity(true);
-			System.out.println("Contrôles données au DRONE");
+			m_drone.showEntity(true);
 		}
 	}
 
@@ -164,6 +143,55 @@ public class Model {
 	}
 
 	/////////////////////////////////////////////////
+
+	public void addSound(String soundName) {
+		m_soundsToPlay.add(soundName);
+	}
+
+	public LinkedList<String> getSounds() {
+		return m_soundsToPlay;
+	}
+	
+	////////////////////////////////////////////////
+
+	public void addKeyPressed(LsKey temp) {
+		if (!m_keyPressed.contains(temp))
+			m_keyPressed.add(temp);
+		return;
+	}
+
+	public void removeKeyPressed(LsKey temp) {
+		if (m_keyPressed.contains(temp))
+			m_keyPressed.remove(temp);
+		return;
+	}
+
+	public LinkedList<LsKey> getKeyPressed() {
+		return m_keyPressed;
+	}
+
+	////////////////////////////////////////////////
+	
+	public void update(Marker marker) {
+		getEntities(MyEntities.Marker).add(marker);
+		getEntities(MyEntities.Marker).remove(0);
+	}
+
+	public void addClue(Coords c) {
+		if (c != null)
+			m_clue = c;
+	}
+
+	public Coords getClue() {
+		return m_clue;
+	}
+
+	public void cleanClue() {
+		m_clue = null;
+	}
+
+	////////////////////////////////////////////////
+	
 
 	public Grid getGrid() {
 		return m_grid;
@@ -188,48 +216,10 @@ public class Model {
 		return entities;
 	}
 
-	public void addKeyPressed(LsKey temp) {
-		if (!m_keyPressed.contains(temp))
-			m_keyPressed.add(temp);
-		return;
-	}
-
-	public void removeKeyPressed(LsKey temp) {
-		if (m_keyPressed.contains(temp))
-			m_keyPressed.remove(temp);
-		return;
-	}
-
-	public LinkedList<LsKey> getKeyPressed() {
-		return m_keyPressed;
-	}
-
-	public void addEntity(Entity e) {
-		//TODO : peut etre opti avec la factory.
-		if (e instanceof Droppable) {
-			getEntities(MyEntities.Droppable).add(e);
-		} else if (e instanceof Drone) {
-			getEntities(MyEntities.Drone).add(e);
-		} else if (e instanceof Enemy) {
-			getEntities(MyEntities.Enemy).add(e);
-		} else if (e instanceof Vein) {
-			getEntities(MyEntities.Vein).add(e);
-		} else if (e instanceof Ground) {
-			getEntities(MyEntities.Ground).add(e);
-		} else if (e instanceof Marker) {
-			getEntities(MyEntities.Marker).add(e);
-		} else if (e instanceof Shot) {
-			getEntities(MyEntities.Shot).add(e);
-		} else if (e instanceof TankBody) {
-			getEntities(MyEntities.TankBody).add(e);
-		} else if (e instanceof Turret) {
-			getEntities(MyEntities.Turret).add(e);
-		} else {
-			throw new IllegalArgumentException("Entité non reconnue !");
-		}
+	public void addEntity() {
 		m_nbEntities++;
 	}
-	
+
 	public void removeEntity(Entity e) {
 		if (e instanceof Droppable) {
 			getEntities(MyEntities.Droppable).remove(e);
@@ -252,7 +242,7 @@ public class Model {
 		} else {
 			throw new IllegalArgumentException("Entité non reconnue !");
 		}
-		m_nbEntities++;
+		m_nbEntities--;
 	}
 
 	public int getNbEntities() {
@@ -261,7 +251,7 @@ public class Model {
 
 	public boolean isInRadius(LinkedList<Coords> radius, Entity entity) {
 		for (Coords coord : radius) {
-			if (entity.isInMe(coord.X, coord.Y))
+			if (entity.isInMe((int)coord.X, (int)coord.Y))
 				return true;
 		}
 		return false;
@@ -278,19 +268,19 @@ public class Model {
 		}
 		return closest;
 	}
-	
+
 	public double distanceXAtPow2(int a, int b) {
 		double baicDst = Math.pow(a - b, 2);
 		double toreDst = Math.min(a, b);
-		toreDst += m_grid.getNbCellsX() -  Math.max(a, b);
+		toreDst += m_grid.getNbCellsX() - Math.max(a, b);
 		toreDst = Math.pow(toreDst, 2);
 		return Math.min(baicDst, toreDst);
 	}
-	
+
 	public double distanceYAtPow2(int a, int b) {
 		double baicDst = Math.pow(a - b, 2);
 		double toreDst = Math.min(a, b);
-		toreDst += m_grid.getNbCellsY() -  Math.max(a, b);
+		toreDst += m_grid.getNbCellsY() - Math.max(a, b);
 		toreDst = Math.pow(toreDst, 2);
 		return Math.min(baicDst, toreDst);
 	}
@@ -304,6 +294,5 @@ public class Model {
 		}
 		return entities_to_return;
 	}
-
 
 }

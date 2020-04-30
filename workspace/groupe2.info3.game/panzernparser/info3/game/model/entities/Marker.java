@@ -2,9 +2,6 @@ package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
 import info3.game.automaton.MyCategory;
-import info3.game.automaton.MyDirection;
-import info3.game.automaton.action.LsAction;
-import info3.game.model.Model;
 
 /**
  * Un marqueur est disposé par le drone lors d'un clic dans le canvas
@@ -30,9 +27,9 @@ public class Marker extends StaticEntity {
 	public static final long MARKER_WAIT_TIME = 50;
 	public static final long MARKER_WIZZ_TIME = 1000;
 
-	public Marker(int x, int y, int width, int height, Automaton aut) {
-		super(x, y, width, height, aut);
-		m_category = MyCategory.P;
+	public Marker(int x, int y, Automaton aut) {
+		super(x, y, MARKER_WIDTH, MARKER_HEIGHT, aut);
+		m_category = MyCategory.C;
 	}
 
 }

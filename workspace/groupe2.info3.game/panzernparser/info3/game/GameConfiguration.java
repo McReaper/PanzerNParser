@@ -21,6 +21,12 @@ public class GameConfiguration {
 
 	///////////// DOMAINE PUBLIC ///////////////
 
+	public static final String GAL_PATH = "gal/";
+	public static final String SPRITE_PATH = "sprites/";
+	public static final String ANIMATION_PATH = "animations/";
+	public static final String PATTERN_PATH = "patterns/";
+	public static final String SOUND_PATH = "sounds/";
+
 	public static GameConfiguration getConfig() {
 		createSingleton();
 		return self;
@@ -85,6 +91,7 @@ public class GameConfiguration {
 			try {
 				System.out.println("Parsing de la configuration ...");
 				self = new GameConfiguration();
+				System.out.println("Configuration chargée !");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 				System.exit(1);
@@ -113,22 +120,16 @@ public class GameConfiguration {
 			// Parsing des fichiers .gal !
 			AST myAST;
 			try {
-				myAST = AutomataParser.from_file("gal/" + fields[2]);
+				myAST = AutomataParser.from_file(GAL_PATH + fields[2]);
 			} catch (Exception e1) {
-				throw new FileNotFoundException("le fichier gal/" + fields[2] + " est introuvable ou erroné");
+				throw new FileNotFoundException("le fichier " + GAL_PATH + fields[2] + " est introuvable ou erroné");
 			}
 			@SuppressWarnings("unchecked")
 			List<Automaton> lsAuto = (List<Automaton>) myAST.accept(builder);
-//			for (Automaton aut : lsAuto) {
-//				if (aut.getName().equals(fields[0])) {
-//					m_automatons.put(MyEntities.valueOf(fields[0]), aut);
-//					break;
-//				}
-//			}
 			m_automatons.put(MyEntities.valueOf(fields[0]), lsAuto.get(0));
 
 			// Parsing des fichiers .ani !
-			File ani_file = new File("animations/" + fields[4]);
+			File ani_file = new File(ANIMATION_PATH + fields[4]);
 //			
 //			 Les fichiers .ani ont la forme : 
 //			 
@@ -150,11 +151,11 @@ public class GameConfiguration {
 				Sprite sprite = null;
 				try {
 					// On essaye de récupérer le sprite associé a cette animation.
-					sprite = new Sprite(fields_ani[1]);
+					sprite = new Sprite(SPRITE_PATH + fields_ani[1]);
 					sprites[i] = sprite;
 				} catch (IOException e) {
 					sc_ani.close();
-					throw new FileNotFoundException("Fichier " + fields_ani[1] + " Introuvable !");
+					throw new FileNotFoundException("Fichier " + SPRITE_PATH + fields_ani[1] + " Introuvable !");
 				}
 			}
 			// HashMap qui pour une Action et sa direction associe la séquence de sprite.

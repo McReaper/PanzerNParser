@@ -18,6 +18,10 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 public class HUD {
+	
+	public static final int MINIMAL_WIDTH = 2 * 120;
+	public static final int MINIMAL_HEIGHT = 400;
+	
 
 	JPanel m_West;
 	JPanel m_East;

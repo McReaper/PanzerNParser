@@ -275,17 +275,17 @@ public class HUD {
 		for (Entity mark : markers) {
 			float xMark = mark.getX();
 			float yMark = mark.getY();
-			boolean isLeft = isLeft((int) x, (int) xMark);
-			boolean isUp = isUp((int) y, (int) yMark);
+			int throughToreW = throughToreW((int) x, (int) xMark);
+			int throughToreH = throughToreH((int) y, (int) yMark);
+			xMark += model.getGrid().getNbCellsX() * throughToreW;
+			yMark += model.getGrid().getNbCellsY() * throughToreH;
 
 			//TODO Si les drapeaux sont plus grand, prendre en compte leur taille
 			double angle = (double) Math.atan(((double) (yMark - y)) / ((double) (xMark - x)));
 			angle = Math.toDegrees(angle);
-			if (isLeft && (angle<90 && angle >-90)) {
-				angle = 180-angle;
+			if(xMark < x) {
+				angle += 180;
 			}
-			if(isUp)
-				angle*=-1;
 			m_compass.addArrow(null, (int) angle);
 		}
 
@@ -305,16 +305,32 @@ public class HUD {
 
 	}
 
-	boolean isLeft(int x, int xMark) {
+	public static final int DIRECT = 0;
+	public static final int THROUGH_POSITIVE = 1;
+	public static final int THROUGH_NEGATIVE = -1;
+	
+	int throughToreW(int x, int xMark) {
 		int dstXdir = Math.abs(x - xMark);
 		int dstXtore = Math.min(x, xMark) + Model.getModel().getGrid().getNbCellsX() - Math.max(x, xMark);
-		return ((dstXdir>dstXtore)==(xMark>x)); //equiv (dstXdir>dstXtore && x<xMark) || (dstXdir<dstXtore && x>xMark)
+		if(dstXdir<=dstXtore) {
+			return DIRECT;
+		} else if(xMark<x) {
+			return THROUGH_POSITIVE;
+		} else {
+			return THROUGH_NEGATIVE;
+		}
 	}
 	
-	boolean isUp(int y, int yMark) {
+	int throughToreH(int y, int yMark) {
 		int dstYdir = Math.abs(y - yMark);
 		int dstYtore = Math.min(y, yMark) + Model.getModel().getGrid().getNbCellsY() - Math.max(y, yMark);
-		return ((dstYdir>dstYtore && y<yMark) || (dstYdir<dstYtore && y>yMark)); //equiv  (dstYdir>dstYtore)==(yMark>y)
+		if(dstYdir<=dstYtore) {
+			return DIRECT;
+		} else if(yMark<y) {
+			return THROUGH_POSITIVE;
+		} else {
+			return THROUGH_NEGATIVE;
+		}
 	}
 
 }

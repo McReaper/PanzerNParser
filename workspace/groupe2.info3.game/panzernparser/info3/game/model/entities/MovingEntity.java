@@ -15,7 +15,7 @@ public abstract class MovingEntity extends Entity {
 		super(x, y, width, height, aut);
 		m_speed = DEFAULT_SPEED;
 		m_health = DEFAULT_SPEED;
-		m_dammage_taken = DEFAULT_DAMAGE_TAKEN;
+		m_dammage_dealt = DEFAULT_DAMAGE_TAKEN;
 	}
 
 	

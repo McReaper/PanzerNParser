@@ -1,7 +1,5 @@
 package info3.game.model.entities;
 
-import com.sun.javadoc.Type;
-
 import info3.game.automaton.Automaton;
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
@@ -37,11 +35,10 @@ public class Turret extends StaticEntity {
 	public static final long TURRET_THROW_TIME = 1000;
 	public static final long TURRET_WAIT_TIME = 0;
 	public static final long TURRET_WIZZ_TIME = 1000;
-	
+
 	public static final int GUN_BULLET_SLOW = 0;
 	public static final int GUN_BULLET_FAST = 1;
 	public static final int GUN_BIG_BULLET = 2;
-	
 
 	private Tank m_tank;
 	private int m_typeGun;
@@ -55,105 +52,104 @@ public class Turret extends StaticEntity {
 		m_nbGun = 3;
 	}
 
-
 	public void setTank(Tank tank) {
 		m_tank = tank;
 	}
-	
+
 	public Tank getTank() {
 		return m_tank;
 	}
 
 	@Override
 	public void Hit(MyDirection dir) {
-			if (m_actionFinished && m_currentAction == LsAction.Hit) {
-				m_actionFinished = false;
-				m_currentAction = null;
-				Model.getModel().addSound("oof");
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Hit;
-				m_timeOfAction = TURRET_HIT_TIME;
-				
-				//creation du shot en fonction de l'arme
-				//TODO gerer la position de création de shot de plus d'une case
-				Entity ent = EntityFactory.newEntityShot(MyEntities.Shot, this.m_x + m_width/2, m_y + m_height/2, m_typeGun);
-				
-				//Donne la direction de regard et d'action
-				ent.setLookDir(MyDirection.toAbsolute(this.m_currentLookAtDir, dir));
-				ent.setActionDir(MyDirection.toAbsolute(this.m_currentActionDir, dir));
-				
-				//Donne l'entité qui l'a tiré (ici le tankBody)
-				((Shot ) ent).setOwner(m_tank.getBody());
-			}
+		if (m_actionFinished && m_currentAction == LsAction.Hit) {
+			m_actionFinished = false;
+			m_currentAction = null;
+			Model.getModel().addSound("oof");
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Hit;
+			m_timeOfAction = TURRET_HIT_TIME;
+
+			// creation du shot en fonction de l'arme
+			// TODO gerer la position de création de shot de plus d'une case
+			Entity ent = EntityFactory.newEntityShot(MyEntities.Shot, this.m_x + m_width / 2, m_y + m_height / 2, m_typeGun);
+
+			// Donne la direction de regard et d'action
+			ent.setLookDir(MyDirection.toAbsolute(this.m_currentLookAtDir, dir));
+			ent.setActionDir(MyDirection.toAbsolute(this.m_currentActionDir, dir));
+
+			// Donne l'entité qui l'a tiré (ici le tankBody)
+			((Shot) ent).setOwner(m_tank.getBody());
+		}
 	}
 
 	@Override
-	public void Pop(MyDirection dir) {//Permet le changement d'arme
-			if (m_actionFinished && m_currentAction == LsAction.Pop) {
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Pop;
-				m_typeGun = changeGun();
-				printConsolGun();
-				m_timeOfAction = TURRET_POP_TIME;
-			}
+	public void Pop(MyDirection dir) {// Permet le changement d'arme
+		if (m_actionFinished && m_currentAction == LsAction.Pop) {
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Pop;
+			m_typeGun = changeGun();
+			printConsolGun();
+			m_timeOfAction = TURRET_POP_TIME;
+		}
 	}
 
 	@Override
 	public void Turn(MyDirection dir, int angle) {
-			if (m_actionFinished && m_currentAction == LsAction.Turn) {
-				this.doTurn(dir);
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Turn;
-				m_timeOfAction = TURRET_TURN_TIME;
-			}
+		if (m_actionFinished && m_currentAction == LsAction.Turn) {
+			this.doTurn(dir);
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Turn;
+			m_timeOfAction = TURRET_TURN_TIME;
+		}
 	}
 
 	@Override
 	public void Wizz(MyDirection dir) {
-			if (m_actionFinished && m_currentAction == LsAction.Wizz) {
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Wizz;
-				m_timeOfAction = TURRET_WIZZ_TIME;
-			}
+		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Wizz;
+			m_timeOfAction = TURRET_WIZZ_TIME;
+		}
 	}
-	
+
 	@Override
 	public boolean Key(LsKey key) {
 		if (m_tank.hasControl())
 			return super.Key(key);
 		return false;
 	}
-	
+
 	private int changeGun() {
-		m_typeGun ++;
-		return m_typeGun %m_nbGun;
+		m_typeGun++;
+		return m_typeGun % m_nbGun;
 	}
-	
+
 	private void printConsolGun() {
-		switch(m_typeGun) {
-			case GUN_BULLET_SLOW : 
+		switch (m_typeGun) {
+			case GUN_BULLET_SLOW:
 				System.out.println("Changement d'arme pour GUN_BULLET_SLOW");
 				break;
-			case GUN_BULLET_FAST : 
+			case GUN_BULLET_FAST:
 				System.out.println("Changement d'arme pour GUN_BULLET_FAST");
 				break;
-			case GUN_BIG_BULLET : 
+			case GUN_BIG_BULLET:
 				System.out.println("Changement d'arme pour GUN_BIG_BULLET");
 				break;
 			default:
-					System.out.println("Arme non reconnue");
-					break;
-				
+				System.out.println("Arme non reconnue");
+				break;
+
 		}
 	}
 

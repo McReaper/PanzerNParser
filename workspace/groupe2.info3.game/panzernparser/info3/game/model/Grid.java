@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import info3.game.GameConfiguration;
-import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
 
@@ -30,6 +29,26 @@ public class Grid {
 		m_patterns = new LinkedList<Pattern>();
 		load();
 		generate();
+	}
+
+	public static class Coords {
+
+		public double X, Y;
+
+		public Coords(double x, double y) {
+			X = x;
+			Y = y;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			return (((Coords) obj).X == this.X && ((Coords) obj).Y == this.Y);
+		}
+
+		public void translate(double offX, double offY) {
+			X += offX;
+			Y += offY;
+		}
 	}
 
 	public int realX(int x) {

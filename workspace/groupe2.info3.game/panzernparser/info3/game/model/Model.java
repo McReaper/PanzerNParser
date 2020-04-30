@@ -46,7 +46,7 @@ public class Model {
 	 */
 	public static Model getModel() {
 		if (self == null)
-			self = new Model();
+			new Model();
 		return self;
 	}
 	
@@ -54,6 +54,8 @@ public class Model {
 	 * Création du modèle (l'univers du jeu)
 	 */
 	private Model() {
+		self = this; // Pour éviter des appels récursifs infinis.
+		
 		// Création de la liste des touches enfoncées connues du modèle.
 		m_keyPressed = new LinkedList<LsKey>();
 

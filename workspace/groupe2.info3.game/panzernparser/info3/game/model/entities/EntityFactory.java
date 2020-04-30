@@ -95,7 +95,6 @@ public class EntityFactory {
 				break;
 			default:
 				throw new IllegalStateException("Entité non reconnue !");
-				System.err.println("tentative de création d'une entité relatif au joueur détectée");
 		}
 		Model.getModel().getEntities(entity).add(res);
 		Model.getModel().addEntity();

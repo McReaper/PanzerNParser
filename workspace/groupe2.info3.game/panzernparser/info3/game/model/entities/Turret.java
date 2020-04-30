@@ -76,6 +76,7 @@ public class Turret extends StaticEntity {
 				m_timeOfAction = TURRET_HIT_TIME;
 				
 				//creation du shot en fonction de l'arme
+				//TODO gerer la position de création de shot de plus d'une case
 				Entity ent = EntityFactory.newEntityShot(MyEntities.Shot, this.m_x + m_width/2, m_y + m_height/2, m_typeGun);
 				
 				//Donne la direction de regard et d'action

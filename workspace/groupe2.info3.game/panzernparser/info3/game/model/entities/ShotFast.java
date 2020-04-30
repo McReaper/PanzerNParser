@@ -81,8 +81,8 @@ public class ShotFast extends Shot {
 		if (m_actionFinished && m_currentAction == LsAction.Egg) {
 			m_actionFinished = false;
 			m_currentAction = null;
-			Entity ent = EntityFactory.newEntity(MyEntities.Shot, this.m_x, m_y);
-			Entity ent2 = EntityFactory.newEntity(MyEntities.Shot, this.m_x, m_y);
+			Entity ent = EntityFactory.newEntityShot(MyEntities.Shot, this.m_x, m_y, Turret.GUN_BULLET_FAST);
+			Entity ent2 = EntityFactory.newEntityShot(MyEntities.Shot, this.m_x, m_y,Turret.GUN_BULLET_FAST);
 
 			// Donne la direction de regard et d'action
 			ent.setLookDir(MyDirection.toAbsolute(m_currentLookAtDir, MyDirection.LEFT));

@@ -151,6 +151,8 @@ public class EntityFactory {
 		} else if (e instanceof Vein) {
 			return MyEntities.Vein;
 		} else if (e instanceof Ground) {
+			if(e.getCategory() == MyCategory.O)
+				return MyEntities.Wall;
 			return MyEntities.Ground;
 		} else if (e instanceof Marker) {
 			return MyEntities.Marker;

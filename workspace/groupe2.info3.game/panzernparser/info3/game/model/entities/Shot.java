@@ -45,8 +45,6 @@ public class Shot extends MovingEntity {
 		m_dammage_taken = SHOT_DAMMAGE_TAKEN;
 	}
 
-	int m_health;
-
 	@Override
 	public void step(long elapsed) {
 		// System.out.println("Le SHOT fait un step");
@@ -55,8 +53,6 @@ public class Shot extends MovingEntity {
 
 	@Override
 	public void Move(MyDirection dir) {
-
-		m_health -=20;//TODO je comprends pas pourquoi ca marche pas
 		if (m_actionFinished && m_currentAction == LsAction.Move) {
 
 			this.doMove(dir);
@@ -66,6 +62,7 @@ public class Shot extends MovingEntity {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Move;
 			m_timeOfAction = SHOT_MOVE_TIME;
+			m_health -=10;//TODO je comprends pas pourquoi ca marche pas
 		}
 	}
 

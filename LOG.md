@@ -353,4 +353,29 @@ Pas de remarques particulières. Toujours quelques difficultés sur l'ATH mais c
 ## Répartition des tâches 
 - `Cyance>` A votre bon cœur. A voir demain
 
+# JOURNAL du Lundi 30 Avril
+
+## Planning du jour
+
+-creer une grille contenant toutes les entités pour avoir un accès plus simple et plus optimisé pour certaines fonctions
+-réglé le probleme des fleches dans la boussole
+
+## Répartition des tâches
+
+- Cyance> Revue de code de tout le dev
+- E> amélioration du code des entités suite aux revues et créations de plusieurs classes shots qui ont des particularités diff + changement d'arme via le canon
+- V/S/M> debug des Avatar et implem d'une amélioration de la classe Avatar
+- B> suite de l'implem de l'ATH et implem de la grille pour classer les entité suivant leurs position sur la grille
+- S> Creation d'un sol particulier : le wall + déplacement de quelques fonction pour rendre le code plus clair + merge de toutes les branches sur dev et debug qui va avec
+- JT> suite de l'implem pour avoir des ATH dynamiques + creation d'un son pour le canon
+- M> Travail sur les animations et les avatars Enemy + aide B> pour la creation de la Grille
+## Remarques :
+
+Pas de remarques particulières
+
+## Rélfexion en cours
+
+- Réécrire certaines fonctions avec la nouvelle Grille qui nous permet de lister les elements en fonction de leur emplacement. Plus d'optimisations.
+- Discussion sur les prochains objectifs et la manière de les atteindre
+
 

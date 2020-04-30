@@ -95,12 +95,37 @@ public class EntityFactory {
 			default:
 				throw new IllegalStateException("Entité non reconnue !");
 		}
+		Model.getModel().getGrid().addEntity(res);
 		Model.getModel().getEntities(entity).add(res);
 		return res;
 	}
 
 	public static String name(Entity entity) {
 		return entity.getClass().getName();
+	}
+	
+	public static MyEntities getMyEntities(Entity e) {
+		if (e instanceof Droppable) {
+			return MyEntities.Droppable;
+		} else if (e instanceof Drone) {
+			return MyEntities.Drone;
+		} else if (e instanceof Enemy) {
+			return MyEntities.Enemy;
+		} else if (e instanceof Vein) {
+			return MyEntities.Vein;
+		} else if (e instanceof Ground) {
+			return MyEntities.Ground;
+		} else if (e instanceof Marker) {
+			return MyEntities.Marker;
+		} else if (e instanceof Shot) {
+			return MyEntities.Shot;
+		} else if (e instanceof TankBody) {
+			return MyEntities.TankBody;
+		} else if (e instanceof Turret) {
+			return MyEntities.Turret;
+		} else {
+			throw new IllegalArgumentException("Entité non reconnue !");
+		}
 	}
 
 }

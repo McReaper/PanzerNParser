@@ -304,6 +304,7 @@ public abstract class Entity {
 
 	protected void doMove(MyDirection dir) {
 		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
+		Model.getModel().getGrid().moved(this, absoluteDir);
 		switch (absoluteDir) {
 			case EAST:
 				m_x += DEFAULT_MOVING_DISTANCE;

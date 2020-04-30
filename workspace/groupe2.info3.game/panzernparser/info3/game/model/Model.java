@@ -8,17 +8,12 @@ import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
 import info3.game.model.Grid.Coords;
 import info3.game.model.entities.Drone;
-import info3.game.model.entities.Droppable;
-import info3.game.model.entities.Enemy;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
-import info3.game.model.entities.Ground;
 import info3.game.model.entities.Marker;
-import info3.game.model.entities.Shot;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
-import info3.game.model.entities.Vein;
 
 public class Model {
 
@@ -73,6 +68,7 @@ public class Model {
 		// la liste des entités à jour.
 		try {
 			m_grid = new Grid();
+			m_grid.generate();
 		} catch (UnexpectedException e) {
 			e.printStackTrace();
 			System.err.println("Impossible de créer la grille !");
@@ -115,9 +111,12 @@ public class Model {
 		if (m_playingTank) {
 			m_drone.showEntity(false);
 		} else {
+			int droneTPX = m_tank.getBody().getX();
+			int droneTPY = m_tank.getBody().getY();
+			m_grid.teleported(m_drone, m_drone.getX(), m_drone.getY(), droneTPX,droneTPY);
 			// Le drone apparait au niveau du tank
-			m_drone.setX(m_tank.getBody().getX());
-			m_drone.setY(m_tank.getBody().getY());
+			m_drone.setX(droneTPX);
+			m_drone.setY(droneTPY);
 			// et avec direction d'action et de regard identique à celle du tank
 			m_drone.setActionDir(m_tank.getBody().getCurrentActionDir());
 			m_drone.setLookDir(m_tank.getBody().getLookAtDir());
@@ -215,29 +214,8 @@ public class Model {
 	}
 
 	public void removeEntity(Entity e) {
-		if (e instanceof Droppable) {
-			getEntities(MyEntities.Droppable).remove(e);
-		} else if (e instanceof Drone) {
-			getEntities(MyEntities.Drone).remove(e);
-		} else if (e instanceof Enemy) {
-			getEntities(MyEntities.Enemy).remove(e);
-		} else if (e instanceof Vein) {
-			getEntities(MyEntities.Vein).remove(e);
-		} else if (e instanceof Ground) {
-			if(e.getCategory() == MyCategory.O)
-				getEntities(MyEntities.Wall).remove(e);
-			getEntities(MyEntities.Ground).remove(e);
-		} else if (e instanceof Marker) {
-			getEntities(MyEntities.Marker).remove(e);
-		} else if (e instanceof Shot) {
-			getEntities(MyEntities.Shot).remove(e);
-		} else if (e instanceof TankBody) {
-			getEntities(MyEntities.TankBody).remove(e);
-		} else if (e instanceof Turret) {
-			getEntities(MyEntities.Turret).remove(e);
-		} else {
-			throw new IllegalArgumentException("Entité non reconnue !");
-		}
+		getEntities(EntityFactory.getMyEntities(e)).remove(e);
+		m_grid.removeEntity(e);
 	}
 
 	public boolean isInRadius(LinkedList<Coords> radius, Entity entity) {

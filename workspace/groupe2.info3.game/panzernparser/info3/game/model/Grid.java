@@ -220,7 +220,9 @@ public class Grid {
 					case "chas1":
 						type = MyEntities.TankBody;
 						break;
-
+					case "wall1":
+						type = MyEntities.Wall;
+						break;
 					case "turr1":
 						type = MyEntities.Turret;
 						break;

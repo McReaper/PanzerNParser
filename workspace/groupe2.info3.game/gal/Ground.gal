@@ -1,3 +1,4 @@
-Passif(Nothingness){
+Ground(Nothingness){
 	*(Nothingness)
+	|True ? Wait() :(Nothingness)
 }

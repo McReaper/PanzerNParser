@@ -2,6 +2,7 @@ package info3.game.model.entities;
 
 import info3.game.GameConfiguration;
 import info3.game.automaton.Automaton;
+import info3.game.automaton.MyCategory;
 import info3.game.model.MaterialType;
 import info3.game.model.Model;
 
@@ -42,6 +43,12 @@ public class EntityFactory {
 		Entity ground = new Ground(x, y, aut);
 		return ground;
 	}
+	
+	public static Entity newWall(int x, int y, Automaton aut) {
+		Entity wall = newGround(x, y, aut);
+		wall.setCategory(MyCategory.O);
+		return wall;
+	}
 
 	private static Entity newDrone(int x, int y, Automaton aut) {
 		Entity drone = new Drone(x, y, aut);
@@ -58,8 +65,7 @@ public class EntityFactory {
 		GameConfiguration config = GameConfiguration.getConfig();
 		switch (entity) {
 			case Wall:
-				res = newGround(x, y, config.getAutomaton(MyEntities.Ground));
-				/* TODO voir comment transmettre le crossable */
+				res = newWall(x, y, config.getAutomaton(MyEntities.Wall));
 				break;
 			case Ground:
 				res = newGround(x, y, config.getAutomaton(MyEntities.Ground));

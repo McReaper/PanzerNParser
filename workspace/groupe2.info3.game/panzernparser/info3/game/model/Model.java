@@ -224,6 +224,8 @@ public class Model {
 		} else if (e instanceof Vein) {
 			getEntities(MyEntities.Vein).remove(e);
 		} else if (e instanceof Ground) {
+			if(e.getCategory() == MyCategory.O)
+				getEntities(MyEntities.Wall).remove(e);
 			getEntities(MyEntities.Ground).remove(e);
 		} else if (e instanceof Marker) {
 			getEntities(MyEntities.Marker).remove(e);

@@ -182,18 +182,5 @@ public class TankBody extends MovingEntity {
 	public boolean GotPower() {
 		return m_tank.gotPower();
 	}
-	/*
-	 * vérifie si l'netité pickable donné en param est sous le tank elle vérifie
-	 * pour toutes les cases de l'objet à ramasser
-	 */
-	private boolean isPickable(Entity ent) {
-		for (int i = ent.getX(); i < ent.getX() + ent.getWidth(); i++) {
-			for (int j = ent.getY(); j < ent.getY() + ent.getHeight(); j++) {
-				if (this.isInMe(i, j)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+	
 }

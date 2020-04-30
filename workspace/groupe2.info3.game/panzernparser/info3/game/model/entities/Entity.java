@@ -197,6 +197,11 @@ public abstract class Entity {
 		return m_category;
 	}
 
+	public void setCategory(MyCategory category) {
+	m_category = category;
+	}
+
+	
 	public int getX() {
 		return m_x;
 	}
@@ -894,6 +899,21 @@ public abstract class Entity {
 		}
 	}
 
+	/*
+	 * vérifie si l'netité pickable donné en param est sous le tank elle vérifie
+	 * pour toutes les cases de l'objet à ramasser
+	 */
+	protected boolean isPickable(Entity ent) {
+		for (int i = ent.getX(); i < ent.getX() + ent.getWidth(); i++) {
+			for (int j = ent.getY(); j < ent.getY() + ent.getHeight(); j++) {
+				if (this.isInMe(i, j)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public boolean isInMe(int x, int y) {
 		int xL = m_x;
 		int xR = Model.getModel().getGrid().realX(m_x + m_width);

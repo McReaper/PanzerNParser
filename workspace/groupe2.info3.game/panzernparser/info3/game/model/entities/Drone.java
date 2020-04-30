@@ -75,7 +75,6 @@ public class Drone extends MovingEntity {
 			if (m_nbMarkers == MARKER_MAX)
 				Model.getModel().update(marker);
 			else {
-				Model.getModel().addEntity(marker);
 				m_nbMarkers++;
 			}
 			Model.getModel().cleanClue();

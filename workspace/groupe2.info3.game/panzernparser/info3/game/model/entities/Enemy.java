@@ -63,9 +63,6 @@ public class Enemy extends MovingEntity {
 
 			// Donne l'entité qui l'a tiré
 			((Shot) ent).setOwner(this);
-
-			// Ajoute l'entité au model
-			Model.getModel().addEntity(ent);
 		}
 	}
 
@@ -81,10 +78,7 @@ public class Enemy extends MovingEntity {
 			m_timeOfAction = DEFAULT_EGG_TIME;
 
 			// creation de la ressource a répendre
-			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);
-
-			// Ajoute l'entité au model
-			Model.getModel().addEntity(ent);
+			EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);//TODO si dir est diff de Here
 		}
 	}
 

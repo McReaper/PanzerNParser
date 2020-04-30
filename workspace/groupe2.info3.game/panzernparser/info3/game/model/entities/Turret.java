@@ -73,9 +73,6 @@ public class Turret extends MovingEntity {
 				
 				//Donne l'entité qui l'a tiré (ici le tankBody)
 				((Shot ) ent).setOwner(m_tank.getBody());
-				
-				//Ajoute l'entité au model
-				Model.getModel().addEntity(ent);
 			}
 	}
 

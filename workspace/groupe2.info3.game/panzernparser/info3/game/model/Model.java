@@ -72,7 +72,7 @@ public class Model {
 		// Génère la grille du jeu qui va créer a son tour toutes les entités et mettre
 		// la liste des entités à jour.
 		try {
-			m_grid = new Grid(this);
+			m_grid = new Grid();
 		} catch (UnexpectedException e) {
 			e.printStackTrace();
 			System.err.println("Impossible de créer la grille !");
@@ -214,29 +214,7 @@ public class Model {
 		return entities;
 	}
 
-	public void addEntity(Entity e) {
-		// TODO : peut etre opti avec la factory.
-		if (e instanceof Droppable) {
-			getEntities(MyEntities.Droppable).add(e);
-		} else if (e instanceof Drone) {
-			getEntities(MyEntities.Drone).add(e);
-		} else if (e instanceof Enemy) {
-			getEntities(MyEntities.Enemy).add(e);
-		} else if (e instanceof Vein) {
-			getEntities(MyEntities.Vein).add(e);
-		} else if (e instanceof Ground) {
-			getEntities(MyEntities.Ground).add(e);
-		} else if (e instanceof Marker) {
-			getEntities(MyEntities.Marker).add(e);
-		} else if (e instanceof Shot) {
-			getEntities(MyEntities.Shot).add(e);
-		} else if (e instanceof TankBody) {
-			getEntities(MyEntities.TankBody).add(e);
-		} else if (e instanceof Turret) {
-			getEntities(MyEntities.Turret).add(e);
-		} else {
-			throw new IllegalArgumentException("Entité non reconnue !");
-		}
+	public void addEntity() {
 		m_nbEntities++;
 	}
 
@@ -262,7 +240,7 @@ public class Model {
 		} else {
 			throw new IllegalArgumentException("Entité non reconnue !");
 		}
-		m_nbEntities++;
+		m_nbEntities--;
 	}
 
 	public int getNbEntities() {

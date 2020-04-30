@@ -595,10 +595,7 @@ public abstract class Entity {
 	}
 
 	public boolean GotPower() {
-		if (m_health > 0) {
-			return true;
-		}
-		return false;
+		return m_health > 0;
 	}
 
 	public boolean GotStuff() {

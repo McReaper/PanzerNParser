@@ -25,6 +25,7 @@ public class Tank {
 	private Turret m_turret;
 	private Inventory m_inventory;
 	private int m_health;
+	private int m_maxHealth;
 
 	public Tank(TankBody body, Turret turret) {
 		m_body = body;
@@ -32,6 +33,8 @@ public class Tank {
 		m_body.setTank(this);
 		m_turret.setTank(this);
 		m_inventory = new Inventory();
+		m_health = TANK_HEALTH;
+		m_maxHealth = TANK_HEALTH;
 	}
 
 	public boolean hasControl() {
@@ -78,6 +81,14 @@ public class Tank {
 	
 	public int getLife() {
 		return m_health;
+	}
+
+	public int getMaxLife() {
+		return m_maxHealth;
+	}
+	
+	public void setMaxLife(int maxLife) {
+		m_maxHealth = maxLife;
 	}
 
 	public void getDamages(int damages) {

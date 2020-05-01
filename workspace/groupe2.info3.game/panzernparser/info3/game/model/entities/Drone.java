@@ -36,7 +36,7 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_WAIT_TIME = 50;
 	public static final long DRONE_WIZZ_TIME = 1000;
 
-	public static final int DRONE_DAMMAGE_DEALT= 0;
+	public static final int DRONE_DAMMAGE_DEALT = 0;
 
 	private int m_nbMarkers;
 	private VisionType m_currentVisionType;
@@ -138,18 +138,39 @@ public class Drone extends MovingEntity {
 	}
 
 	@Override
+	public void Jump(MyDirection dir) {
+		if (m_actionFinished && m_currentAction == LsAction.Jump) {
+			switch (dir) {
+				case FRONT:
+					growViewPort();
+					break;
+				case BACK:
+					reduceViewPort();
+					break;
+				default:
+					break;
+			}
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			switch (dir) {
+				case FRONT:
+				case BACK:
+					m_currentActionDir = dir;
+					m_currentAction = LsAction.Jump;
+					m_timeOfAction = DRONE_JUMP_TIME;
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	@Override
 	public boolean Key(LsKey key) {
 		if (hasControl())
 			return super.Key(key);
 		return false;
-	}
-
-	public void growViewPort() {
-		m_range++;
-	}
-
-	public void reduceViewPort() {
-		m_range--;
 	}
 
 }

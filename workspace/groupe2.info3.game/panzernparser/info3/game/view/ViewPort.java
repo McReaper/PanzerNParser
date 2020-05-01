@@ -139,10 +139,7 @@ public class ViewPort {
 	}
 
 	public void paint(Graphics g, List<Avatar> lsAvatars) {
-		Entity play = Model.getModel().getPlayed();
-		if (m_player != play) {
-			setPlayer(play);
-		}
+		setPlayer(Model.getModel().getPlayed());
 		calcul();
 		positionViewPort();
 		offset(); // décalage due au mouve du tank

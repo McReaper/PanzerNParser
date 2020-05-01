@@ -9,7 +9,6 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Tank;
-import info3.game.model.entities.EntityFactory.MyEntities;
 
 /**
  * Chassis du tank
@@ -38,20 +37,20 @@ public class TankBody extends MovingEntity {
 	public static final long TANKBODY_WAIT_TIME = 50;
 	public static final long TANKBODY_WIZZ_TIME = 1000;
 
-	public static final int TANKBODY_DAMMAGE_DEALT= 100;
+	public static final int TANKBODY_DAMMAGE_DEALT = 100;
 
 	private Tank m_tank;
 
 	public TankBody(int x, int y, Automaton aut) {
 		super(x, y, TANKBODY_WIDTH, TANKBODY_HEIGHT, aut);
-		m_maxHealth=TANKBODY_HEALTH;
+		m_health = TANKBODY_HEALTH;
 		m_tank = null;
 		m_category = MyCategory.AT;
 		m_level = 1;
 		m_dammage_dealt = TANKBODY_DAMMAGE_DEALT;
 		m_speed = TANKBODY_SPEED;
 	}
-	
+
 	@Override
 	public void Move(MyDirection dir) {
 		if (m_tank.hasControl()) {
@@ -138,7 +137,7 @@ public class TankBody extends MovingEntity {
 						System.out.println("Dans l'inventaire il y a "
 								+ m_tank.getInventory().getQuantity(((Droppable) ent).getMType()) + " matériaux ");
 					}
-				} 
+				}
 			}
 			for (Entity ent : clues) {
 				// vérifie si le pickable est dans la zone notre tank
@@ -154,9 +153,9 @@ public class TankBody extends MovingEntity {
 
 	@Override
 	public void collide(int dammage) {
-		m_tank.setLife(m_tank.getLife() - dammage); 
+		m_tank.setLife(m_tank.getLife() - dammage);
 	}
-	
+
 	@Override
 	public boolean Key(LsKey key) {
 		if (m_tank.hasControl())
@@ -170,8 +169,13 @@ public class TankBody extends MovingEntity {
 	}
 	
 	@Override
+	public int getMaxHealth() {
+		return m_tank.getMaxLife();
+	}
+
+	@Override
 	public boolean GotPower() {
 		return m_tank.gotPower();
 	}
-	
+
 }

@@ -24,7 +24,7 @@ import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.Tank;
-import info3.game.model.Upgrades;
+import info3.game.model.Upgrade;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory.MyEntities;
@@ -61,7 +61,7 @@ public class HUD {
 	JLabel m_ammo;
 	CompassWidget m_compass;
 	JPanel m_upgrade;
-	Hashtable<Upgrades, JButton> m_availableUpgrades;
+	Hashtable<Upgrade, JButton> m_availableUpgrades;
 
 	public HUD(View view) {
 
@@ -263,7 +263,7 @@ public class HUD {
 		m_upgrade.setBorder(upgradeTitledBorder);
 		
 		//TODO implémenter un affichage dynamique pour les upgrade après avoir implémenté les upgrades
-		m_availableUpgrades=new Hashtable<Upgrades, JButton>();
+		m_availableUpgrades=new Hashtable<Upgrade, JButton>();
 				
 		// Création d'un premier bouton
 		JButton upgradeButton1 = new JButton("HP Max +100");

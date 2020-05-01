@@ -3,8 +3,14 @@ package info3.game.controller;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Iterator;
 
+import info3.game.GameMain;
 import info3.game.automaton.LsKey;
+import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.view.GameCanvasListener;
 import info3.game.view.View;
@@ -26,43 +32,81 @@ public class Controller implements GameCanvasListener {
 	public void tick(long elapsed) {
 		// a chaque tick on fait un pas de simulation, et donc met à jour le modèle.
 		m_model.step(elapsed);
+		if (!m_model.getSounds().isEmpty()) {
+			Iterator<String> iter = m_model.getSounds().iterator();
+			while (iter.hasNext()) {
+				String name = (String) iter.next();
+				loadMusic(name);
+			}
+			m_model.getSounds().removeAll(m_model.getSounds());
+		}
+	}
+
+	void loadMusic(String name) {
+		GameMain game = GameMain.getGame();
+		File file = game.getSounds().get(name);
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(file);
+			// TODO : IOOBE , demandez aux autres groupes.
+			m_view.m_canvas.play(name, fis, -1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
 	 * Méthode appelée par le GameCanvasListener, appelé par le GameCanvas.
 	 */
 	public void paint(Graphics g) {
-		m_view.refreshHUD();
+		m_view.m_HUD.refreshHUD();
 		m_view.paintCanvas(g);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		if (!m_model.isPlayingTank()) {
+			Coords c = new Coords(e.getX(), e.getY());
+			try {
+				c = m_view.toGridCoord(c);
+				m_model.addClue(c);
+			} catch (IllegalArgumentException ex) {
+				return; // On ne pose pas de marqueurs.
+			}
+		}
+	}
 
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_F11) {
+			//GameMain.getGame().goFullscreen(); // TODO : tobefixed
+		}
+		LsKey temp = toLsKey(e);
+		m_model.addKeyPressed(temp);
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		LsKey temp = toLsKey(e);
+		m_model.removeKeyPressed(temp);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -82,19 +126,6 @@ public class Controller implements GameCanvasListener {
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		System.out.println("Une touche!!");
-		LsKey temp = toLsKey(e);
-		m_model.addKeyPressed(temp);
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		LsKey temp = toLsKey(e);
-		m_model.removeKeyPressed(temp);
 	}
 
 	@Override

@@ -4,13 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
-import java.io.File;
-import java.util.Iterator;
 import java.util.LinkedList;
-
+import info3.game.GameConfiguration;
 import info3.game.controller.Controller;
+import info3.game.model.Grid;
+import info3.game.model.Grid.Coords;
+import info3.game.model.MaterialType;
 import info3.game.model.Model;
-import info3.game.model.entities.Entity;
+import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class View extends Container {
 
@@ -18,43 +19,81 @@ public class View extends Container {
 	public GameCanvas m_canvas;
 	Controller m_controller;
 	Model m_model;
-	LinkedList<Avatar> m_avatars;
-	// AvatarFactory m_factory;
+	LinkedList<Avatar> m_avatars;// type d'avatar
+	ViewPort m_viewPort;
+	public HUD m_HUD;
+	public LinkedList<MyEntities> orderEntities;
 
 	public View(Controller controller, Model model) {
 		// créer la fenetre de jeu avec les bandeaux d'updrage et le canvas.
 		m_controller = controller;
 		m_model = model;
 		m_canvas = new GameCanvas(m_controller);
-		this.setLayout(new BorderLayout());
-		this.add(m_canvas, BorderLayout.CENTER);
+		orderEntities = new LinkedList<MyEntities>();
+		m_HUD = new HUD(this);
+		BorderLayout BL = initiateHUD();
+
+		this.setLayout(BL);
 		m_avatars = new LinkedList<Avatar>();
-		updateAvatars();
+		initAvatars();
+		m_viewPort = new ViewPort(m_model.getPlayed(), this);
 	}
 
-	public void refreshHUD() {
-		// TODO met à jour l'ATH de l'interface de jeu en fonction du modèle.
+	/*
+	 * liste d'avatar devient une liste d'avatar representant une categorie d'entité
+	 * au lieu du nombre d'entité
+	 */
+	private void initAvatars() {
+		GameConfiguration config = GameConfiguration.getConfig();
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Ground)));
+		orderEntities.add(MyEntities.Ground);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Vein)));
+		orderEntities.add(MyEntities.Vein);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Droppable)));
+		orderEntities.add(MyEntities.Droppable);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Wall)));
+		orderEntities.add(MyEntities.Wall);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Shot)));
+		orderEntities.add(MyEntities.Shot);
+		m_avatars.add(new EnemyAvatar(config.getAnimation(MyEntities.Enemy)));
+		orderEntities.add(MyEntities.Enemy);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Marker)));
+		orderEntities.add(MyEntities.Marker);
+		m_avatars.add(new TankBodyAvatar(config.getAnimation(MyEntities.TankBody)));
+		orderEntities.add(MyEntities.TankBody);
+		m_avatars.add(new TurretAvatar(config.getAnimation(MyEntities.Turret)));
+		orderEntities.add(MyEntities.Turret);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Drone)));
+		orderEntities.add(MyEntities.Drone);
 	}
 
-	private void updateAvatars() {
-		boolean mustRebuild = false;
-		if (m_model.getEntities().size() != m_avatars.size())
-			mustRebuild = true;
-		Iterator<Entity> iter_ent = m_model.getEntities().iterator();
-		Iterator<Avatar> iter_avt = m_avatars.iterator();
-		// TODO : optimisation -- revoir cette boucle pour la mise a jour des avatars.
-		while (!mustRebuild && iter_ent.hasNext() && iter_avt.hasNext()) {
-			Entity entity = iter_ent.next();
-			Avatar avatar = iter_avt.next();
-			if (entity != avatar.m_entity)
-				mustRebuild = true;
-		}
-		if (mustRebuild) {
-			m_avatars = new LinkedList<Avatar>();
-			for (Entity entity : m_model.getEntities()) {
-				m_avatars.add(AvatarFactory.newAvatar(entity));
-			}
-		}
+
+	public BorderLayout initiateHUD() {
+		BorderLayout BL = new BorderLayout();
+		BL.addLayoutComponent(m_canvas, BorderLayout.CENTER);
+		this.add(m_canvas);
+
+		BL.addLayoutComponent(m_HUD.m_West, BorderLayout.WEST);
+		BL.addLayoutComponent(m_HUD.m_East, BorderLayout.EAST);
+
+		this.add(m_HUD.m_East);
+		this.add(m_HUD.m_West);
+
+		return BL;
+	}
+
+	public Coords toGridCoord(Coords c) throws IllegalArgumentException {
+		Grid g = Model.getModel().getGrid();
+		if (!m_viewPort.isInViewport((int)c.X, (int)c.Y))
+			throw new IllegalArgumentException("Clic dans la zone noire !");
+		int Rx, Ry;
+		double offX = c.X + m_viewPort.getOffsetX() - m_viewPort.getOffsetWindowX();
+		double offY = c.Y + m_viewPort.getOffsetY() - m_viewPort.getOffsetWindowY();
+		offX = offX / m_viewPort.getCaseWidth();
+		offY = offY / m_viewPort.getCaseHeight();
+		Rx = m_viewPort.getX() + 2 + (int) offX;
+		Ry = m_viewPort.getY() + 2 + (int) offY;
+		return new Coords(g.realX(Rx), g.realY(Ry));
 	}
 
 	/**
@@ -64,25 +103,10 @@ public class View extends Container {
 		int width = m_canvas.getWidth();
 		int height = m_canvas.getHeight();
 
-		// Dessin précaire de la grille :
-		int nb_cells_X = m_model.getGrid().getNbCellsX();
-		int nb_cells_Y = m_model.getGrid().getNbCellsY();
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, width, height);
 
-		int case_width = width / nb_cells_X;
-		int case_height = height / nb_cells_Y;
-
-		g.setColor(Color.LIGHT_GRAY);
-		for (int x = 1; x < nb_cells_X; x++)
-			g.drawLine(x * case_width, 0, x * case_width, height);
-		for (int y = 1; y < nb_cells_Y; y++)
-			g.drawLine(0, y * case_height, width, y * case_height);
-
-		updateAvatars();
-		for (Avatar avatar : m_avatars) {
-			avatar.paint(g, case_width, case_height); // TODO : revoir la zone avec le viewport plus tard.
-		}
+		m_viewPort.paint(g, m_avatars);
 	}
 
 }

@@ -1,15 +1,35 @@
-TankCanon(Init){
+Turret(Init){
 *(Init)
-	|Key(FU) & Key(FR) ? Turn(NE) : (Init)
-	|Key(FD) & Key(FR) ? Turn(SE) : (Init)
- 	|Key(FD) & Key(FL) ? Turn(SW) : (Init)
-	|Key(FU) & Key(FL) ? Turn(NW) : (Init)
-	|Key(FU) ? Turn(N) : (Init)
-	|Key(FR) ? Turn(E) : (Init)
-	|Key(FD) ? Turn(S) : (Init)
-	|Key(FL) ? Turn(W) : (Init)
-	|Key(SPACE) ? Hit : (Init)
-	|Key(r) ? Pop() : (Init)
-	|Key(f) ? Wizz() : (Init)
+	|Key(SPACE) ? Hit(F) : (Init)   
+	|Key(FD) ? Pop() : (Init)
 	
+	|Key(FR) ? Turn(R) : (Init)
+	|Key(FL) ? Turn(L) : (Init)
+	
+	|True ? Wait : (Init)
+}
+
+Turret(Init){
+*(Init)
+	|Key(SPACE) ? Hit(F) : (Init)   
+	
+	|Key(FU) & Key(FR) & !MyDir(NE) ? Turn(NE) : (Init)
+	|Key(FU) & Key(FR) & MyDir(NE) ? : (Init)
+	|Key(FD) & Key(FR) & !MyDir(SE) ? Turn(SE) : (Init)
+	|Key(FD) & Key(FR) & MyDir(SE) ? : (Init)
+	|Key(FD) & Key(FL) & !MyDir(SW) ? Turn(SW) : (Init)
+	|Key(FD) & Key(FL) & MyDir(SW) ? : (Init)
+	|Key(FU) & Key(FL) & !MyDir(NW) ? Turn(NW) : (Init)
+	|Key(FU) & Key(FL) & MyDir(NW) ? : (Init)
+	
+	|Key(FR) & !MyDir(E) ? Turn(E) : (Init)
+	|Key(FR) & MyDir(E) ? : (Init)
+	|Key(FD) & !MyDir(S) ? Turn(S) : (Init)
+	|Key(FD) & MyDir(S) ? : (Init)
+	|Key(FL) & !MyDir(W) ? Turn(W) : (Init)
+	|Key(FL) & MyDir(W) ? : (Init)
+	|Key(FU) & !MyDir(N) ? Turn(N) : (Init)
+	|Key(FU) & MyDir(N) ? : (Init)
+	
+	|True ? Wait : (Init)
 }

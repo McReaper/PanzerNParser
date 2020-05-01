@@ -54,5 +54,332 @@
 
 ---
 
+# JOURNAL du Vendredi 17 avril
+
+## Planning du jour
+
+- Réajustement des fichiers `.gal` + complétion des fichiers manquants pour certaines entités (comme le tir du canon)
+- Etude rapide du parser pour comprendre comment analyser un Objet Java AST.
+- Début d'implémentation des classes essentielles à AutBuilder.java qu'on devra implémenter plus tard
+- Début d'implémentation du MVC sur la branche `mvc` à partir de la branche `dev`
+
+## Répartition des tâches
+
+- `B/M` expliquent au reste de l'équipe le rôle et le fonctionnement du parser.
+- `V/JT/B>` Partie MVC, création des premières classes essentielles pour fournir une base de développement au reste de l'équipe (**devra incorporer la partie Automate plus tard**)
+- `E/M/S>` Partie Automate, création d'un premier diagramme de classe que **AutBuilder.java** devra respecter
+
+## Remarques :
+
+- `E>` a developpé un fichier `.gal` pour le tank et mis à jour celui du chassis suite aux conseils du tuteur.
+- Par rapport à la dernière refléxion de `V & B` (*lol, VnB*) : Le view se fait repaint grâce à lui-même (FPS) -> voir comment gérer ça dans le code
+
+## Réflexion en cours
+
+- `V/B>` Comment gérer le timer de **Model.java**- Retravailler sur le modèle/vue/contrôleur
+- Retravailler sur AutBuilder et la classe Automaton
+- Essayer une fusion des deux travaux (au moins avec les classes vides) ?
+- L'utilisation de l'interface **IVisitor.java** du parser Java reste un peu flou de notre point de vue. Sachant que AutBuilder devra en hériter, c'est embétant.
+
+---
+
+# JOURNAL du Samedi 18 Avril
+
+## Planning du jour
+
+- Retravailler sur le modèle/vue/contrôleur et mettre au claire les zones de flou (les timers, la view, les avatars).
+- Retravailler sur AutBuilder et la classe Automaton, créer toutes les classes du automaton vides, puis en implémenter certaines pour faire fonctionner un petit exemple d'automate sans le parser.
+- Essayer une fusion des deux travaux (au moins avec les classes vides).
+
+## Répartition des tâches
+
+- `B/JT/V>` Regler toutes les zones d'ombres du MVC, sur les timer, les ticks, les repaints, les avatars.
+Continuer de travailler sur la partie MVC pour avoir une version très simple d'une fenêtre qui s'affiche.
+- `E/M/S>` Implémenter les classes vides des automates, implémentations de certaines classes pour faire fonctionner un petit automate sans parser.
+- `M>` Début et avancement de l'implémentation du botBuilder qui instancie les automates à partir de l'AST.
+- `B/M/S/JT/E/V>` Revue du code des autres membres, commentaires et questions pour comprendre. Correction une fois les commentaires lus et les questions soulevées par ceux ci résolues avec le groupe.
+
+## Remarques :
+
+- `JT>` Avancement dans la composition de musique pour le jeu. <\3
+- Toutes l'équipe n'était pas présente toute la journée. Nottamment `Jean-Théophane` Et `Bertrand` ont dû s'absenter dans l'après midi.
+
+## Rélfexion en cours
+
+- Les Avatar doivent ils gérer eux même les séquences d'images ou se référer à une classe animation ?
+
+---
+
+# JOURNAL du Lundi 20 Avril
+
+## Planning du jour
+
+- Corrections des bugs dans les classes du package automaton suite aux revus de code + amélioration de la classe `AutomatonMain.java` pour pousser les tests sans utiliser le parser
+- Correction et Amélioration de `BotBuilder.java` (paix aux groupes qui n'ont pas implémenté IVisitor), qui implémente beaucoup mieux IVisitor.
+
+## Répartition des tâches
+
+- `Cyance>` Revue de code croisée.
+- `E>` Amélioration et implémentation de tests plus détaillés pour `AutomatonMain.java`, qui effectue des tests avec des objets que pourrait génèrer `BotBuilder.java` depuis l'AST.
+- `M>` Améliorations et corrections de quelque lignes de code dans `BotBuilder.java` suite aux revues de codes du groupe
+- `V/B>` Mise à plat des tâches pouvant être réalisées si tôt dans le projet.
+- `V/E>` Affichage d'un premier sprite animé dans la vue grâce a la classe Avatar.
+- `B>` Implémentation du côté aléatoire de la méthode `execute()` de `Action.java`
+- `B/S>` Génération de la grille dans `Grid.java` depuis des fichiers pattern
+- `JT + Aide M>` Implémentation de Move et Turn dans `Entity.java` et de la gestion des mouvement sans les automates depuis le controleur sur une entité à l'écran.
+- `M>` Merge de plusieurs branche pour mettre a jour l'automate. Correction de plusieurs fichier `.gal`, surtout au niveau de la syntaxe.
+- `M>` Aujout de la liste des automates dans le model.
+
+## Remarques :
+
+- Le travail du jour a été très productif, les tâches sont bien réparties, nous alternerons les rôles attribués sur certaine tâche le lendemain pour que chacun touche à quelque chose. (*L'idée serait de garder une personne déjà présente sur une tâche pour aider a la transition sans perdre trop de temps*)
+
+## Rélfexion en cours
+
+- Les Avatar doivent ils gérer eux même les séquences d'images ou se référer à une classe Animation pour une certaine action en cours (Pop/Wizz/...) ? (dans les deux cas on se base sur la description des fichiers .ani pour une entité)
+
+---
+
+# JOURNAL du Mardi 21 Avril
+
+## Planning du jour
+
+- Retour sur les revues de codes croisées (discussion comme d'habitude)
+- Finir l'implém de la grille et la connecter au model.
+- Travailler sur les automates pour commencer à implémenter une intéraction avec les entités.
+- Travailler sur la vue pour implémenter les premières animations à l'écran en fonction de la progression d'une action d'une entité.
+
+## Répartition des tâches
+
+- `Cyance>` Discussion sur la dernière revue de code croisée.
+- `E/V>` Travail sur la vue et début d'implem des classes Avatar sans classes d'animation -> l'animation s'adapte en fonction de la progression de l'action de l'ntité dans son action courante.
+- `V>` Développement de la classe Animation qui se base sur le contenu des fichiers .ani listés dans le fichier de configuration.
+- `V/B/M>` Finissions sur les classes d'Avatar pour prendre compte des ficheirs de config, début d'un aspect concret pour les animations.
+- `B>` Liaison de la grille au modèle (liste des entités)
+- `B/S>` Finissions de qq détails sur la grille
+- `JT/S/M/E>` Implémentations des premières intéraction entre automate et modèle.
+- `JT>` Complétion de la gestions des touches (ajout/suppression dans une liste) depuis le contrôleur vers le modèle et dans le modèle
+- `M>` Modification des fichiers .gal ayant une syntaxe erronée.
+- `Cyance>` Revue de code croisée.
+
+## Remarques :
+
+- Le travail du jour a été très productif, les tâches sont bien réparties, nous alternerons les rôles attribués sur certaine tâche le lendemain pour que chacun touche à quelque chose. (*L'idée serait de garder une personne déjà présente sur une tâche pour aider a la transition sans perdre trop de temps*)
+
+## Pour après
+
+- Généraliser grâce à une classe les temps des actions pour aléger le code par entité.
+- Commencer à implémenter un gestionnaire de physique (pour les collisions par exemple) dans le modèle ou dans certaines entités.
+- Afficher les déplacements/rotations de manière progressifs dans la vue et non pas instentanément.
+- Continuer de travailler sur l'interaction entre les automates et les entités
+
+---
+
+# JOURNAL du Mercredi 22 Avril
+
+## Planning du jour
+
+- Compréhension du code des Avatars et de GameConfiguration (une classe qui parse un fichier de config pour associer aux entités un comportement (.gal) et une animation (.ani))
+- Implémentation de déplacements fluide entre deux cases en fonction de la progression de l'entité dans son move
+- Début de certains sprite pour l'aspect graphique du jeu.
+- Allégement des classes filles d'Entity quant aux corps des fonctions `step()` et `getActionProgress()`
+
+## Répartition des tâches
+
+- `Cyance>` *Est-ce que quelqu'un lit ce journal ?*
+
+---
+
+# JOURNAL du Jeudi 23 Avril
+
+**Jour de pause après une mise a plat du code et d'un push sur master**
+
+## Remarques :
+
+- Il va falloir commencer à penser à l'interface utilisateur (pour un accueil ou une fois dans le jeu)
+
+## Pour après
+
+- Avancer les Sprites/Automates/...
+- Commencer à implémenter le comportement des entités dans le modèle
+- Implémenter les fonctions `Move`, `Cell` & `Closest` dans Entity et effectuer des tests pour que les comportements soit ceux d'un Tore (à la pacman).
+- Voir la suite dans le planning de Vendredi.
+
+---
+
+# JOURNAL du Vendredi 24 Avril
+
+## Planning du jour
+
+- Pas de planning prévu à l'avance ce jour là. Les décisions ont été prises le matin même et ont donné la répartition des tâches ci-dessous.
+
+## Répartition des tâches
+
+- `M>` Implémentation du ViewPort.
+- `E>` Implémentation de la classe tank, d'un moyen de générer le tank sur la map via la grid,
+mise en place de la coordination tank-tourelle.
+- `E/V>` Implémentation des mécanismes pour l'implémentation de cell et closest.
+- `B>` Implémentation de la classe chassisAvatar et création des sprites nécéssaires.
+- `JT>` Utilisation de swing pour commencer à implémenter du HUD.
+- `S>` Optimisation de la liste des entités, via la conversion de celle-ci en HashMap avec le type d'entité pour clé.
+- `Cyance>` Revues de code croisées de ce qui a été fait aujourd'hui.
+
+## Remarques :
+
+- Le travail du jour a été pour la plupart des tâches laborieux, beaucoup de formule mathématiques, exploration de nouvelles fonctionnalités de java, création de nombreuses sprites, etc... Il n'en reste pas moins que l'équipe a avancé sur beaucoup de champs en même temps et a aquis des outils qui permettront d'avancer plus vite dans les prochains jours.
+
+## Réflexions en cours :
+- Comment faire fonctionner efficacement l'affichage en bord de map ?
+- Comment optimiser la gestion de la liste des avatars ?
+- Comment imprimer les avatar dans un ordre selon le type d'entité ?
+- Choisir le design pour l'HUD (propositions existantes mais à délibérer).
+
+## Pour après
+
+- `Continuité travail de B/E>` Finaliser le lien entre tourelle et tank, notamment l'aspect graphique. (transition entre deux cases)
+- `Continuité travail de M>` Incorporer le ViewPort dans la View, la faire fonctionner, se questionner sur l'affichage des bords de map.
+- `Continuité travail de E>` Implémentation du drone et de la transition entre les deux mondes.
+- `Continuité travail de S>` Faire fonctionner l'affichage des entités dans un certain ordre.
+Mieux géré la génération des avatars.
+- `Continuité travail de V>` Faire fonctionner le Cell et Closest pour faire fonctionner des automates plus compliqués.
+- `Continuité travail de JT>` Continuer d'avancer dans le HUD.
+
+---
+
+# JOURNAL du Samedi 25 Avril
+
+## Planning du jour
+
+- Avancer l'implémentation du Drone et du Tank
+- Avancer l'ATH
+- Implémenter un viewport fonctionnel
+- Implémenter la fonction Closest & Cell
+
+## Répartition des tâches
+
+- `JT>` Etude de l'ATH avec la bibliothèque Swing.
+- `S>` Finissions des modifications des listes d'entités dans le modèle.
+- `E>` Mise a jour de la vue qui fait suivre le corps du tank et son canon.
+- `E/S>` Ajustement du Move des entités pour prendre compte le Tore grâce au modèle. Première version du drone et du tank et de leur transition en appuyant sur une touche.
+- `B>` Création de TurretAvatar + Modularisation des move + Aide sur les mouvemnt du tank à Emilie.
+- `B/M>` Travail sur l'implémentation de la classe Viewport et d'une première version fonctionnelle qui prend en compte le Tore.
+- `V>` Implem de Closest (> *c'était vraiment pas simple, j'essairai d'expliquer le fonctionnement du code à la team*).
+- `Cyance>` Lecture des revues de code croisées de la veille.
+
+## Remarques :
+
+- Le travail du jour a été productif malgré les difficultés mathématiques et logiques sur certaines tâches. Il faudra fusionner le travail dès demain en regardant ce que l'on garde ou non.
+
+## Réflexions en cours :
+- **Vaut-il mieux utilisé Java AWT ou Swing ?**
+- Choisir le design pour l'HUD (propositions existantes mais à délibérer).
+- Comment gérer le passage du drone au tank et inversement ? (saisis des touches, ...) Sans garder le contrôle sur les deux entités.
+- 
+
+## Pour après
+
+- `Continuité travail de JT>` Revoir si swing est un bon choix, peut etre checké AWT. 
+- `Continuité travail de S>` Merge avec dev
+- `Continuité travail de E>` Merge avec dev
+- `Continuité travail de E/S>` Debug + merge.
+- `Continuité travail de B>` Merge
+- `Continuité travail de V>` Merge, puis s'attaquer a la fonction cell.
+- `Continuité travail de B/M>` Debug + merge
+
+---
+
+# JOURNAL du Lundi 27 Avril 
+
+## Planning du jour 
+
+- Continuer le travail commencé le week-end et tenter un merge du tout.
+
+## Répartition des tâches 
+
+- `M>` implémentation de la classe inventory et mise à jour des droppable
+- `E/V>`transition du drone au tank, modification de divers fonctionnalités liées au drone et au tank
+- `B>` Modification des classes Avatar, correction du Viewport et implémentation de Cell de Entity.
+- `JT>` Implémentation de dev.ATH, ajout de lisibilité et restructuration du code lié à l’ATH.
+- `S>` Implémentation des markers pou le drone et ajout de la gestion de la souris.
 
 
+## Remarques : 
+
+- Le travail du jour a été efficace dans l’ensemble, chacun a pu avancer sur son travail tout en faisant avancé le projet. Des bugs sont apparus lors du merge sur dev ce qui a permis de revisité et corrigé le code afin d’apporter fluidité et lisibilité à celui-ci. L’intervention du tuteur a permis de débloquer le groupe sur l’ATH qui représentait jusque là une difficulté certaine.
+
+## Pour après 
+
+- `Continuité travail de B/JT>` avoir un bel ATH opérationnel.
+- Optimisation du doTurn
+- Interaction entre les entités
+- Complétion des Pop/Wizz/Hit de chaque entité
+- Créer plus de fichiers graphiques et sprites 
+- Faire fonctionner l'affichage des entités dans un certain ordre.
+- `S>` restructuré la classe marker et model ainsi que l’affichage des 	markers dans la view.
+- (peut être pas demain) Penser une implémentation pour les upgrades
+
+## Répartition des tâches 
+- `Cyance>` A votre bon cœur. A voir demain
+
+# JOURNAL du Mardi 28 Avril 
+
+## Planning du jour 
+
+- Interaction des entités entre elles
+- créer plus de sprites
+- terminé les features non achevées de la veille
+
+## Répartition des tâches 
+
+- `M>` implementation du nouveau viewPort et changement visuel lorsque on change de monde
+- `E>`Implementation de Shots et interaction des entités entre elles et gestion des collisions
+- `V>` création de sprites et modification de l'ATH
+- `B>` implementation de l'ATH et creation d'un Widget Boussole indiquant les markers
+- `JT>` Implementation ATH et creation de sprites. Implementation de son pour le jeu
+- `S>` Completion du marker et des avatars liés au marker. 
+- `V/S/M>` tentaive de modification du calcul de coordonnées pour l'affichage des markers
+
+## Remarques : 
+
+Pas de remarques particulières. Toujours quelques difficultés sur l'ATH mais celui-ci devient de plus en plus familié. Chaque feature a bien progressé, il va falloir faire un merge prochainement. Prendre en compte les retours du prof pour les animations (ex : le move)
+
+## Pour après 
+
+- Perfectioner l'ATH
+- Implementation des ennemis
+- Des sprites pour ennemis et drone
+- Vision du drone
+
+## Répartition des tâches 
+- `Cyance>` A votre bon cœur. A voir demain
+
+# JOURNAL du Mercredi 29 Avril
+
+## Planning du jour
+
+- Drop des ennemies implémentation et la récupération des drops
+- Système des pooints de vie mis en place
+- Interraction entre les entités partiellement implémenté
+- Gestion de la vision du drone
+- Implémentation d'un menu
+- Implémentation d'un ATH dynamique
+
+## Répartition des tâches
+
+- `M>` Ajout de l'effet de tore pour les colisions et closest
+- `M/V>` Debug général du code, gestion de la vision du drone.
+- `JT>` Dessin de sprites enemy en mode vision thermique et en diagonal, implémentation d'un ATH dynamique
+- `E>` Implémentation de features pour les ennemies : Drop, automate, colision (avec Sami). Ainsi le Tank : Ramassage des droppable et mise à jour de l'inventaire.
+- `B>` Implémentation d'un menu, modification de Cell, getGridCoord, et de Marker(avec Sami). Ainsi que dessins de sprite
+- `V>` Mise à jour de Closest, Merge des branchs
+- `S>` Mise à jour du contrat, travail sur les Marker (avec Bertrand), travail sur les colisions (avec Emilie)
+
+## Remarques :
+
+Problème potentiel sur la gestion de la grille.
+
+## Pour après :
+
+- Réfléchir à une éventuelle refonte de la grille.
+- Implémenter les amélioration
+- Perfectionner ENCORE l'ATH

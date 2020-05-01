@@ -76,7 +76,7 @@ public class Enemy extends MovingEntity {
 			m_actionFinished = false;
 			m_currentAction = null;
 			// creation de la ressource a répendre
-			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);
+			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x, m_y);
 			int rand = (int) (Math.random() * (20 - 1));// 20 correspond au nombre max de ressource dispo et 1 le min
 			((Droppable) ent).setQuantity(rand);
 		} else if (m_currentAction == null) {

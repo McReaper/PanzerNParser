@@ -39,6 +39,7 @@ public class TankBody extends MovingEntity {
 	public static final long TANKBODY_WIZZ_TIME = 1000;
 
 	public static final int TANKBODY_DAMMAGE_DEALT= 100;
+	private static final MyDirection NORTH = null;
 
 	private Tank m_tank;
 
@@ -66,8 +67,62 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Pop(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
+			
+			//recup de la case sur laquelle on creuse
+			int posX = 0;
+			int posY =0;
+			MyDirection AbsoluteDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
+			switch (AbsoluteDir) {
+				case NORTH:
+					posX = m_x + (m_width -1)/2;//ce sera un peu décalé vers la gauche si m_width est pair
+					posY = m_y -1;
+					break;
+				case SOUTH : 
+					posX = m_x + (m_width -1)/2;//ce sera un peu décalé vers la gauche si m_width est pair
+					posY = m_y + m_width;
+					break;
+				case EAST : 
+					posX = m_x + m_width;
+					posY = m_y + (m_height -1)/2;//ce sera un peu décalé vers le haut si m_height est pair
+					break;
+				case WEST : 
+					posX = m_x - 1;
+					posY = m_y + (m_height -1)/2;//ce sera un peu décalé vers le haut si m_height est pair
+					break;
+				case NORTHEAST:
+					posX = m_x + m_width;
+					posY = m_y -1;
+					break;
+				case SOUTHEAST:
+					posX = m_x + m_width;
+					posY = m_y + m_height;
+					break;
+				case NORTHWEST:
+					posX = m_x -1;
+					posY = m_y -1;
+					break;
+				case SOUTHWEST:
+					posX = m_x -1;
+					posY = m_y + m_height;
+					break;
+			}
+			LinkedList<Entity> entities = Model.getModel().getGrid().getEntityCell(posX, posY);
+			for (Entity ent : entities) {
+				if ( ent instanceof Vein) {
+					System.out.println("je creuse sur une vein");
+					//creation de la droppable lorsqu'on a fini de creuser
+						Model.getModel().getGrid().removeEntity(ent);//suppression de l'entitté de la grid
+						Model.getModel().removeEntity(ent);//suppresion de la vein dans la liste d'ent du model
+					
+						Entity drop = EntityFactory.newEntity(MyEntities.Droppable, posX, posY);
+						((Droppable) drop).setQuantity(10);//TODO a mettre dans une variable
+					}
+			}
+
 			m_actionFinished = false;
 			m_currentAction = null;
+			
+			
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;

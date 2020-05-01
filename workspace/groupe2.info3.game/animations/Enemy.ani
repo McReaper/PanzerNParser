@@ -1,6 +1,6 @@
 sprite_sheet1 = EnemyTank.png
 sprite_sheet2 = EnemyThermic.png
-sprite_sheet3 = GenericTest.png
+sprite_sheet3 = EnemyTank.png
 Hit_NORTH = 9,10,11,12
 Hit_NORTHEAST = 25,26,27,28
 Hit_EAST = 5,6,7,8

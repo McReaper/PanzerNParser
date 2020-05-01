@@ -192,7 +192,7 @@ public class Grid {
 	public LinkedList<Entity> getEntityCells(int x, int y, int w, int h) {
 		LinkedList<Entity> entity = new LinkedList<Entity>();
 		for(int i = 0; i < w; i++) {
-			for(int j = 0; j < w; j++) {
+			for(int j = 0; j < h; j++) {
 				entity.addAll(getEntityCell(x + i, y + j));
 			}
 		}

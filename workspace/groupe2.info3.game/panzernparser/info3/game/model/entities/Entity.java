@@ -56,6 +56,7 @@ public abstract class Entity {
 	protected int m_health;
 	protected int m_dammage_dealt;
 	protected int m_speed;
+	protected LinkedList<MyCategory> m_uncrossables;
 
 	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
@@ -78,7 +79,9 @@ public abstract class Entity {
 
 		m_currentLookAtDir = MyDirection.NORTH; // par défaut
 		m_currentActionDir = null; // par défaut
-
+		m_uncrossables = new LinkedList<MyCategory>();
+		m_uncrossables.add(MyCategory.AT);// Tank jamais traversable
+		m_uncrossables.add(MyCategory.O);// Mur pas traversable mais eventuellement destructible
 		m_dammage_dealt = DEFAULT_DAMMAGE_DEALT;
 
 	}
@@ -317,7 +320,7 @@ public abstract class Entity {
 				case NORTHWEST:
 				case SOUTHEAST:
 				case SOUTHWEST:
-					m_timeOfAction = (long)(Math.sqrt(2) * m_speed);
+					m_timeOfAction = (long) (Math.sqrt(2) * m_speed);
 				default:
 					break;
 			}
@@ -477,6 +480,148 @@ public abstract class Entity {
 			return m_currentLookAtDir.equals(dir);
 		}
 		return false;
+	}
+
+	boolean checkMove(MyDirection dir) {
+		Grid grid = Model.getModel().getGrid();
+		int x = m_x;
+		int y = m_y;
+
+		switch (dir) {
+			case NORTH:
+				for (int i = 0; i < this.getWidth(); i++) {
+					x = x + i;
+					y = y - 1;
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case EAST:
+				for (int i = 0; i < this.getHeight(); i++) {
+					x = x + getWidth();
+					y = y + i;
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case WEST:
+				for (int i = 0; i < this.getHeight(); i++) {
+					x = x - 1;
+					y = y + i;
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case SOUTH:
+				for (int i = 0; i < this.getWidth(); i++) {
+					x = x + i;
+					y = y + getHeight();
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case NORTHEAST:
+				/*case du nord*/
+				for (int i = 1; i < this.getWidth(); i++) {
+					x = x + i;
+					y = y - 1;
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				/*case à l'est + la case diago*/
+				for (int i = -1; i < this.getHeight(); i++) {
+					x = x + getWidth();
+					y = y + i;
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case NORTHWEST:
+				/*case du nord*/
+				for (int i = 1; i < this.getWidth(); i++) {
+					x = x + i;
+					y = y - 1;
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				/*case à l'est + la case diago*/
+				for (int i = -1; i < this.getHeight(); i++) {
+					x = x + getWidth();
+					y = y + i;
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case SOUTHEAST:
+				/*cases du sud*/
+				for (int i = 0; i < this.getWidth(); i++) {
+					x = x + i;
+					y = y + getHeight();
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				/*cases à l'est + la case diago*/
+				for (int i = 1; i < this.getHeight()+1; i++) {
+					x = x + getWidth();
+					y = y + i;
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case SOUTHWEST:
+				/*cases du sud*/
+				for (int i = 0; i < this.getWidth(); i++) {
+					x = x + i;
+					y = y + getHeight();
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				/*cases à l'ouest + la case diago*/
+				for (int i = 1; i < this.getHeight() + 1; i++) {
+					x = x - 1;
+					y = y + i;
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+		}
+		return true;
 	}
 
 	/**

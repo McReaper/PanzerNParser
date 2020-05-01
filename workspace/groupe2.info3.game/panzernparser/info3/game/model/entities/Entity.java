@@ -954,6 +954,54 @@ public abstract class Entity {
 		}
 		return inX && inY;
 	}
+	
+	public int getXCaseDir(MyDirection dir) {
+		int posX = 0;
+		MyDirection AbsoluteDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
+		switch (AbsoluteDir) {
+			case NORTH:
+			case SOUTH : 
+				posX = m_x + (m_width -1)/2;//ce sera un peu décalé vers la gauche si m_width est pair
+				break;
+			case EAST : 
+			case NORTHEAST:
+			case SOUTHEAST:
+				posX = m_x + m_width;
+				break;
+			case WEST : 
+			case NORTHWEST :
+			case SOUTHWEST :
+				posX = m_x - 1;
+				break;
+		}
+		return posX;
+		
+	}
+	
+	public int getYCaseDir(MyDirection dir) {
+		int posY =0;
+		MyDirection AbsoluteDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
+		switch (AbsoluteDir) {
+			case NORTH:
+			case NORTHEAST:
+			case NORTHWEST:
+				posY = m_y -1;
+				break;
+			case SOUTH :
+			case SOUTHEAST : 
+			case SOUTHWEST :
+				posY = m_y + m_width;
+				break;
+			case EAST : 
+				posY = m_y + (m_height -1)/2;//ce sera un peu décalé vers le haut si m_height est pair
+				break;
+			case WEST : 
+				posY = m_y + (m_height -1)/2;//ce sera un peu décalé vers le haut si m_height est pair
+				break;
+		}
+		return posY;
+		
+	}
 
 	public boolean Key(LsKey m_key) {
 		return (Model.getModel().getKeyPressed().contains(m_key));
@@ -971,6 +1019,8 @@ public abstract class Entity {
 		return m_level;
 	}
 
-	public abstract boolean GotPower();
+	public boolean GotPower() {
+		return m_health >0;
+	}
 
 }

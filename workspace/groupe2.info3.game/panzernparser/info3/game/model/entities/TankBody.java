@@ -30,7 +30,7 @@ public class TankBody extends MovingEntity {
 	public static final long TANKBODY_EXPLODE_TIME = 1000;
 	public static final long TANKBODY_MOVE_TIME = 800;
 	public static final long TANKBODY_PICK_TIME = 50;
-	public static final long TANKBODY_POP_TIME = 10000;
+	public static final long TANKBODY_POP_TIME = 100;
 	public static final long TANKBODY_POWER_TIME = 1000;
 	public static final long TANKBODY_PROTECT_TIME = 1000;
 	public static final long TANKBODY_STORE_TIME = 1000;
@@ -70,43 +70,8 @@ public class TankBody extends MovingEntity {
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			
 			//recup de la case sur laquelle on creuse
-			int posX = 0;
-			int posY =0;
-			MyDirection AbsoluteDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
-			switch (AbsoluteDir) {
-				case NORTH:
-					posX = m_x + (m_width -1)/2;//ce sera un peu décalé vers la gauche si m_width est pair
-					posY = m_y -1;
-					break;
-				case SOUTH : 
-					posX = m_x + (m_width -1)/2;//ce sera un peu décalé vers la gauche si m_width est pair
-					posY = m_y + m_width;
-					break;
-				case EAST : 
-					posX = m_x + m_width;
-					posY = m_y + (m_height -1)/2;//ce sera un peu décalé vers le haut si m_height est pair
-					break;
-				case WEST : 
-					posX = m_x - 1;
-					posY = m_y + (m_height -1)/2;//ce sera un peu décalé vers le haut si m_height est pair
-					break;
-				case NORTHEAST:
-					posX = m_x + m_width;
-					posY = m_y -1;
-					break;
-				case SOUTHEAST:
-					posX = m_x + m_width;
-					posY = m_y + m_height;
-					break;
-				case NORTHWEST:
-					posX = m_x -1;
-					posY = m_y -1;
-					break;
-				case SOUTHWEST:
-					posX = m_x -1;
-					posY = m_y + m_height;
-					break;
-			}
+			int posX = getXCaseDir(dir);
+			int posY = getYCaseDir(dir);
 			LinkedList<Entity> entities = Model.getModel().getGrid().getEntityCell(posX, posY);
 			for (Entity ent : entities) {
 				if ( ent instanceof Vein) {
@@ -121,7 +86,6 @@ public class TankBody extends MovingEntity {
 						
 					}
 			}
-
 			m_actionFinished = false;
 			m_currentAction = null;
 			
@@ -130,6 +94,10 @@ public class TankBody extends MovingEntity {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
 			m_timeOfAction = TANKBODY_POP_TIME;
+			int posX = getXCaseDir(dir);
+			int posY = getYCaseDir(dir);
+			Entity trou = EntityFactory.newEntity(MyEntities.Trou, posX, posY);
+			((Trou) trou).setStuff(true);
 		}
 	}
 

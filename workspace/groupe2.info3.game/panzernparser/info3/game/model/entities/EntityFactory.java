@@ -8,7 +8,7 @@ import info3.game.model.Model;
 
 public class EntityFactory {
 	public enum MyEntities {
-		Wall, Ground, Enemy, Droppable, Shot, Vein, Drone, Marker, TankBody, Turret;
+		Wall, Ground, Enemy, Droppable, Shot, Vein, Drone, Marker, TankBody, Turret, Trou;
 	}
 
 	public static Entity newTankBody(int x, int y, Automaton aut) {
@@ -53,6 +53,11 @@ public class EntityFactory {
 	public static Entity newMarker(int x, int y, Automaton aut) {
 		Entity marker = new Marker(x, y, aut);
 		return marker;
+	}
+	
+	public static Entity newTrou(int x, int y, Automaton aut) {
+		Entity trou = new Trou(x, y, aut);
+		return trou;
 	}
 	//////////////////Creation des différents type de shot///////////////
 	public static Entity newShotSlow(int x, int y, Automaton aut) {
@@ -108,6 +113,9 @@ public class EntityFactory {
 				break;
 			case Marker:
 				res = newMarker(x, y, config.getAutomaton(MyEntities.Droppable));
+				break;
+			case Trou:
+				res = newTrou(x, y, config.getAutomaton(MyEntities.Trou));
 				break;
 			default:
 				throw new IllegalStateException("Entité non reconnue !");

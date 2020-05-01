@@ -7,6 +7,7 @@ import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.Tank;
 import info3.game.model.entities.EntityFactory.MyEntities;
@@ -116,6 +117,8 @@ public class TankBody extends MovingEntity {
 					
 						Entity drop = EntityFactory.newEntity(MyEntities.Droppable, posX, posY);
 						((Droppable) drop).setQuantity(10);//TODO a mettre dans une variable
+						((Droppable) drop).setMaterialType(MaterialType.MINERAL);
+						
 					}
 			}
 

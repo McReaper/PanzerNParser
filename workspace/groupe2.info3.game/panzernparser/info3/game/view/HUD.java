@@ -10,6 +10,7 @@ import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.Box.Filler;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -48,12 +49,12 @@ public class HUD {
 
 	JLabel m_mineralsLabel;
 	JLabel m_toolsLabel;
-	JLabel m_weaponLabel;
 	JLabel m_weaponImage;
 	ImageIcon[] m_weaponArray;
 	JProgressBar m_health;
 	JProgressBar m_drone;
 	TitledBorder m_ammoTitledBorder;
+	TitledBorder m_weaponTitledBorder;
 
 	JLabel m_score;
 	JLabel m_level;
@@ -103,32 +104,69 @@ public class HUD {
 		JLabel mineralsImage = new JLabel(mineralsIcone);
 		JLabel toolsImage = new JLabel(toolsIcone);
 		m_weaponImage = new JLabel(m_weaponArray[0]);
-
-		m_mineralsLabel = new JLabel("Minerals :");
-		m_mineralsLabel.setForeground(Color.BLACK);
+		
+		JPanel parentMineralsPanel = new JPanel();
+		JPanel parentToolsPanel = new JPanel();
+		
+		BoxLayout parentMineralsLayout = new BoxLayout(parentMineralsPanel, BoxLayout.Y_AXIS);
+		BoxLayout parentToolsLayout = new BoxLayout(parentToolsPanel, BoxLayout.Y_AXIS);
+		
+		m_mineralsLabel = new JLabel("Minerals");
+		m_mineralsLabel.setForeground(Color.RED);
 		m_mineralsLabel.setFont(fontWest);
 		m_toolsLabel = new JLabel("Electronics :");
-		m_toolsLabel.setForeground(Color.BLACK);
+		m_toolsLabel.setForeground(Color.RED);
 		m_toolsLabel.setFont(fontWest);
-		m_weaponLabel = new JLabel("Weapon :");
-		m_weaponLabel.setForeground(Color.BLACK);
-		m_weaponLabel.setFont(fontWest);
 
 		m_mineralsLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		m_toolsLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		m_weaponLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		mineralsImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		toolsImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		m_weaponImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 
+		JPanel mineralsPanel = new JPanel();
+		mineralsPanel.setBackground(Color.BLACK);
+		Border mineralsPanelBorder = BorderFactory.createLineBorder(Color.GRAY);
+		mineralsPanel.setBorder(mineralsPanelBorder);
+		mineralsPanel.setMaximumSize(new Dimension(90,0));
+		mineralsPanel.add(m_mineralsLabel);
+		JPanel toolsPanel = new JPanel();
+		toolsPanel.setBackground(Color.BLACK);
+		Border toolsPanelBorder = BorderFactory.createLineBorder(Color.GRAY);
+		toolsPanel.setBorder(toolsPanelBorder);
+		toolsPanel.setMaximumSize(new Dimension(90,0));
+		toolsPanel.add(m_toolsLabel);
+		
+		Border mineralsBorder = BorderFactory.createLineBorder(Color.BLACK);
+		TitledBorder mineralsTitledBorder = BorderFactory.createTitledBorder(mineralsBorder, "Minerals");
+		mineralsTitledBorder.setTitleColor(Color.BLACK);
+		mineralsTitledBorder.setTitleJustification(TitledBorder.CENTER);
+		mineralsImage.setMaximumSize(new Dimension(100, 0));
+		parentMineralsPanel.setBorder(mineralsTitledBorder);
+		Border electronicsBorder = BorderFactory.createLineBorder(Color.BLACK);
+		TitledBorder electronicsTitledBorder = BorderFactory.createTitledBorder(electronicsBorder, "Electronics");
+		electronicsTitledBorder.setTitleColor(Color.BLACK);
+		electronicsTitledBorder.setTitleJustification(TitledBorder.CENTER);
+		toolsImage.setMaximumSize(new Dimension(100, 0));
+		toolsImage.setBorder(electronicsTitledBorder);
+		Border weaponBorder = BorderFactory.createLineBorder(Color.BLACK);
+		m_weaponTitledBorder = BorderFactory.createTitledBorder(weaponBorder, "Weapon :");
+		m_weaponTitledBorder.setTitleColor(Color.BLACK);
+		m_weaponTitledBorder.setTitleJustification(TitledBorder.CENTER);
+		m_weaponImage.setMaximumSize(new Dimension(100, 0));
+		m_weaponImage.setBorder(m_weaponTitledBorder);
+		
+		parentMineralsPanel.add(mineralsImage);
+		parentMineralsPanel.add(mineralsPanel);
+//		parentMineralsPanel.setLayout(parentMineralsLayout);
+		parentToolsPanel.setLayout(parentToolsLayout);
+		
 		MinToolsWeapon.add(Box.createVerticalGlue());
-		MinToolsWeapon.add(m_mineralsLabel);
-		MinToolsWeapon.add(mineralsImage);
+		MinToolsWeapon.add(parentMineralsPanel);
 		MinToolsWeapon.add(Box.createVerticalGlue());
-		MinToolsWeapon.add(m_toolsLabel);
 		MinToolsWeapon.add(toolsImage);
+		MinToolsWeapon.add(toolsPanel);
 		MinToolsWeapon.add(Box.createVerticalGlue());
-		MinToolsWeapon.add(m_weaponLabel);
 		MinToolsWeapon.add(m_weaponImage);
 		MinToolsWeapon.add(Box.createVerticalGlue());
 
@@ -188,7 +226,7 @@ public class HUD {
 		Stats.setBackground(Color.DARK_GRAY);
 		Dimension statsDimension = new Dimension(120, 130);
 		Stats.setMaximumSize(statsDimension);
-		Stats.setPreferredSize(statsDimension);
+		Stats.setPreferredSize(new Dimension(120, 90));
 
 		// Border pour les stats
 		Border blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
@@ -220,15 +258,18 @@ public class HUD {
 		// Border de l'horloge
 		Border timePanelBorder = BorderFactory.createLineBorder(Color.GRAY);
 		timePanel.setBorder(timePanelBorder);
+		timePanel.setMaximumSize(new Dimension(90,20));
 
 		// Label Temps
-		m_time = new JLabel("4 : 35");
+		m_time = new JLabel("0 : 00");
 		m_time.setForeground(Color.RED);
 		m_time.setFont(new Font("monospaced", 0, 20));
 		m_time.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 
 		timePanel.add(m_time);
-		Stats.add(timePanel);
+		m_East.add(new Box.Filler(new Dimension(0,0), new Dimension(0,5), new Dimension(0,10)));
+		m_East.add(timePanel);
+		m_East.add(new Box.Filler(new Dimension(0,0), new Dimension(0,5), new Dimension(0,10)));
 		m_East.add(Stats);
 
 		// Espace munition
@@ -356,12 +397,12 @@ public class HUD {
 		m_drone.setValue(drone.getHealth());
 
 		//Minerals, Electronics, Weapons et Markers
-		m_toolsLabel.setText("Electronics :".concat(Integer.toString(tank.getInventory().getQuantity(MaterialType.ELECTRONIC))));
+		m_toolsLabel.setText(Integer.toString(tank.getInventory().getQuantity(MaterialType.ELECTRONIC)));
 		m_mineralsLabel
-				.setText("Minerals :".concat(Integer.toString(tank.getInventory().getQuantity(MaterialType.MINERAL))));
+				.setText(Integer.toString(tank.getInventory().getQuantity(MaterialType.MINERAL)));
 		switch (model.getVisionType()) {
 			case TANK:
-				m_weaponLabel.setText("Weapon :");
+				m_weaponTitledBorder.setTitle("Weapon");
 				m_weaponImage.setIcon(m_weaponArray[tankTurret.getWeapon()]);
 				m_ammoTitledBorder.setTitle("Ammo");
 				m_ammo.setText("10 / 10");
@@ -380,7 +421,7 @@ public class HUD {
 				
 				break;
 			case RESSOURCES:
-				m_weaponLabel.setText("Marker :");
+				m_weaponTitledBorder.setTitle("Marker");
 				m_weaponImage.setIcon(m_weaponArray[5]);
 				m_ammoTitledBorder.setTitle("Marker");
 				m_ammo.setText(markers.size() + " / " + drone.MARKER_MAX);
@@ -393,7 +434,7 @@ public class HUD {
 				m_East.repaint();
 				break;
 			case ENEMIES:
-				m_weaponLabel.setText("Marker :");
+				m_weaponTitledBorder.setTitle("Marker");
 				m_weaponImage.setIcon(m_weaponArray[5]);
 				m_ammoTitledBorder.setTitle("Marker");
 				m_ammo.setText(markers.size() + " / " + drone.MARKER_MAX);

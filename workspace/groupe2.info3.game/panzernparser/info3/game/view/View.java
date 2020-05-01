@@ -47,9 +47,9 @@ public class View extends Container {
 		GameConfiguration config = GameConfiguration.getConfig();
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Ground)));
 		orderEntities.add(MyEntities.Ground);
-		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Vein)));
+		m_avatars.add(new VeinAvatar(config.getAnimation(MyEntities.Vein)));
 		orderEntities.add(MyEntities.Vein);
-		m_avatars.add(new VeinAvatar(config.getAnimation(MyEntities.Droppable)));
+		m_avatars.add(new DroppableAvatar(config.getAnimation(MyEntities.Droppable)));
 		orderEntities.add(MyEntities.Droppable);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Wall)));
 		orderEntities.add(MyEntities.Wall);
@@ -57,7 +57,7 @@ public class View extends Container {
 		orderEntities.add(MyEntities.Shot);
 		m_avatars.add(new EnemyAvatar(config.getAnimation(MyEntities.Enemy)));
 		orderEntities.add(MyEntities.Enemy);
-		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Marker)));
+		m_avatars.add(new MarkerAvatar(config.getAnimation(MyEntities.Marker)));
 		orderEntities.add(MyEntities.Marker);
 		m_avatars.add(new TankBodyAvatar(config.getAnimation(MyEntities.TankBody)));
 		orderEntities.add(MyEntities.TankBody);

@@ -21,6 +21,12 @@ public class GameConfiguration {
 
 	///////////// DOMAINE PUBLIC ///////////////
 
+	public static final String GAL_PATH = "gal/";
+	public static final String SPRITE_PATH = "sprites/";
+	public static final String ANIMATION_PATH = "animations/";
+	public static final String PATTERN_PATH = "patterns/";
+	public static final String SOUND_PATH = "sounds/";
+
 	public static GameConfiguration getConfig() {
 		createSingleton();
 		return self;
@@ -85,12 +91,14 @@ public class GameConfiguration {
 			try {
 				System.out.println("Parsing de la configuration ...");
 				self = new GameConfiguration();
+				System.out.println("Configuration chargée !");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 				System.exit(1);
 			}
 	}
 
+	@SuppressWarnings("resource") // Le compilateur rale pour rien ...
 	private static void parseConfigFile() throws FileNotFoundException {
 		Scanner sc_cfg;
 		try {
@@ -112,41 +120,43 @@ public class GameConfiguration {
 			// Parsing des fichiers .gal !
 			AST myAST;
 			try {
-				myAST = AutomataParser.from_file("gal/" + fields[2]);
+				myAST = AutomataParser.from_file(GAL_PATH + fields[2]);
 			} catch (Exception e1) {
-				throw new FileNotFoundException("le fichier gal/" + fields[2] + " est introuvable ou erroné");
+				throw new FileNotFoundException("le fichier " + GAL_PATH + fields[2] + " est introuvable ou erroné");
 			}
+			@SuppressWarnings("unchecked")
 			List<Automaton> lsAuto = (List<Automaton>) myAST.accept(builder);
-//			for (Automaton aut : lsAuto) {
-//				if (aut.getName().equals(fields[0])) {
-//					m_automatons.put(MyEntities.valueOf(fields[0]), aut);
-//					break;
-//				}
-//			}
 			m_automatons.put(MyEntities.valueOf(fields[0]), lsAuto.get(0));
 
 			// Parsing des fichiers .ani !
-			File ani_file = new File("animations/" + fields[4]);
+			File ani_file = new File(ANIMATION_PATH + fields[4]);
 //			
 //			 Les fichiers .ani ont la forme : 
 //			 
-//			 sprite_sheet = chemin 
+//			 sprite_sheet1 = chemin 
+//			 sprite_sheet2 = chemin <- vision enemie
+//			 sprite_sheet3 = chemin <- vision ressources
 //			 NomAction = 1,2,4,5,...
 //			 NomAction_DIR = 2,8,11,...
 //			  ...
 //			 
 			Scanner sc_ani = new Scanner(ani_file);
+			Sprite[] sprites = new Sprite[3];
+			String[] fields_ani;
 
-			line = sc_ani.nextLine(); // En-tête avec le chemin du sprite_sheet.
-			String[] fields_ani = line.split(" = ");
+			for (int i = 0; i < 3; i++) {
+				line = sc_ani.nextLine(); // En-tête avec le chemin du sprite_sheet.
+				fields_ani = line.split(" = ");
 
-			Sprite sprite = null;
-			try {
-				// On essaye de récupérer le sprite associé a cette animation.
-				sprite = new Sprite(fields_ani[1]);
-			} catch (IOException e) {
-				sc_ani.close();
-				throw new FileNotFoundException("Fichier " + fields_ani[1] + " Introuvable !");
+				Sprite sprite = null;
+				try {
+					// On essaye de récupérer le sprite associé a cette animation.
+					sprite = new Sprite(SPRITE_PATH + fields_ani[1]);
+					sprites[i] = sprite;
+				} catch (IOException e) {
+					sc_ani.close();
+					throw new FileNotFoundException("Fichier " + SPRITE_PATH + fields_ani[1] + " Introuvable !");
+				}
 			}
 			// HashMap qui pour une Action et sa direction associe la séquence de sprite.
 			HashMap<ActionDirection, int[]> animSeq = new HashMap<ActionDirection, int[]>();
@@ -176,7 +186,7 @@ public class GameConfiguration {
 			}
 
 			// Création de l'animation :
-			Animation animation = new Animation(sprite, animSeq);
+			Animation animation = new Animation(sprites, animSeq);
 			m_animations.put(MyEntities.valueOf(fields[0]), animation);
 
 			// Fermeture du fichier .ani

@@ -175,7 +175,7 @@ Continuer de travailler sur la partie MVC pour avoir une version très simple d'
 
 ---
 
-# JOURNAL du Mercredi 21 Avril
+# JOURNAL du Mercredi 22 Avril
 
 ## Planning du jour
 
@@ -190,7 +190,7 @@ Continuer de travailler sur la partie MVC pour avoir une version très simple d'
 
 ---
 
-# JOURNAL du Jeudi 22 Avril
+# JOURNAL du Jeudi 23 Avril
 
 **Jour de pause après une mise a plat du code et d'un push sur master**
 
@@ -207,3 +207,179 @@ Continuer de travailler sur la partie MVC pour avoir une version très simple d'
 
 ---
 
+# JOURNAL du Vendredi 24 Avril
+
+## Planning du jour
+
+- Pas de planning prévu à l'avance ce jour là. Les décisions ont été prises le matin même et ont donné la répartition des tâches ci-dessous.
+
+## Répartition des tâches
+
+- `M>` Implémentation du ViewPort.
+- `E>` Implémentation de la classe tank, d'un moyen de générer le tank sur la map via la grid,
+mise en place de la coordination tank-tourelle.
+- `E/V>` Implémentation des mécanismes pour l'implémentation de cell et closest.
+- `B>` Implémentation de la classe chassisAvatar et création des sprites nécéssaires.
+- `JT>` Utilisation de swing pour commencer à implémenter du HUD.
+- `S>` Optimisation de la liste des entités, via la conversion de celle-ci en HashMap avec le type d'entité pour clé.
+- `Cyance>` Revues de code croisées de ce qui a été fait aujourd'hui.
+
+## Remarques :
+
+- Le travail du jour a été pour la plupart des tâches laborieux, beaucoup de formule mathématiques, exploration de nouvelles fonctionnalités de java, création de nombreuses sprites, etc... Il n'en reste pas moins que l'équipe a avancé sur beaucoup de champs en même temps et a aquis des outils qui permettront d'avancer plus vite dans les prochains jours.
+
+## Réflexions en cours :
+- Comment faire fonctionner efficacement l'affichage en bord de map ?
+- Comment optimiser la gestion de la liste des avatars ?
+- Comment imprimer les avatar dans un ordre selon le type d'entité ?
+- Choisir le design pour l'HUD (propositions existantes mais à délibérer).
+
+## Pour après
+
+- `Continuité travail de B/E>` Finaliser le lien entre tourelle et tank, notamment l'aspect graphique. (transition entre deux cases)
+- `Continuité travail de M>` Incorporer le ViewPort dans la View, la faire fonctionner, se questionner sur l'affichage des bords de map.
+- `Continuité travail de E>` Implémentation du drone et de la transition entre les deux mondes.
+- `Continuité travail de S>` Faire fonctionner l'affichage des entités dans un certain ordre.
+Mieux géré la génération des avatars.
+- `Continuité travail de V>` Faire fonctionner le Cell et Closest pour faire fonctionner des automates plus compliqués.
+- `Continuité travail de JT>` Continuer d'avancer dans le HUD.
+
+---
+
+# JOURNAL du Samedi 25 Avril
+
+## Planning du jour
+
+- Avancer l'implémentation du Drone et du Tank
+- Avancer l'ATH
+- Implémenter un viewport fonctionnel
+- Implémenter la fonction Closest & Cell
+
+## Répartition des tâches
+
+- `JT>` Etude de l'ATH avec la bibliothèque Swing.
+- `S>` Finissions des modifications des listes d'entités dans le modèle.
+- `E>` Mise a jour de la vue qui fait suivre le corps du tank et son canon.
+- `E/S>` Ajustement du Move des entités pour prendre compte le Tore grâce au modèle. Première version du drone et du tank et de leur transition en appuyant sur une touche.
+- `B>` Création de TurretAvatar + Modularisation des move + Aide sur les mouvemnt du tank à Emilie.
+- `B/M>` Travail sur l'implémentation de la classe Viewport et d'une première version fonctionnelle qui prend en compte le Tore.
+- `V>` Implem de Closest (> *c'était vraiment pas simple, j'essairai d'expliquer le fonctionnement du code à la team*).
+- `Cyance>` Lecture des revues de code croisées de la veille.
+
+## Remarques :
+
+- Le travail du jour a été productif malgré les difficultés mathématiques et logiques sur certaines tâches. Il faudra fusionner le travail dès demain en regardant ce que l'on garde ou non.
+
+## Réflexions en cours :
+- **Vaut-il mieux utilisé Java AWT ou Swing ?**
+- Choisir le design pour l'HUD (propositions existantes mais à délibérer).
+- Comment gérer le passage du drone au tank et inversement ? (saisis des touches, ...) Sans garder le contrôle sur les deux entités.
+- 
+
+## Pour après
+
+- `Continuité travail de JT>` Revoir si swing est un bon choix, peut etre checké AWT. 
+- `Continuité travail de S>` Merge avec dev
+- `Continuité travail de E>` Merge avec dev
+- `Continuité travail de E/S>` Debug + merge.
+- `Continuité travail de B>` Merge
+- `Continuité travail de V>` Merge, puis s'attaquer a la fonction cell.
+- `Continuité travail de B/M>` Debug + merge
+
+---
+
+# JOURNAL du Lundi 27 Avril 
+
+## Planning du jour 
+
+- Continuer le travail commencé le week-end et tenter un merge du tout.
+
+## Répartition des tâches 
+
+- `M>` implémentation de la classe inventory et mise à jour des droppable
+- `E/V>`transition du drone au tank, modification de divers fonctionnalités liées au drone et au tank
+- `B>` Modification des classes Avatar, correction du Viewport et implémentation de Cell de Entity.
+- `JT>` Implémentation de dev.ATH, ajout de lisibilité et restructuration du code lié à l’ATH.
+- `S>` Implémentation des markers pou le drone et ajout de la gestion de la souris.
+
+
+## Remarques : 
+
+- Le travail du jour a été efficace dans l’ensemble, chacun a pu avancer sur son travail tout en faisant avancé le projet. Des bugs sont apparus lors du merge sur dev ce qui a permis de revisité et corrigé le code afin d’apporter fluidité et lisibilité à celui-ci. L’intervention du tuteur a permis de débloquer le groupe sur l’ATH qui représentait jusque là une difficulté certaine.
+
+## Pour après 
+
+- `Continuité travail de B/JT>` avoir un bel ATH opérationnel.
+- Optimisation du doTurn
+- Interaction entre les entités
+- Complétion des Pop/Wizz/Hit de chaque entité
+- Créer plus de fichiers graphiques et sprites 
+- Faire fonctionner l'affichage des entités dans un certain ordre.
+- `S>` restructuré la classe marker et model ainsi que l’affichage des 	markers dans la view.
+- (peut être pas demain) Penser une implémentation pour les upgrades
+
+## Répartition des tâches 
+- `Cyance>` A votre bon cœur. A voir demain
+
+# JOURNAL du Mardi 28 Avril 
+
+## Planning du jour 
+
+- Interaction des entités entre elles
+- créer plus de sprites
+- terminé les features non achevées de la veille
+
+## Répartition des tâches 
+
+- `M>` implementation du nouveau viewPort et changement visuel lorsque on change de monde
+- `E>`Implementation de Shots et interaction des entités entre elles et gestion des collisions
+- `V>` création de sprites et modification de l'ATH
+- `B>` implementation de l'ATH et creation d'un Widget Boussole indiquant les markers
+- `JT>` Implementation ATH et creation de sprites. Implementation de son pour le jeu
+- `S>` Completion du marker et des avatars liés au marker. 
+- `V/S/M>` tentaive de modification du calcul de coordonnées pour l'affichage des markers
+
+## Remarques : 
+
+Pas de remarques particulières. Toujours quelques difficultés sur l'ATH mais celui-ci devient de plus en plus familié. Chaque feature a bien progressé, il va falloir faire un merge prochainement. Prendre en compte les retours du prof pour les animations (ex : le move)
+
+## Pour après 
+
+- Perfectioner l'ATH
+- Implementation des ennemis
+- Des sprites pour ennemis et drone
+- Vision du drone
+
+## Répartition des tâches 
+- `Cyance>` A votre bon cœur. A voir demain
+
+# JOURNAL du Mercredi 29 Avril
+
+## Planning du jour
+
+- Drop des ennemies implémentation et la récupération des drops
+- Système des pooints de vie mis en place
+- Interraction entre les entités partiellement implémenté
+- Gestion de la vision du drone
+- Implémentation d'un menu
+- Implémentation d'un ATH dynamique
+
+## Répartition des tâches
+
+- `M>` Ajout de l'effet de tore pour les colisions et closest
+- `M/V>` Debug général du code, gestion de la vision du drone.
+- `JT>` Dessin de sprites enemy en mode vision thermique et en diagonal, implémentation d'un ATH dynamique
+- `E>` Implémentation de features pour les ennemies : Drop, automate, colision (avec Sami). Ainsi le Tank : Ramassage des droppable et mise à jour de l'inventaire.
+- `B>` Implémentation d'un menu, modification de Cell, getGridCoord, et de Marker(avec Sami). Ainsi que dessins de sprite
+- `V>` Mise à jour de Closest, Merge des branchs
+- `S>` Mise à jour du contrat, travail sur les Marker (avec Bertrand), travail sur les colisions (avec Emilie)
+
+## Remarques :
+
+Problème potentiel sur la gestion de la grille.
+
+## Pour après :
+
+- Réfléchir à une éventuelle refonte de la grille.
+- Implémenter les amélioration
+- Perfectionner ENCORE l'ATH

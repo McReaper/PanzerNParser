@@ -1,0 +1,11 @@
+sprite_sheet1 = EnemyTank.png
+sprite_sheet2 = EnemyThermic.png
+sprite_sheet3 = GenericTest.png
+Hit_NORTH = 9,10,11,12
+Hit_NORTHEAST = 25,26,27,28
+Hit_EAST = 5,6,7,8
+Hit_SOUTHEAST = 21,22,23,24
+Hit_SOUTH = 1,2,3,4
+Hit_SOUTHWEST = 17,18,19,20
+Hit_WEST = 13,14,15,16
+Hit_NORTHWEST = 29,30,31,32

@@ -9,6 +9,8 @@ import java.rmi.UnexpectedException;
 import java.util.LinkedList;
 import java.util.List;
 
+import info3.game.GameConfiguration;
+import info3.game.automaton.MyDirection;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
@@ -18,18 +20,225 @@ import info3.game.model.entities.EntityFactory.MyEntities;
  * plusieurs fichiers patterns.
  */
 public class Grid {
-	Model m_model;
 	List<Pattern> m_patterns;
+	Pattern patTank;
+	LinkedList<Entity>[][] m_entityGrid;
 
 	/* entier pour le nombre de zone à charger dans la grille */
 	final static int TAILLE_MAP = 2;
 
-	public Grid(Model model) throws UnexpectedException {
+	@SuppressWarnings("unchecked")
+	public Grid() throws UnexpectedException {
 		// Constructeur (phase de tests) :
 		m_patterns = new LinkedList<Pattern>();
-		m_model = model;
 		load();
-		generate();
+
+		// Création de la grille d'entité m_entityGrid[x][y]
+		m_entityGrid = new LinkedList[getNbCellsX()][getNbCellsY()];
+		for (int i = 0; i < m_entityGrid.length; i++) {
+			for (int j = 0; j < m_entityGrid[0].length; j++) {
+				m_entityGrid[i][j] = new LinkedList<Entity>();
+			}
+		}
+	}
+
+	public void addEntity(Entity entity) {
+		int width = entity.getWidth();
+		int height = entity.getHeight();
+		int x = entity.getX();
+		int y = entity.getY();
+		for (int i = x; i < x + width; i++) {
+			for (int j = y; j < y + height; j++) {
+				m_entityGrid[realX(i)][realY(j)].add(entity);
+			}
+		}
+	}
+
+	public void removeEntity(Entity entity) {
+		int width = entity.getWidth();
+		int height = entity.getHeight();
+		int x = entity.getX();
+		int y = entity.getY();
+		for (int i = x; i < x + width; i++) {
+			for (int j = y; j < y + height; j++) {
+				m_entityGrid[realX(i)][realY(j)].remove(entity);
+			}
+		}
+	}
+
+	/**
+	 * Cette fonction sert de callback lorsque l'entité se d'une seule case dans une
+	 * direction
+	 * 
+	 * @param entity L'entité qui se déplace
+	 * @param dir    La direction de son déplacement
+	 */
+
+	public void moved(Entity entity, MyDirection dir) {
+		int width = entity.getWidth();
+		int height = entity.getHeight();
+		int x = entity.getX();
+		int y = entity.getY();
+		switch (dir) {
+			case NORTH:
+				for (int i = x; i < x + width; i++) {
+					m_entityGrid[realX(i)][realY(y - 1)].add(entity);
+					m_entityGrid[realX(i)][realY(y + height - 1)].remove(entity);
+				}
+				break;
+			case SOUTH:
+				for (int i = x; i < x + width; i++) {
+					m_entityGrid[realX(i)][realY(y + height)].add(entity);
+					m_entityGrid[realX(i)][realY(y)].remove(entity);
+				}
+				break;
+			case EAST:
+				for (int i = y; i < y + height; i++) {
+					m_entityGrid[realX(x + width)][realY(i)].add(entity);
+					m_entityGrid[realX(x)][realY(i)].remove(entity);
+				}
+				break;
+			case WEST:
+				for (int i = y; i < y + height; i++) {
+					m_entityGrid[realX(x - 1)][realY(i)].add(entity);
+					m_entityGrid[realX(x + width - 1)][realY(i)].remove(entity);
+				}
+				break;
+			case NORTHWEST:
+				for (int i = x; i < x + width - 1; i++) {
+					m_entityGrid[realX(i)][realY(y - 1)].add(entity);
+					m_entityGrid[realX(i)][realY(y + height - 1)].remove(entity);
+				}
+				for (int i = y; i < y + height - 1; i++) {
+					m_entityGrid[realX(x - 1)][realY(i)].add(entity);
+					m_entityGrid[realX(x + width - 1)][realY(i)].remove(entity);
+				}
+				m_entityGrid[realX(x - 1)][realY(y - 1)].add(entity);
+				m_entityGrid[realX(x + width - 1)][realY(y + height - 1)].remove(entity);
+				break;
+			case NORTHEAST:
+				for (int i = x + 1; i < x + width; i++) {
+					m_entityGrid[realX(i)][realY(y - 1)].add(entity);
+					m_entityGrid[realX(i)][realY(y + height - 1)].remove(entity);
+				}
+				for (int i = y; i < y + height - 1; i++) {
+					m_entityGrid[realX(x + width)][realY(i)].add(entity);
+					m_entityGrid[realX(x)][realY(i)].remove(entity);
+				}
+				m_entityGrid[realX(x + width)][realY(y - 1)].add(entity);
+				m_entityGrid[realX(x)][realY(y + height - 1)].remove(entity);
+				break;
+			case SOUTHWEST:
+				for (int i = x; i < x + width - 1; i++) {
+					m_entityGrid[realX(i)][realY(y + width)].add(entity);
+					m_entityGrid[realX(i)][realY(y)].remove(entity);
+				}
+				for (int i = y + 1; i < y + height; i++) {
+					m_entityGrid[realX(x - 1)][realY(i)].add(entity);
+					m_entityGrid[realX(x + width - 1)][realY(i)].remove(entity);
+				}
+				m_entityGrid[realX(x - 1)][realY(y + height)].add(entity);
+				m_entityGrid[realX(x + width - 1)][realY(y)].remove(entity);
+				break;
+			case SOUTHEAST:
+				for (int i = x + 1; i < x + width; i++) {
+					m_entityGrid[realX(i)][realY(y + height)].add(entity);
+					m_entityGrid[realX(i)][realY(y)].remove(entity);
+				}
+				for (int i = y + 1; i < y + height; i++) {
+					m_entityGrid[realX(x + width)][realY(i)].add(entity);
+					m_entityGrid[realX(x)][realY(i)].remove(entity);
+				}
+				m_entityGrid[realX(x + width)][realY(y + height)].add(entity);
+				m_entityGrid[realX(x)][realY(y)].remove(entity);
+				break;
+			default:
+				System.err.println("Le callBack a été appelé avec une mauvaise directions");
+		}
+	}
+
+	/**
+	 * Cette fonction sert de callback lorsque l'entité se déplace de plus d'une
+	 * case
+	 * 
+	 * @param entity L'entité qui se téléporte
+	 * @param fromX  La coordonnée X de départ
+	 * @param fromY  La coordonnée Y de départ
+	 * @param toX    La coordonnée X de d'arrivée
+	 * @param toY    La coordonnée Y de d'arrivée
+	 */
+
+	public void teleported(Entity entity, int fromX, int fromY, int toX, int toY) {
+		int width = entity.getWidth();
+		int height = entity.getHeight();
+		for (int i = fromX; i < fromX + width; i++) {
+			for (int j = fromY; j < fromY + height; j++) {
+				m_entityGrid[realX(i)][realY(j)].remove(entity);
+			}
+		}
+		for (int i = toX; i < toX + width; i++) {
+			for (int j = toY; j < toY + height; j++) {
+				m_entityGrid[realX(i)][realY(j)].add(entity);
+			}
+		}
+	}
+
+	public LinkedList<Entity> getEntityCell(int x, int y) {
+		int rx = realX(x);
+		int ry = realY(y);
+		return m_entityGrid[rx][ry];
+	}
+
+	/**
+	 * /!\ Cette fonction est pour le debug UNIQUEMENT, vérifier bien de ne la
+	 * laisser nullpart dans des versions finies. (pour la trouver ctrl+shift+G
+	 */
+	public void TESTPRINT() {
+		System.out.println();
+		System.out.println("###############################################");
+		for (int i = 0; i < m_entityGrid[0].length; i++) {
+			System.out.println();
+			for (int j = 0; j < m_entityGrid.length; j++) {
+				System.out.print(m_entityGrid[j][i].size());
+			}
+
+		}
+	}
+
+	public static class Coords {
+
+		public double X, Y;
+
+		public Coords(double x, double y) {
+			X = x;
+			Y = y;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			return (((Coords) obj).X == this.X && ((Coords) obj).Y == this.Y);
+		}
+
+		public void translate(double offX, double offY) {
+			X += offX;
+			Y += offY;
+		}
+	}
+
+	public int realX(int x) {
+		x = x % getNbCellsX();
+		if (x < 0) {
+			x += getNbCellsX();
+		}
+		return x;
+	}
+
+	public int realY(int y) {
+		y = y % getNbCellsY();
+		if (y < 0) {
+			y += getNbCellsY();
+		}
+		return y;
 	}
 
 	public int getNbCellsX() {
@@ -50,12 +259,25 @@ public class Grid {
 		if (Max + 1 >= TAILLE_MAP * TAILLE_MAP) {
 			for (int i = 0; i < TAILLE_MAP; i++) {
 				for (int j = 0; j < TAILLE_MAP; j++) {
-					rand = (int) (Math.random() * (Max - patterns_chose));
-					Pattern tmp = patternSelector.get(rand);
-					tmp.setPosition(i, j);
-					selectedPatterns.add(tmp);
-					patternSelector.remove(tmp);
-					patterns_chose++;
+					if (i == 0 && j == 0) {
+						if (patTank != null) {
+							patTank.setPosition(i, j);
+							selectedPatterns.add(patTank);
+							patterns_chose++;
+							patTank = null;
+						} else {
+							System.err.println("pattern avec parser nul");
+						}
+
+					} else {
+						rand = (int) (Math.random() * (Max - patterns_chose));
+						Pattern tmp = patternSelector.get(rand);
+						tmp.setPosition(i, j);
+						selectedPatterns.add(tmp);
+						patternSelector.remove(tmp);
+						patterns_chose++;
+					}
+
 				}
 			}
 			sendToModel(selectedPatterns);
@@ -66,38 +288,43 @@ public class Grid {
 
 	public void sendToModel(List<Pattern> patterns) {
 		for (Pattern pattern : patterns) {
-			List<Entity> entities = pattern.getEntities();
-			for (Entity entity : entities) {
-				m_model.addEntity(entity);
-				//System.out.println("Send " + EntityFactory.name(entity) + " : " + entity.getX() + "," + entity.getY());
-			}
+			pattern.buildEntities();
 		}
 	}
 
 	public void load() {
 		String name = "pattern" + Pattern.SIZE + "x" + Pattern.SIZE + "_";
+		String namePatTank = "patTank" + Pattern.SIZE + "x" + Pattern.SIZE + "_";
 		File f;
 		Pattern p;
 		try {
-			File repository = new File("patterns");
+			File repository = new File(GameConfiguration.PATTERN_PATH);
 			String[] fileList = repository.list();
 			for (int j = 0; j < fileList.length; j++) {
 				String file = fileList[j];
 				String subFile = file.substring(0, file.length() - 5);
 				if (subFile.equals(name)) {
 					p = new Pattern();
-					String path = "patterns/" + file;
+					String path = GameConfiguration.PATTERN_PATH + file;
 					f = new File(path);
 					p.parse(f);
 					m_patterns.add(p);
+				} else if (subFile.equals(namePatTank)) {
+					p = new Pattern();
+					String path = GameConfiguration.PATTERN_PATH + file;
+					f = new File(path);
+					p.parse(f);
+					patTank = p;
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("ERROR : Something went wrong.");
+			System.err.println("ERROR : Something went wrong.");
 		}
 	}
 
 	private class Pattern {
+
+		public static final int SIZE = 20;
 
 		private class EntityShade {
 
@@ -112,7 +339,6 @@ public class Grid {
 
 		}
 
-		public static final int SIZE = 3;
 		int m_px, m_py;
 		List<EntityShade> m_entitieShades;
 
@@ -127,15 +353,12 @@ public class Grid {
 			m_py = y;
 		}
 
-		List<Entity> getEntities() {
-			List<Entity> realEntities = new LinkedList<Entity>();
+		void buildEntities() {
 			for (EntityShade entityShade : m_entitieShades) {
 				int global_x = entityShade.m_ex + m_px * SIZE;
 				int global_y = entityShade.m_ey + m_py * SIZE;
-				Entity ent = EntityFactory.newEntity(entityShade.m_type, global_x, global_y);
-				realEntities.add(ent);
+				EntityFactory.newEntity(entityShade.m_type, global_x, global_y);
 			}
-			return realEntities;
 		}
 
 		public void parse(File file) throws IOException {
@@ -149,7 +372,7 @@ public class Grid {
 			String line, name, sx, sy;
 			line = null;
 			line = br.readLine();
-			while (line != null) {
+			while (line != null && line.length() > 0) {
 				name = line.substring(0, 5);
 				int i = 6;
 				while (line.charAt(i) != ',') {
@@ -168,17 +391,31 @@ public class Grid {
 					case "vein1":
 						type = MyEntities.Vein;
 						break;
+					case "chas1":
+						type = MyEntities.TankBody;
+						break;
+					case "wall1":
+						type = MyEntities.Wall;
+						break;
+					case "turr1":
+						type = MyEntities.Turret;
+						break;
+
+					case "dron1":
+						type = MyEntities.Drone;
+						break;
 				}
 				int x = Integer.parseInt(sx);
 				int y = Integer.parseInt(sy);
 				if (x < SIZE && x >= 0 && y < SIZE && y >= 0) {
-					EntityShade es = new EntityShade(x, y, type);
-					m_entitieShades.add(es);
+					if (type != null) {
+
+						EntityShade es = new EntityShade(x, y, type);
+						m_entitieShades.add(es);
+					}
 				}
 				line = br.readLine();
 			}
 		}
-
 	}
-
 }

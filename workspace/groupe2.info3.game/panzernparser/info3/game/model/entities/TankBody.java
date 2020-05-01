@@ -1,160 +1,177 @@
 package info3.game.model.entities;
 
+import java.util.LinkedList;
+
 import info3.game.automaton.Automaton;
+import info3.game.automaton.LsKey;
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
+import info3.game.model.Tank;
+import info3.game.model.entities.EntityFactory.MyEntities;
 
 /**
  * Chassis du tank
  */
 public class TankBody extends MovingEntity {
-	public final static int TANK_BODY_WIDTH = 1;
-	public final static int TANK_BODY_HEIGHT = 1;
-	
-	public static final int TANK_BODY_HEALTH = 100;
-	public static final int TANK_BODY_SPEED = 100;
 
-	public static final long TANK_BODY_EGG_TIME = 1000;
-	public static final long TANK_BODY_GET_TIME = 1000;
-	public static final long TANK_BODY_HIT_TIME = 1000;
-	public static final long TANK_BODY_JUMP_TIME = 1000;
-	public static final long TANK_BODY_EXPLODE_TIME = 1000;
-	public static final long TANK_BODY_MOVE_TIME = 200;
-	public static final long TANK_BODY_PICK_TIME = 1000;
-	public static final long TANK_BODY_POP_TIME = 10000;
-	public static final long TANK_BODY_POWER_TIME = 1000;
-	public static final long TANK_BODY_PROTECT_TIME = 1000;
-	public static final long TANK_BODY_STORE_TIME = 1000;
-	public static final long TANK_BODY_TURN_TIME = 1000;
-	public static final long TANK_BODY_THROW_TIME = 1000;
-	public static final long TANK_BODY_WAIT_TIME = 50;
-	public static final long TANK_BODY_WIZZ_TIME = 1000;
+	public final static int TANKBODY_WIDTH = Tank.TANK_WIDTH;
+	public final static int TANKBODY_HEIGHT = Tank.TANK_HEIGHT;
 
-	public TankBody(int x, int y, int width, int height, int health, int speed, Model model, Automaton aut) {
-		super(x, y, width, height, health, speed, model, aut);
-	}
+	public static final int TANKBODY_HEALTH = Tank.TANK_HEALTH;
+	public static final int TANKBODY_SPEED = Tank.TANK_SPEED;
 
-	@Override
-	public void step(long elapsed) {
-		if (m_currentAction != null ) {
-			if (m_elapseTime > m_timeOfAction) {
-				m_elapseTime = 0;
-				m_currentAction = null;
-			} else {
-				m_elapseTime += elapsed;
-			}
-		} else  {
-			this.setState(m_automate.step(this));
-		}
-	}
+	public static final long TANKBODY_EGG_TIME = 1000;
+	public static final long TANKBODY_GET_TIME = 1000;
+	public static final long TANKBODY_HIT_TIME = 1000;
+	public static final long TANKBODY_JUMP_TIME = 1000;
+	public static final long TANKBODY_EXPLODE_TIME = 1000;
+	public static final long TANKBODY_MOVE_TIME = 800;
+	public static final long TANKBODY_PICK_TIME = 50;
+	public static final long TANKBODY_POP_TIME = 10000;
+	public static final long TANKBODY_POWER_TIME = 1000;
+	public static final long TANKBODY_PROTECT_TIME = 1000;
+	public static final long TANKBODY_STORE_TIME = 1000;
+	public static final long TANKBODY_TURN_TIME = 0;
+	public static final long TANKBODY_THROW_TIME = 1000;
+	public static final long TANKBODY_WAIT_TIME = 50;
+	public static final long TANKBODY_WIZZ_TIME = 1000;
 
-	@Override
-	public void Egg(MyDirection dir) {
-		m_timeOfAction = TANK_BODY_MOVE_TIME;
-		System.out.println("Egg !");
-		super.Egg(dir);
-	}
-	
-	@Override
-	public void Explode() {
-		m_timeOfAction = TANK_BODY_EXPLODE_TIME;
-		System.out.println("Explode !");
-		super.Explode();
-	}
-	
-	@Override
-	public void Get(MyDirection dir) {
-		m_timeOfAction = TANK_BODY_GET_TIME;
-		System.out.println("Get !");
-		super.Get(dir);
-	}
+	public static final int TANKBODY_DAMMAGE_DEALT= 100;
 
-	@Override
-	public void Hit(MyDirection dir) {
-		m_timeOfAction = TANK_BODY_HIT_TIME;
-		System.out.println("Hit !");
-		super.Hit(dir);
-	}
-	
-	@Override
-	public void Jump(MyDirection dir) {
-		m_timeOfAction = TANK_BODY_JUMP_TIME;
-		System.out.println("Jump !");
-		super.Jump(dir);
+	private Tank m_tank;
+
+	public TankBody(int x, int y, Automaton aut) {
+		super(x, y, TANKBODY_WIDTH, TANKBODY_HEIGHT, aut);
+		m_maxHealth=TANKBODY_HEALTH;
+		m_tank = null;
+		m_category = MyCategory.AT;
+		m_level = 1;
+		m_dammage_dealt = TANKBODY_DAMMAGE_DEALT;
+		m_speed = TANKBODY_SPEED;
 	}
 	
 	@Override
 	public void Move(MyDirection dir) {
-		m_timeOfAction = TANK_BODY_MOVE_TIME;
-		System.out.println("Move !");
-		super.Move(dir);
+		if (m_tank.hasControl()) {
+			super.Move(dir);
+		}
 	}
 
-	@Override
-	public void Pick(MyDirection dir) {
-		m_timeOfAction = TANK_BODY_PICK_TIME;
-		System.out.println("Pick !");
-		super.Pick(dir);
+	public void setTank(Tank tank) {
+		m_tank = tank;
 	}
-	
 
 	@Override
 	public void Pop(MyDirection dir) {
-		m_timeOfAction = TANK_BODY_POP_TIME;
-		System.out.println("Pop !");
-		super.Pop(dir);
-	}
-
-	@Override
-	public void Power() {
-		m_timeOfAction = TANK_BODY_POWER_TIME;
-		System.out.println("Power !");
-		super.Power();
-	}
-	
-
-	@Override
-	public void Protect(MyDirection dir) {
-		m_timeOfAction = TANK_BODY_PROTECT_TIME;
-		System.out.println("Protect !");
-		super.Protect(dir);
-	}
-
-	@Override
-	public void Store(MyDirection dir) {
-		m_timeOfAction = TANK_BODY_STORE_TIME;
-		System.out.println("Store !");
-		super.Store(dir);
-	}
-
-	@Override
-	public void Throw(MyDirection dir) {
-		m_timeOfAction = TANK_BODY_THROW_TIME;
-		System.out.println("Throw !");
-		super.Throw(dir);
+		if (m_actionFinished && m_currentAction == LsAction.Pop) {
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Pop;
+			m_timeOfAction = TANKBODY_POP_TIME;
+		}
 	}
 
 	@Override
 	public void Turn(MyDirection dir, int angle) {
-		m_timeOfAction = TANK_BODY_TURN_TIME;
-		System.out.println("Turn !");
-		super.Turn(dir, angle);
-		m_currentActionDir = m_currentLookAtDir;//l'action se fait dans la direction dans laquelle on regarde
-	}
-
-	@Override
-	public void Wait() {
-		m_timeOfAction = TANK_BODY_WAIT_TIME;
-		System.out.println("Wait !");
-		super.Wait();
+		if (m_actionFinished && m_currentAction == LsAction.Turn) {
+			this.doTurn(dir);
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Turn;
+			m_timeOfAction = TANKBODY_TURN_TIME;
+		}
 	}
 
 	@Override
 	public void Wizz(MyDirection dir) {
-		m_timeOfAction = TANK_BODY_WIZZ_TIME;
-		System.out.println("Wizz !");
-		super.Wizz(dir);
+		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
+			Model.getModel().switchControl();
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Wizz;
+			m_timeOfAction = TANKBODY_WIZZ_TIME;
+		}
 	}
 
+	@Override
+	public void Explode() {
+		/*
+		 * TODO faire un GAME OVER
+		 */
+		if (m_actionFinished && m_currentAction == LsAction.Explode) {
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_tank.setLife(Tank.TANK_HEALTH);// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
+			// m_tank.doExplode();
+			m_currentAction = LsAction.Explode;
+			m_timeOfAction = TANKBODY_EXPLODE_TIME;
+		}
+	}
+
+	@Override
+	public void Pick(MyDirection dir) {
+		if (m_actionFinished && m_currentAction == LsAction.Pick) {
+			System.out.println("Le Tank rammasse un objet!");
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentAction = LsAction.Pick;
+			m_timeOfAction = TANKBODY_PICK_TIME;
+			LinkedList<Entity> pickables = Model.getModel().getCategoried(MyCategory.P);
+			LinkedList<Entity> clues = Model.getModel().getCategoried(MyCategory.C);
+			for (Entity ent : pickables) {
+				// vérifie si le pickable est dans la zone notre tank
+				if (ent instanceof Droppable) {
+					if (isPickable(ent)) {
+						m_tank.getInventory().add(((Droppable) ent).getMType(), ((Droppable) ent).getQuantity());// on le met dans
+																																																			// l'inventaire
+						Model.getModel().removeEntity(ent);// et il disparait de la liste des entités du model.
+						System.out.println("Dans l'inventaire il y a "
+								+ m_tank.getInventory().getQuantity(((Droppable) ent).getMType()) + " matériaux ");
+					}
+				} 
+			}
+			for (Entity ent : clues) {
+				// vérifie si le pickable est dans la zone notre tank
+				if (ent instanceof Marker) {
+					if (isPickable(ent)) {
+						Model.getModel().removeEntity(ent);// et il disparait de la liste des entités du model.
+					}
+				}
+			}
+
+		}
+	}
+
+	@Override
+	public void collide(int dammage) {
+		m_tank.setLife(m_tank.getLife() - dammage); 
+	}
+	
+	@Override
+	public boolean Key(LsKey key) {
+		if (m_tank.hasControl())
+			return super.Key(key);
+		return false;
+	}
+
+	@Override
+	public int getHealth() {
+		return m_tank.getLife();
+	}
+	
+	@Override
+	public boolean GotPower() {
+		return m_tank.gotPower();
+	}
+	
 }

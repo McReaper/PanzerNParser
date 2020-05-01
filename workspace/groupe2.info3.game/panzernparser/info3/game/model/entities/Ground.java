@@ -31,5 +31,11 @@ public class Ground extends StaticEntity {
 		super(x, y, GROUND_WIDTH, GROUND_HEIGHT, aut);
 		m_category = MyCategory.V;
 	}
+	
+	@Override
+	public void collide(int dammage) {
+		if(getCategory() != MyCategory.O)
+			super.collide(dammage);
+	}
 
 }

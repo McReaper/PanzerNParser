@@ -13,15 +13,22 @@ public class CollisionManager {
 	public CollisionManager() {
 	}
 
+	public void controlCollisions() {
+		controlCollisionsShotsEntity();
+
+	}
+
 	public void controlCollisionsShotsEntity() {
 		// Regardons si les shots touches quelque chose
 		LinkedList<Entity> shots;
 		LinkedList<Entity> enemy;
 		LinkedList<Entity> tankPlayer;
-
+		LinkedList<Entity> walls;
 		shots = Model.getModel().getEntities(MyEntities.Shot);
 		enemy = Model.getModel().getEntities(MyEntities.Enemy);
 		tankPlayer = Model.getModel().getEntities(MyEntities.TankBody);
+		walls = Model.getModel().getEntities(MyEntities.Wall);
+
 		for (Entity entShot : shots) {
 
 			// verifie si le shot est encore encore en vie
@@ -56,7 +63,16 @@ public class CollisionManager {
 					}
 				}
 
+				for (Entity entWall : walls) {
+					if (entWall.isInMe(entShot.getX(), entShot.getY())) {
+						//((MovingEntity) entWall).collide(entShot.getDammageDealt());
+						((MovingEntity) entShot).collide(entWall.getDammageDealt());
+					}
+				}
+
 			}
 		}
 	}
+	
+	
 }

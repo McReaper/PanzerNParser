@@ -49,7 +49,7 @@ public class View extends Container {
 		orderEntities.add(MyEntities.Ground);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Vein)));
 		orderEntities.add(MyEntities.Vein);
-		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Droppable)));
+		m_avatars.add(new VeinAvatar(config.getAnimation(MyEntities.Droppable)));
 		orderEntities.add(MyEntities.Droppable);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Wall)));
 		orderEntities.add(MyEntities.Wall);

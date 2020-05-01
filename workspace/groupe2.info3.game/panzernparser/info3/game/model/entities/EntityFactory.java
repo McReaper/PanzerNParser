@@ -161,6 +161,8 @@ public class EntityFactory {
 		} else if (e instanceof Ground) {
 			if(e.getCategory() == MyCategory.O)
 				return MyEntities.Wall;
+			else if(e instanceof Trou)
+				return MyEntities.Trou;
 			return MyEntities.Ground;
 		} else if (e instanceof Marker) {
 			return MyEntities.Marker;

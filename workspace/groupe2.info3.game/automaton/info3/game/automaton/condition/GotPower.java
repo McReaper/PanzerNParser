@@ -10,10 +10,7 @@ public class GotPower extends Condition {
 
 	@Override
 	public boolean realisable(Entity entity) {
-		if (entity instanceof MovingEntity)
-			return ((MovingEntity) entity).GotPower();
-		else
-			return true;
+			return entity.GotPower();
 	}
 
 }

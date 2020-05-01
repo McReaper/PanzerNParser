@@ -182,6 +182,14 @@ public abstract class Entity {
 		else
 			throw new IllegalStateException("setState null");
 	}
+	
+	public void setStuff(boolean bool) {
+		m_stuff = bool;
+		if (bool)
+			System.out.println("je donne du stuff");
+		else 
+			System.out.println("je reprends le stuff");
+	}
 
 	public LsAction getCurrentAction() {
 		return m_currentAction;
@@ -955,6 +963,12 @@ public abstract class Entity {
 		return inX && inY;
 	}
 	
+	
+	/*
+	 * Fonction qui donne la coord x de la case devant dans la direction dir
+	 * ATTENTION ne donne pas de coordonée pour la dir HERE,
+	 * cas a gérer à l'appel de cette fonction
+	 */
 	public int getXCaseDir(MyDirection dir) {
 		int posX = 0;
 		MyDirection AbsoluteDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);

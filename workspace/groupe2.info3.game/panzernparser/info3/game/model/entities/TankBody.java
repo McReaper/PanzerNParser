@@ -30,7 +30,7 @@ public class TankBody extends MovingEntity {
 	public static final long TANKBODY_EXPLODE_TIME = 1000;
 	public static final long TANKBODY_MOVE_TIME = 800;
 	public static final long TANKBODY_PICK_TIME = 50;
-	public static final long TANKBODY_POP_TIME = 100;
+	public static final long TANKBODY_POP_TIME = 1000;
 	public static final long TANKBODY_POWER_TIME = 1000;
 	public static final long TANKBODY_PROTECT_TIME = 1000;
 	public static final long TANKBODY_STORE_TIME = 1000;
@@ -76,19 +76,11 @@ public class TankBody extends MovingEntity {
 			for (Entity ent : entities) {
 				if ( ent instanceof Vein) {
 					System.out.println("je creuse sur une vein");
-					//creation de la droppable lorsqu'on a fini de creuser
-						Model.getModel().getGrid().removeEntity(ent);//suppression de l'entitté de la grid
-						Model.getModel().removeEntity(ent);//suppresion de la vein dans la liste d'ent du model
-					
-						Entity drop = EntityFactory.newEntity(MyEntities.Droppable, posX, posY);
-						((Droppable) drop).setQuantity(10);//TODO a mettre dans une variable
-						((Droppable) drop).setMaterialType(MaterialType.MINERAL);
-						
+					ent.setStuff(true);
 					}
 			}
 			m_actionFinished = false;
 			m_currentAction = null;
-			
 			
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
@@ -97,7 +89,7 @@ public class TankBody extends MovingEntity {
 			int posX = getXCaseDir(dir);
 			int posY = getYCaseDir(dir);
 			Entity trou = EntityFactory.newEntity(MyEntities.Trou, posX, posY);
-			((Trou) trou).setStuff(true);
+			trou.setStuff(true);
 		}
 	}
 

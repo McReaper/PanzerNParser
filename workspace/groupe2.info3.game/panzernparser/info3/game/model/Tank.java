@@ -40,7 +40,6 @@ public class Tank {
 
 	public void relocateParts() {
 		if (m_turret.getX() != m_body.getX() || m_turret.getY() != m_body.getY()) {
-			Model.getModel().getGrid().teleported(m_turret, m_turret.getX(), m_turret.getY(), m_body.getX(), m_body.getY());
 			m_turret.setPosition(m_body.getX(), m_body.getY());
 		}
 	}
@@ -75,6 +74,10 @@ public class Tank {
 
 	public void setLife(int tankHealth) {
 		m_health = tankHealth;
+	}
+	
+	public int getLife() {
+		return m_health;
 	}
 
 	public void getDamages(int damages) {

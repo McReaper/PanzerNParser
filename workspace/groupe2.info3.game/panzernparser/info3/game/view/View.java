@@ -82,8 +82,10 @@ public class View extends Container {
 		return BL;
 	}
 
-	public Coords toGridCoord(Coords c) {
+	public Coords toGridCoord(Coords c) throws IllegalArgumentException {
 		Grid g = Model.getModel().getGrid();
+		if (!m_viewPort.isInViewport((int)c.X, (int)c.Y))
+			throw new IllegalArgumentException("Clic dans la zone noire !");
 		int Rx, Ry;
 		double offX = c.X + m_viewPort.getOffsetX() - m_viewPort.getOffsetWindowX();
 		double offY = c.Y + m_viewPort.getOffsetY() - m_viewPort.getOffsetWindowY();

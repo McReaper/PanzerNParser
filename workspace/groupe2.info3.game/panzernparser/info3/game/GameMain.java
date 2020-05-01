@@ -97,7 +97,8 @@ public class GameMain {
 		int min_width_vp = ViewPort.MINIMAL_WIDTH;
 		int min_height_vp = ViewPort.MINIMAL_HEIGHT;
 
-		m_frame.setMinimumSize(new Dimension(min_width_hud + min_width_vp, Math.max(min_height_hud, min_height_vp)));
+		//TODO : a revoir, des bandes noires persistes
+		m_frame.setMinimumSize(new Dimension(min_width_hud + Math.max(min_width_vp, min_height_hud) , Math.max(min_height_hud, min_height_vp)));
 
 		if (m_fullscreen) {
 			m_frame.setExtendedState(JFrame.MAXIMIZED_BOTH);

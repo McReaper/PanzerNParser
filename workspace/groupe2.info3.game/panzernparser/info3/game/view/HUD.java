@@ -34,7 +34,7 @@ import info3.game.model.entities.Turret;
 public class HUD {
 	
 	public static final int MINIMAL_WIDTH = 2 * 120;
-	public static final int MINIMAL_HEIGHT = 400;
+	public static final int MINIMAL_HEIGHT = 600;
 	
 
 	View m_view;

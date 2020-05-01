@@ -45,7 +45,7 @@ public class Drone extends MovingEntity {
 		super(x, y, DRONE_WIDTH, DRONE_HEIGHT, aut);
 		m_category = MyCategory.V;
 		m_nbMarkers = 0;
-		m_lengthOfView = DRONE_FOV;
+		m_range = DRONE_FOV;
 		m_currentVisionType = VisionType.RESSOURCES;
 		m_dammage_dealt = DRONE_DAMMAGE_DEALT;
 		m_speed = DRONE_SPEED;
@@ -75,9 +75,9 @@ public class Drone extends MovingEntity {
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
 			Coords c = Model.getModel().getClue();
-			Marker marker = (Marker) EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
+			EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
 			if (m_nbMarkers == MARKER_MAX)
-				Model.getModel().update(marker);
+				Model.getModel().removeEntity(Model.getModel().getEntities(MyEntities.Marker).get(0));
 			else {
 				m_nbMarkers++;
 			}
@@ -94,29 +94,7 @@ public class Drone extends MovingEntity {
 	@Override
 	public void Move(MyDirection dir) {
 		if (this.hasControl()) {
-			if (m_actionFinished && m_currentAction == LsAction.Move) {
-				this.doMove(dir);
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				MyDirection absoluteDir = MyDirection.toAbsolute(m_currentActionDir, dir);
-				switch (absoluteDir) {
-					case NORTH:
-					case EAST:
-					case WEST:
-					case SOUTH:
-						m_timeOfAction = m_speed;
-						break;
-					case NORTHEAST:
-					case NORTHWEST:
-					case SOUTHEAST:
-					case SOUTHWEST:
-						m_timeOfAction = (long) Math.sqrt(2 * m_speed * m_speed);
-
-				}
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Move;
-			}
+			super.Move(dir);
 		}
 	}
 
@@ -167,11 +145,11 @@ public class Drone extends MovingEntity {
 	}
 
 	public void growViewPort() {
-		m_lengthOfView++;
+		m_range++;
 	}
 
 	public void reduceViewPort() {
-		m_lengthOfView--;
+		m_range--;
 	}
 
 }

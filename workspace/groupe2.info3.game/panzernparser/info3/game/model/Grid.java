@@ -27,6 +27,7 @@ public class Grid {
 	/* entier pour le nombre de zone à charger dans la grille */
 	final static int TAILLE_MAP = 2;
 
+	@SuppressWarnings("unchecked")
 	public Grid() throws UnexpectedException {
 		// Constructeur (phase de tests) :
 		m_patterns = new LinkedList<Pattern>();
@@ -65,13 +66,14 @@ public class Grid {
 		}
 	}
 
-	/** Cette fonction sert de callback lorsque l'entité se d'une seule case dans
-	 * une direction
+	/**
+	 * Cette fonction sert de callback lorsque l'entité se d'une seule case dans une
+	 * direction
 	 * 
-	 * @param entity 		L'entité qui se déplace
-	 * @param dir 			La direction de son déplacement
+	 * @param entity L'entité qui se déplace
+	 * @param dir    La direction de son déplacement
 	 */
-	
+
 	public void moved(Entity entity, MyDirection dir) {
 		int width = entity.getWidth();
 		int height = entity.getHeight();
@@ -154,17 +156,18 @@ public class Grid {
 				System.err.println("Le callBack a été appelé avec une mauvaise directions");
 		}
 	}
-	
-	/** Cette fonction sert de callback lorsque l'entité se déplace de plus d'une
+
+	/**
+	 * Cette fonction sert de callback lorsque l'entité se déplace de plus d'une
 	 * case
 	 * 
-	 * @param entity		L'entité qui se téléporte
-	 * @param fromX			La coordonnée X de départ
-	 * @param fromY			La coordonnée Y de départ
-	 * @param toX				La coordonnée X de d'arrivée
-	 * @param toY				La coordonnée Y de d'arrivée
+	 * @param entity L'entité qui se téléporte
+	 * @param fromX  La coordonnée X de départ
+	 * @param fromY  La coordonnée Y de départ
+	 * @param toX    La coordonnée X de d'arrivée
+	 * @param toY    La coordonnée Y de d'arrivée
 	 */
-	
+
 	public void teleported(Entity entity, int fromX, int fromY, int toX, int toY) {
 		int width = entity.getWidth();
 		int height = entity.getHeight();
@@ -179,14 +182,15 @@ public class Grid {
 			}
 		}
 	}
-	
+
 	public LinkedList<Entity> getEntityCell(int x, int y) {
 		int rx = realX(x);
 		int ry = realY(y);
 		return m_entityGrid[rx][ry];
 	}
-	
-	/** /!\ Cette fonction est pour le debug UNIQUEMENT, vérifier bien de ne la
+
+	/**
+	 * /!\ Cette fonction est pour le debug UNIQUEMENT, vérifier bien de ne la
 	 * laisser nullpart dans des versions finies. (pour la trouver ctrl+shift+G
 	 */
 	public void TESTPRINT() {
@@ -197,7 +201,7 @@ public class Grid {
 			for (int j = 0; j < m_entityGrid.length; j++) {
 				System.out.print(m_entityGrid[j][i].size());
 			}
-			
+
 		}
 	}
 

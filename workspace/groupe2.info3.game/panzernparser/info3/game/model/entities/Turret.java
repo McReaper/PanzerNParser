@@ -72,8 +72,24 @@ public class Turret extends StaticEntity {
 			m_timeOfAction = TURRET_HIT_TIME;
 
 			// creation du shot en fonction de l'arme
-			// TODO gerer la position de création de shot de plus d'une case
-			Entity ent = EntityFactory.newEntityShot(MyEntities.Shot, this.m_x + m_width / 2, m_y + m_height / 2, m_typeGun);
+			int pos_x = m_x;
+			int pos_y = m_y;
+			switch (m_typeGun) {
+				case GUN_BIG_BULLET:
+					pos_x = m_x + m_width / 2 - ShotBig.SHOTBIG_WIDTH / 2;
+					pos_y = m_y + m_height / 2 - ShotBig.SHOTBIG_HEIGHT / 2;
+					break;
+				case GUN_BULLET_FAST:
+					pos_x = m_x + m_width / 2 - ShotFast.SHOTFAST_WIDTH / 2;
+					pos_y = m_y + m_height / 2 - ShotFast.SHOTFAST_HEIGHT / 2;
+					break;
+				case GUN_BULLET_SLOW:
+					pos_x = m_x + m_width / 2 - ShotSlow.SHOTSLOW_WIDTH / 2;
+					pos_y = m_y + m_height / 2 - ShotSlow.SHOTSLOW_HEIGHT / 2;
+					break;
+
+			}
+			Entity ent = EntityFactory.newEntityShot(MyEntities.Shot, pos_x, pos_y, m_typeGun);
 
 			// Donne la direction de regard et d'action
 			ent.setLookDir(MyDirection.toAbsolute(this.m_currentLookAtDir, dir));
@@ -129,7 +145,7 @@ public class Turret extends StaticEntity {
 			return super.Key(key);
 		return false;
 	}
-	
+
 	public int getWeapon() {
 		return m_typeGun;
 	}

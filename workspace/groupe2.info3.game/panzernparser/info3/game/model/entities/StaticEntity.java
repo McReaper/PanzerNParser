@@ -10,15 +10,10 @@ public abstract class StaticEntity extends Entity {
 
 	public StaticEntity(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, aut);
+		m_speed = 0;
 	}
 	
 	public boolean GotPower() {
 		return true;
 	}
-	
-	@Override
-	public void collide (int dammage) {
-		//Rien a faire car les statics n'ont pas de points de vie
-	}
-
 }

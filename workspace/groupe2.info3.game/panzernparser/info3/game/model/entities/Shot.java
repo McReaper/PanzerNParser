@@ -10,16 +10,9 @@ public abstract class Shot extends MovingEntity{
 	private Entity m_owner;
 
 	public Shot(int x, int y, int width, int height, Automaton aut) {
-		// TODO
 		super(x, y, width, height, aut);
 		m_category = MyCategory.M;
 	}
-
-	@Override
-	public abstract void Move(MyDirection dir);
-
-	@Override
-	public abstract void Explode();
 
 	public void setOwner(Entity ent) {
 		m_owner = ent;

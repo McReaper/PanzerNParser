@@ -51,37 +51,16 @@ public class TankBody extends MovingEntity {
 		m_dammage_dealt = TANKBODY_DAMMAGE_DEALT;
 		m_speed = TANKBODY_SPEED;
 	}
+	
+	@Override
+	public void Move(MyDirection dir) {
+		if (m_tank.hasControl()) {
+			super.Move(dir);
+		}
+	}
 
 	public void setTank(Tank tank) {
 		m_tank = tank;
-	}
-
-	@Override
-	public void Move(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == LsAction.Move) {
-			this.doMove(dir);
-			m_actionFinished = false;
-			m_currentAction = null;
-		} else if (m_currentAction == null) {
-			MyDirection absoluteDir = MyDirection.toAbsolute(m_currentActionDir, dir);
-			switch (absoluteDir) {
-				case NORTH:
-				case EAST:
-				case WEST:
-				case SOUTH:
-					m_timeOfAction = m_speed;
-					break;
-				case NORTHEAST:
-				case NORTHWEST:
-				case SOUTHEAST:
-				case SOUTHWEST:
-					m_timeOfAction = (long) Math.sqrt(2 * m_speed * m_speed);
-				default:
-					break;
-			}
-			m_currentActionDir = dir;
-			m_currentAction = LsAction.Move;
-		}
 	}
 
 	@Override
@@ -128,12 +107,11 @@ public class TankBody extends MovingEntity {
 		 * TODO faire un GAME OVER
 		 */
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
-			m_tank.setLife(Tank.TANK_HEALTH);// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
-			// m_tank.doExplode();
-			this.m_health = getMaxHealth();//je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
+			m_tank.setLife(Tank.TANK_HEALTH);// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
+			// m_tank.doExplode();
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = TANKBODY_EXPLODE_TIME;
 		}
@@ -175,12 +153,22 @@ public class TankBody extends MovingEntity {
 	}
 
 	@Override
+	public void collide(int dammage) {
+		m_tank.setLife(m_tank.getLife() - dammage); 
+	}
+	
+	@Override
 	public boolean Key(LsKey key) {
 		if (m_tank.hasControl())
 			return super.Key(key);
 		return false;
 	}
 
+	@Override
+	public int getHealth() {
+		return m_tank.getLife();
+	}
+	
 	@Override
 	public boolean GotPower() {
 		return m_tank.gotPower();

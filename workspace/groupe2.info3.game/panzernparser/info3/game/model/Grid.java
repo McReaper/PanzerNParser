@@ -191,7 +191,7 @@ public class Grid {
 
 	/**
 	 * /!\ Cette fonction est pour le debug UNIQUEMENT, vérifier bien de ne la
-	 * laisser nullpart dans des versions finies. (pour la trouver ctrl+shift+G
+	 * laisser nullpart dans des versions finies. (pour la trouver ctrl+shift+G)
 	 */
 	public void TESTPRINT() {
 		System.out.println();

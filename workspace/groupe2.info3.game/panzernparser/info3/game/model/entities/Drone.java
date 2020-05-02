@@ -1,10 +1,13 @@
 package info3.game.model.entities;
 
+import java.util.LinkedList;
+
 import info3.game.automaton.Automaton;
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Grid;
 import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
@@ -36,9 +39,9 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_WAIT_TIME = 50;
 	public static final long DRONE_WIZZ_TIME = 1000;
 
-	public static final int DRONE_DAMMAGE_DEALT= 0;
+	public static final int DRONE_DAMMAGE_DEALT = 0;
 
-	private int m_nbMarkers;
+	int m_nbMarkers;
 	private VisionType m_currentVisionType;
 
 	public Drone(int x, int y, Automaton aut) {
@@ -54,6 +57,11 @@ public class Drone extends MovingEntity {
 	@Override
 	public boolean Closest(MyDirection dir, MyCategory type) {
 		return (type == MyCategory.C && Model.getModel().getClue() != null);
+	}
+	
+	@Override
+	public boolean isShown() {
+		return (Model.getModel().getVisionType() != VisionType.TANK);
 	}
 
 	private void switchVision() {
@@ -75,11 +83,20 @@ public class Drone extends MovingEntity {
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
 			Coords c = Model.getModel().getClue();
-			EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
-			if (m_nbMarkers == MARKER_MAX)
-				Model.getModel().removeEntity(Model.getModel().getEntities(MyEntities.Marker).get(0));
-			else {
-				m_nbMarkers++;
+			Grid grid = Model.getModel().getGrid();
+			LinkedList<Entity> lsmarker = grid.getEntityCells((int) c.X - 1, (int) c.Y - 1, 3, 3, MyEntities.Marker);
+			if (lsmarker.size() != 0) {
+				for (Entity entity : lsmarker) {
+					Model.getModel().removeEntity(entity);
+					m_nbMarkers--;
+				}
+			} else {
+				EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
+				if (m_nbMarkers == MARKER_MAX)
+					Model.getModel().removeEntity(Model.getModel().getEntities(MyEntities.Marker).get(0));
+				else {
+					m_nbMarkers++;
+				}
 			}
 			Model.getModel().cleanClue();
 			m_actionFinished = false;

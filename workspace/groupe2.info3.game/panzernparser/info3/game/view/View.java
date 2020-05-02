@@ -49,6 +49,8 @@ public class View extends Container {
 		orderEntities.add(MyEntities.Ground);
 		m_avatars.add(new VeinAvatar(config.getAnimation(MyEntities.Vein)));
 		orderEntities.add(MyEntities.Vein);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Hole)));
+		orderEntities.add(MyEntities.Hole);
 		m_avatars.add(new DroppableAvatar(config.getAnimation(MyEntities.Droppable)));
 		orderEntities.add(MyEntities.Droppable);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Wall)));

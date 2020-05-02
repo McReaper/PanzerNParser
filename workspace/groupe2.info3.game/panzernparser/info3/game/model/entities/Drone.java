@@ -52,7 +52,6 @@ public class Drone extends MovingEntity {
 		m_nbMarkers = 0;
 		m_range = DRONE_FOV;
 		m_currentVisionType = VisionType.RESSOURCES;
-		m_damage_dealt = DRONE_DAMAGE_DEALT;
 		m_speed = DRONE_SPEED;
 		m_uncrossables = new LinkedList<MyCategory>();
 		m_maxHealth = DRONE_HEALTH;
@@ -69,7 +68,6 @@ public class Drone extends MovingEntity {
 		}else if (m_health < m_maxHealth) {
 			m_health += DRONE_RECHARGE * elapsed;
 		}
-		System.out.println("drone health : "+m_health);
 		super.step(elapsed);
 	}
 

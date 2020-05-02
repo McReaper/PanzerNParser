@@ -43,12 +43,10 @@ public class CollisionManager {
 						LinkedList<Entity> entities = Model.getModel().getGrid().getEntityCell(i, j);
 						for (Entity entity : entities) {
 							if (entity != entShot && entity != ((Shot) entShot).getOwner()) {
-								if (!(((Shot) entShot).getOwner() instanceof TankBody) || !(entity instanceof Turret)) {
-									if (entity.getCategory() == MyCategory.AT || entity.getCategory() == MyCategory.A
-											|| entity.getCategory() == MyCategory.O) {
-										entShot.collide(entity.getDamageDealt());
-										entity.collide(entShot.getDamageDealt());
-									}
+								if (entity.getCategory() == MyCategory.AT || entity.getCategory() == MyCategory.A
+										|| entity.getCategory() == MyCategory.O) {
+									entShot.collide(entity.getDamageDealt());
+									entity.collide(entShot.getDamageDealt());
 								}
 							}
 						}

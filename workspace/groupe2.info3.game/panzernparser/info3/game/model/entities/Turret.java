@@ -47,7 +47,7 @@ public class Turret extends StaticEntity {
 	public Turret(int x, int y, Automaton aut) {
 		super(x, y, TURRET_WIDTH, TURRET_HEIGHT, aut);
 		m_tank = null;
-		m_category = MyCategory.AT;
+		m_category = MyCategory.V;
 		m_typeGun = GUN_BULLET_SLOW;
 		m_nbGun = 3;
 	}

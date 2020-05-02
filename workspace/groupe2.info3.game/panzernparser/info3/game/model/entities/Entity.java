@@ -14,6 +14,9 @@ import info3.game.model.Model;
 
 public abstract class Entity {
 
+	private final static int MAX_RANGE = 14;
+	private final static int MIN_RANGE = 7;
+
 	final static int DEFAULT_MOVING_DISTANCE = 1;
 
 	public static final long DEFAULT_EGG_TIME = 1000;
@@ -236,6 +239,14 @@ public abstract class Entity {
 
 	public int getFieldOfView() {
 		return m_range;
+	}
+
+	public void growViewPort() {
+		if (m_range < MAX_RANGE) m_range++;
+	}
+
+	public void reduceViewPort() {
+		if (m_range > MIN_RANGE) m_range--;
 	}
 
 	public int getDamageDealt() {
@@ -801,7 +812,7 @@ public abstract class Entity {
 	public boolean GotStuff() {
 		return m_stuff;
 	}
-
+	
 	/**
 	 * Pour une direction donnée `dir` par rapport à l'entité, on regarde en
 	 * fonction de sa distance de vue si la catégorie `type` la plus proche donnée
@@ -1204,6 +1215,10 @@ public abstract class Entity {
 
 	public int getMaxHealth() {
 		return m_maxHealth;
+	}
+	
+	public void setMaxHealth(int maxHealth) {
+		m_maxHealth = maxHealth;
 	}
 
 	public int getLevel() {

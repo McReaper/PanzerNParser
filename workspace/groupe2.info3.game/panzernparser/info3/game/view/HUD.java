@@ -415,7 +415,7 @@ public class HUD {
 			case TANK:
 				m_weaponTitledBorder.setTitle("Weapon");
 				/*TODO : adapter HUD en fction de Weapon*/
-				//m_weaponImage.setIcon(m_weaponArray[tankTurret.getWeapon()]);
+				m_weaponImage.setIcon(m_weaponArray[tankTurret.getIndexWeapon()]);
 				m_ammoTitledBorder.setTitle("Ammo");
 				m_ammo.setText("10 / 10");
 				m_ammoPanel.setBorder(m_ammoTitledBorder);

@@ -17,7 +17,7 @@ public class Drone extends MovingEntity {
 	public static final int DRONE_HEALTH = 100;
 	public static final int DRONE_SPEED = 200;
 
-	public static final int MARKER_MAX = 3;
+	public static final int INIT_MARKER_MAX = 3;
 	public static final int DRONE_FOV = 10;
 
 	public static final long DRONE_EGG_TIME = 1000;
@@ -39,6 +39,7 @@ public class Drone extends MovingEntity {
 	public static final int DRONE_DAMMAGE_DEALT = 0;
 
 	private int m_nbMarkers;
+	private int m_maxMarkers;
 	private VisionType m_currentVisionType;
 
 	public Drone(int x, int y, Automaton aut) {
@@ -46,6 +47,7 @@ public class Drone extends MovingEntity {
 		m_category = MyCategory.V;
 		m_nbMarkers = 0;
 		m_range = DRONE_FOV;
+		m_maxMarkers = INIT_MARKER_MAX;
 		m_currentVisionType = VisionType.RESSOURCES;
 		m_dammage_dealt = DRONE_DAMMAGE_DEALT;
 		m_speed = DRONE_SPEED;
@@ -76,7 +78,7 @@ public class Drone extends MovingEntity {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
 			Coords c = Model.getModel().getClue();
 			EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
-			if (m_nbMarkers == MARKER_MAX)
+			if (m_nbMarkers == m_maxMarkers)
 				Model.getModel().removeEntity(Model.getModel().getEntities(MyEntities.Marker).get(0));
 			else {
 				m_nbMarkers++;
@@ -171,6 +173,14 @@ public class Drone extends MovingEntity {
 		if (hasControl())
 			return super.Key(key);
 		return false;
+	}
+	
+	public int getMaxMarkers() {
+		return m_maxMarkers;
+	}
+	
+	public void setMaxMarkers(int maxCount) {
+		m_maxMarkers = maxCount;
 	}
 
 }

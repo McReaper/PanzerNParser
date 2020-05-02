@@ -6,7 +6,7 @@ public class UpgradeDroneUsage extends Upgrade {
 
 	private static final int MINERALS_COST = 10;
 	private static final int ELECTRONICALS_COST = 3;
-	private static final int DURATION_BOOST = 10;
+	private static final double DURATION_BOOST = 0.10; //10%
 	private static final double COST_FACTOR = 0.8;
 	
 	public UpgradeDroneUsage(Tank tank, Drone drone) {
@@ -20,7 +20,7 @@ public class UpgradeDroneUsage extends Upgrade {
 			int mineral_cost = (int) (MINERALS_COST + (MINERALS_COST * m_level * COST_FACTOR));
 			int electronical_cost = (int) (ELECTRONICALS_COST + (ELECTRONICALS_COST * m_level * COST_FACTOR));
 			inv.used(MaterialType.MINERAL, mineral_cost, MaterialType.ELECTRONIC, electronical_cost);
-			m_drone.setMaxHealth(m_drone.getMaxHealth() + DURATION_BOOST);
+			m_drone.setMaxHealth((int)(m_drone.getMaxHealth() + (m_drone.getMaxHealth()*DURATION_BOOST)));
 			m_level++;
 		} else {
 			throw new IllegalAccessException("Ressources insuffisantes dans l'inventaire.");

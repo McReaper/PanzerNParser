@@ -58,6 +58,8 @@ public class Tank {
 		}
 	}
 
+	////////////////// GETTERS AND SETTERS/////////////////////
+
 	public TankBody getBody() {
 		return m_body;
 	}
@@ -78,7 +80,7 @@ public class Tank {
 	public void setLife(int tankHealth) {
 		m_health = tankHealth;
 	}
-	
+
 	public int getLife() {
 		return m_health;
 	}
@@ -86,17 +88,50 @@ public class Tank {
 	public int getMaxLife() {
 		return m_maxHealth;
 	}
-	
+
 	public void setMaxLife(int maxLife) {
 		m_maxHealth = maxLife;
 	}
 
-	public void getDamages(int damages) {
+	public void takeDamage(int damages) {
 		m_health -= damages;
+	}
+	
+	public int getDamage() {
+		return m_turret.getDamage();
+	}
+	
+	public void setDamage(int dmg) {
+		m_turret.setDamage(dmg);
+	}
+
+	public int getSpeed() {
+		return 0;
+		return m_body.getSpeed(); 
+	}
+
+	public void setSpeed(int val) {
+		m_body.setSpeed(val);
 	}
 
 	public boolean gotPower() {
 		return m_health > 0;
+	}
+
+	public int getMaxAmmo() {
+		return m_turret.getMaxAmmo();
+	}
+
+	public void setMaxAmmo(int val) {
+		m_turret.setMaxAmmo(val);
+	}
+
+	public long getMiningTime() {
+		return m_body.getMiningTime();
+	}
+
+	public void setMiningTime(long t) {
+		m_body.setMiningTime(t);
 	}
 
 	///// METHODES POUR LA VUE /////

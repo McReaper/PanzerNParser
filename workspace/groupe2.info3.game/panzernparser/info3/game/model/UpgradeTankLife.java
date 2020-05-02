@@ -13,13 +13,13 @@ public class UpgradeTankLife extends Upgrade {
 
 	@Override
 	public void improve() throws IllegalAccessException {
-		if (isAvaible()) {
-			Inventory inv = m_tank.getInventory();
-			int mineral_cost = (int) (MINERALS_COST + (MINERALS_COST * m_level * COST_FACTOR));
-			int electronical_cost = (int) (ELECTRONICALS_COST + (ELECTRONICALS_COST * m_level * COST_FACTOR));
+		Inventory inv = m_tank.getInventory();
+		int mineral_cost = (int) (MINERALS_COST + (MINERALS_COST * m_level * COST_FACTOR));
+		int electronical_cost = (int) (ELECTRONICALS_COST + (ELECTRONICALS_COST * m_level * COST_FACTOR));
+		if (isAvaibleFor(mineral_cost, electronical_cost)) {
 			inv.used(MaterialType.MINERAL, mineral_cost, MaterialType.ELECTRONIC, electronical_cost);
 			m_tank.setMaxLife(m_tank.getMaxLife() + LIFE_BOOST);
-			m_tank.getDamages(-LIFE_BOOST); // Heal le tank.
+			m_tank.takeDamage(-LIFE_BOOST); // Heal le tank.
 			m_level++;
 		} else {
 			throw new IllegalAccessException("Ressources insuffisantes dans l'inventaire.");

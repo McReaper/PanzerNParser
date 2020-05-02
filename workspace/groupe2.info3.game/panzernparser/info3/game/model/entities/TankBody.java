@@ -40,6 +40,7 @@ public class TankBody extends MovingEntity {
 	public static final int TANKBODY_DAMMAGE_DEALT = 100;
 
 	private Tank m_tank;
+	private long m_miningTime;
 
 	public TankBody(int x, int y, Automaton aut) {
 		super(x, y, TANKBODY_WIDTH, TANKBODY_HEIGHT, aut);
@@ -49,6 +50,7 @@ public class TankBody extends MovingEntity {
 		m_level = 1;
 		m_dammage_dealt = TANKBODY_DAMMAGE_DEALT;
 		m_speed = TANKBODY_SPEED;
+		m_miningTime = TANKBODY_POP_TIME;
 	}
 
 	@Override
@@ -70,7 +72,7 @@ public class TankBody extends MovingEntity {
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
-			m_timeOfAction = TANKBODY_POP_TIME;
+			m_timeOfAction = m_miningTime;
 		}
 	}
 
@@ -176,6 +178,14 @@ public class TankBody extends MovingEntity {
 	@Override
 	public boolean GotPower() {
 		return m_tank.gotPower();
+	}
+
+	public long getMiningTime() {
+		return m_miningTime;
+	}
+	
+	public void setMiningTime(long time) {
+		m_miningTime = time;
 	}
 
 }

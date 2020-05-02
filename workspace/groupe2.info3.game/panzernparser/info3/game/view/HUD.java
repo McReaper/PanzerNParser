@@ -383,7 +383,7 @@ public class HUD {
 				m_weaponLabel.setText("Marker :");
 				m_weaponImage.setIcon(m_weaponArray[5]);
 				m_ammoTitledBorder.setTitle("Marker");
-				m_ammo.setText(markers.size() + " / " + drone.MARKER_MAX);
+				m_ammo.setText(markers.size() + " / " + drone.getMaxMarkers());
 				m_ammoPanel.setBorder(m_ammoTitledBorder);
 				m_ammoPanel.repaint();
 				
@@ -396,7 +396,7 @@ public class HUD {
 				m_weaponLabel.setText("Marker :");
 				m_weaponImage.setIcon(m_weaponArray[5]);
 				m_ammoTitledBorder.setTitle("Marker");
-				m_ammo.setText(markers.size() + " / " + drone.MARKER_MAX);
+				m_ammo.setText(markers.size() + " / " + drone.getMaxMarkers());
 				m_ammoPanel.setBorder(m_ammoTitledBorder);
 				m_ammoPanel.repaint();
 				

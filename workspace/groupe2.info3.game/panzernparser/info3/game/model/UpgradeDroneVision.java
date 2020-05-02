@@ -16,13 +16,23 @@ public class UpgradeDroneVision extends Upgrade {
 
 	@Override
 	public void activate() throws IllegalAccessException {
-		if (isAvaible()) {
+		if (isAvaibleFor(MINERALS_COST, ELECTRONICALS_COST)) {
 			Inventory inv = m_tank.getInventory();
 			inv.used(MaterialType.MINERAL, MINERALS_COST, MaterialType.ELECTRONIC, ELECTRONICALS_COST);
 			m_drone.setStuff(true);
 			m_level = 1;
 		} else {
 			throw new IllegalAccessException("Ressources insuffisantes dans l'inventaire.");
+		}
+	}
+	
+	@Override
+	public void deactivate() throws IllegalAccessException {
+		if (m_level != 1) {
+			m_drone.setStuff(false);
+			m_level = 0;
+		} else {
+			throw new IllegalAccessException("Upgrade non-activée.");
 		}
 	}
 

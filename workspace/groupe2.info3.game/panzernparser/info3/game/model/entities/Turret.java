@@ -62,9 +62,9 @@ public class Turret extends StaticEntity {
 	}
 
 	private void initTabsWeapons() {
-		m_weapons[0]= new WeaponBasic();
-		m_weapons[1]= new WeaponBasic();
-		m_weapons[2]= new WeaponBasic();
+		m_weapons[0]= new WeaponBasic(this);
+		m_weapons[1]= new WeaponBasic(this);
+		m_weapons[2]= new WeaponBasic(this);
 	}
 
 	public void setTank(Tank tank) {

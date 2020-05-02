@@ -8,12 +8,9 @@ public abstract class Weapon {
 	protected int m_magCapacity;
 	protected long m_reload;
 	protected int m_nbShotsLeft;
-	protected int m_y;// enplacement de la turret
-	protected int m_x;// TODO renomer si besoin
 
-	public Weapon(int mag_capacity, long reload) {
-		m_x = m_turret.getX();
-		m_y = m_turret.getY();
+	public Weapon(int mag_capacity, long reload, Turret t) {
+		m_turret = t;
 		m_reload = reload;
 		m_magCapacity = mag_capacity;
 		m_nbShotsLeft = m_magCapacity;
@@ -26,6 +23,7 @@ public abstract class Weapon {
 	public void imrpoveMagazin(int improvement) {
 		m_magCapacity += improvement;
 	}
-
+	public abstract void reloading();//recharge
+	public abstract boolean isEmpty();//regarde si chargeur est vide
 	public abstract void fire(MyDirection dir);
 }

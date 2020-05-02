@@ -48,6 +48,7 @@ public class Controller implements GameCanvasListener {
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
+			// TODO : IOOBE , demandez aux autres groupes.
 			m_view.m_canvas.play(name, fis, -1);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -64,21 +65,21 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		/*
-		 * TODO prendre en compte l'ATH en drone car si on clique sur la barre de vie,
-		 * on a pas envie d'avoir un marqueur en cette position
-		 */
 		if (!m_model.isPlayingTank()) {
 			Coords c = new Coords(e.getX(), e.getY());
-			c = m_view.toGridCoord(c);
-			m_model.addClue(c);
+			try {
+				c = m_view.toGridCoord(c);
+				m_model.addClue(c);
+			} catch (IllegalArgumentException ex) {
+				return; // On ne pose pas de marqueurs.
+			}
 		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_F11) {
-			GameMain.getGame().goFullscreen();
+			//GameMain.getGame().goFullscreen(); // TODO : tobefixed
 		}
 		LsKey temp = toLsKey(e);
 		m_model.addKeyPressed(temp);

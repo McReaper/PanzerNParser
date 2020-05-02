@@ -38,79 +38,46 @@ public class ShotBig extends Shot {
 		m_speed = SHOTBIG_SPEED;
 	}
 
+	@Override
 	public void Move(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == LsAction.Move) {
-			this.doMove(dir);
-			m_actionFinished = false;
-			m_currentAction = null;
-		} else if (m_currentAction == null) {
-			m_health -= SHOTBIG_NUMBER_CASE_LIFE;
-			MyDirection absoluteDir = MyDirection.toAbsolute(m_currentActionDir, dir);
-			switch (absoluteDir) {
-				case NORTH:
-				case EAST:
-				case WEST:
-				case SOUTH:
-					m_timeOfAction = m_speed;
-					break;
-				case NORTHEAST:
-				case NORTHWEST:
-				case SOUTHEAST:
-				case SOUTHWEST:
-					m_timeOfAction = (long) Math.sqrt(2 * m_speed * m_speed);
-				default:
-					break;
-			}
-			m_currentActionDir = dir;
-			m_currentAction = LsAction.Move;
-		}
+		m_health -= SHOTBIG_NUMBER_CASE_LIFE / 2; // TODO : revoir pour la durer de vie des balles dans les diagonales
+		super.Move(dir);
 	}
-
-	public void Explode(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == LsAction.Explode) {
-			this.doExplode();
-			m_actionFinished = false;
-			m_currentAction = null;
-		} else if (m_currentAction == null) {
-			m_currentAction = LsAction.Explode;
-			m_timeOfAction = SHOTBIG_EXPLODE_TIME;
-		}
-	}
-
-	public void Egg(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == LsAction.Egg) {
-			m_actionFinished = false;
-			m_currentAction = null;
-			Entity ent = EntityFactory.newEntityShot(MyEntities.Shot, this.m_x, m_y, Turret.GUN_BIG_BULLET);
-			Entity ent2 = EntityFactory.newEntityShot(MyEntities.Shot, this.m_x, m_y,Turret.GUN_BIG_BULLET);
-
-			// Donne la direction de regard et d'action
-			ent.setLookDir(MyDirection.toAbsolute(m_currentLookAtDir, MyDirection.LEFT));
-			ent.setActionDir(MyDirection.toAbsolute(m_currentActionDir, MyDirection.LEFT));
-
-			// Donne la direction de regard et d'action
-			ent2.setLookDir(MyDirection.toAbsolute(m_currentLookAtDir, MyDirection.RIGHT));
-			ent2.setActionDir(MyDirection.toAbsolute(m_currentActionDir, MyDirection.RIGHT));
-
-			// Donne l'entité qui l'a tiré
-			((Shot) ent).setOwner(this);
-			((Shot) ent2).setOwner(this);
-		} else if (m_currentAction == null) {
-			m_currentAction = LsAction.Egg;
-			m_timeOfAction = SHOTBIG_EGG_TIME;
-		}
-	}
-
+	
 	@Override
 	public void Explode() {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
-			this.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
+			this.doExplode();
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = SHOTBIG_EXPLODE_TIME;
 		}
 	}
+
+//	public void Egg(MyDirection dir) {
+//		if (m_actionFinished && m_currentAction == LsAction.Egg) {
+//			m_actionFinished = false;
+//			m_currentAction = null;
+//			Entity ent = EntityFactory.newEntityShot(MyEntities.Shot, this.m_x, m_y, Turret.GUN_BIG_BULLET);
+//			Entity ent2 = EntityFactory.newEntityShot(MyEntities.Shot, this.m_x, m_y, Turret.GUN_BIG_BULLET);
+//
+//			// Donne la direction de regard et d'action
+//			ent.setLookDir(MyDirection.toAbsolute(m_currentLookAtDir, MyDirection.LEFT));
+//			ent.setActionDir(MyDirection.toAbsolute(m_currentActionDir, MyDirection.LEFT));
+//
+//			// Donne la direction de regard et d'action
+//			ent2.setLookDir(MyDirection.toAbsolute(m_currentLookAtDir, MyDirection.RIGHT));
+//			ent2.setActionDir(MyDirection.toAbsolute(m_currentActionDir, MyDirection.RIGHT));
+//
+//			// Donne l'entité qui l'a tiré
+//			((Shot) ent).setOwner(this);
+//			((Shot) ent2).setOwner(this);
+//		} else if (m_currentAction == null) {
+//			m_currentAction = LsAction.Egg;
+//			m_timeOfAction = SHOTBIG_EGG_TIME;
+//		}
+//	}
 
 }

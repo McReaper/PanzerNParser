@@ -9,7 +9,6 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Tank;
-import info3.game.model.entities.EntityFactory.MyEntities;
 
 /**
  * Chassis du tank
@@ -38,50 +37,31 @@ public class TankBody extends MovingEntity {
 	public static final long TANKBODY_WAIT_TIME = 50;
 	public static final long TANKBODY_WIZZ_TIME = 1000;
 
-	public static final int TANKBODY_DAMMAGE_DEALT= 100;
+	public static final int TANKBODY_DAMMAGE_DEALT = 100;
 
 	private Tank m_tank;
+	private long m_miningTime;
 
 	public TankBody(int x, int y, Automaton aut) {
 		super(x, y, TANKBODY_WIDTH, TANKBODY_HEIGHT, aut);
-		m_maxHealth=TANKBODY_HEALTH;
+		m_health = TANKBODY_HEALTH;
 		m_tank = null;
 		m_category = MyCategory.AT;
 		m_level = 1;
 		m_dammage_dealt = TANKBODY_DAMMAGE_DEALT;
 		m_speed = TANKBODY_SPEED;
-	}
-
-	public void setTank(Tank tank) {
-		m_tank = tank;
+		m_miningTime = TANKBODY_POP_TIME;
 	}
 
 	@Override
 	public void Move(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == LsAction.Move) {
-			this.doMove(dir);
-			m_actionFinished = false;
-			m_currentAction = null;
-		} else if (m_currentAction == null) {
-			MyDirection absoluteDir = MyDirection.toAbsolute(m_currentActionDir, dir);
-			switch (absoluteDir) {
-				case NORTH:
-				case EAST:
-				case WEST:
-				case SOUTH:
-					m_timeOfAction = m_speed;
-					break;
-				case NORTHEAST:
-				case NORTHWEST:
-				case SOUTHEAST:
-				case SOUTHWEST:
-					m_timeOfAction = (long) Math.sqrt(2 * m_speed * m_speed);
-				default:
-					break;
-			}
-			m_currentActionDir = dir;
-			m_currentAction = LsAction.Move;
+		if (m_tank.hasControl()) {
+			super.Move(dir);
 		}
+	}
+
+	public void setTank(Tank tank) {
+		m_tank = tank;
 	}
 
 	@Override
@@ -92,7 +72,7 @@ public class TankBody extends MovingEntity {
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
-			m_timeOfAction = TANKBODY_POP_TIME;
+			m_timeOfAction = m_miningTime;
 		}
 	}
 
@@ -128,12 +108,11 @@ public class TankBody extends MovingEntity {
 		 * TODO faire un GAME OVER
 		 */
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
-			m_tank.setLife(Tank.TANK_HEALTH);// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
-			// m_tank.doExplode();
-			this.m_health = getMaxHealth();//je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
+			m_tank.setLife(Tank.TANK_HEALTH);// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
+			// m_tank.doExplode();
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = TANKBODY_EXPLODE_TIME;
 		}
@@ -160,7 +139,7 @@ public class TankBody extends MovingEntity {
 						System.out.println("Dans l'inventaire il y a "
 								+ m_tank.getInventory().getQuantity(((Droppable) ent).getMType()) + " matériaux ");
 					}
-				} 
+				}
 			}
 			for (Entity ent : clues) {
 				// vérifie si le pickable est dans la zone notre tank
@@ -175,6 +154,11 @@ public class TankBody extends MovingEntity {
 	}
 
 	@Override
+	public void collide(int dammage) {
+		m_tank.setLife(m_tank.getLife() - dammage);
+	}
+
+	@Override
 	public boolean Key(LsKey key) {
 		if (m_tank.hasControl())
 			return super.Key(key);
@@ -182,8 +166,26 @@ public class TankBody extends MovingEntity {
 	}
 
 	@Override
+	public int getHealth() {
+		return m_tank.getLife();
+	}
+	
+	@Override
+	public int getMaxHealth() {
+		return m_tank.getMaxLife();
+	}
+
+	@Override
 	public boolean GotPower() {
 		return m_tank.gotPower();
 	}
+
+	public long getMiningTime() {
+		return m_miningTime;
+	}
 	
+	public void setMiningTime(long time) {
+		m_miningTime = time;
+	}
+
 }

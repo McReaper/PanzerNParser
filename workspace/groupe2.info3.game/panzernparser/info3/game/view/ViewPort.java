@@ -2,7 +2,6 @@ package info3.game.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,13 +10,11 @@ import info3.game.automaton.action.LsAction;
 import info3.game.model.Grid;
 import info3.game.model.Model;
 import info3.game.model.entities.Entity;
-import info3.game.model.entities.EntityFactory;
-import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class ViewPort {
 
-	public static final int MINIMAL_WIDTH = 200; // TODO : a revisiter
-	public static final int MINIMAL_HEIGHT = 200;
+	public static final int MINIMAL_WIDTH = 400;
+	public static final int MINIMAL_HEIGHT = 400;
 
 	private Entity m_player;
 	private View m_view;
@@ -82,12 +79,12 @@ public class ViewPort {
 				case NORTH:
 				case NORTHEAST:
 				case NORTHWEST:
-					m_offsetY -= (m_caseSize * progress);
+					m_offsetY -= (m_caseSize * progress) - m_caseSize;
 					break;
 				case SOUTH:
 				case SOUTHEAST:
 				case SOUTHWEST:
-					m_offsetY += (m_caseSize * progress);
+					m_offsetY += (m_caseSize * progress) - m_caseSize;
 					break;
 				default:
 					break;
@@ -96,12 +93,12 @@ public class ViewPort {
 				case EAST:
 				case NORTHEAST:
 				case SOUTHEAST:
-					m_offsetX += (m_caseSize * progress);
+					m_offsetX += (m_caseSize * progress) - m_caseSize;
 					break;
 				case WEST:
 				case NORTHWEST:
 				case SOUTHWEST:
-					m_offsetX -= (m_caseSize * progress);
+					m_offsetX -= (m_caseSize * progress) - m_caseSize;
 					break;
 				default:
 					break;
@@ -142,10 +139,7 @@ public class ViewPort {
 	}
 
 	public void paint(Graphics g, List<Avatar> lsAvatars) {
-		Entity play = Model.getModel().getPlayed();
-		if (m_player != play) {
-			setPlayer(play);
-		}
+		setPlayer(Model.getModel().getPlayed());
 		calcul();
 		positionViewPort();
 		offset(); // décalage due au mouve du tank
@@ -166,7 +160,7 @@ public class ViewPort {
 			entityList = Model.getModel().getEntities(m_view.orderEntities.get(i));
 			i++;
 			for (Entity e : entityList) {
-				if (avatar.isPainted(e)) {
+				if (e.isShown()) {
 					x = e.getX();
 					y = e.getY();
 					w = e.getWidth();
@@ -250,6 +244,11 @@ public class ViewPort {
 			return painting;
 		}
 		return DO_NOT_PAINT;
+	}
+
+	public boolean isInViewport(int x, int y) {
+		return (x >= m_offsetWindowX && x < m_offsetWindowX + m_paintSize && y >= m_offsetWindowY
+				&& y < m_offsetWindowY + m_paintSize);
 	}
 
 }

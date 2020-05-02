@@ -32,7 +32,6 @@ public class Vein extends StaticEntity {
 	public Vein(int x, int y, Automaton aut) {
 		super(x, y, VEIN_WIDTH, VEIN_HEIGHT, aut);
 		m_category = MyCategory.G;
-	
 	}
 	
 	@Override

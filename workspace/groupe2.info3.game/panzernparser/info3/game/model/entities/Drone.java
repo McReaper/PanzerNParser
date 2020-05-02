@@ -17,7 +17,7 @@ public class Drone extends MovingEntity {
 	public static final int DRONE_HEALTH = 100;
 	public static final int DRONE_SPEED = 200;
 
-	public static final int MARKER_MAX = 3;
+	public static final int INIT_MARKER_MAX = 3;
 	public static final int DRONE_FOV = 10;
 
 	public static final long DRONE_EGG_TIME = 1000;
@@ -36,16 +36,18 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_WAIT_TIME = 50;
 	public static final long DRONE_WIZZ_TIME = 1000;
 
-	public static final int DRONE_DAMMAGE_DEALT= 0;
+	public static final int DRONE_DAMMAGE_DEALT = 0;
 
 	private int m_nbMarkers;
+	private int m_maxMarkers;
 	private VisionType m_currentVisionType;
 
 	public Drone(int x, int y, Automaton aut) {
 		super(x, y, DRONE_WIDTH, DRONE_HEIGHT, aut);
 		m_category = MyCategory.V;
 		m_nbMarkers = 0;
-		m_lengthOfView = DRONE_FOV;
+		m_range = DRONE_FOV;
+		m_maxMarkers = INIT_MARKER_MAX;
 		m_currentVisionType = VisionType.RESSOURCES;
 		m_dammage_dealt = DRONE_DAMMAGE_DEALT;
 		m_speed = DRONE_SPEED;
@@ -75,9 +77,9 @@ public class Drone extends MovingEntity {
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
 			Coords c = Model.getModel().getClue();
-			Marker marker = (Marker) EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
-			if (m_nbMarkers == MARKER_MAX)
-				Model.getModel().update(marker);
+			EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
+			if (m_nbMarkers == m_maxMarkers)
+				Model.getModel().removeEntity(Model.getModel().getEntities(MyEntities.Marker).get(0));
 			else {
 				m_nbMarkers++;
 			}
@@ -94,29 +96,7 @@ public class Drone extends MovingEntity {
 	@Override
 	public void Move(MyDirection dir) {
 		if (this.hasControl()) {
-			if (m_actionFinished && m_currentAction == LsAction.Move) {
-				this.doMove(dir);
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				MyDirection absoluteDir = MyDirection.toAbsolute(m_currentActionDir, dir);
-				switch (absoluteDir) {
-					case NORTH:
-					case EAST:
-					case WEST:
-					case SOUTH:
-						m_timeOfAction = m_speed;
-						break;
-					case NORTHEAST:
-					case NORTHWEST:
-					case SOUTHEAST:
-					case SOUTHWEST:
-						m_timeOfAction = (long) Math.sqrt(2 * m_speed * m_speed);
-
-				}
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Move;
-			}
+			super.Move(dir);
 		}
 	}
 
@@ -160,18 +140,47 @@ public class Drone extends MovingEntity {
 	}
 
 	@Override
+	public void Jump(MyDirection dir) {
+		if (m_actionFinished && m_currentAction == LsAction.Jump) {
+			switch (dir) {
+				case FRONT:
+					growViewPort();
+					break;
+				case BACK:
+					reduceViewPort();
+					break;
+				default:
+					break;
+			}
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			switch (dir) {
+				case FRONT:
+				case BACK:
+					m_currentActionDir = dir;
+					m_currentAction = LsAction.Jump;
+					m_timeOfAction = DRONE_JUMP_TIME;
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	@Override
 	public boolean Key(LsKey key) {
 		if (hasControl())
 			return super.Key(key);
 		return false;
 	}
-
-	public void growViewPort() {
-		m_lengthOfView++;
+	
+	public int getMaxMarkers() {
+		return m_maxMarkers;
 	}
-
-	public void reduceViewPort() {
-		m_lengthOfView--;
+	
+	public void setMaxMarkers(int maxCount) {
+		m_maxMarkers = maxCount;
 	}
 
 }

@@ -14,6 +14,9 @@ import info3.game.model.Model;
 
 public abstract class Entity {
 
+	private final static int MAX_RANGE = 14;
+	private final static int MIN_RANGE = 7;
+
 	final static int DEFAULT_MOVING_DISTANCE = 1;
 
 	public static final long DEFAULT_EGG_TIME = 1000;
@@ -31,7 +34,8 @@ public abstract class Entity {
 	public static final long DEFAULT_THROW_TIME = 1000;
 	public static final long DEFAULT_WAIT_TIME = 100;
 	public static final long DEFAULT_WIZZ_TIME = 1000;
-	public static final int DEFAULT_HEALTH= 100;
+	public static final int DEFAULT_RANGE = 6;
+	public static final int DEFAULT_HEALTH = 100;
 	public static final int DEFAULT_DAMMAGE_DEALT = 100;
 
 	protected long m_elapseTime;
@@ -44,16 +48,17 @@ public abstract class Entity {
 	protected int m_height;
 	protected MyDirection m_currentLookAtDir;
 	protected MyDirection m_currentActionDir;
-	protected boolean m_stuff; // gotStuff ?
+	protected boolean m_stuff;
 	protected State m_currentState;
 	protected Automaton m_automate; // automate associé
 	protected boolean m_actionFinished;
 	protected MyCategory m_category;
-	protected int m_lengthOfView;
+	protected int m_range;
 	protected int m_level;
 	protected int m_maxHealth;
 	protected int m_health;
 	protected int m_dammage_dealt;
+	protected int m_speed;
 
 	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
@@ -65,8 +70,10 @@ public abstract class Entity {
 		m_timeOfAction = 0;
 
 		m_displayed = true;
+		m_stuff = true;
+		m_actionFinished = true;
 
-		m_lengthOfView = 4; // Valeur par défaut a revisiter
+		m_range = DEFAULT_RANGE;
 		m_x = x;
 		m_y = y;
 		m_width = width;
@@ -74,9 +81,6 @@ public abstract class Entity {
 
 		m_currentLookAtDir = MyDirection.NORTH; // par défaut
 		m_currentActionDir = null; // par défaut
-
-		m_actionFinished = true;
-		
 
 		m_dammage_dealt = DEFAULT_DAMMAGE_DEALT;
 
@@ -91,7 +95,6 @@ public abstract class Entity {
 			} else {
 				m_elapseTime = 0;
 				m_actionFinished = true;
-
 				// Mission accomplie, on rappel l'action en cours pour lui signaler son
 				// accomplissement.
 				switch (m_currentAction) {
@@ -147,7 +150,9 @@ public abstract class Entity {
 		}
 	}
 
-	public abstract void collide(int dammage);
+	public void collide(int dammage) {
+		m_health -= dammage;
+	}
 
 	public double getActionProgress() {
 		if (m_timeOfAction != 0) {
@@ -157,6 +162,7 @@ public abstract class Entity {
 	}
 
 	public void setPosition(int x, int y) {
+		Model.getModel().getGrid().teleported(this, m_x, m_y, x, y);
 		m_x = x;
 		m_y = y;
 	}
@@ -205,24 +211,15 @@ public abstract class Entity {
 	}
 
 	public void setCategory(MyCategory category) {
-	m_category = category;
+		m_category = category;
 	}
 
-	
 	public int getX() {
 		return m_x;
 	}
 
 	public int getY() {
 		return m_y;
-	}
-
-	public void setX(int x) {
-		m_x = x;
-	}
-
-	public void setY(int y) {
-		m_y = y;
 	}
 
 	public int getWidth() {
@@ -234,9 +231,17 @@ public abstract class Entity {
 	}
 
 	public int getFieldOfView() {
-		return m_lengthOfView;
+		return m_range;
 	}
-	
+
+	public void growViewPort() {
+		if (m_range < MAX_RANGE) m_range++;
+	}
+
+	public void reduceViewPort() {
+		if (m_range > MIN_RANGE) m_range--;
+	}
+
 	public int getDammageDealt() {
 		return m_dammage_dealt;
 	}
@@ -284,6 +289,7 @@ public abstract class Entity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
+			this.doExplode();
 			m_currentActionDir = null;
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = DEFAULT_EXPLODE_TIME;
@@ -309,12 +315,26 @@ public abstract class Entity {
 		if (m_actionFinished && m_currentAction == LsAction.Move) {
 			m_actionFinished = false;
 			m_currentAction = null;
-			this.doMove(dir);
-			m_currentActionDir = dir;
 		} else if (m_currentAction == null) {
+			MyDirection absoluteDir = MyDirection.toAbsolute(m_currentActionDir, dir);
+			switch (absoluteDir) {
+				case NORTH:
+				case EAST:
+				case WEST:
+				case SOUTH:
+					m_timeOfAction = m_speed;
+					break;
+				case NORTHEAST:
+				case NORTHWEST:
+				case SOUTHEAST:
+				case SOUTHWEST:
+					m_timeOfAction = (long)(Math.sqrt(2) * m_speed);
+				default:
+					break;
+			}
 			m_currentActionDir = dir;
-			this.m_currentAction = LsAction.Move;
-			m_timeOfAction = DEFAULT_MOVE_TIME;
+			this.doMove(dir);
+			m_currentAction = LsAction.Move;
 		}
 	}
 
@@ -608,6 +628,10 @@ public abstract class Entity {
 		return m_stuff;
 	}
 
+	public void setStuff(boolean b) {
+		m_stuff = b;
+	}
+	
 	/**
 	 * Pour une direction donnée `dir` par rapport à l'entité, on regarde en
 	 * fonction de sa distance de vue si la catégorie `type` la plus proche donnée
@@ -619,7 +643,7 @@ public abstract class Entity {
 	 */
 	public boolean Closest(MyDirection dir, MyCategory type) {
 		Entity closest = Model.getModel().closestEntity(Model.getModel().getCategoried(type), m_x, m_y);
-		if (closest.isInMe(getDetectionCone(dir, this.m_lengthOfView))) {
+		if (closest.isInMe(getDetectionCone(dir, this.m_range))) {
 			return true;
 		} else {
 			return false;
@@ -628,7 +652,7 @@ public abstract class Entity {
 
 	public boolean isInMe(LinkedList<Coords> radius) {
 		for (Coords coord : radius) {
-			if (this.isInMe((int)coord.X, (int)coord.Y))
+			if (this.isInMe((int) coord.X, (int) coord.Y))
 				return true;
 		}
 		return false;
@@ -723,7 +747,7 @@ public abstract class Entity {
 			for (double y = 0; y <= rayon; y++) {
 				double actual_x = center_x + (x * x_factor);
 				double actual_y = center_y + (y * y_factor);
-				if (!this.isInMe((int)actual_x, (int)actual_y))
+				if (!this.isInMe((int) actual_x, (int) actual_y))
 					cells.add(new Coords(actual_x, actual_y));
 			}
 		}
@@ -925,7 +949,7 @@ public abstract class Entity {
 		}
 		return false;
 	}
-	
+
 	public boolean isInMe(int x, int y) {
 		int xL = m_x;
 		int xR = Model.getModel().getGrid().realX(m_x + m_width);
@@ -949,7 +973,7 @@ public abstract class Entity {
 	public boolean Key(LsKey m_key) {
 		return (Model.getModel().getKeyPressed().contains(m_key));
 	}
-	
+
 	public int getHealth() {
 		return m_health;
 	}
@@ -958,10 +982,14 @@ public abstract class Entity {
 		return m_maxHealth;
 	}
 	
+	public void setMaxHealth(int maxHealth) {
+		m_maxHealth = maxHealth;
+	}
+
 	public int getLevel() {
 		return m_level;
 	}
 
-	public abstract boolean GotPower() ;
+	public abstract boolean GotPower();
 
 }

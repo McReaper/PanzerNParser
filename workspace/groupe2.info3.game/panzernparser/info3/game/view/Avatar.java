@@ -19,22 +19,18 @@ public class Avatar {
 	public Avatar( Animation animation) {
 		m_animation = animation;
 	}
-	
-	public boolean isPainted(Entity entity) {
-		return entity.isShown();
-	}
 
 	public int progressivePaintY(MyDirection e_absoluteActionDir, int y, double progress, int case_height) {
 		switch (e_absoluteActionDir) {
 			case NORTH:
 			case NORTHEAST:
 			case NORTHWEST:
-				y -= (case_height * progress);
+				y -= (case_height * progress) - case_height;
 				break;
 			case SOUTH:
 			case SOUTHEAST:
 			case SOUTHWEST:
-				y += (case_height * progress);
+				y += (case_height * progress) - case_height;
 				break;
 			default:
 				break;
@@ -47,12 +43,12 @@ public class Avatar {
 			case EAST:
 			case NORTHEAST:
 			case SOUTHEAST:
-				x += (case_width * progress);
+				x += (case_width * progress) - case_width;
 				break;
 			case WEST:
 			case NORTHWEST:
 			case SOUTHWEST:
-				x -= (case_width * progress);
+				x -= (case_width * progress) - case_width;
 				break;
 			default:
 				break;

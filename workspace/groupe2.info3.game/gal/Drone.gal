@@ -11,6 +11,8 @@ Drone(Init){
 	|Key(d) ? Turn(E) : (Avance)
 	|Key(s) ? Turn(S) : (Avance)
 	|Key(q) ? Turn(W) : (Avance)
+	|Key(FU) & GotStuff() ? Jump(F) : (Avance)
+	|Key(FD) & GotStuff() ? Jump(B) : (Avance)
 	|True ? : (Avance)
 	
 	*(Avance)

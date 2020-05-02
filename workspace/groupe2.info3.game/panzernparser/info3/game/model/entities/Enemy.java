@@ -37,7 +37,7 @@ public class Enemy extends MovingEntity {
 	public Enemy(int x, int y, Automaton aut) {
 		super(x, y, ENEMY_WIDTH, ENEMY_HEIGHT, aut);
 		m_category = MyCategory.A;
-		m_lengthOfView = ENEMY_FOV;
+		m_range = ENEMY_FOV;
 		m_dammage_dealt = ENEMY_DAMMAGE_DEALT;
 	}
 
@@ -87,34 +87,6 @@ public class Enemy extends MovingEntity {
 	}
 
 	@Override
-	public void Move(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == LsAction.Move) {
-			this.doMove(dir);
-			m_actionFinished = false;
-			m_currentAction = null;
-		} else if (m_currentAction == null) {
-			MyDirection absoluteDir = MyDirection.toAbsolute(m_currentActionDir, dir);
-			switch (absoluteDir) {
-				case NORTH:
-				case EAST:
-				case WEST:
-				case SOUTH:
-					m_timeOfAction = m_speed;
-					break;
-				case NORTHEAST:
-				case NORTHWEST:
-				case SOUTHEAST:
-				case SOUTHWEST:
-					m_timeOfAction = (long) Math.sqrt(2 * m_speed * m_speed);
-				default:
-					break;
-			}
-			m_currentActionDir = dir;
-			m_currentAction = LsAction.Move;
-		}
-	}
-
-	@Override
 	public void Turn(MyDirection dir, int angle) {
 		if (m_actionFinished && m_currentAction == LsAction.Turn) {
 			this.doTurn(dir);
@@ -130,10 +102,10 @@ public class Enemy extends MovingEntity {
 	@Override
 	public void Explode() {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
-			this.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
+			this.doExplode();
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = ENEMY_EXPLODE_TIME;
 		}

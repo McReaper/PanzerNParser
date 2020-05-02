@@ -116,10 +116,8 @@ public class Model {
 		} else {
 			int droneTPX = m_tank.getBody().getX();
 			int droneTPY = m_tank.getBody().getY();
-			m_grid.teleported(m_drone, m_drone.getX(), m_drone.getY(), droneTPX,droneTPY);
 			// Le drone apparait au niveau du tank
-			m_drone.setX(droneTPX);
-			m_drone.setY(droneTPY);
+			m_drone.setPosition(droneTPX, droneTPY);
 			// et avec direction d'action et de regard identique à celle du tank
 			m_drone.setActionDir(m_tank.getBody().getCurrentActionDir());
 			m_drone.setLookDir(m_tank.getBody().getLookAtDir());
@@ -185,8 +183,6 @@ public class Model {
 	////////////////////////////////////////////////
 	
 	public void update(Marker marker) {
-		getEntities(MyEntities.Marker).add(marker);
-		getEntities(MyEntities.Marker).remove(0);
 	}
 
 	public void addClue(Coords c) {

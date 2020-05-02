@@ -58,6 +58,7 @@ public class Turret extends StaticEntity {
 		m_weapons = new Weapon[TURRET_NB_WEAPONS_MAX];
 		initTabsWeapons();
 		m_currentWeapon = m_weapons[0];
+		System.out.println("m_stuff = "+ m_stuff);
 		
 	//	m_currentWeapon = new Weapon();
 	}
@@ -129,7 +130,9 @@ public class Turret extends StaticEntity {
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Wizz;
+			System.out.println("La turret recharge");
 			m_timeOfAction = m_currentWeapon.getReloadTime();
+			m_currentWeapon.reload();
 		}
 	}
 

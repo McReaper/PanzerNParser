@@ -17,18 +17,19 @@ public class WeaponBasic extends Weapon {
 
 	@Override
 	public void fire(MyDirection dir) {
-		// creation du shot en fonction de l'arme
-		int pos_x = m_turret.getXCaseDir(dir);
-		int pos_y = m_turret.getYCaseDir(dir);
-		Entity ent = EntityFactory.newEntity(MyEntities.ShotSlow, pos_x, pos_y);
-		// Donne la direction de regard et d'action
-		ent.setLookDir(MyDirection.toAbsolute(m_turret.getLookAtDir(), dir));
-		ent.setActionDir(MyDirection.toAbsolute(m_turret.getCurrentActionDir(), dir));
+		if (m_nbShotsLeft >0) {
+			int pos_x = m_turret.getXCaseDir(dir);
+			int pos_y = m_turret.getYCaseDir(dir);
+			Entity ent = EntityFactory.newEntity(MyEntities.ShotSlow, pos_x, pos_y);
+			// Donne la direction de regard et d'action
+			ent.setLookDir(MyDirection.toAbsolute(m_turret.getLookAtDir(), dir));
+			ent.setActionDir(MyDirection.toAbsolute(m_turret.getCurrentActionDir(), dir));
 
-		// Donne l'entité qui l'a tiré (ici le tankBody)
-		((Shot) ent).setOwner(Model.getModel().getTank().getBody());
+			// Donne l'entité qui l'a tiré (ici le tankBody)
+			((Shot) ent).setOwner(Model.getModel().getTank().getBody());
+		}
 		m_nbShotsLeft--;
-		reloading();
+		needsReload();
 	}
 
 }

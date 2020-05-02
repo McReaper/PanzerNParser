@@ -15,12 +15,17 @@ public abstract class Weapon {
 		m_magCapacity = mag_capacity;
 		m_nbShotsLeft = m_magCapacity;
 	}
+	
+	public void reload() {
+		m_nbShotsLeft = m_magCapacity;
+		m_turret.setStuff(true);
+	}
 
 	public void improveReload(long improvement) {
 		m_reload -= improvement;
 	}
 
-	public void imrpoveMagazin(int improvement) {
+	public void improveMagazin(int improvement) {
 		m_magCapacity += improvement;
 	}
 	
@@ -29,14 +34,14 @@ public abstract class Weapon {
 	}
 
 // declenche le signal de rechargement
-	public void reloading() {
+	public void needsReload() {
 		if (isEmpty())
-			m_turret.setStuff(true);
+			m_turret.setStuff(false);
 	}
 
 //regarde si chargeur est vide
 	public boolean isEmpty() {
-		return m_nbShotsLeft == 0;
+		return m_nbShotsLeft <= 0;
 	}
 
 	public abstract void fire(MyDirection dir);

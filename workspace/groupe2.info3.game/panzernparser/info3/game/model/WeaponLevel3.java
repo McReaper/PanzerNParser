@@ -16,28 +16,19 @@ public class WeaponLevel3 extends Weapon{
 	}
 
 	@Override
-	public void reloading() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void fire(MyDirection dir) {	
-		int pos_x = m_turret.getXCaseDir(dir);
-		int pos_y = m_turret.getYCaseDir(dir);
-		Entity ent = EntityFactory.newEntity(MyEntities.ShotBig, pos_x, pos_y);
-		// Donne la direction de regard et d'action
-		ent.setLookDir(MyDirection.toAbsolute(m_turret.getLookAtDir(), dir));
-		ent.setActionDir(MyDirection.toAbsolute(m_turret.getCurrentActionDir(), dir));
+		if (m_nbShotsLeft >0) {
+			int pos_x = m_turret.getXCaseDir(dir);
+			int pos_y = m_turret.getYCaseDir(dir);
+			Entity ent = EntityFactory.newEntity(MyEntities.ShotBig, pos_x, pos_y);
+			// Donne la direction de regard et d'action
+			ent.setLookDir(MyDirection.toAbsolute(m_turret.getLookAtDir(), dir));
+			ent.setActionDir(MyDirection.toAbsolute(m_turret.getCurrentActionDir(), dir));
 
-		// Donne l'entité qui l'a tiré (ici le tankBody)
-		((Shot) ent).setOwner(Model.getModel().getTank().getBody());
-		
+			// Donne l'entité qui l'a tiré (ici le tankBody)
+			((Shot) ent).setOwner(Model.getModel().getTank().getBody());
+		}
+		m_nbShotsLeft--;
+		needsReload();
 	}
 }

@@ -8,7 +8,7 @@ import info3.game.model.Model;
 
 public class EntityFactory {
 	public enum MyEntities {
-		Wall, Ground, Enemy, Droppable, Shot, Vein, Drone, Marker, TankBody, Turret, Hole;
+		Wall, Ground, Enemy, Droppable, Shot, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody, Turret, Hole;
 	}
 
 	public static Entity newTankBody(int x, int y, Automaton aut) {
@@ -17,11 +17,6 @@ public class EntityFactory {
 
 	public static Entity newTankTurret(int x, int y, Automaton aut) {
 		return new Turret(x, y, aut);
-	}
-
-	public static Entity newEnemy(int x, int y, Automaton aut) {
-		Entity enemy = new EnemyBasic(x, y, aut);
-		return enemy;
 	}
 
 	public static Entity newDroppable(int x, int y, Automaton aut) {
@@ -81,7 +76,7 @@ public class EntityFactory {
 		Entity enemyB = new EnemyBasic(x, y, aut);
 		return enemyB;
 	}
-	
+
 	public static Entity newEnemyLevel2(int x, int y, Automaton aut) {
 		Entity enemyL2 = new EnemyLevel2(x, y, aut);
 		return enemyL2;
@@ -99,7 +94,7 @@ public class EntityFactory {
 				res = newGround(x, y, config.getAutomaton(MyEntities.Ground));
 				break;
 			case Enemy:
-				res = newEnemy(x, y, config.getAutomaton(MyEntities.Enemy));
+				res = newEnemyBasic(x, y, config.getAutomaton(MyEntities.Enemy));
 				break;
 			case Droppable:
 				res = newDroppable(x, y, config.getAutomaton(MyEntities.Droppable));
@@ -110,7 +105,14 @@ public class EntityFactory {
 				break;
 
 			case Shot:// par défaut on prend les balles lentes
-				res = newShotSlow(x, y, config.getAutomaton(MyEntities.Shot));
+			case ShotSlow:
+				res = newShotSlow(x, y, config.getAutomaton(MyEntities.ShotSlow));
+				break;
+			case ShotFast:
+				res = newShotFast(x, y, config.getAutomaton(MyEntities.ShotFast));
+				break;
+			case ShotBig:
+				res = newShotBig(x, y, config.getAutomaton(MyEntities.ShotBig));
 				break;
 
 			case TankBody:
@@ -133,26 +135,6 @@ public class EntityFactory {
 				throw new IllegalStateException("Entité non reconnue !");
 		}
 		Model.getModel().getGrid().addEntity(res);
-		Model.getModel().getEntities(entity).add(res);
-		return res;
-	}
-
-	public static Entity newEntityShot(MyEntities entity, int x, int y, int typeShot) {
-		Entity res;
-		GameConfiguration config = GameConfiguration.getConfig();
-		switch (typeShot) {
-			case Turret.GUN_BULLET_SLOW:
-				res = newShotSlow(x, y, config.getAutomaton(MyEntities.Shot));
-				break;
-			case Turret.GUN_BULLET_FAST:
-				res = newShotFast(x, y, config.getAutomaton(MyEntities.Shot));
-				break;
-			case Turret.GUN_BIG_BULLET:
-				res = newShotBig(x, y, config.getAutomaton(MyEntities.Shot));
-				break;
-			default:
-				throw new IllegalStateException("Shot non reconnue !");
-		}
 		Model.getModel().getEntities(entity).add(res);
 		return res;
 	}
@@ -195,7 +177,13 @@ public class EntityFactory {
 			return MyEntities.Ground;
 		} else if (e instanceof Marker) {
 			return MyEntities.Marker;
-		} else if (e instanceof Shot) {
+		} else if (e instanceof ShotSlow) {
+			return MyEntities.ShotSlow;
+		} else if (e instanceof ShotFast) {
+			return MyEntities.ShotFast;
+		} else if (e instanceof ShotBig) {
+			return MyEntities.ShotBig;
+		}else if (e instanceof Shot) {
 			return MyEntities.Shot;
 		} else if (e instanceof TankBody) {
 			return MyEntities.TankBody;

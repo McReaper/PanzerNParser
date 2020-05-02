@@ -57,6 +57,12 @@ public class View extends Container {
 		orderEntities.add(MyEntities.Wall);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Shot)));
 		orderEntities.add(MyEntities.Shot);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.ShotSlow)));
+		orderEntities.add(MyEntities.ShotSlow);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.ShotFast)));
+		orderEntities.add(MyEntities.ShotFast);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.ShotBig)));
+		orderEntities.add(MyEntities.ShotBig);
 		m_avatars.add(new EnemyAvatar(config.getAnimation(MyEntities.Enemy)));
 		orderEntities.add(MyEntities.Enemy);
 		m_avatars.add(new MarkerAvatar(config.getAnimation(MyEntities.Marker)));

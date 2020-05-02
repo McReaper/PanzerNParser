@@ -290,6 +290,7 @@ public abstract class Entity {
 	}
 
 	public void doExplode() {
+		System.out.println("j'explose");
 		Model.getModel().removeEntity(this);
 	}
 

@@ -58,7 +58,7 @@ public class EnemyLevel2 extends Enemy{
 			m_timeOfAction = ENEMYLEVEL2_HIT_TIME;
 
 			// creation du shot
-			Entity ent = EntityFactory.newEntityShot(MyEntities.Shot, this.m_x, m_y, Turret.GUN_BULLET_FAST);
+			Entity ent = EntityFactory.newEntity(MyEntities.ShotFast, this.m_x, m_y);
 
 			// Donne la direction de regard et d'action
 			ent.setLookDir(this.m_currentLookAtDir);

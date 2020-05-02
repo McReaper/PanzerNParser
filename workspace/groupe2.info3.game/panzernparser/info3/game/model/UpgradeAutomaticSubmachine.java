@@ -21,7 +21,7 @@ public class UpgradeAutomaticSubmachine extends Upgrade {
 	}
 
 	@Override
-	public String getName() {
+	public String getEntity() {
 		return NAME;
 	}
 

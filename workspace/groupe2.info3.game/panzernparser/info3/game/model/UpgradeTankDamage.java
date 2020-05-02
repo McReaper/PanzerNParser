@@ -45,7 +45,7 @@ public class UpgradeTankDamage extends Upgrade {
 	}
 
 	@Override
-	public String getName() {
+	public String getEntity() {
 		return NAME;
 	}
 

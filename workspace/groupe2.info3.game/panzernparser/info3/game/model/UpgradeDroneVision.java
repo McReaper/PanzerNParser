@@ -46,16 +46,16 @@ public class UpgradeDroneVision extends Upgrade {
 
 	@Override
 	public int getCostElec() {
-		return MINERALS_COST;
-	}
-
-	@Override
-	public int getCostMine() {
 		return ELECTRONICALS_COST;
 	}
 
 	@Override
-	public String getName() {
+	public int getCostMine() {
+		return MINERALS_COST;
+	}
+
+	@Override
+	public String getEntity() {
 		return NAME;
 	}
 

@@ -39,16 +39,16 @@ public class UpgradeMarkersCount extends Upgrade {
 	
 	@Override
 	public int getCostElec() {
-		return MINERALS_COST;
+		return (int) (ELECTRONICALS_COST + (ELECTRONICALS_COST * m_level * COST_FACTOR));
 	}
 
 	@Override
 	public int getCostMine() {
-		return ELECTRONICALS_COST;
+		return (int) (MINERALS_COST + (MINERALS_COST * m_level * COST_FACTOR));
 	}
 
 	@Override
-	public String getName() {
+	public String getEntity() {
 		return NAME;
 	}
 

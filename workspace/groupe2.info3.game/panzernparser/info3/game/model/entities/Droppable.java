@@ -3,6 +3,8 @@ package info3.game.model.entities;
 import info3.game.automaton.Automaton;
 import info3.game.automaton.MyCategory;
 import info3.game.model.MaterialType;
+import info3.game.model.Model;
+import info3.game.model.Model.VisionType;
 
 public class Droppable extends StaticEntity {
 	public final static int DROPPABLE_WIDTH = 1;
@@ -35,6 +37,11 @@ public class Droppable extends StaticEntity {
 		m_category = MyCategory.P;
 	}
 
+	@Override
+	public boolean isShown() {
+		return (Model.getModel().getVisionType() != VisionType.ENEMIES);
+	}
+	
 	public MaterialType getMType() {
 		return m_mType;
 	}

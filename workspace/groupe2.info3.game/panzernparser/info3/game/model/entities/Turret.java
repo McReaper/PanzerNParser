@@ -9,7 +9,8 @@ import info3.game.model.Model;
 import info3.game.model.Tank;
 import info3.game.model.Weapon;
 import info3.game.model.WeaponBasic;
-import info3.game.model.entities.EntityFactory.MyEntities;
+import info3.game.model.WeaponLevel2;
+import info3.game.model.WeaponLevel3;
 
 /**
  * Classe du canon du tank
@@ -39,7 +40,7 @@ public class Turret extends StaticEntity {
 	public static final long TURRET_WIZZ_TIME = 1000;
 	
 	public static final int TURRET_NB_WEAPONS_MAX = 3;
-	public static final int TURRET_NB_WEAPONS_DISPO_INIT = 2;
+	public static final int TURRET_NB_WEAPONS_DISPO_INIT = 3;
 
 	private Tank m_tank;
 	private int m_indexCurrentWeapon;
@@ -63,8 +64,8 @@ public class Turret extends StaticEntity {
 
 	private void initTabsWeapons() {
 		m_weapons[0]= new WeaponBasic(this);
-		m_weapons[1]= new WeaponBasic(this);
-		m_weapons[2]= new WeaponBasic(this);
+		m_weapons[1]= new WeaponLevel2(this);
+		m_weapons[2]= new WeaponLevel3(this);
 	}
 
 	public void setTank(Tank tank) {

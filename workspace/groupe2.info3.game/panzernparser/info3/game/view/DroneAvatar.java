@@ -64,7 +64,7 @@ public class DroneAvatar extends Avatar {
 		int y = vp.getOffsetWindowY();
 		int w = vp.getPaintSize();
 		int h = vp.getPaintSize();
-		int reduction = vp.getPaintSize() / 3;
+		int reduction = (int) (vp.getPaintSize() / 2.5);
 		x += reduction;
 		y += reduction;
 		w -= 2 * reduction;

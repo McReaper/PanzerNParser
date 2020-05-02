@@ -10,7 +10,6 @@ import info3.game.automaton.action.LsAction;
 import info3.game.model.Grid;
 import info3.game.model.Model;
 import info3.game.model.Tank;
-import info3.game.model.entities.EntityFactory.MyEntities;
 
 /**
  * Chassis du tank
@@ -137,6 +136,7 @@ public class TankBody extends MovingEntity {
 							Model.getModel().removeEntity(entity);
 							Model.getModel().getDrone().m_nbMarkers--;
 						} else if (entity instanceof Droppable) {
+							m_tank.getInventory().add((Droppable) entity);
 							Model.getModel().removeEntity(entity);
 						}
 					}

@@ -79,7 +79,7 @@ public class Controller implements GameCanvasListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_F11) {
-			//GameMain.getGame().goFullscreen(); // TODO : tobefixed
+			// GameMain.getGame().goFullscreen(); // TODO : tobefixed
 		}
 		LsKey temp = toLsKey(e);
 		m_model.addKeyPressed(temp);

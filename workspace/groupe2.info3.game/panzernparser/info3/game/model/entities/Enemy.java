@@ -32,13 +32,13 @@ public class Enemy extends MovingEntity {
 	public static final long ENEMY_WAIT_TIME = 50;
 	public static final long ENEMY_WIZZ_TIME = 1000;
 
-	public static final int ENEMY_DAMMAGE_DEALT = 50;
+	public static final int ENEMY_DAMAGE_DEALT = 50;
 
 	public Enemy(int x, int y, Automaton aut) {
 		super(x, y, ENEMY_WIDTH, ENEMY_HEIGHT, aut);
 		m_category = MyCategory.A;
 		m_range = ENEMY_FOV;
-		m_dammage_dealt = ENEMY_DAMMAGE_DEALT;
+		m_damage_dealt = ENEMY_DAMAGE_DEALT;
 		m_uncrossables.add(MyCategory.A);
 	}
 

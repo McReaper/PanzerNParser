@@ -90,7 +90,7 @@ public class Turret extends StaticEntity {
 
 			}
 			Entity ent = EntityFactory.newEntityShot(MyEntities.Shot, pos_x, pos_y, m_typeGun);
-
+			System.out.println(ent);
 			// Donne la direction de regard et d'action
 			ent.setLookDir(MyDirection.toAbsolute(this.m_currentLookAtDir, dir));
 			ent.setActionDir(MyDirection.toAbsolute(this.m_currentActionDir, dir));

@@ -36,7 +36,7 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_WAIT_TIME = 50;
 	public static final long DRONE_WIZZ_TIME = 1000;
 
-	public static final int DRONE_DAMMAGE_DEALT= 0;
+	public static final int DRONE_DAMAGE_DEALT= 0;
 
 	private int m_nbMarkers;
 	private VisionType m_currentVisionType;
@@ -47,7 +47,7 @@ public class Drone extends MovingEntity {
 		m_nbMarkers = 0;
 		m_range = DRONE_FOV;
 		m_currentVisionType = VisionType.RESSOURCES;
-		m_dammage_dealt = DRONE_DAMMAGE_DEALT;
+		m_damage_dealt = DRONE_DAMAGE_DEALT;
 		m_speed = DRONE_SPEED;
 	}
 

@@ -2,6 +2,8 @@ package info3.game.model;
 
 public class UpgradeTankShotsCapacity extends Upgrade {
 
+
+	private static final String NAME = "Tank loader capacity";
 	private static final int MINERALS_COST = 15;
 	private static final int ELECTRONICALS_COST = 0;
 	private static final int AMMO_BOOST = 10;
@@ -41,6 +43,11 @@ public class UpgradeTankShotsCapacity extends Upgrade {
 	@Override
 	public int getCostMine() {
 		return ELECTRONICALS_COST;
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
 	}
 
 }

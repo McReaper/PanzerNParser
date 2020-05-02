@@ -4,6 +4,8 @@ import info3.game.model.entities.Drone;
 
 public class UpgradeMarkersCount extends Upgrade {
 
+
+	private static final String NAME = "Higher markers count";
 	private static final int MINERALS_COST = 5;
 	private static final int ELECTRONICALS_COST = 10;
 	private static final int DRONE_MARKER_BOOST = 1;
@@ -43,6 +45,11 @@ public class UpgradeMarkersCount extends Upgrade {
 	@Override
 	public int getCostMine() {
 		return ELECTRONICALS_COST;
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
 	}
 
 }

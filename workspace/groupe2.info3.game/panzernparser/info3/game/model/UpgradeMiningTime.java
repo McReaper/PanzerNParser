@@ -2,6 +2,8 @@ package info3.game.model;
 
 public class UpgradeMiningTime extends Upgrade {
 
+
+	private static final String NAME = "Lower mining time";
 	private static final int MINERALS_COST = 5;
 	private static final int ELECTRONICALS_COST = 10;
 	private static final double MINING_TIME_REDUCE_FACTOR = 0.10; //10% plus rapide
@@ -41,5 +43,10 @@ public class UpgradeMiningTime extends Upgrade {
 	@Override
 	public int getCostMine() {
 		return ELECTRONICALS_COST;
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
 	}
 }

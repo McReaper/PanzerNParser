@@ -2,6 +2,8 @@ package info3.game.model;
 
 public class UpgradeTankSpeed extends Upgrade {
 
+
+	private static final String NAME = "Higher speed";
 	private static final int MINERALS_COST = 10;
 	private static final int ELECTRONICALS_COST = 5;
 	private static final int SPEED_BOOST = 10;
@@ -41,6 +43,11 @@ public class UpgradeTankSpeed extends Upgrade {
 	@Override
 	public int getCostMine() {
 		return ELECTRONICALS_COST;
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
 	}
 
 }

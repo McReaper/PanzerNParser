@@ -2,6 +2,7 @@ package info3.game.model;
 
 public class UpgradeTankDamage extends Upgrade {
 
+	private static final String NAME = "Higher damage";
 	private static final int MINERALS_COST = 10;
 	private static final int ELECTRONICALS_COST = 5;
 	private static final int DAMAGE_BOOST = 10;
@@ -41,6 +42,11 @@ public class UpgradeTankDamage extends Upgrade {
 	@Override
 	public int getCostMine() {
 		return ELECTRONICALS_COST;
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
 	}
 
 }

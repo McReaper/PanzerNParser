@@ -7,6 +7,8 @@ import info3.game.model.entities.Drone;
  */
 public class UpgradeDroneVision extends Upgrade {
 
+
+	private static final String NAME = "Drone dynamic elevation";
 	private static final int MINERALS_COST = 0;
 	private static final int ELECTRONICALS_COST = 10;
 	
@@ -50,6 +52,11 @@ public class UpgradeDroneVision extends Upgrade {
 	@Override
 	public int getCostMine() {
 		return ELECTRONICALS_COST;
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
 	}
 
 }

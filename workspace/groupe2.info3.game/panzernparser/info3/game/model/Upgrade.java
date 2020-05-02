@@ -70,5 +70,7 @@ public abstract class Upgrade {
 	public abstract int getCostElec();
 	
 	public abstract int getCostMine();
+	
+	public abstract String getName();
 
 }

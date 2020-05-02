@@ -11,6 +11,7 @@ import java.util.List;
 
 import info3.game.GameConfiguration;
 import info3.game.automaton.MyDirection;
+import info3.game.model.entities.Enemy;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
@@ -424,7 +425,10 @@ public class Grid {
 						type = MyEntities.Droppable;
 						break;
 					case "enem1":
-						type = MyEntities.Enemy;
+						type = MyEntities.EnemyBasic;
+						break;
+					case "enem2" :
+						type = MyEntities.EnemyLevel2;
 						break;
 					case "vein1":
 						type = MyEntities.Vein;

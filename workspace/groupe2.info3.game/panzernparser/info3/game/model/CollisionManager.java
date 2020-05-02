@@ -22,9 +22,17 @@ public class CollisionManager {
 	}
 
 	public void controlCollisionsShotsEntity() {
+		controlCollisionsShot(MyEntities.ShotSlow);
+		controlCollisionsShot(MyEntities.ShotFast);
+		controlCollisionsShot(MyEntities.ShotBig);
+	}
+
+	public void controlCollisionsShot(MyEntities s) {
+		if (s != MyEntities.ShotBig && s != MyEntities.ShotFast && s != MyEntities.ShotSlow)
+			return;
 		// Regardons si les shots touches quelque chose
 		LinkedList<Entity> shots;
-		shots = Model.getModel().getEntities(MyEntities.Shot);
+		shots = Model.getModel().getEntities(s);
 		for (Entity entShot : shots) {
 
 			// verifie si le shot est encore encore en vie
@@ -49,4 +57,5 @@ public class CollisionManager {
 			}
 		}
 	}
+
 }

@@ -1,7 +1,7 @@
 Drone(Init){
 	*(Init)
 	|Closest(H,C) ? Hit() : (Init)
-	|Key(a) ? Wizz() : (Init)
+	|!GotPower() ? Wizz() : (Init)
 	|Key(e) ? Pop() : (Init)
 	|Key(z) & Key(d) ? Turn(NE) : (Avance)
 	|Key(s) & Key(d) ? Turn(SE) : (Avance)
@@ -14,7 +14,7 @@ Drone(Init){
 	|True ? : (Avance)
 	
 	*(Avance)
-	|Key(a) ? Wizz() : (Init)
+	|!GotPower() ? Wizz() : (Init)
 	|Key(e) ? Pop() : (Init)
 	|MyDir(N) ? Move(N) : (Init)
 	|MyDir(E) ? Move(E) : (Init)

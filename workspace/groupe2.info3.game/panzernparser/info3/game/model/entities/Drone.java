@@ -17,7 +17,7 @@ public class Drone extends MovingEntity {
 	public final static int DRONE_WIDTH = 5;
 	public final static int DRONE_HEIGHT = 5;
 
-	public static final int DRONE_HEALTH = 100;
+	public static final int DRONE_HEALTH = 300000;
 	public static final int DRONE_SPEED = 200;
 
 	public static final int MARKER_MAX = 3;
@@ -40,6 +40,8 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_WIZZ_TIME = 1000;
 
 	public static final int DRONE_DAMMAGE_DEALT = 0;
+	public static final int DRONE_RECHARGE = 10;
+	public static final int DRONE_DESCHARGE = 30;
 
 	int m_nbMarkers;
 	private VisionType m_currentVisionType;
@@ -52,6 +54,22 @@ public class Drone extends MovingEntity {
 		m_currentVisionType = VisionType.RESSOURCES;
 		m_dammage_dealt = DRONE_DAMMAGE_DEALT;
 		m_speed = DRONE_SPEED;
+		m_maxHealth = DRONE_HEALTH;
+		m_health = 0;
+	}
+	
+	@Override
+	public void step(long elapsed) {
+		if(hasControl()) {
+			m_health -= DRONE_DESCHARGE;
+			if (!GotPower()) {
+				m_health = 0;
+			}
+		}else if (m_health < m_maxHealth) {
+			m_health += DRONE_RECHARGE;
+		}
+		System.out.println("drone health : "+m_health);
+		super.step(elapsed);
 	}
 
 	@Override

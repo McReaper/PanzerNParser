@@ -25,4 +25,9 @@ public class UpgradeAutomaticSubmachine extends Upgrade {
 		return NAME;
 	}
 
+	@Override
+	public String getDescription() {
+		return "<html><p style='color:black;text-align:center'>An <b>automatic turret</b> will appear and help you defeat the enemies.</p></html>";
+	}
+
 }

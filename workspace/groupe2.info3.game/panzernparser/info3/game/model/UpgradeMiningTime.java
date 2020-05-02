@@ -16,8 +16,8 @@ public class UpgradeMiningTime extends Upgrade {
 	@Override
 	public void improve() throws IllegalAccessException {
 		Inventory inv = m_tank.getInventory();
-		int mineral_cost = (int) (MINERALS_COST + (MINERALS_COST * m_level * COST_FACTOR));
-		int electronical_cost = (int) (ELECTRONICALS_COST + (ELECTRONICALS_COST * m_level * COST_FACTOR));
+		int mineral_cost = getCostMine();
+		int electronical_cost = getCostElec();
 		if (isAvaibleFor(mineral_cost, electronical_cost)) {
 			inv.used(MaterialType.MINERAL, mineral_cost, MaterialType.ELECTRONIC, electronical_cost);
 			m_tank.setMiningTime((long)(m_tank.getMiningTime() - m_tank.getMiningTime()*MINING_TIME_REDUCE_FACTOR));
@@ -26,27 +26,24 @@ public class UpgradeMiningTime extends Upgrade {
 			throw new IllegalAccessException("Ressources insuffisantes dans l'inventaire.");
 		}
 	}
-
-	@Override
-	public boolean isAvaible() throws IllegalAccessException {
-		Inventory inv = m_tank.getInventory();
-		int mineral_cost = (int) (MINERALS_COST + (MINERALS_COST * m_level * COST_FACTOR));
-		int electronical_cost = (int) (ELECTRONICALS_COST + (ELECTRONICALS_COST * m_level * COST_FACTOR));
-		return (inv.possesses(MaterialType.MINERAL, mineral_cost) && inv.possesses(MaterialType.ELECTRONIC, electronical_cost));
-	}
 	
 	@Override
 	public int getCostElec() {
-		return MINERALS_COST;
+		return (int) (ELECTRONICALS_COST + (ELECTRONICALS_COST * m_level * COST_FACTOR));
 	}
 
 	@Override
 	public int getCostMine() {
-		return ELECTRONICALS_COST;
+		return (int) (MINERALS_COST + (MINERALS_COST * m_level * COST_FACTOR));
 	}
 
 	@Override
 	public String getEntity() {
 		return NAME;
+	}
+	
+	@Override
+	public String getDescription() {
+		return "<html><p style='color:black;text-align:center'></p></html>";
 	}
 }

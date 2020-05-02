@@ -16,24 +16,16 @@ public class UpgradeDroneUsage extends Upgrade {
 	
 	@Override
 	public void improve() throws IllegalAccessException {
-		if (isAvaible()) {
-			Inventory inv = m_tank.getInventory();
-			int mineral_cost = (int) (MINERALS_COST + (MINERALS_COST * m_level * COST_FACTOR));
-			int electronical_cost = (int) (ELECTRONICALS_COST + (ELECTRONICALS_COST * m_level * COST_FACTOR));
+		Inventory inv = m_tank.getInventory();
+		int mineral_cost = getCostMine();
+		int electronical_cost = getCostElec();
+		if (isAvaibleFor(mineral_cost, electronical_cost)) {
 			inv.used(MaterialType.MINERAL, mineral_cost, MaterialType.ELECTRONIC, electronical_cost);
 			m_drone.setMaxHealth((int)(m_drone.getMaxHealth() + (m_drone.getMaxHealth()*DURATION_BOOST)));
 			m_level++;
 		} else {
 			throw new IllegalAccessException("Ressources insuffisantes dans l'inventaire.");
 		}
-	}
-
-	@Override
-	public boolean isAvaible() throws IllegalAccessException {
-		Inventory inv = m_tank.getInventory();
-		int mineral_cost = (int) (MINERALS_COST + (MINERALS_COST * m_level * COST_FACTOR));
-		int electronical_cost = (int) (ELECTRONICALS_COST + (ELECTRONICALS_COST * m_level * COST_FACTOR));
-		return (inv.possesses(MaterialType.MINERAL, mineral_cost) && inv.possesses(MaterialType.ELECTRONIC, electronical_cost));
 	}
 
 	@Override
@@ -49,6 +41,11 @@ public class UpgradeDroneUsage extends Upgrade {
 	@Override
 	public String getEntity() {
 		return NAME;
+	}
+	
+	@Override
+	public String getDescription() {
+		return "<html><p style='color:black;text-align:center'>Increases the drone <b>usage duration</b>.</p></html>";
 	}
 
 }

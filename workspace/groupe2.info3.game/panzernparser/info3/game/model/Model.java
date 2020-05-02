@@ -33,6 +33,8 @@ public class Model {
 	private Coords m_clue;
 	private long m_time;
 	private LinkedList<String> m_soundsToPlay;
+	private LinkedList<Upgrade> m_statUpgrade;
+	private LinkedList<Upgrade> m_uniqUpgrade;
 
 	/**
 	 * Fonction qui gère le singleton du modèle (évite de créer plusieurs modèles).
@@ -89,6 +91,13 @@ public class Model {
 		m_playingTank = true;
 		m_soundsToPlay = new LinkedList<String>();
 		m_time = 0;
+		
+		m_uniqUpgrade = new LinkedList<Upgrade>();
+		m_uniqUpgrade.add(new UpgradeDroneVision(m_tank, m_drone));
+		m_uniqUpgrade.add(new UpgradeAutomaticSubmachine(m_tank));
+		m_statUpgrade = new LinkedList<Upgrade>();
+		m_statUpgrade.add(new UpgradeDroneUsage(m_tank, m_drone));
+		m_statUpgrade.add(new UpgradeMarkersCount(m_tank, m_drone));
 
 	}
 
@@ -151,8 +160,16 @@ public class Model {
 	public long getTime() {
 		return m_time;
 	}
+
+	public LinkedList<Upgrade> getStatUpgrade() {
+		return m_statUpgrade;
+	}
 	
+	public LinkedList<Upgrade> getUniqUpgrade() {
+		return m_uniqUpgrade;
+	}
 	/////////////////////////////////////////////////
+
 
 	public void addSound(String soundName) {
 		m_soundsToPlay.add(soundName);

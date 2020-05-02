@@ -35,4 +35,14 @@ public class UpgradeDroneUsage extends Upgrade {
 		return (inv.possesses(MaterialType.MINERAL, mineral_cost) && inv.possesses(MaterialType.ELECTRONIC, electronical_cost));
 	}
 
+	@Override
+	public int getCostElec() {
+		return MINERALS_COST;
+	}
+
+	@Override
+	public int getCostMine() {
+		return ELECTRONICALS_COST;
+	}
+
 }

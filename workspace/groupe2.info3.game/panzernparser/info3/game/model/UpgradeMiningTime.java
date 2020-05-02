@@ -32,4 +32,14 @@ public class UpgradeMiningTime extends Upgrade {
 		int electronical_cost = (int) (ELECTRONICALS_COST + (ELECTRONICALS_COST * m_level * COST_FACTOR));
 		return (inv.possesses(MaterialType.MINERAL, mineral_cost) && inv.possesses(MaterialType.ELECTRONIC, electronical_cost));
 	}
+	
+	@Override
+	public int getCostElec() {
+		return MINERALS_COST;
+	}
+
+	@Override
+	public int getCostMine() {
+		return ELECTRONICALS_COST;
+	}
 }

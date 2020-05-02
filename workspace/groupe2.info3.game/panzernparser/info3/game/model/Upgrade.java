@@ -66,5 +66,9 @@ public abstract class Upgrade {
 	public int getLevel() {
 		return m_level;
 	}
+	
+	public abstract int getCostElec();
+	
+	public abstract int getCostMine();
 
 }

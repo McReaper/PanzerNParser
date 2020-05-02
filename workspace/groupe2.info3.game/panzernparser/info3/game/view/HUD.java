@@ -1,36 +1,16 @@
 package info3.game.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Image;
+import java.awt.*;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.Box.Filler;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.plaf.basic.*;
 
-import info3.game.model.MaterialType;
-import info3.game.model.Model;
-import info3.game.model.Model.VisionType;
-import info3.game.model.Tank;
-import info3.game.model.Upgrade;
-import info3.game.model.entities.Drone;
-import info3.game.model.entities.Entity;
+import info3.game.model.*;
+import info3.game.model.entities.*;
 import info3.game.model.entities.EntityFactory.MyEntities;
-import info3.game.model.entities.TankBody;
-import info3.game.model.entities.Turret;
 
 public class HUD {
 	
@@ -187,9 +167,15 @@ public class HUD {
 
 //		m_HPStamina avec les deux barres d'HP et DP
 //		m_HPStamina.setPreferredSize(new Dimension(100, 100));
+		
+		BasicProgressBarUI progressUIHealth = new BasicProgressBarUI();
+		BasicProgressBarUI progressUIDrone = new BasicProgressBarUI();
+		
 		HPStamina.add(Box.createVerticalGlue());
 		LineBorder progressBarBorder = (LineBorder) BorderFactory.createLineBorder(Color.BLACK, 3);
 		m_health = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
+		m_health.setUI(progressUIHealth);
+		m_health.setBorder(null);
 		m_health.setBorder(progressBarBorder);
 		m_health.setForeground(Color.RED);
 		m_health.setBackground(Color.GRAY);
@@ -198,6 +184,7 @@ public class HUD {
 		HPStamina.add(m_health);
 		HPStamina.add(Box.createVerticalGlue());
 		m_drone = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
+		m_drone.setUI(progressUIDrone);
 		m_drone.setBorder(progressBarBorder);
 		m_drone.setForeground(Color.YELLOW);
 		m_drone.setBackground(Color.GRAY);
@@ -314,21 +301,94 @@ public class HUD {
 		upgradeTitledBorder.setTitleJustification(TitledBorder.CENTER);
 		m_upgrade.setBorder(upgradeTitledBorder);
 		
-		//TODO implémenter un affichage dynamique pour les upgrade après avoir implémenté les upgrades
-		m_availableUpgrades=new Hashtable<Upgrade, JButton>();
-				
-		// Création d'un premier bouton
-		JButton upgradeButton1 = new JButton("HP Max +100");
-		upgradeButton1.setForeground(Color.BLACK);
-		upgradeButton1.setBackground(new Color(29, 73, 25));
-
 		// Ajout d'une border au bouton
 		Border inset = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 		LineBorder buttonLineBorder = (LineBorder) BorderFactory.createLineBorder(new Color(52, 109, 46));
 		Border buttonBorder = BorderFactory.createCompoundBorder(buttonLineBorder, inset);
-		upgradeButton1.setBorder(buttonBorder);
 
-		m_upgrade.add(upgradeButton1);
+		//TODO implémenter un affichage dynamique pour les upgrade après avoir implémenté les upgrades
+		LinkedList<Upgrade> statUpgrades = Model.getModel().getStatUpgrade();
+		LinkedList<JButton> buttons = new LinkedList<JButton>();
+		for(Upgrade upg : statUpgrades) {
+			int eleCost = upg.getCostElec();
+			int minCost = upg.getCostMine();
+			upgradeButton upgradeButton = new upgradeButton("Upgrade",toolsIcone,mineralsIcone,eleCost,minCost);
+			upgradeButton.setBorder(buttonBorder);
+			buttons.add(upgradeButton);
+		}
+
+		
+		//Espace bouton
+		JPanel statUpgrade = new JPanel();
+		statUpgrade.setPreferredSize(new Dimension(110,500));
+		statUpgrade.setBackground(Color.DARK_GRAY);
+		
+		for (JButton jButton : buttons) {
+			statUpgrade.add(jButton);
+		}
+		
+		//Le scrollPane
+		JScrollPane scrollbutton = new JScrollPane(statUpgrade);
+		scrollbutton.setPreferredSize(new Dimension(110,100));
+		scrollbutton.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollbutton.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollbutton.setBorder(null);
+		
+		//Une scrollbar
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setPreferredSize(new Dimension(5,100));
+		scrollBar.setBackground(Color.GREEN);
+		scrollBar.setForeground(Color.RED);
+		
+		//UI Du scrollbar
+		BasicScrollBarUI scrollUI = new BasicScrollBarUI() {
+			@Override
+			protected JButton createIncreaseButton(int orientation) {
+				JButton button = new JButton();
+				Dimension dim = new Dimension(0,0);
+				button.setMaximumSize(dim);
+				button.setMinimumSize(dim);
+				button.setPreferredSize(dim);
+				return button;
+			}
+			
+			@Override
+			protected JButton createDecreaseButton(int orientation) {
+				JButton button = new JButton();
+				Dimension dim = new Dimension(0,0);
+				button.setMaximumSize(dim);
+				button.setMinimumSize(dim);
+				button.setPreferredSize(dim);
+				return button;
+			}
+			
+			@Override
+			protected void configureScrollBarColors() {
+				super.configureScrollBarColors();
+				thumbColor = new Color(52, 109, 46);
+				trackColor = Color.BLACK;
+			}
+			
+			@Override
+	    protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds)
+	    {
+	        if(thumbBounds.isEmpty() || !scrollbar.isEnabled())     {
+	            return;
+	        }
+
+	        int w = thumbBounds.width;
+	        int h = thumbBounds.height;
+
+	        g.translate(thumbBounds.x, thumbBounds.y);
+	        g.setColor(thumbColor);
+	        g.fillRect(0, 0, w, h);
+	    }
+		};
+		scrollBar.setUI(scrollUI);
+		scrollBar.setUnitIncrement(30);
+		scrollbutton.setVerticalScrollBar(scrollBar);
+		
+		m_upgrade.add(scrollbutton);
 		m_East.add(m_upgrade);
 		
 		m_viewModePanel = new JPanel();
@@ -487,6 +547,49 @@ public class HUD {
 		} else {
 			return THROUGH_NEGATIVE;
 		}
+	}
+	
+	private class upgradeButton extends JButton {
+
+		private boolean m_isLocked;
+		private int m_elecCost;
+		private int m_mineCost;
+		private Image m_electronics;
+		private Image m_minerals;
+		private String m_text;
+		
+		public upgradeButton(String string,ImageIcon elec,ImageIcon mine,int eCost,int mCost) {
+			super();
+			m_elecCost = eCost;
+			m_mineCost = mCost;
+			m_text = string;
+			m_electronics = elec.getImage();
+			m_minerals = mine.getImage();
+			this.setForeground(Color.BLACK);
+			this.setBackground(new Color(29, 73, 25));
+			this.setPreferredSize(new Dimension(95,50));
+			BasicButtonUI buttonUI = new BasicButtonUI() {
+				@Override
+				protected void paintButtonPressed(Graphics g, AbstractButton b){
+					System.out.println("YES");
+					Color color = new Color(0F, 0F, 0F, 0.3F);
+					g.setColor(color);
+					g.fillRect(0, 0, b.getWidth(), b.getHeight());
+				}
+			};
+			this.setUI(buttonUI);
+		}
+
+		@Override
+		public void paint(Graphics g) {
+			super.paint(g);
+			g.drawRect(0, 0, this.getWidth()-1, this.getHeight()-1);
+			g.drawLine(0, 30, this.getWidth()-1, 30);
+			g.drawLine(this.getWidth()/2, 30, this.getWidth()/2, this.getHeight()-1);
+			g.drawImage(m_minerals, 3, 33, 15,15, null);
+			g.drawImage(m_electronics, 3+this.getWidth()/2, 33, 15,15, null);
+		}
+		
 	}
 
 }

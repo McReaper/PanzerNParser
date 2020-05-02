@@ -42,4 +42,14 @@ public class UpgradeDroneVision extends Upgrade {
 		return (inv.possesses(MaterialType.MINERAL, MINERALS_COST) && inv.possesses(MaterialType.ELECTRONIC, ELECTRONICALS_COST));
 	}
 
+	@Override
+	public int getCostElec() {
+		return MINERALS_COST;
+	}
+
+	@Override
+	public int getCostMine() {
+		return ELECTRONICALS_COST;
+	}
+
 }

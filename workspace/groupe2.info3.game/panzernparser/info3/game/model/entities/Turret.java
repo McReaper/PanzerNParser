@@ -8,6 +8,7 @@ import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Tank;
 import info3.game.model.Weapon;
+import info3.game.model.WeaponBasic;
 import info3.game.model.entities.EntityFactory.MyEntities;
 
 /**
@@ -41,8 +42,7 @@ public class Turret extends StaticEntity {
 	public static final int TURRET_NB_WEAPONS_DISPO_INIT = 2;
 
 	private Tank m_tank;
-	private int m_typeGun;
-	private int m_nbWeaponsMax;
+	private int m_indexCurrentWeapon;
 	private int m_nbWeaponsDispo;
 	private Weapon[] m_weapons;
 	private Weapon m_currentWeapon;
@@ -51,11 +51,20 @@ public class Turret extends StaticEntity {
 		super(x, y, TURRET_WIDTH, TURRET_HEIGHT, aut);
 		m_tank = null;
 		m_category = MyCategory.V;
-		//m_typeGun = GUN_BULLET_SLOW;
-		m_nbWeaponsMax = TURRET_NB_WEAPONS_MAX;
+		
+		m_indexCurrentWeapon = 0;
 		m_nbWeaponsDispo = TURRET_NB_WEAPONS_DISPO_INIT;
 		m_weapons = new Weapon[TURRET_NB_WEAPONS_MAX];
+		initTabsWeapons();
+		m_currentWeapon = m_weapons[0];
+		
 	//	m_currentWeapon = new Weapon();
+	}
+
+	private void initTabsWeapons() {
+		m_weapons[0]= new WeaponBasic();
+		m_weapons[1]= new WeaponBasic();
+		m_weapons[2]= new WeaponBasic();
 	}
 
 	public void setTank(Tank tank) {
@@ -77,7 +86,7 @@ public class Turret extends StaticEntity {
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = TURRET_HIT_TIME;
 
-			m_currentWeapon.fire();
+			m_currentWeapon.fire(dir);
 		}
 	}
 
@@ -89,7 +98,7 @@ public class Turret extends StaticEntity {
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
-			m_typeGun = changeGun();
+			m_currentWeapon = changeWeapon();
 			printConsolGun();
 			m_timeOfAction = TURRET_POP_TIME;
 		}
@@ -127,13 +136,14 @@ public class Turret extends StaticEntity {
 		return false;
 	}
 
-	public int getWeapon() {
-		return m_typeGun;
+	public Weapon getWeapon() {
+		return m_currentWeapon;
 	}
 
-	private int changeGun() {
-		m_typeGun++;
-		return m_typeGun % m_nbWeaponsDispo;
+	private Weapon changeWeapon() {
+		m_indexCurrentWeapon++;
+		m_indexCurrentWeapon %= m_nbWeaponsDispo;
+		return m_weapons[m_indexCurrentWeapon];
 	}
 
 	private void printConsolGun() {

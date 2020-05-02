@@ -12,10 +12,5 @@ public abstract class MovingEntity extends Entity {
 		m_speed = DEFAULT_SPEED;
 		m_health = DEFAULT_SPEED;
 	}
-	
-	@Override
-	public boolean GotPower() {
-		return (m_health >0);
-	}
 
 }

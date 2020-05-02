@@ -186,12 +186,50 @@ public class Grid {
 	public LinkedList<Entity> getEntityCell(int x, int y) {
 		int rx = realX(x);
 		int ry = realY(y);
-		return m_entityGrid[rx][ry];
+		return new LinkedList<Entity>(m_entityGrid[rx][ry]);
+	}
+	
+	public LinkedList<Entity> getEntityCells(int x, int y, int w, int h) {
+		LinkedList<Entity> entity = new LinkedList<Entity>();
+		for(int i = 0; i < w; i++) {
+			for(int j = 0; j < h; j++) {
+				entity.addAll(getEntityCell(x + i, y + j));
+			}
+		}
+		return entity;
+	}
+
+	public LinkedList<Entity> getEntityCell(int x, int y, MyEntities type) {
+		LinkedList<Entity> lsCell = getEntityCell(x, y);
+		if (type == null) {
+			return lsCell;
+		}
+		LinkedList<Entity> lsType = new LinkedList<Entity>();
+		for (Entity e : lsCell) {
+			if (EntityFactory.getMyEntities(e) == type) {
+				lsType.add(e);
+			}
+		}
+		return lsType;
+	}
+	
+	public LinkedList<Entity> getEntityCells(int x, int y, int w, int h, MyEntities type) {
+		LinkedList<Entity> lsCell = getEntityCells(x, y, w, h);
+		if (type == null) {
+			return lsCell;
+		}
+		LinkedList<Entity> lsType = new LinkedList<Entity>();
+		for (Entity e : lsCell) {
+			if (EntityFactory.getMyEntities(e) == type) {
+				lsType.add(e);
+			}
+		}
+		return lsType;
 	}
 
 	/**
 	 * /!\ Cette fonction est pour le debug UNIQUEMENT, vérifier bien de ne la
-	 * laisser nullpart dans des versions finies. (pour la trouver ctrl+shift+G
+	 * laisser nullpart dans des versions finies. (pour la trouver ctrl+shift+G)
 	 */
 	public void TESTPRINT() {
 		System.out.println();

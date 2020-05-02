@@ -8,19 +8,25 @@ import info3.game.model.entities.Shot;
 import info3.game.model.entities.ShotBig;
 import info3.game.model.entities.ShotFast;
 import info3.game.model.entities.ShotSlow;
+import info3.game.model.entities.Turret;
 
 public abstract class Weapon {
 //	public enum TypeWeapon {
 //		GUN_BULLET_SLOW ,GUN_BULLET_FAST ,GUN_BIG_BULLET ;
 //	}
-	
+	private Turret m_turret;
 	private int m_x;//TODO renomer si besoin
 	private int m_y;//enplacement de la turret
-	private int m_nbShots;
-	private long m_reload;
+	private int m_mag_capacity;//capacité chargeur (nombre de shots dedans)
+	private long m_reload;//temps de rechargement
 	private MyEntities m_typeBullet;
 
-		public Weapon() {
+		public Weapon(int mag_capacity, int reload, MyEntities typeBullet) {
+			m_x = m_turret.getX();
+			m_y = m_turret.getY();
+			m_reload = reload;
+			m_mag_capacity = mag_capacity;
+			m_typeBullet = typeBullet;
 		}
 		
 		public MyEntities getTypeBullet() {
@@ -29,6 +35,14 @@ public abstract class Weapon {
 		
 		public void setTypeBullet(MyEntities type) {
 			m_typeBullet = type;
+		}
+		
+		public void upgradeMagazin(int capacity) {
+			m_mag_capacity += capacity;
+		}
+		
+		public void upgradeMagazin(long reload) {
+			m_reload -= reload;
 		}
 		
 		public void fire() {

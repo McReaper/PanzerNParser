@@ -20,13 +20,13 @@ public class Drone extends MovingEntity {
 	public static final int DRONE_HEALTH = 300000;
 	public static final int DRONE_SPEED = 200;
 
-	public static final int MARKER_MAX = 3;
+	public static final int INIT_MARKER_MAX = 3;
 	public static final int DRONE_FOV = 10;
 
 	public static final long DRONE_EGG_TIME = 1000;
 	public static final long DRONE_GET_TIME = 1000;
 	public static final long DRONE_HIT_TIME = 1000;
-	public static final long DRONE_JUMP_TIME = 50;
+	public static final long DRONE_JUMP_TIME = 200;
 	public static final long DRONE_EXPLODE_TIME = 1000;
 	public static final long DRONE_MOVE_TIME = 1000;
 	public static final long DRONE_PICK_TIME = 1000;
@@ -43,7 +43,8 @@ public class Drone extends MovingEntity {
 	public static final int DRONE_RECHARGE = 10;
 	public static final int DRONE_DESCHARGE = 30;
 
-	int m_nbMarkers;
+	private int m_nbMarkers;
+	private int m_maxMarkers;
 	private VisionType m_currentVisionType;
 
 	public Drone(int x, int y, Automaton aut) {
@@ -51,11 +52,12 @@ public class Drone extends MovingEntity {
 		m_category = MyCategory.V;
 		m_nbMarkers = 0;
 		m_range = DRONE_FOV;
+		m_maxMarkers = INIT_MARKER_MAX;
 		m_currentVisionType = VisionType.RESSOURCES;
 		m_speed = DRONE_SPEED;
 		m_uncrossables = new LinkedList<MyCategory>();
 		m_maxHealth = DRONE_HEALTH;
-		m_health = 0;
+		m_health = DRONE_HEALTH;
 	}
 	
 	@Override
@@ -109,7 +111,7 @@ public class Drone extends MovingEntity {
 				}
 			} else {
 				EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
-				if (m_nbMarkers == MARKER_MAX)
+				if (m_nbMarkers == m_maxMarkers)
 					Model.getModel().removeEntity(Model.getModel().getEntities(MyEntities.Marker).get(0));
 				else {
 					m_nbMarkers++;
@@ -172,18 +174,55 @@ public class Drone extends MovingEntity {
 	}
 
 	@Override
+	public void Jump(MyDirection dir) {
+		if (m_actionFinished && m_currentAction == LsAction.Jump) {
+			switch (dir) {
+				case FRONT:
+					growViewPort();
+					break;
+				case BACK:
+					reduceViewPort();
+					break;
+				default:
+					break;
+			}
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			switch (dir) {
+				case FRONT:
+				case BACK:
+					m_currentActionDir = dir;
+					m_currentAction = LsAction.Jump;
+					m_timeOfAction = DRONE_JUMP_TIME;
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	@Override
 	public boolean Key(LsKey key) {
 		if (hasControl())
 			return super.Key(key);
 		return false;
 	}
-
-	public void growViewPort() {
-		m_range++;
+	
+	public void increaseMarksNb() {
+		m_nbMarkers ++;
 	}
-
-	public void reduceViewPort() {
-		m_range--;
+	
+	public void decreaseMarksNb() {
+		m_nbMarkers --;
+	}
+	
+	public int getMaxMarkers() {
+		return m_maxMarkers;
+	}
+	
+	public void setMaxMarkers(int maxCount) {
+		m_maxMarkers = maxCount;
 	}
 
 }

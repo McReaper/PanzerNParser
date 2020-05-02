@@ -7,6 +7,8 @@ import info3.game.model.entities.Drone;
  */
 public class UpgradeDroneVision extends Upgrade {
 
+
+	private static final String NAME = "Drone dynamic elevation";
 	private static final int MINERALS_COST = 0;
 	private static final int ELECTRONICALS_COST = 10;
 	
@@ -16,9 +18,11 @@ public class UpgradeDroneVision extends Upgrade {
 
 	@Override
 	public void activate() throws IllegalAccessException {
-		if (isAvaibleFor(MINERALS_COST, ELECTRONICALS_COST)) {
-			Inventory inv = m_tank.getInventory();
-			inv.used(MaterialType.MINERAL, MINERALS_COST, MaterialType.ELECTRONIC, ELECTRONICALS_COST);
+		Inventory inv = m_tank.getInventory();
+		int mineral_cost = getCostMine();
+		int electronical_cost = getCostElec();
+		if (isAvaibleFor(mineral_cost, electronical_cost)) {
+			inv.used(MaterialType.MINERAL, mineral_cost, MaterialType.ELECTRONIC, electronical_cost);
 			m_drone.setStuff(true);
 			m_level = 1;
 		} else {
@@ -37,19 +41,23 @@ public class UpgradeDroneVision extends Upgrade {
 	}
 
 	@Override
-	public boolean isAvaible() throws IllegalAccessException {
-		Inventory inv = m_tank.getInventory();
-		return (inv.possesses(MaterialType.MINERAL, MINERALS_COST) && inv.possesses(MaterialType.ELECTRONIC, ELECTRONICALS_COST));
-	}
-
-	@Override
 	public int getCostElec() {
-		return MINERALS_COST;
+		return ELECTRONICALS_COST;
 	}
 
 	@Override
 	public int getCostMine() {
-		return ELECTRONICALS_COST;
+		return MINERALS_COST;
+	}
+
+	@Override
+	public String getEntity() {
+		return NAME;
+	}
+	
+	@Override
+	public String getDescription() {
+		return "<html><p style='color:black;text-align:center'>Activate the drone's ability to <b>go up and down in the sky</b>, allowing you to <b>see more</b> resources or enemies.</p></html>";
 	}
 
 }

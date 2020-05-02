@@ -2,6 +2,7 @@ package info3.game.model;
 
 public class UpgradeShot extends Upgrade {
 
+	private static final String NAME = "Unlock new weapon";
 	private static final int MINERALS_COST = 20;
 	private static final int ELECTRONICALS_COST = 20;
 	private static final double COST_FACTOR = 2.5;
@@ -40,5 +41,10 @@ public class UpgradeShot extends Upgrade {
 	@Override
 	public int getCostMine() {
 		return ELECTRONICALS_COST;
+	}
+
+	@Override
+	public String getEntity() {
+		return NAME;
 	}
 }

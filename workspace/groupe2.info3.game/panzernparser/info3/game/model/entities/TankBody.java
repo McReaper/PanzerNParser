@@ -113,7 +113,7 @@ public class TankBody extends MovingEntity {
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			Drone d = Model.getModel().getDrone();
-			if (d.getHealth() >= d.getMaxHealth() / 2) {
+			if (d.getHealth() >= d.getMaxHealth() / 5) {
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Wizz;
 				m_timeOfAction = TANKBODY_WIZZ_TIME;

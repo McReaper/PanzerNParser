@@ -61,12 +61,12 @@ public class Drone extends MovingEntity {
 	@Override
 	public void step(long elapsed) {
 		if(hasControl()) {
-			m_health -= DRONE_DESCHARGE;
+			m_health -= DRONE_DESCHARGE * elapsed;
 			if (!GotPower()) {
 				m_health = 0;
 			}
 		}else if (m_health < m_maxHealth) {
-			m_health += DRONE_RECHARGE;
+			m_health += DRONE_RECHARGE * elapsed;
 		}
 		System.out.println("drone health : "+m_health);
 		super.step(elapsed);

@@ -114,10 +114,10 @@ public class HUD {
 		BoxLayout parentMineralsLayout = new BoxLayout(parentMineralsPanel, BoxLayout.Y_AXIS);
 		BoxLayout parentToolsLayout = new BoxLayout(parentToolsPanel, BoxLayout.Y_AXIS);
 		
-		m_mineralsLabel = new JLabel("Minerals");
+		m_mineralsLabel = new JLabel("0");
 		m_mineralsLabel.setForeground(Color.RED);
 		m_mineralsLabel.setFont(fontWest);
-		m_toolsLabel = new JLabel("Electronics :");
+		m_toolsLabel = new JLabel("0");
 		m_toolsLabel.setForeground(Color.RED);
 		m_toolsLabel.setFont(fontWest);
 		
@@ -208,6 +208,8 @@ public class HUD {
 		m_West.add(HPStamina);
 		m_West.add(MinToolsWeapon);
 
+		
+		
 		// ATH droit
 
 		// La font des futurs labels

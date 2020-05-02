@@ -12,7 +12,7 @@ public class EntityFactory {
 	}
 
 	public static Entity newTankBody(int x, int y, Automaton aut) {
-		return new TankBody(x, y,aut);
+		return new TankBody(x, y, aut);
 	}
 
 	public static Entity newTankTurret(int x, int y, Automaton aut) {
@@ -20,7 +20,7 @@ public class EntityFactory {
 	}
 
 	public static Entity newEnemy(int x, int y, Automaton aut) {
-		Entity enemy = new Enemy(x, y, aut);
+		Entity enemy = new EnemyBasic(x, y, aut);
 		return enemy;
 	}
 
@@ -38,7 +38,7 @@ public class EntityFactory {
 		Entity ground = new Ground(x, y, aut);
 		return ground;
 	}
-	
+
 	public static Entity newWall(int x, int y, Automaton aut) {
 		Entity wall = newGround(x, y, aut);
 		wall.setCategory(MyCategory.O);
@@ -54,25 +54,37 @@ public class EntityFactory {
 		Entity marker = new Marker(x, y, aut);
 		return marker;
 	}
-	
+
 	public static Entity newHole(int x, int y, Automaton aut) {
 		Entity hole = new Hole(x, y, aut);
 		return hole;
 	}
-	//////////////////Creation des différents type de shot///////////////
+
+	////////////////// Creation des différents type de shot///////////////
 	public static Entity newShotSlow(int x, int y, Automaton aut) {
 		Entity shot = new ShotSlow(x, y, aut);
 		return shot;
 	}
-	
+
 	public static Entity newShotFast(int x, int y, Automaton aut) {
 		Entity shot = new ShotFast(x, y, aut);
 		return shot;
 	}
-	
+
 	public static Entity newShotBig(int x, int y, Automaton aut) {
 		Entity shot = new ShotBig(x, y, aut);
 		return shot;
+	}
+
+//////////////////Creation des différents type d'Enemy///////////////
+	public static Entity newEnemyBasic(int x, int y, Automaton aut) {
+		Entity enemyB = new EnemyBasic(x, y, aut);
+		return enemyB;
+	}
+	
+	public static Entity newEnemyLevel2(int x, int y, Automaton aut) {
+		Entity enemyL2 = new EnemyLevel2(x, y, aut);
+		return enemyL2;
 	}
 	//////////////////////////////////////////////////////////////////////
 
@@ -97,7 +109,7 @@ public class EntityFactory {
 				res = newVein(x, y, config.getAutomaton(MyEntities.Vein));
 				break;
 
-			case Shot://par défaut on prend les balles lentes
+			case Shot:// par défaut on prend les balles lentes
 				res = newShotSlow(x, y, config.getAutomaton(MyEntities.Shot));
 				break;
 
@@ -124,7 +136,7 @@ public class EntityFactory {
 		Model.getModel().getEntities(entity).add(res);
 		return res;
 	}
-	
+
 	public static Entity newEntityShot(MyEntities entity, int x, int y, int typeShot) {
 		Entity res;
 		GameConfiguration config = GameConfiguration.getConfig();
@@ -139,7 +151,24 @@ public class EntityFactory {
 				res = newShotBig(x, y, config.getAutomaton(MyEntities.Shot));
 				break;
 			default:
-				throw new IllegalStateException("Entité non reconnue !");
+				throw new IllegalStateException("Shot non reconnue !");
+		}
+		Model.getModel().getEntities(entity).add(res);
+		return res;
+	}
+
+	public static Entity newEntityEnemy(MyEntities entity, int x, int y, int typeEnemy) {
+		Entity res;
+		GameConfiguration config = GameConfiguration.getConfig();
+		switch (typeEnemy) {
+			case Enemy.ENEMY_BASIC:
+				res = newEnemyBasic(x, y, config.getAutomaton(MyEntities.Enemy));
+				break;
+			case Enemy.ENEMY_LEVEL2:
+				res = newEnemyLevel2(x, y, config.getAutomaton(MyEntities.Enemy));
+				break;
+			default:
+				throw new IllegalStateException("Enemy non reconnue !");
 		}
 		Model.getModel().getEntities(entity).add(res);
 		return res;
@@ -148,7 +177,7 @@ public class EntityFactory {
 	public static String name(Entity entity) {
 		return entity.getClass().getName();
 	}
-	
+
 	public static MyEntities getMyEntities(Entity e) {
 		if (e instanceof Droppable) {
 			return MyEntities.Droppable;
@@ -159,9 +188,9 @@ public class EntityFactory {
 		} else if (e instanceof Vein) {
 			return MyEntities.Vein;
 		} else if (e instanceof Ground) {
-			if(e.getCategory() == MyCategory.O)
+			if (e.getCategory() == MyCategory.O)
 				return MyEntities.Wall;
-			else if(e instanceof Hole)
+			else if (e instanceof Hole)
 				return MyEntities.Hole;
 			return MyEntities.Ground;
 		} else if (e instanceof Marker) {

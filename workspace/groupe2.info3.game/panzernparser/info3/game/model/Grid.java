@@ -11,6 +11,7 @@ import java.util.List;
 
 import info3.game.GameConfiguration;
 import info3.game.automaton.MyDirection;
+import info3.game.model.entities.Enemy;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
@@ -330,11 +331,13 @@ public class Grid {
 
 			MyEntities m_type;
 			int m_ex, m_ey;
+			String m_name;
 
-			public EntityShade(int x, int y, MyEntities type) {
+			public EntityShade(int x, int y, MyEntities type, String name) {
 				m_ex = x;
 				m_ey = y;
 				m_type = type;
+				m_name = name;
 			}
 
 		}
@@ -357,6 +360,16 @@ public class Grid {
 			for (EntityShade entityShade : m_entitieShades) {
 				int global_x = entityShade.m_ex + m_px * SIZE;
 				int global_y = entityShade.m_ey + m_py * SIZE;
+				switch(entityShade.m_name) {
+					case "enem1" : 
+						EntityFactory.newEntityEnemy(entityShade.m_type, global_x, global_y, Enemy.ENEMY_BASIC);
+						break;
+					case "enem2" : 
+						System.out.println("enem2");
+						EntityFactory.newEntityEnemy(entityShade.m_type, global_x, global_y, Enemy.ENEMY_LEVEL2);
+						break;
+						
+				}
 				EntityFactory.newEntity(entityShade.m_type, global_x, global_y);
 			}
 		}
@@ -386,6 +399,7 @@ public class Grid {
 						type = MyEntities.Droppable;
 						break;
 					case "enem1":
+					case "enem2" :
 						type = MyEntities.Enemy;
 						break;
 					case "vein1":
@@ -410,7 +424,7 @@ public class Grid {
 				if (x < SIZE && x >= 0 && y < SIZE && y >= 0) {
 					if (type != null) {
 
-						EntityShade es = new EntityShade(x, y, type);
+						EntityShade es = new EntityShade(x, y, type, name);
 						m_entitieShades.add(es);
 					}
 				}

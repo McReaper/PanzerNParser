@@ -1,4 +1,4 @@
-Trou(Popping){
+Hole(Popping){
 	*(Popping)
 	|!GotPower() ? Explode() : ()
 	|GotStuff? Pop() :(Popping)

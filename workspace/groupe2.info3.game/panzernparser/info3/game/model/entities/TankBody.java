@@ -75,8 +75,8 @@ public class TankBody extends MovingEntity {
 			LinkedList<Entity> entities = Model.getModel().getGrid().getEntityCell(posX, posY);
 			for (Entity ent : entities) {
 				if ( ent instanceof Vein) {
-					System.out.println("je creuse sur une vein");
-					ent.setStuff(true);
+					//La veine doit egg un droppable via son avatar
+						ent.setStuff(true);
 					}
 			}
 			m_actionFinished = false;
@@ -88,8 +88,9 @@ public class TankBody extends MovingEntity {
 			m_timeOfAction = TANKBODY_POP_TIME;
 			int posX = getXCaseDir(dir);
 			int posY = getYCaseDir(dir);
-			Entity trou = EntityFactory.newEntity(MyEntities.Trou, posX, posY);
-			trou.setStuff(true);
+			Entity hole = EntityFactory.newEntity(MyEntities.Hole, posX, posY);
+			//le trou doit pop via son avatar
+			hole.setStuff(true);
 		}
 	}
 
@@ -138,7 +139,6 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Pick(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Pick) {
-			System.out.println("Le Tank rammasse un objet!");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -153,8 +153,6 @@ public class TankBody extends MovingEntity {
 						m_tank.getInventory().add(((Droppable) ent).getMType(), ((Droppable) ent).getQuantity());// on le met dans
 																																																			// l'inventaire
 						Model.getModel().removeEntity(ent);// et il disparait de la liste des entités du model.
-						System.out.println("Dans l'inventaire il y a "
-								+ m_tank.getInventory().getQuantity(((Droppable) ent).getMType()) + " matériaux ");
 					}
 				} 
 			}

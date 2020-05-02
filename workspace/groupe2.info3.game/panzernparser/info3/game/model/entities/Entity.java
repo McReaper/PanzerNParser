@@ -185,10 +185,6 @@ public abstract class Entity {
 	
 	public void setStuff(boolean bool) {
 		m_stuff = bool;
-		if (bool)
-			System.out.println("je donne du stuff");
-		else 
-			System.out.println("je reprends le stuff");
 	}
 
 	public LsAction getCurrentAction() {

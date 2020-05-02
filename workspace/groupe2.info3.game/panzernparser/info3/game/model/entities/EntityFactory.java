@@ -8,7 +8,7 @@ import info3.game.model.Model;
 
 public class EntityFactory {
 	public enum MyEntities {
-		Wall, Ground, Enemy, Droppable, Shot, Vein, Drone, Marker, TankBody, Turret, Trou;
+		Wall, Ground, Enemy, Droppable, Shot, Vein, Drone, Marker, TankBody, Turret, Hole;
 	}
 
 	public static Entity newTankBody(int x, int y, Automaton aut) {
@@ -55,9 +55,9 @@ public class EntityFactory {
 		return marker;
 	}
 	
-	public static Entity newTrou(int x, int y, Automaton aut) {
-		Entity trou = new Trou(x, y, aut);
-		return trou;
+	public static Entity newHole(int x, int y, Automaton aut) {
+		Entity hole = new Hole(x, y, aut);
+		return hole;
 	}
 	//////////////////Creation des différents type de shot///////////////
 	public static Entity newShotSlow(int x, int y, Automaton aut) {
@@ -114,8 +114,8 @@ public class EntityFactory {
 			case Marker:
 				res = newMarker(x, y, config.getAutomaton(MyEntities.Droppable));
 				break;
-			case Trou:
-				res = newTrou(x, y, config.getAutomaton(MyEntities.Trou));
+			case Hole:
+				res = newHole(x, y, config.getAutomaton(MyEntities.Hole));
 				break;
 			default:
 				throw new IllegalStateException("Entité non reconnue !");
@@ -161,8 +161,8 @@ public class EntityFactory {
 		} else if (e instanceof Ground) {
 			if(e.getCategory() == MyCategory.O)
 				return MyEntities.Wall;
-			else if(e instanceof Trou)
-				return MyEntities.Trou;
+			else if(e instanceof Hole)
+				return MyEntities.Hole;
 			return MyEntities.Ground;
 		} else if (e instanceof Marker) {
 			return MyEntities.Marker;

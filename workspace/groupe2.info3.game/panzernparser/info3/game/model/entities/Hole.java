@@ -4,9 +4,9 @@ import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 
-public class Trou extends Ground {
+public class Hole extends Ground {
 
-	public Trou(int x, int y, Automaton aut) {
+	public Hole(int x, int y, Automaton aut) {
 		super(x, y, aut);
 		m_stuff = false;
 	}

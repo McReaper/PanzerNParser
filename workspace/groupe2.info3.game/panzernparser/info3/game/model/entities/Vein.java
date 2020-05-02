@@ -58,7 +58,7 @@ public class Vein extends StaticEntity {
 			m_timeOfAction = DEFAULT_EGG_TIME;
 
 			// creation de la ressource a répendre
-			if (dir == MyDirection.HERE) {
+			if (dir == null || dir == MyDirection.HERE) {
 				Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x, m_y);
 				((Droppable) ent).setMaterialType(MaterialType.MINERAL);
 				((Droppable) ent).setQuantity(10);//TODO A mettre dans une variable

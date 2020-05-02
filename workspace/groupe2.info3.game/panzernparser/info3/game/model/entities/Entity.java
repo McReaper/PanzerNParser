@@ -309,7 +309,7 @@ public abstract class Entity {
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			MyDirection absoluteDir = MyDirection.toAbsolute(m_currentActionDir, dir);
-			if(!checkMove(absoluteDir))
+			if (!checkMove(absoluteDir))
 				return;
 			switch (absoluteDir) {
 				case NORTH:
@@ -492,9 +492,7 @@ public abstract class Entity {
 			case NORTH:
 				y = y - 1;
 				for (int i = 0; i < this.getWidth(); i++) {
-					x = x + i;
-
-					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
 					for (Entity entity : listEntity) {
 						if (m_uncrossables.contains(entity.getCategory()))
 							return false;
@@ -504,9 +502,7 @@ public abstract class Entity {
 			case EAST:
 				x = x + getWidth();
 				for (int i = 0; i < this.getHeight(); i++) {
-
-					y = y + i;
-					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
 					for (Entity entity : listEntity) {
 						if (m_uncrossables.contains(entity.getCategory()))
 							return false;
@@ -516,13 +512,12 @@ public abstract class Entity {
 			case WEST:
 				x = x - 1;
 				for (int i = 0; i < this.getHeight(); i++) {
-					y = y + i;
-					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
 					for (Entity entity : listEntity) {
 						if (m_uncrossables.contains(entity.getCategory())) {
-							if(this instanceof TankBody) {
-							System.out.println("coordonnées :" + m_x +","+m_y );
-							System.out.println(" non tu ne peux pas move en " + "coordonnées :" + x +","+y );
+							if (this instanceof TankBody) {
+								System.out.println("coordonnées :" + m_x + "," + m_y);
+								System.out.println(" non tu ne peux pas move en " + "coordonnées :" + x + "," + y);
 							}
 							return false;
 						}
@@ -532,9 +527,7 @@ public abstract class Entity {
 			case SOUTH:
 				y = y + getHeight();
 				for (int i = 0; i < this.getWidth(); i++) {
-					x = x + i;
-
-					LinkedList<Entity> listEntity = grid.getEntityCell(x, y);
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
 					for (Entity entity : listEntity) {
 						if (m_uncrossables.contains(entity.getCategory()))
 							return false;
@@ -542,9 +535,81 @@ public abstract class Entity {
 				}
 				return true;
 			case NORTHEAST:
+				y = y - 1;
+				for (int i = 1; i < this.getWidth() + 1; i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				x = x + getWidth();
+				for (int i = 1; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
 			case NORTHWEST:
+				y = y - 1;
+				x = x - 1;
+				for (int i = 0; i < getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				for (int i = 1; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
+				return true;
 			case SOUTHEAST:
+				y = y + getWidth();
+				x = x + getHeight();
+				for (int i = 0; i < getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x - i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				for (int i = 1; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y - i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
+				return true;
 			case SOUTHWEST:
+				x = x - 1;
+				for (int i = 1; i < this.getHeight() + 1; i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
+
+				y = y + getHeight();
+				for (int i = 1; i < this.getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
 		}
 		return true;
 	}

@@ -39,6 +39,7 @@ public class Enemy extends MovingEntity {
 		m_category = MyCategory.A;
 		m_range = ENEMY_FOV;
 		m_dammage_dealt = ENEMY_DAMMAGE_DEALT;
+		m_uncrossables.add(MyCategory.A);
 	}
 
 	@Override

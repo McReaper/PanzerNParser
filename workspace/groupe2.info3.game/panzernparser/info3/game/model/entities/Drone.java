@@ -52,6 +52,7 @@ public class Drone extends MovingEntity {
 		m_currentVisionType = VisionType.RESSOURCES;
 		m_damage_dealt = DRONE_DAMAGE_DEALT;
 		m_speed = DRONE_SPEED;
+		m_uncrossables = new LinkedList<MyCategory>();
 	}
 
 	@Override

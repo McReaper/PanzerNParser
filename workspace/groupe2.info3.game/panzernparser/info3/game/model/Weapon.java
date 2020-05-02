@@ -10,16 +10,25 @@ import info3.game.model.entities.ShotFast;
 import info3.game.model.entities.ShotSlow;
 
 public abstract class Weapon {
-	public enum TypeWeapon {
-		GUN_BULLET_SLOW ,GUN_BULLET_FAST ,GUN_BIG_BULLET ;
-	}
+//	public enum TypeWeapon {
+//		GUN_BULLET_SLOW ,GUN_BULLET_FAST ,GUN_BIG_BULLET ;
+//	}
 	
-	int m_x;//TODO renomer si besoin
-	int m_y;//enplacement de la turret
-	int m_nbShots;
-	long m_reload;
+	private int m_x;//TODO renomer si besoin
+	private int m_y;//enplacement de la turret
+	private int m_nbShots;
+	private long m_reload;
+	private MyEntities m_typeBullet;
 
 		public Weapon() {
+		}
+		
+		public MyEntities getTypeBullet() {
+			return m_typeBullet;
+		}
+		
+		public void setTypeBullet(MyEntities type) {
+			m_typeBullet = type;
 		}
 		
 		public void fire() {

@@ -102,12 +102,15 @@ public class HUD {
 		ImageIcon toolsIcone = new ImageIcon(
 				new ImageIcon("sprites/Electronics.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
 		JLabel mineralsImage = new JLabel(mineralsIcone);
+		mineralsImage.setMaximumSize(new Dimension(100, 0));
 		JLabel toolsImage = new JLabel(toolsIcone);
+		toolsImage.setMaximumSize(new Dimension(100, 0));
 		m_weaponImage = new JLabel(m_weaponArray[0]);
 		
 		JPanel parentMineralsPanel = new JPanel();
 		JPanel parentToolsPanel = new JPanel();
-		
+		parentMineralsPanel.setOpaque(false);
+		parentToolsPanel.setOpaque(false);
 		BoxLayout parentMineralsLayout = new BoxLayout(parentMineralsPanel, BoxLayout.Y_AXIS);
 		BoxLayout parentToolsLayout = new BoxLayout(parentToolsPanel, BoxLayout.Y_AXIS);
 		
@@ -117,7 +120,7 @@ public class HUD {
 		m_toolsLabel = new JLabel("Electronics :");
 		m_toolsLabel.setForeground(Color.RED);
 		m_toolsLabel.setFont(fontWest);
-
+		
 		m_mineralsLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		m_toolsLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		mineralsImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
@@ -141,14 +144,12 @@ public class HUD {
 		TitledBorder mineralsTitledBorder = BorderFactory.createTitledBorder(mineralsBorder, "Minerals");
 		mineralsTitledBorder.setTitleColor(Color.BLACK);
 		mineralsTitledBorder.setTitleJustification(TitledBorder.CENTER);
-		mineralsImage.setMaximumSize(new Dimension(100, 0));
 		parentMineralsPanel.setBorder(mineralsTitledBorder);
 		Border electronicsBorder = BorderFactory.createLineBorder(Color.BLACK);
 		TitledBorder electronicsTitledBorder = BorderFactory.createTitledBorder(electronicsBorder, "Electronics");
 		electronicsTitledBorder.setTitleColor(Color.BLACK);
 		electronicsTitledBorder.setTitleJustification(TitledBorder.CENTER);
-		toolsImage.setMaximumSize(new Dimension(100, 0));
-		toolsImage.setBorder(electronicsTitledBorder);
+		parentToolsPanel.setBorder(electronicsTitledBorder);
 		Border weaponBorder = BorderFactory.createLineBorder(Color.BLACK);
 		m_weaponTitledBorder = BorderFactory.createTitledBorder(weaponBorder, "Weapon :");
 		m_weaponTitledBorder.setTitleColor(Color.BLACK);
@@ -156,16 +157,24 @@ public class HUD {
 		m_weaponImage.setMaximumSize(new Dimension(100, 0));
 		m_weaponImage.setBorder(m_weaponTitledBorder);
 		
-		parentMineralsPanel.add(mineralsImage);
-		parentMineralsPanel.add(mineralsPanel);
-//		parentMineralsPanel.setLayout(parentMineralsLayout);
+		parentMineralsPanel.setLayout(parentMineralsLayout);
 		parentToolsPanel.setLayout(parentToolsLayout);
+		
+		parentMineralsPanel.add(Box.createVerticalGlue());
+		parentMineralsPanel.add(mineralsImage);
+		parentMineralsPanel.add(Box.createVerticalGlue());
+		parentMineralsPanel.add(mineralsPanel);
+		parentMineralsPanel.add(Box.createVerticalGlue());
+		parentToolsPanel.add(Box.createVerticalGlue());
+		parentToolsPanel.add(toolsImage);
+		parentToolsPanel.add(Box.createVerticalGlue());
+		parentToolsPanel.add(toolsPanel);
+		parentToolsPanel.add(Box.createVerticalGlue());
 		
 		MinToolsWeapon.add(Box.createVerticalGlue());
 		MinToolsWeapon.add(parentMineralsPanel);
 		MinToolsWeapon.add(Box.createVerticalGlue());
-		MinToolsWeapon.add(toolsImage);
-		MinToolsWeapon.add(toolsPanel);
+		MinToolsWeapon.add(parentToolsPanel);
 		MinToolsWeapon.add(Box.createVerticalGlue());
 		MinToolsWeapon.add(m_weaponImage);
 		MinToolsWeapon.add(Box.createVerticalGlue());

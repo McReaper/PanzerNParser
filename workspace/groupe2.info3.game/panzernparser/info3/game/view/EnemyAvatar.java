@@ -25,7 +25,7 @@ public class EnemyAvatar extends Avatar {
 
 		int width = entity.getWidth() * case_width;
 		int height = entity.getHeight() * case_height;
-		int x = xcase; 
+		int x = xcase;
 		int y = ycase;
 
 		// Pour réaliser un affichage progressif dans le cas d'un move.

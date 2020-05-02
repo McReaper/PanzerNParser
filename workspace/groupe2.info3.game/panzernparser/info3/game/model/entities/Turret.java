@@ -7,6 +7,7 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Tank;
+import info3.game.model.Weapon;
 import info3.game.model.entities.EntityFactory.MyEntities;
 
 /**
@@ -35,21 +36,26 @@ public class Turret extends StaticEntity {
 	public static final long TURRET_THROW_TIME = 1000;
 	public static final long TURRET_WAIT_TIME = 0;
 	public static final long TURRET_WIZZ_TIME = 1000;
-
-	public static final int GUN_BULLET_SLOW = 0;
-	public static final int GUN_BULLET_FAST = 1;
-	public static final int GUN_BIG_BULLET = 2;
+	
+	public static final int TURRET_NB_WEAPONS_MAX = 3;
+	public static final int TURRET_NB_WEAPONS_DISPO_INIT = 2;
 
 	private Tank m_tank;
 	private int m_typeGun;
-	private int m_nbGun;
+	private int m_nbWeaponsMax;
+	private int m_nbWeaponsDispo;
+	private Weapon[] m_weapons;
+	private Weapon m_currentWeapon;
 
 	public Turret(int x, int y, Automaton aut) {
 		super(x, y, TURRET_WIDTH, TURRET_HEIGHT, aut);
 		m_tank = null;
 		m_category = MyCategory.V;
-		m_typeGun = GUN_BULLET_SLOW;
-		m_nbGun = 3;
+		//m_typeGun = GUN_BULLET_SLOW;
+		m_nbWeaponsMax = TURRET_NB_WEAPONS_MAX;
+		m_nbWeaponsDispo = TURRET_NB_WEAPONS_DISPO_INIT;
+		m_weapons = new Weapon[TURRET_NB_WEAPONS_MAX];
+	//	m_currentWeapon = new Weapon();
 	}
 
 	public void setTank(Tank tank) {
@@ -71,36 +77,7 @@ public class Turret extends StaticEntity {
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = TURRET_HIT_TIME;
 
-			// creation du shot en fonction de l'arme
-			int pos_x = m_x;
-			int pos_y = m_y;
-			Entity ent;
-			switch (m_typeGun) {
-				case GUN_BIG_BULLET:
-					pos_x = m_x + m_width / 2 - ShotBig.SHOTBIG_WIDTH / 2;
-					pos_y = m_y + m_height / 2 - ShotBig.SHOTBIG_HEIGHT / 2;
-					ent = EntityFactory.newEntity(MyEntities.ShotBig, pos_x, pos_y);
-					break;
-				case GUN_BULLET_FAST:
-					pos_x = m_x + m_width / 2 - ShotFast.SHOTFAST_WIDTH / 2;
-					pos_y = m_y + m_height / 2 - ShotFast.SHOTFAST_HEIGHT / 2;
-					ent = EntityFactory.newEntity(MyEntities.ShotFast, pos_x, pos_y);
-					break;
-				case GUN_BULLET_SLOW:
-					pos_x = m_x + m_width / 2 - ShotSlow.SHOTSLOW_WIDTH / 2;
-					pos_y = m_y + m_height / 2 - ShotSlow.SHOTSLOW_HEIGHT / 2;
-					ent = EntityFactory.newEntity(MyEntities.ShotSlow, pos_x, pos_y);
-					default :
-						ent = EntityFactory.newEntity(MyEntities.ShotSlow, pos_x, pos_y);
-					break;
-
-			}
-			// Donne la direction de regard et d'action
-			ent.setLookDir(MyDirection.toAbsolute(this.m_currentLookAtDir, dir));
-			ent.setActionDir(MyDirection.toAbsolute(this.m_currentActionDir, dir));
-
-			// Donne l'entité qui l'a tiré (ici le tankBody)
-			((Shot) ent).setOwner(m_tank.getBody());
+			m_currentWeapon.fire();
 		}
 	}
 
@@ -156,25 +133,25 @@ public class Turret extends StaticEntity {
 
 	private int changeGun() {
 		m_typeGun++;
-		return m_typeGun % m_nbGun;
+		return m_typeGun % m_nbWeaponsDispo;
 	}
 
 	private void printConsolGun() {
-		switch (m_typeGun) {
-			case GUN_BULLET_SLOW:
-				System.out.println("Changement d'arme pour GUN_BULLET_SLOW");
-				break;
-			case GUN_BULLET_FAST:
-				System.out.println("Changement d'arme pour GUN_BULLET_FAST");
-				break;
-			case GUN_BIG_BULLET:
-				System.out.println("Changement d'arme pour GUN_BIG_BULLET");
-				break;
-			default:
-				System.out.println("Arme non reconnue");
-				break;
-
-		}
+//		switch (m_typeGun) {
+//			case GUN_BULLET_SLOW:
+//				System.out.println("Changement d'arme pour GUN_BULLET_SLOW");
+//				break;
+//			case GUN_BULLET_FAST:
+//				System.out.println("Changement d'arme pour GUN_BULLET_FAST");
+//				break;
+//			case GUN_BIG_BULLET:
+//				System.out.println("Changement d'arme pour GUN_BIG_BULLET");
+//				break;
+//			default:
+//				System.out.println("Arme non reconnue");
+//				break;
+//
+//		}
 	}
 
 }

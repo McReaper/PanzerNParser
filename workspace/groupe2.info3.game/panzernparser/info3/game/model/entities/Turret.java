@@ -76,6 +76,9 @@ public class Turret extends StaticEntity {
 		return m_tank;
 	}
 
+	public int getIndexWeapon(){
+		return m_indexCurrentWeapon;
+	}
 	@Override
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {

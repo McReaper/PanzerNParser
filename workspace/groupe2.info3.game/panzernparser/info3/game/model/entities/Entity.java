@@ -33,7 +33,7 @@ public abstract class Entity {
 	public static final long DEFAULT_WIZZ_TIME = 1000;
 	public static final int DEFAULT_RANGE = 6;
 	public static final int DEFAULT_HEALTH = 100;
-	public static final int DEFAULT_DAMMAGE_DEALT = 100;
+	public static final int DEFAULT_DAMAGE_DEALT = 100;
 
 	protected long m_elapseTime;
 	protected LsAction m_currentAction;
@@ -54,7 +54,7 @@ public abstract class Entity {
 	protected int m_level;
 	protected int m_maxHealth;
 	protected int m_health;
-	protected int m_dammage_dealt;
+	protected int m_damage_dealt;
 	protected int m_speed;
 	protected LinkedList<MyCategory> m_uncrossables;
 
@@ -82,7 +82,7 @@ public abstract class Entity {
 		m_uncrossables = new LinkedList<MyCategory>();
 		m_uncrossables.add(MyCategory.AT);// Tank jamais traversable
 		m_uncrossables.add(MyCategory.O);// Mur pas traversable mais eventuellement destructible
-		m_dammage_dealt = DEFAULT_DAMMAGE_DEALT;
+		m_damage_dealt = DEFAULT_DAMAGE_DEALT;
 
 	}
 
@@ -150,8 +150,8 @@ public abstract class Entity {
 		}
 	}
 
-	public void collide(int dammage) {
-		m_health -= dammage;
+	public void collide(int damage) {
+		m_health -= damage;
 	}
 
 	public double getActionProgress() {
@@ -234,8 +234,8 @@ public abstract class Entity {
 		return m_range;
 	}
 
-	public int getDammageDealt() {
-		return m_dammage_dealt;
+	public int getDamageDealt() {
+		return m_damage_dealt;
 	}
 
 	//// METHODES DE L'AUTOMATE ////

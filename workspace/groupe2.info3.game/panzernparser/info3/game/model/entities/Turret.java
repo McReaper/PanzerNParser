@@ -36,7 +36,7 @@ public class Turret extends StaticEntity {
 	public static final long TURRET_TURN_TIME = 200;
 	public static final long TURRET_THROW_TIME = 1000;
 	public static final long TURRET_WAIT_TIME = 0;
-	public static final long TURRET_WIZZ_TIME = 1000;
+	//public static final long TURRET_WIZZ_TIME = 1000;
 	
 	public static final int TURRET_NB_WEAPONS_MAX = 3;
 	public static final int TURRET_NB_WEAPONS_DISPO_INIT = 2;
@@ -74,7 +74,7 @@ public class Turret extends StaticEntity {
 	public Tank getTank() {
 		return m_tank;
 	}
-
+	
 	@Override
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
@@ -125,7 +125,7 @@ public class Turret extends StaticEntity {
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Wizz;
-			m_timeOfAction = TURRET_WIZZ_TIME;
+			m_timeOfAction = m_currentWeapon.getReloadTime();
 		}
 	}
 

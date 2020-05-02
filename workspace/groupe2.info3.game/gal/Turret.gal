@@ -11,6 +11,7 @@ Turret(Init){
 
 Turret(Init){
 *(Init)
+	|GotStuff() ? Wizz() : (Init)
 	|Key(SPACE) ? Hit(F) : (Init)   
 	
 	|Key(FU) & Key(FR) & !MyDir(NE) ? Turn(NE) : (Init)

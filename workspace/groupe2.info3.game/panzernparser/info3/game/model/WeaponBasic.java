@@ -9,7 +9,7 @@ import info3.game.model.entities.Turret;
 
 public class WeaponBasic extends Weapon {
 	public static final int WEAPONBASIC_MAG_CAPACITY = 10;
-	public static final long WEAPONBASIC_RELOAD = 10;
+	public static final long WEAPONBASIC_RELOAD = 3000;
 
 	public WeaponBasic(Turret t) {
 		super(WEAPONBASIC_MAG_CAPACITY, WEAPONBASIC_RELOAD, t);
@@ -27,19 +27,8 @@ public class WeaponBasic extends Weapon {
 
 		// Donne l'entité qui l'a tiré (ici le tankBody)
 		((Shot) ent).setOwner(Model.getModel().getTank().getBody());
-
-	}
-
-	@Override
-	public void reloading() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		m_nbShotsLeft--;
+		reloading();
 	}
 
 }

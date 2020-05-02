@@ -23,7 +23,21 @@ public abstract class Weapon {
 	public void imrpoveMagazin(int improvement) {
 		m_magCapacity += improvement;
 	}
-	public abstract void reloading();//recharge
-	public abstract boolean isEmpty();//regarde si chargeur est vide
+	
+	public long getReloadTime() {
+		return m_reload;
+	}
+
+// declenche le signal de rechargement
+	public void reloading() {
+		if (isEmpty())
+			m_turret.setStuff(true);
+	}
+
+//regarde si chargeur est vide
+	public boolean isEmpty() {
+		return m_nbShotsLeft == 0;
+	}
+
 	public abstract void fire(MyDirection dir);
 }

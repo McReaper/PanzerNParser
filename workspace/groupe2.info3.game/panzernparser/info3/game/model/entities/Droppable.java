@@ -38,6 +38,10 @@ public class Droppable extends StaticEntity {
 	public MaterialType getMType() {
 		return m_mType;
 	}
+	
+	public void setMaterialType(MaterialType type) {
+		m_mType = type;
+	}
 
 	public int getQuantity() {
 		return m_quantity;

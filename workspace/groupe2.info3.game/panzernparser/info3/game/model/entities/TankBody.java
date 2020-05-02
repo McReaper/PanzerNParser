@@ -7,6 +7,7 @@ import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.Tank;
 import info3.game.model.entities.EntityFactory.MyEntities;
@@ -29,7 +30,7 @@ public class TankBody extends MovingEntity {
 	public static final long TANKBODY_EXPLODE_TIME = 1000;
 	public static final long TANKBODY_MOVE_TIME = 800;
 	public static final long TANKBODY_PICK_TIME = 50;
-	public static final long TANKBODY_POP_TIME = 10000;
+	public static final long TANKBODY_POP_TIME = 1000;
 	public static final long TANKBODY_POWER_TIME = 1000;
 	public static final long TANKBODY_PROTECT_TIME = 1000;
 	public static final long TANKBODY_STORE_TIME = 1000;
@@ -39,6 +40,7 @@ public class TankBody extends MovingEntity {
 	public static final long TANKBODY_WIZZ_TIME = 1000;
 
 	public static final int TANKBODY_DAMMAGE_DEALT= 100;
+	private static final MyDirection NORTH = null;
 
 	private Tank m_tank;
 
@@ -66,12 +68,29 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Pop(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
+			
+			//recup de la case sur laquelle on creuse
+			int posX = getXCaseDir(dir);
+			int posY = getYCaseDir(dir);
+			LinkedList<Entity> entities = Model.getModel().getGrid().getEntityCell(posX, posY);
+			for (Entity ent : entities) {
+				if ( ent instanceof Vein) {
+					//La veine doit egg un droppable via son avatar
+						ent.setStuff(true);
+					}
+			}
 			m_actionFinished = false;
 			m_currentAction = null;
+			
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
 			m_timeOfAction = TANKBODY_POP_TIME;
+			int posX = getXCaseDir(dir);
+			int posY = getYCaseDir(dir);
+			Entity hole = EntityFactory.newEntity(MyEntities.Hole, posX, posY);
+			//le trou doit pop via son avatar
+			hole.setStuff(true);
 		}
 	}
 
@@ -120,7 +139,6 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Pick(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Pick) {
-			System.out.println("Le Tank rammasse un objet!");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
@@ -135,8 +153,6 @@ public class TankBody extends MovingEntity {
 						m_tank.getInventory().add(((Droppable) ent).getMType(), ((Droppable) ent).getQuantity());// on le met dans
 																																																			// l'inventaire
 						Model.getModel().removeEntity(ent);// et il disparait de la liste des entités du model.
-						System.out.println("Dans l'inventaire il y a "
-								+ m_tank.getInventory().getQuantity(((Droppable) ent).getMType()) + " matériaux ");
 					}
 				} 
 			}

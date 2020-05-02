@@ -27,7 +27,7 @@ TankChassis(Init){
 	|Key(z) & MyDir(N) ? Move(N) : (Init)
 	|Key(z) & !MyDir(N) ? Turn(N) : (Init)
 
-	|Key(e) ? Pop : (Init)
+	|Key(e) ? Pop(F) : (Init)
 	|Key(a) ? Wizz : (Init)
 	
 	|Key(t) ? Hit : (Init)   

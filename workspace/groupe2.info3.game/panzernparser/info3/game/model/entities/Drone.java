@@ -55,7 +55,7 @@ public class Drone extends MovingEntity {
 		m_speed = DRONE_SPEED;
 		m_uncrossables = new LinkedList<MyCategory>();
 		m_maxHealth = DRONE_HEALTH;
-		m_health = 0;
+		m_health = m_maxHealth;
 	}
 	
 	@Override

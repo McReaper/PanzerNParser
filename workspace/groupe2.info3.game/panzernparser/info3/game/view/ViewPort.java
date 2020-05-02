@@ -136,7 +136,12 @@ public class ViewPort {
 
 	public int getY() {
 		return m_y;
+	}	
+
+	public int getPaintSize() {
+		return m_paintSize;
 	}
+
 
 	public void paint(Graphics g, List<Avatar> lsAvatars) {
 		Entity play = Model.getModel().getPlayed();

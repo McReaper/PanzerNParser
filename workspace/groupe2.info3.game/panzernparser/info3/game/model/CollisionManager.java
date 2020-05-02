@@ -19,8 +19,8 @@ public class CollisionManager {
 		LinkedList<Entity> enemy;
 		LinkedList<Entity> tankPlayer;
 
-		shots = Model.getModel().getEntities(MyEntities.Shot);
-		enemy = Model.getModel().getEntities(MyEntities.Enemy);
+		shots = Model.getModel().getEntities(MyEntities.ShotSlow);
+		enemy = Model.getModel().getEntities(MyEntities.EnemyBasic);
 		tankPlayer = Model.getModel().getEntities(MyEntities.TankBody);
 		for (Entity entShot : shots) {
 

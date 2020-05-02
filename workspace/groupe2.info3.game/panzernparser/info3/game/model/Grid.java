@@ -331,13 +331,11 @@ public class Grid {
 
 			MyEntities m_type;
 			int m_ex, m_ey;
-			String m_name;
 
-			public EntityShade(int x, int y, MyEntities type, String name) {
+			public EntityShade(int x, int y, MyEntities type) {
 				m_ex = x;
 				m_ey = y;
 				m_type = type;
-				m_name = name;
 			}
 
 		}
@@ -360,16 +358,6 @@ public class Grid {
 			for (EntityShade entityShade : m_entitieShades) {
 				int global_x = entityShade.m_ex + m_px * SIZE;
 				int global_y = entityShade.m_ey + m_py * SIZE;
-				switch(entityShade.m_name) {
-					case "enem1" : 
-						EntityFactory.newEntityEnemy(entityShade.m_type, global_x, global_y, Enemy.ENEMY_BASIC);
-						break;
-					case "enem2" : 
-						System.out.println("enem2");
-						EntityFactory.newEntityEnemy(entityShade.m_type, global_x, global_y, Enemy.ENEMY_LEVEL2);
-						break;
-						
-				}
 				EntityFactory.newEntity(entityShade.m_type, global_x, global_y);
 			}
 		}
@@ -399,8 +387,10 @@ public class Grid {
 						type = MyEntities.Droppable;
 						break;
 					case "enem1":
+						type = MyEntities.EnemyBasic;
+						break;
 					case "enem2" :
-						type = MyEntities.Enemy;
+						type = MyEntities.EnemyLevel2;
 						break;
 					case "vein1":
 						type = MyEntities.Vein;
@@ -424,7 +414,7 @@ public class Grid {
 				if (x < SIZE && x >= 0 && y < SIZE && y >= 0) {
 					if (type != null) {
 
-						EntityShade es = new EntityShade(x, y, type, name);
+						EntityShade es = new EntityShade(x, y, type);
 						m_entitieShades.add(es);
 					}
 				}

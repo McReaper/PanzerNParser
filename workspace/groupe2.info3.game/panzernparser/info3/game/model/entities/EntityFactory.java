@@ -8,7 +8,7 @@ import info3.game.model.Model;
 
 public class EntityFactory {
 	public enum MyEntities {
-		Wall, Ground, Enemy, Droppable, Shot, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody, Turret, Hole;
+		Wall, Ground, EnemyBasic, EnemyLevel2,  Droppable, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody, Turret, Hole;
 	}
 
 	public static Entity newTankBody(int x, int y, Automaton aut) {
@@ -93,9 +93,14 @@ public class EntityFactory {
 			case Ground:
 				res = newGround(x, y, config.getAutomaton(MyEntities.Ground));
 				break;
-			case Enemy:
-				res = newEnemyBasic(x, y, config.getAutomaton(MyEntities.Enemy));
+			case EnemyBasic:
+				res = newEnemyBasic(x, y, config.getAutomaton(MyEntities.EnemyBasic));
 				break;
+				
+			case EnemyLevel2:
+				res = newEnemyLevel2(x, y, config.getAutomaton(MyEntities.EnemyLevel2));
+				break;
+				
 			case Droppable:
 				res = newDroppable(x, y, config.getAutomaton(MyEntities.Droppable));
 				/* TODO a voir où definir les quantités et le type de ressource */
@@ -103,14 +108,15 @@ public class EntityFactory {
 			case Vein:
 				res = newVein(x, y, config.getAutomaton(MyEntities.Vein));
 				break;
-
-			case Shot:// par défaut on prend les balles lentes
+				
 			case ShotSlow:
 				res = newShotSlow(x, y, config.getAutomaton(MyEntities.ShotSlow));
 				break;
+				
 			case ShotFast:
 				res = newShotFast(x, y, config.getAutomaton(MyEntities.ShotFast));
 				break;
+				
 			case ShotBig:
 				res = newShotBig(x, y, config.getAutomaton(MyEntities.ShotBig));
 				break;
@@ -139,23 +145,6 @@ public class EntityFactory {
 		return res;
 	}
 
-	public static Entity newEntityEnemy(MyEntities entity, int x, int y, int typeEnemy) {
-		Entity res;
-		GameConfiguration config = GameConfiguration.getConfig();
-		switch (typeEnemy) {
-			case Enemy.ENEMY_BASIC:
-				res = newEnemyBasic(x, y, config.getAutomaton(MyEntities.Enemy));
-				break;
-			case Enemy.ENEMY_LEVEL2:
-				res = newEnemyLevel2(x, y, config.getAutomaton(MyEntities.Enemy));
-				break;
-			default:
-				throw new IllegalStateException("Enemy non reconnue !");
-		}
-		Model.getModel().getEntities(entity).add(res);
-		return res;
-	}
-
 	public static String name(Entity entity) {
 		return entity.getClass().getName();
 	}
@@ -165,8 +154,10 @@ public class EntityFactory {
 			return MyEntities.Droppable;
 		} else if (e instanceof Drone) {
 			return MyEntities.Drone;
-		} else if (e instanceof Enemy) {
-			return MyEntities.Enemy;
+		} else if (e instanceof EnemyBasic) {
+			return MyEntities.EnemyBasic;
+		} else if (e instanceof EnemyLevel2) {
+			return MyEntities.EnemyLevel2;
 		} else if (e instanceof Vein) {
 			return MyEntities.Vein;
 		} else if (e instanceof Ground) {
@@ -183,8 +174,6 @@ public class EntityFactory {
 			return MyEntities.ShotFast;
 		} else if (e instanceof ShotBig) {
 			return MyEntities.ShotBig;
-		}else if (e instanceof Shot) {
-			return MyEntities.Shot;
 		} else if (e instanceof TankBody) {
 			return MyEntities.TankBody;
 		} else if (e instanceof Turret) {

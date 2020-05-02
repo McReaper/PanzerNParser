@@ -1,6 +1,6 @@
-sprite_sheet1 = Trou.png
-sprite_sheet2 = Trou.png
-sprite_sheet3 = Trou.png
+sprite_sheet1 = Hole.png
+sprite_sheet2 = Hole.png
+sprite_sheet3 = Hole.png
 Egg = 1,2,3,4
 Get = 1,2,3,4
 Hit = 1,2,3,4

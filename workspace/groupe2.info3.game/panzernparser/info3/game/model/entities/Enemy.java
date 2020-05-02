@@ -76,9 +76,20 @@ public class Enemy extends MovingEntity {
 			m_actionFinished = false;
 			m_currentAction = null;
 			// creation de la ressource a répendre
-			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, this.m_x, m_y);
-			int rand = (int) (Math.random() * (20 - 1));// 20 correspond au nombre max de ressource dispo et 1 le min
-			((Droppable) ent).setQuantity(rand);
+			
+		// creation de la ressource a répendre
+					if (dir == null || dir == MyDirection.HERE) {
+						Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x, m_y);
+						int rand = (int) (Math.random() * (20 - 1));// 20 correspond au nombre max de ressource dispo et 1 le min
+						((Droppable) ent).setQuantity(rand);
+					} else {
+						int posX = getXCaseDir(dir);
+						int posY = getYCaseDir(dir);
+						Entity ent = EntityFactory.newEntity(MyEntities.Droppable, posX, posY);
+						int rand = (int) (Math.random() * (20 - 1));// 20 correspond au nombre max de ressource dispo et 1 le min
+						((Droppable) ent).setQuantity(rand);
+						
+					}
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Egg;

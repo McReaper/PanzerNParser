@@ -58,6 +58,11 @@ public class Drone extends MovingEntity {
 	public boolean Closest(MyDirection dir, MyCategory type) {
 		return (type == MyCategory.C && Model.getModel().getClue() != null);
 	}
+	
+	@Override
+	public boolean isShown() {
+		return (Model.getModel().getVisionType() != VisionType.TANK);
+	}
 
 	private void switchVision() {
 		if (m_currentVisionType == VisionType.RESSOURCES)

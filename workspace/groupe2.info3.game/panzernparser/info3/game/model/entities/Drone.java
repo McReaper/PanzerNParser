@@ -26,7 +26,7 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_EGG_TIME = 1000;
 	public static final long DRONE_GET_TIME = 1000;
 	public static final long DRONE_HIT_TIME = 1000;
-	public static final long DRONE_JUMP_TIME = 200;
+	public static final long DRONE_JUMP_TIME = 100;
 	public static final long DRONE_EXPLODE_TIME = 1000;
 	public static final long DRONE_MOVE_TIME = 1000;
 	public static final long DRONE_PICK_TIME = 1000;

@@ -113,10 +113,10 @@ public class ViewPort {
 			double progress = m_player.getActionProgress();
 			MyDirection actDir = m_player.getCurrentActionDir();
 			switch (actDir) {
-				case NORTH:
+				case FRONT:
 					m_zoom = progress*2;
 					break;
-				case SOUTH:
+				case BACK:
 					m_zoom = -progress*2;
 			}
 		}

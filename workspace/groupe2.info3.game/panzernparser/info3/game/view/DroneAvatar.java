@@ -2,6 +2,7 @@ package info3.game.view;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.IOException;
 
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
@@ -12,38 +13,18 @@ import info3.game.model.entities.Entity;
 public class DroneAvatar extends Avatar {
 
 	private View m_view;
+	private Sprite angle;
 
 	public DroneAvatar(Animation animation, View view) {
 		super(animation);
 		m_view = view;
+		try {
+			angle = new Sprite("sprites/angle.png");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
-//	@Override
-//	public void paint(Graphics g, Entity entity, int xcase, int ycase, int case_width, int case_height) {
-//		VisionType vision = Model.getModel().getVisionType();
-//		MyDirection dir = entity.getLookAtDir();
-//		LsAction e_currAction = entity.getCurrentAction();
-//		double acProgress = entity.getActionProgress();
-//		long time = Model.getModel().getTime();
-//		time = time%200;
-//		int progress;
-//		if(time > 100) {
-//			progress = 1;
-//		} else {
-//			progress = 0;
-//		}
-//		int x = xcase;
-//		int y = ycase;
-//
-//		// Pour réaliser un affichage progressif dans le cas d'un move.
-//		if (e_currAction == LsAction.Move) {
-//			x = progressivePaintX(dir, x, acProgress, case_width);
-//			y = progressivePaintY(dir, y, acProgress, case_height);
-//		}
-//
-//		Image img = m_animation.getImage(progress, LsAction.Move, dir, vision);
-//		g.drawImage(img, x, y, case_width*entity.getWidth(), case_height*entity.getHeight(), null);
-//	}
 
 	@Override
 	public void paint(Graphics g, Entity entity, int xcase, int ycase, int case_width, int case_height) {
@@ -64,6 +45,11 @@ public class DroneAvatar extends Avatar {
 		int y = vp.getOffsetWindowY();
 		int w = vp.getPaintSize();
 		int h = vp.getPaintSize();
+		int angleSize = case_width * 6;
+		g.drawImage(angle.getSprite(1), x, y, angleSize, angleSize, null);
+		g.drawImage(angle.getSprite(2), x + w - angleSize, y, angleSize, angleSize, null);
+		g.drawImage(angle.getSprite(3), x, y + h - angleSize, angleSize, angleSize, null);
+		g.drawImage(angle.getSprite(4), x + w - angleSize, y + h - angleSize, angleSize, angleSize, null);
 		int reduction = (int) (vp.getPaintSize() / 2.5);
 		x += reduction;
 		y += reduction;

@@ -111,7 +111,7 @@ public class View extends Container {
 		int width = m_canvas.getWidth();
 		int height = m_canvas.getHeight();
 
-		g.setColor(Color.GRAY);
+		g.setColor(new Color(18 *3,16*3,38*3));
 		g.fillRect(0, 0, width, height);
 
 		m_viewPort.paint(g, m_avatars);

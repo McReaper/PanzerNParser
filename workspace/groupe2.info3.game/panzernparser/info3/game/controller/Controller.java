@@ -243,7 +243,8 @@ public class Controller implements GameCanvasListener {
 		return null;
 	}
 
-	public void upgradeClicked(Upgrade m_upgrade) {
+	public void upgradeClicked(Upgrade upgrade) {
+		m_model.performUpgrade(upgrade);
 	}
 
 }

@@ -6,8 +6,8 @@ import info3.game.automaton.action.LsAction;
 
 public class Wall extends StaticEntity{
 
-	public final static int WALL_WIDTH = 1;
-	public final static int WALL_HEIGHT = 1;
+	public final static int WALL_WIDTH = 2;
+	public final static int WALL_HEIGHT = 2;
 
 	public static final int WALL_HEALTH = 100;
 	public static final int WALL_SPEED = 100;

@@ -56,6 +56,8 @@ public class View extends Container {
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Wall)));
 		orderEntities.add(MyEntities.Wall);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.ShotSlow)));
+		orderEntities.add(MyEntities.WreckTank);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.WreckTank)));
 		orderEntities.add(MyEntities.ShotSlow);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.ShotFast)));
 		orderEntities.add(MyEntities.ShotFast);

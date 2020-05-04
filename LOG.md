@@ -399,9 +399,6 @@ Problème potentiel sur la gestion de la grille.
 - Implémentation d'un menu
 - Implémentation d'un ATH dynamique
 
-## Remarques :
-
-Problème potentiel sur la gestion de la grille.
 
 ## Pour après :
 
@@ -425,23 +422,72 @@ Problème potentiel sur la gestion de la grille.
 
 Pas de remarques particulières
 
-## Rélfexion en cours
+## Réflexion en cours
 
 - Réécrire certaines fonctions avec la nouvelle Grille qui nous permet de lister les elements en fonction de leur emplacement. Plus d'optimisations.
 - Discussion sur les prochains objectifs et la manière de les atteindre
 
 ---
 
-# Journal du Vendredi 1 Avril
+# Journal du Vendredi 1 Mai
+
+## Planning du jour
+- Matinée de revue de code croisée pour un néttoyage du code.
+- S'occuper un minimum de l'aspect graphique du jeu.
+- Gérer le creusage du tank sur les veins.
+- Réfléchir et commencer a implémenter les upgrades
+- Travail sur l'ATH
+- Implémenté un prélude de gestionnaire de collisions
+- Voir le reste de ce qui peut etre fait.
+
+## Répartition des tâches
+- `B>` Création des sprites du drone + fix de cell + création d'avatars pour les droppable, les veins et le drone.
+- `E>` Création de la classe Hole.java et de son automate. Le trou est créé a partir du pop du tank. 
+- `V>` Managment des merges de la matinée et gestion des conflits engendrés. Début d'implémentations des améliorations en jeu pour le tank ou le drone. Aide sur plusieurs branches de l'équipe.
+- `JT>` Mise en place d'un ATH lié au model. Travail sur l'ergonomie de l'ATH en général.
+- `S>` Travail sur le gestionnaire des collisions.
+- `M>` Gestion du ramassage des marqueurs avec le tank et de suppression de ces derniers via un clic depuis le drone.
+
 
 ---
 
-# Journal du Samedi 2 Avril
+# Journal du Samedi 2 Mai
+
+## Planning du jour
+- Pas de planning en particulier, on s'adapte en fonction des besoins actuels du jeu.
+
+## Répartition des tâches
+- `B>` Implem d'un fluide zoom dans le viewport + Implem collision manager + Bouttons fonctionnel pour les upgrades.
+- `E>` Implem d'un nouveau type d'ennemi. Implem d'une classe Weapon pour gérer différents types de tirs.
+- `V>` Travail sur les upgrades en coop avec l'ATH + implem de qq nouveaux sprites
+- `JT>` Début du développement d'un fond de monde de 3200px de large/haut et avancement de l'ATH
+- `S>` Modif et finalisation des collisions + interdiction du move devant un obstacle + Travail sur les weapons
+- `M>` Gestion de l'inventaire avec ajout des ressources récupérées dans ce dernier. + Travail sur la vue du drone + Gestion de la durée de vol du drone.
 
 ---
 
-# Journal du Dimanche 3 Avril
+# Journal du Dimanche 3 Mai
 
 ## Journée de pause
+
+---
+
+# Journal du Lundi 4 Mai
+
+## Répartition des tâches
+- `B>` Finalisation de l'HUD, réorganisation de la classe pour rendre les fonctions constructeur et refresh plus modulaire + merge des branches de beaucoup de gens.
+- `E>` Régénaration de la Map par pattern (premiers tests) + Implem d'un GameOver (premiere implem) + Création de boue/glace pour ralentir/augmenté la vitesse du tank. + Modif des constantes pour rendre le jeu plus agréable.
+- `V>` Début d'implem pour l'affichage d'une épave (+sprites) + mise a jour des upgrades et lien entre controller et modèle + tentative d'optimisation de la fonction checkmove de entity.
+- `JT>` Dev de la Map
+- `M/S>` Implémentation du Score + Un peu du collision manager
+- `S>` Deux nouvelles entités : Walls + WreckTank avec `V`.
+
+## Remarques
+
+- Il faudrait revoir la position de certaines méthodes dans le model (mieux dans Grid ?).
+
+## Pour après 
+
+- Se focaliser sur les objectifs principaux avant d'attaquer la démo 
 
 ---

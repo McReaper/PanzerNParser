@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import info3.game.automaton.Automaton;
 import info3.game.automaton.MyCategory;
+import info3.game.model.Model;
 
 public abstract class Shot extends MovingEntity {
 
@@ -24,4 +25,18 @@ public abstract class Shot extends MovingEntity {
 		return m_owner;
 	}
 
+	public void hasKilled(Entity e) {
+		if (e.GotPower())
+			return;
+		else {
+			Entity tankBody = Model.getModel().getTank().getBody();
+			if (getOwner() == tankBody)
+				Model.getModel().getTank().hasKilled(e);
+		}
+	}
+
+		@Override
+	public void collide(int damage) {
+		m_health = 0;
+	}
 }

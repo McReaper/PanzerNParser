@@ -40,6 +40,7 @@ public class Model {
 	private LinkedList<String> m_soundsToPlay;
 	private LinkedList<Upgrade> m_statUpgrade;
 	private LinkedList<Upgrade> m_uniqUpgrade;
+	private Score m_score;
 
 	/**
 	 * Fonction qui gère le singleton du modèle (évite de créer plusieurs modèles).
@@ -103,6 +104,7 @@ public class Model {
 		m_statUpgrade = new LinkedList<Upgrade>();
 		m_statUpgrade.add(new UpgradeDroneUsage(m_tank, m_drone));
 		m_statUpgrade.add(new UpgradeMarkersCount(m_tank, m_drone));
+		m_score = new Score();
 
 	}
 
@@ -114,6 +116,7 @@ public class Model {
 		}
 		m_tank.step();
 		m_collisionManager.controlCollisionsShotsEntity();
+		m_score.updateTime();
 	}
 
 	//////// Gestion du passage drone/tank ////////
@@ -172,6 +175,10 @@ public class Model {
 	public LinkedList<Upgrade> getUniqUpgrade() {
 		return m_uniqUpgrade;
 	}
+	
+	public Score getScore() {
+		return m_score;
+	}
 	/////////////////////////////////////////////////
 
 
@@ -202,9 +209,6 @@ public class Model {
 	}
 
 	////////////////////////////////////////////////
-
-	public void update(Marker marker) {
-	}
 
 	public void addClue(Coords c) {
 		if (c != null)

@@ -40,16 +40,12 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.Tank;
-import info3.game.model.Upgrade;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory.MyEntities;
-<<<<<<< HEAD
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
-=======
 import info3.game.model.upgrades.Upgrade;
->>>>>>> dev
 
 public class HUD {
 

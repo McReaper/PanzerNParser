@@ -70,6 +70,7 @@ public class Vein extends StaticEntity {
 				((Droppable) ent).setQuantity(10);// A mettre dans une variable
 				
 			}
+			Model.getModel().getScore().scoreVein();
 		}
 	}
 

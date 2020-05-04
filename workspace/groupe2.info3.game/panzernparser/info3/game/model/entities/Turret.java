@@ -7,7 +7,10 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Tank;
-import info3.game.model.entities.EntityFactory.MyEntities;
+import info3.game.model.Weapon;
+import info3.game.model.WeaponBasic;
+import info3.game.model.WeaponLevel2;
+import info3.game.model.WeaponLevel3;
 
 /**
  * Classe du canon du tank
@@ -34,22 +37,36 @@ public class Turret extends StaticEntity {
 	public static final long TURRET_TURN_TIME = 200;
 	public static final long TURRET_THROW_TIME = 1000;
 	public static final long TURRET_WAIT_TIME = 0;
-	public static final long TURRET_WIZZ_TIME = 1000;
-
-	public static final int GUN_BULLET_SLOW = 0;
-	public static final int GUN_BULLET_FAST = 1;
-	public static final int GUN_BIG_BULLET = 2;
+	//public static final long TURRET_WIZZ_TIME = 1000;
+	
+	public static final int TURRET_NB_WEAPONS_MAX = 3;
+	public static final int TURRET_NB_WEAPONS_DISPO_INIT = 3;
 
 	private Tank m_tank;
-	private int m_typeGun;
-	private int m_nbGun;
+	private int m_indexCurrentWeapon;
+	private int m_nbWeaponsDispo;
+	private Weapon[] m_weapons;
+	private Weapon m_currentWeapon;
 
 	public Turret(int x, int y, Automaton aut) {
 		super(x, y, TURRET_WIDTH, TURRET_HEIGHT, aut);
 		m_tank = null;
 		m_category = MyCategory.V;
-		m_typeGun = GUN_BULLET_SLOW;
-		m_nbGun = 3;
+		
+		m_indexCurrentWeapon = 0;
+		m_nbWeaponsDispo = TURRET_NB_WEAPONS_DISPO_INIT;
+		m_weapons = new Weapon[TURRET_NB_WEAPONS_MAX];
+		initTabsWeapons();
+		m_currentWeapon = m_weapons[0];
+		System.out.println("m_stuff = "+ m_stuff);
+		
+	//	m_currentWeapon = new Weapon();
+	}
+
+	private void initTabsWeapons() {
+		m_weapons[0]= new WeaponBasic(this);
+		m_weapons[1]= new WeaponLevel2(this);
+		m_weapons[2]= new WeaponLevel3(this);
 	}
 
 	public void setTank(Tank tank) {
@@ -60,6 +77,9 @@ public class Turret extends StaticEntity {
 		return m_tank;
 	}
 
+	public int getIndexWeapon(){
+		return m_indexCurrentWeapon;
+	}
 	@Override
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
@@ -71,36 +91,7 @@ public class Turret extends StaticEntity {
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = TURRET_HIT_TIME;
 
-			// creation du shot en fonction de l'arme
-			int pos_x = m_x;
-			int pos_y = m_y;
-			Entity ent;
-			switch (m_typeGun) {
-				case GUN_BIG_BULLET:
-					pos_x = m_x + m_width / 2 - ShotBig.SHOTBIG_WIDTH / 2;
-					pos_y = m_y + m_height / 2 - ShotBig.SHOTBIG_HEIGHT / 2;
-					ent = EntityFactory.newEntity(MyEntities.ShotBig, pos_x, pos_y);
-					break;
-				case GUN_BULLET_FAST:
-					pos_x = m_x + m_width / 2 - ShotFast.SHOTFAST_WIDTH / 2;
-					pos_y = m_y + m_height / 2 - ShotFast.SHOTFAST_HEIGHT / 2;
-					ent = EntityFactory.newEntity(MyEntities.ShotFast, pos_x, pos_y);
-					break;
-				case GUN_BULLET_SLOW:
-					pos_x = m_x + m_width / 2 - ShotSlow.SHOTSLOW_WIDTH / 2;
-					pos_y = m_y + m_height / 2 - ShotSlow.SHOTSLOW_HEIGHT / 2;
-					ent = EntityFactory.newEntity(MyEntities.ShotSlow, pos_x, pos_y);
-					default :
-						ent = EntityFactory.newEntity(MyEntities.ShotSlow, pos_x, pos_y);
-					break;
-
-			}
-			// Donne la direction de regard et d'action
-			ent.setLookDir(MyDirection.toAbsolute(this.m_currentLookAtDir, dir));
-			ent.setActionDir(MyDirection.toAbsolute(this.m_currentActionDir, dir));
-
-			// Donne l'entité qui l'a tiré (ici le tankBody)
-			((Shot) ent).setOwner(m_tank.getBody());
+			m_currentWeapon.fire(dir);
 		}
 	}
 
@@ -112,7 +103,7 @@ public class Turret extends StaticEntity {
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
-			m_typeGun = changeGun();
+			m_currentWeapon = changeWeapon();
 			printConsolGun();
 			m_timeOfAction = TURRET_POP_TIME;
 		}
@@ -139,7 +130,9 @@ public class Turret extends StaticEntity {
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Wizz;
-			m_timeOfAction = TURRET_WIZZ_TIME;
+			System.out.println("La turret recharge");
+			m_timeOfAction = m_currentWeapon.getReloadTime();
+			m_currentWeapon.reload();
 		}
 	}
 
@@ -150,31 +143,32 @@ public class Turret extends StaticEntity {
 		return false;
 	}
 
-	public int getWeapon() {
-		return m_typeGun;
+	public Weapon getWeapon() {
+		return m_currentWeapon;
 	}
 
-	private int changeGun() {
-		m_typeGun++;
-		return m_typeGun % m_nbGun;
+	private Weapon changeWeapon() {
+		m_indexCurrentWeapon++;
+		m_indexCurrentWeapon %= m_nbWeaponsDispo;
+		return m_weapons[m_indexCurrentWeapon];
 	}
 
 	private void printConsolGun() {
-		switch (m_typeGun) {
-			case GUN_BULLET_SLOW:
-				System.out.println("Changement d'arme pour GUN_BULLET_SLOW");
-				break;
-			case GUN_BULLET_FAST:
-				System.out.println("Changement d'arme pour GUN_BULLET_FAST");
-				break;
-			case GUN_BIG_BULLET:
-				System.out.println("Changement d'arme pour GUN_BIG_BULLET");
-				break;
-			default:
-				System.out.println("Arme non reconnue");
-				break;
-
-		}
+//		switch (m_typeGun) {
+//			case GUN_BULLET_SLOW:
+//				System.out.println("Changement d'arme pour GUN_BULLET_SLOW");
+//				break;
+//			case GUN_BULLET_FAST:
+//				System.out.println("Changement d'arme pour GUN_BULLET_FAST");
+//				break;
+//			case GUN_BIG_BULLET:
+//				System.out.println("Changement d'arme pour GUN_BIG_BULLET");
+//				break;
+//			default:
+//				System.out.println("Arme non reconnue");
+//				break;
+//
+//		}
 	}
 
 }

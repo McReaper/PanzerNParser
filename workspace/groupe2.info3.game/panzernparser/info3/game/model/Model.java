@@ -11,7 +11,6 @@ import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
-import info3.game.model.entities.Marker;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
 
@@ -33,6 +32,7 @@ public class Model {
 	private Coords m_clue;
 	private long m_time;
 	private LinkedList<String> m_soundsToPlay;
+	private Score m_score;
 
 	/**
 	 * Fonction qui gère le singleton du modèle (évite de créer plusieurs modèles).
@@ -89,6 +89,7 @@ public class Model {
 		m_playingTank = true;
 		m_soundsToPlay = new LinkedList<String>();
 		m_time = 0;
+		m_score = new Score();
 
 	}
 
@@ -100,6 +101,7 @@ public class Model {
 		}
 		m_tank.step();
 		m_collisionManager.controlCollisionsShotsEntity();
+		m_score.updateTime();
 	}
 
 	//////// Gestion du passage drone/tank ////////
@@ -151,6 +153,10 @@ public class Model {
 		return m_time;
 	}
 
+	public Score getScore() {
+		return m_score;
+	}
+
 	/////////////////////////////////////////////////
 
 	public void addSound(String soundName) {
@@ -180,9 +186,6 @@ public class Model {
 	}
 
 	////////////////////////////////////////////////
-
-	public void update(Marker marker) {
-	}
 
 	public void addClue(Coords c) {
 		if (c != null)

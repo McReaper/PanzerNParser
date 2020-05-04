@@ -159,6 +159,7 @@ public class TankBody extends MovingEntity {
 						} else if (entity instanceof Droppable) {
 							m_tank.getInventory().add((Droppable) entity);
 							Model.getModel().removeEntity(entity);
+							Model.getModel().getScore().scoreDroppable();
 						}
 					}
 				}

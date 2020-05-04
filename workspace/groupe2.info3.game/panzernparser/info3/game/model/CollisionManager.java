@@ -47,6 +47,7 @@ public class CollisionManager {
 										|| entity.getCategory() == MyCategory.O) {
 									entShot.collide(entity.getDamageDealt());
 									entity.collide(entShot.getDamageDealt());
+										( (Shot) entShot).hasKilled(entity);
 								}
 							}
 						}

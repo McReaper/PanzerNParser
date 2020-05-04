@@ -77,6 +77,8 @@ public class HUD {
 	CompassWidget m_compass;
 	JPanel m_upgrade;
 	Hashtable<Upgrade, JButton> m_availableUpgrades;
+	LinkedList<UpgradeButton> m_statButtons;
+	LinkedList<UpgradeButton> m_uniqButtons;
 
 	public HUD(View view) {
 		ToolTipManager.sharedInstance().setInitialDelay(0);
@@ -337,20 +339,14 @@ public class HUD {
 		upgradeLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		upgradeLabel.setForeground(Color.BLACK);
 		upgradeLabel.setFont(new Font("monospaced", Font.BOLD,16));
-
-		// Ajout d'une border au bouton
-		Border inset = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-		LineBorder buttonLineBorder = (LineBorder) BorderFactory.createLineBorder(new Color(52, 109, 46));
-		Border buttonBorder = BorderFactory.createCompoundBorder(buttonLineBorder, inset);
-
+		
 		// TODO implémenter un affichage dynamique pour les upgrade après avoir
 		// implémenté les upgrades
 		LinkedList<Upgrade> statUpgrades = Model.getModel().getStatUpgrade();
-		LinkedList<JButton> statButtons = new LinkedList<JButton>();
+		m_statButtons = new LinkedList<UpgradeButton>();
 		for (Upgrade upg : statUpgrades) {
-			upgradeButton upgradeButton = new upgradeButton(upg, toolsIcone, mineralsIcone);
-			upgradeButton.setBorder(buttonBorder);
-			statButtons.add(upgradeButton);
+			UpgradeButton upgradeButton = new UpgradeButton(upg, toolsIcone, mineralsIcone);
+			m_statButtons.add(upgradeButton);
 		}
 
 		// Espace bouton
@@ -358,7 +354,7 @@ public class HUD {
 		statUpgrade.setPreferredSize(new Dimension(110, 500));
 		statUpgrade.setBackground(Color.DARK_GRAY);
 
-		for (JButton jButton : statButtons) {
+		for (JButton jButton : m_statButtons) {
 			statUpgrade.add(jButton);
 		}
 
@@ -370,11 +366,10 @@ public class HUD {
 		statScrollButton.setBackground(Color.DARK_GRAY);
 
 		LinkedList<Upgrade> uniqUpgrades = Model.getModel().getUniqUpgrade();
-		LinkedList<JButton> uniqButtons = new LinkedList<JButton>();
+		m_uniqButtons = new LinkedList<UpgradeButton>();
 		for (Upgrade upg : uniqUpgrades) {
-			upgradeButton upgradeButton = new upgradeButton(upg, toolsIcone, mineralsIcone);
-			upgradeButton.setBorder(buttonBorder);
-			uniqButtons.add(upgradeButton);
+			UpgradeButton upgradeButton = new UpgradeButton(upg, toolsIcone, mineralsIcone);
+			m_uniqButtons.add(upgradeButton);
 		}
 
 		// Espace bouton
@@ -382,7 +377,7 @@ public class HUD {
 		uniqUpgrade.setPreferredSize(new Dimension(110, 500));
 		uniqUpgrade.setBackground(Color.DARK_GRAY);
 
-		for (JButton jButton : uniqButtons) {
+		for (JButton jButton : m_uniqButtons) {
 			uniqUpgrade.add(jButton);
 		}
 
@@ -543,6 +538,7 @@ public class HUD {
 		m_viewModePanel.setBackground(Color.DARK_GRAY);
 		m_viewModeLabel = new JLabel(m_weaponArray[3]);
 		m_viewModePanel.add(m_viewModeLabel);
+		refreshHUD();
 	}
 
 //TODO
@@ -608,6 +604,9 @@ public class HUD {
 		m_health.setValue(tankBody.getHealth());
 		m_drone.setMaximum(drone.getMaxHealth());
 		m_drone.setValue(drone.getHealth());
+		
+		//Level
+		m_level.setText("Level : " + Integer.toString(tank.getLevel()));
 
 		// Minerals, Electronics, Weapons et Markers
 		m_toolsLabel.setText(Integer.toString(tank.getInventory().getQuantity(MaterialType.ELECTRONIC)));
@@ -658,6 +657,13 @@ public class HUD {
 				m_East.repaint();
 				break;
 		}
+		for (UpgradeButton button : m_statButtons) {
+			button.setEnabled(button.getUpgrade().isAvaible());
+		}
+		for (UpgradeButton button : m_uniqButtons) {
+			button.setEnabled(button.getUpgrade().isAvaible());
+		}
+		
 
 	}
 
@@ -689,7 +695,7 @@ public class HUD {
 		}
 	}
 
-	private class upgradeButton extends JButton {
+	private class UpgradeButton extends JButton {
 
 		private static final long serialVersionUID = 1L;
 		private String m_elecCost;
@@ -699,25 +705,31 @@ public class HUD {
 		private String m_text;
 		private String m_descript;
 		private Upgrade m_upgrade;
+		private String m_level;
+		private Border m_borderRaised;
+		private Border m_borderLowered;
 
-		public upgradeButton(Upgrade upg, ImageIcon elec, ImageIcon mine) {
+		public UpgradeButton(Upgrade upg, ImageIcon elec, ImageIcon mine) {
 			super();
 			m_upgrade = upg;
 			m_elecCost = Integer.toString(upg.getCostElec());
 			m_mineCost = Integer.toString(upg.getCostMine());
-			m_text = "Sami <3";// upg.getName();
+			m_level = "Level : " + Integer.toString(upg.getLevel());
+			m_text = upg.getName();
 			m_descript = upg.getDescription();
 			m_electronics = elec.getImage();
 			m_minerals = mine.getImage();
 			this.setForeground(Color.BLACK);
 			this.setBackground(new Color(29, 73, 25));
-			this.setPreferredSize(new Dimension(95, 60));
+			this.setPreferredSize(new Dimension(95, 75));
 			BasicButtonUI buttonUI = new BasicButtonUI() {
 				@Override
 				protected void paintButtonPressed(Graphics g, AbstractButton b) {
 					Color color = new Color(0F, 0F, 0F, 0.3F);
+					setBorder(m_borderLowered);
 					g.setColor(color);
 					g.fillRect(0, 0, b.getWidth(), b.getHeight());
+					setBorder(m_borderRaised);
 				}
 			};
 			this.setUI(buttonUI);
@@ -729,17 +741,22 @@ public class HUD {
 					m_view.m_controller.upgradeClicked(m_upgrade);
 				}
 			});
+			setBorder(null);
 		}
 
 		@Override
 		public void paint(Graphics g) {
 			super.paint(g);
-			int space = getHeight() - 20;
+			int space = getHeight() - 35;
 			g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 			g.drawLine(0, space, getWidth() - 1, space);
-			g.drawLine(getWidth() / 2, space, getWidth() / 2, getHeight() - 1);
-			g.drawImage(m_minerals, 3, space + 3, 15, 15, null);
-			g.drawImage(m_electronics, 3 + getWidth() / 2, space + 3, 15, 15, null);
+			g.drawLine(0, space+15, getWidth() - 1, space+15);
+			g.drawLine(getWidth() / 2, space+15, getWidth() / 2, getHeight() - 1);
+			g.drawImage(m_minerals, 3, space + 15 + 3, 15, 15, null);
+			g.drawImage(m_electronics, 3 + getWidth() / 2, space + 15 + 3, 15, 15, null);
+			FontRenderContext frc = new FontRenderContext(null, true, false);
+			Rectangle2D rect = g.getFont().getStringBounds(m_level, 0, m_level.length(), frc);
+			g.drawString(m_level, (int) ((getWidth() - rect.getWidth())/2), space + 15 - 2);
 			g.drawString(m_mineCost, 6 + 15, getHeight() - 5);
 			g.drawString(m_elecCost, 6 + 15 + getWidth() / 2, getHeight() - 5);
 			paintTitle(g, space);
@@ -748,6 +765,7 @@ public class HUD {
 				g.setColor(color);
 				g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			}
+			paintBorder(g);
 		}
 
 		private void paintTitle(Graphics g, int space) {
@@ -798,6 +816,10 @@ public class HUD {
 					break;
 			}
 
+		}
+		
+		public Upgrade getUpgrade() {
+			return m_upgrade;
 		}
 	}
 }

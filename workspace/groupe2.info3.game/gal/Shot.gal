@@ -1,0 +1,13 @@
+Tir(Moving){
+*(Moving)
+	|!GotPower() ? Explode() : ()
+	|MyDir(NE) ? Move(NE) : (Moving)
+	|MyDir(NW) ? Move(NW) : (Moving)
+	|MyDir(SE) ? Move(SE) : (Moving)
+	|MyDir(SW) ? Move(SW) : (Moving)
+	|MyDir(N) ? Move(N) : (Moving)
+	|MyDir(W) ? Move(W) : (Moving)
+	|MyDir(E) ? Move(E) : (Moving)
+	|MyDir(S) ? Move(S) : (Moving)
+	|True ? Wait() : (Moving)
+}

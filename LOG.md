@@ -353,12 +353,63 @@ Pas de remarques particulières. Toujours quelques difficultés sur l'ATH mais c
 ## Répartition des tâches 
 - `Cyance>` A votre bon cœur. A voir demain
 
-# JOURNAL du Lundi 30 Avril
+---
+
+# JOURNAL du Mercredi 29 Avril
 
 ## Planning du jour
 
--creer une grille contenant toutes les entités pour avoir un accès plus simple et plus optimisé pour certaines fonctions
--réglé le probleme des fleches dans la boussole
+- Drop des ennemies implémentation et la récupération des drops
+- Système des pooints de vie mis en place
+- Interraction entre les entités partiellement implémenté
+- Gestion de la vision du drone
+- Implémentation d'un menu
+- Implémentation d'un ATH dynamique
+
+## Répartition des tâches
+
+- M> Ajout de l'effet de tore pour les colisions et closest
+- M/V> Debug général du code, gestion de la vision du drone.
+- JT> Dessin de sprites enemy en mode vision thermique et en diagonal, implémentation d'un ATH dynamique
+- E> Implémentation de features pour les ennemies : Drop, automate, colision (avec Sami). Ainsi le Tank : Ramassage des droppable et mise à jour de l'inventaire.
+- B> Implémentation d'un menu, modification de Cell, getGridCoord, et de Marker(avec Sami). Ainsi que dessins de sprite
+- V> Mise à jour de Closest, Merge des branchs
+- S> Mise à jour du contrat, travail sur les Marker (avec Bertrand), travail sur les colisions (avec Emilie)
+
+## Remarques :
+
+Problème potentiel sur la gestion de la grille.
+
+## Pour après :
+
+- Réfléchir à une éventuelle refonte de la grille.
+- Implémenter les amélioration
+- Perfectionner ENCORE l'ATH
+
+---
+
+# JOURNAL du Jeudi 30 Avril
+
+## Planning du jour
+
+- Drop des ennemies implémentation et la récupération des drops
+- Système des pooints de vie mis en place
+- Interraction entre les entités partiellement implémenté
+- Gestion de la vision du drone
+- Implémentation d'un menu
+- Implémentation d'un ATH dynamique
+
+## Remarques :
+
+Problème potentiel sur la gestion de la grille.
+
+## Pour après :
+
+- Réfléchir à une éventuelle refonte de la grille.
+- Implémenter les amélioration
+- Perfectionner ENCORE l'ATH
+- creer une grille contenant toutes les entités pour avoir un accès plus simple et plus optimisé pour certaines fonctions
+- réglé le probleme des fleches dans la boussole
 
 ## Répartition des tâches
 
@@ -369,6 +420,7 @@ Pas de remarques particulières. Toujours quelques difficultés sur l'ATH mais c
 - S> Creation d'un sol particulier : le wall + déplacement de quelques fonction pour rendre le code plus clair + merge de toutes les branches sur dev et debug qui va avec
 - JT> suite de l'implem pour avoir des ATH dynamiques + creation d'un son pour le canon
 - M> Travail sur les animations et les avatars Enemy + aide B> pour la creation de la Grille
+
 ## Remarques :
 
 Pas de remarques particulières
@@ -378,4 +430,18 @@ Pas de remarques particulières
 - Réécrire certaines fonctions avec la nouvelle Grille qui nous permet de lister les elements en fonction de leur emplacement. Plus d'optimisations.
 - Discussion sur les prochains objectifs et la manière de les atteindre
 
+---
 
+# Journal du Vendredi 1 Avril
+
+---
+
+# Journal du Samedi 2 Avril
+
+---
+
+# Journal du Dimanche 3 Avril
+
+## Journée de pause
+
+---

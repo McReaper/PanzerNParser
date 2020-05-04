@@ -11,6 +11,17 @@ import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
+import info3.game.model.upgrades.Upgrade;
+import info3.game.model.upgrades.UpgradeAutomaticSubmachine;
+import info3.game.model.upgrades.UpgradeDroneUsage;
+import info3.game.model.upgrades.UpgradeDroneVision;
+import info3.game.model.upgrades.UpgradeMarkersCount;
+import info3.game.model.upgrades.UpgradeMiningTime;
+import info3.game.model.upgrades.UpgradeShot;
+import info3.game.model.upgrades.UpgradeTankDamage;
+import info3.game.model.upgrades.UpgradeTankLife;
+import info3.game.model.upgrades.UpgradeTankShotsCapacity;
+import info3.game.model.upgrades.UpgradeTankSpeed;
 import info3.game.model.entities.Marker;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
@@ -33,6 +44,9 @@ public class Model {
 	private Coords m_clue;
 	private long m_time;
 	private LinkedList<String> m_soundsToPlay;
+	private LinkedList<Upgrade> m_statUpgrade;
+	private LinkedList<Upgrade> m_uniqUpgrade;
+	private Score m_score;
 
 	/**
 	 * Fonction qui gère le singleton du modèle (évite de créer plusieurs modèles).
@@ -51,6 +65,12 @@ public class Model {
 	private Model() {
 		self = this; // Pour éviter des appels récursifs infinis.
 
+		//Initialisation des sons a jouer depuis le controller
+		m_soundsToPlay = new LinkedList<String>();
+		
+		//Temps de jeu écoulé
+		m_time = 0;
+		
 		// Création de la liste des touches enfoncées connues du modèle.
 		m_keyPressed = new LinkedList<LsKey>();
 
@@ -82,14 +102,34 @@ public class Model {
 			System.exit(-1);
 		}
 
+		//Création du Tank et du Drone :
 		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
 		Turret turret = (Turret) getEntities(MyEntities.Turret).get(0);
 		m_tank = new Tank(body, turret);
 		m_drone = (Drone) getEntities(MyEntities.Drone).get(0);
 		m_playingTank = true;
-		m_soundsToPlay = new LinkedList<String>();
-		m_time = 0;
-
+		
+		//Initialisation des upgrades
+		m_uniqUpgrade = new LinkedList<Upgrade>();
+		m_statUpgrade = new LinkedList<Upgrade>();
+		initUpgrades();
+		
+		//Création du score du jeu.
+		m_score = new Score();
+		
+	}
+	
+	private void initUpgrades() {
+		m_uniqUpgrade.add(new UpgradeDroneVision(m_tank, m_drone));
+		m_uniqUpgrade.add(new UpgradeAutomaticSubmachine(m_tank));
+		m_statUpgrade.add(new UpgradeDroneUsage(m_tank, m_drone));
+		m_statUpgrade.add(new UpgradeMarkersCount(m_tank, m_drone));
+		m_statUpgrade.add(new UpgradeMiningTime(m_tank));
+		m_statUpgrade.add(new UpgradeShot(m_tank));
+		m_statUpgrade.add(new UpgradeTankDamage(m_tank));
+		m_statUpgrade.add(new UpgradeTankLife(m_tank));
+		m_statUpgrade.add(new UpgradeTankShotsCapacity(m_tank));
+		m_statUpgrade.add(new UpgradeTankSpeed(m_tank));
 	}
 
 	public void step(long elapsed) {
@@ -100,6 +140,7 @@ public class Model {
 		}
 		m_tank.step();
 		m_collisionManager.controlCollisionsShotsEntity();
+		m_score.updateTime();
 	}
 
 	//////// Gestion du passage drone/tank ////////
@@ -151,6 +192,18 @@ public class Model {
 		return m_time;
 	}
 
+	public LinkedList<Upgrade> getStatUpgrade() {
+		return m_statUpgrade;
+	}
+
+	public LinkedList<Upgrade> getUniqUpgrade() {
+		return m_uniqUpgrade;
+	}
+
+	public Score getScore() {
+		return m_score;
+	}
+
 	/////////////////////////////////////////////////
 
 	public void addSound(String soundName) {
@@ -180,9 +233,6 @@ public class Model {
 	}
 
 	////////////////////////////////////////////////
-
-	public void update(Marker marker) {
-	}
 
 	public void addClue(Coords c) {
 		if (c != null)
@@ -271,6 +321,29 @@ public class Model {
 			}
 		}
 		return entities_to_return;
+	}
+
+	public void performUpgrade(Upgrade upgrade) {
+		boolean isStat = m_statUpgrade.contains(upgrade);
+		boolean isUniq = m_uniqUpgrade.contains(upgrade);
+		if (isStat && !isUniq) {
+			try {
+				upgrade.improve();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
+		} else if (!isStat && isUniq) {
+			try {
+				upgrade.activate();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
+		} else {
+			System.err.println("L'upgrade passé en paramètre n'est pas connue du model.");
+			System.exit(-1);
+		}
 	}
 
 }

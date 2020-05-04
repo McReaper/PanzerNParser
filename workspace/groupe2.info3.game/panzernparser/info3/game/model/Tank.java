@@ -2,6 +2,9 @@ package info3.game.model;
 
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.entities.EnemyBasic;
+import info3.game.model.entities.EnemyLevel2;
+import info3.game.model.entities.Entity;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
 
@@ -96,25 +99,25 @@ public class Tank {
 	public void takeDamage(int damages) {
 		m_health -= damages;
 	}
-	
+
 	public int getDamage() {
 		return 0; // TODO
-		//return m_turret.getDamage();
+		// return m_turret.getDamage();
 	}
-	
+
 	public void setDamage(int dmg) {
-		//TODO
-		//m_turret.setDamage(dmg);
+		// TODO
+		// m_turret.setDamage(dmg);
 	}
 
 	public int getSpeed() {
 		return 0; // TODO
-		//return m_body.getSpeed(); 
+		// return m_body.getSpeed();
 	}
 
 	public void setSpeed(int val) {
 		// TODO
-		//m_body.setSpeed(val);
+		// m_body.setSpeed(val);
 	}
 
 	public boolean gotPower() {
@@ -122,13 +125,13 @@ public class Tank {
 	}
 
 	public int getMaxAmmo() {
-		return 0; //TODO
-		//return m_turret.getMaxAmmo();
+		return 0; // TODO
+		// return m_turret.getMaxAmmo();
 	}
 
 	public void setMaxAmmo(int val) {
 		// TODO
-		//m_turret.setMaxAmmo(val);
+		// m_turret.setMaxAmmo(val);
 	}
 
 	public long getMiningTime() {
@@ -151,6 +154,26 @@ public class Tank {
 
 	public double getBodyProgress() {
 		return m_body.getActionProgress();
+	}
+
+	public void unlockNewWeapon() throws IllegalAccessException {
+		m_turret.unlockNewWeapon();
+	}
+
+	public boolean isNewWeaponAvaible() {
+		return m_turret.isWeaponUnlockable();
+	}
+
+	public int getLevel() {
+		return m_body.getLevel();
+	}// TODO : voir quel niveau on suit (turret ou body ? les deux ?)
+
+	public void hasKilled(Entity e) {
+		if (e instanceof EnemyBasic)
+			Model.getModel().getScore().scoreEnemyBasic();
+		else if (e instanceof EnemyLevel2)
+			Model.getModel().getScore().scoreEnemyLevel2();
+
 	}
 
 }

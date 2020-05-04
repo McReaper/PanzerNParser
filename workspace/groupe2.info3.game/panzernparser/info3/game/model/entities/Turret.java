@@ -1,5 +1,7 @@
 package info3.game.model.entities;
 
+import java.rmi.UnexpectedException;
+
 import info3.game.automaton.Automaton;
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
@@ -40,7 +42,7 @@ public class Turret extends StaticEntity {
 	//public static final long TURRET_WIZZ_TIME = 1000;
 	
 	public static final int TURRET_NB_WEAPONS_MAX = 3;
-	public static final int TURRET_NB_WEAPONS_DISPO_INIT = 3;
+	public static final int TURRET_NB_WEAPONS_DISPO_INIT = 1;
 
 	private Tank m_tank;
 	private int m_indexCurrentWeapon;
@@ -59,8 +61,6 @@ public class Turret extends StaticEntity {
 		initTabsWeapons();
 		m_currentWeapon = m_weapons[0];
 		System.out.println("m_stuff = "+ m_stuff);
-		
-	//	m_currentWeapon = new Weapon();
 	}
 
 	private void initTabsWeapons() {
@@ -80,6 +80,19 @@ public class Turret extends StaticEntity {
 	public int getIndexWeapon(){
 		return m_indexCurrentWeapon;
 	}
+	
+	public boolean isWeaponUnlockable() {
+		return m_nbWeaponsDispo < TURRET_NB_WEAPONS_MAX;
+	}
+	
+	public void unlockNewWeapon() throws IllegalAccessException {
+		m_nbWeaponsDispo ++;
+		if (m_nbWeaponsDispo > TURRET_NB_WEAPONS_MAX) {
+			m_nbWeaponsDispo --;
+			throw new IllegalAccessException("Impossible de débloqué une nouvelle arme.");
+		}
+	}
+	
 	@Override
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
@@ -90,7 +103,6 @@ public class Turret extends StaticEntity {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = TURRET_HIT_TIME;
-
 			m_currentWeapon.fire(dir);
 		}
 	}
@@ -104,7 +116,6 @@ public class Turret extends StaticEntity {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
 			m_currentWeapon = changeWeapon();
-			printConsolGun();
 			m_timeOfAction = TURRET_POP_TIME;
 		}
 	}
@@ -152,23 +163,7 @@ public class Turret extends StaticEntity {
 		m_indexCurrentWeapon %= m_nbWeaponsDispo;
 		return m_weapons[m_indexCurrentWeapon];
 	}
-
-	private void printConsolGun() {
-//		switch (m_typeGun) {
-//			case GUN_BULLET_SLOW:
-//				System.out.println("Changement d'arme pour GUN_BULLET_SLOW");
-//				break;
-//			case GUN_BULLET_FAST:
-//				System.out.println("Changement d'arme pour GUN_BULLET_FAST");
-//				break;
-//			case GUN_BIG_BULLET:
-//				System.out.println("Changement d'arme pour GUN_BIG_BULLET");
-//				break;
-//			default:
-//				System.out.println("Arme non reconnue");
-//				break;
-//
-//		}
-	}
+	
+	
 
 }

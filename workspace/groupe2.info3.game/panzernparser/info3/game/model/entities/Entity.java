@@ -65,6 +65,7 @@ public abstract class Entity {
 		m_automate = aut;
 		if (aut != null)
 			m_currentState = aut.getState();
+		m_maxHealth = DEFAULT_HEALTH;
 		m_health = DEFAULT_HEALTH;
 		m_elapseTime = 0;
 		m_currentAction = null;

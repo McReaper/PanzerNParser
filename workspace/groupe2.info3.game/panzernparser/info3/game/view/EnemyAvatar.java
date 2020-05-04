@@ -1,5 +1,6 @@
 package info3.game.view;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -14,7 +15,7 @@ public class EnemyAvatar extends Avatar {
 	public EnemyAvatar(Animation animation) {
 		super(animation);
 	}
-	
+
 	public void paint(Graphics g, Entity entity, int xcase, int ycase, int case_width, int case_height) {
 		VisionType vision = Model.getModel().getVisionType();
 		MyDirection e_lookAtDir = entity.getLookAtDir();
@@ -33,7 +34,17 @@ public class EnemyAvatar extends Avatar {
 			x = progressivePaintX(e_absoluteActionDir, x, progress, case_width);
 			y = progressivePaintY(e_absoluteActionDir, y, progress, case_height);
 		}
-		
+
+		if (vision == VisionType.TANK) {
+			int maxHealth = entity.getMaxHealth();
+			int health = entity.getHealth();
+			double percent = (double) health / (double) maxHealth;
+			g.setColor(Color.BLACK);
+			g.fillRect(x, y - 10, width, 5);
+			g.setColor(Color.RED);
+			g.fillRect(x, y - 10, (int) (width * percent), 5);
+		}
+
 		Image sprite;
 		if (e_currAction != LsAction.Hit) {
 			sprite = m_animation.getImage(0, LsAction.Hit, e_lookAtDir, vision);
@@ -43,5 +54,5 @@ public class EnemyAvatar extends Avatar {
 
 		g.drawImage(sprite, x, y, width, height, null);
 	}
-	
+
 }

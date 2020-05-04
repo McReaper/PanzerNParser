@@ -153,23 +153,19 @@ public class ViewPort {
 
 	public int getY() {
 		return m_y;
+	}	
+
+	public int getPaintSize() {
+		return m_paintSize;
 	}
+
 
 	public void paint(Graphics g, List<Avatar> lsAvatars) {
 		Entity play = Model.getModel().getPlayed();
-		if (m_player != play) {
+		if (m_player != play || m_field_of_view != m_player.getFieldOfView()) {
 			setPlayer(play);
 		}
 		zoom();
-		m_field_of_view = m_player.getFieldOfView(); // TODO peut être changé si entity peut changer de field_of_view
-		m_nbCells = m_field_of_view * 2; // pour les deux coté du tank
-		m_nbCells += m_player.getWidth(); // pour le tank
-		m_nbCells += 4; // pour la marge
-		int maxCells = Math.min(m_grid.getNbCellsX(), m_grid.getNbCellsY());
-		while (m_nbCells >= maxCells) {
-			m_nbCells -= 2;
-			m_field_of_view--;
-		}
 		calcul();
 		positionViewPort();
 		offset(); // décalage due au mouve du tank

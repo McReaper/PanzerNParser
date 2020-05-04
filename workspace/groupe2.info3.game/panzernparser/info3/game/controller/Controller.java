@@ -12,6 +12,8 @@ import info3.game.GameMain;
 import info3.game.automaton.LsKey;
 import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
+import info3.game.model.upgrades.Upgrade;
+import info3.game.model.upgrades.UpgradeShot;
 import info3.game.view.GameCanvasListener;
 import info3.game.view.View;
 
@@ -239,6 +241,10 @@ public class Controller implements GameCanvasListener {
 				return LsKey.ENTER;
 		}
 		return null;
+	}
+
+	public void upgradeClicked(Upgrade upgrade) {
+		m_model.performUpgrade(upgrade);
 	}
 
 }

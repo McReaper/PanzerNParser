@@ -35,6 +35,7 @@ public abstract class Shot extends MovingEntity {
 		}
 	}
 
+		@Override
 	public void collide(int damage) {
 		m_health = 0;
 	}

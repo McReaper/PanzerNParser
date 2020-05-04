@@ -218,6 +218,10 @@ public class Drone extends MovingEntity {
 		m_nbMarkers --;
 	}
 	
+	public int getNbMarker() {
+		return m_nbMarkers;
+	}
+	
 	public int getMaxMarkers() {
 		return m_maxMarkers;
 	}

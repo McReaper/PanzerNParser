@@ -42,6 +42,8 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.Tank;
+import info3.game.model.Weapon;
+import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory.MyEntities;
@@ -80,161 +82,35 @@ public class HUD {
 	JPanel m_upgrade;
 	LinkedList<UpgradeButton> m_statButtons;
 	LinkedList<UpgradeButton> m_uniqButtons;
+	
+	VisionType m_vision;
 
 	public HUD(View view) {
 		m_view = view;
-		
+
 		initiateToolTip();
 
-		// La font des futurs labels
-		Font fontWest = new Font(null, 0, 15);
-
-		// Panel West
-		m_West = new JPanel();
-		m_West.setBackground(Color.DARK_GRAY);
-		m_West.setPreferredSize(new Dimension(120, 150));
-		GridLayout GLWest = new GridLayout(2, 0);
-		m_West.setLayout(GLWest);
-
-		JPanel MinToolsWeapon = new JPanel();
-		BoxLayout BLMintoolsweapon = new BoxLayout(MinToolsWeapon, BoxLayout.Y_AXIS);
-		MinToolsWeapon.setLayout(BLMintoolsweapon);
-		MinToolsWeapon.setBackground(Color.DARK_GRAY);
-
-		m_weaponArray = new ImageIcon[6];
-
-		m_weaponArray[0] = new ImageIcon(
-				new ImageIcon("sprites/Weapon0.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		m_weaponArray[1] = new ImageIcon(
-				new ImageIcon("sprites/Weapon1.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		m_weaponArray[2] = new ImageIcon(
-				new ImageIcon("sprites/Weapon2.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		m_weaponArray[3] = new ImageIcon(
-				new ImageIcon("sprites/VueRessourceIcon.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		m_weaponArray[4] = new ImageIcon(
-				new ImageIcon("sprites/VueEnemyIcon.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		m_weaponArray[5] = new ImageIcon(
-				new ImageIcon("sprites/MarkerSingle.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		m_weaponArray = initiateWeaponArray();
 
 		ImageIcon mineralsIcone = new ImageIcon(
 				new ImageIcon("sprites/Minerals.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
 		ImageIcon toolsIcone = new ImageIcon(
 				new ImageIcon("sprites/Electronics.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		JLabel mineralsImage = new JLabel(mineralsIcone);
-		mineralsImage.setMaximumSize(new Dimension(100, 0));
-		JLabel toolsImage = new JLabel(toolsIcone);
-		toolsImage.setMaximumSize(new Dimension(100, 0));
-		m_weaponImage = new JLabel(m_weaponArray[0]);
 
-		JPanel parentMineralsPanel = new JPanel();
-		JPanel parentToolsPanel = new JPanel();
-		parentMineralsPanel.setOpaque(false);
-		parentToolsPanel.setOpaque(false);
-		BoxLayout parentMineralsLayout = new BoxLayout(parentMineralsPanel, BoxLayout.Y_AXIS);
-		BoxLayout parentToolsLayout = new BoxLayout(parentToolsPanel, BoxLayout.Y_AXIS);
+		m_West = new JPanel();
+		m_West.setBackground(Color.DARK_GRAY);
+		m_West.setPreferredSize(new Dimension(120, 150));
+		GridLayout GLWest = new GridLayout(2, 0);
+		m_West.setLayout(GLWest);
+		
+		//Panel de l'inventaire
+		JPanel MinToolsWeapon = initiateInventoryPanel(toolsIcone, mineralsIcone);
 
-		m_mineralsLabel = new JLabel("0");
-		m_mineralsLabel.setForeground(Color.RED);
-		m_mineralsLabel.setFont(fontWest);
-		m_toolsLabel = new JLabel("0");
-		m_toolsLabel.setForeground(Color.RED);
-		m_toolsLabel.setFont(fontWest);
+		// Init de m_HPStamina et de son BL
+		JPanel HPStamina = initiateLifeEnergyPanel();
 
-		m_mineralsLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		m_toolsLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		mineralsImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		toolsImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		m_weaponImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-
-		JPanel mineralsPanel = new JPanel();
-		mineralsPanel.setBackground(Color.BLACK);
-		Border mineralsPanelBorder = BorderFactory.createLineBorder(Color.GRAY);
-		mineralsPanel.setBorder(mineralsPanelBorder);
-		mineralsPanel.setMaximumSize(new Dimension(90, 0));
-		mineralsPanel.add(m_mineralsLabel);
-		JPanel toolsPanel = new JPanel();
-		toolsPanel.setBackground(Color.BLACK);
-		Border toolsPanelBorder = BorderFactory.createLineBorder(Color.GRAY);
-		toolsPanel.setBorder(toolsPanelBorder);
-		toolsPanel.setMaximumSize(new Dimension(90, 0));
-		toolsPanel.add(m_toolsLabel);
-
-		Border mineralsBorder = BorderFactory.createLineBorder(Color.BLACK);
-		TitledBorder mineralsTitledBorder = BorderFactory.createTitledBorder(mineralsBorder, "Minerals");
-		mineralsTitledBorder.setTitleColor(Color.BLACK);
-		mineralsTitledBorder.setTitleJustification(TitledBorder.CENTER);
-		parentMineralsPanel.setBorder(mineralsTitledBorder);
-		Border electronicsBorder = BorderFactory.createLineBorder(Color.BLACK);
-		TitledBorder electronicsTitledBorder = BorderFactory.createTitledBorder(electronicsBorder, "Electronics");
-		electronicsTitledBorder.setTitleColor(Color.BLACK);
-		electronicsTitledBorder.setTitleJustification(TitledBorder.CENTER);
-		parentToolsPanel.setBorder(electronicsTitledBorder);
-		Border weaponBorder = BorderFactory.createLineBorder(Color.BLACK);
-		m_weaponTitledBorder = BorderFactory.createTitledBorder(weaponBorder, "Weapon :");
-		m_weaponTitledBorder.setTitleColor(Color.BLACK);
-		m_weaponTitledBorder.setTitleJustification(TitledBorder.CENTER);
-		m_weaponImage.setMaximumSize(new Dimension(100, 0));
-		m_weaponImage.setBorder(m_weaponTitledBorder);
-
-		parentMineralsPanel.setLayout(parentMineralsLayout);
-		parentToolsPanel.setLayout(parentToolsLayout);
-
-		parentMineralsPanel.add(Box.createVerticalGlue());
-		parentMineralsPanel.add(mineralsImage);
-		parentMineralsPanel.add(Box.createVerticalGlue());
-		parentMineralsPanel.add(mineralsPanel);
-		parentMineralsPanel.add(Box.createVerticalGlue());
-		parentToolsPanel.add(Box.createVerticalGlue());
-		parentToolsPanel.add(toolsImage);
-		parentToolsPanel.add(Box.createVerticalGlue());
-		parentToolsPanel.add(toolsPanel);
-		parentToolsPanel.add(Box.createVerticalGlue());
-
-		MinToolsWeapon.add(Box.createVerticalGlue());
-		MinToolsWeapon.add(parentMineralsPanel);
-		MinToolsWeapon.add(Box.createVerticalGlue());
-		MinToolsWeapon.add(parentToolsPanel);
-		MinToolsWeapon.add(Box.createVerticalGlue());
-		MinToolsWeapon.add(m_weaponImage);
-		MinToolsWeapon.add(Box.createVerticalGlue());
-
-//		Init de m_HPStamina et de son BL		
-		JPanel HPStamina = new JPanel();
-		BoxLayout BLWestSorth = new BoxLayout(HPStamina, BoxLayout.Y_AXIS);
-		HPStamina.setLayout(BLWestSorth);
-		HPStamina.setBackground(Color.DARK_GRAY);
-
-//		m_HPStamina avec les deux barres d'HP et DP
-//		m_HPStamina.setPreferredSize(new Dimension(100, 100));
-
-		BasicProgressBarUI progressUIHealth = new BasicProgressBarUI();
-		BasicProgressBarUI progressUIDrone = new BasicProgressBarUI();
-
-		HPStamina.add(Box.createVerticalGlue());
-		LineBorder progressBarBorder = (LineBorder) BorderFactory.createLineBorder(Color.BLACK, 3);
-		m_health = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
-		m_health.setUI(progressUIHealth);
-		m_health.setBorder(null);
-		m_health.setBorder(progressBarBorder);
-		m_health.setForeground(Color.RED);
-		m_health.setBackground(Color.GRAY);
-		m_health.setMaximumSize(new Dimension(50, 200));
-		m_health.setValue(100);
-		HPStamina.add(m_health);
-		HPStamina.add(Box.createVerticalGlue());
-		m_drone = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
-		m_drone.setUI(progressUIDrone);
-		m_drone.setBorder(progressBarBorder);
-		m_drone.setForeground(Color.YELLOW);
-		m_drone.setBackground(Color.GRAY);
-		m_drone.setMaximumSize(new Dimension(50, 200));
-		m_drone.setValue(50);
-		HPStamina.add(m_drone);
-		HPStamina.add(Box.createVerticalGlue());
 		m_West.add(HPStamina);
 		m_West.add(MinToolsWeapon);
-
-		// ATH droit
 
 		// La font des futurs labels
 		Font font = new Font(null, 0, 20);
@@ -246,30 +122,191 @@ public class HUD {
 		m_East.setLayout(BLEast);
 
 		// La boussole
-		m_compass = new CompassWidget();
-		m_compass.setBackground(new Color(18, 16, 38));
-		m_compass.setForeground(Color.BLACK);
-		Dimension CompassSize = new Dimension(120, 120);
-		m_compass.setMinimumSize(CompassSize);
-		m_compass.setMaximumSize(CompassSize);
-		m_compass.setPreferredSize(CompassSize);
-
-		m_East.add(m_compass);
+		m_compass = initiateCompass();
 
 		// Zone des stats
-		JPanel Stats = new JPanel();
-		Stats.setBackground(Color.DARK_GRAY);
-		Stats.setLayout(new BoxLayout(Stats, BoxLayout.Y_AXIS));
-		Dimension statsDimension = new Dimension(120, 130);
-		Stats.setMaximumSize(statsDimension);
-		Stats.setPreferredSize(new Dimension(120, 90));
+		JPanel Stats = initiateStatPanel(font);
+
+		// Cadrant de l'horloge
+		JPanel timePanel = initiateHorloge();
+
+		// Espace munition
+		m_ammoPanel = initiateAmmoPanel(font);
+
+		// Zone des boutons d'upgrade
+		m_upgrade = initiateUpgradePanel(toolsIcone, mineralsIcone);
+
+		m_East.add(m_compass);
+		m_East.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, 5), new Dimension(0, 10)));
+		m_East.add(timePanel);
+		m_East.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, 5), new Dimension(0, 10)));
+		m_East.add(Stats);
+		m_East.add(m_ammoPanel);
+		m_East.add(m_upgrade);
+
+		m_viewModePanel = initiateViewModePanel();
+		refreshHUD();
+	}
+
+	private JPanel initiateInventoryPanel(ImageIcon toolsIcone, ImageIcon mineralsIcone) {
+		Font font = new Font(null, 0, 15);
+
+		JPanel inventoryPanel = new JPanel();
+
+		BoxLayout BLMintoolsweapon = new BoxLayout(inventoryPanel, BoxLayout.Y_AXIS);
+
+		inventoryPanel.setLayout(BLMintoolsweapon);
+		inventoryPanel.setBackground(Color.DARK_GRAY);
+
+		m_weaponImage = new JLabel(m_weaponArray[0]);
+
+		JPanel parentMineralsPanel = createInventoryUnit(mineralsIcone, font, "Minerals");
+		JPanel parentToolsPanel = createInventoryUnit(toolsIcone, font, "Electronics");
+
+		m_weaponImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+		
+		m_weaponTitledBorder = createTitleBorder("Weapon");
+
+		m_weaponImage.setMaximumSize(new Dimension(100, 0));
+		m_weaponImage.setBorder(m_weaponTitledBorder);
+
+		inventoryPanel.add(Box.createVerticalGlue());
+		inventoryPanel.add(parentMineralsPanel);
+		inventoryPanel.add(Box.createVerticalGlue());
+		inventoryPanel.add(parentToolsPanel);
+		inventoryPanel.add(Box.createVerticalGlue());
+		inventoryPanel.add(m_weaponImage);
+		inventoryPanel.add(Box.createVerticalGlue());
+		return inventoryPanel;
+	}
+
+	private JPanel createInventoryUnit(ImageIcon image, Font font, String string) {
+		JPanel inventoryUnit = new JPanel();
+		inventoryUnit.setOpaque(false);
+
+		BoxLayout parentMineralsLayout = new BoxLayout(inventoryUnit, BoxLayout.Y_AXIS);
+		inventoryUnit.setLayout(parentMineralsLayout);
+
+		Border titledBorder = createTitleBorder(string);
+		inventoryUnit.setBorder(titledBorder);
+
+		Dimension imageLabelSize = new Dimension(100, 0);
+
+		JLabel imageLabel = new JLabel(image);
+		imageLabel.setMaximumSize(imageLabelSize);
+		imageLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+
+		JPanel textPanel = new JPanel();
+		textPanel.setBackground(Color.BLACK);
+		Border textPanelBorder = BorderFactory.createLineBorder(Color.GRAY);
+		textPanel.setBorder(textPanelBorder);
+		textPanel.setMaximumSize(new Dimension(90, 0));
+		
+		inventoryUnit.add(Box.createVerticalGlue());
+		inventoryUnit.add(imageLabel);
+		inventoryUnit.add(Box.createVerticalGlue());
+		if (string.contentEquals("Minerals")) {
+			m_mineralsLabel = new JLabel("0");
+			m_mineralsLabel.setForeground(Color.RED);
+			m_mineralsLabel.setFont(font);
+			m_mineralsLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+			textPanel.add(m_mineralsLabel);
+		}
+		if (string.contentEquals("Electronics")) {
+			m_toolsLabel = new JLabel("0");
+			m_toolsLabel.setForeground(Color.RED);
+			m_toolsLabel.setFont(font);
+			m_toolsLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+			textPanel.add(m_toolsLabel);
+		}
+		inventoryUnit.add(textPanel);
+		inventoryUnit.add(Box.createVerticalGlue());
+		return inventoryUnit;
+	}
+
+	private JPanel initiateLifeEnergyPanel() {
+		JPanel HPStamina = new JPanel();
+		BoxLayout BLWestSorth = new BoxLayout(HPStamina, BoxLayout.Y_AXIS);
+		HPStamina.setLayout(BLWestSorth);
+		HPStamina.setBackground(Color.DARK_GRAY);
+
+		LineBorder progressBarBorder = (LineBorder) BorderFactory.createLineBorder(Color.BLACK, 3);
+		m_health = createProgressBar(Color.RED, progressBarBorder);
+		m_drone = createProgressBar(Color.YELLOW, progressBarBorder);
+		HPStamina.add(Box.createVerticalGlue());
+		HPStamina.add(m_health);
+		HPStamina.add(Box.createVerticalGlue());
+		HPStamina.add(m_drone);
+		HPStamina.add(Box.createVerticalGlue());
+		return HPStamina;
+	}
+
+	private JProgressBar createProgressBar(Color color, Border border) {
+		BasicProgressBarUI progressUI = new BasicProgressBarUI();
+		JProgressBar progress = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
+		progress.setUI(progressUI);
+		progress.setBorder(null);
+		progress.setBorder(border);
+		progress.setForeground(color);
+		progress.setBackground(Color.GRAY);
+		progress.setMaximumSize(new Dimension(50, 200));
+		progress.setValue(100);
+		return progress;
+	}
+
+	private JPanel initiateViewModePanel() {
+		JPanel viewModePanel = new JPanel();
+
+		Border viewModeBorder = BorderFactory.createLineBorder(Color.BLACK);
+		TitledBorder viewModeTitledBorder = BorderFactory.createTitledBorder(viewModeBorder, "View Mode");
+		viewModeTitledBorder.setTitleColor(Color.BLACK);
+		viewModeTitledBorder.setTitleJustification(TitledBorder.CENTER);
+
+		viewModePanel.setBorder(viewModeTitledBorder);
+		viewModePanel.setBackground(Color.DARK_GRAY);
+
+		m_viewModeLabel = new JLabel(m_weaponArray[3]);
+		viewModePanel.add(m_viewModeLabel);
+
+		return viewModePanel;
+	}
+
+	private JPanel initiateAmmoPanel(Font font) {
+		JPanel ammoPanel = new JPanel();
+		ammoPanel.setBackground(Color.DARK_GRAY);
+
+		// Ajout d'une border à ammo
+		Border ammoBorder = BorderFactory.createLineBorder(Color.BLACK);
+		m_ammoTitledBorder = BorderFactory.createTitledBorder(ammoBorder, "Ammo");
+		m_ammoTitledBorder.setTitleColor(Color.BLACK);
+		m_ammoTitledBorder.setTitleJustification(TitledBorder.CENTER);
+
+		ammoPanel.setBorder(m_ammoTitledBorder);
+
+		// Label des munitions
+		m_ammo = new JLabel("10/10");
+		m_ammo.setFont(font);
+		m_ammo.setForeground(Color.BLACK);
+
+		ammoPanel.add(m_ammo);
+		ammoPanel.setMaximumSize(new Dimension(120, 30));
+		return ammoPanel;
+	}
+
+	private JPanel initiateStatPanel(Font font) {
+		JPanel stats = new JPanel();
+		stats.setBackground(Color.DARK_GRAY);
+		stats.setLayout(new BoxLayout(stats, BoxLayout.Y_AXIS));
+		Dimension statsDimension = new Dimension(120, 80);
+		stats.setMaximumSize(statsDimension);
+		stats.setPreferredSize(statsDimension);
 
 		// Border pour les stats
 		Border blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
 		TitledBorder statsBorder = BorderFactory.createTitledBorder(blackLineBorder, "Stats");
 		statsBorder.setTitleColor(Color.BLACK);
 		statsBorder.setTitleJustification(TitledBorder.CENTER);
-		Stats.setBorder(statsBorder);
+		stats.setBorder(statsBorder);
 
 		// Label du niveau
 		m_level = new JLabel("Level : 45");
@@ -277,7 +314,7 @@ public class HUD {
 		m_level.setFont(font);
 		m_level.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
-		Stats.add(m_level);
+		stats.add(m_level);
 
 		// Label des points
 		m_score = new JLabel("450 pts");
@@ -285,71 +322,35 @@ public class HUD {
 		m_score.setFont(font);
 		m_score.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
-		Stats.add(m_score);
+		stats.add(m_score);
+		return stats;
+	}
 
-		// Cadrant de l'horloge
-		JPanel timePanel = new JPanel();
-		timePanel.setBackground(Color.BLACK);
+	private CompassWidget initiateCompass() {
+		CompassWidget compass = new CompassWidget();
+		compass.setBackground(new Color(18, 16, 38));
+		compass.setForeground(Color.BLACK);
+		Dimension CompassSize = new Dimension(120, 120);
+		compass.setMinimumSize(CompassSize);
+		compass.setMaximumSize(CompassSize);
+		compass.setPreferredSize(CompassSize);
+		return compass;
+	}
 
-		// Border de l'horloge
-		Border timePanelBorder = BorderFactory.createLineBorder(Color.GRAY);
-		timePanel.setBorder(timePanelBorder);
-		timePanel.setMaximumSize(new Dimension(90, 20));
+	private JPanel initiateUpgradePanel(ImageIcon toolsIcone, ImageIcon mineralsIcone) {
+		JPanel upgradePanel = new JPanel();
+		upgradePanel.setLayout(new BoxLayout(upgradePanel, BoxLayout.Y_AXIS));
+		upgradePanel.setBackground(Color.DARK_GRAY);
 
-		// Label Temps
-		m_time = new JLabel("0 : 00");
-		m_time.setForeground(Color.RED);
-		m_time.setFont(new Font("monospaced", 0, 20));
-		m_time.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-
-		timePanel.add(m_time);
-		m_East.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, 5), new Dimension(0, 10)));
-		m_East.add(timePanel);
-		m_East.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, 5), new Dimension(0, 10)));
-		m_East.add(Stats);
-
-		// Espace munition
-		m_ammoPanel = new JPanel();
-		m_ammoPanel.setBackground(Color.DARK_GRAY);
-
-		// Ajout d'une border à ammo
-		Border ammoBorder = BorderFactory.createLineBorder(Color.BLACK);
-		m_ammoTitledBorder = BorderFactory.createTitledBorder(ammoBorder, "Ammo");
-		m_ammoTitledBorder.setTitleColor(Color.BLACK);
-		m_ammoTitledBorder.setTitleJustification(TitledBorder.CENTER);
-		m_ammoPanel.setBorder(m_ammoTitledBorder);
-
-		// Label des munitions
-		m_ammo = new JLabel("10/10");
-		m_ammo.setFont(font);
-		m_ammo.setForeground(Color.BLACK);
-
-		m_ammoPanel.add(m_ammo);
-		m_ammoPanel.setMaximumSize(new Dimension(120, 30));
-		m_East.add(m_ammoPanel);
-
-		// Zone des boutons d'upgrade
-		m_upgrade = new JPanel();
-		m_upgrade.setLayout(new BoxLayout(m_upgrade, BoxLayout.Y_AXIS));
-		m_upgrade.setBackground(Color.DARK_GRAY);
-
-		// Le label
-
+		// Le Titre
 		JLabel upgradeLabel = new JLabel("UPGRADES");
 		upgradeLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		upgradeLabel.setForeground(Color.BLACK);
 		upgradeLabel.setFont(new Font("monospaced", Font.BOLD, 16));
 
-		// TODO implémenter un affichage dynamique pour les upgrade après avoir
-		// implémenté les upgrades
-		LinkedList<Upgrade> statUpgrades = Model.getModel().getStatUpgrade();
-		m_statButtons = new LinkedList<UpgradeButton>();
-		for (Upgrade upg : statUpgrades) {
-			UpgradeButton upgradeButton = new UpgradeButton(upg, toolsIcone, mineralsIcone);
-			m_statButtons.add(upgradeButton);
-		}
+		initiateUpgradeButtons(toolsIcone, mineralsIcone);
 
-		// Layout mananger des boutons
+		// Le Layout
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
@@ -364,21 +365,6 @@ public class HUD {
 			statUpgrade.add(jButton, gbc);
 		}
 
-		// Le scrollPane
-		JScrollPane statScrollButton = new JScrollPane(statUpgrade);
-		statScrollButton.setPreferredSize(new Dimension(110, 300));
-		statScrollButton.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		statScrollButton.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		statScrollButton.setBackground(Color.DARK_GRAY);
-
-		LinkedList<Upgrade> uniqUpgrades = Model.getModel().getUniqUpgrade();
-		m_uniqButtons = new LinkedList<UpgradeButton>();
-		for (Upgrade upg : uniqUpgrades) {
-			UpgradeButton upgradeButton = new UpgradeButton(upg, toolsIcone, mineralsIcone);
-			m_uniqButtons.add(upgradeButton);
-		}
-
-		// Espace bouton
 		JPanel uniqUpgrade = new JPanel();
 		uniqUpgrade.setBackground(Color.DARK_GRAY);
 		uniqUpgrade.setLayout(gbl);
@@ -387,32 +373,36 @@ public class HUD {
 			uniqUpgrade.add(jButton, gbc);
 		}
 
-		// Le scrollPane
-		JScrollPane uniqScrollButton = new JScrollPane(uniqUpgrade);
-		uniqScrollButton.setPreferredSize(new Dimension(110, 300));
-		uniqScrollButton.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		uniqScrollButton.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		uniqScrollButton.setBackground(Color.DARK_GRAY);
+		JScrollPane statScrollButton = createScrollPane(statUpgrade);
+		JScrollPane uniqScrollButton = createScrollPane(uniqUpgrade);
 
-		// Ajout d'une border à improvement
-		Border improvementBorder = BorderFactory.createLineBorder(Color.BLACK);
-		TitledBorder improvementTitledBorder = BorderFactory.createTitledBorder(improvementBorder, "Improvement");
-		improvementTitledBorder.setTitleColor(Color.BLACK);
-		improvementTitledBorder.setTitleJustification(TitledBorder.CENTER);
+		TitledBorder improvementTitledBorder = createTitleBorder("Improvement");
 		statScrollButton.setBorder(improvementTitledBorder);
-
-		// Ajout d'une border à improvement
-		Border gadgetBorder = BorderFactory.createLineBorder(Color.BLACK);
-		TitledBorder gadgetTitledBorder = BorderFactory.createTitledBorder(gadgetBorder, "Gadget");
-		gadgetTitledBorder.setTitleColor(Color.BLACK);
-		gadgetTitledBorder.setTitleJustification(TitledBorder.CENTER);
+		TitledBorder gadgetTitledBorder = createTitleBorder("Gadget");
 		uniqScrollButton.setBorder(gadgetTitledBorder);
 
-		// Une scrollbar
-		JScrollBar statScrollBar = new JScrollBar();
-		statScrollBar.setPreferredSize(new Dimension(5, 100));
-		statScrollBar.setBackground(Color.GREEN);
-		statScrollBar.setForeground(Color.RED);
+		// ScrollBar personnalisé
+		JScrollBar statScrollBar = createScrollBar();
+		statScrollButton.setVerticalScrollBar(statScrollBar);
+		JScrollBar uniqScrollBar = createScrollBar();
+		uniqScrollButton.setVerticalScrollBar(uniqScrollBar);
+
+		JSeparator sep = new JSeparator(SwingConstants.HORIZONTAL);
+		sep.setForeground(Color.BLACK);
+
+		upgradePanel.add(Box.createVerticalStrut(10));
+		upgradePanel.add(sep);
+		upgradePanel.add(Box.createVerticalStrut(10));
+		upgradePanel.add(upgradeLabel);
+		upgradePanel.add(Box.createVerticalStrut(5));
+		upgradePanel.add(statScrollButton);
+		upgradePanel.add(uniqScrollButton);
+		return upgradePanel;
+	}
+
+	private JScrollBar createScrollBar() {
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setPreferredSize(new Dimension(5, 100));
 
 		// UI Du scrollbar
 		BasicScrollBarUI statScrollUI = new BasicScrollBarUI() {
@@ -439,7 +429,7 @@ public class HUD {
 			@Override
 			protected void configureScrollBarColors() {
 				super.configureScrollBarColors();
-				thumbColor = new Color(52, 109, 46);
+				thumbColor = new Color(150,150,150);
 				trackColor = Color.BLACK;
 			}
 
@@ -457,135 +447,183 @@ public class HUD {
 				g.fillRect(0, 0, w, h);
 			}
 		};
-		statScrollBar.setUI(statScrollUI);
-		statScrollBar.setUnitIncrement(30);
-		statScrollButton.setVerticalScrollBar(statScrollBar);
+		scrollBar.setUI(statScrollUI);
+		scrollBar.setUnitIncrement(30);
+		return scrollBar;
+	}
 
-		// Une scrollbar
-		JScrollBar uniqScrollBar = new JScrollBar();
-		uniqScrollBar.setPreferredSize(new Dimension(5, 100));
-		uniqScrollBar.setBackground(Color.GREEN);
-		uniqScrollBar.setForeground(Color.RED);
+	private TitledBorder createTitleBorder(String string) {
+		Border lineBorder = BorderFactory.createLineBorder(Color.BLACK);
+		TitledBorder titledBorder = BorderFactory.createTitledBorder(lineBorder, string);
+		titledBorder.setTitleColor(Color.BLACK);
+		titledBorder.setTitleJustification(TitledBorder.CENTER);
+		return titledBorder;
+	}
 
-		// UI Du scrollbar
-		BasicScrollBarUI uniqScrollUI = new BasicScrollBarUI() {
-			@Override
-			protected JButton createIncreaseButton(int orientation) {
-				JButton button = new JButton();
-				Dimension dim = new Dimension(0, 0);
-				button.setMaximumSize(dim);
-				button.setMinimumSize(dim);
-				button.setPreferredSize(dim);
-				return button;
-			}
+	private JScrollPane createScrollPane(JPanel panel) {
+		JScrollPane scrollPane = new JScrollPane(panel);
+		scrollPane.setPreferredSize(new Dimension(110, 300));
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBackground(Color.DARK_GRAY);
+		return scrollPane;
+	}
 
-			@Override
-			protected JButton createDecreaseButton(int orientation) {
-				JButton button = new JButton();
-				Dimension dim = new Dimension(0, 0);
-				button.setMaximumSize(dim);
-				button.setMinimumSize(dim);
-				button.setPreferredSize(dim);
-				return button;
-			}
+	private void initiateUpgradeButtons(ImageIcon toolsIcone, ImageIcon mineralsIcone) {
+		LinkedList<Upgrade> statUpgrades = Model.getModel().getStatUpgrade();
+		m_statButtons = new LinkedList<UpgradeButton>();
+		for (Upgrade upg : statUpgrades) {
+			UpgradeButton upgradeButton = new UpgradeButton(upg, toolsIcone, mineralsIcone);
+			m_statButtons.add(upgradeButton);
+		}
+		LinkedList<Upgrade> uniqUpgrades = Model.getModel().getUniqUpgrade();
+		m_uniqButtons = new LinkedList<UpgradeButton>();
+		for (Upgrade upg : uniqUpgrades) {
+			UpgradeButton upgradeButton = new UpgradeButton(upg, toolsIcone, mineralsIcone);
+			m_uniqButtons.add(upgradeButton);
+		}
+	}
 
-			@Override
-			protected void configureScrollBarColors() {
-				super.configureScrollBarColors();
-				thumbColor = new Color(52, 109, 46);
-				trackColor = Color.BLACK;
-			}
+	private JPanel initiateHorloge() {
+		JPanel timePanel = new JPanel();
+		timePanel.setBackground(Color.BLACK);
 
-			@Override
-			protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-				if (thumbBounds.isEmpty() || !scrollbar.isEnabled()) {
-					return;
-				}
+		// Border de l'horloge
+		Border timePanelBorder = BorderFactory.createLineBorder(Color.GRAY);
+		timePanel.setBorder(timePanelBorder);
+		timePanel.setMaximumSize(new Dimension(90, 20));
 
-				int w = thumbBounds.width;
-				int h = thumbBounds.height;
+		// Label Temps
+		m_time = new JLabel("0 : 00");
+		m_time.setForeground(Color.RED);
+		m_time.setFont(new Font("monospaced", 0, 20));
+		m_time.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 
-				g.translate(thumbBounds.x, thumbBounds.y);
-				g.setColor(thumbColor);
-				g.fillRect(0, 0, w, h);
-			}
-		};
-		uniqScrollBar.setUI(uniqScrollUI);
-		uniqScrollBar.setUnitIncrement(30);
-		uniqScrollButton.setVerticalScrollBar(uniqScrollBar);
+		timePanel.add(m_time);
+		return timePanel;
+	}
 
-		JSeparator sep1 = new JSeparator(SwingConstants.HORIZONTAL);
-		sep1.setForeground(Color.BLACK);
-		JSeparator sep2 = new JSeparator(SwingConstants.HORIZONTAL);
-		sep2.setForeground(Color.BLACK);
+	private ImageIcon[] initiateWeaponArray() {
+		ImageIcon[] array = new ImageIcon[6];
 
-		JLabel improvement = new JLabel("Improvement");
-		improvement.setForeground(Color.BLACK);
-		improvement.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-		JLabel gadget = new JLabel("Gadget");
-		gadget.setForeground(Color.BLACK);
-		gadget.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-
-		m_upgrade.add(Box.createVerticalStrut(10));
-		m_upgrade.add(sep1);
-		m_upgrade.add(Box.createVerticalStrut(10));
-		m_upgrade.add(upgradeLabel);
-		m_upgrade.add(Box.createVerticalStrut(5));
-		m_upgrade.add(statScrollButton);
-		m_upgrade.add(uniqScrollButton);
-		m_East.add(m_upgrade);
-
-		m_viewModePanel = new JPanel();
-		Border viewModeBorder = BorderFactory.createLineBorder(Color.BLACK);
-		TitledBorder viewModeTitledBorder = BorderFactory.createTitledBorder(viewModeBorder, "View Mode :");
-		viewModeTitledBorder.setTitleColor(Color.BLACK);
-		viewModeTitledBorder.setTitleJustification(TitledBorder.CENTER);
-		m_viewModePanel.setBorder(viewModeTitledBorder);
-		m_viewModePanel.setBackground(Color.DARK_GRAY);
-		m_viewModeLabel = new JLabel(m_weaponArray[3]);
-		m_viewModePanel.add(m_viewModeLabel);
-		refreshHUD();
+		array[0] = new ImageIcon(
+				new ImageIcon("sprites/Weapon0.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[1] = new ImageIcon(
+				new ImageIcon("sprites/Weapon1.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[2] = new ImageIcon(
+				new ImageIcon("sprites/Weapon2.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[3] = new ImageIcon(
+				new ImageIcon("sprites/VueRessourceIcon.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[4] = new ImageIcon(
+				new ImageIcon("sprites/VueEnemyIcon.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[5] = new ImageIcon(
+				new ImageIcon("sprites/MarkerSingle.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		return array;
 	}
 
 	private void initiateToolTip() {
 		ToolTipManager.sharedInstance().setInitialDelay(0);
-		UIManager.put("ToolTip.background", new Color(45, 105, 45));
+		UIManager.put("ToolTip.background", new Color(150,150,150));
 		LineBorder tooltipBorder = (LineBorder) BorderFactory.createLineBorder(Color.BLACK);
 		UIManager.put("ToolTip.border", tooltipBorder);
 	}
 
-	// TODO
 	public void refreshHUD() {
 		Model model = Model.getModel();
 		Tank tank = model.getTank();
 		Drone drone = model.getDrone();
 		TankBody tankBody = tank.getBody();
-		Turret tankTurret = tank.getTurret();
-		Entity played = model.getPlayed();
+		VisionType vision = model.getVisionType();
 
 		// Timer
-		long time = model.getTime();
-		long seconde = time / 1000;
-		long minutes = seconde / 60;
-		seconde = seconde % 60;
-		String timeString = "";
-		if (minutes <= 9) {
-			timeString += "0" + minutes;
-		} else {
-			timeString += minutes;
-		}
-		if (time % 1000 < 500)
-			timeString += ":";
-		else
-			timeString += " ";
-		if (seconde <= 9) {
-			timeString += "0" + seconde;
-		} else {
-			timeString += seconde;
-		}
+		updateTime();
 
 		// Boussole
-		m_time.setText(timeString);
+		updateBoussole();
+
+		Model.getModel().getDrone();
+		m_level.setText("Level : ".concat(Integer.toString(tankBody.getLevel())));
+
+		// Barres HP et Drone
+		m_health.setMaximum(tankBody.getMaxHealth());
+		m_health.setValue(tankBody.getHealth());
+		m_drone.setMaximum(drone.getMaxHealth());
+		m_drone.setValue(drone.getHealth());
+
+		// Level
+		m_level.setText("Level : " + Integer.toString(tank.getLevel()));
+
+		// Score
+		m_score.setText(Integer.toString(model.getScore().getScore()));
+
+		// Minerals, Electronics, Weapons et Markers
+		m_toolsLabel.setText(Integer.toString(tank.getInventory().getQuantity(MaterialType.ELECTRONIC)));
+		m_mineralsLabel.setText(Integer.toString(tank.getInventory().getQuantity(MaterialType.MINERAL)));
+		
+		if(vision != m_vision) {			
+			updateATHOrganisation(m_vision,vision);
+			m_vision = vision;
+		}
+		updateCurrentATH();
+	}
+
+	private void updateCurrentATH() {
+		Model model = Model.getModel();
+		Tank tank = model.getTank();
+		Turret tankTurret = tank.getTurret();
+		Weapon weapon = tankTurret.getWeapon();
+		Drone drone = model.getDrone();
+		switch(m_vision) {
+			case TANK:
+				m_weaponImage.setIcon(m_weaponArray[tankTurret.getIndexWeapon()]);
+				m_ammo.setText(weapon.getNbShotLeft() + "/" + weapon.getCapacity());
+				updateButtons();
+				break;
+			case ENEMIES:
+				m_ammo.setText(drone.getNbMarker()+"/"+drone.getMaxMarkers());
+			case RESSOURCES:
+				m_ammo.setText(drone.getNbMarker()+"/"+drone.getMaxMarkers());
+		}
+	}
+
+	private void updateButtons() {
+		for (UpgradeButton button : m_statButtons) {
+			button.setEnabled(button.getUpgrade().isAvaible());
+		}
+		for (UpgradeButton button : m_uniqButtons) {
+			button.setEnabled(button.getUpgrade().isAvaible());
+		}
+	}
+
+	private void updateATHOrganisation(VisionType prev, VisionType next) {
+		if((prev == VisionType.RESSOURCES || prev == VisionType.ENEMIES) && next == VisionType.TANK) {
+			m_weaponTitledBorder.setTitle("Weapon");
+			m_ammoTitledBorder.setTitle("Ammo");
+			m_East.remove(m_viewModePanel);
+			m_East.add(m_upgrade);
+		}
+		if(prev == VisionType.TANK && (next == VisionType.RESSOURCES || next == VisionType.ENEMIES)) {
+			m_weaponTitledBorder.setTitle("Marker");
+			m_weaponImage.setIcon(m_weaponArray[5]);
+			m_ammoTitledBorder.setTitle("Marker");
+			m_East.remove(m_upgrade);
+			m_East.add(m_viewModePanel);
+		}
+		if(prev == VisionType.ENEMIES && next == VisionType.RESSOURCES) {
+			m_viewModeLabel.setIcon(m_weaponArray[3]);
+			m_viewModeLabel.invalidate();
+			m_viewModeLabel.validate();
+		}
+		if(next == VisionType.ENEMIES && prev == VisionType.RESSOURCES) {
+			m_viewModeLabel.setIcon(m_weaponArray[4]);
+			m_viewModeLabel.invalidate();
+			m_viewModeLabel.validate();
+		}
+	}
+
+	private void updateBoussole() {
+		Model model = Model.getModel();
+		Entity played = model.getPlayed();
 		float x = played.getX() + played.getWidth() / 2;
 		float y = played.getY() + played.getHeight() / 2;
 
@@ -608,78 +646,39 @@ public class HUD {
 			}
 			m_compass.addArrow(null, (int) angle);
 		}
+	}
 
-		Model.getModel().getDrone();
-		m_level.setText("Level : ".concat(Integer.toString(tankBody.getLevel())));
-
-		// Barres HP et Drone
-		m_health.setMaximum(tankBody.getMaxHealth());
-		m_health.setValue(tankBody.getHealth());
-		m_drone.setMaximum(drone.getMaxHealth());
-		m_drone.setValue(drone.getHealth());
-
-		// Level
-		m_level.setText("Level : " + Integer.toString(tank.getLevel()));
-
-		// Score
-		m_score.setText(Integer.toString(model.getScore().getScore()));
-
-		// Minerals, Electronics, Weapons et Markers
-		m_toolsLabel.setText(Integer.toString(tank.getInventory().getQuantity(MaterialType.ELECTRONIC)));
-		m_mineralsLabel.setText(Integer.toString(tank.getInventory().getQuantity(MaterialType.MINERAL)));
-		switch (model.getVisionType()) {
-			case TANK:
-				m_weaponTitledBorder.setTitle("Weapon");
-				/* TODO : adapter HUD en fction de Weapon */
-				m_weaponImage.setIcon(m_weaponArray[tankTurret.getIndexWeapon()]);
-				m_ammoTitledBorder.setTitle("Ammo");
-				m_ammo.setText("10 / 10");
-				m_ammoPanel.setBorder(m_ammoTitledBorder);
-				m_ammoPanel.repaint();
-				m_East.remove(m_viewModePanel);
-				m_East.add(m_upgrade);
-				m_East.repaint();
-
-				/*
-				 * for each m_availableUpgrade as upgrade if upgrade.available() == true
-				 * m_upgrade.add(m_availableUpgrade.get(upgrade));
-				 */
-
-				break;
-			case RESSOURCES:
-				m_weaponTitledBorder.setTitle("Marker");
-				m_weaponImage.setIcon(m_weaponArray[5]);
-				m_ammoTitledBorder.setTitle("Marker");
-				m_ammo.setText(markers.size() + " / " + drone.getMaxMarkers());
-				m_ammoPanel.setBorder(m_ammoTitledBorder);
-				m_ammoPanel.repaint();
-
-				m_East.remove(m_upgrade);
-				m_viewModeLabel.setIcon(m_weaponArray[3]);
-				m_East.add(m_viewModePanel);
-				m_East.repaint();
-				break;
-			case ENEMIES:
-				m_weaponTitledBorder.setTitle("Marker");
-				m_weaponImage.setIcon(m_weaponArray[5]);
-				m_ammoTitledBorder.setTitle("Marker");
-				m_ammo.setText(markers.size() + " / " + drone.getMaxMarkers());
-				m_ammoPanel.setBorder(m_ammoTitledBorder);
-				m_ammoPanel.repaint();
-
-				m_East.remove(m_upgrade);
-				m_viewModeLabel.setIcon(m_weaponArray[4]);
-				m_East.add(m_viewModePanel);
-				m_East.repaint();
-				break;
+	private void updateTime() {
+		long time = Model.getModel().getTime();
+		long seconde = time / 1000;
+		long minute = seconde / 60;
+		seconde = seconde % 60;
+		long heure = minute/60;
+		minute = minute%60;
+		long digit1,digit2;
+		if(heure > 0) {
+			digit1 = heure;
+			digit2 = minute;
+		} else {
+			digit1 = minute;
+			digit2 = seconde;
 		}
-		for (UpgradeButton button : m_statButtons) {
-			button.setEnabled(button.getUpgrade().isAvaible());
+		String timeString = "";
+		if (digit1 <= 9) {
+			timeString += "0" + digit1;
+		} else {
+			timeString += digit1;
 		}
-		for (UpgradeButton button : m_uniqButtons) {
-			button.setEnabled(button.getUpgrade().isAvaible());
+		if (time % 1000 < 500)
+			timeString += ":";
+		else
+			timeString += " ";
+		if (digit2 <= 9) {
+			timeString += "0" + digit2;
+		} else {
+			timeString += digit2;
 		}
-
+		m_time.setText(timeString);
 	}
 
 	public static final int DIRECT = 0;
@@ -735,7 +734,7 @@ public class HUD {
 			m_electronics = elec.getImage();
 			m_minerals = mine.getImage();
 			this.setForeground(Color.BLACK);
-			this.setBackground(new Color(29, 73, 25));
+			this.setBackground(new Color(150,150,150));
 			this.setPreferredSize(new Dimension(95, 75));
 			BasicButtonUI buttonUI = new BasicButtonUI() {
 				@Override
@@ -776,7 +775,7 @@ public class HUD {
 			g.drawString(m_elecCost, 6 + 15 + getWidth() / 2, getHeight() - 5);
 			paintTitle(g, space);
 			if (!isEnabled()) {
-				Color color = new Color(0F, 0F, 0F, 0.60F);
+				Color color = new Color(0F, 0F, 0F, 0.80F);
 				g.setColor(color);
 				g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			}

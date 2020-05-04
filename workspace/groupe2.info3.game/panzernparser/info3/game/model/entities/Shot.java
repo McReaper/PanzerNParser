@@ -26,13 +26,16 @@ public abstract class Shot extends MovingEntity {
 	}
 
 	public void hasKilled(Entity e) {
-		if(e.GotPower())
+		if (e.GotPower())
 			return;
 		else {
-			Entity tankBody =  Model.getModel().getTank().getBody();
-			if(getOwner() == tankBody)
-			Model.getModel().getTank().hasKilled(e);
+			Entity tankBody = Model.getModel().getTank().getBody();
+			if (getOwner() == tankBody)
+				Model.getModel().getTank().hasKilled(e);
 		}
 	}
-	
+
+	public void collide(int damage) {
+		m_health = 0;
+	}
 }

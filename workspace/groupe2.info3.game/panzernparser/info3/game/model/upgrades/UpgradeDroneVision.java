@@ -1,5 +1,8 @@
-package info3.game.model;
+package info3.game.model.upgrades;
 
+import info3.game.model.Inventory;
+import info3.game.model.MaterialType;
+import info3.game.model.Tank;
 import info3.game.model.entities.Drone;
 
 /**
@@ -28,6 +31,12 @@ public class UpgradeDroneVision extends Upgrade {
 		} else {
 			throw new IllegalAccessException("Ressources insuffisantes dans l'inventaire.");
 		}
+	}
+	
+	@Override
+	public boolean isAvaible() {
+		if (m_level > 0) return false;
+		return super.isAvaible();
 	}
 	
 	@Override

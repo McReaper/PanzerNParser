@@ -1,4 +1,8 @@
-package info3.game.model;
+package info3.game.model.upgrades;
+
+import info3.game.model.Inventory;
+import info3.game.model.MaterialType;
+import info3.game.model.Tank;
 
 public class UpgradeShot extends Upgrade {
 
@@ -26,7 +30,7 @@ public class UpgradeShot extends Upgrade {
 	}
 
 	@Override
-	public boolean isAvaible() throws IllegalAccessException {
+	public boolean isAvaible() {
 		if (!m_tank.isNewWeaponAvaible()) return false;
 		return super.isAvaible();
 	}

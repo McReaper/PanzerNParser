@@ -1,5 +1,10 @@
-package info3.game.model;
+package info3.game.model.upgrades;
 
+import info3.game.model.Tank;
+
+/**
+ * Amélioration unique.
+ */
 public class UpgradeAutomaticSubmachine extends Upgrade {
 
 	private static final String NAME = "Helping turret";
@@ -10,6 +15,12 @@ public class UpgradeAutomaticSubmachine extends Upgrade {
 		super(tank, null);
 	}
 
+	@Override
+	public boolean isAvaible() {
+		if (m_level > 0) return false;
+		return super.isAvaible();
+	}
+	
 	@Override
 	public int getCostElec() {
 		// TODO Auto-generated method stub

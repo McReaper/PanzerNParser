@@ -1,18 +1,23 @@
-package info3.game.model;
+package info3.game.model.upgrades;
 
-public class UpgradeTankShotsCapacity extends Upgrade {
+import info3.game.model.Inventory;
+import info3.game.model.MaterialType;
+import info3.game.model.Tank;
+import info3.game.model.entities.Drone;
+
+public class UpgradeMarkersCount extends Upgrade {
 
 
-	private static final String NAME = "Tank loader capacity";
-	private static final int MINERALS_COST = 15;
-	private static final int ELECTRONICALS_COST = 0;
-	private static final int AMMO_BOOST = 10;
-	private static final double COST_FACTOR = 0.5;
+	private static final String NAME = "Higher markers count";
+	private static final int MINERALS_COST = 5;
+	private static final int ELECTRONICALS_COST = 10;
+	private static final int DRONE_MARKER_BOOST = 1;
+	private static final double COST_FACTOR = 1;
 	
-	public UpgradeTankShotsCapacity(Tank tank) {
-		super(tank, null);
+	public UpgradeMarkersCount(Tank tank, Drone drone) {
+		super(tank, drone);
 	}
-	
+
 	@Override
 	public void improve() throws IllegalAccessException {
 		Inventory inv = m_tank.getInventory();
@@ -20,7 +25,7 @@ public class UpgradeTankShotsCapacity extends Upgrade {
 		int electronical_cost = getCostElec();
 		if (isAvaibleFor(mineral_cost, electronical_cost)) {
 			inv.used(MaterialType.MINERAL, mineral_cost, MaterialType.ELECTRONIC, electronical_cost);
-			m_tank.setMaxAmmo(m_tank.getMaxAmmo() + AMMO_BOOST);
+			m_drone.setMaxMarkers(m_drone.getMaxMarkers() + DRONE_MARKER_BOOST);
 			m_level++;
 		} else {
 			throw new IllegalAccessException("Ressources insuffisantes dans l'inventaire.");
@@ -41,10 +46,10 @@ public class UpgradeTankShotsCapacity extends Upgrade {
 	public String getName() {
 		return NAME;
 	}
-
+	
 	@Override
 	public String getDescription() {
-		return "<html><p style='color:black;text-align:center'>Increase the tank <b>loader capacity</b> to be able to fire more shells.</p></html>";
+		return "<html><p style='color:black;text-align:center'>Increases <b>the limit of markers</b> placed by the drone</p></html>";
 	}
 
 }

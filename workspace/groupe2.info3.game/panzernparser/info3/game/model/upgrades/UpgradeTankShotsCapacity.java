@@ -1,18 +1,22 @@
-package info3.game.model;
+package info3.game.model.upgrades;
 
-public class UpgradeTankSpeed extends Upgrade {
+import info3.game.model.Inventory;
+import info3.game.model.MaterialType;
+import info3.game.model.Tank;
+
+public class UpgradeTankShotsCapacity extends Upgrade {
 
 
-	private static final String NAME = "Higher speed";
-	private static final int MINERALS_COST = 10;
-	private static final int ELECTRONICALS_COST = 5;
-	private static final int SPEED_BOOST = 10;
+	private static final String NAME = "Tank loader capacity";
+	private static final int MINERALS_COST = 15;
+	private static final int ELECTRONICALS_COST = 0;
+	private static final int AMMO_BOOST = 10;
 	private static final double COST_FACTOR = 0.5;
 	
-	public UpgradeTankSpeed(Tank tank) {
+	public UpgradeTankShotsCapacity(Tank tank) {
 		super(tank, null);
 	}
-
+	
 	@Override
 	public void improve() throws IllegalAccessException {
 		Inventory inv = m_tank.getInventory();
@@ -20,7 +24,7 @@ public class UpgradeTankSpeed extends Upgrade {
 		int electronical_cost = getCostElec();
 		if (isAvaibleFor(mineral_cost, electronical_cost)) {
 			inv.used(MaterialType.MINERAL, mineral_cost, MaterialType.ELECTRONIC, electronical_cost);
-			m_tank.setSpeed(m_tank.getSpeed() + SPEED_BOOST);
+			m_tank.setMaxAmmo(m_tank.getMaxAmmo() + AMMO_BOOST);
 			m_level++;
 		} else {
 			throw new IllegalAccessException("Ressources insuffisantes dans l'inventaire.");
@@ -44,7 +48,7 @@ public class UpgradeTankSpeed extends Upgrade {
 
 	@Override
 	public String getDescription() {
-		return "<html><p style='color:black;text-align:center'>Increase the <b>tank speed</b> so you can go more darude.</p></html>";
+		return "<html><p style='color:black;text-align:center'>Increase the tank <b>loader capacity</b> to be able to fire more shells.</p></html>";
 	}
 
 }

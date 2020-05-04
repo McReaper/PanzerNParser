@@ -22,7 +22,7 @@ public class ViewPort {
 	private int m_width; // Taille du canvas en pixel
 	private int m_height;
 	private int m_nbCells; // Nombre de cellule du view port en une dimention
-	private int m_caseSize; // Taille d'une case en pixel
+	private double m_caseSize; // Taille d'une case en pixel
 	private int m_x; // Position du viewPort dans la grid /!\ Marge de 2 autour de ce que l'on voit
 	private int m_y;
 	private int m_offsetX; // Décalage propre au animations du move du player
@@ -31,6 +31,7 @@ public class ViewPort {
 	private int m_paintSize;
 	private int m_offsetWindowX;
 	private int m_offsetWindowY;
+	private double m_zoom;
 
 	public ViewPort(Entity player, View view) {
 		m_view = view;
@@ -55,7 +56,7 @@ public class ViewPort {
 		m_width = m_view.m_canvas.getWidth();
 		m_height = m_view.m_canvas.getHeight();
 		m_paintSize = Math.min(m_height, m_width);
-		m_caseSize = m_paintSize / (m_nbCells - 4);
+		m_caseSize = ((double)m_paintSize / (m_nbCells +m_zoom- 4));
 	}
 
 	private void positionViewPort() {
@@ -105,12 +106,28 @@ public class ViewPort {
 			}
 		}
 	}
+	
+	private void zoom() {
+		m_zoom = 0;
+		if(m_player.getCurrentAction() == LsAction.Jump) {
+			double progress = m_player.getActionProgress();
+			MyDirection actDir = m_player.getCurrentActionDir();
+			switch (actDir) {
+				case FRONT:
+					m_zoom = progress*2;
+					break;
+				case BACK:
+					m_zoom = -progress*2;
+			}
+		}
+		
+	}
 
-	public int getCaseWidth() {
+	public double getCaseWidth() {
 		return m_caseSize;
 	}
 
-	public int getCaseHeight() {
+	public double getCaseHeight() {
 		return m_caseSize;
 	}
 
@@ -139,7 +156,20 @@ public class ViewPort {
 	}
 
 	public void paint(Graphics g, List<Avatar> lsAvatars) {
-		setPlayer(Model.getModel().getPlayed());
+		Entity play = Model.getModel().getPlayed();
+		if (m_player != play) {
+			setPlayer(play);
+		}
+		zoom();
+		m_field_of_view = m_player.getFieldOfView(); // TODO peut être changé si entity peut changer de field_of_view
+		m_nbCells = m_field_of_view * 2; // pour les deux coté du tank
+		m_nbCells += m_player.getWidth(); // pour le tank
+		m_nbCells += 4; // pour la marge
+		int maxCells = Math.min(m_grid.getNbCellsX(), m_grid.getNbCellsY());
+		while (m_nbCells >= maxCells) {
+			m_nbCells -= 2;
+			m_field_of_view--;
+		}
 		calcul();
 		positionViewPort();
 		offset(); // décalage due au mouve du tank
@@ -149,10 +179,10 @@ public class ViewPort {
 		m_offsetWindowX = (m_width - m_paintSize) / 2;
 		m_offsetWindowY = (m_height - m_paintSize) / 2;
 		g.setColor(Color.BLACK);
-		for (int i = m_offsetWindowX - m_offsetX; i < m_paintSize + m_offsetWindowX; i += m_caseSize)
-			g.drawLine(i, m_offsetWindowY, i, m_offsetWindowY + m_paintSize);
-		for (int j = m_offsetWindowY - m_offsetY; j < m_paintSize + m_offsetWindowY; j += m_caseSize)
-			g.drawLine(m_offsetWindowX, j, m_offsetWindowX + m_paintSize, j);
+		for (double i =  (m_offsetWindowX - m_offsetX+m_zoom*m_caseSize/2); i < m_paintSize + m_offsetWindowX; i += m_caseSize)
+			g.drawLine((int)i, m_offsetWindowY, (int)i, m_offsetWindowY + m_paintSize);
+		for (double j = (m_offsetWindowY - m_offsetY+m_zoom*m_caseSize/2); (int)j < m_paintSize + m_offsetWindowY; j += m_caseSize)
+			g.drawLine(m_offsetWindowX, (int)j, m_offsetWindowX + m_paintSize, (int)j);
 
 		LinkedList<Entity> entityList;
 		int i = 0;
@@ -171,28 +201,28 @@ public class ViewPort {
 						x -= m_x;
 						y -= m_y;
 						// pour le décalage
-						x -= 2;
-						y -= 2;
+						double dx = x - 2+m_zoom/2;
+						double dy = y - 2+m_zoom/2;
 						// position en px de la case
-						x *= m_caseSize;
-						y *= m_caseSize;
+						dx *= m_caseSize;
+						dy *= m_caseSize;
 						// position case en px avec décalage
-						x += m_offsetWindowX - m_offsetX;
-						y += m_offsetWindowY - m_offsetY;
+						dx += m_offsetWindowX - m_offsetX;
+						dy += m_offsetWindowY - m_offsetY;
 						switch (intView) {
 							// Téléportation pour rentrer dans le viewPort
 							case PAINT_MOVE_X:
-								x += m_grid.getNbCellsX() * m_caseSize;
+								dx += m_grid.getNbCellsX() * m_caseSize;
 								break;
 							case PAINT_MOVE_Y:
-								y += m_grid.getNbCellsY() * m_caseSize;
+								dy += m_grid.getNbCellsY() * m_caseSize;
 								break;
 							case PAINT_MOVE_XY:
-								x += m_grid.getNbCellsX() * m_caseSize;
-								y += m_grid.getNbCellsY() * m_caseSize;
+								dx += m_grid.getNbCellsX() * m_caseSize;
+								dy += m_grid.getNbCellsY() * m_caseSize;
 								break;
 						}
-						avatar.paint(g, e, x, y, m_caseSize, m_caseSize);
+						avatar.paint(g, e, (int)dx, (int)dy, (int)m_caseSize, (int)m_caseSize);
 
 					}
 				}

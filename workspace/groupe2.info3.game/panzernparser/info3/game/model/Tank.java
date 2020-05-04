@@ -98,20 +98,23 @@ public class Tank {
 	}
 	
 	public int getDamage() {
-		return m_turret.getDamage();
+		return 0; // TODO
+		//return m_turret.getDamage();
 	}
 	
 	public void setDamage(int dmg) {
-		m_turret.setDamage(dmg);
+		//TODO
+		//m_turret.setDamage(dmg);
 	}
 
 	public int getSpeed() {
-		return 0;
-		return m_body.getSpeed(); 
+		return 0; // TODO
+		//return m_body.getSpeed(); 
 	}
 
 	public void setSpeed(int val) {
-		m_body.setSpeed(val);
+		// TODO
+		//m_body.setSpeed(val);
 	}
 
 	public boolean gotPower() {
@@ -119,11 +122,13 @@ public class Tank {
 	}
 
 	public int getMaxAmmo() {
-		return m_turret.getMaxAmmo();
+		return 0; //TODO
+		//return m_turret.getMaxAmmo();
 	}
 
 	public void setMaxAmmo(int val) {
-		m_turret.setMaxAmmo(val);
+		// TODO
+		//m_turret.setMaxAmmo(val);
 	}
 
 	public long getMiningTime() {
@@ -146,6 +151,18 @@ public class Tank {
 
 	public double getBodyProgress() {
 		return m_body.getActionProgress();
+	}
+
+	public void unlockNewWeapon() throws IllegalAccessException {
+		m_turret.unlockNewWeapon();
+	}
+
+	public boolean isNewWeaponAvaible() {
+		return m_turret.isWeaponUnlockable();
+	}
+
+	public int getLevel() {
+		return m_body.getLevel(); //TODO : voir quel niveau on suit (turret ou body ? les deux ?)
 	}
 
 }

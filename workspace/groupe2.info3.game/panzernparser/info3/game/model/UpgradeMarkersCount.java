@@ -40,7 +40,7 @@ public class UpgradeMarkersCount extends Upgrade {
 	}
 
 	@Override
-	public String getEntity() {
+	public String getName() {
 		return NAME;
 	}
 	

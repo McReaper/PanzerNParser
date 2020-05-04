@@ -45,7 +45,7 @@ public class DroneAvatar extends Avatar {
 		int y = vp.getOffsetWindowY();
 		int w = vp.getPaintSize();
 		int h = vp.getPaintSize();
-		int angleSize = case_width * 6;
+		int angleSize = vp.getPaintSize() / 6;
 		g.drawImage(angle.getSprite(1), x, y, angleSize, angleSize, null);
 		g.drawImage(angle.getSprite(2), x + w - angleSize, y, angleSize, angleSize, null);
 		g.drawImage(angle.getSprite(3), x, y + h - angleSize, angleSize, angleSize, null);

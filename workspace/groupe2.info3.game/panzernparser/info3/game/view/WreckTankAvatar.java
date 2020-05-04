@@ -18,7 +18,7 @@ public class WreckTankAvatar extends Avatar {
 	public void paint(Graphics g, Entity entity, int xcase, int ycase, int case_width, int case_height) {
 		VisionType vision = Model.getModel().getVisionType();
 		double progress = entity.getActionProgress();
-		Image img = m_animation.getImage(progress, LsAction.Wait, entity.getLookAtDir(), vision);
+ 		Image img = m_animation.getImage(progress, LsAction.Wait, entity.getLookAtDir(), vision);
 		g.drawImage(img, xcase, ycase, case_width*entity.getWidth(), case_height*entity.getHeight(), null);
 	}
 	

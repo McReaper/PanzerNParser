@@ -66,7 +66,7 @@ public class WreckTank extends StaticEntity {
 			m_timeOfAction = DEFAULT_EGG_TIME;
 
 			// creation de la ressource a répendre
-			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x, m_y);
+			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x + (m_width/2), m_y + (m_height/2));
 			((Droppable) ent).setMaterialType(MaterialType.ELECTRONIC);
 			((Droppable) ent).setQuantity(10);// TODO A mettre dans une variable
 
@@ -80,7 +80,6 @@ public class WreckTank extends StaticEntity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			this.doExplode();
 			this.setCategory(MyCategory.V);
 			m_currentActionDir = null;
 			switch (m_currentLookAtDir) {

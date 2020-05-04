@@ -45,9 +45,11 @@ public class CollisionManager {
 							if (entity != entShot && entity != ((Shot) entShot).getOwner()) {
 								if (entity.getCategory() == MyCategory.AT || entity.getCategory() == MyCategory.A
 										|| entity.getCategory() == MyCategory.O) {
-									entShot.collide(entity.getDamageDealt());
-									entity.collide(entShot.getDamageDealt());
-										( (Shot) entShot).hasKilled(entity);
+									if (entShot.GotPower() && entity.GotPower()) {
+										entShot.collide(entity.getDamageDealt());
+										entity.collide(entShot.getDamageDealt());
+										((Shot) entShot).hasKilled(entity);
+									}
 								}
 							}
 						}

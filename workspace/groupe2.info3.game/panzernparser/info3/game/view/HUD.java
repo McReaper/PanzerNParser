@@ -260,6 +260,7 @@ public class HUD {
 		// Zone des stats
 		JPanel Stats = new JPanel();
 		Stats.setBackground(Color.DARK_GRAY);
+		Stats.setLayout(new BoxLayout(Stats,BoxLayout.Y_AXIS));
 		Dimension statsDimension = new Dimension(120, 130);
 		Stats.setMaximumSize(statsDimension);
 		Stats.setPreferredSize(new Dimension(120, 90));
@@ -275,7 +276,7 @@ public class HUD {
 		m_level = new JLabel("Level : 45");
 		m_level.setForeground(Color.BLACK);
 		m_level.setFont(font);
-		m_level.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+		m_level.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
 		Stats.add(m_level);
 
@@ -283,7 +284,7 @@ public class HUD {
 		m_score = new JLabel("450 pts");
 		m_score.setForeground(Color.BLACK);
 		m_score.setFont(font);
-		m_score.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+		m_score.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
 		Stats.add(m_score);
 
@@ -332,14 +333,14 @@ public class HUD {
 		m_upgrade = new JPanel();
 		m_upgrade.setLayout(new BoxLayout(m_upgrade, BoxLayout.Y_AXIS));
 		m_upgrade.setBackground(Color.DARK_GRAY);
-		
-		//Le label
-		
+
+		// Le label
+
 		JLabel upgradeLabel = new JLabel("UPGRADES");
 		upgradeLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		upgradeLabel.setForeground(Color.BLACK);
-		upgradeLabel.setFont(new Font("monospaced", Font.BOLD,16));
-		
+		upgradeLabel.setFont(new Font("monospaced", Font.BOLD, 16));
+
 		// TODO implémenter un affichage dynamique pour les upgrade après avoir
 		// implémenté les upgrades
 		LinkedList<Upgrade> statUpgrades = Model.getModel().getStatUpgrade();
@@ -387,14 +388,14 @@ public class HUD {
 		uniqScrollButton.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		uniqScrollButton.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		uniqScrollButton.setBackground(Color.DARK_GRAY);
-		
+
 		// Ajout d'une border à improvement
 		Border improvementBorder = BorderFactory.createLineBorder(Color.BLACK);
 		TitledBorder improvementTitledBorder = BorderFactory.createTitledBorder(improvementBorder, "Improvement");
 		improvementTitledBorder.setTitleColor(Color.BLACK);
 		improvementTitledBorder.setTitleJustification(TitledBorder.CENTER);
 		statScrollButton.setBorder(improvementTitledBorder);
-		
+
 		// Ajout d'une border à improvement
 		Border gadgetBorder = BorderFactory.createLineBorder(Color.BLACK);
 		TitledBorder gadgetTitledBorder = BorderFactory.createTitledBorder(gadgetBorder, "Gadget");
@@ -507,12 +508,12 @@ public class HUD {
 		uniqScrollBar.setUI(uniqScrollUI);
 		uniqScrollBar.setUnitIncrement(30);
 		uniqScrollButton.setVerticalScrollBar(uniqScrollBar);
-		
+
 		JSeparator sep1 = new JSeparator(SwingConstants.HORIZONTAL);
 		sep1.setForeground(Color.BLACK);
 		JSeparator sep2 = new JSeparator(SwingConstants.HORIZONTAL);
 		sep2.setForeground(Color.BLACK);
-		
+
 		JLabel improvement = new JLabel("Improvement");
 		improvement.setForeground(Color.BLACK);
 		improvement.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -604,9 +605,12 @@ public class HUD {
 		m_health.setValue(tankBody.getHealth());
 		m_drone.setMaximum(drone.getMaxHealth());
 		m_drone.setValue(drone.getHealth());
-		
-		//Level
+
+		// Level
 		m_level.setText("Level : " + Integer.toString(tank.getLevel()));
+
+		// Score
+		m_score.setText(Integer.toString(model.getScore().getScore()));
 
 		// Minerals, Electronics, Weapons et Markers
 		m_toolsLabel.setText(Integer.toString(tank.getInventory().getQuantity(MaterialType.ELECTRONIC)));
@@ -614,7 +618,7 @@ public class HUD {
 		switch (model.getVisionType()) {
 			case TANK:
 				m_weaponTitledBorder.setTitle("Weapon");
-				/*TODO : adapter HUD en fction de Weapon*/
+				/* TODO : adapter HUD en fction de Weapon */
 				m_weaponImage.setIcon(m_weaponArray[tankTurret.getIndexWeapon()]);
 				m_ammoTitledBorder.setTitle("Ammo");
 				m_ammo.setText("10 / 10");
@@ -663,7 +667,6 @@ public class HUD {
 		for (UpgradeButton button : m_uniqButtons) {
 			button.setEnabled(button.getUpgrade().isAvaible());
 		}
-		
 
 	}
 
@@ -750,13 +753,13 @@ public class HUD {
 			int space = getHeight() - 35;
 			g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 			g.drawLine(0, space, getWidth() - 1, space);
-			g.drawLine(0, space+15, getWidth() - 1, space+15);
-			g.drawLine(getWidth() / 2, space+15, getWidth() / 2, getHeight() - 1);
+			g.drawLine(0, space + 15, getWidth() - 1, space + 15);
+			g.drawLine(getWidth() / 2, space + 15, getWidth() / 2, getHeight() - 1);
 			g.drawImage(m_minerals, 3, space + 15 + 3, 15, 15, null);
 			g.drawImage(m_electronics, 3 + getWidth() / 2, space + 15 + 3, 15, 15, null);
 			FontRenderContext frc = new FontRenderContext(null, true, false);
 			Rectangle2D rect = g.getFont().getStringBounds(m_level, 0, m_level.length(), frc);
-			g.drawString(m_level, (int) ((getWidth() - rect.getWidth())/2), space + 15 - 2);
+			g.drawString(m_level, (int) ((getWidth() - rect.getWidth()) / 2), space + 15 - 2);
 			g.drawString(m_mineCost, 6 + 15, getHeight() - 5);
 			g.drawString(m_elecCost, 6 + 15 + getWidth() / 2, getHeight() - 5);
 			paintTitle(g, space);
@@ -817,7 +820,7 @@ public class HUD {
 			}
 
 		}
-		
+
 		public Upgrade getUpgrade() {
 			return m_upgrade;
 		}

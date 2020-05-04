@@ -66,7 +66,7 @@ public class UpgradeDroneVision extends Upgrade {
 	
 	@Override
 	public String getDescription() {
-		return "<html><p style='color:black;text-align:center'>Activate the drone's ability to <b>go up and down in the sky</b>, allowing you to <b>see more</b> resources or enemies.</p></html>";
+		return "<html><p style='color:black;text-align:center'>Activate the drone's ability to <b>go up<br> and down in the sky</b>, allowing you <br>to <b>see more</b> resources or enemies.</p></html>";
 	}
 
 }

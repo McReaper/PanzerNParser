@@ -7,7 +7,6 @@ import info3.game.model.entities.Drone;
 
 public class UpgradeMarkersCount extends Upgrade {
 
-
 	private static final String NAME = "Higher markers count";
 	private static final int MINERALS_COST = 5;
 	private static final int ELECTRONICALS_COST = 10;
@@ -49,7 +48,7 @@ public class UpgradeMarkersCount extends Upgrade {
 	
 	@Override
 	public String getDescription() {
-		return "<html><p style='color:black;text-align:center'>Increases <b>the limit of markers</b> placed by the drone</p></html>";
+		return "<html><p style='color:black;text-align:center'>Increases <b>the limit of markers</b><br> placed by the drone.</p></html>";
 	}
 
 }

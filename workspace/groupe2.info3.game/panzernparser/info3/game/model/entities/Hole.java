@@ -12,7 +12,7 @@ public class Hole extends Ground {
 	}
 
 	@Override
-	public void Pop(MyDirection dir) {
+	public void Pop(MyDirection dir) {//Se creuse
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -23,6 +23,19 @@ public class Hole extends Ground {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
 			m_timeOfAction = TankBody.TANKBODY_POP_TIME;
+		}
+	}
+	@Override
+	public void Wizz(MyDirection dir) {//Grandi
+		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Wizz;
+			m_timeOfAction = GROUND_WIZZ_TIME;
+			m_width *=2;
+			m_height *=2;
 		}
 	}
 }

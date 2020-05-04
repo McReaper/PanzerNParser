@@ -17,18 +17,11 @@ public class EnemyBasic extends Enemy {
 	public static final int ENEMYBASIC_FOV = 4;
 
 	public static final long ENEMYBASIC_EGG_TIME = 1000;
-	public static final long ENEMYBASIC_GET_TIME = 1000;
 	public static final long ENEMYBASIC_HIT_TIME = 500;
-	public static final long ENEMYBASIC_JUMP_TIME = 1000;
 	public static final long ENEMYBASIC_EXPLODE_TIME = 1000;
 	public static final long ENEMYBASIC_MOVE_TIME = 1000;
-	public static final long ENEMYBASIC_PICK_TIME = 1000;
 	public static final long ENEMYBASIC_POP_TIME = 1000;
-	public static final long ENEMYBASIC_POWER_TIME = 1000;
-	public static final long ENEMYBASIC_PROTECT_TIME = 1000;
-	public static final long ENEMYBASIC_STORE_TIME = 1000;
 	public static final long ENEMYBASIC_TURN_TIME = 0;
-	public static final long ENEMYBASIC_THROW_TIME = 1000;
 	public static final long ENEMYBASIC_WAIT_TIME = 50;
 	public static final long ENEMYBASIC_WIZZ_TIME = 1000;
 
@@ -120,6 +113,33 @@ public class EnemyBasic extends Enemy {
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = ENEMYBASIC_EXPLODE_TIME;
 		}
+	}
+	
+	@Override
+	public void Wizz(MyDirection dir) {//Multiplie la vittesse par 2
+		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Wizz;
+			m_timeOfAction = ENEMYBASIC_WIZZ_TIME;
+			m_speed /=2;
+		}
+	}
+	
+
+	@Override
+	public void Pop(MyDirection dir) {//Multiplie les damage_dealt par 2
+		if (m_actionFinished && m_currentAction == LsAction.Pop) {
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Wizz;
+			m_timeOfAction = ENEMYBASIC_POP_TIME;
+			m_damage_dealt *=2;
+			}
 	}
 
 }

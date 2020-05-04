@@ -10,8 +10,8 @@ public class ShotSlow extends Shot {
 	public static final int SHOTSLOW_HEIGHT = 1;
 
 	public static final int SHOTSLOW_HEALTH = 100;
-	public static final int SHOTSLOW_SPEED = 2000;
-	public static final int SHOTSLOW_NUMBER_CASE_LIFE = 10;
+	public static final int SHOTSLOW_SPEED = 200;
+	public static final int SHOTSLOW_NUMBER_CASE_LIFE = 5;
 
 	public static final long SHOTSLOW_EXPLODE_TIME = 1000;
 	public static final long SHOTSLOW_MOVE_TIME = 200;
@@ -25,11 +25,15 @@ public class ShotSlow extends Shot {
 		m_health = SHOTSLOW_HEALTH;
 		m_damage_dealt = SHOTSLOW_DAMAGE_DEALT;
 		m_speed = SHOTSLOW_SPEED;
+		m_nbCaseLeft = SHOTSLOW_NUMBER_CASE_LIFE *2;//car on appelle 2 fois la fonction move qui décrémente ce nombre
 	}
 	
 	@Override
 	public void Move(MyDirection dir) {
-		m_health -= SHOTSLOW_NUMBER_CASE_LIFE / 2; // TODO : revoir pour la durer de vie des balles dans les diagonales
+		m_nbCaseLeft --;
+		if (m_nbCaseLeft <=0) {
+			m_health = 0;
+		}
 		super.Move(dir);
 	}
 

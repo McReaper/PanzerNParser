@@ -18,7 +18,7 @@ public class EnemyBasic extends Enemy {
 
 	public static final long ENEMYBASIC_EGG_TIME = 1000;
 	public static final long ENEMYBASIC_HIT_TIME = 500;
-	public static final long ENEMYBASIC_EXPLODE_TIME = 1000;
+	public static final long ENEMYBASIC_EXPLODE_TIME = 50;
 	public static final long ENEMYBASIC_MOVE_TIME = 1000;
 	public static final long ENEMYBASIC_POP_TIME = 1000;
 	public static final long ENEMYBASIC_TURN_TIME = 0;

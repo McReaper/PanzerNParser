@@ -27,7 +27,7 @@ public class Turret extends StaticEntity {
 	public static final long TURRET_HIT_TIME = 500;
 	public static final long TURRET_POP_TIME = 500;
 	public static final long TURRET_TURN_TIME = 200;
-	public static final long TURRET_WAIT_TIME = 0;
+	public static final long TURRET_WAIT_TIME = 10;
 	
 	public static final int TURRET_NB_WEAPONS_MAX = 3;
 	public static final int TURRET_NB_WEAPONS_DISPO_INIT = 1;
@@ -132,6 +132,17 @@ public class Turret extends StaticEntity {
 			System.out.println("La turret recharge");
 			m_timeOfAction = m_currentWeapon.getReloadTime();
 			m_currentWeapon.reload();
+		}
+	}
+	
+	public void Wait() {
+		if (m_actionFinished && m_currentAction == LsAction.Wait) {
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = null;
+			m_currentAction = LsAction.Wait;
+			m_timeOfAction = TURRET_WAIT_TIME;
 		}
 	}
 

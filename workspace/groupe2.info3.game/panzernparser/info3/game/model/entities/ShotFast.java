@@ -25,11 +25,15 @@ public class ShotFast extends Shot {
 		m_health = SHOTFAST_HEALTH;
 		m_damage_dealt = SHOTFAST_DAMAGE_DEALT;
 		m_speed = SHOTFAST_SPEED;
+		m_nbCaseLeft = SHOTFAST_NUMBER_CASE_LIFE;
 	}
 
 	@Override
 	public void Move(MyDirection dir) {
-		m_health -= SHOTFAST_NUMBER_CASE_LIFE / 2; // TODO : revoir pour la durer de vie des balles dans les diagonales
+		m_nbCaseLeft --;
+		if (m_nbCaseLeft <=0) {
+			m_health = 0;
+		}
 		super.Move(dir);
 	}
 	

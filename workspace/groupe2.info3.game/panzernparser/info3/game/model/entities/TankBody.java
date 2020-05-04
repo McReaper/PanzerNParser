@@ -25,7 +25,7 @@ public class TankBody extends MovingEntity {
 
 	public static final long TANKBODY_EXPLODE_TIME = 1000;
 	public static final long TANKBODY_MOVE_TIME = 800;
-	public static final long TANKBODY_PICK_TIME = 50;
+	public static final long TANKBODY_PICK_TIME = 0;
 	public static final long TANKBODY_POP_TIME = 1000;
 	public static final long TANKBODY_TURN_TIME = 0;
 	public static final long TANKBODY_WAIT_TIME = 50;

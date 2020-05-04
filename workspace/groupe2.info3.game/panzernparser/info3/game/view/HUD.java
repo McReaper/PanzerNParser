@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
-import java.util.Hashtable;
 import java.util.LinkedList;
 
 import javax.swing.AbstractButton;
@@ -40,16 +39,12 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.Tank;
-import info3.game.model.Upgrade;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory.MyEntities;
-<<<<<<< HEAD
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
-=======
 import info3.game.model.upgrades.Upgrade;
->>>>>>> dev
 
 public class HUD {
 
@@ -80,7 +75,6 @@ public class HUD {
 	JLabel m_ammo;
 	CompassWidget m_compass;
 	JPanel m_upgrade;
-	Hashtable<Upgrade, JButton> m_availableUpgrades;
 	LinkedList<UpgradeButton> m_statButtons;
 	LinkedList<UpgradeButton> m_uniqButtons;
 

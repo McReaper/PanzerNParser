@@ -1,5 +1,8 @@
-package info3.game.model;
+package info3.game.model.upgrades;
 
+import info3.game.model.Inventory;
+import info3.game.model.MaterialType;
+import info3.game.model.Tank;
 import info3.game.model.entities.Drone;
 
 public abstract class Upgrade {
@@ -37,10 +40,8 @@ public abstract class Upgrade {
 	/**
 	 * Vérifie si l'amélioration visée est disponible à l'achat. En vérifiant
 	 * l'inventaire du joueur par exemple.
-	 * 
-	 * @throws IllegalAccess si l'amélioration visée n'est pas unique.
 	 */
-	public boolean isAvaible() throws IllegalAccessException {
+	public boolean isAvaible() {
 		if (m_tank.getLevel() < m_level) return false;
 		Inventory inv = m_tank.getInventory();
 		return (inv.possesses(MaterialType.MINERAL, getCostMine()) && inv.possesses(MaterialType.ELECTRONIC, getCostElec()));

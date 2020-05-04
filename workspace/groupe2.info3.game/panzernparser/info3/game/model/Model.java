@@ -11,6 +11,12 @@ import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
+import info3.game.model.upgrades.Upgrade;
+import info3.game.model.upgrades.UpgradeAutomaticSubmachine;
+import info3.game.model.upgrades.UpgradeDroneUsage;
+import info3.game.model.upgrades.UpgradeDroneVision;
+import info3.game.model.upgrades.UpgradeMarkersCount;
+import info3.game.model.entities.Marker;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
 

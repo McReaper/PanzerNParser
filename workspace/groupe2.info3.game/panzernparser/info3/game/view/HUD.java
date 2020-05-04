@@ -44,8 +44,12 @@ import info3.game.model.Upgrade;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory.MyEntities;
+<<<<<<< HEAD
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
+=======
+import info3.game.model.upgrades.Upgrade;
+>>>>>>> dev
 
 public class HUD {
 

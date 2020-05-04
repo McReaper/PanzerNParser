@@ -2,6 +2,7 @@ package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
 import info3.game.automaton.MyCategory;
+import info3.game.automaton.action.LsAction;
 
 public class Wall extends StaticEntity{
 
@@ -24,7 +25,7 @@ public class Wall extends StaticEntity{
 	public static final long WALL_STORE_TIME = 1000;
 	public static final long WALL_TURN_TIME = 1000;
 	public static final long WALL_THROW_TIME = 1000;
-	public static final long WALL_WAIT_TIME = 5000;
+	public static final long WALL_WAIT_TIME = 4000;
 	public static final long WALL_WIZZ_TIME = 1000;
 	
 	
@@ -33,4 +34,16 @@ public class Wall extends StaticEntity{
 		this.setCategory(MyCategory.O);
 	}
 
+	@Override
+	public void Wait() {
+		if (m_actionFinished && m_currentAction == LsAction.Wait) {
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = null;
+			m_currentAction = LsAction.Wait;
+			m_timeOfAction = WALL_WAIT_TIME;
+		}
+	}
+	
 }

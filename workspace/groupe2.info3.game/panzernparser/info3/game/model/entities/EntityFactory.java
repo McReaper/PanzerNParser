@@ -42,8 +42,8 @@ public class EntityFactory {
 	
 
 	public static Entity newWreckTank(int x, int y, Automaton aut) {
-		Entity hole = new WreckTank(x, y, aut);
-		return hole;
+		Entity wreck = new WreckTank(x, y, aut);
+		return wreck;
 	}
 
 	public static Entity newHole(int x, int y, Automaton aut) {
@@ -188,6 +188,8 @@ public class EntityFactory {
 			return MyEntities.TankBody;
 		} else if (e instanceof Turret) {
 			return MyEntities.Turret;
+		} else if (e instanceof WreckTank) {
+			return MyEntities.WreckTank;
 		} else {
 			throw new IllegalArgumentException("Entité non reconnue !");
 		}

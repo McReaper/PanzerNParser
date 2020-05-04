@@ -60,7 +60,6 @@ public class Turret extends StaticEntity {
 		m_weapons = new Weapon[TURRET_NB_WEAPONS_MAX];
 		initTabsWeapons();
 		m_currentWeapon = m_weapons[0];
-		System.out.println("m_stuff = "+ m_stuff);
 	}
 
 	private void initTabsWeapons() {

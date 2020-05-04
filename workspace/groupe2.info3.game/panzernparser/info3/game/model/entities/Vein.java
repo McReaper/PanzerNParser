@@ -41,6 +41,12 @@ public class Vein extends StaticEntity {
 	}
 
 	@Override
+	public boolean isShown() {
+		// TODO update en fonction des sprites dispo
+		return (Model.getModel().getVisionType() == VisionType.RESSOURCES);
+	}
+	
+	@Override
 	public void Egg(MyDirection dir) {
 		// On ignore dir ici (tout le temps HERE)...
 		if (m_actionFinished && m_currentAction == LsAction.Egg) {
@@ -72,11 +78,5 @@ public class Vein extends StaticEntity {
 			}
 			Model.getModel().getScore().scoreVein();
 		}
-	}
-
-	@Override
-	public void step(long elapsed) {
-		m_displayed = (Model.getModel().getVisionType() == VisionType.RESSOURCES);
-		super.step(elapsed);
 	}
 }

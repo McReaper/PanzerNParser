@@ -14,6 +14,9 @@ import info3.game.model.Model;
 
 public abstract class Entity {
 
+	private final static int MAX_RANGE = 14;
+	private final static int MIN_RANGE = 7;
+
 	final static int DEFAULT_MOVING_DISTANCE = 1;
 
 	public static final long DEFAULT_EGG_TIME = 1000;
@@ -33,7 +36,7 @@ public abstract class Entity {
 	public static final long DEFAULT_WIZZ_TIME = 1000;
 	public static final int DEFAULT_RANGE = 6;
 	public static final int DEFAULT_HEALTH = 100;
-	public static final int DEFAULT_DAMMAGE_DEALT = 100;
+	public static final int DEFAULT_DAMAGE_DEALT = 100;
 
 	protected long m_elapseTime;
 	protected LsAction m_currentAction;
@@ -54,8 +57,9 @@ public abstract class Entity {
 	protected int m_level;
 	protected int m_maxHealth;
 	protected int m_health;
-	protected int m_dammage_dealt;
+	protected int m_damage_dealt;
 	protected int m_speed;
+	protected LinkedList<MyCategory> m_uncrossables;
 
 	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
@@ -78,8 +82,10 @@ public abstract class Entity {
 
 		m_currentLookAtDir = MyDirection.NORTH; // par défaut
 		m_currentActionDir = null; // par défaut
-
-		m_dammage_dealt = DEFAULT_DAMMAGE_DEALT;
+		m_uncrossables = new LinkedList<MyCategory>();
+		m_uncrossables.add(MyCategory.AT);// Tank jamais traversable
+		m_uncrossables.add(MyCategory.O);// Mur pas traversable mais eventuellement destructible
+		m_damage_dealt = DEFAULT_DAMAGE_DEALT;
 
 	}
 
@@ -147,8 +153,8 @@ public abstract class Entity {
 		}
 	}
 
-	public void collide(int dammage) {
-		m_health -= dammage;
+	public void collide(int damage) {
+		m_health -= damage;
 	}
 
 	public double getActionProgress() {
@@ -235,8 +241,16 @@ public abstract class Entity {
 		return m_range;
 	}
 
-	public int getDammageDealt() {
-		return m_dammage_dealt;
+	public void growViewPort() {
+		if (m_range < MAX_RANGE) m_range++;
+	}
+
+	public void reduceViewPort() {
+		if (m_range > MIN_RANGE) m_range--;
+	}
+
+	public int getDamageDealt() {
+		return m_damage_dealt;
 	}
 
 	//// METHODES DE L'AUTOMATE ////
@@ -310,6 +324,8 @@ public abstract class Entity {
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			MyDirection absoluteDir = MyDirection.toAbsolute(m_currentActionDir, dir);
+			if (!checkMove(absoluteDir))
+				return;
 			switch (absoluteDir) {
 				case NORTH:
 				case EAST:
@@ -481,6 +497,132 @@ public abstract class Entity {
 			return m_currentLookAtDir.equals(dir);
 		}
 		return false;
+	}
+
+	boolean checkMove(MyDirection dir) {
+		Grid grid = Model.getModel().getGrid();
+		int x = m_x;
+		int y = m_y;
+		switch (dir) {
+			case NORTH:
+				y = y - 1;
+				for (int i = 0; i < this.getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case EAST:
+				x = x + getWidth();
+				for (int i = 0; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case WEST:
+				x = x - 1;
+				for (int i = 0; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
+				return true;
+			case SOUTH:
+				y = y + getHeight();
+				for (int i = 0; i < this.getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case NORTHEAST:
+				y = y - 1;
+				for (int i = 1; i < this.getWidth() + 1; i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				x = x + getWidth();
+				for (int i = 1; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case NORTHWEST:
+				y = y - 1;
+				x = x - 1;
+				for (int i = 0; i < getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				for (int i = 1; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
+				return true;
+			case SOUTHEAST:
+				y = y + getWidth();
+				x = x + getHeight();
+				for (int i = 0; i < getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x - i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				for (int i = 1; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y - i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
+				return true;
+			case SOUTHWEST:
+				x = x - 1;
+				for (int i = 1; i < this.getHeight() + 1; i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
+
+				y = y + getHeight();
+				for (int i = 1; i < this.getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+		}
+		return true;
 	}
 
 	/**
@@ -670,7 +812,7 @@ public abstract class Entity {
 	public boolean GotStuff() {
 		return m_stuff;
 	}
-
+	
 	/**
 	 * Pour une direction donnée `dir` par rapport à l'entité, on regarde en
 	 * fonction de sa distance de vue si la catégorie `type` la plus proche donnée
@@ -1073,6 +1215,10 @@ public abstract class Entity {
 
 	public int getMaxHealth() {
 		return m_maxHealth;
+	}
+	
+	public void setMaxHealth(int maxHealth) {
+		m_maxHealth = maxHealth;
 	}
 
 	public int getLevel() {

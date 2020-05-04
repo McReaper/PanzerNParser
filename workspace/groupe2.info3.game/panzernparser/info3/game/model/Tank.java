@@ -25,6 +25,7 @@ public class Tank {
 	private Turret m_turret;
 	private Inventory m_inventory;
 	private int m_health;
+	private int m_maxHealth;
 
 	public Tank(TankBody body, Turret turret) {
 		m_body = body;
@@ -32,6 +33,8 @@ public class Tank {
 		m_body.setTank(this);
 		m_turret.setTank(this);
 		m_inventory = new Inventory();
+		m_health = TANK_HEALTH;
+		m_maxHealth = TANK_HEALTH;
 	}
 
 	public boolean hasControl() {
@@ -55,6 +58,8 @@ public class Tank {
 		}
 	}
 
+	////////////////// GETTERS AND SETTERS/////////////////////
+
 	public TankBody getBody() {
 		return m_body;
 	}
@@ -75,17 +80,63 @@ public class Tank {
 	public void setLife(int tankHealth) {
 		m_health = tankHealth;
 	}
-	
+
 	public int getLife() {
 		return m_health;
 	}
 
-	public void getDamages(int damages) {
+	public int getMaxLife() {
+		return m_maxHealth;
+	}
+
+	public void setMaxLife(int maxLife) {
+		m_maxHealth = maxLife;
+	}
+
+	public void takeDamage(int damages) {
 		m_health -= damages;
+	}
+	
+	public int getDamage() {
+		return 0; // TODO
+		//return m_turret.getDamage();
+	}
+	
+	public void setDamage(int dmg) {
+		//TODO
+		//m_turret.setDamage(dmg);
+	}
+
+	public int getSpeed() {
+		return 0; // TODO
+		//return m_body.getSpeed(); 
+	}
+
+	public void setSpeed(int val) {
+		// TODO
+		//m_body.setSpeed(val);
 	}
 
 	public boolean gotPower() {
 		return m_health > 0;
+	}
+
+	public int getMaxAmmo() {
+		return 0; //TODO
+		//return m_turret.getMaxAmmo();
+	}
+
+	public void setMaxAmmo(int val) {
+		// TODO
+		//m_turret.setMaxAmmo(val);
+	}
+
+	public long getMiningTime() {
+		return m_body.getMiningTime();
+	}
+
+	public void setMiningTime(long t) {
+		m_body.setMiningTime(t);
 	}
 
 	///// METHODES POUR LA VUE /////

@@ -2,61 +2,58 @@ package info3.game.model;
 
 import java.util.LinkedList;
 
+import info3.game.automaton.MyCategory;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory.MyEntities;
 import info3.game.model.entities.MovingEntity;
 import info3.game.model.entities.Shot;
+import info3.game.model.entities.TankBody;
+import info3.game.model.entities.Turret;
 
 public class CollisionManager {
 
 	public CollisionManager() {
 	}
 
+	public void controlCollisions() {
+		controlCollisionsShotsEntity();
+
+	}
+
 	public void controlCollisionsShotsEntity() {
+		controlCollisionsShot(MyEntities.ShotSlow);
+		controlCollisionsShot(MyEntities.ShotFast);
+		controlCollisionsShot(MyEntities.ShotBig);
+	}
+
+	public void controlCollisionsShot(MyEntities s) {
+		if (s != MyEntities.ShotBig && s != MyEntities.ShotFast && s != MyEntities.ShotSlow)
+			return;
 		// Regardons si les shots touches quelque chose
 		LinkedList<Entity> shots;
-		LinkedList<Entity> enemy;
-		LinkedList<Entity> tankPlayer;
-
-		shots = Model.getModel().getEntities(MyEntities.Shot);
-		enemy = Model.getModel().getEntities(MyEntities.Enemy);
-		tankPlayer = Model.getModel().getEntities(MyEntities.TankBody);
+		shots = Model.getModel().getEntities(s);
 		for (Entity entShot : shots) {
 
 			// verifie si le shot est encore encore en vie
 			if (entShot.getCurrentAction() != LsAction.Explode) {
 				// regarde si le shot traverse un enemy
-				for (Entity entEnemy : enemy) {
-					/*
-					 * si c'est l'entité qui l'a tiré il ne peut pas collider avec pour éviter les
-					 * problèmes d'explosion alors qu'il est meme pas sorti du canon
-					 */
-					if (!entEnemy.equals(((Shot) entShot).getOwner())) {
-
-						if (entEnemy.isInMe(entShot.getX(), entShot.getY())) {
-							((MovingEntity) entEnemy).collide(entShot.getDammageDealt());
-							((MovingEntity) entShot).collide(entEnemy.getDammageDealt());
-						}
-					}
-
-				}
-
-				for (Entity entPlayer : tankPlayer) {
-					/*
-					 * si c'est l'entité qui l'a tiré il ne peut pas collider avec pour éviter les
-					 * problèmes d'explosion alors qu'il est meme pas sorti du canon
-					 */
-					if (!entPlayer.equals(((Shot) entShot).getOwner())) {
-
-						if (entPlayer.isInMe(entShot.getX(), entShot.getY())) {
-							((MovingEntity) entPlayer).collide(entShot.getDammageDealt());
-							((MovingEntity) entShot).collide(entPlayer.getDammageDealt());
+				for (int i = entShot.getX(); i < entShot.getX() + entShot.getWidth(); i++) {
+					for (int j = entShot.getY(); j < entShot.getY() + entShot.getHeight(); j++) {
+						LinkedList<Entity> entities = Model.getModel().getGrid().getEntityCell(i, j);
+						for (Entity entity : entities) {
+							if (entity != entShot && entity != ((Shot) entShot).getOwner()) {
+								if (entity.getCategory() == MyCategory.AT || entity.getCategory() == MyCategory.A
+										|| entity.getCategory() == MyCategory.O) {
+									entShot.collide(entity.getDamageDealt());
+									entity.collide(entShot.getDamageDealt());
+								}
+							}
 						}
 					}
 				}
-
 			}
 		}
 	}
+
 }

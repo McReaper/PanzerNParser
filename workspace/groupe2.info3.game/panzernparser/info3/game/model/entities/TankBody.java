@@ -41,15 +41,17 @@ public class TankBody extends MovingEntity {
 	public static final int TANKBODY_DAMMAGE_DEALT = 100;
 
 	private Tank m_tank;
+	private long m_miningTime;
 
 	public TankBody(int x, int y, Automaton aut) {
 		super(x, y, TANKBODY_WIDTH, TANKBODY_HEIGHT, aut);
 		m_maxHealth = TANKBODY_HEALTH;
+		m_health = TANKBODY_HEALTH;
 		m_tank = null;
 		m_category = MyCategory.AT;
 		m_level = 1;
-		m_dammage_dealt = TANKBODY_DAMMAGE_DEALT;
 		m_speed = TANKBODY_SPEED;
+		m_miningTime = TANKBODY_POP_TIME;
 	}
 
 	@Override
@@ -83,7 +85,7 @@ public class TankBody extends MovingEntity {
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
-			m_timeOfAction = TANKBODY_POP_TIME;
+			m_timeOfAction = m_miningTime;
 			int posX = getXCaseDir(dir);
 			int posY = getYCaseDir(dir);
 			Entity hole = EntityFactory.newEntity(MyEntities.Hole, posX, posY);
@@ -112,9 +114,12 @@ public class TankBody extends MovingEntity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			m_currentActionDir = dir;
-			m_currentAction = LsAction.Wizz;
-			m_timeOfAction = TANKBODY_WIZZ_TIME;
+			Drone d = Model.getModel().getDrone();
+			if (d.getHealth() >= d.getMaxHealth() / 5) {
+				m_currentActionDir = dir;
+				m_currentAction = LsAction.Wizz;
+				m_timeOfAction = TANKBODY_WIZZ_TIME;
+			}
 		}
 	}
 
@@ -150,7 +155,7 @@ public class TankBody extends MovingEntity {
 					for (Entity entity : e) {
 						if (entity instanceof Marker) {
 							Model.getModel().removeEntity(entity);
-							Model.getModel().getDrone().m_nbMarkers--;
+							Model.getModel().getDrone().decreaseMarksNb();;
 						} else if (entity instanceof Droppable) {
 							m_tank.getInventory().add((Droppable) entity);
 							Model.getModel().removeEntity(entity);
@@ -180,8 +185,21 @@ public class TankBody extends MovingEntity {
 	}
 
 	@Override
+	public int getMaxHealth() {
+		return m_tank.getMaxLife();
+	}
+
+	@Override
 	public boolean GotPower() {
 		return m_tank.gotPower();
+	}
+
+	public long getMiningTime() {
+		return m_miningTime;
+	}
+	
+	public void setMiningTime(long time) {
+		m_miningTime = time;
 	}
 
 }

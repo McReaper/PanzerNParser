@@ -47,7 +47,7 @@ public class Turret extends StaticEntity {
 	public Turret(int x, int y, Automaton aut) {
 		super(x, y, TURRET_WIDTH, TURRET_HEIGHT, aut);
 		m_tank = null;
-		m_category = MyCategory.AT;
+		m_category = MyCategory.V;
 		m_typeGun = GUN_BULLET_SLOW;
 		m_nbGun = 3;
 	}
@@ -74,23 +74,27 @@ public class Turret extends StaticEntity {
 			// creation du shot en fonction de l'arme
 			int pos_x = m_x;
 			int pos_y = m_y;
+			Entity ent;
 			switch (m_typeGun) {
 				case GUN_BIG_BULLET:
 					pos_x = m_x + m_width / 2 - ShotBig.SHOTBIG_WIDTH / 2;
 					pos_y = m_y + m_height / 2 - ShotBig.SHOTBIG_HEIGHT / 2;
+					ent = EntityFactory.newEntity(MyEntities.ShotBig, pos_x, pos_y);
 					break;
 				case GUN_BULLET_FAST:
 					pos_x = m_x + m_width / 2 - ShotFast.SHOTFAST_WIDTH / 2;
 					pos_y = m_y + m_height / 2 - ShotFast.SHOTFAST_HEIGHT / 2;
+					ent = EntityFactory.newEntity(MyEntities.ShotFast, pos_x, pos_y);
 					break;
 				case GUN_BULLET_SLOW:
 					pos_x = m_x + m_width / 2 - ShotSlow.SHOTSLOW_WIDTH / 2;
 					pos_y = m_y + m_height / 2 - ShotSlow.SHOTSLOW_HEIGHT / 2;
+					ent = EntityFactory.newEntity(MyEntities.ShotSlow, pos_x, pos_y);
+					default :
+						ent = EntityFactory.newEntity(MyEntities.ShotSlow, pos_x, pos_y);
 					break;
 
 			}
-			Entity ent = EntityFactory.newEntityShot(MyEntities.Shot, pos_x, pos_y, m_typeGun);
-
 			// Donne la direction de regard et d'action
 			ent.setLookDir(MyDirection.toAbsolute(this.m_currentLookAtDir, dir));
 			ent.setActionDir(MyDirection.toAbsolute(this.m_currentActionDir, dir));

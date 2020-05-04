@@ -1,5 +1,6 @@
 package info3.game.view;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -33,6 +34,15 @@ public class EnemyAvatar extends Avatar {
 			x = progressivePaintX(e_absoluteActionDir, x, progress, case_width);
 			y = progressivePaintY(e_absoluteActionDir, y, progress, case_height);
 		}
+		
+		int maxHealth = entity.getMaxHealth();
+		int health = entity.getHealth();
+		double percent = (double)health/(double)maxHealth;
+		System.out.println(maxHealth + " " + health + " " + percent);
+		g.setColor(Color.BLACK);
+		g.fillRect(x, y-10, width, 5);
+		g.setColor(Color.RED);
+		g.fillRect(x, y-10, (int)(width*percent), 5);
 		
 		Image sprite;
 		if (e_currAction != LsAction.Hit) {

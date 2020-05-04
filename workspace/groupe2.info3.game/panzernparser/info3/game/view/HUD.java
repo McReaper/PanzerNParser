@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -79,16 +82,14 @@ public class HUD {
 	LinkedList<UpgradeButton> m_uniqButtons;
 
 	public HUD(View view) {
-		ToolTipManager.sharedInstance().setInitialDelay(0);
-		UIManager.put("ToolTip.background", new Color(45, 105, 45));
-		LineBorder tooltipBorder = (LineBorder) BorderFactory.createLineBorder(Color.BLACK);
-		UIManager.put("ToolTip.border", tooltipBorder);
-
 		m_view = view;
+		
+		initiateToolTip();
 
 		// La font des futurs labels
 		Font fontWest = new Font(null, 0, 15);
 
+		// Panel West
 		m_West = new JPanel();
 		m_West.setBackground(Color.DARK_GRAY);
 		m_West.setPreferredSize(new Dimension(120, 150));
@@ -258,7 +259,7 @@ public class HUD {
 		// Zone des stats
 		JPanel Stats = new JPanel();
 		Stats.setBackground(Color.DARK_GRAY);
-		Stats.setLayout(new BoxLayout(Stats,BoxLayout.Y_AXIS));
+		Stats.setLayout(new BoxLayout(Stats, BoxLayout.Y_AXIS));
 		Dimension statsDimension = new Dimension(120, 130);
 		Stats.setMaximumSize(statsDimension);
 		Stats.setPreferredSize(new Dimension(120, 90));
@@ -348,19 +349,25 @@ public class HUD {
 			m_statButtons.add(upgradeButton);
 		}
 
+		// Layout mananger des boutons
+		GridBagLayout gbl = new GridBagLayout();
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.insets = new Insets(5, 0, 5, 0);
+
 		// Espace bouton
 		JPanel statUpgrade = new JPanel();
-		statUpgrade.setPreferredSize(new Dimension(110, 500));
 		statUpgrade.setBackground(Color.DARK_GRAY);
+		statUpgrade.setLayout(gbl);
 
 		for (JButton jButton : m_statButtons) {
-			statUpgrade.add(jButton);
+			statUpgrade.add(jButton, gbc);
 		}
 
 		// Le scrollPane
 		JScrollPane statScrollButton = new JScrollPane(statUpgrade);
 		statScrollButton.setPreferredSize(new Dimension(110, 300));
-		statScrollButton.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		statScrollButton.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		statScrollButton.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		statScrollButton.setBackground(Color.DARK_GRAY);
 
@@ -373,17 +380,17 @@ public class HUD {
 
 		// Espace bouton
 		JPanel uniqUpgrade = new JPanel();
-		uniqUpgrade.setPreferredSize(new Dimension(110, 500));
 		uniqUpgrade.setBackground(Color.DARK_GRAY);
+		uniqUpgrade.setLayout(gbl);
 
 		for (JButton jButton : m_uniqButtons) {
-			uniqUpgrade.add(jButton);
+			uniqUpgrade.add(jButton, gbc);
 		}
 
 		// Le scrollPane
 		JScrollPane uniqScrollButton = new JScrollPane(uniqUpgrade);
 		uniqScrollButton.setPreferredSize(new Dimension(110, 300));
-		uniqScrollButton.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		uniqScrollButton.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		uniqScrollButton.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		uniqScrollButton.setBackground(Color.DARK_GRAY);
 
@@ -540,7 +547,14 @@ public class HUD {
 		refreshHUD();
 	}
 
-//TODO
+	private void initiateToolTip() {
+		ToolTipManager.sharedInstance().setInitialDelay(0);
+		UIManager.put("ToolTip.background", new Color(45, 105, 45));
+		LineBorder tooltipBorder = (LineBorder) BorderFactory.createLineBorder(Color.BLACK);
+		UIManager.put("ToolTip.border", tooltipBorder);
+	}
+
+	// TODO
 	public void refreshHUD() {
 		Model model = Model.getModel();
 		Tank tank = model.getTank();

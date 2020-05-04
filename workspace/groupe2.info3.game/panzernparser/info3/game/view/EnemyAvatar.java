@@ -38,7 +38,6 @@ public class EnemyAvatar extends Avatar {
 		int maxHealth = entity.getMaxHealth();
 		int health = entity.getHealth();
 		double percent = (double)health/(double)maxHealth;
-		System.out.println(maxHealth + " " + health + " " + percent);
 		g.setColor(Color.BLACK);
 		g.fillRect(x, y-10, width, 5);
 		g.setColor(Color.RED);

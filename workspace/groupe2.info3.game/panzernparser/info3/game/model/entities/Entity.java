@@ -188,7 +188,7 @@ public abstract class Entity {
 		else
 			throw new IllegalStateException("setState null");
 	}
-
+	
 	public void setStuff(boolean bool) {
 		m_stuff = bool;
 	}
@@ -242,13 +242,11 @@ public abstract class Entity {
 	}
 
 	public void growViewPort() {
-		if (m_range < MAX_RANGE)
-			m_range++;
+		if (m_range < MAX_RANGE) m_range++;
 	}
 
 	public void reduceViewPort() {
-		if (m_range > MIN_RANGE)
-			m_range--;
+		if (m_range > MIN_RANGE) m_range--;
 	}
 
 	public int getDamageDealt() {
@@ -501,69 +499,130 @@ public abstract class Entity {
 		return false;
 	}
 
-	private boolean checkMoveOrthogonalDir(MyDirection dir) {
+	boolean checkMove(MyDirection dir) {
 		Grid grid = Model.getModel().getGrid();
 		int x = m_x;
 		int y = m_y;
-		int i_factor_y = 0;
-		int i_factor_x = 0;
-		int i_limit = 0;
-
 		switch (dir) {
 			case NORTH:
-				i_factor_x = 1;
 				y = y - 1;
-				i_limit = getWidth();
-				break;
+				for (int i = 0; i < this.getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
 			case EAST:
-				i_factor_y = 1;
 				x = x + getWidth();
-				i_limit = getHeight();
-				break;
-			case SOUTH:
-				i_factor_x = 1;
-				y = y + getHeight();
-				i_limit = getWidth();
-				break;
+				for (int i = 0; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
 			case WEST:
-				i_factor_y = 1;
 				x = x - 1;
-				i_limit = getHeight();
-				break;
-			default:
-				return false;
-		}
+				for (int i = 0; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
+				return true;
+			case SOUTH:
+				y = y + getHeight();
+				for (int i = 0; i < this.getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case NORTHEAST:
+				y = y - 1;
+				for (int i = 1; i < this.getWidth() + 1; i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				x = x + getWidth();
+				for (int i = 1; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case NORTHWEST:
+				y = y - 1;
+				x = x - 1;
+				for (int i = 0; i < getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				for (int i = 1; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
+				return true;
+			case SOUTHEAST:
+				y = y + getWidth();
+				x = x + getHeight();
+				for (int i = 0; i < getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x - i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				for (int i = 1; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y - i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
+				return true;
+			case SOUTHWEST:
+				x = x - 1;
+				for (int i = 1; i < this.getHeight() + 1; i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
 
-		for (int i = 0; i < i_limit; i++) {
-			LinkedList<Entity> listEntity = grid.getEntityCell(x + (i * i_factor_x), y + (i * i_factor_y));
-			for (Entity entity : listEntity) {
-				if (m_uncrossables.contains(entity.getCategory()))
-					return false;
-			}
+				y = y + getHeight();
+				for (int i = 1; i < this.getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
 		}
 		return true;
-	}
-
-	boolean checkMove(MyDirection dir) {
-		MyDirection absDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
-
-		switch (absDir) {
-			case NORTH:
-			case EAST:
-			case SOUTH:
-			case WEST:
-				return checkMoveOrthogonalDir(absDir);
-			case NORTHEAST:
-				return checkMoveOrthogonalDir(MyDirection.NORTH) && checkMoveOrthogonalDir(MyDirection.EAST);
-			case NORTHWEST:
-				return checkMoveOrthogonalDir(MyDirection.NORTH) && checkMoveOrthogonalDir(MyDirection.WEST);
-			case SOUTHEAST:
-				return checkMoveOrthogonalDir(MyDirection.SOUTH) && checkMoveOrthogonalDir(MyDirection.EAST);
-			case SOUTHWEST:
-				return checkMoveOrthogonalDir(MyDirection.NORTH) && checkMoveOrthogonalDir(MyDirection.WEST);
-			default:
-				return false;
-		}
 	}
 
 	/**
@@ -753,7 +812,7 @@ public abstract class Entity {
 	public boolean GotStuff() {
 		return m_stuff;
 	}
-
+	
 	/**
 	 * Pour une direction donnée `dir` par rapport à l'entité, on regarde en
 	 * fonction de sa distance de vue si la catégorie `type` la plus proche donnée
@@ -1091,58 +1150,59 @@ public abstract class Entity {
 		}
 		return inX && inY;
 	}
-
+	
+	
 	/*
 	 * Fonction qui donne la coord x de la case devant dans la direction dir
-	 * ATTENTION ne donne pas de coordonée pour la dir HERE, cas a gérer à l'appel
-	 * de cette fonction
+	 * ATTENTION ne donne pas de coordonée pour la dir HERE,
+	 * cas a gérer à l'appel de cette fonction
 	 */
 	public int getXCaseDir(MyDirection dir) {
 		int posX = 0;
 		MyDirection AbsoluteDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
 		switch (AbsoluteDir) {
 			case NORTH:
-			case SOUTH:
-				posX = m_x + (m_width - 1) / 2;// ce sera un peu décalé vers la gauche si m_width est pair
+			case SOUTH : 
+				posX = m_x + (m_width -1)/2;//ce sera un peu décalé vers la gauche si m_width est pair
 				break;
-			case EAST:
+			case EAST : 
 			case NORTHEAST:
 			case SOUTHEAST:
 				posX = m_x + m_width;
 				break;
-			case WEST:
-			case NORTHWEST:
-			case SOUTHWEST:
+			case WEST : 
+			case NORTHWEST :
+			case SOUTHWEST :
 				posX = m_x - 1;
 				break;
 		}
 		return posX;
-
+		
 	}
-
+	
 	public int getYCaseDir(MyDirection dir) {
-		int posY = 0;
+		int posY =0;
 		MyDirection AbsoluteDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
 		switch (AbsoluteDir) {
 			case NORTH:
 			case NORTHEAST:
 			case NORTHWEST:
-				posY = m_y - 1;
+				posY = m_y -1;
 				break;
-			case SOUTH:
-			case SOUTHEAST:
-			case SOUTHWEST:
+			case SOUTH :
+			case SOUTHEAST : 
+			case SOUTHWEST :
 				posY = m_y + m_width;
 				break;
-			case EAST:
-				posY = m_y + (m_height - 1) / 2;// ce sera un peu décalé vers le haut si m_height est pair
+			case EAST : 
+				posY = m_y + (m_height -1)/2;//ce sera un peu décalé vers le haut si m_height est pair
 				break;
-			case WEST:
-				posY = m_y + (m_height - 1) / 2;// ce sera un peu décalé vers le haut si m_height est pair
+			case WEST : 
+				posY = m_y + (m_height -1)/2;//ce sera un peu décalé vers le haut si m_height est pair
 				break;
 		}
 		return posY;
-
+		
 	}
 
 	public boolean Key(LsKey m_key) {
@@ -1156,7 +1216,7 @@ public abstract class Entity {
 	public int getMaxHealth() {
 		return m_maxHealth;
 	}
-
+	
 	public void setMaxHealth(int maxHealth) {
 		m_maxHealth = maxHealth;
 	}
@@ -1166,7 +1226,7 @@ public abstract class Entity {
 	}
 
 	public boolean GotPower() {
-		return m_health > 0;
+		return m_health >0;
 	}
 
 }

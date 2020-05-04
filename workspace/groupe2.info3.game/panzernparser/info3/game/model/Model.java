@@ -11,7 +11,6 @@ import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
-import info3.game.model.entities.Marker;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
 
@@ -35,6 +34,7 @@ public class Model {
 	private LinkedList<String> m_soundsToPlay;
 	private LinkedList<Upgrade> m_statUpgrade;
 	private LinkedList<Upgrade> m_uniqUpgrade;
+	private Score m_score;
 
 	/**
 	 * Fonction qui gère le singleton du modèle (évite de créer plusieurs modèles).
@@ -91,13 +91,13 @@ public class Model {
 		m_playingTank = true;
 		m_soundsToPlay = new LinkedList<String>();
 		m_time = 0;
-		
 		m_uniqUpgrade = new LinkedList<Upgrade>();
 		m_uniqUpgrade.add(new UpgradeDroneVision(m_tank, m_drone));
 		m_uniqUpgrade.add(new UpgradeAutomaticSubmachine(m_tank));
 		m_statUpgrade = new LinkedList<Upgrade>();
 		m_statUpgrade.add(new UpgradeDroneUsage(m_tank, m_drone));
 		m_statUpgrade.add(new UpgradeMarkersCount(m_tank, m_drone));
+		m_score = new Score();
 
 	}
 
@@ -109,6 +109,7 @@ public class Model {
 		}
 		m_tank.step();
 		m_collisionManager.controlCollisionsShotsEntity();
+		m_score.updateTime();
 	}
 
 	//////// Gestion du passage drone/tank ////////
@@ -163,12 +164,16 @@ public class Model {
 	public LinkedList<Upgrade> getStatUpgrade() {
 		return m_statUpgrade;
 	}
-	
+
 	public LinkedList<Upgrade> getUniqUpgrade() {
 		return m_uniqUpgrade;
 	}
-	/////////////////////////////////////////////////
 
+	public Score getScore() {
+		return m_score;
+	}
+
+	/////////////////////////////////////////////////
 
 	public void addSound(String soundName) {
 		m_soundsToPlay.add(soundName);
@@ -197,9 +202,6 @@ public class Model {
 	}
 
 	////////////////////////////////////////////////
-
-	public void update(Marker marker) {
-	}
 
 	public void addClue(Coords c) {
 		if (c != null)

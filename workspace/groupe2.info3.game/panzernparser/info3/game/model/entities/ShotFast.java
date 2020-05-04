@@ -29,12 +29,12 @@ public class ShotFast extends Shot {
 	public static final long SHOTFAST_WAIT_TIME = 50;
 	public static final long SHOTFAST_WIZZ_TIME = 1000;
 
-	public static final int SHOTFAST_DAMMAGE_DEALT = 100;
+	public static final int SHOTFAST_DAMAGE_DEALT = 100;
 
 	public ShotFast(int x, int y, Automaton aut) {
 		super(x, y, SHOTFAST_WIDTH, SHOTFAST_HEIGHT, aut);
 		m_health = SHOTFAST_HEALTH;
-		m_dammage_dealt = SHOTFAST_DAMMAGE_DEALT;
+		m_damage_dealt = SHOTFAST_DAMAGE_DEALT;
 		m_speed = SHOTFAST_SPEED;
 	}
 

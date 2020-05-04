@@ -3,6 +3,8 @@ package info3.game.model;
 public class UpgradeAutomaticSubmachine extends Upgrade {
 
 	private static final String NAME = "Helping turret";
+//	private static final int MINERALS_COST = 10;
+//	private static final int ELECTRONICALS_COST = 5;
 	
 	public UpgradeAutomaticSubmachine(Tank tank) {
 		super(tank, null);
@@ -21,7 +23,7 @@ public class UpgradeAutomaticSubmachine extends Upgrade {
 	}
 
 	@Override
-	public String getEntity() {
+	public String getName() {
 		return NAME;
 	}
 

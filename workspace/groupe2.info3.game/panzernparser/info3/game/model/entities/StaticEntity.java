@@ -12,8 +12,4 @@ public abstract class StaticEntity extends Entity {
 		super(x, y, width, height, aut);
 		m_speed = 0;
 	}
-	
-	public boolean GotPower() {
-		return true;
-	}
 }

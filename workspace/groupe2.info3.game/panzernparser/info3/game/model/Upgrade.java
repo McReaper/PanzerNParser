@@ -41,6 +41,7 @@ public abstract class Upgrade {
 	 * @throws IllegalAccess si l'amélioration visée n'est pas unique.
 	 */
 	public boolean isAvaible() throws IllegalAccessException {
+		if (m_tank.getLevel() < m_level) return false;
 		Inventory inv = m_tank.getInventory();
 		return (inv.possesses(MaterialType.MINERAL, getCostMine()) && inv.possesses(MaterialType.ELECTRONIC, getCostElec()));
 	}
@@ -49,6 +50,7 @@ public abstract class Upgrade {
 	 * méthode utile pour éviter une redondance des calculs.
 	 */
 	protected boolean isAvaibleFor(int mineral_cost, int electronical_cost) {
+		if (m_tank.getLevel() < m_level) return false;
 		Inventory inv = m_tank.getInventory();
 		return (inv.possesses(MaterialType.MINERAL, mineral_cost)
 				&& inv.possesses(MaterialType.ELECTRONIC, electronical_cost));
@@ -72,7 +74,7 @@ public abstract class Upgrade {
 	
 	public abstract int getCostMine();
 
-	public abstract String getEntity();
+	public abstract String getName();
 	
 	public abstract String getDescription();
 

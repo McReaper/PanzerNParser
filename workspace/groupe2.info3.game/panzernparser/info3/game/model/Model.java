@@ -46,13 +46,13 @@ public class Model {
 			new Model();
 		return self;
 	}
-	
+
 	/**
 	 * Création du modèle (l'univers du jeu)
 	 */
 	private Model() {
 		self = this; // Pour éviter des appels récursifs infinis.
-		
+
 		// Création de la liste des touches enfoncées connues du modèle.
 		m_keyPressed = new LinkedList<LsKey>();
 
@@ -110,8 +110,7 @@ public class Model {
 		m_tank.step();
 		m_collisionManager.controlCollisionsShotsEntity();
 	}
-	
-	
+
 	//////// Gestion du passage drone/tank ////////
 
 	public boolean isPlayingTank() {
@@ -148,7 +147,7 @@ public class Model {
 			return getDrone();
 		}
 	}
-	
+
 	public Tank getTank() {
 		return m_tank;
 	}
@@ -156,7 +155,7 @@ public class Model {
 	public Drone getDrone() {
 		return m_drone;
 	}
-	
+
 	public long getTime() {
 		return m_time;
 	}
@@ -178,7 +177,7 @@ public class Model {
 	public LinkedList<String> getSounds() {
 		return m_soundsToPlay;
 	}
-	
+
 	////////////////////////////////////////////////
 
 	public void addKeyPressed(LsKey temp) {
@@ -198,7 +197,7 @@ public class Model {
 	}
 
 	////////////////////////////////////////////////
-	
+
 	public void update(Marker marker) {
 	}
 
@@ -216,7 +215,6 @@ public class Model {
 	}
 
 	////////////////////////////////////////////////
-	
 
 	public Grid getGrid() {
 		return m_grid;
@@ -248,7 +246,7 @@ public class Model {
 
 	public boolean isInRadius(LinkedList<Coords> radius, Entity entity) {
 		for (Coords coord : radius) {
-			if (entity.isInMe((int)coord.X, (int)coord.Y))
+			if (entity.isInMe((int) coord.X, (int) coord.Y))
 				return true;
 		}
 		return false;

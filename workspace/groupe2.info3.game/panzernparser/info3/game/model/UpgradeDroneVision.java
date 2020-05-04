@@ -51,7 +51,7 @@ public class UpgradeDroneVision extends Upgrade {
 	}
 
 	@Override
-	public String getEntity() {
+	public String getName() {
 		return NAME;
 	}
 	

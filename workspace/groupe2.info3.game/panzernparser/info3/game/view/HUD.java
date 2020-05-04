@@ -615,7 +615,8 @@ public class HUD {
 		switch (model.getVisionType()) {
 			case TANK:
 				m_weaponTitledBorder.setTitle("Weapon");
-				m_weaponImage.setIcon(m_weaponArray[tankTurret.getWeapon()]);
+				/*TODO : adapter HUD en fction de Weapon*/
+				m_weaponImage.setIcon(m_weaponArray[tankTurret.getIndexWeapon()]);
 				m_ammoTitledBorder.setTitle("Ammo");
 				m_ammo.setText("10 / 10");
 				m_ammoPanel.setBorder(m_ammoTitledBorder);

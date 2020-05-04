@@ -66,21 +66,12 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (!m_model.isPlayingTank()) {
-			Coords c = new Coords(e.getX(), e.getY());
-			try {
-				c = m_view.toGridCoord(c);
-				m_model.addClue(c);
-			} catch (IllegalArgumentException ex) {
-				return; // On ne pose pas de marqueurs.
-			}
-		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_F11) {
-			//GameMain.getGame().goFullscreen(); // TODO : tobefixed
+			// GameMain.getGame().goFullscreen(); // TODO : tobefixed
 		}
 		LsKey temp = toLsKey(e);
 		m_model.addKeyPressed(temp);
@@ -99,7 +90,15 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		if (!m_model.isPlayingTank()) {
+			Coords c = new Coords(e.getX(), e.getY());
+			try {
+				c = m_view.toGridCoord(c);
+				m_model.addClue(c);
+			} catch (IllegalArgumentException ex) {
+				return; // On ne pose pas de marqueurs.
+			}
+		}
 	}
 
 	@Override

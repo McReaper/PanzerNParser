@@ -36,7 +36,7 @@ public abstract class Entity {
 	public static final long DEFAULT_WIZZ_TIME = 1000;
 	public static final int DEFAULT_RANGE = 6;
 	public static final int DEFAULT_HEALTH = 100;
-	public static final int DEFAULT_DAMMAGE_DEALT = 100;
+	public static final int DEFAULT_DAMAGE_DEALT = 100;
 
 	protected long m_elapseTime;
 	protected LsAction m_currentAction;
@@ -57,8 +57,9 @@ public abstract class Entity {
 	protected int m_level;
 	protected int m_maxHealth;
 	protected int m_health;
-	protected int m_dammage_dealt;
+	protected int m_damage_dealt;
 	protected int m_speed;
+	protected LinkedList<MyCategory> m_uncrossables;
 
 	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
@@ -81,8 +82,10 @@ public abstract class Entity {
 
 		m_currentLookAtDir = MyDirection.NORTH; // par défaut
 		m_currentActionDir = null; // par défaut
-
-		m_dammage_dealt = DEFAULT_DAMMAGE_DEALT;
+		m_uncrossables = new LinkedList<MyCategory>();
+		m_uncrossables.add(MyCategory.AT);// Tank jamais traversable
+		m_uncrossables.add(MyCategory.O);// Mur pas traversable mais eventuellement destructible
+		m_damage_dealt = DEFAULT_DAMAGE_DEALT;
 
 	}
 
@@ -150,8 +153,8 @@ public abstract class Entity {
 		}
 	}
 
-	public void collide(int dammage) {
-		m_health -= dammage;
+	public void collide(int damage) {
+		m_health -= damage;
 	}
 
 	public double getActionProgress() {
@@ -184,6 +187,10 @@ public abstract class Entity {
 			m_currentState = state;
 		else
 			throw new IllegalStateException("setState null");
+	}
+	
+	public void setStuff(boolean bool) {
+		m_stuff = bool;
 	}
 
 	public LsAction getCurrentAction() {
@@ -242,8 +249,8 @@ public abstract class Entity {
 		if (m_range > MIN_RANGE) m_range--;
 	}
 
-	public int getDammageDealt() {
-		return m_dammage_dealt;
+	public int getDamageDealt() {
+		return m_damage_dealt;
 	}
 
 	//// METHODES DE L'AUTOMATE ////
@@ -317,6 +324,8 @@ public abstract class Entity {
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			MyDirection absoluteDir = MyDirection.toAbsolute(m_currentActionDir, dir);
+			if (!checkMove(absoluteDir))
+				return;
 			switch (absoluteDir) {
 				case NORTH:
 				case EAST:
@@ -328,7 +337,7 @@ public abstract class Entity {
 				case NORTHWEST:
 				case SOUTHEAST:
 				case SOUTHWEST:
-					m_timeOfAction = (long)(Math.sqrt(2) * m_speed);
+					m_timeOfAction = (long) (Math.sqrt(2) * m_speed);
 				default:
 					break;
 			}
@@ -490,6 +499,132 @@ public abstract class Entity {
 		return false;
 	}
 
+	boolean checkMove(MyDirection dir) {
+		Grid grid = Model.getModel().getGrid();
+		int x = m_x;
+		int y = m_y;
+		switch (dir) {
+			case NORTH:
+				y = y - 1;
+				for (int i = 0; i < this.getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case EAST:
+				x = x + getWidth();
+				for (int i = 0; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case WEST:
+				x = x - 1;
+				for (int i = 0; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
+				return true;
+			case SOUTH:
+				y = y + getHeight();
+				for (int i = 0; i < this.getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case NORTHEAST:
+				y = y - 1;
+				for (int i = 1; i < this.getWidth() + 1; i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				x = x + getWidth();
+				for (int i = 1; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+			case NORTHWEST:
+				y = y - 1;
+				x = x - 1;
+				for (int i = 0; i < getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				for (int i = 1; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
+				return true;
+			case SOUTHEAST:
+				y = y + getWidth();
+				x = x + getHeight();
+				for (int i = 0; i < getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x - i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				for (int i = 1; i < this.getHeight(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y - i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
+				return true;
+			case SOUTHWEST:
+				x = x - 1;
+				for (int i = 1; i < this.getHeight() + 1; i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x, y + i);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory())) {
+							return false;
+						}
+					}
+				}
+
+				y = y + getHeight();
+				for (int i = 1; i < this.getWidth(); i++) {
+					LinkedList<Entity> listEntity = grid.getEntityCell(x + i, y);
+					for (Entity entity : listEntity) {
+						if (m_uncrossables.contains(entity.getCategory()))
+							return false;
+					}
+				}
+				return true;
+		}
+		return true;
+	}
+
 	/**
 	 * Pour une diretion `dir` à partir de l'entité, on vérifie que la catégorie de
 	 * type `type` se trouve bien dans une distance `dist`
@@ -501,135 +636,181 @@ public abstract class Entity {
 	 *         moins
 	 */
 	public boolean Cell(MyDirection dir, MyCategory type, int dist) {
-		LinkedList<Entity> entities = Model.getModel().getCategoried(type);
+		LinkedList<Entity> entities;
 		if (dir == MyDirection.HERE) {
-			for (Entity entity : entities) {
-				int xH = m_x;
-				int yH = m_y;
-				int maxGauche = Math.max(xH, entity.getX());
-				int minDroite = Math.min(xH + m_width, entity.getX() + entity.getWidth());
-				if (maxGauche < minDroite) {
-					int maxBas = Math.max(yH, entity.getY());
-					int minHaut = Math.min(yH + m_height, entity.getY() + entity.getHeight());
-					if (maxBas < minHaut) {
-						return true;
+			for (int i = m_x; i < m_x + m_width; i++) {
+				for (int j = m_y; j < m_y + m_height; j++) {
+					entities = Model.getModel().getGrid().getEntityCell(i, j);
+					for (Entity entity : entities) {
+						if (entity != this && entity.getCategory() == type)
+							return true;
 					}
 				}
-
 			}
-			return false;
-		}
-		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
-		int x_factor = 0;
-		int y_factor = 0;
-		switch (absoluteDir) {
-			case NORTH:
-				x_factor = 0;
-				y_factor = -1;
-				break;
-			case EAST:
-				x_factor = 1;
-				y_factor = 0;
-				break;
-			case SOUTH:
-				x_factor = 0;
-				y_factor = 1;
-				break;
-			case WEST:
-				x_factor = -1;
-				y_factor = 0;
-				break;
-			case NORTHEAST:
-				x_factor = 1;
-				y_factor = -1;
-				break;
-			case NORTHWEST:
-				y_factor = -1;
-				x_factor = -1;
-				break;
-			case SOUTHEAST:
-				x_factor = 1;
-				y_factor = 1;
-				break;
-			case SOUTHWEST:
-				x_factor = -1;
-				y_factor = 1;
-				break;
-			default:
-				System.err.println("La fonction n'est pas appelée avec une direction valide : " + dir);
-		}
-		int x, y;
-		int grid_width = Model.getModel().getGrid().getNbCellsX();
-		int grid_height = Model.getModel().getGrid().getNbCellsY();
-		/*
-		 * Etant donné que cell ne selectionne qu'une sucession de rectangles Je testes
-		 * la présence d'entité dans chacun d'eux. Ce qui permet de couvrir plusieurs
-		 * cases d'un seul coup.
-		 */
-		for (Entity entity : entities) {
-			x = m_x;
-			y = m_y;
-			for (int i = 0; i < dist; i++) {
-				x = Model.getModel().getGrid().realX(x + x_factor);
-				y = Model.getModel().getGrid().realX(y + y_factor);
-				boolean depasse_horizontal = x + m_width > grid_width;
-				boolean depasse_vertical = y + m_height > grid_height;
-				if (checkHere(x, y, entity)) {
+		} else {
+			MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
+			int x_factor = 0;
+			int y_factor = 0;
+			switch (absoluteDir) {
+				case NORTH:
+					x_factor = 0;
+					y_factor = -1;
+					break;
+				case EAST:
+					x_factor = 1;
+					y_factor = 0;
+					break;
+				case SOUTH:
+					x_factor = 0;
+					y_factor = 1;
+					break;
+				case WEST:
+					x_factor = -1;
+					y_factor = 0;
+					break;
+				case NORTHEAST:
+					x_factor = 1;
+					y_factor = -1;
+					break;
+				case NORTHWEST:
+					y_factor = -1;
+					x_factor = -1;
+					break;
+				case SOUTHEAST:
+					x_factor = 1;
+					y_factor = 1;
+					break;
+				case SOUTHWEST:
+					x_factor = -1;
+					y_factor = 1;
+					break;
+				default:
+					System.err.println("La fonction n'est pas appelée avec une direction valide : " + dir);
+			}
+			int x = m_x;
+			int y = m_y;
+			for (int k = 1; k <= dist; k++) {
+				x += x_factor;
+				y += y_factor;
+				if (checkHere(x, y, type, absoluteDir))
 					return true;
-				}
-				if (depasse_horizontal) {
-					if (checkHere(x - grid_width, y, entity)) {
-						return true;
-					}
-				}
-				if (depasse_vertical) {
-					if (checkHere(x, y - grid_height, entity)) {
-						return true;
-					}
-				}
-				if (depasse_horizontal && depasse_vertical) {
-					if (checkHere(x - grid_width, y - grid_height, entity)) {
-						return true;
-					}
-				}
 			}
 		}
 		return false;
 	}
 
-	private boolean checkHere(int x, int y, Entity entity) {
-		int offsetX = 0;
-		int offsetY = 0;
-		int grid_width = Model.getModel().getGrid().getNbCellsX();
-		int grid_height = Model.getModel().getGrid().getNbCellsY();
-		if (m_x + m_width > grid_width) {
-			offsetX = grid_width;
+	public boolean checkHere(int x, int y, MyCategory type, MyDirection dir) {
+		Grid grid = Model.getModel().getGrid();
+		LinkedList<Entity> entities;
+		switch (dir) {
+			case NORTH:
+				for (int i = x; i < x + m_width; i++) {
+					entities = grid.getEntityCell(i, y);
+					for (Entity entity : entities) {
+						if (entity != this && entity.getCategory() == type)
+							return true;
+					}
+				}
+				break;
+			case SOUTH:
+				for (int i = x; i < x + m_width; i++) {
+					entities = grid.getEntityCell(i, y + m_height - 1);
+					for (Entity entity : entities) {
+						if (entity != this && entity.getCategory() == type)
+							return true;
+					}
+				}
+				break;
+			case EAST:
+				for (int i = y; i < y + m_height; i++) {
+					entities = grid.getEntityCell(x + m_width - 1, i);
+					for (Entity entity : entities) {
+						if (entity != this && entity.getCategory() == type)
+							return true;
+					}
+				}
+				break;
+			case WEST:
+				for (int i = y; i < y + m_height; i++) {
+					entities = grid.getEntityCell(x, i);
+					for (Entity entity : entities) {
+						if (entity != this && entity.getCategory() == type)
+							return true;
+					}
+				}
+				break;
+			case NORTHWEST:
+				for (int i = x; i < x + m_width; i++) {
+					entities = grid.getEntityCell(i, y);
+					for (Entity entity : entities) {
+						if (entity != this && entity.getCategory() == type)
+							return true;
+					}
+				}
+				for (int i = y + 1; i < y + m_height; i++) {
+					entities = grid.getEntityCell(x, i);
+					for (Entity entity : entities) {
+						if (entity != this && entity.getCategory() == type)
+							return true;
+					}
+				}
+				break;
+			case SOUTHWEST:
+				for (int i = x; i < x + m_width; i++) {
+					entities = grid.getEntityCell(i, y + m_height - 1);
+					for (Entity entity : entities) {
+						if (entity != this && entity.getCategory() == type)
+							return true;
+					}
+				}
+				for (int i = y; i < y + m_height - 1; i++) {
+					entities = grid.getEntityCell(x, i);
+					for (Entity entity : entities) {
+						if (entity != this && entity.getCategory() == type)
+							return true;
+					}
+				}
+				break;
+			case NORTHEAST:
+				for (int i = x; i < x + m_width; i++) {
+					entities = grid.getEntityCell(i, y);
+					for (Entity entity : entities) {
+						if (entity != this && entity.getCategory() == type)
+							return true;
+					}
+				}
+				for (int i = y + 1; i < y + m_height; i++) {
+					entities = grid.getEntityCell(x + m_width - 1, i);
+					for (Entity entity : entities) {
+						if (entity != this && entity.getCategory() == type)
+							return true;
+					}
+				}
+				break;
+			case SOUTHEAST:
+				for (int i = x; i < x + m_width; i++) {
+					entities = grid.getEntityCell(i, y + m_height - 1);
+					for (Entity entity : entities) {
+						if (entity != this && entity.getCategory() == type)
+							return true;
+					}
+				}
+				for (int i = y; i < y + m_height - 1; i++) {
+					entities = grid.getEntityCell(x + m_width - 1, i);
+					for (Entity entity : entities) {
+						if (entity != this && entity.getCategory() == type)
+							return true;
+					}
+				}
+				break;
+			default:
+				System.err.println("Cell a été appelé avec des paramètres erronés");
 		}
-		if (m_y + m_height > grid_height) {
-			offsetY = grid_height;
-		}
-		int x_intersect = Math.max(x, entity.getX());
-		int y_intersect = Math.max(y, entity.getY());
-		int width_intersect = Math.min(x + m_width, entity.getX() + entity.getWidth()) - x_intersect;
-		int height_intersect = Math.min(y + m_height, entity.getY() + entity.getHeight()) - y_intersect;
-		if (width_intersect <= 0) {
-			return false;
-		} else if (height_intersect <= 0) {
-			return false;
-		} else if (x_intersect >= m_x - offsetX && x_intersect + width_intersect <= m_x - offsetX + m_width
-				&& y_intersect >= m_y - offsetY && y_intersect + width_intersect <= m_y - offsetY + m_height) {
-			return false;
-		} else {
-			return true;
-		}
+		return false;
 	}
 
 	public boolean GotStuff() {
 		return m_stuff;
-	}
-
-	public void setStuff(boolean b) {
-		m_stuff = b;
 	}
 	
 	/**
@@ -969,6 +1150,60 @@ public abstract class Entity {
 		}
 		return inX && inY;
 	}
+	
+	
+	/*
+	 * Fonction qui donne la coord x de la case devant dans la direction dir
+	 * ATTENTION ne donne pas de coordonée pour la dir HERE,
+	 * cas a gérer à l'appel de cette fonction
+	 */
+	public int getXCaseDir(MyDirection dir) {
+		int posX = 0;
+		MyDirection AbsoluteDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
+		switch (AbsoluteDir) {
+			case NORTH:
+			case SOUTH : 
+				posX = m_x + (m_width -1)/2;//ce sera un peu décalé vers la gauche si m_width est pair
+				break;
+			case EAST : 
+			case NORTHEAST:
+			case SOUTHEAST:
+				posX = m_x + m_width;
+				break;
+			case WEST : 
+			case NORTHWEST :
+			case SOUTHWEST :
+				posX = m_x - 1;
+				break;
+		}
+		return posX;
+		
+	}
+	
+	public int getYCaseDir(MyDirection dir) {
+		int posY =0;
+		MyDirection AbsoluteDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
+		switch (AbsoluteDir) {
+			case NORTH:
+			case NORTHEAST:
+			case NORTHWEST:
+				posY = m_y -1;
+				break;
+			case SOUTH :
+			case SOUTHEAST : 
+			case SOUTHWEST :
+				posY = m_y + m_width;
+				break;
+			case EAST : 
+				posY = m_y + (m_height -1)/2;//ce sera un peu décalé vers le haut si m_height est pair
+				break;
+			case WEST : 
+				posY = m_y + (m_height -1)/2;//ce sera un peu décalé vers le haut si m_height est pair
+				break;
+		}
+		return posY;
+		
+	}
 
 	public boolean Key(LsKey m_key) {
 		return (Model.getModel().getKeyPressed().contains(m_key));
@@ -990,6 +1225,8 @@ public abstract class Entity {
 		return m_level;
 	}
 
-	public abstract boolean GotPower();
+	public boolean GotPower() {
+		return m_health >0;
+	}
 
 }

@@ -3,6 +3,7 @@ TankChassis(Init){
 	|!GotPower() ? Explode() : (Init)
 	
 	|Cell(H,P) ? Pick() : (Init)
+	|Cell(H,C) ? Pick() : (Init)
 	|Key(z) & Key(d) & MyDir(NE) ? Move(NE) : (Init)
 	|Key(z) & Key(d) & !MyDir(NE) ? Turn(NE) : (Init)
 
@@ -27,7 +28,7 @@ TankChassis(Init){
 	|Key(z) & MyDir(N) ? Move(N) : (Init)
 	|Key(z) & !MyDir(N) ? Turn(N) : (Init)
 
-	|Key(e) ? Pop : (Init)
+	|Key(e) ? Pop(F) : (Init)
 	|Key(a) ? Wizz : (Init)
 	
 	|Key(t) ? Hit : (Init)   

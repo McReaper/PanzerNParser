@@ -16,8 +16,8 @@ public class UpgradeTankSpeed extends Upgrade {
 	@Override
 	public void improve() throws IllegalAccessException {
 		Inventory inv = m_tank.getInventory();
-		int mineral_cost = (int) (MINERALS_COST + (MINERALS_COST * m_level * COST_FACTOR));
-		int electronical_cost = (int) (ELECTRONICALS_COST + (ELECTRONICALS_COST * m_level * COST_FACTOR));
+		int mineral_cost = getCostMine();
+		int electronical_cost = getCostElec();
 		if (isAvaibleFor(mineral_cost, electronical_cost)) {
 			inv.used(MaterialType.MINERAL, mineral_cost, MaterialType.ELECTRONIC, electronical_cost);
 			m_tank.setSpeed(m_tank.getSpeed() + SPEED_BOOST);
@@ -28,26 +28,23 @@ public class UpgradeTankSpeed extends Upgrade {
 	}
 	
 	@Override
-	public boolean isAvaible() throws IllegalAccessException {
-		Inventory inv = m_tank.getInventory();
-		int mineral_cost = (int) (MINERALS_COST + (MINERALS_COST * m_level * COST_FACTOR));
-		int electronical_cost = (int) (ELECTRONICALS_COST + (ELECTRONICALS_COST * m_level * COST_FACTOR));
-		return (inv.possesses(MaterialType.MINERAL, mineral_cost) && inv.possesses(MaterialType.ELECTRONIC, electronical_cost));
-	}
-	
-	@Override
 	public int getCostElec() {
-		return MINERALS_COST;
+		return (int) (ELECTRONICALS_COST + (ELECTRONICALS_COST * m_level * COST_FACTOR));
 	}
 
 	@Override
 	public int getCostMine() {
-		return ELECTRONICALS_COST;
+		return (int) (MINERALS_COST + (MINERALS_COST * m_level * COST_FACTOR));
 	}
 
 	@Override
-	public String getEntity() {
+	public String getName() {
 		return NAME;
+	}
+
+	@Override
+	public String getDescription() {
+		return "<html><p style='color:black;text-align:center'>Increase the <b>tank speed</b> so you can go more darude.</p></html>";
 	}
 
 }

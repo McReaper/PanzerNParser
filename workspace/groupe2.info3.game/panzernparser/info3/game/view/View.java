@@ -17,7 +17,7 @@ public class View extends Container {
 
 	private static final long serialVersionUID = 1L;
 	public GameCanvas m_canvas;
-	Controller m_controller;
+	public Controller m_controller;
 	Model m_model;
 	LinkedList<Avatar> m_avatars;// type d'avatar
 	ViewPort m_viewPort;

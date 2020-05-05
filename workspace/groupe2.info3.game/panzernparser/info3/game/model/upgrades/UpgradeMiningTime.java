@@ -48,6 +48,6 @@ public class UpgradeMiningTime extends Upgrade {
 	
 	@Override
 	public String getDescription() {
-		return "<html><p style='color:black;text-align:center'></p></html>";
+		return "<html><p style='color:black;text-align:center'>Lower the <b>time of mining</b> the ground</p></html>";
 	}
 }

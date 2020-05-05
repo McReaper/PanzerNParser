@@ -52,7 +52,7 @@ public class View extends Container {
 		orderEntities.add(MyEntities.Vein);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Hole)));
 		orderEntities.add(MyEntities.Hole);
-		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Mud)));
+		m_avatars.add(new MudAvatar(config.getAnimation(MyEntities.Mud)));
 		orderEntities.add(MyEntities.Mud);
 		m_avatars.add(new WreckTankAvatar(config.getAnimation(MyEntities.WreckTank)));
 		orderEntities.add(MyEntities.WreckTank);

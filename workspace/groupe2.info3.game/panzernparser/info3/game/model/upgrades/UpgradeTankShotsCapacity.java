@@ -24,7 +24,7 @@ public class UpgradeTankShotsCapacity extends Upgrade {
 		int electronical_cost = getCostElec();
 		if (isAvaibleFor(mineral_cost, electronical_cost)) {
 			inv.used(MaterialType.MINERAL, mineral_cost, MaterialType.ELECTRONIC, electronical_cost);
-			m_tank.setMaxAmmo(m_tank.getMaxAmmo() + AMMO_BOOST);
+			m_tank.improveMaxAmmo(AMMO_BOOST);
 			m_level++;
 		} else {
 			throw new IllegalAccessException("Ressources insuffisantes dans l'inventaire.");

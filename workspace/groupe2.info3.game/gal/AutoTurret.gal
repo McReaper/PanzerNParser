@@ -1,0 +1,16 @@
+AutomaticTurret(Init){
+	* (Init) :
+	| !GotPower() ? Wait() : (Init)
+	| Closest(A, N) ? Turn(N) : (Step)
+	| Closest(A, NE) ? Turn(NE) : (Step)
+	| Closest(A, E) ? Turn(E) : (Step)
+	| Closest(A, SE) ? Turn(SE) : (Step)
+	| Closest(A, S)? Turn(S) : (Step)
+	| Closest(A, SW) ? Turn(SW) : (Step)
+	| Closest(A, W) ? Turn(W) : (Step)
+	| Closest(A, NW) ? Turn(NW) : (Step)
+	| True ? Wait () : (Init)
+	
+	* (Step) :
+	| True ? Hit(F) : (Init)
+}

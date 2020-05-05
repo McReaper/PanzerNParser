@@ -36,7 +36,7 @@ public class Hole extends StaticEntity {
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Wizz;
-			m_timeOfAction = GROUND_WIZZ_TIME;
+			m_timeOfAction = DEFAULT_WIZZ_TIME;
 			m_width *=2;
 			m_height *=2;
 		}

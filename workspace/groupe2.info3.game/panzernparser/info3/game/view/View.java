@@ -75,6 +75,8 @@ public class View extends Container {
 		orderEntities.add(MyEntities.TankBody);
 		m_avatars.add(new TurretAvatar(config.getAnimation(MyEntities.Turret)));
 		orderEntities.add(MyEntities.Turret);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.AutomaticTurret)));
+		orderEntities.add(MyEntities.AutomaticTurret);
 		m_avatars.add(new DroneAvatar(config.getAnimation(MyEntities.Drone), this));
 		orderEntities.add(MyEntities.Drone);
 	}

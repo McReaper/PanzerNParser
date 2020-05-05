@@ -845,6 +845,9 @@ public abstract class Entity {
 	public boolean Closest(MyDirection dir, MyCategory type) {
 		Entity closest = Model.getModel().closestEntity(Model.getModel().getCategoried(type), m_x, m_y);
 		if (closest.isInMe(getDetectionCone(dir, this.m_range))) {
+
+			if (this instanceof AutomaticTurret)
+				System.out.println("je retourne vrai");
 			return true;
 		} else {
 			return false;

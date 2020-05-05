@@ -451,6 +451,9 @@ public class Grid {
 					case "mud_1":
 						type = MyEntities.Mud;
 						break;
+					case "atur1":
+						type = MyEntities.AutomaticTurret;
+						break;
 				}
 				int x = Integer.parseInt(sx);
 				int y = Integer.parseInt(sy);

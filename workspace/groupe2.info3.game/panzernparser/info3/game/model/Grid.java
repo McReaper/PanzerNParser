@@ -54,6 +54,16 @@ public class Grid {
 			}
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public void emptyGrid() {
+		m_entityGrid = new LinkedList[getNbCellsX()][getNbCellsY()];
+		for (int i = 0; i < m_entityGrid.length; i++) {
+			for (int j = 0; j < m_entityGrid[0].length; j++) {
+				m_entityGrid[i][j] = new LinkedList<Entity>();
+			}
+		}
+	}
 
 	public void removeEntity(Entity entity) {
 		int width = entity.getWidth();
@@ -303,22 +313,8 @@ public class Grid {
 	public int getNbCellsY() {
 		return TAILLE_MAP * Pattern.SIZE;
 	}
-
-	public void regenerate() throws UnexpectedException {
-		/* reinitialisation de la grille*/
-		m_entityGrid = new LinkedList[getNbCellsX()][getNbCellsY()];
-		for (int i = 0; i < m_entityGrid.length; i++) {
-			for (int j = 0; j < m_entityGrid[0].length; j++) {
-				m_entityGrid[i][j] = new LinkedList<Entity>();
-			}
-		}
-		
-		
-		this.generate(true);
-		
-	}
 	
-	public void generate(boolean resetPlayer) throws UnexpectedException {
+	public void generate() throws UnexpectedException {
 		int Max = m_patterns.size() - 1;
 		int patterns_chose = 0;
 		int rand = 0;

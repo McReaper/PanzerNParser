@@ -28,6 +28,8 @@ import info3.game.model.entities.Turret;
 
 public class Model {
 
+	public static final long RELOAD_GRID_TIME = 3000;
+	
 	public enum VisionType {
 		TANK, RESSOURCES, ENEMIES;
 	}
@@ -60,6 +62,31 @@ public class Model {
 	}
 
 	/**
+	 * au rythme des ticks du gamecanvas.
+	 * @param elapsed
+	 */
+	public void step(long elapsed) {
+		m_time += elapsed;
+		// Effectue un pas de simulation sur chaque entités
+		for (Entity entity : getAllEntities()) {
+			entity.step(elapsed);
+		}
+		m_tank.step();
+		m_collisionManager.controlCollisionsShotsEntity();
+		m_score.updateTime();
+		if (needRegeneration()) {
+			try {
+				Thread.sleep(RELOAD_GRID_TIME/3);
+				reset();
+				Thread.sleep(RELOAD_GRID_TIME - RELOAD_GRID_TIME/3);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
+		}
+	}
+	
+	/**
 	 * Création du modèle (l'univers du jeu)
 	 */
 	private Model() {
@@ -89,7 +116,7 @@ public class Model {
 		// la liste des entités à jour.
 		try {
 			m_grid = new Grid();
-			m_grid.generate(false);
+			m_grid.generate();
 		} catch (UnexpectedException e) {
 			e.printStackTrace();
 			System.err.println("Impossible de créer la grille !");
@@ -133,24 +160,37 @@ public class Model {
 		for (MyEntities entityType : MyEntities.values()) {
 			m_entities.put(entityType, new LinkedList<Entity>());
 		}
-
-		m_grid.regenerate();
 		
-		
+		m_grid.emptyGrid();
+		m_grid.generate();	
+		regeneratePlayer();
 	}
 	
 	private void regeneratePlayer() {
+		if (getEntities(MyEntities.TankBody).size() != 1 || getEntities(MyEntities.Turret).size() != 1
+				|| getEntities(MyEntities.Drone).size() != 1) {
+			System.err.println("Il semblerait que la grille comporte plusieurs Drone ou Tank...");
+			System.exit(-1);
+		}
+		
 		TankBody newTankBody = (TankBody) getEntities(MyEntities.TankBody).get(0);
-		getEntities(MyEntities.TankBody).remove(0);
-		getEntities(MyEntities.Turret).remove(0);
-		getEntities(MyEntities.Drone).remove(0);
+		Turret newTurret = (Turret) getEntities(MyEntities.Turret).get(0);
+		Drone newDrone = (Drone) getEntities(MyEntities.Drone).get(0);
+		
 		int x = newTankBody.getX();
 		int y = newTankBody.getY();
-		m_tank.getBody().setPosition(x, y);
-		m_tank.getTurret().setPosition(x, y);
-		getEntities(MyEntities.TankBody).add(m_tank.getBody());
-		getEntities(MyEntities.Turret).add(m_tank.getTurret());
-		getEntities(MyEntities.Drone).add(m_drone);
+		m_tank.getBody().setPosition(x, y); // /!\ La méthode setPosition travail avec la grille
+		m_tank.relocateParts();
+
+		this.removeEntity(m_tank.getBody()); // /!\ On a donc besoin de les retirer avant de les remettre
+		this.removeEntity(m_tank.getTurret());
+		this.addEntity(m_tank.getBody());
+		this.addEntity(m_tank.getTurret());
+		this.addEntity(m_drone);
+		
+		this.removeEntity(newTankBody);
+		this.removeEntity(newTurret);
+		this.removeEntity(newDrone);
 	}
 
 	///////////////////////////////////////////////
@@ -165,24 +205,6 @@ public class Model {
 		m_statUpgrade.add(new UpgradeTankLife(m_tank));
 		m_statUpgrade.add(new UpgradeTankShotsCapacity(m_tank));
 		m_statUpgrade.add(new UpgradeTankSpeed(m_tank));
-	}
-
-	public void step(long elapsed) {
-		m_time += elapsed;
-		// Effectue un pas de simulation sur chaque entités
-		for (Entity entity : getAllEntities()) {
-			entity.step(elapsed);
-		}
-		m_tank.step();
-		m_collisionManager.controlCollisionsShotsEntity();
-		m_score.updateTime();
-		if (needRegeneration()) {
-			try {
-				reset();
-			} catch (UnexpectedException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	//////// Gestion du passage drone/tank ////////

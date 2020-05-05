@@ -13,7 +13,7 @@ public class AutomaticTurret extends StaticEntity {
 
 	public static final int AUTOMATIC_TURRET_HEALTH = Tank.TANK_HEALTH;
 
-	public static final long AUTOMATIC_TURRET_HIT_TIME = 50;
+	public static final long AUTOMATIC_TURRET_HIT_TIME = 500;
 	public static final long AUTOMATIC_TURRET_POP_TIME = 50;
 	public static final long AUTOMATIC_TURRET_TURN_TIME = 50;
 	public static final long AUTOMATIC_TURRET_WAIT_TIME = 10;

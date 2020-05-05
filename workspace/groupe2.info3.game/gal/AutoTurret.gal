@@ -1,16 +1,17 @@
 AutomaticTurret(Init){
 	* (Init) :
 	| !GotPower() ? Wait() : (Init)
-	| Closest(A, N) ? Turn(N) : (Step)
-	| Closest(A, NE) ? Turn(NE) : (Step)
-	| Closest(A, E) ? Turn(E) : (Step)
-	| Closest(A, SE) ? Turn(SE) : (Step)
-	| Closest(A, S)? Turn(S) : (Step)
-	| Closest(A, SW) ? Turn(SW) : (Step)
-	| Closest(A, W) ? Turn(W) : (Step)
-	| Closest(A, NW) ? Turn(NW) : (Step)
+	| Cell(N, A, 6) ? Turn(N) : (Step)
+	| Cell(NE, A, 6) ? Turn(NE) : (Step)
+	| Cell(E, A, 6) ? Turn(E) : (Step)
+	| Cell(SE, A, 6) ? Turn(SE) : (Step)
+	| Cell(S, A, 6)? Turn(S) : (Step)
+	| Cell(SW, A, 6) ? Turn(SW) : (Step)
+	| Cell(W, A, 6) ? Turn(W) : (Step)
+	| Cell(NW, A, 6) ? Turn(NW) : (Step)
 	| True ? Wait () : (Init)
 	
 	* (Step) :
 	| True ? Hit(F) : (Init)
 }
+

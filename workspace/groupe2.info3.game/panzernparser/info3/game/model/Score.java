@@ -5,6 +5,7 @@ public class Score {
 	static final int SCORE_ENEMY_LEVEL2 = 40;// tuer ennemi basic
 	static final int SCORE_DROPPABLE = 5;// ramasser ressource
 	static final int SCORE_VEIN = 20;// creuser veine
+	static final int SCORE_WRECKTANK = 30;// détruire une épave
 	// static final int SCORE_UPGRADE = ????;
 	static final int SCORE_TIME = 10;// ttes les 30 s gain de 10 points
 	static final int SCORE_END_MAP = 300;
@@ -41,6 +42,10 @@ public class Score {
 
 	public void scoreVein() {
 		incrementScore(SCORE_VEIN);
+	}
+	
+	public void scoreWreckTank() {
+		incrementScore(SCORE_WRECKTANK);
 	}
 
 	public void scoreEndMap() {

@@ -8,7 +8,8 @@ import info3.game.model.Model;
 
 public class EntityFactory {
 	public enum MyEntities {
-		Wall, Ground, EnemyBasic, EnemyLevel2,  Droppable, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody, Turret, Hole;
+		Wall, Ground, EnemyBasic, EnemyLevel2, Droppable, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody,
+		Turret, Hole, WreckTank, Mud;
 	}
 
 	public static Entity newTankBody(int x, int y, Automaton aut) {
@@ -33,11 +34,26 @@ public class EntityFactory {
 		Entity ground = new Ground(x, y, aut);
 		return ground;
 	}
+	
+	public static Entity newMud(int x, int y, Automaton aut) {
+		Entity mud = new Mud(x, y, aut);
+		return mud;
+	}
 
 	public static Entity newWall(int x, int y, Automaton aut) {
-		Entity wall = newGround(x, y, aut);
-		wall.setCategory(MyCategory.O);
+		Entity wall = new Wall(x, y, aut);
 		return wall;
+	}
+	
+
+	public static Entity newWreckTank(int x, int y, Automaton aut) {
+		Entity wreck = new WreckTank(x, y, aut);
+		return wreck;
+	}
+
+	public static Entity newHole(int x, int y, Automaton aut) {
+		Entity hole = new Hole(x, y, aut);
+		return hole;
 	}
 
 	private static Entity newDrone(int x, int y, Automaton aut) {
@@ -48,11 +64,6 @@ public class EntityFactory {
 	public static Entity newMarker(int x, int y, Automaton aut) {
 		Entity marker = new Marker(x, y, aut);
 		return marker;
-	}
-
-	public static Entity newHole(int x, int y, Automaton aut) {
-		Entity hole = new Hole(x, y, aut);
-		return hole;
 	}
 
 	////////////////// Creation des différents type de shot///////////////
@@ -96,27 +107,31 @@ public class EntityFactory {
 			case EnemyBasic:
 				res = newEnemyBasic(x, y, config.getAutomaton(MyEntities.EnemyBasic));
 				break;
-				
+
 			case EnemyLevel2:
 				res = newEnemyLevel2(x, y, config.getAutomaton(MyEntities.EnemyLevel2));
 				break;
-				
+
 			case Droppable:
 				res = newDroppable(x, y, config.getAutomaton(MyEntities.Droppable));
-				/* TODO a voir où definir les quantités et le type de ressource */
 				break;
+				
 			case Vein:
 				res = newVein(x, y, config.getAutomaton(MyEntities.Vein));
 				break;
 				
+			case WreckTank:
+				res = newWreckTank(x, y, config.getAutomaton(MyEntities.WreckTank));
+				break;
+			
 			case ShotSlow:
 				res = newShotSlow(x, y, config.getAutomaton(MyEntities.ShotSlow));
 				break;
-				
+
 			case ShotFast:
 				res = newShotFast(x, y, config.getAutomaton(MyEntities.ShotFast));
 				break;
-				
+
 			case ShotBig:
 				res = newShotBig(x, y, config.getAutomaton(MyEntities.ShotBig));
 				break;
@@ -136,6 +151,9 @@ public class EntityFactory {
 				break;
 			case Hole:
 				res = newHole(x, y, config.getAutomaton(MyEntities.Hole));
+				break;
+			case Mud:
+				res = newMud(x, y, config.getAutomaton(MyEntities.Mud));
 				break;
 			default:
 				throw new IllegalStateException("Entité non reconnue !");
@@ -166,6 +184,10 @@ public class EntityFactory {
 			else if (e instanceof Hole)
 				return MyEntities.Hole;
 			return MyEntities.Ground;
+		} else if (e instanceof Wall) {
+			return MyEntities.Wall;
+		} else if (e instanceof Hole) {
+			return MyEntities.Hole;
 		} else if (e instanceof Marker) {
 			return MyEntities.Marker;
 		} else if (e instanceof ShotSlow) {
@@ -178,6 +200,8 @@ public class EntityFactory {
 			return MyEntities.TankBody;
 		} else if (e instanceof Turret) {
 			return MyEntities.Turret;
+		} else if (e instanceof WreckTank) {
+			return MyEntities.WreckTank;
 		} else {
 			throw new IllegalArgumentException("Entité non reconnue !");
 		}

@@ -10,6 +10,7 @@ public abstract class Shot extends MovingEntity {
 
 	// entité qui a tiré ce shot
 	private Entity m_owner;
+	protected int m_nbCaseLeft;
 
 	public Shot(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, aut);

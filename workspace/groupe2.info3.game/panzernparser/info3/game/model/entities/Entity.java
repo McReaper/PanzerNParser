@@ -32,7 +32,7 @@ public abstract class Entity {
 	public static final long DEFAULT_STORE_TIME = 1000;
 	public static final long DEFAULT_TURN_TIME = 100;
 	public static final long DEFAULT_THROW_TIME = 1000;
-	public static final long DEFAULT_WAIT_TIME = 100;
+	public static final long DEFAULT_WAIT_TIME = 50;
 	public static final long DEFAULT_WIZZ_TIME = 1000;
 	public static final int DEFAULT_RANGE = 6;
 	public static final int DEFAULT_HEALTH = 100;
@@ -59,6 +59,7 @@ public abstract class Entity {
 	protected int m_health;
 	protected int m_damage_dealt;
 	protected int m_speed;
+	protected boolean m_hasChangedSpeed;
 	protected LinkedList<MyCategory> m_uncrossables;
 
 	public Entity(int x, int y, int width, int height, Automaton aut) {
@@ -87,6 +88,8 @@ public abstract class Entity {
 		m_uncrossables.add(MyCategory.AT);// Tank jamais traversable
 		m_uncrossables.add(MyCategory.O);// Mur pas traversable mais eventuellement destructible
 		m_damage_dealt = DEFAULT_DAMAGE_DEALT;
+		
+		m_hasChangedSpeed = false;
 
 	}
 
@@ -188,6 +191,22 @@ public abstract class Entity {
 			m_currentState = state;
 		else
 			throw new IllegalStateException("setState null");
+	}
+	
+	public int getSpeed() {
+		return m_speed;
+	}
+
+	public void setSpeed(int speed) {
+		m_speed = speed;
+	}
+	
+	public boolean getHasChangedSpeed() {
+		return m_hasChangedSpeed;
+	}
+
+	public void setHasChangedSpeed(boolean bool) {
+		m_hasChangedSpeed = bool;
 	}
 	
 	public void setStuff(boolean bool) {

@@ -14,23 +14,8 @@ public class Vein extends StaticEntity {
 	public final static int VEIN_WIDTH = 1;
 	public final static int VEIN_HEIGHT = 1;
 
-	public static final int VEIN_HEALTH = 100;
-	public static final int VEIN_SPEED = 100;
-
 	public static final long VEIN_EGG_TIME = 1000;
-	public static final long VEIN_GET_TIME = 1000;
-	public static final long VEIN_HIT_TIME = 1000;
-	public static final long VEIN_JUMP_TIME = 1000;
-	public static final long VEIN_EXPLODE_TIME = 1000;
-	public static final long VEIN_MOVE_TIME = 200;
-	public static final long VEIN_PICK_TIME = 1000;
 	public static final long VEIN_POP_TIME = 10000;
-	public static final long VEIN_POWER_TIME = 1000;
-	public static final long VEIN_PROTECT_TIME = 1000;
-	public static final long VEIN_STORE_TIME = 1000;
-	public static final long VEIN_TURN_TIME = 1000;
-	public static final long VEIN_THROW_TIME = 1000;
-	public static final long VEIN_WAIT_TIME = 5000;
 	public static final long VEIN_WIZZ_TIME = 1000;
 
 	public Vein(int x, int y, Automaton aut) {
@@ -40,6 +25,12 @@ public class Vein extends StaticEntity {
 
 	}
 
+	@Override
+	public boolean isShown() {
+		// TODO update en fonction des sprites dispo
+		return (Model.getModel().getVisionType() == VisionType.RESSOURCES);
+	}
+	
 	@Override
 	public void Egg(MyDirection dir) {
 		// On ignore dir ici (tout le temps HERE)...
@@ -71,6 +62,28 @@ public class Vein extends StaticEntity {
 				
 			}
 			Model.getModel().getScore().scoreVein();
+		}
+	}
+	
+	public void Pop(MyDirection dir) {//devient plus large
+		if (m_actionFinished && m_currentAction == LsAction.Pop) {
+			m_actionFinished = false;
+			m_currentAction = null;
+			m_height *=2;
+		} else if (m_currentAction == null) {
+			m_currentAction = LsAction.Pop;
+			m_timeOfAction = VEIN_POP_TIME;
+		}
+	}
+	
+	public void Wizz(MyDirection dir) {//s'alloge (width augmente)
+		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
+			m_actionFinished = false;
+			m_currentAction = null;
+			m_width *=2;
+		} else if (m_currentAction == null) {
+			m_currentAction = LsAction.Wizz;
+			m_timeOfAction = VEIN_WIZZ_TIME;
 		}
 	}
 

@@ -43,6 +43,14 @@ public abstract class Weapon {
 	public boolean isEmpty() {
 		return m_nbShotsLeft <= 0;
 	}
-
+	
+	public int getCapacity() {
+		return m_magCapacity;
+	}
+	
+	public int getNbShotLeft() {
+		return m_nbShotsLeft;
+	}
+ 	
 	public abstract void fire(MyDirection dir);
 }

@@ -24,8 +24,7 @@ public class View extends Container {
 	ViewPort m_viewPort;
 	public HUD m_HUD;
 	public LinkedList<MyEntities> orderEntities;
-	private static final Color ENEMI_COLOR = new Color(15, 157, 232, 200);
-	private static final Color RESSOURCE_COLOR = new Color(127, 127, 127, 200);
+	
 
 	public View(Controller controller, Model model) {
 		// créer la fenetre de jeu avec les bandeaux d'updrage et le canvas.
@@ -113,19 +112,6 @@ public class View extends Container {
 	 * Méthode qui dessine la grille et les entités sur celle-ci.
 	 */
 	public void paintCanvas(Graphics g) {
-		int width = m_canvas.getWidth();
-		int height = m_canvas.getHeight();
-
-		g.setColor(Color.green);
-		g.fillRect(0, 0, width, height);
-		if(Model.getModel().getVisionType() == VisionType.ENEMIES) {
-			g.setColor(ENEMI_COLOR);
-			g.fillRect(0, 0, width, height);
-		}else if(Model.getModel().getVisionType() == VisionType.RESSOURCES) {
-			g.setColor(RESSOURCE_COLOR);
-			g.fillRect(0, 0, width, height);
-		}
-
 		m_viewPort.paint(g, m_avatars);
 	}
 

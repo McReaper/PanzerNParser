@@ -84,6 +84,9 @@ public class ViewPort {
 		m_height = m_view.m_canvas.getHeight();
 		m_paintSize = Math.min(m_height, m_width);
 		m_caseSize = ((double) m_paintSize / (m_nbCells + m_zoom - 4));
+		// Décalage du aux dimensions de la fenêtre (centrage en y)
+		m_offsetWindowX = (m_width - m_paintSize) / 2;
+		m_offsetWindowY = (m_height - m_paintSize) / 2;
 	}
 
 	private void positionViewPort() {
@@ -244,16 +247,14 @@ public class ViewPort {
 		offset(); // décalage due au mouve du tank
 		int x, y, w, h;
 
-		// Décalage du aux dimensions de la fenêtre (centrage en y)
-		m_offsetWindowX = (m_width - m_paintSize) / 2;
-		m_offsetWindowY = (m_height - m_paintSize) / 2;
-		g.setColor(Color.BLACK);
-		for (double i = (m_offsetWindowX - m_offsetX + m_zoom * m_caseSize / 2); i < m_paintSize
-				+ m_offsetWindowX; i += m_caseSize)
-			g.drawLine((int) i, m_offsetWindowY, (int) i, m_offsetWindowY + m_paintSize);
-		for (double j = (m_offsetWindowY - m_offsetY + m_zoom * m_caseSize / 2); (int) j < m_paintSize
-				+ m_offsetWindowY; j += m_caseSize)
-			g.drawLine(m_offsetWindowX, (int) j, m_offsetWindowX + m_paintSize, (int) j);
+
+//		g.setColor(Color.BLACK);
+//		for (double i = (m_offsetWindowX - m_offsetX + m_zoom * m_caseSize / 2); i < m_paintSize
+//				+ m_offsetWindowX; i += m_caseSize)
+//			g.drawLine((int) i, m_offsetWindowY, (int) i, m_offsetWindowY + m_paintSize);
+//		for (double j = (m_offsetWindowY - m_offsetY + m_zoom * m_caseSize / 2); (int) j < m_paintSize
+//				+ m_offsetWindowY; j += m_caseSize)
+//			g.drawLine(m_offsetWindowX, (int) j, m_offsetWindowX + m_paintSize, (int) j);
 
 		if (Model.getModel().getVisionType() == VisionType.RESSOURCES) {
 			m_map = m_mapRessource;

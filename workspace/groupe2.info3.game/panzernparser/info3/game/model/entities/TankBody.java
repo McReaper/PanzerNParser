@@ -41,7 +41,6 @@ public class TankBody extends MovingEntity {
 		m_health = TANKBODY_HEALTH;
 		m_tank = null;
 		m_category = MyCategory.AT;
-		m_level = 1;
 		m_speed = TANKBODY_SPEED;
 		m_miningTime = TANKBODY_POP_TIME;
 	}

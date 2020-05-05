@@ -542,7 +542,7 @@ public class HUD {
 		updateBoussole();
 
 		Model.getModel().getDrone();
-		m_level.setText("Level : ".concat(Integer.toString(tankBody.getLevel())));
+		m_level.setText("Level : ".concat(Integer.toString(Model.getModel().getLevel())));
 
 		// Barres HP et Drone
 		m_health.setMaximum(tankBody.getMaxHealth());
@@ -551,7 +551,7 @@ public class HUD {
 		m_drone.setValue(drone.getHealth());
 
 		// Level
-		m_level.setText("Level : " + Integer.toString(tank.getLevel()));
+		m_level.setText("Level : " + Integer.toString(Model.getModel().getLevel()));
 
 		// Score
 		m_score.setText(Integer.toString(model.getScore().getScore()));

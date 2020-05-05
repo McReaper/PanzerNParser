@@ -31,11 +31,10 @@ public class Model {
 	public static final int IN_PLAY = 0;
 	public static final int RELOADING_MAP = 1;
 	public static final int RELOAD_TIME = 3000;
-	
+
 	public enum VisionType {
 		TANK, RESSOURCES, ENEMIES;
 	}
-	
 
 	private static Model self; // Singleton du model
 
@@ -55,6 +54,7 @@ public class Model {
 	private int m_reloadingState;
 	private boolean m_hasReloaded;
 	private long m_reloadElapsed;
+	private int m_level;
 
 	/**
 	 * Fonction qui gère le singleton du modèle (évite de créer plusieurs modèles).
@@ -66,9 +66,10 @@ public class Model {
 			new Model();
 		return self;
 	}
-	
+
 	/**
 	 * au rythme des ticks du gamecanvas.
+	 * 
 	 * @param elapsed
 	 */
 	public void step(long elapsed) {
@@ -82,15 +83,15 @@ public class Model {
 			m_collisionManager.controlCollisionsShotsEntity();
 			m_score.updateTime();
 		}
-		
+
 		if (needRegeneration() || m_reloadingState == RELOADING_MAP) {
 			m_reloadingState = RELOADING_MAP;
 			m_reloadElapsed += elapsed;
-			if(m_reloadElapsed >= RELOAD_TIME) {
+			if (m_reloadElapsed >= RELOAD_TIME) {
 				m_reloadingState = IN_PLAY;
 				m_hasReloaded = false;
 				m_reloadElapsed = 0;
-			} else if (m_reloadElapsed >= RELOAD_TIME/3 && !m_hasReloaded) {
+			} else if (m_reloadElapsed >= RELOAD_TIME / 3 && !m_hasReloaded) {
 				try {
 					m_hasReloaded = true;
 					m_playingTank = true;
@@ -102,7 +103,7 @@ public class Model {
 			}
 		}
 	}
-	
+
 	/**
 	 * Création du modèle (l'univers du jeu)
 	 */
@@ -114,11 +115,12 @@ public class Model {
 
 		// Temps de jeu écoulé
 		m_time = 0;
-		
+
 		// Création de la liste des touches enfoncées connues du modèle.
 		m_keyPressed = new LinkedList<LsKey>();
 
 		// Création de la liste des entités :
+		m_level = 1;
 		m_entities = new HashMap<EntityFactory.MyEntities, LinkedList<Entity>>();
 		for (MyEntities entityType : MyEntities.values()) {
 			m_entities.put(entityType, new LinkedList<Entity>());
@@ -160,12 +162,11 @@ public class Model {
 
 		// Création du score du jeu.
 		m_score = new Score();
-		
 		m_hasReloaded = false;
 		m_reloadElapsed = 0;
 	}
-	///////////////////////////////////////////////
-	/* REGENERATION MAP */
+
+///////* REGENERATION MAP *///////
 
 	/* regarde si la map a besoin d'être régenerer (dès que y a plus d'enemy) */
 	private boolean needRegeneration() {
@@ -179,23 +180,23 @@ public class Model {
 		for (MyEntities entityType : MyEntities.values()) {
 			m_entities.put(entityType, new LinkedList<Entity>());
 		}
-		
+
 		m_grid.emptyGrid();
-		m_grid.generate();	
+		m_grid.generate();
 		regeneratePlayer();
 	}
-	
+
 	private void regeneratePlayer() {
 		if (getEntities(MyEntities.TankBody).size() != 1 || getEntities(MyEntities.Turret).size() != 1
 				|| getEntities(MyEntities.Drone).size() != 1) {
 			System.err.println("Il semblerait que la grille comporte plusieurs Drone ou Tank...");
 			System.exit(-1);
 		}
-		
+
 		TankBody newTankBody = (TankBody) getEntities(MyEntities.TankBody).get(0);
 		Turret newTurret = (Turret) getEntities(MyEntities.Turret).get(0);
 		Drone newDrone = (Drone) getEntities(MyEntities.Drone).get(0);
-		
+
 		int x = newTankBody.getX();
 		int y = newTankBody.getY();
 		m_tank.getBody().setPosition(x, y); // /!\ La méthode setPosition travail avec la grille
@@ -206,7 +207,7 @@ public class Model {
 		this.addEntity(m_tank.getBody());
 		this.addEntity(m_tank.getTurret());
 		this.addEntity(m_drone);
-		
+
 		this.removeEntity(newTankBody);
 		this.removeEntity(newTurret);
 		this.removeEntity(newDrone);
@@ -231,9 +232,9 @@ public class Model {
 	private boolean reloadNecessary() {
 		return m_time > 5000 && m_time < 5500;
 	}
-	
+
 	public double getReloadProgress() {
-		return (double)m_reloadElapsed/RELOAD_TIME;
+		return (double) m_reloadElapsed / RELOAD_TIME;
 	}
 
 	public boolean isPlayingTank() {
@@ -294,7 +295,7 @@ public class Model {
 	public Score getScore() {
 		return m_score;
 	}
-	
+
 	public int getReloadingState() {
 		return m_reloadingState;
 	}
@@ -347,6 +348,10 @@ public class Model {
 	public Grid getGrid() {
 		return m_grid;
 	}
+	
+	public int getLevel() {
+		return m_level;
+	}
 
 	public HashMap<EntityFactory.MyEntities, LinkedList<Entity>> getHashEntities() {
 		return m_entities;
@@ -366,7 +371,7 @@ public class Model {
 		}
 		return entities;
 	}
-	
+
 	public void addEntity(Entity e) {
 		getEntities(EntityFactory.getMyEntities(e)).add(e);
 		m_grid.addEntity(e);

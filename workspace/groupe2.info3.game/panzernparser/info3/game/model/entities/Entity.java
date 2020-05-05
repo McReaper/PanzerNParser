@@ -54,7 +54,6 @@ public abstract class Entity {
 	protected boolean m_actionFinished;
 	protected MyCategory m_category;
 	protected int m_range;
-	protected int m_level;
 	protected int m_maxHealth;
 	protected int m_health;
 	protected int m_damage_dealt;
@@ -1239,10 +1238,6 @@ public abstract class Entity {
 	
 	public void setMaxHealth(int maxHealth) {
 		m_maxHealth = maxHealth;
-	}
-
-	public int getLevel() {
-		return m_level;
 	}
 
 	public boolean GotPower() {

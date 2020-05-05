@@ -32,6 +32,7 @@ public class EnemyBasic extends Enemy {
 		m_category = MyCategory.A;
 		m_range = ENEMYBASIC_FOV;
 		m_damage_dealt = ENEMYBASIC_DAMMAGE_DEALT;
+		levelUp();
 	}
 
 	@Override
@@ -142,4 +143,11 @@ public class EnemyBasic extends Enemy {
 			}
 	}
 
+	void levelUp() {
+		/*if(Model.getModel().getLevel() >= 3 )
+			m_speed = (int) (m_speed + m_speed*0.2);*/
+		if(Model.getModel().getLevel() >= 2 )
+			m_speed = (int) (m_speed *2);
+			
+	}
 }

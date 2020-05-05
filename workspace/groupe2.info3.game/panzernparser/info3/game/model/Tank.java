@@ -159,10 +159,6 @@ public class Tank {
 		return m_turret.isWeaponUnlockable();
 	}
 
-	public int getLevel() {
-		return m_body.getLevel();
-	}// TODO : voir quel niveau on suit (turret ou body ? les deux ?)
-
 	public void hasKilled(Entity e) {
 		if (e instanceof EnemyBasic)
 			Model.getModel().getScore().scoreEnemyBasic();

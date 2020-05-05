@@ -843,7 +843,8 @@ public abstract class Entity {
 	 */
 	public boolean Closest(MyDirection dir, MyCategory type) {
 		Entity closest = Model.getModel().closestEntity(Model.getModel().getCategoried(type), m_x, m_y);
-		if (closest.isInMe(getDetectionCone(dir, this.m_range))) {
+		LinkedList<Coords> coords_to_check = getDetectionCone(dir, this.m_range);
+		if (closest.isInMe(coords_to_check)) {
 			return true;
 		} else {
 			return false;
@@ -1164,7 +1165,7 @@ public abstract class Entity {
 		}
 		if (y >= yU && y < yD) {
 			inY = true;
-		} else if (yU > yD && (x >= yU || x < yD)) {
+		} else if (yU > yD && (y >= yU || y < yD)) {
 			inY = true;
 		}
 		return inX && inY;

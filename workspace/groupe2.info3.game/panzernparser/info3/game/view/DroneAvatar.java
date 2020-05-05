@@ -55,7 +55,10 @@ public class DroneAvatar extends Avatar {
 		y += reduction;
 		w -= 2 * reduction;
 		h -= 2 * reduction;
-		g.drawImage(img, x, y, w, h, null);
+		if (ExplosionAvatar.printEntity(entity)) {
+			g.drawImage(img, x, y, w, h, null);
+		}
+		ExplosionAvatar.exploding(g, entity, x, y, w, h);
 	}
 
 }

@@ -121,11 +121,11 @@ public class TankBody extends MovingEntity {
 		 * TODO faire un GAME OVER
 		 */
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
+			m_tank.setLife(Tank.TANK_HEALTH);// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
+			// m_tank.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			m_tank.setLife(Tank.TANK_HEALTH);// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
-			// m_tank.doExplode();
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = TANKBODY_EXPLODE_TIME;
 		}

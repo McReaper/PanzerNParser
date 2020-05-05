@@ -16,7 +16,7 @@ public class TankBodyAvatar extends Avatar {
 	}
 
 	@Override
-	public void paint(Graphics g,Entity entity, int xcase, int ycase, int case_width, int case_height) {
+	public void paint(Graphics g, Entity entity, int xcase, int ycase, int case_width, int case_height) {
 		VisionType vision = Model.getModel().getVisionType();
 		MyDirection e_lookAtDir = entity.getLookAtDir();
 		MyDirection e_actionDir = entity.getCurrentActionDir();
@@ -76,7 +76,10 @@ public class TankBodyAvatar extends Avatar {
 				default:
 					break;
 			}
-			g.drawImage(sprite, x, y, width, height, null);
+			if (ExplosionAvatar.printEntity(entity)) {
+				g.drawImage(sprite, x, y, width, height, null);
+			}
+			ExplosionAvatar.exploding(g, entity, x, y, width, height);
 
 		}
 	}

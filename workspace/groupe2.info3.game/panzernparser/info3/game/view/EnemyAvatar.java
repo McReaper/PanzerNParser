@@ -9,8 +9,11 @@ import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Entity;
+import info3.game.model.entities.MovingEntity;
 
 public class EnemyAvatar extends Avatar {
+	
+	
 
 	public EnemyAvatar(Animation animation) {
 		super(animation);
@@ -28,11 +31,16 @@ public class EnemyAvatar extends Avatar {
 		int height = entity.getHeight() * case_height;
 		int x = xcase;
 		int y = ycase;
+		double progressMoveAtDie = ((MovingEntity)entity).progressMoveAtDie;
+		MyDirection directionMoveAtDie= ((MovingEntity)entity).directionMoveAtDie;
 
 		// Pour réaliser un affichage progressif dans le cas d'un move.
 		if (e_currAction == LsAction.Move) {
 			x = progressivePaintX(e_absoluteActionDir, x, progress, case_width);
 			y = progressivePaintY(e_absoluteActionDir, y, progress, case_height);
+		}else if (progressMoveAtDie != 0) {
+			x = progressivePaintX(directionMoveAtDie, x, progressMoveAtDie, case_width);
+			y = progressivePaintY(directionMoveAtDie, y, progressMoveAtDie, case_height);
 		}
 
 		if (vision == VisionType.TANK) {

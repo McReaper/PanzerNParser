@@ -16,9 +16,9 @@ public class EnemyLevel2 extends Enemy {
 	public static final int ENEMYLEVEL2_SPEED = 100;
 	public static final int ENEMYLEVEL2_FOV = 4;
 
-	public static final long ENEMYLEVEL2_EGG_TIME = 1000;
+	public static final long ENEMYLEVEL2_EGG_TIME = 0;
 	public static final long ENEMYLEVEL2_HIT_TIME = 500;
-	public static final long ENEMYLEVEL2_EXPLODE_TIME = 5;
+	public static final long ENEMYLEVEL2_EXPLODE_TIME = 1000;
 	public static final long ENEMYLEVEL2_MOVE_TIME = 1000;
 	public static final long ENEMYLEVEL2_POP_TIME = 1000;
 	public static final long ENEMYLEVEL2_TURN_TIME = 0;

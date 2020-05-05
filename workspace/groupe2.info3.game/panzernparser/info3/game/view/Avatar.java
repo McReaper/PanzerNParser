@@ -85,7 +85,10 @@ public class Avatar {
 
 		Image sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir, vision);
 
-		g.drawImage(sprite, x, y, width, height, null);
+		if (ExplosionAvatar.printEntity(entity)) {
+			g.drawImage(sprite, x, y, width, height, null);
+		}
+		ExplosionAvatar.exploding(g, entity, x, y, width, height);
 	}
 
 }

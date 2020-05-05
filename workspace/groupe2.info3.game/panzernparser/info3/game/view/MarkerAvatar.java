@@ -31,6 +31,9 @@ public class MarkerAvatar extends Avatar {
 
 		Image sprite = m_animation.getImage(progress, e_currAction, e_actionDir, vision);
 
-		g.drawImage(sprite, x, y, width, height, null);
+		if (ExplosionAvatar.printEntity(entity)) {
+			g.drawImage(sprite, x, y, width, height, null);
+		}
+		ExplosionAvatar.exploding(g, entity, x, y, width, height);
 	}
 }

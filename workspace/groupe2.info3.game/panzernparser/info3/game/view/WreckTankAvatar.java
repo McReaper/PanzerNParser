@@ -19,7 +19,10 @@ public class WreckTankAvatar extends Avatar {
 		VisionType vision = Model.getModel().getVisionType();
 		double progress = entity.getActionProgress();
  		Image img = m_animation.getImage(progress, LsAction.Wait, entity.getLookAtDir(), vision);
-		g.drawImage(img, xcase, ycase, case_width*entity.getWidth(), case_height*entity.getHeight(), null);
+		if (ExplosionAvatar.printEntity(entity)) {
+			g.drawImage(img, xcase, ycase, case_width*entity.getWidth(), case_height*entity.getHeight(), null);
+		}
+		ExplosionAvatar.exploding(g, entity, xcase, ycase, case_width*entity.getWidth(), case_height*entity.getHeight());
 	}
 	
 	

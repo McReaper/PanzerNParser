@@ -75,7 +75,10 @@ public class TurretAvatar extends Avatar {
 			default:
 				break;
 		}
-		g.drawImage(sprite, x, y, width, height, null);
+		if (ExplosionAvatar.printEntity(entity)) {
+			g.drawImage(sprite, x, y, width, height, null);
+		}
+		ExplosionAvatar.exploding(g, entity, x, y, width, height);
 	}
 
 }

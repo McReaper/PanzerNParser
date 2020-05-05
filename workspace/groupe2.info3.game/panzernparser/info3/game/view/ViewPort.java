@@ -15,6 +15,7 @@ import info3.game.model.Model;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.TankBody;
+import info3.game.model.entities.WreckTank;
 
 public class ViewPort {
 
@@ -243,7 +244,7 @@ public class ViewPort {
 					y = e.getY();
 					w = e.getWidth();
 					h = e.getHeight();
-					int intView = this.inView(x, y, w, h);
+					int intView = this.inView(x, y, w, h,e);
 					if (intView != DO_NOT_PAINT) {
 						// position de la case dans le vp
 						x -= m_x;
@@ -293,7 +294,7 @@ public class ViewPort {
 	private static final int PAINT_MOVE_Y = 2;
 	private static final int PAINT_MOVE_XY = 3;
 
-	private int inView(int x, int y, int w, int h) {
+	private int inView(int x, int y, int w, int h,Entity e) {
 		int xL = m_x;
 		int xR = m_grid.realX(m_x + m_nbCells);
 		int yU = m_y;
@@ -305,7 +306,7 @@ public class ViewPort {
 			inX = true;
 		} else if (xL > xR && ((x + w) > xL || x < xR)) {
 			inX = true;
-			if (x < xL) {
+			if (x + w < xL) {
 				painting += PAINT_MOVE_X;
 			}
 		}
@@ -313,7 +314,7 @@ public class ViewPort {
 			inY = true;
 		} else if (yU > yD && ((y + h) > yU || y < yD)) {
 			inY = true;
-			if (y < yU) {
+			if (y + h < yU) {
 				painting += PAINT_MOVE_Y;
 			}
 		}

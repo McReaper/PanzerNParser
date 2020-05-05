@@ -10,23 +10,12 @@ public class ShotSlow extends Shot {
 	public static final int SHOTSLOW_HEIGHT = 1;
 
 	public static final int SHOTSLOW_HEALTH = 100;
-	public static final int SHOTSLOW_SPEED = 2000;
-	public static final int SHOTSLOW_NUMBER_CASE_LIFE = 10;
+	public static final int SHOTSLOW_SPEED = 200;
+	public static final int SHOTSLOW_NUMBER_CASE_LIFE = 5;
 
-	public static final long SHOTSLOW_EGG_TIME = 1000;
-	public static final long SHOTSLOW_GET_TIME = 2000;
-	public static final long SHOTSLOW_HIT_TIME = 1000;
-	public static final long SHOTSLOW_JUMP_TIME = 1000;
 	public static final long SHOTSLOW_EXPLODE_TIME = 1000;
 	public static final long SHOTSLOW_MOVE_TIME = 200;
-	public static final long SHOTSLOW_PICK_TIME = 1000;
 	public static final long SHOTSLOW_POP_TIME = 10000;
-	public static final long SHOTSLOW_POWER_TIME = 1000;
-	public static final long SHOTSLOW_PROTECT_TIME = 1000;
-	public static final long SHOTSLOW_STORE_TIME = 1000;
-	public static final long SHOTSLOW_TURN_TIME = 1000;
-	public static final long SHOTSLOW_THROW_TIME = 1000;
-	public static final long SHOTSLOW_WAIT_TIME = 50;
 	public static final long SHOTSLOW_WIZZ_TIME = 1000;
 
 	public static final int SHOTSLOW_DAMAGE_DEALT = 50;
@@ -36,37 +25,39 @@ public class ShotSlow extends Shot {
 		m_health = SHOTSLOW_HEALTH;
 		m_damage_dealt = SHOTSLOW_DAMAGE_DEALT;
 		m_speed = SHOTSLOW_SPEED;
+		m_nbCaseLeft = SHOTSLOW_NUMBER_CASE_LIFE *2;//car on appelle 2 fois la fonction move qui décrémente ce nombre
 	}
 	
 	@Override
 	public void Move(MyDirection dir) {
-		m_health -= SHOTSLOW_NUMBER_CASE_LIFE / 2; // TODO : revoir pour la durer de vie des balles dans les diagonales
+		m_nbCaseLeft --;
+		if (m_nbCaseLeft <=0) {
+			m_health = 0;
+		}
 		super.Move(dir);
 	}
 
-//	public void Egg(MyDirection dir) {
-//		if (m_actionFinished && m_currentAction == LsAction.Egg) {
-//			m_actionFinished = false;
-//			m_currentAction = null;
-//			Entity ent = EntityFactory.newEntityShot(MyEntities.Shot, this.m_x, m_y, Turret.GUN_BULLET_SLOW);
-//			Entity ent2 = EntityFactory.newEntityShot(MyEntities.Shot, this.m_x, m_y, Turret.GUN_BULLET_SLOW);
-//
-//			// Donne la direction de regard et d'action
-//			ent.setLookDir(MyDirection.toAbsolute(m_currentLookAtDir, MyDirection.LEFT));
-//			ent.setActionDir(MyDirection.toAbsolute(m_currentActionDir, MyDirection.LEFT));
-//
-//			// Donne la direction de regard et d'action
-//			ent2.setLookDir(MyDirection.toAbsolute(m_currentLookAtDir, MyDirection.RIGHT));
-//			ent2.setActionDir(MyDirection.toAbsolute(m_currentActionDir, MyDirection.RIGHT));
-//
-//			// Donne l'entité qui l'a tiré
-//			((Shot) ent).setOwner(this);
-//			((Shot) ent2).setOwner(this);
-//		} else if (m_currentAction == null) {
-//			m_currentAction = LsAction.Egg;
-//			m_timeOfAction = SHOTSLOW_EGG_TIME;
-//		}
-//	}
+	public void Pop(MyDirection dir) {//pose un droppable
+		if (m_actionFinished && m_currentAction == LsAction.Pop) {
+			m_actionFinished = false;
+			m_currentAction = null;
+			m_height *=2;
+		} else if (m_currentAction == null) {
+			m_currentAction = LsAction.Pop;
+			m_timeOfAction = SHOTSLOW_POP_TIME;
+		}
+	}
+	
+	public void Wizz(MyDirection dir) {//Change de direction
+		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
+			m_actionFinished = false;
+			m_currentAction = null;
+			m_currentActionDir = MyDirection.toAbsolute(m_currentActionDir, dir);
+		} else if (m_currentAction == null) {
+			m_currentAction = LsAction.Wizz;
+			m_timeOfAction = SHOTSLOW_WIZZ_TIME;
+		}
+	}
 
 	@Override
 	public void Explode() {

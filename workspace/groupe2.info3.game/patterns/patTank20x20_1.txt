@@ -16,5 +16,4 @@ vein1 3,3
 vein1 8,3
 vein1 14,13
 vein1 18,16
-enem2 19,18
-enem2 10,10
+enem2 14,6

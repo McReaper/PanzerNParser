@@ -23,19 +23,12 @@ public class Drone extends MovingEntity {
 	public static final int INIT_MARKER_MAX = 3;
 	public static final int DRONE_FOV = 10;
 
-	public static final long DRONE_EGG_TIME = 1000;
-	public static final long DRONE_GET_TIME = 1000;
 	public static final long DRONE_HIT_TIME = 1000;
 	public static final long DRONE_JUMP_TIME = 100;
-	public static final long DRONE_EXPLODE_TIME = 1000;
 	public static final long DRONE_MOVE_TIME = 1000;
-	public static final long DRONE_PICK_TIME = 1000;
 	public static final long DRONE_POP_TIME = 1000;
 	public static final long DRONE_POWER_TIME = 1000;
-	public static final long DRONE_PROTECT_TIME = 1000;
-	public static final long DRONE_STORE_TIME = 1000;
 	public static final long DRONE_TURN_TIME = 50;
-	public static final long DRONE_THROW_TIME = 1000;
 	public static final long DRONE_WAIT_TIME = 50;
 	public static final long DRONE_WIZZ_TIME = 1000;
 
@@ -161,6 +154,17 @@ public class Drone extends MovingEntity {
 		}
 	}
 
+	public void Wait() {
+		if (m_actionFinished && m_currentAction == LsAction.Wait) {
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = null;
+			m_currentAction = LsAction.Wait;
+			m_timeOfAction = DRONE_WAIT_TIME;
+		}
+	}
+	
 	@Override
 	public void Wizz(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {

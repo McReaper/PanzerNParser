@@ -23,19 +23,11 @@ public class TankBody extends MovingEntity {
 	public static final int TANKBODY_HEALTH = Tank.TANK_HEALTH;
 	public static final int TANKBODY_SPEED = Tank.TANK_SPEED;
 
-	public static final long TANKBODY_EGG_TIME = 1000;
-	public static final long TANKBODY_GET_TIME = 1000;
-	public static final long TANKBODY_HIT_TIME = 1000;
-	public static final long TANKBODY_JUMP_TIME = 1000;
 	public static final long TANKBODY_EXPLODE_TIME = 1000;
 	public static final long TANKBODY_MOVE_TIME = 800;
-	public static final long TANKBODY_PICK_TIME = 50;
+	public static final long TANKBODY_PICK_TIME = 0;
 	public static final long TANKBODY_POP_TIME = 1000;
-	public static final long TANKBODY_POWER_TIME = 1000;
-	public static final long TANKBODY_PROTECT_TIME = 1000;
-	public static final long TANKBODY_STORE_TIME = 1000;
 	public static final long TANKBODY_TURN_TIME = 0;
-	public static final long TANKBODY_THROW_TIME = 1000;
 	public static final long TANKBODY_WAIT_TIME = 50;
 	public static final long TANKBODY_WIZZ_TIME = 1000;
 	public static final int TANKBODY_DAMMAGE_DEALT = 100;

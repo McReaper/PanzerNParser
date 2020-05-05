@@ -169,9 +169,13 @@ public class Model {
 
 	/* regarde si la map a besoin d'être régenerer (dès que y a plus d'enemy) */
 	private boolean needRegeneration() {
-		return getEntities(MyEntities.EnemyLevel2).isEmpty();
+		return false;//getEntities(MyEntities.EnemyLevel2).isEmpty();
 	}
 
+	public double getReloadProgress() {
+		return (double)m_reloadElapsed/RELOAD_TIME;
+	}
+	
 	/* vide la liste d'entité */
 	private void reset() throws UnexpectedException {
 		/* reinitialisation des entités */
@@ -227,14 +231,6 @@ public class Model {
 	}
 
 	//////// Gestion du passage drone/tank ////////
-
-	private boolean reloadNecessary() {
-		return m_time > 5000 && m_time < 5500;
-	}
-	
-	public double getReloadProgress() {
-		return (double)m_reloadElapsed/RELOAD_TIME;
-	}
 
 	public boolean isPlayingTank() {
 		return m_playingTank;
@@ -428,6 +424,10 @@ public class Model {
 			System.err.println("L'upgrade passé en paramètre n'est pas connue du model.");
 			System.exit(-1);
 		}
+	}
+
+	public int getLevel() {
+		return 2;
 	}
 
 }

@@ -1,6 +1,5 @@
 package info3.game.model.entities;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import info3.game.automaton.Automaton;
@@ -8,7 +7,11 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 
-public class Mud extends Ground {
+public class Mud extends StaticEntity {
+
+	public static final int MUD_WIDTH = 1;
+	public static final int MUD_HEIGHT = 1;
+
 	public static final int MUD_WIZZ_TIME = 50;
 	public static final int MUD_COEFFICIENT_SPEED = 2;// indique par quel coefficient va être divisé la vitesse
 	public static final int MUD_POP_TIME = 100;
@@ -16,10 +19,11 @@ public class Mud extends Ground {
 	Entity m_entityHere;
 
 	public Mud(int x, int y, Automaton aut) {
-		super(x, y, aut);
+		super(x, y, MUD_WIDTH, MUD_HEIGHT, aut);
+		m_entityHere = null;
 	}
 
-	public void Wizz(MyDirection dir) {//La boue fait avancer moins vite
+	public void Wizz(MyDirection dir) {// La boue fait avancer moins vite
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -40,7 +44,7 @@ public class Mud extends Ground {
 		}
 	}
 
-	public void Pop(MyDirection dir) {//La boue se transforme en glace et on avance plus vite dessu
+	public void Pop(MyDirection dir) {// La boue se transforme en glace et on avance plus vite dessu
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -62,6 +66,18 @@ public class Mud extends Ground {
 		}
 	}
 
+	@Override
+	public void Wait() {
+		if (m_actionFinished && m_currentAction == LsAction.Wait) {
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = null;
+			m_currentAction = LsAction.Wait;
+			m_timeOfAction = 0;
+		}
+	}
+	
 	private void getMovingEntityHere() {
 		LinkedList<Entity> entities = Model.getModel().getGrid().getEntityCells(m_x, m_y, m_x + m_width - 1,
 				m_y + m_height - 1);

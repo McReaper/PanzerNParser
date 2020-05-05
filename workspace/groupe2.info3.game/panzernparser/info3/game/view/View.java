@@ -48,8 +48,6 @@ public class View extends Container {
 	 */
 	private void initAvatars() {
 		GameConfiguration config = GameConfiguration.getConfig();
-		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Ground)));
-		orderEntities.add(MyEntities.Ground);
 		m_avatars.add(new VeinAvatar(config.getAnimation(MyEntities.Vein)));
 		orderEntities.add(MyEntities.Vein);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Hole)));

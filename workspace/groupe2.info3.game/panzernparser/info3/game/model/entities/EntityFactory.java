@@ -8,7 +8,7 @@ import info3.game.model.Model;
 
 public class EntityFactory {
 	public enum MyEntities {
-		Wall, Ground, EnemyBasic, EnemyLevel2, Droppable, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody,
+		Wall, EnemyBasic, EnemyLevel2, Droppable, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody,
 		Turret, Hole, WreckTank, Mud;
 	}
 
@@ -28,11 +28,6 @@ public class EntityFactory {
 	public static Entity newVein(int x, int y, Automaton aut) {
 		Entity vein = new Vein(x, y, aut);
 		return vein;
-	}
-
-	public static Entity newGround(int x, int y, Automaton aut) {
-		Entity ground = new Ground(x, y, aut);
-		return ground;
 	}
 	
 	public static Entity newMud(int x, int y, Automaton aut) {
@@ -100,9 +95,6 @@ public class EntityFactory {
 		switch (entity) {
 			case Wall:
 				res = newWall(x, y, config.getAutomaton(MyEntities.Wall));
-				break;
-			case Ground:
-				res = newGround(x, y, config.getAutomaton(MyEntities.Ground));
 				break;
 			case EnemyBasic:
 				res = newEnemyBasic(x, y, config.getAutomaton(MyEntities.EnemyBasic));
@@ -177,10 +169,10 @@ public class EntityFactory {
 			return MyEntities.EnemyLevel2;
 		} else if (e instanceof Vein) {
 			return MyEntities.Vein;
-		} else if (e instanceof Ground) {
-			return MyEntities.Ground;
 		} else if (e instanceof Wall) {
 			return MyEntities.Wall;
+		} else if (e instanceof Mud) {
+			return MyEntities.Mud;
 		} else if (e instanceof Hole) {
 			return MyEntities.Hole;
 		} else if (e instanceof Marker) {

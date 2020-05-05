@@ -158,8 +158,7 @@ public class EntityFactory {
 			default:
 				throw new IllegalStateException("Entité non reconnue !");
 		}
-		Model.getModel().getGrid().addEntity(res);
-		Model.getModel().getEntities(entity).add(res);
+		Model.getModel().addEntity(res);
 		return res;
 	}
 
@@ -179,10 +178,6 @@ public class EntityFactory {
 		} else if (e instanceof Vein) {
 			return MyEntities.Vein;
 		} else if (e instanceof Ground) {
-			if (e.getCategory() == MyCategory.O)
-				return MyEntities.Wall;
-			else if (e instanceof Hole)
-				return MyEntities.Hole;
 			return MyEntities.Ground;
 		} else if (e instanceof Wall) {
 			return MyEntities.Wall;

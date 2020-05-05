@@ -158,6 +158,22 @@ public class Grid {
 		}
 	}
 
+	public double distanceXAtPow2(int a, int b) {
+		double baicDst = Math.pow(a - b, 2);
+		double toreDst = Math.min(a, b);
+		toreDst += this.getNbCellsX() - Math.max(a, b);
+		toreDst = Math.pow(toreDst, 2);
+		return Math.min(baicDst, toreDst);
+	}
+
+	public double distanceYAtPow2(int a, int b) {
+		double baicDst = Math.pow(a - b, 2);
+		double toreDst = Math.min(a, b);
+		toreDst += this.getNbCellsY() - Math.max(a, b);
+		toreDst = Math.pow(toreDst, 2);
+		return Math.min(baicDst, toreDst);
+	}
+
 	/**
 	 * Cette fonction sert de callback lorsque l'entité se déplace de plus d'une
 	 * case

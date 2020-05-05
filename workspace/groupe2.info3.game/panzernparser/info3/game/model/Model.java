@@ -93,6 +93,7 @@ public class Model {
 			} else if (m_reloadElapsed >= RELOAD_TIME/3 && !m_hasReloaded) {
 				try {
 					m_hasReloaded = true;
+					m_playingTank = true;
 					reset();
 				} catch (Exception e) {
 					e.printStackTrace();

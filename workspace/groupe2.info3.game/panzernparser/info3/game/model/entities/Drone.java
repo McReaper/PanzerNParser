@@ -159,7 +159,6 @@ public class Drone extends MovingEntity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			m_currentActionDir = null;
 			m_currentAction = LsAction.Wait;
 			m_timeOfAction = DRONE_WAIT_TIME;
 		}

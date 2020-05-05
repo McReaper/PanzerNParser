@@ -2,19 +2,30 @@ package info3.game.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.color.ColorSpace;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorConvertOp;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Grid;
 import info3.game.model.Model;
+import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Entity;
 
 public class ViewPort {
 
 	public static final int MINIMAL_WIDTH = 400;
 	public static final int MINIMAL_HEIGHT = 400;
+	private static final Color ENEMI_COLOR = new Color(17, 0, 123, 200);
+	private static final Color RESSOURCE_COLOR = new Color(127, 127, 127, 125);
 
 	private Entity m_player;
 	private View m_view;
@@ -32,11 +43,23 @@ public class ViewPort {
 	private int m_offsetWindowX;
 	private int m_offsetWindowY;
 	private double m_zoom;
+	private BufferedImage m_map;
+	private BufferedImage m_neutralMap;
+	private BufferedImage m_mapRessource;
 
 	public ViewPort(Entity player, View view) {
 		m_view = view;
 		m_grid = Model.getModel().getGrid();
 		setPlayer(player);
+		try {
+			m_neutralMap = ImageIO.read(new File("sprites/Map1.png"));
+			m_mapRessource = ImageIO.read(new File("sprites/Map1.png"));
+			ColorConvertOp op = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
+			op.filter(m_mapRessource, m_mapRessource);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void setPlayer(Entity player) { /// pour quand on passe de done à tank et inversement
@@ -56,7 +79,7 @@ public class ViewPort {
 		m_width = m_view.m_canvas.getWidth();
 		m_height = m_view.m_canvas.getHeight();
 		m_paintSize = Math.min(m_height, m_width);
-		m_caseSize = ((double)m_paintSize / (m_nbCells +m_zoom- 4));
+		m_caseSize = ((double) m_paintSize / (m_nbCells + m_zoom - 4));
 	}
 
 	private void positionViewPort() {
@@ -106,21 +129,21 @@ public class ViewPort {
 			}
 		}
 	}
-	
+
 	private void zoom() {
 		m_zoom = 0;
-		if(m_player.getCurrentAction() == LsAction.Jump) {
+		if (m_player.getCurrentAction() == LsAction.Jump) {
 			double progress = m_player.getActionProgress();
 			MyDirection actDir = m_player.getCurrentActionDir();
 			switch (actDir) {
 				case FRONT:
-					m_zoom = progress*2;
+					m_zoom = progress * 2;
 					break;
 				case BACK:
-					m_zoom = -progress*2;
+					m_zoom = -progress * 2;
 			}
 		}
-		
+
 	}
 
 	public double getCaseWidth() {
@@ -153,12 +176,11 @@ public class ViewPort {
 
 	public int getY() {
 		return m_y;
-	}	
+	}
 
 	public int getPaintSize() {
 		return m_paintSize;
 	}
-
 
 	public void paint(Graphics g, List<Avatar> lsAvatars) {
 		Entity play = Model.getModel().getPlayed();
@@ -175,10 +197,24 @@ public class ViewPort {
 		m_offsetWindowX = (m_width - m_paintSize) / 2;
 		m_offsetWindowY = (m_height - m_paintSize) / 2;
 		g.setColor(Color.BLACK);
-		for (double i =  (m_offsetWindowX - m_offsetX+m_zoom*m_caseSize/2); i < m_paintSize + m_offsetWindowX; i += m_caseSize)
-			g.drawLine((int)i, m_offsetWindowY, (int)i, m_offsetWindowY + m_paintSize);
-		for (double j = (m_offsetWindowY - m_offsetY+m_zoom*m_caseSize/2); (int)j < m_paintSize + m_offsetWindowY; j += m_caseSize)
-			g.drawLine(m_offsetWindowX, (int)j, m_offsetWindowX + m_paintSize, (int)j);
+		for (double i = (m_offsetWindowX - m_offsetX + m_zoom * m_caseSize / 2); i < m_paintSize
+				+ m_offsetWindowX; i += m_caseSize)
+			g.drawLine((int) i, m_offsetWindowY, (int) i, m_offsetWindowY + m_paintSize);
+		for (double j = (m_offsetWindowY - m_offsetY + m_zoom * m_caseSize / 2); (int) j < m_paintSize
+				+ m_offsetWindowY; j += m_caseSize)
+			g.drawLine(m_offsetWindowX, (int) j, m_offsetWindowX + m_paintSize, (int) j);
+
+		if (Model.getModel().getVisionType() == VisionType.RESSOURCES) {
+			m_map = m_mapRessource;
+		} else {
+			m_map = m_neutralMap;
+		}
+
+		drawMap(g);
+		if (Model.getModel().getVisionType() == VisionType.ENEMIES) {
+			g.setColor(ENEMI_COLOR);
+			g.fillRect(0, 0, m_width, m_height);
+		}
 
 		LinkedList<Entity> entityList;
 		int i = 0;
@@ -197,8 +233,8 @@ public class ViewPort {
 						x -= m_x;
 						y -= m_y;
 						// pour le décalage
-						double dx = x - 2+m_zoom/2;
-						double dy = y - 2+m_zoom/2;
+						double dx = x - 2 + m_zoom / 2;
+						double dy = y - 2 + m_zoom / 2;
 						// position en px de la case
 						dx *= m_caseSize;
 						dy *= m_caseSize;
@@ -218,7 +254,7 @@ public class ViewPort {
 								dy += m_grid.getNbCellsY() * m_caseSize;
 								break;
 						}
-						avatar.paint(g, e, (int)dx, (int)dy, (int)m_caseSize, (int)m_caseSize);
+						avatar.paint(g, e, (int) dx, (int) dy, (int) m_caseSize, (int) m_caseSize);
 
 					}
 				}
@@ -232,6 +268,70 @@ public class ViewPort {
 		g.fillRect(0, m_offsetWindowY + m_paintSize, m_width, m_offsetWindowY);
 		g.fillRect(0, 0, m_offsetWindowX, m_height);
 		g.fillRect(m_offsetWindowX + m_paintSize, 0, m_offsetWindowX, m_height);
+
+	}
+
+	public void drawMap(Graphics g) {
+		int imageCaseSize = 3200 / m_grid.getNbCellsX();
+		if (m_x + m_nbCells <= m_grid.getNbCellsX() && m_y + m_nbCells <= m_grid.getNbCellsY()) {
+			Image viewmap = m_map.getSubimage((int) (m_x * imageCaseSize), (int) (m_y * imageCaseSize),
+					m_nbCells * imageCaseSize, m_nbCells * imageCaseSize);
+			g.drawImage(viewmap, (int) (m_offsetWindowX - m_offsetX - 2 * m_caseSize),
+					(int) (m_offsetWindowY - m_offsetY - 2 * m_caseSize), (int) (m_nbCells * m_caseSize),
+					(int) (m_nbCells * m_caseSize), null);
+		}
+		if (m_x + m_nbCells > m_grid.getNbCellsX() && m_y + m_nbCells <= m_grid.getNbCellsY()) {
+			int intersect = m_grid.getNbCellsX() - m_x;
+			Image img1 = m_map.getSubimage(m_x * imageCaseSize, m_y * imageCaseSize, intersect * imageCaseSize,
+					m_nbCells * imageCaseSize);
+			g.drawImage(img1, (int) (m_offsetWindowX - m_offsetX - 2 * m_caseSize + 1),
+					(int) (m_offsetWindowY - m_offsetY - 2 * m_caseSize), (int) (intersect * m_caseSize),
+					(int) (m_nbCells * m_caseSize), null);
+			Image img2 = m_map.getSubimage(0, m_y * imageCaseSize, (m_nbCells - intersect) * imageCaseSize,
+					m_nbCells * imageCaseSize);
+			g.drawImage(img2, (int) (m_offsetWindowX - m_offsetX + (intersect - 2) * m_caseSize),
+					(int) (m_offsetWindowY - m_offsetY - 2 * m_caseSize), (int) ((m_nbCells - intersect) * m_caseSize),
+					(int) (m_nbCells * m_caseSize), null);
+		}
+		if (m_x + m_nbCells <= m_grid.getNbCellsX() && m_y + m_nbCells > m_grid.getNbCellsY()) {
+			int intersect = m_grid.getNbCellsY() - m_y;
+			Image img1 = m_map.getSubimage(m_x * imageCaseSize, m_y * imageCaseSize, m_nbCells * imageCaseSize,
+					intersect * imageCaseSize);
+			g.drawImage(img1, (int) (m_offsetWindowX - m_offsetX - 2 * m_caseSize),
+					(int) (m_offsetWindowY - m_offsetY - 2 * m_caseSize + 1), (int) (m_nbCells * m_caseSize),
+					(int) (intersect * m_caseSize), null);
+			Image img2 = m_map.getSubimage(m_x * imageCaseSize, 0, m_nbCells * imageCaseSize,
+					(m_nbCells - intersect) * imageCaseSize);
+			g.drawImage(img2, (int) (m_offsetWindowX - m_offsetX - 2 * m_caseSize),
+					(int) (m_offsetWindowY - m_offsetY + (intersect - 2) * m_caseSize), (int) (m_nbCells * m_caseSize),
+					(int) ((m_nbCells - intersect) * m_caseSize), null);
+		}
+		if (m_x + m_nbCells > m_grid.getNbCellsX() && m_y + m_nbCells > m_grid.getNbCellsY()) {
+			int intersectX = m_grid.getNbCellsX() - m_x;
+			int intersectY = m_grid.getNbCellsY() - m_y;
+			Image img1 = m_map.getSubimage(m_x * imageCaseSize, m_y * imageCaseSize, intersectX * imageCaseSize,
+					intersectY * imageCaseSize);
+			g.drawImage(img1, (int) (m_offsetWindowX - m_offsetX - 2 * m_caseSize + 1),
+					(int) (m_offsetWindowY - m_offsetY - 2 * m_caseSize + 1), (int) (intersectX * m_caseSize),
+					(int) (intersectY * m_caseSize), null);
+			Image img2 = m_map.getSubimage(m_x * imageCaseSize, 0, intersectX * imageCaseSize,
+					(m_nbCells - intersectY) * imageCaseSize);
+			g.drawImage(img2, (int) (m_offsetWindowX - m_offsetX - 2 * m_caseSize + 1),
+					(int) (m_offsetWindowY - m_offsetY + (intersectY - 2) * m_caseSize), (int) (intersectX * m_caseSize),
+					(int) ((m_nbCells - intersectY) * m_caseSize), null);
+			Image img3 = m_map.getSubimage(0, m_y * imageCaseSize, (m_nbCells - intersectX) * imageCaseSize,
+					intersectY * imageCaseSize);
+			g.drawImage(img3, (int) (m_offsetWindowX - m_offsetX + (intersectX - 2) * m_caseSize),
+					(int) (m_offsetWindowY - m_offsetY - 2 * m_caseSize + 1), (int) ((m_nbCells - intersectX) * m_caseSize),
+					(int) (intersectY * m_caseSize), null);
+
+			Image img4 = m_map.getSubimage(0, 0, (m_nbCells - intersectX) * imageCaseSize,
+					(m_nbCells - intersectY) * imageCaseSize);
+			g.drawImage(img4, (int) (m_offsetWindowX - m_offsetX - 2 * m_caseSize + intersectX * m_caseSize),
+					(int) (m_offsetWindowY - m_offsetY - 2 * m_caseSize + intersectY * m_caseSize),
+					(int) ((m_nbCells - intersectX) * m_caseSize), (int) ((m_nbCells - intersectY) * m_caseSize), null);
+
+		}
 
 	}
 

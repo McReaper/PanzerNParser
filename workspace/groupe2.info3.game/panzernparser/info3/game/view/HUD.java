@@ -565,6 +565,7 @@ public class HUD {
 			m_vision = vision;
 		}
 		updateCurrentATH();
+		m_view.m_canvas.requestFocusInWindow();
 	}
 
 	private void updateCurrentATH() {
@@ -589,9 +590,11 @@ public class HUD {
 	private void updateButtons() {
 		for (UpgradeButton button : m_statButtons) {
 			button.setEnabled(button.getUpgrade().isAvaible());
+			button.updatePrice();
 		}
 		for (UpgradeButton button : m_uniqButtons) {
 			button.setEnabled(button.getUpgrade().isAvaible());
+			button.updatePrice();
 		}
 	}
 
@@ -832,6 +835,11 @@ public class HUD {
 
 		public Upgrade getUpgrade() {
 			return m_upgrade;
+		}
+		
+		public void updatePrice() {
+			m_elecCost = Integer.toString(m_upgrade.getCostElec());
+			m_mineCost = Integer.toString(m_upgrade.getCostMine());
 		}
 	}
 }

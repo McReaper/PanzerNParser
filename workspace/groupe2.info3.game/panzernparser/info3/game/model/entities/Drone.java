@@ -14,8 +14,8 @@ import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class Drone extends MovingEntity {
-	public final static int DRONE_WIDTH = 5;
-	public final static int DRONE_HEIGHT = 5;
+	public final static int DRONE_WIDTH = 3;
+	public final static int DRONE_HEIGHT = 3;
 
 	public static final int DRONE_HEALTH = 300000;
 	public static final int DRONE_SPEED = 200;

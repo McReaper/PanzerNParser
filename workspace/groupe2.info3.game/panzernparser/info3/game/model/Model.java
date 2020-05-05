@@ -28,11 +28,14 @@ import info3.game.model.entities.Turret;
 
 public class Model {
 
-	public static final long RELOAD_GRID_TIME = 3000;
+	public static final int IN_PLAY = 0;
+	public static final int RELOADING_MAP = 1;
+	public static final int RELOAD_TIME = 3000;
 	
 	public enum VisionType {
 		TANK, RESSOURCES, ENEMIES;
 	}
+	
 
 	private static Model self; // Singleton du model
 
@@ -49,6 +52,9 @@ public class Model {
 	private LinkedList<Upgrade> m_statUpgrade;
 	private LinkedList<Upgrade> m_uniqUpgrade;
 	private Score m_score;
+	private int m_reloadingState;
+	private boolean m_hasReloaded;
+	private long m_reloadElapsed;
 
 	/**
 	 * Fonction qui gère le singleton du modèle (évite de créer plusieurs modèles).
@@ -60,28 +66,38 @@ public class Model {
 			new Model();
 		return self;
 	}
-
+	
 	/**
 	 * au rythme des ticks du gamecanvas.
 	 * @param elapsed
 	 */
 	public void step(long elapsed) {
-		m_time += elapsed;
-		// Effectue un pas de simulation sur chaque entités
-		for (Entity entity : getAllEntities()) {
-			entity.step(elapsed);
+		if (m_reloadingState == IN_PLAY) {
+			m_time += elapsed;
+			// Effectue un pas de simulation sur chaque entités
+			for (Entity entity : getAllEntities()) {
+				entity.step(elapsed);
+			}
+			m_tank.step();
+			m_collisionManager.controlCollisionsShotsEntity();
+			m_score.updateTime();
 		}
-		m_tank.step();
-		m_collisionManager.controlCollisionsShotsEntity();
-		m_score.updateTime();
-		if (needRegeneration()) {
-			try {
-				Thread.sleep(RELOAD_GRID_TIME/3);
-				reset();
-				Thread.sleep(RELOAD_GRID_TIME - RELOAD_GRID_TIME/3);
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.exit(-1);
+		
+		if (needRegeneration() || m_reloadingState == RELOADING_MAP) {
+			m_reloadingState = RELOADING_MAP;
+			m_reloadElapsed += elapsed;
+			if(m_reloadElapsed >= RELOAD_TIME) {
+				m_reloadingState = IN_PLAY;
+				m_hasReloaded = false;
+				m_reloadElapsed = 0;
+			} else if (m_reloadElapsed >= RELOAD_TIME/3 && !m_hasReloaded) {
+				try {
+					m_hasReloaded = true;
+					reset();
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.exit(-1);
+				}
 			}
 		}
 	}
@@ -97,7 +113,7 @@ public class Model {
 
 		// Temps de jeu écoulé
 		m_time = 0;
-
+		
 		// Création de la liste des touches enfoncées connues du modèle.
 		m_keyPressed = new LinkedList<LsKey>();
 
@@ -143,7 +159,9 @@ public class Model {
 
 		// Création du score du jeu.
 		m_score = new Score();
-
+		
+		m_hasReloaded = false;
+		m_reloadElapsed = 0;
 	}
 	///////////////////////////////////////////////
 	/* REGENERATION MAP */
@@ -209,6 +227,14 @@ public class Model {
 
 	//////// Gestion du passage drone/tank ////////
 
+	private boolean reloadNecessary() {
+		return m_time > 5000 && m_time < 5500;
+	}
+	
+	public double getReloadProgress() {
+		return (double)m_reloadElapsed/RELOAD_TIME;
+	}
+
 	public boolean isPlayingTank() {
 		return m_playingTank;
 	}
@@ -266,6 +292,10 @@ public class Model {
 
 	public Score getScore() {
 		return m_score;
+	}
+	
+	public int getReloadingState() {
+		return m_reloadingState;
 	}
 
 	/////////////////////////////////////////////////

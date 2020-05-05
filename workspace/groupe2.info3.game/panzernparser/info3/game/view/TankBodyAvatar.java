@@ -11,8 +11,9 @@ import info3.game.model.entities.Entity;
 
 public class TankBodyAvatar extends Avatar {
 
-	public TankBodyAvatar(Animation animation) {
+	public TankBodyAvatar(Animation animation, View view) {
 		super(animation);
+		
 	}
 
 	@Override
@@ -41,7 +42,15 @@ public class TankBodyAvatar extends Avatar {
 		} else {
 			sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir, vision);
 		}
-		g.drawImage(sprite, x, y, width, height, null);
+		if (ExplosionAvatar.printEntity(entity)) {
+			g.drawImage(sprite, x, y, width, height, null);
+		} else {
+			
+			
+			
+			
+			
+		}
 		if (e_currAction == LsAction.Pop) {
 			sprite = m_animation.getImage(progress, e_currAction, e_lookAtDir, vision);
 			switch (e_lookAtDir) {
@@ -76,10 +85,7 @@ public class TankBodyAvatar extends Avatar {
 				default:
 					break;
 			}
-			if (ExplosionAvatar.printEntity(entity)) {
-				g.drawImage(sprite, x, y, width, height, null);
-			}
-			ExplosionAvatar.exploding(g, entity, x, y, width, height);
+			g.drawImage(sprite, x, y, width, height, null);
 
 		}
 	}

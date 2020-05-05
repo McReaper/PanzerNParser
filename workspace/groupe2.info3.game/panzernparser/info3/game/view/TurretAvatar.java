@@ -47,6 +47,12 @@ public class TurretAvatar extends Avatar {
 		} else {
 			sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir, vision);
 		}
+		// pour l'explosion
+		int tankX = x;
+		int tankY = y;
+		int tankW = width;
+		int tankH = height;
+		// décal tourelle
 		switch (e_lookAtDir) {
 			case NORTH:
 			case NORTHEAST:
@@ -75,10 +81,10 @@ public class TurretAvatar extends Avatar {
 			default:
 				break;
 		}
-		if (ExplosionAvatar.printEntity(entity)) {
+		if (ExplosionAvatar.printEntity(turrEntity.getTank().getBody())) {
 			g.drawImage(sprite, x, y, width, height, null);
 		}
-		ExplosionAvatar.exploding(g, entity, x, y, width, height);
+		ExplosionAvatar.exploding(g, turrEntity.getTank().getBody(), tankX, tankY, tankW, tankH);
 	}
 
 }

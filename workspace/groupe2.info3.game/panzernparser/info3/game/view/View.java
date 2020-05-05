@@ -74,7 +74,7 @@ public class View extends Container {
 		orderEntities.add(MyEntities.EnemyLevel2);
 		m_avatars.add(new MarkerAvatar(config.getAnimation(MyEntities.Marker)));
 		orderEntities.add(MyEntities.Marker);
-		m_avatars.add(new TankBodyAvatar(config.getAnimation(MyEntities.TankBody)));
+		m_avatars.add(new TankBodyAvatar(config.getAnimation(MyEntities.TankBody), this));
 		orderEntities.add(MyEntities.TankBody);
 		m_avatars.add(new TurretAvatar(config.getAnimation(MyEntities.Turret)));
 		orderEntities.add(MyEntities.Turret);

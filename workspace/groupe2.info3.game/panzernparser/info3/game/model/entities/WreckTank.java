@@ -16,7 +16,8 @@ public class WreckTank extends StaticEntity {
 
 	public static final int WRECKTANK_HEALTH = 100;
 	public static final int WRECKTANK_SPEED = 100;
-
+	public static final int WRECKTANK_DROP_QUANTITY = 10;
+	
 	public static final long WRECKTANK_EGG_TIME = 1000;
 	public static final long WRECKTANK_GET_TIME = 1000;
 	public static final long WRECKTANK_HIT_TIME = 1000;
@@ -32,7 +33,8 @@ public class WreckTank extends StaticEntity {
 	public static final long WRECKTANK_THROW_TIME = 1000;
 	public static final long WRECKTANK_WAIT_TIME = 2000;
 	public static final long WRECKTANK_WIZZ_TIME = 1000;
-
+	
+	int m_quantity;
 	/**
 	 * En fonction de lookAtDir, la vue affichera différentes représentation
 	 */
@@ -43,6 +45,7 @@ public class WreckTank extends StaticEntity {
 		this.setCategory(MyCategory.O);
 		m_currentLookAtDir = (Math.random() > 0.5) ? MyDirection.SOUTH : MyDirection.WEST;
 		m_stuff = true; // Contient des ressources
+		m_quantity = WRECKTANK_DROP_QUANTITY + (WRECKTANK_DROP_QUANTITY/2)* Model.getModel().getLevel();
 	}
 
 	@Override
@@ -68,7 +71,8 @@ public class WreckTank extends StaticEntity {
 			// creation de la ressource a répendre
 			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x + (m_width/2), m_y + (m_height/2));
 			((Droppable) ent).setMaterialType(MaterialType.ELECTRONIC);
-			((Droppable) ent).setQuantity(10);// TODO A mettre dans une variable
+			
+			((Droppable) ent).setQuantity(m_quantity);
 
 			Model.getModel().getScore().scoreWreckTank();
 		}

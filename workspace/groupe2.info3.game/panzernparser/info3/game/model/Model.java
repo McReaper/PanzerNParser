@@ -180,10 +180,11 @@ public class Model {
 		for (MyEntities entityType : MyEntities.values()) {
 			m_entities.put(entityType, new LinkedList<Entity>());
 		}
-
+		m_level++;
 		m_grid.emptyGrid();
 		m_grid.generate();
 		regeneratePlayer();
+		
 	}
 
 	private void regeneratePlayer() {

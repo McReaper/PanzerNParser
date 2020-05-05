@@ -53,7 +53,7 @@ public class Score {
 	}
 
 	private void incrementScore(int value) {
-		m_score += value;
+		m_score += value * Model.getModel().getLevel()/10;
 		System.out.println("Score : " + m_score);
 	}
 	

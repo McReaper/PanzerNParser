@@ -16,7 +16,7 @@ import info3.game.model.entities.Entity;
 public class Avatar {
 	Animation m_animation;
 
-	public Avatar( Animation animation) {
+	public Avatar(Animation animation) {
 		m_animation = animation;
 	}
 
@@ -74,7 +74,7 @@ public class Avatar {
 
 		int width = entity.getWidth() * case_width;
 		int height = entity.getHeight() * case_height;
-		int x = xcase; 
+		int x = xcase;
 		int y = ycase;
 
 		// Pour réaliser un affichage progressif dans le cas d'un move.
@@ -85,10 +85,7 @@ public class Avatar {
 
 		Image sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir, vision);
 
-		if (ExplosionAvatar.printEntity(entity)) {
-			g.drawImage(sprite, x, y, width, height, null);
-		}
-		ExplosionAvatar.exploding(g, entity, x, y, width, height);
+		g.drawImage(sprite, x, y, width, height, null);
 	}
 
 }

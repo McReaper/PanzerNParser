@@ -28,11 +28,8 @@ public class DroppableAvatar extends Avatar {
 		} else {
 			img = m_animation.getImage(progress, LsAction.Wait, null, vision);
 		}
-		if (ExplosionAvatar.printEntity(entity)) {
-			g.drawImage(img, xcase, ycase, case_width * entity.getWidth(), case_height * entity.getHeight(), null);
-		}
-		ExplosionAvatar.exploding(g, entity, xcase, ycase, case_width * entity.getWidth(),
-				case_height * entity.getHeight());
+		g.drawImage(img, xcase, ycase, case_width * entity.getWidth(), case_height * entity.getHeight(), null);
+
 	}
 
 }

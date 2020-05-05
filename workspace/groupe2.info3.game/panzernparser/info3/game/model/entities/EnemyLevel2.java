@@ -31,6 +31,7 @@ public class EnemyLevel2 extends Enemy {
 		super(x, y, ENEMYLEVEL2_WIDTH, ENEMYLEVEL2_HEIGHT, aut);
 		m_range = ENEMYLEVEL2_FOV;
 		m_damage_dealt = ENEMYLEVEL2_DAMMAGE_DEALT;
+		m_speed = ENEMYLEVEL2_SPEED;
 	}
 
 	@Override

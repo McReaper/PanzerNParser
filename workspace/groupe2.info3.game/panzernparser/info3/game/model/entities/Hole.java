@@ -3,6 +3,8 @@ package info3.game.model.entities;
 import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Model;
+import info3.game.model.Model.VisionType;
 
 public class Hole extends StaticEntity {
 	
@@ -44,4 +46,10 @@ public class Hole extends StaticEntity {
 			m_height *=2;
 		}
 	}
+	
+	@Override
+	public boolean isShown() {
+		return Model.getModel().getVisionType() == VisionType.TANK;
+	}
+	
 }

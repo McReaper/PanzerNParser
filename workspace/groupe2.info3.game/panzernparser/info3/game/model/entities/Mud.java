@@ -6,6 +6,7 @@ import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
+import info3.game.model.Model.VisionType;
 
 public class Mud extends StaticEntity {
 
@@ -86,6 +87,11 @@ public class Mud extends StaticEntity {
 				m_entityHere = entity;
 			}
 		}
+	}
+	
+	@Override
+	public boolean isShown() {
+		return Model.getModel().getVisionType() == VisionType.TANK;
 	}
 
 }

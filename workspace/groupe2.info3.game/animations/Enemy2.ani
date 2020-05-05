@@ -1,5 +1,5 @@
 sprite_sheet1 = EnemyTank2.png
-sprite_sheet2 = EnemyTank2.png
+sprite_sheet2 = EnemyTank2VueEnemy.png
 sprite_sheet3 = EnemyTank2.png
 Hit_NORTH = 1,5,1,5,1,5,1
 Hit_NORTHEAST = 6,10,6,10,6,10,6

@@ -30,7 +30,6 @@ public class Vein extends StaticEntity {
 
 	@Override
 	public boolean isShown() {
-		// TODO update en fonction des sprites dispo
 		return (Model.getModel().getVisionType() == VisionType.RESSOURCES);
 	}
 	

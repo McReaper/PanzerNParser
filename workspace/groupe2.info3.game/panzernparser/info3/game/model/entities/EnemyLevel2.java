@@ -31,6 +31,7 @@ public class EnemyLevel2 extends Enemy {
 		super(x, y, ENEMYLEVEL2_WIDTH, ENEMYLEVEL2_HEIGHT, aut);
 		m_range = ENEMYLEVEL2_FOV;
 		m_damage_dealt = ENEMYLEVEL2_DAMMAGE_DEALT;
+		levelUp();
 	}
 
 	@Override
@@ -139,6 +140,15 @@ public class EnemyLevel2 extends Enemy {
 			m_timeOfAction = ENEMYLEVEL2_POP_TIME;
 			m_damage_dealt /=2;
 			}
+	}
+	
+	public void levelUp() {/* l'enemy basic bouge peu mais fait très mal*/
+		if (Model.getModel().getLevel() % 4 == 0) {
+			setMaxHealth(ENEMYLEVEL2_HEALTH*3);
+			m_health = getMaxHealth();
+			m_range+=2;
+			m_damage_dealt = (Model.getModel().getLevel()/3 + 2)* ENEMYLEVEL2_DAMMAGE_DEALT; 
+		}
 	}
 
 }

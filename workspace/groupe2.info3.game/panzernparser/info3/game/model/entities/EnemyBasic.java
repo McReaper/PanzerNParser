@@ -13,7 +13,7 @@ public class EnemyBasic extends Enemy {
 	public final static int ENEMYBASIC_HEIGHT = 1;
 
 	public static final int ENEMYBASIC_HEALTH = 100;
-	public static final int ENEMYBASIC_SPEED = 100;
+	public static final int ENEMYBASIC_SPEED = 1000;
 	public static final int ENEMYBASIC_FOV = 4;
 
 	public static final long ENEMYBASIC_EGG_TIME = 1000;
@@ -32,6 +32,8 @@ public class EnemyBasic extends Enemy {
 		m_category = MyCategory.A;
 		m_range = ENEMYBASIC_FOV;
 		m_damage_dealt = ENEMYBASIC_DAMMAGE_DEALT;
+		m_speed = ENEMYBASIC_SPEED;
+		levelUp();
 	}
 
 	@Override
@@ -114,9 +116,9 @@ public class EnemyBasic extends Enemy {
 			m_timeOfAction = ENEMYBASIC_EXPLODE_TIME;
 		}
 	}
-	
+
 	@Override
-	public void Wizz(MyDirection dir) {//Multiplie la vittesse par 2
+	public void Wizz(MyDirection dir) {// Multiplie la vittesse par 2
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -124,13 +126,12 @@ public class EnemyBasic extends Enemy {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Wizz;
 			m_timeOfAction = ENEMYBASIC_WIZZ_TIME;
-			m_speed /=2;
+			m_speed /= 2;
 		}
 	}
-	
 
 	@Override
-	public void Pop(MyDirection dir) {//Multiplie les damage_dealt par 2
+	public void Pop(MyDirection dir) {// Multiplie les damage_dealt par 2
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -138,8 +139,17 @@ public class EnemyBasic extends Enemy {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Wizz;
 			m_timeOfAction = ENEMYBASIC_POP_TIME;
-			m_damage_dealt *=2;
-			}
+			m_damage_dealt *= 2;
+		}
 	}
 
+	public void levelUp() {
+		if (Model.getModel().getLevel() % 3 == 0) {
+			setMaxHealth(ENEMYBASIC_HEALTH*2);
+			m_health = getMaxHealth();
+			setSpeed((int) (m_speed - m_speed * 0.1));
+			m_range++;
+			m_damage_dealt = (Model.getModel().getLevel()/3 + 1)* ENEMYBASIC_DAMMAGE_DEALT; 
+		}
+	}
 }

@@ -24,7 +24,6 @@ public class Ground extends StaticEntity {
 	
 	@Override
 	public void collide(int dammage) {
-		if(getCategory() != MyCategory.O)
 			super.collide(dammage);
 	}
 	

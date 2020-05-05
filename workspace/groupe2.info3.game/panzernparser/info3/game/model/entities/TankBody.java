@@ -120,13 +120,34 @@ public class TankBody extends MovingEntity {
 		 * TODO faire un GAME OVER
 		 */
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
+			m_tank.setLife(Tank.TANK_HEALTH);// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
+			//m_tank.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			m_tank.setLife(Tank.TANK_HEALTH);// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
-			// m_tank.doExplode();
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = TANKBODY_EXPLODE_TIME;
+			doDead();
+		} else if (m_currentAction == LsAction.Explode && (this.getActionProgress() * 12) >= 5) {
+		}
+	}
+
+	private void doDead() {
+		Entity wreck = EntityFactory.newEntity(MyEntities.WreckTank, m_x, m_y);
+		switch (m_currentLookAtDir) {
+			case SOUTH:
+			case NORTH:
+			case NORTHEAST:
+			case SOUTHWEST:
+				wreck.m_currentLookAtDir = MyDirection.SOUTH;
+				break;
+			case WEST:
+			case EAST:
+			case NORTHWEST:
+			case SOUTHEAST:
+			default:
+				wreck.m_currentLookAtDir = MyDirection.WEST;
+				break;
 		}
 	}
 
@@ -146,7 +167,8 @@ public class TankBody extends MovingEntity {
 					for (Entity entity : e) {
 						if (entity instanceof Marker) {
 							Model.getModel().removeEntity(entity);
-							Model.getModel().getDrone().decreaseMarksNb();;
+							Model.getModel().getDrone().decreaseMarksNb();
+							;
 						} else if (entity instanceof Droppable) {
 							m_tank.getInventory().add((Droppable) entity);
 							Model.getModel().removeEntity(entity);
@@ -189,7 +211,7 @@ public class TankBody extends MovingEntity {
 	public long getMiningTime() {
 		return m_miningTime;
 	}
-	
+
 	public void setMiningTime(long time) {
 		m_miningTime = time;
 	}

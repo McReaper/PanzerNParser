@@ -16,9 +16,9 @@ public class EnemyBasic extends Enemy {
 	public static final int ENEMYBASIC_SPEED = 1000;
 	public static final int ENEMYBASIC_FOV = 4;
 
-	public static final long ENEMYBASIC_EGG_TIME = 1000;
+	public static final long ENEMYBASIC_EGG_TIME = 0;
 	public static final long ENEMYBASIC_HIT_TIME = 500;
-	public static final long ENEMYBASIC_EXPLODE_TIME = 50;
+	public static final long ENEMYBASIC_EXPLODE_TIME = 1000;
 	public static final long ENEMYBASIC_MOVE_TIME = 1000;
 	public static final long ENEMYBASIC_POP_TIME = 1000;
 	public static final long ENEMYBASIC_TURN_TIME = 0;
@@ -108,10 +108,10 @@ public class EnemyBasic extends Enemy {
 	@Override
 	public void Explode() {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
+			this.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			this.doExplode();
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = ENEMYBASIC_EXPLODE_TIME;
 		}

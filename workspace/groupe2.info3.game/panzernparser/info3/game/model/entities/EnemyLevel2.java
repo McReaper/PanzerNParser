@@ -13,12 +13,12 @@ public class EnemyLevel2 extends Enemy {
 	public final static int ENEMYLEVEL2_HEIGHT = 2;
 
 	public static final int ENEMYLEVEL2_HEALTH = 100;
-	public static final int ENEMYLEVEL2_SPEED = 100;
+	public static final int ENEMYLEVEL2_SPEED = 1000;
 	public static final int ENEMYLEVEL2_FOV = 4;
 
-	public static final long ENEMYLEVEL2_EGG_TIME = 1000;
+	public static final long ENEMYLEVEL2_EGG_TIME = 0;
 	public static final long ENEMYLEVEL2_HIT_TIME = 500;
-	public static final long ENEMYLEVEL2_EXPLODE_TIME = 5;
+	public static final long ENEMYLEVEL2_EXPLODE_TIME = 1000;
 	public static final long ENEMYLEVEL2_MOVE_TIME = 1000;
 	public static final long ENEMYLEVEL2_POP_TIME = 1000;
 	public static final long ENEMYLEVEL2_TURN_TIME = 0;
@@ -31,6 +31,7 @@ public class EnemyLevel2 extends Enemy {
 		super(x, y, ENEMYLEVEL2_WIDTH, ENEMYLEVEL2_HEIGHT, aut);
 		m_range = ENEMYLEVEL2_FOV;
 		m_damage_dealt = ENEMYLEVEL2_DAMMAGE_DEALT;
+		m_speed = ENEMYLEVEL2_SPEED;
 		levelUp();
 	}
 
@@ -49,16 +50,46 @@ public class EnemyLevel2 extends Enemy {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = ENEMYLEVEL2_HIT_TIME;
-
-			// creation du shot
-			Entity ent = EntityFactory.newEntity(MyEntities.ShotFast, this.m_x, m_y);
+			// creation des shot
+			Entity ent1;
+			Entity ent2;
+			switch (m_currentLookAtDir) {
+				case SOUTH:
+				case NORTH:
+					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + 1, m_y);
+					break;
+				case WEST:
+				case EAST:
+					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y + 1);
+					break;
+				case SOUTHEAST:
+				case NORTHWEST:
+					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + 1, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y + 1);
+					break;
+				case SOUTHWEST:
+				case NORTHEAST:
+					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + 1, m_y + 1);
+					break;
+				default:
+					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
+					break;
+			}
 
 			// Donne la direction de regard et d'action
-			ent.setLookDir(this.m_currentLookAtDir);
-			ent.setActionDir(this.m_currentActionDir);
+			ent1.setLookDir(this.m_currentLookAtDir);
+			ent1.setActionDir(this.m_currentActionDir);
+
+			ent2.setLookDir(this.m_currentLookAtDir);
+			ent2.setActionDir(this.m_currentActionDir);
 
 			// Donne l'entité qui l'a tiré
-			((Shot) ent).setOwner(this);
+			((Shot) ent1).setOwner(this);
+			((Shot) ent2).setOwner(this);
 		}
 	}
 
@@ -114,9 +145,9 @@ public class EnemyLevel2 extends Enemy {
 			m_timeOfAction = ENEMYLEVEL2_EXPLODE_TIME;
 		}
 	}
-	
+
 	@Override
-	public void Wizz(MyDirection dir) {//Divise la vittesse par 2
+	public void Wizz(MyDirection dir) {// Divise la vittesse par 2
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -124,13 +155,12 @@ public class EnemyLevel2 extends Enemy {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Wizz;
 			m_timeOfAction = ENEMYLEVEL2_WIZZ_TIME;
-			m_speed *=2;
+			m_speed *= 2;
 		}
 	}
-	
 
 	@Override
-	public void Pop(MyDirection dir) {//Divise les damage_dealt par 2
+	public void Pop(MyDirection dir) {// Divise les damage_dealt par 2
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -138,8 +168,8 @@ public class EnemyLevel2 extends Enemy {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Wizz;
 			m_timeOfAction = ENEMYLEVEL2_POP_TIME;
-			m_damage_dealt /=2;
-			}
+			m_damage_dealt /= 2;
+		}
 	}
 	
 	public void levelUp() {/* l'enemy basic bouge peu mais fait très mal*/

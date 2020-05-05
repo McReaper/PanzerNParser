@@ -36,10 +36,10 @@ public class ShotBig extends Shot {
 	@Override
 	public void Explode() {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
+			this.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			this.doExplode();
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = SHOTBIG_EXPLODE_TIME;
 		}

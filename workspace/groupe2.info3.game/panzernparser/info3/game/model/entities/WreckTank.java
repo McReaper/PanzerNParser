@@ -81,9 +81,6 @@ public class WreckTank extends StaticEntity {
 	@Override
 	public void Explode() {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
-			m_actionFinished = false;
-			m_currentAction = null;
-		} else if (m_currentAction == null) {
 			this.setCategory(MyCategory.V);
 			m_currentActionDir = null;
 			switch (m_currentLookAtDir) {
@@ -96,6 +93,9 @@ public class WreckTank extends StaticEntity {
 				default:
 					break;
 			}
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = WRECKTANK_EXPLODE_TIME;
 		}

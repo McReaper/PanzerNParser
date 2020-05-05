@@ -312,10 +312,10 @@ public abstract class Entity {
 
 	public void Explode() {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
+			this.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			this.doExplode();
 			m_currentActionDir = null;
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = DEFAULT_EXPLODE_TIME;

@@ -16,19 +16,20 @@ public class DroppableAvatar extends Avatar {
 	public DroppableAvatar(Animation animation) {
 		super(animation);
 	}
-	
+
 	@Override
 	public void paint(Graphics g, Entity entity, int xcase, int ycase, int case_width, int case_height) {
 		VisionType vision = Model.getModel().getVisionType();
 		double progress = entity.getActionProgress();
-		MaterialType mat = ((Droppable)entity).getMType();
+		MaterialType mat = ((Droppable) entity).getMType();
 		Image img;
-		if(mat == MaterialType.ELECTRONIC) {
+		if (mat == MaterialType.ELECTRONIC) {
 			img = m_animation.getImage(progress, LsAction.Wait, MyDirection.NORTH, vision);
 		} else {
 			img = m_animation.getImage(progress, LsAction.Wait, null, vision);
 		}
-		g.drawImage(img, xcase, ycase, case_width*entity.getWidth(), case_height*entity.getHeight(), null);
+		g.drawImage(img, xcase, ycase, case_width * entity.getWidth(), case_height * entity.getHeight(), null);
+
 	}
 
 }

@@ -1,4 +1,7 @@
 chas1 5,5
 turr1 5,5
 dron1 5,5
-wall1 4,4
+wall1 3,3
+mud_1 2,2
+enem1 8,8
+enem2 10,10

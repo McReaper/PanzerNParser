@@ -82,7 +82,7 @@ public class Mud extends StaticEntity {
 		LinkedList<Entity> entities = Model.getModel().getGrid().getEntityCells(m_x, m_y, m_x + m_width - 1,
 				m_y + m_height - 1);
 		for (Entity entity : entities) {
-			if (entity instanceof MovingEntity) {
+			if (entity instanceof TankBody || entity instanceof Enemy) {
 				m_entityHere = entity;
 			}
 		}

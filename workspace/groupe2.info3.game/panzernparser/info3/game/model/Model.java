@@ -123,8 +123,7 @@ public class Model {
 
 	/* regarde si la map a besoin d'être régenerer (dès que y a plus d'enemy) */
 	private boolean needRegeneration() {
-		return getEntities(MyEntities.EnemyBasic).isEmpty() &&
-				getEntities(MyEntities.EnemyLevel2).isEmpty();
+		return getEntities(MyEntities.EnemyLevel2).isEmpty();
 	}
 
 	/* vide la liste d'entité */
@@ -137,6 +136,21 @@ public class Model {
 
 		m_grid.regenerate();
 		
+		
+	}
+	
+	private void regeneratePlayer() {
+		TankBody newTankBody = (TankBody) getEntities(MyEntities.TankBody).get(0);
+		getEntities(MyEntities.TankBody).remove(0);
+		getEntities(MyEntities.Turret).remove(0);
+		getEntities(MyEntities.Drone).remove(0);
+		int x = newTankBody.getX();
+		int y = newTankBody.getY();
+		m_tank.getBody().setPosition(x, y);
+		m_tank.getTurret().setPosition(x, y);
+		getEntities(MyEntities.TankBody).add(m_tank.getBody());
+		getEntities(MyEntities.Turret).add(m_tank.getTurret());
+		getEntities(MyEntities.Drone).add(m_drone);
 	}
 
 	///////////////////////////////////////////////

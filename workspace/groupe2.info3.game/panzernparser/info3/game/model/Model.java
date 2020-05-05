@@ -31,6 +31,10 @@ public class Model {
 	public enum VisionType {
 		TANK, RESSOURCES, ENEMIES;
 	}
+	
+	public static final int IN_PLAY = 0;
+	public static final int RELOADING_MAP = 1;
+	public static final int RELOAD_TIME = 3000;
 
 	private static Model self; // Singleton du model
 
@@ -47,6 +51,8 @@ public class Model {
 	private LinkedList<Upgrade> m_statUpgrade;
 	private LinkedList<Upgrade> m_uniqUpgrade;
 	private Score m_score;
+	private int m_state;
+	private long m_reloadElapsed;
 
 	/**
 	 * Fonction qui gère le singleton du modèle (évite de créer plusieurs modèles).
@@ -141,9 +147,24 @@ public class Model {
 		m_tank.step();
 		m_collisionManager.controlCollisionsShotsEntity();
 		m_score.updateTime();
+		if(reloadNecessary() || m_state == RELOADING_MAP) {
+			m_state = RELOADING_MAP;
+			m_reloadElapsed += elapsed;
+			if(m_reloadElapsed >= RELOAD_TIME) {
+				m_state = IN_PLAY;
+			}
+		}
 	}
 
 	//////// Gestion du passage drone/tank ////////
+
+	private boolean reloadNecessary() {
+		return m_time > 5000 && m_time < 5500;
+	}
+	
+	public double getReloadProgress() {
+		return (double)m_reloadElapsed/RELOAD_TIME;
+	}
 
 	public boolean isPlayingTank() {
 		return m_playingTank;
@@ -202,6 +223,10 @@ public class Model {
 
 	public Score getScore() {
 		return m_score;
+	}
+	
+	public int getState() {
+		return m_state;
 	}
 
 	/////////////////////////////////////////////////

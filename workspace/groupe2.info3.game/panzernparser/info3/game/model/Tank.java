@@ -82,6 +82,8 @@ public class Tank {
 
 	public void setLife(int tankHealth) {
 		m_health = tankHealth;
+		if (m_health > m_maxHealth)
+			m_health = m_maxHealth;
 	}
 
 	public int getLife() {

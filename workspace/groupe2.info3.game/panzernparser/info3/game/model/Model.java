@@ -15,6 +15,7 @@ import info3.game.model.upgrades.Upgrade;
 import info3.game.model.upgrades.UpgradeAutomaticSubmachine;
 import info3.game.model.upgrades.UpgradeDroneUsage;
 import info3.game.model.upgrades.UpgradeDroneVision;
+import info3.game.model.upgrades.UpgradeHealTank;
 import info3.game.model.upgrades.UpgradeMarkersCount;
 import info3.game.model.upgrades.UpgradeMiningTime;
 import info3.game.model.upgrades.UpgradeShot;
@@ -220,8 +221,12 @@ public class Model {
 
 	///////////////////////////////////////////////
 	private void initUpgrades() {
+		
 		m_uniqUpgrade.add(new UpgradeDroneVision(m_tank, m_drone));
 		m_uniqUpgrade.add(new UpgradeAutomaticSubmachine(m_tank));
+		
+
+		m_statUpgrade.add(new UpgradeHealTank(m_tank, m_drone));
 		m_statUpgrade.add(new UpgradeDroneUsage(m_tank, m_drone));
 		m_statUpgrade.add(new UpgradeMarkersCount(m_tank, m_drone));
 		m_statUpgrade.add(new UpgradeMiningTime(m_tank));

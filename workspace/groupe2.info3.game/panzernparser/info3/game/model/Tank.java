@@ -118,8 +118,7 @@ public class Tank {
 	}
 
 	public int getDamage() {
-		return 0; // TODO
-		// return m_turret.getDamage();
+		return m_turret.getDamageDealt();
 	}
 
 	public void setDamage(int dmg) {
@@ -128,13 +127,11 @@ public class Tank {
 	}
 
 	public int getSpeed() {
-		return 0; // TODO
-		// return m_body.getSpeed();
+		return m_body.getSpeed();
 	}
 
 	public void setSpeed(int val) {
-		// TODO
-		// m_body.setSpeed(val);
+		m_body.setSpeed(val);
 	}
 
 	public boolean gotPower() {
@@ -142,13 +139,11 @@ public class Tank {
 	}
 
 	public int getMaxAmmo() {
-		return 0; // TODO
-		// return m_turret.getMaxAmmo();
+		return m_turret.getWeapon().getCapacity();
 	}
 
-	public void setMaxAmmo(int val) {
-		// TODO
-		// m_turret.setMaxAmmo(val);
+	public void improveMaxAmmo(int val) {
+		m_turret.getWeapon().improveMagazin(val);
 	}
 
 	public long getMiningTime() {

@@ -52,7 +52,9 @@ public class EnemyAvatar extends Avatar {
 			sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir, vision);
 		}
 
-		g.drawImage(sprite, x, y, width, height, null);
+		if (ExplosionAvatar.exploding(g, entity, x, y, width, height)) {
+			g.drawImage(sprite, x, y, width, height, null);
+		}
 	}
 
 }

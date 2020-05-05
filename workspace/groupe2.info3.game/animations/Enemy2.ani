@@ -1,0 +1,11 @@
+sprite_sheet1 = EnemyTank2.png
+sprite_sheet2 = EnemyTank2.png
+sprite_sheet3 = EnemyTank2.png
+Hit_NORTH = 1,5,1,5,1,5,1
+Hit_NORTHEAST = 6,10,6,10,6,10,6
+Hit_EAST = 11,15,11,15,11,15,11
+Hit_SOUTHEAST = 16,20,16,20,16,20,16
+Hit_SOUTH = 21,25,21,25,21,25,21
+Hit_SOUTHWEST = 26,30,26,30,26,30,26
+Hit_WEST = 31,35,31,35,31,35,31
+Hit_NORTHWEST = 36,40,36,40,36,40,36

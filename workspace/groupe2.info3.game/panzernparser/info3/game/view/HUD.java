@@ -611,14 +611,13 @@ public class HUD {
 		}
 		if(prev == VisionType.ENEMIES && next == VisionType.RESSOURCES) {
 			m_viewModeLabel.setIcon(m_weaponArray[3]);
-			m_viewModeLabel.invalidate();
-			m_viewModeLabel.validate();
 		}
 		if(next == VisionType.ENEMIES && prev == VisionType.RESSOURCES) {
 			m_viewModeLabel.setIcon(m_weaponArray[4]);
-			m_viewModeLabel.invalidate();
-			m_viewModeLabel.validate();
 		}
+		m_East.invalidate();
+		m_East.validate();
+		m_East.repaint();
 	}
 
 	private void updateBoussole() {
@@ -638,7 +637,6 @@ public class HUD {
 			xMark += model.getGrid().getNbCellsX() * throughToreW;
 			yMark += model.getGrid().getNbCellsY() * throughToreH;
 
-			// TODO Si les drapeaux sont plus grand, prendre en compte leur taille
 			double angle = (double) Math.atan(((double) (yMark - y)) / ((double) (xMark - x)));
 			angle = Math.toDegrees(angle);
 			if (xMark < x) {

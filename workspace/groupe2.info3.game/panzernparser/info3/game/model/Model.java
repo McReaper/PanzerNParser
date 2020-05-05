@@ -65,12 +65,12 @@ public class Model {
 	private Model() {
 		self = this; // Pour éviter des appels récursifs infinis.
 
-		//Initialisation des sons a jouer depuis le controller
+		// Initialisation des sons a jouer depuis le controller
 		m_soundsToPlay = new LinkedList<String>();
-		
-		//Temps de jeu écoulé
+
+		// Temps de jeu écoulé
 		m_time = 0;
-		
+
 		// Création de la liste des touches enfoncées connues du modèle.
 		m_keyPressed = new LinkedList<LsKey>();
 
@@ -89,7 +89,7 @@ public class Model {
 		// la liste des entités à jour.
 		try {
 			m_grid = new Grid();
-			m_grid.generate();
+			m_grid.generate(false);
 		} catch (UnexpectedException e) {
 			e.printStackTrace();
 			System.err.println("Impossible de créer la grille !");
@@ -102,23 +102,44 @@ public class Model {
 			System.exit(-1);
 		}
 
-		//Création du Tank et du Drone :
+		// Création du Tank et du Drone :
 		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
 		Turret turret = (Turret) getEntities(MyEntities.Turret).get(0);
 		m_tank = new Tank(body, turret);
 		m_drone = (Drone) getEntities(MyEntities.Drone).get(0);
 		m_playingTank = true;
-		
-		//Initialisation des upgrades
+
+		// Initialisation des upgrades
 		m_uniqUpgrade = new LinkedList<Upgrade>();
 		m_statUpgrade = new LinkedList<Upgrade>();
 		initUpgrades();
-		
-		//Création du score du jeu.
+
+		// Création du score du jeu.
 		m_score = new Score();
+
+	}
+	///////////////////////////////////////////////
+	/* REGENERATION MAP */
+
+	/* regarde si la map a besoin d'être régenerer (dès que y a plus d'enemy) */
+	private boolean needRegeneration() {
+		return getEntities(MyEntities.EnemyBasic).isEmpty() &&
+				getEntities(MyEntities.EnemyLevel2).isEmpty();
+	}
+
+	/* vide la liste d'entité */
+	private void reset() throws UnexpectedException {
+		/* reinitialisation des entités */
+		m_entities = new HashMap<EntityFactory.MyEntities, LinkedList<Entity>>();
+		for (MyEntities entityType : MyEntities.values()) {
+			m_entities.put(entityType, new LinkedList<Entity>());
+		}
+
+		m_grid.regenerate();
 		
 	}
-	
+
+	///////////////////////////////////////////////
 	private void initUpgrades() {
 		m_uniqUpgrade.add(new UpgradeDroneVision(m_tank, m_drone));
 		m_uniqUpgrade.add(new UpgradeAutomaticSubmachine(m_tank));
@@ -141,6 +162,13 @@ public class Model {
 		m_tank.step();
 		m_collisionManager.controlCollisionsShotsEntity();
 		m_score.updateTime();
+		if (needRegeneration()) {
+			try {
+				reset();
+			} catch (UnexpectedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	//////// Gestion du passage drone/tank ////////

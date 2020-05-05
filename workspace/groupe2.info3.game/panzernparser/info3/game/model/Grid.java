@@ -288,7 +288,21 @@ public class Grid {
 		return TAILLE_MAP * Pattern.SIZE;
 	}
 
-	public void generate() throws UnexpectedException {
+	public void regenerate() throws UnexpectedException {
+		/* reinitialisation de la grille*/
+		m_entityGrid = new LinkedList[getNbCellsX()][getNbCellsY()];
+		for (int i = 0; i < m_entityGrid.length; i++) {
+			for (int j = 0; j < m_entityGrid[0].length; j++) {
+				m_entityGrid[i][j] = new LinkedList<Entity>();
+			}
+		}
+		
+		
+		this.generate(true);
+		
+	}
+	
+	public void generate(boolean resetPlayer) throws UnexpectedException {
 		int Max = m_patterns.size() - 1;
 		int patterns_chose = 0;
 		int rand = 0;
@@ -319,6 +333,7 @@ public class Grid {
 
 				}
 			}
+			patTank = selectedPatterns.get(0);
 			sendToModel(selectedPatterns);
 		} else {
 			throw new UnexpectedException("Not Enough Patterns to continue");

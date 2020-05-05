@@ -442,9 +442,11 @@ public class Grid {
 					case "turr1":
 						type = MyEntities.Turret;
 						break;
-
 					case "dron1":
 						type = MyEntities.Drone;
+						break;
+					case "mud_1":
+						type = MyEntities.Mud;
 						break;
 				}
 				int x = Integer.parseInt(sx);

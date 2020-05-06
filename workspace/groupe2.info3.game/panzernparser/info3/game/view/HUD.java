@@ -50,6 +50,8 @@ import info3.game.model.entities.EntityFactory.MyEntities;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
 import info3.game.model.upgrades.Upgrade;
+import info3.game.model.upgrades.UpgradeAutomaticSubmachine;
+import info3.game.model.upgrades.UpgradeDroneVision;
 
 public class HUD {
 
@@ -761,9 +763,37 @@ public class HUD {
 			g.drawImage(m_electronics, 3 + getWidth() / 2, space + 15 + 3, 15, 15, null);
 			FontRenderContext frc = new FontRenderContext(null, true, false);
 			Rectangle2D rect = g.getFont().getStringBounds(m_level, 0, m_level.length(), frc);
-			g.drawString(m_level, (int) ((getWidth() - rect.getWidth()) / 2), space + 15 - 2);
+			
+			//Différencie amélio unique/stats
+			boolean isUniqBought = false;
+			if (m_level.contains("Bought")) {
+				Color old = g.getColor();
+				g.setColor(new Color(0, 165, 0));
+				g.drawString(m_level, (int) ((getWidth() - rect.getWidth()) / 2), space + 15 - 2);
+				g.setColor(old);
+				isUniqBought = true;
+			} else {
+				g.drawString(m_level, (int) ((getWidth() - rect.getWidth()) / 2), space + 15 - 2);
+			}
+			
+			//affiche les prix en rouge ou en vert.
+			Color old = g.getColor();
+			if (!isUniqBought)
+				if (m_upgrade.getCostMine() > Model.getModel().getTank().getInventory().getQuantity(MaterialType.MINERAL)) {
+					g.setColor(Color.RED);
+				} else {
+					g.setColor(new Color(0, 165, 0));
+				}
 			g.drawString(m_mineCost, 6 + 15, getHeight() - 5);
+			if (!isUniqBought)
+				if (m_upgrade.getCostElec() > Model.getModel().getTank().getInventory().getQuantity(MaterialType.ELECTRONIC)) {
+					g.setColor(Color.RED);
+				} else {
+					g.setColor(new Color(0, 165, 0));
+				}
 			g.drawString(m_elecCost, 6 + 15 + getWidth() / 2, getHeight() - 5);
+			g.setColor(old);
+			
 			paintTitle(g, space);
 			if (!isEnabled()) {
 				Color color = new Color(0F, 0F, 0F, 0.60F);
@@ -830,6 +860,12 @@ public class HUD {
 		public void updatePrice() {
 			m_elecCost = Integer.toString(m_upgrade.getCostElec());
 			m_mineCost = Integer.toString(m_upgrade.getCostMine());
+			if (m_upgrade instanceof UpgradeAutomaticSubmachine || m_upgrade instanceof UpgradeDroneVision) {
+				m_level = (m_upgrade.getLevel() > 0) ? "Bought" : "Not bought";
+			} else {
+				m_level = "Level : "+Integer.toString(m_upgrade.getLevel());
+			}
+			this.repaint();
 		}
 	}
 
@@ -837,6 +873,5 @@ public class HUD {
 		m_East.remove(m_upgrade);
 		m_upgrade = initiateUpgradePanel();
 		m_East.add(m_upgrade);
-
 	}
 }

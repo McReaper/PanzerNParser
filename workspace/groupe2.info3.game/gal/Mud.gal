@@ -1,6 +1,5 @@
 Mud (Init){
 *(Init)
-	|Cell(H,A) ? Wizz(F) : (Init)
-	|Cell(H,@) ? Wizz(F) : (Init)
+	|Cell(H,A) / Cell(H,@) ? Wizz(F) : (Init)
 	|True ? Wait() : (Init)
 }

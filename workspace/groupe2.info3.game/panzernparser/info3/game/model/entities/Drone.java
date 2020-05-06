@@ -12,6 +12,7 @@ import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
+import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 
 public class Drone extends MovingEntity {
 	public final static int DRONE_WIDTH = 3;
@@ -70,6 +71,15 @@ public class Drone extends MovingEntity {
 	@Override
 	public boolean Closest(MyDirection dir, MyCategory type) {
 		return (type == MyCategory.C && Model.getModel().getClue() != null);
+	}
+
+	@Override
+	public boolean GotStuff() {
+		if (Model.getModel().getKeyPressed().contains(LsKey.AU) && m_range >= MAX_RANGE
+				|| Model.getModel().getKeyPressed().contains(LsKey.AD) && m_range <= MIN_RANGE) {
+			return false;
+		}
+		return super.GotStuff();
 	}
 
 	@Override

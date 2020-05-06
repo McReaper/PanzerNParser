@@ -66,10 +66,7 @@ public class AutomaticTurret extends StaticEntity {
 			if (dir == null) {
 				dir = MyDirection.FRONT;
 			}
-			//Récupération de la position de départ du tir
-			int posX = getXCaseDir(dir); //Car la tourelle est centrée sur le tank.
-			int posY = getYCaseDir(dir);
-			Entity ent = EntityFactory.newEntity(MyEntities.ShotFast, posX, posY);
+			Entity ent = EntityFactory.newEntity(MyEntities.ShotFast, m_x + 1, m_y + 1);
 
 			// Donne la direction de regard et d'action
 			ent.setLookDir(this.m_currentLookAtDir);

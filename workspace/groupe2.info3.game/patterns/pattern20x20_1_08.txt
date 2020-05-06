@@ -1,0 +1,12 @@
+wrck1 5,7
+wrck1 9,15
+enem1 5,16
+enem1 9,5
+enem1 15,17
+wall1 13,4
+wall1 13,5
+wall1 13,6
+wall1 13,7
+wall1 13,8
+wall1 13,9
+wall1 13,10

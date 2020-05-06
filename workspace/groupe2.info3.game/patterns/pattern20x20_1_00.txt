@@ -1,0 +1,14 @@
+enem1 5,3
+enem1 8,6
+enem1 8,8
+enem1 5,7
+drop1 5,5
+drop1 4,4
+vein1 3,3
+vein1 14,13
+vein1 18,16
+enem1 19,18
+wrck1 11,1
+wrck1 16,6
+wrck1 6,11
+wrck1 6,16

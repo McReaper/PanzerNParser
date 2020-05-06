@@ -4,7 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
+
+import javax.imageio.ImageIO;
+
 import info3.game.GameConfiguration;
 import info3.game.GameMain;
 import info3.game.controller.Controller;
@@ -118,11 +124,24 @@ public class View extends Container {
 		}else { /////////////////////////////////remplacer par une image de Game Over
 			int width = m_canvas.getWidth();
 			int height = m_canvas.getHeight();
-			g.setColor(Color.RED);
+			Image img = null;
+			try {
+				img = ImageIO.read(new File("sprites/GameOver.png"));
+			} catch (IOException e) {
+				System.err.println("Unable to load game over image.");
+				e.printStackTrace();
+			}
+			Color color = new Color(29,22,15);
+			int imageHeight = img.getHeight(null) * width/img.getWidth(null);
+			int y = (height-imageHeight)/2;
+			g.setColor(color);
 			g.fillRect(0, 0, width, height);
-			g.setColor(Color.BLACK);
-			g.drawChars("GAME OVER".toCharArray(), 0, 9, 50, 50);
-			g.drawChars("press 'r' to replay".toCharArray(), 0, 19, 50, 100);
+			g.drawImage(img, 0, y, width, imageHeight, null);
+//			g.setColor(Color.RED);
+//			g.fillRect(0, 0, width, height);
+//			g.setColor(Color.BLACK);
+//			g.drawChars("GAME OVER".toCharArray(), 0, 9, 50, 50);
+//			g.drawChars("press 'r' to replay".toCharArray(), 0, 19, 50, 100);
 			//GameMain.getGame().restart();
 		}
 	}

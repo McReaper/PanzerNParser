@@ -26,7 +26,7 @@ public class Grid {
 	LinkedList<Entity>[][] m_entityGrid;
 
 	/* entier pour le nombre de zone à charger dans la grille */
-	final static int TAILLE_MAP = 5;
+	final static int TAILLE_MAP = 3;
 
 	@SuppressWarnings("unchecked")
 	public Grid() throws UnexpectedException {

@@ -24,13 +24,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.ComboBoxUI;
 import javax.swing.plaf.basic.BasicButtonUI;
-
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLBoundOperation.ANONYMOUS;
 
 import info3.game.automaton.Automaton;
 import info3.game.model.entities.EntityFactory.MyEntities;
@@ -49,13 +47,19 @@ public class Menu {
 	private JPanel m_buttonPanel;
 	private JLabel[] m_infos;
 	private int m_current;
+	private LineBorder m_menuBorder;
+	Color m_darkGray;
+	Color m_gray;
 
 	Menu(GameMain gameMain, GameConfiguration gameConfiguration) {
 
-		Border inset = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-		LineBorder buttonLineBorder = (LineBorder) BorderFactory.createLineBorder(new Color(130, 130, 130), 3);
-		m_buttonBorder = BorderFactory.createCompoundBorder(buttonLineBorder, inset);
+		m_darkGray = new Color(130,130,130);
+		m_gray = new Color(180,180,180);
 
+		Border inset = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+		LineBorder buttonLineBorder = (LineBorder) BorderFactory.createLineBorder(m_darkGray, 3);
+		m_buttonBorder = BorderFactory.createCompoundBorder(buttonLineBorder, inset);
+		m_menuBorder = (LineBorder) BorderFactory.createLineBorder(m_darkGray);
 		m_gameMain = gameMain;
 		m_gameConfig = gameConfiguration;
 
@@ -83,34 +87,25 @@ public class Menu {
 	}
 
 	private void drawConfigMenu() {
+		
 		m_configMenu = new JPanel(new BorderLayout());
 		m_configMenu.setOpaque(false);
+		
 		JPanel configPanel = new JPanel();
 		configPanel.setOpaque(false);
 		GridLayout configLayout = new GridLayout(17, 3);
 		configPanel.setLayout(configLayout);
-
-		LineBorder border = (LineBorder) BorderFactory.createLineBorder(Color.BLACK);
+		
 		for(MyEntities entity : MyEntities.values()) {
-			JPanel labelPanel = new JPanel();
-			labelPanel.setBackground(new Color(180,180,180));
-			labelPanel.setBorder(border);
-			JLabel entite = new JLabel(""+entity);
-			entite.setHorizontalAlignment(JLabel.CENTER);
-			entite.setForeground(Color.BLACK);
-			labelPanel.add(entite);
+			
+			JPanel labelPanel = createLabel(entity);
 			JComboBox<String> autoList = createAutList(entity);
 			JComboBox<String> aniList = createAniList(entity);
 			configPanel.add(labelPanel);
 			configPanel.add(autoList);
 			configPanel.add(aniList);
 		}
-		// Retour menu principal
-		JPanel backPanel = new JPanel(new FlowLayout());
-		backPanel.setOpaque(false);
-		backPanel.setPreferredSize(new Dimension(500, 100));
 		
-		Color buttonColor = new Color(180, 180, 180);
 		JButton back = new JButton("Main menu");
 		back.addActionListener(new ActionListener() {
 			@Override
@@ -122,8 +117,13 @@ public class Menu {
 		});
 		back.setUI(m_buttonUI);
 		back.setBorder(m_buttonBorder);
-		back.setBackground(buttonColor);
+		back.setBackground(m_gray);
 		back.setForeground(Color.BLACK);
+		
+		// Retour menu principal
+		JPanel backPanel = new JPanel(new FlowLayout());
+		backPanel.setOpaque(false);
+		backPanel.setPreferredSize(new Dimension(500, 100));
 		backPanel.add(back);
 		
 		m_configMenu.add(backPanel, BorderLayout.SOUTH);
@@ -133,6 +133,18 @@ public class Menu {
 		m_configMenu.add(configPanel);
 	}
 	
+	private JPanel createLabel(MyEntities entity) {
+		JPanel labelPanel = new JPanel();
+		
+		labelPanel.setBackground(m_gray);
+		labelPanel.setBorder(m_menuBorder);
+		JLabel entite = new JLabel(""+entity);
+		entite.setHorizontalAlignment(JLabel.CENTER);
+		entite.setForeground(Color.BLACK);
+		labelPanel.add(entite);
+		return labelPanel;
+	}
+
 	private JComboBox<String> createAutList(MyEntities entity) {
 		int i = 0;
 		int selectIndex = 0;
@@ -157,6 +169,8 @@ public class Menu {
 				}
 			});
 		}
+		autComboBox.setBorder(m_menuBorder);
+		autComboBox.setBackground(m_gray);
 		autComboBox.setSelectedIndex(selectIndex);
 		return autComboBox;
 	}
@@ -185,6 +199,8 @@ public class Menu {
 				}
 			});
 		}
+		aniComboBox.setBorder(m_menuBorder);
+		aniComboBox.setBackground(m_gray);
 		aniComboBox.setSelectedIndex(selectIndex);
 		return aniComboBox;
 	}
@@ -194,7 +210,6 @@ public class Menu {
 		m_infoMenu.setOpaque(false);
 		m_infoMenu.setLayout(new BorderLayout());
 
-		Color buttonColor = new Color(180, 180, 180);
 		m_buttonPanel = new JPanel(new FlowLayout());
 		m_buttonPanel.setOpaque(false);
 		m_buttonPanel.setPreferredSize(new Dimension(500, 100));
@@ -211,7 +226,7 @@ public class Menu {
 		});
 		back.setUI(m_buttonUI);
 		back.setBorder(m_buttonBorder);
-		back.setBackground(buttonColor);
+		back.setBackground(m_gray);
 		back.setForeground(Color.BLACK);
 
 		// Page suivante
@@ -227,7 +242,7 @@ public class Menu {
 		});
 		next.setUI(m_buttonUI);
 		next.setBorder(m_buttonBorder);
-		next.setBackground(buttonColor);
+		next.setBackground(m_gray);
 		next.setForeground(Color.BLACK);
 
 		// Page Précédente
@@ -245,7 +260,7 @@ public class Menu {
 		});
 		prev.setUI(m_buttonUI);
 		prev.setBorder(m_buttonBorder);
-		prev.setBackground(buttonColor);
+		prev.setBackground(m_gray);
 		prev.setForeground(Color.BLACK);
 
 		m_buttonPanel.add(prev);
@@ -294,8 +309,7 @@ public class Menu {
 		Font fontLaunch = new Font(null, 0, 30);
 		JButton launch = new JButton("Launch Game");
 		launch.setUI(m_buttonUI);
-		Color buttonColor = new Color(180, 180, 180);
-		launch.setBackground(buttonColor);
+		launch.setBackground(m_gray);
 		launch.setForeground(Color.BLACK);
 		launch.setFont(fontLaunch);
 		launch.setBorder(m_buttonBorder);
@@ -339,7 +353,7 @@ public class Menu {
 		htp.setUI(m_buttonUI);
 		htp.setFont(fontConfig);
 		htp.setBorder(m_buttonBorder);
-		htp.setBackground(buttonColor);
+		htp.setBackground(m_gray);
 		htp.setForeground(Color.BLACK);
 		htp.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		
@@ -356,7 +370,7 @@ public class Menu {
 		config.setUI(m_buttonUI);
 		config.setFont(fontConfig);
 		config.setBorder(m_buttonBorder);
-		config.setBackground(buttonColor);
+		config.setBackground(m_gray);
 		config.setForeground(Color.BLACK);
 		config.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 

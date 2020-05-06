@@ -39,6 +39,14 @@ public class GameConfiguration {
 	public Automaton getAutomaton(MyEntities ent) {
 		return m_automatons.get(ent);
 	}
+	
+	public HashMap<MyEntities,Animation> getAnimations() {
+		return m_animations;
+	}
+	
+	public HashMap<MyEntities,Automaton> getAutomatons() {
+		return m_automatons;
+	}
 
 	public static class ActionDirection {
 		public LsAction m_action;
@@ -186,7 +194,7 @@ public class GameConfiguration {
 			}
 
 			// Création de l'animation :
-			Animation animation = new Animation(sprites, animSeq);
+			Animation animation = new Animation(sprites, animSeq,fields[4]);
 			m_animations.put(MyEntities.valueOf(fields[0]), animation);
 
 			// Fermeture du fichier .ani

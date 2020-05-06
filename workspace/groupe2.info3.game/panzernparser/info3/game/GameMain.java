@@ -37,9 +37,9 @@ public class GameMain {
 
 	private GameMain() {
 		m_soundFiles = new HashMap<String, File>();
-		m_menu = new Menu(this);
-		// On force le parsing le configuration du jeu avant de créer quoi que ce soit
 		GameConfiguration.getConfig();
+		m_menu = new Menu(this,GameConfiguration.getConfig());
+		// On force le parsing le configuration du jeu avant de créer quoi que ce soit
 
 		// On charge les fichiers de sons en mémoire
 		initSounds(new File(GameConfiguration.SOUND_PATH));

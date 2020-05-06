@@ -15,10 +15,12 @@ import info3.game.model.Model.VisionType;
  */
 public class Animation {
 
+	String m_name;
 	Sprite[] m_sprites;
 	HashMap<ActionDirection, int[]> m_animationSequence;
 
-	public Animation(Sprite[] sprites, HashMap<ActionDirection, int[]> animationSequence) {
+	public Animation(Sprite[] sprites, HashMap<ActionDirection, int[]> animationSequence,String name) {
+		m_name = name.substring(0, name.length()-4);
 		m_sprites = sprites;
 		m_animationSequence = animationSequence;
 	}
@@ -55,4 +57,10 @@ public class Animation {
 			i = seq.length - 1;
 		return currSprite.getSprite(seq[i]); // TODO return curSrite.getSprite(seq[i]);
 	}
+	
+	public String getName() {
+		return m_name;
+	}
+	
+	
 }

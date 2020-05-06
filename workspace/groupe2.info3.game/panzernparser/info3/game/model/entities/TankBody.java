@@ -49,6 +49,7 @@ public class TankBody extends MovingEntity {
 	public void Move(MyDirection dir) {
 		if (m_tank.hasControl()) {
 			super.Move(dir);
+			Model.getModel().addSound("tankMove2");
 		}
 	}
 
@@ -172,6 +173,7 @@ public class TankBody extends MovingEntity {
 							;
 						} else if (entity instanceof Droppable) {
 							m_tank.getInventory().add((Droppable) entity);
+							Model.getModel().addSound("pickDroppable");
 							Model.getModel().removeEntity(entity);
 							Model.getModel().getScore().scoreDroppable();
 						}

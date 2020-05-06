@@ -39,6 +39,7 @@ public class Drone extends MovingEntity {
 	private int m_nbMarkers;
 	private int m_maxMarkers;
 	private VisionType m_currentVisionType;
+	private boolean m_soundPlay;
 
 	public Drone(int x, int y, Automaton aut) {
 		super(x, y, DRONE_WIDTH, DRONE_HEIGHT, aut);
@@ -52,16 +53,17 @@ public class Drone extends MovingEntity {
 		m_maxHealth = DRONE_HEALTH;
 		m_health = DRONE_HEALTH;
 		m_stuff = false; // pour l'upgrade.
+		m_soundPlay = true;
 	}
-	
+
 	@Override
 	public void step(long elapsed) {
-		if(hasControl()) {
+		if (hasControl()) {
 			m_health -= DRONE_DESCHARGE * elapsed;
 			if (!GotPower()) {
 				m_health = 0;
 			}
-		}else if (m_health < m_maxHealth) {
+		} else if (m_health < m_maxHealth) {
 			m_health += DRONE_RECHARGE * elapsed;
 		}
 		super.step(elapsed);
@@ -71,7 +73,7 @@ public class Drone extends MovingEntity {
 	public boolean Closest(MyDirection dir, MyCategory type) {
 		return (type == MyCategory.C && Model.getModel().getClue() != null);
 	}
-	
+
 	@Override
 	public boolean isShown() {
 		return (Model.getModel().getVisionType() != VisionType.TANK);
@@ -124,6 +126,7 @@ public class Drone extends MovingEntity {
 	@Override
 	public void Move(MyDirection dir) {
 		if (this.hasControl()) {
+			Model.getModel().addSound("droneMove3");
 			super.Move(dir);
 		}
 	}
@@ -163,7 +166,7 @@ public class Drone extends MovingEntity {
 			m_timeOfAction = DRONE_WAIT_TIME;
 		}
 	}
-	
+
 	@Override
 	public void Wizz(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
@@ -212,25 +215,26 @@ public class Drone extends MovingEntity {
 			return super.Key(key);
 		return false;
 	}
-	
+
 	public void increaseMarksNb() {
-		m_nbMarkers ++;
+		m_nbMarkers++;
 	}
-	
+
 	public void decreaseMarksNb() {
-		m_nbMarkers --;
+		m_nbMarkers--;
 	}
-	
+
 	public int getNbMarker() {
 		return m_nbMarkers;
 	}
-	
+
 	public int getMaxMarkers() {
 		return m_maxMarkers;
 	}
-	
+
 	public void setMaxMarkers(int maxCount) {
 		m_maxMarkers = maxCount;
 	}
-	
+
+
 }

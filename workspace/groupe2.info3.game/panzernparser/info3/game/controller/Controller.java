@@ -143,8 +143,6 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void endOfPlay(String name) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

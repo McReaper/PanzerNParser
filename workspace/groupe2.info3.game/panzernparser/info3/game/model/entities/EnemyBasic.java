@@ -24,7 +24,6 @@ public class EnemyBasic extends Enemy {
 	public static final long ENEMYBASIC_TURN_TIME = 0;
 	public static final long ENEMYBASIC_WAIT_TIME = 50;
 	public static final long ENEMYBASIC_WIZZ_TIME = 1000;
-
 	public static final int ENEMYBASIC_DAMMAGE_DEALT = 50;
 
 	public EnemyBasic(int x, int y, Automaton aut) {
@@ -34,6 +33,7 @@ public class EnemyBasic extends Enemy {
 		m_damage_dealt = ENEMYBASIC_DAMMAGE_DEALT;
 		m_speed = ENEMYBASIC_SPEED;
 		levelUp();
+		m_moveSound = "moveBasicEnemy2";
 	}
 
 	@Override

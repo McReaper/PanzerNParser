@@ -134,11 +134,11 @@ public class Menu {
 		m_buttonPanel.add(next);
 
 		Image img1 = ImageIO.read(new File("sprites/InfoMenuRules.png"));
-		img1 = img1.getScaledInstance(600, 600, 0);
+		img1 = img1.getScaledInstance(600, 600, Image.SCALE_AREA_AVERAGING);
 		Image img2 = ImageIO.read(new File("sprites/InfoMenuControls.png"));
-		img2 = img2.getScaledInstance(600, 600, 0);
+		img2 = img2.getScaledInstance(600, 600, Image.SCALE_AREA_AVERAGING);
 		Image img3 = ImageIO.read(new File("sprites/InfoMenuHUD.png"));
-		img3 = img3.getScaledInstance(600, 600, 0);
+		img3 = img3.getScaledInstance(600, 600, Image.SCALE_AREA_AVERAGING);
 		ImageIcon rulesImg = new ImageIcon(img1);
 		ImageIcon controlImg = new ImageIcon(img2);
 		ImageIcon HUDImg = new ImageIcon(img3);

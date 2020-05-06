@@ -1244,5 +1244,22 @@ public abstract class Entity {
 	public boolean GotPower() {
 		return m_health >0;
 	}
+	
+	public boolean isQuiet() {
+		Entity player = Model.getModel().getPlayed();
+		int fov = player.getFieldOfView();
+		int width = fov*2 + player.getWidth();
+		int height = fov*2 + player.getHeight();
+		int x = Model.getModel().getGrid().realX(player.getX()-fov);
+		int y = Model.getModel().getGrid().realY(player.getX()-fov);
+		int nbX = Model.getModel().getGrid().getNbCellsX();
+		int nbY = Model.getModel().getGrid().getNbCellsY();
+		if(m_x >= x && m_x <= x+width || m_x >= x - nbX && m_x <= x - nbX + width) {
+			if(m_y >= x && m_y <= y+height || m_y >= y - nbY && m_y <= y - nbY + height) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
@@ -21,31 +22,42 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
 
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLBoundOperation.ANONYMOUS;
+
+import info3.game.automaton.Automaton;
+import info3.game.model.entities.EntityFactory.MyEntities;
+import info3.game.view.Animation;
+
 public class Menu {
 
+	GameConfiguration m_gameConfig;
 	GameMain m_gameMain;
 	JPanelImaged m_menu;
 	JPanel m_infoMenu;
 	JPanel m_mainMenu;
+	JPanel m_configMenu;
 	Border m_buttonBorder;
 	BasicButtonUI m_buttonUI;
 	private JPanel m_buttonPanel;
 	private JLabel[] m_infos;
 	private int m_current;
 
-	Menu(GameMain gameMain) {
+	Menu(GameMain gameMain, GameConfiguration gameConfiguration) {
 
 		Border inset = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-		LineBorder buttonLineBorder = (LineBorder) BorderFactory.createLineBorder(new Color(130,130,130),3);
+		LineBorder buttonLineBorder = (LineBorder) BorderFactory.createLineBorder(new Color(130, 130, 130), 3);
 		m_buttonBorder = BorderFactory.createCompoundBorder(buttonLineBorder, inset);
 
 		m_gameMain = gameMain;
+		m_gameConfig = gameConfiguration;
 
 		m_buttonUI = new BasicButtonUI() {
 			@Override
@@ -55,7 +67,7 @@ public class Menu {
 				g.fillRect(0, 0, b.getWidth(), b.getHeight());
 			}
 		};
-
+		drawConfigMenu();
 		drawMainMenu();
 		try {
 			drawInfoMenu();
@@ -70,17 +82,124 @@ public class Menu {
 		m_menu.add(m_mainMenu, BorderLayout.CENTER);
 	}
 
+	private void drawConfigMenu() {
+		m_configMenu = new JPanel(new BorderLayout());
+		m_configMenu.setOpaque(false);
+		JPanel configPanel = new JPanel();
+		configPanel.setOpaque(false);
+		GridLayout configLayout = new GridLayout(17, 3);
+		configPanel.setLayout(configLayout);
+
+		LineBorder border = (LineBorder) BorderFactory.createLineBorder(Color.BLACK);
+		for(MyEntities entity : MyEntities.values()) {
+			JPanel labelPanel = new JPanel();
+			labelPanel.setBackground(new Color(180,180,180));
+			labelPanel.setBorder(border);
+			JLabel entite = new JLabel(""+entity);
+			entite.setHorizontalAlignment(JLabel.CENTER);
+			entite.setForeground(Color.BLACK);
+			labelPanel.add(entite);
+			JComboBox<String> autoList = createAutList(entity);
+			JComboBox<String> aniList = createAniList(entity);
+			configPanel.add(labelPanel);
+			configPanel.add(autoList);
+			configPanel.add(aniList);
+		}
+		// Retour menu principal
+		JPanel backPanel = new JPanel(new FlowLayout());
+		backPanel.setOpaque(false);
+		backPanel.setPreferredSize(new Dimension(500, 100));
+		
+		Color buttonColor = new Color(180, 180, 180);
+		JButton back = new JButton("Main menu");
+		back.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				m_menu.remove(m_configMenu);
+				m_menu.add(m_mainMenu, BorderLayout.CENTER);
+				m_gameMain.refresh();
+			}
+		});
+		back.setUI(m_buttonUI);
+		back.setBorder(m_buttonBorder);
+		back.setBackground(buttonColor);
+		back.setForeground(Color.BLACK);
+		backPanel.add(back);
+		
+		m_configMenu.add(backPanel, BorderLayout.SOUTH);
+		m_configMenu.add(Box.createVerticalStrut(100), BorderLayout.NORTH);
+		m_configMenu.add(Box.createHorizontalStrut(30), BorderLayout.EAST);
+		m_configMenu.add(Box.createHorizontalStrut(30), BorderLayout.WEST);
+		m_configMenu.add(configPanel);
+	}
+	
+	private JComboBox<String> createAutList(MyEntities entity) {
+		int i = 0;
+		int selectIndex = 0;
+		Automaton automate = GameConfiguration.getConfig().getAutomaton(entity);
+		HashMap<MyEntities, Automaton> m_automatons = m_gameConfig.getAutomatons();
+		String[] str = new String[m_automatons.size()];
+		for (Automaton automaton : m_automatons.values()) {
+			str[i] = automaton.getName();
+			if(automate == automaton) {
+				selectIndex = i;
+			}
+			i++;
+		}
+		i = 0;
+		JComboBox<String> autComboBox = new JComboBox<String>(str);
+		for (Automaton automaton : m_automatons.values()) {
+			autComboBox.setSelectedIndex(i);
+			autComboBox.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					m_automatons.put(entity, automaton);
+				}
+			});
+		}
+		autComboBox.setSelectedIndex(selectIndex);
+		return autComboBox;
+	}
+	
+	private JComboBox<String> createAniList(MyEntities entity) {
+		int i = 0;
+		int selectIndex = 0;
+		Animation anime = GameConfiguration.getConfig().getAnimation(entity);
+		HashMap<MyEntities, Animation> m_animations = m_gameConfig.getAnimations();
+		String[] str = new String[m_animations.size()];
+		for (Animation animation : m_animations.values()) {
+			str[i] = animation.getName();
+			if(anime == animation) {
+				selectIndex = i;
+			}
+			i++;
+		}
+		i = 0;
+		JComboBox<String> aniComboBox = new JComboBox<String>(str);
+		for (Animation animation : m_animations.values()) {
+			aniComboBox.setSelectedIndex(i);
+			aniComboBox.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					m_animations.put(entity, animation);
+				}
+			});
+		}
+		aniComboBox.setSelectedIndex(selectIndex);
+		return aniComboBox;
+	}
+
 	public void drawInfoMenu() throws IOException {
 		m_infoMenu = new JPanel();
 		m_infoMenu.setOpaque(false);
 		m_infoMenu.setLayout(new BorderLayout());
 
-		Color buttonColor = new Color(180,180,180);
+		Color buttonColor = new Color(180, 180, 180);
 		m_buttonPanel = new JPanel(new FlowLayout());
 		m_buttonPanel.setOpaque(false);
 		m_buttonPanel.setPreferredSize(new Dimension(500, 100));
-		
-		//Retour menu principal
+
+		// Retour menu principal
 		JButton back = new JButton("Main menu");
 		back.addActionListener(new ActionListener() {
 			@Override
@@ -94,8 +213,8 @@ public class Menu {
 		back.setBorder(m_buttonBorder);
 		back.setBackground(buttonColor);
 		back.setForeground(Color.BLACK);
-		
-		//Page suivante
+
+		// Page suivante
 		JButton next = new JButton("->");
 		next.addActionListener(new ActionListener() {
 			@Override
@@ -110,8 +229,8 @@ public class Menu {
 		next.setBorder(m_buttonBorder);
 		next.setBackground(buttonColor);
 		next.setForeground(Color.BLACK);
-		
-		//Page Précédente
+
+		// Page Précédente
 		JButton prev = new JButton("<-");
 		prev.addActionListener(new ActionListener() {
 			@Override
@@ -128,7 +247,7 @@ public class Menu {
 		prev.setBorder(m_buttonBorder);
 		prev.setBackground(buttonColor);
 		prev.setForeground(Color.BLACK);
-		
+
 		m_buttonPanel.add(prev);
 		m_buttonPanel.add(back);
 		m_buttonPanel.add(next);
@@ -142,12 +261,12 @@ public class Menu {
 		ImageIcon rulesImg = new ImageIcon(img1);
 		ImageIcon controlImg = new ImageIcon(img2);
 		ImageIcon HUDImg = new ImageIcon(img3);
-		
+
 		m_infos = new JLabel[3];
 		m_infos[0] = new JLabel(rulesImg);
 		m_infos[1] = new JLabel(controlImg);
 		m_infos[2] = new JLabel(HUDImg);
-		
+
 		m_infoMenu.add(m_infos[0], BorderLayout.CENTER);
 		m_infoMenu.add(m_buttonPanel, BorderLayout.SOUTH);
 		m_infoMenu.add(Box.createVerticalStrut(30), BorderLayout.NORTH);
@@ -175,7 +294,7 @@ public class Menu {
 		Font fontLaunch = new Font(null, 0, 30);
 		JButton launch = new JButton("Launch Game");
 		launch.setUI(m_buttonUI);
-		Color buttonColor = new Color(180,180,180);
+		Color buttonColor = new Color(180, 180, 180);
 		launch.setBackground(buttonColor);
 		launch.setForeground(Color.BLACK);
 		launch.setFont(fontLaunch);
@@ -206,14 +325,31 @@ public class Menu {
 
 		// Bouton des config
 		Font fontConfig = new Font(null, 0, 25);
-		
-		//Bouton vers menu des infos
-		JButton config = new JButton("How to play");
-		config.addActionListener(new ActionListener() {
+
+		// Bouton vers menu des infos
+		JButton htp = new JButton("How to play");
+		htp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				m_menu.remove(m_mainMenu);
 				m_menu.add(m_infoMenu, BorderLayout.CENTER);
+				m_gameMain.refresh();
+			}
+		});
+		htp.setUI(m_buttonUI);
+		htp.setFont(fontConfig);
+		htp.setBorder(m_buttonBorder);
+		htp.setBackground(buttonColor);
+		htp.setForeground(Color.BLACK);
+		htp.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+		
+		// Bouton vers menu de config
+		JButton config = new JButton("Configuration");
+		config.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				m_menu.remove(m_mainMenu);
+				m_menu.add(m_configMenu, BorderLayout.CENTER);
 				m_gameMain.refresh();
 			}
 		});
@@ -226,6 +362,8 @@ public class Menu {
 
 		// Remplissage bas
 		underPart.add(Box.createRigidArea(new Dimension(10, 15)));
+		underPart.add(htp);
+		underPart.add(Box.createVerticalStrut(25));
 		underPart.add(config);
 		underPart.add(Box.createVerticalGlue());
 

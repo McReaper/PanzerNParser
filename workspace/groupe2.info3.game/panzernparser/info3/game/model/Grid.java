@@ -398,6 +398,7 @@ public class Grid {
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.err.println("ERROR : Something went wrong.");
 		}
 	}

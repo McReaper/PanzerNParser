@@ -165,8 +165,6 @@ public class Model {
 		m_playingTank = true;
 
 		// Initialisation des upgrades
-		m_uniqUpgrade = new LinkedList<Upgrade>();
-		m_statUpgrade = new LinkedList<Upgrade>();
 		initUpgrades();
 
 		// Création du score du jeu.
@@ -229,10 +227,11 @@ public class Model {
 
 	///////////////////////////////////////////////
 	private void initUpgrades() {
-
+		m_uniqUpgrade = new LinkedList<Upgrade>();
 		m_uniqUpgrade.add(new UpgradeDroneVision(m_tank, m_drone));
 		m_uniqUpgrade.add(new UpgradeAutomaticSubmachine(m_tank));
 
+		m_statUpgrade = new LinkedList<Upgrade>();
 		m_statUpgrade.add(new UpgradeHealTank(m_tank, m_drone));
 		m_statUpgrade.add(new UpgradeDroneUsage(m_tank, m_drone));
 		m_statUpgrade.add(new UpgradeMarkersCount(m_tank, m_drone));
@@ -456,6 +455,7 @@ public class Model {
 	
 	public static void restart() {
 		self = null;		
+		getModel();
 	}
 
 }

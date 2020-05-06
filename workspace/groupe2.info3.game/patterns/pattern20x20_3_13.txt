@@ -17,9 +17,9 @@ vein1 15,6
 vein1 15,11
 vein1 16,6
 vein1 16,10
-vein1 17,11
+vein1 17,7
+vein1 17,8
 vein1 17,9
-vein1 17,10
 rock1 3,13
 rock1 3,15
 rock1 3,17

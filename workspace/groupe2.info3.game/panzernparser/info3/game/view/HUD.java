@@ -391,6 +391,7 @@ public class HUD {
 
 		JSeparator sep = new JSeparator(SwingConstants.HORIZONTAL);
 		sep.setForeground(Color.BLACK);
+		sep.setBackground(Color.BLACK);
 
 		upgradePanel.add(Box.createVerticalStrut(10));
 		upgradePanel.add(sep);

@@ -22,7 +22,8 @@ EnnemiFollowing(Init){
 	
 	* (Attack) :
 	| !GotPower() ? Egg() : (Dying)
-	| True ? Hit(F) : (Init)
+	| !Cell(F,O) ? Hit(F) : (Init)
+	| True ? Wait() : (Init)
 	
 	* (Dying)
 	| True ? Explode() : ()

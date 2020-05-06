@@ -772,7 +772,7 @@ public class HUD {
 			g.drawString(m_elecCost, 6 + 15 + getWidth() / 2, getHeight() - 5);
 			paintTitle(g, space);
 			if (!isEnabled()) {
-				Color color = new Color(0F, 0F, 0F, 0.80F);
+				Color color = new Color(0F, 0F, 0F, 0.60F);
 				g.setColor(color);
 				g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			}

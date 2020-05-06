@@ -42,7 +42,7 @@ public class Menu {
 	Menu(GameMain gameMain) {
 
 		Border inset = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-		LineBorder buttonLineBorder = (LineBorder) BorderFactory.createLineBorder(new Color(52, 109, 46), 3);
+		LineBorder buttonLineBorder = (LineBorder) BorderFactory.createLineBorder(new Color(130,130,130),3);
 		m_buttonBorder = BorderFactory.createCompoundBorder(buttonLineBorder, inset);
 
 		m_gameMain = gameMain;
@@ -75,7 +75,7 @@ public class Menu {
 		m_infoMenu.setOpaque(false);
 		m_infoMenu.setLayout(new BorderLayout());
 
-		Color buttonColor = new Color(22, 63, 23);
+		Color buttonColor = new Color(180,180,180);
 		m_buttonPanel = new JPanel(new FlowLayout());
 		m_buttonPanel.setOpaque(false);
 		m_buttonPanel.setPreferredSize(new Dimension(500, 100));
@@ -93,7 +93,7 @@ public class Menu {
 		back.setUI(m_buttonUI);
 		back.setBorder(m_buttonBorder);
 		back.setBackground(buttonColor);
-		back.setForeground(Color.WHITE);
+		back.setForeground(Color.BLACK);
 		
 		//Page suivante
 		JButton next = new JButton("->");
@@ -109,7 +109,7 @@ public class Menu {
 		next.setUI(m_buttonUI);
 		next.setBorder(m_buttonBorder);
 		next.setBackground(buttonColor);
-		next.setForeground(Color.WHITE);
+		next.setForeground(Color.BLACK);
 		
 		//Page Précédente
 		JButton prev = new JButton("<-");
@@ -127,7 +127,7 @@ public class Menu {
 		prev.setUI(m_buttonUI);
 		prev.setBorder(m_buttonBorder);
 		prev.setBackground(buttonColor);
-		prev.setForeground(Color.WHITE);
+		prev.setForeground(Color.BLACK);
 		
 		m_buttonPanel.add(prev);
 		m_buttonPanel.add(back);
@@ -175,9 +175,9 @@ public class Menu {
 		Font fontLaunch = new Font(null, 0, 30);
 		JButton launch = new JButton("Launch Game");
 		launch.setUI(m_buttonUI);
-		Color buttonColor = new Color(22, 63, 23);
+		Color buttonColor = new Color(180,180,180);
 		launch.setBackground(buttonColor);
-		launch.setForeground(Color.WHITE);
+		launch.setForeground(Color.BLACK);
 		launch.setFont(fontLaunch);
 		launch.setBorder(m_buttonBorder);
 		launch.setAlignmentX(JPanel.CENTER_ALIGNMENT);
@@ -221,7 +221,7 @@ public class Menu {
 		config.setFont(fontConfig);
 		config.setBorder(m_buttonBorder);
 		config.setBackground(buttonColor);
-		config.setForeground(Color.WHITE);
+		config.setForeground(Color.BLACK);
 		config.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 
 		// Remplissage bas

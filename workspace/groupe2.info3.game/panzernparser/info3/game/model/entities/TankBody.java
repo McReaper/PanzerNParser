@@ -116,14 +116,11 @@ public class TankBody extends MovingEntity {
 
 	@Override
 	public void Explode() {
-		/*
-		 * TODO faire un GAME OVER
-		 */
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
-			m_tank.setLife(Tank.TANK_HEALTH);// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
-			//m_tank.doExplode();
+			// m_tank.setLife(Tank.TANK_HEALTH);// redonne de la vie si qu'on a pas envie de faire le cas de GAME OVER
 			m_actionFinished = false;
 			m_currentAction = null;
+			m_tank.doExplode();
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = TANKBODY_EXPLODE_TIME;

@@ -95,6 +95,7 @@ public class Tank {
 	public void doExplode() {
 		m_turret.doExplode();
 		m_body.doExplode();
+		Model.getModel().setGameOver(true);
 	}
 
 	public void setLife(int tankHealth) {

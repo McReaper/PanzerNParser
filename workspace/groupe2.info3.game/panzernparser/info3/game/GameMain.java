@@ -129,6 +129,13 @@ public class GameMain {
 	public HashMap<String, File> getSounds() {
 		return m_soundFiles;
 	}
+	
+	public void restart() {
+		Model.restart();
+		m_model = Model.getModel();
+		m_controller.setModel(m_model);
+		m_view.setModel(m_model);
+	}
 
 	public void refresh() {
 		m_frame.invalidate();

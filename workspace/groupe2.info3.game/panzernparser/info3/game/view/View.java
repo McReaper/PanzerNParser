@@ -3,9 +3,19 @@ package info3.game.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
+
+import javax.imageio.ImageIO;
+
 import info3.game.GameConfiguration;
+import info3.game.GameMain;
 import info3.game.controller.Controller;
 import info3.game.model.Grid;
 import info3.game.model.Grid.Coords;
@@ -135,7 +145,37 @@ public class View extends Container {
 	 * Méthode qui dessine la grille et les entités sur celle-ci.
 	 */
 	public void paintCanvas(Graphics g) {
-		m_viewPort.paint(g, m_avatars);
+		if (!m_model.getGameOver()) {//Si le jeu n'est pas terminé
+			m_viewPort.paint(g, m_avatars);
+		}else { /////////////////////////////////remplacer par une image de Game Over
+			int width = m_canvas.getWidth();
+			int height = m_canvas.getHeight();
+			Image img = null;
+			try {
+				img = ImageIO.read(new File("sprites/GameOver.png"));
+			} catch (IOException e) {
+				System.err.println("Unable to load game over image.");
+				e.printStackTrace();
+			}
+			Color color = new Color(29,22,15);
+			int imageHeight = img.getHeight(null) * width/img.getWidth(null);
+			int y = (height-imageHeight)/2;
+			g.setColor(color);
+			g.fillRect(0, 0, width, height);
+			g.drawImage(img, 0, y, width, imageHeight, null);
+			Font font = new Font("monospaced", Font.BOLD,(int)(0.05*imageHeight));
+			g.setFont(font);
+			String score = "Your Score : " + Model.getModel().getScore().getScore();
+			FontRenderContext frc = new FontRenderContext(null,true,false);
+			Rectangle2D rect = font.getStringBounds(score, frc);
+			int x = (int) ((width-rect.getWidth())/2);
+			g.setColor(Color.RED);
+			g.drawString(score, x, y+(int)(imageHeight*0.38));
+		}
+	}
+
+	public void setModel(Model model) {
+		m_model = model;		
 	}
 
 }

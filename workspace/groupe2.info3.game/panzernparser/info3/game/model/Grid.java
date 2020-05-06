@@ -26,7 +26,7 @@ public class Grid {
 	LinkedList<Entity>[][] m_entityGrid;
 
 	/* entier pour le nombre de zone à charger dans la grille */
-	final static int TAILLE_MAP = 2;
+	final static int TAILLE_MAP = 5;
 
 	@SuppressWarnings("unchecked")
 	public Grid() throws UnexpectedException {
@@ -51,6 +51,16 @@ public class Grid {
 		for (int i = x; i < x + width; i++) {
 			for (int j = y; j < y + height; j++) {
 				m_entityGrid[realX(i)][realY(j)].add(entity);
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void emptyGrid() {
+		m_entityGrid = new LinkedList[getNbCellsX()][getNbCellsY()];
+		for (int i = 0; i < m_entityGrid.length; i++) {
+			for (int j = 0; j < m_entityGrid[0].length; j++) {
+				m_entityGrid[i][j] = new LinkedList<Entity>();
 			}
 		}
 	}
@@ -158,6 +168,22 @@ public class Grid {
 		}
 	}
 
+	public double distanceXAtPow2(int a, int b) {
+		double baicDst = Math.pow(a - b, 2);
+		double toreDst = Math.min(a, b);
+		toreDst += this.getNbCellsX() - Math.max(a, b);
+		toreDst = Math.pow(toreDst, 2);
+		return Math.min(baicDst, toreDst);
+	}
+
+	public double distanceYAtPow2(int a, int b) {
+		double baicDst = Math.pow(a - b, 2);
+		double toreDst = Math.min(a, b);
+		toreDst += this.getNbCellsY() - Math.max(a, b);
+		toreDst = Math.pow(toreDst, 2);
+		return Math.min(baicDst, toreDst);
+	}
+
 	/**
 	 * Cette fonction sert de callback lorsque l'entité se déplace de plus d'une
 	 * case
@@ -189,11 +215,11 @@ public class Grid {
 		int ry = realY(y);
 		return new LinkedList<Entity>(m_entityGrid[rx][ry]);
 	}
-	
+
 	public LinkedList<Entity> getEntityCells(int x, int y, int w, int h) {
 		LinkedList<Entity> entity = new LinkedList<Entity>();
-		for(int i = 0; i < w; i++) {
-			for(int j = 0; j < h; j++) {
+		for (int i = 0; i < w; i++) {
+			for (int j = 0; j < h; j++) {
 				entity.addAll(getEntityCell(x + i, y + j));
 			}
 		}
@@ -213,7 +239,7 @@ public class Grid {
 		}
 		return lsType;
 	}
-	
+
 	public LinkedList<Entity> getEntityCells(int x, int y, int w, int h, MyEntities type) {
 		LinkedList<Entity> lsCell = getEntityCells(x, y, w, h);
 		if (type == null) {
@@ -319,6 +345,7 @@ public class Grid {
 
 				}
 			}
+			patTank = selectedPatterns.get(0);
 			sendToModel(selectedPatterns);
 		} else {
 			throw new UnexpectedException("Not Enough Patterns to continue");
@@ -332,6 +359,7 @@ public class Grid {
 	}
 
 	public void load() {
+		int lvl = Model.getModel().getLevel();
 		String name = "pattern" + Pattern.SIZE + "x" + Pattern.SIZE + "_";
 		String namePatTank = "patTank" + Pattern.SIZE + "x" + Pattern.SIZE + "_";
 		File f;
@@ -340,17 +368,30 @@ public class Grid {
 			File repository = new File(GameConfiguration.PATTERN_PATH);
 			String[] fileList = repository.list();
 			for (int j = 0; j < fileList.length; j++) {
+				// Sélection du niveau de pattern :
+				int random_level;
+				if (lvl <= Pattern.PATTERN_MIN_LEVEL) {
+					random_level = (Math.random() <= 0.8) ? lvl : lvl + 1;
+				} else if (lvl >= Pattern.PATTERN_MAX_LEVEL) {
+					random_level = (Math.random() <= 0.8) ? lvl : lvl - 1;
+				} else {
+					random_level = (int) ((Math.random() <= 0.7) ? lvl : ((lvl - 1) + (Math.random() * (lvl + 1))));
+				}
+				String lvlName = name + random_level;
+				String lvlPatTank = namePatTank + random_level;
 				String file = fileList[j];
-				String subFile = file.substring(0, file.length() - 5);
-				if (subFile.equals(name)) {
+				file = file.replaceAll("_\\d_", "_"+random_level+"_");
+				String subFile = file.substring(0, file.length() - 7);
+				System.out.println(file);
+				if (subFile.equals(lvlName)) {
 					p = new Pattern();
 					String path = GameConfiguration.PATTERN_PATH + file;
 					f = new File(path);
 					p.parse(f);
 					m_patterns.add(p);
-				} else if (subFile.equals(namePatTank)) {
+				} else if (subFile.equals(lvlPatTank)) {
 					p = new Pattern();
-					String path = GameConfiguration.PATTERN_PATH + file;
+					String path = GameConfiguration.PATTERN_PATH + file.replaceAll("_\\d_", "_"+lvl+"_");
 					f = new File(path);
 					p.parse(f);
 					patTank = p;
@@ -364,6 +405,8 @@ public class Grid {
 	private class Pattern {
 
 		public static final int SIZE = 20;
+		public static final int PATTERN_MIN_LEVEL = 1;
+		public static final int PATTERN_MAX_LEVEL = 3;
 
 		private class EntityShade {
 
@@ -427,7 +470,7 @@ public class Grid {
 					case "enem1":
 						type = MyEntities.EnemyBasic;
 						break;
-					case "enem2" :
+					case "enem2":
 						type = MyEntities.EnemyLevel2;
 						break;
 					case "vein1":

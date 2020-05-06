@@ -12,6 +12,7 @@ public class ExplosionAvatar {
 
 	private static boolean noInit = true;
 	private static Sprite m_explosion;
+	private static int progress;
 
 	private static void init() {
 		try {
@@ -23,18 +24,24 @@ public class ExplosionAvatar {
 		noInit = true;
 	}
 
-	public static boolean exploding(Graphics g, Entity entity, int x, int y, int w, int h) {
+	public static void exploding(Graphics g, Entity entity, int x, int y, int w, int h) {
 		if (noInit) {
 			init();
 		}
 		if (entity.getCurrentAction() == LsAction.Explode) {
-			int i = 1;
-			i += (int) (entity.getActionProgress() * m_explosion.nbSprites());
-			if (i > m_explosion.nbSprites())
-				i = m_explosion.nbSprites();
-			Image img = m_explosion.getSprite(i);
+			Image img = m_explosion.getSprite(progress);
 			g.drawImage(img, x, y, w, h, null);
-			if (i > 5) {
+		}
+	}
+
+	public static boolean printEntity(Entity entity) {
+		if (entity.getCurrentAction() == LsAction.Explode) {
+			progress = 1;
+			progress += (int) (entity.getActionProgress() * m_explosion.nbSprites());
+			if (progress > m_explosion.nbSprites()) {
+				progress = m_explosion.nbSprites();
+			}
+			if (progress > 5) {
 				return false;
 			}
 		}

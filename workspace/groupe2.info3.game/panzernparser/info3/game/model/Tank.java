@@ -82,6 +82,8 @@ public class Tank {
 
 	public void setLife(int tankHealth) {
 		m_health = tankHealth;
+		if (m_health > m_maxHealth)
+			m_health = m_maxHealth;
 	}
 
 	public int getLife() {
@@ -158,10 +160,6 @@ public class Tank {
 	public boolean isNewWeaponAvaible() {
 		return m_turret.isWeaponUnlockable();
 	}
-
-	public int getLevel() {
-		return m_body.getLevel();
-	}// TODO : voir quel niveau on suit (turret ou body ? les deux ?)
 
 	public void hasKilled(Entity e) {
 		if (e instanceof EnemyBasic)

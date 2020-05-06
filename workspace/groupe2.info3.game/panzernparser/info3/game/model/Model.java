@@ -15,6 +15,7 @@ import info3.game.model.upgrades.Upgrade;
 import info3.game.model.upgrades.UpgradeAutomaticSubmachine;
 import info3.game.model.upgrades.UpgradeDroneUsage;
 import info3.game.model.upgrades.UpgradeDroneVision;
+import info3.game.model.upgrades.UpgradeHealTank;
 import info3.game.model.upgrades.UpgradeMarkersCount;
 import info3.game.model.upgrades.UpgradeMiningTime;
 import info3.game.model.upgrades.UpgradeShot;
@@ -27,6 +28,10 @@ import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
 
 public class Model {
+
+	public static final int IN_PLAY = 0;
+	public static final int RELOADING_MAP = 1;
+	public static final int RELOAD_TIME = 3000;
 
 	public enum VisionType {
 		TANK, RESSOURCES, ENEMIES;
@@ -47,6 +52,10 @@ public class Model {
 	private LinkedList<Upgrade> m_statUpgrade;
 	private LinkedList<Upgrade> m_uniqUpgrade;
 	private Score m_score;
+	private int m_reloadingState;
+	private boolean m_hasReloaded;
+	private long m_reloadElapsed;
+	private int m_level;
 
 	/**
 	 * Fonction qui gère le singleton du modèle (évite de créer plusieurs modèles).
@@ -60,21 +69,59 @@ public class Model {
 	}
 
 	/**
+	 * au rythme des ticks du gamecanvas.
+	 * 
+	 * @param elapsed
+	 */
+	public void step(long elapsed) {
+		if (m_reloadingState == IN_PLAY) {
+			m_time += elapsed;
+			// Effectue un pas de simulation sur chaque entités
+			for (Entity entity : getAllEntities()) {
+				entity.step(elapsed);
+			}
+			m_tank.step();
+			m_collisionManager.controlCollisionsShotsEntity();
+			m_score.updateTime();
+		}
+
+		if (needRegeneration() || m_reloadingState == RELOADING_MAP) {
+			m_reloadingState = RELOADING_MAP;
+			m_reloadElapsed += elapsed;
+			if (m_reloadElapsed >= RELOAD_TIME) {
+				m_reloadingState = IN_PLAY;
+				m_hasReloaded = false;
+				m_reloadElapsed = 0;
+			} else if (m_reloadElapsed >= RELOAD_TIME / 3 && !m_hasReloaded) {
+				try {
+					m_hasReloaded = true;
+					m_playingTank = true;
+					reset();
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.exit(-1);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Création du modèle (l'univers du jeu)
 	 */
 	private Model() {
 		self = this; // Pour éviter des appels récursifs infinis.
 
-		//Initialisation des sons a jouer depuis le controller
+		// Initialisation des sons a jouer depuis le controller
 		m_soundsToPlay = new LinkedList<String>();
-		
-		//Temps de jeu écoulé
+
+		// Temps de jeu écoulé
 		m_time = 0;
-		
+
 		// Création de la liste des touches enfoncées connues du modèle.
 		m_keyPressed = new LinkedList<LsKey>();
 
 		// Création de la liste des entités :
+		m_level = 1;
 		m_entities = new HashMap<EntityFactory.MyEntities, LinkedList<Entity>>();
 		for (MyEntities entityType : MyEntities.values()) {
 			m_entities.put(entityType, new LinkedList<Entity>());
@@ -102,26 +149,84 @@ public class Model {
 			System.exit(-1);
 		}
 
-		//Création du Tank et du Drone :
+		// Création du Tank et du Drone :
 		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
 		Turret turret = (Turret) getEntities(MyEntities.Turret).get(0);
 		m_tank = new Tank(body, turret);
 		m_drone = (Drone) getEntities(MyEntities.Drone).get(0);
 		m_playingTank = true;
-		
-		//Initialisation des upgrades
+
+		// Initialisation des upgrades
 		m_uniqUpgrade = new LinkedList<Upgrade>();
 		m_statUpgrade = new LinkedList<Upgrade>();
 		initUpgrades();
-		
-		//Création du score du jeu.
+
+		// Création du score du jeu.
 		m_score = new Score();
-		
+		m_hasReloaded = false;
+		m_reloadElapsed = 0;
+	}
+
+///////* REGENERATION MAP *///////
+
+	/* regarde si la map a besoin d'être régenerer (dès que y a plus d'enemy) */
+	private boolean needRegeneration() {
+		return false;//getEntities(MyEntities.EnemyLevel2).isEmpty();
+	}
+
+	public double getReloadProgress() {
+		return (double)m_reloadElapsed/RELOAD_TIME;
 	}
 	
+	/* vide la liste d'entité */
+	private void reset() throws UnexpectedException {
+		/* reinitialisation des entités */
+		m_entities = new HashMap<EntityFactory.MyEntities, LinkedList<Entity>>();
+		for (MyEntities entityType : MyEntities.values()) {
+			m_entities.put(entityType, new LinkedList<Entity>());
+		}
+		m_level++;
+		m_grid.emptyGrid();
+		m_grid.generate();
+		regeneratePlayer();
+		
+	}
+
+	private void regeneratePlayer() {
+		if (getEntities(MyEntities.TankBody).size() != 1 || getEntities(MyEntities.Turret).size() != 1
+				|| getEntities(MyEntities.Drone).size() != 1) {
+			System.err.println("Il semblerait que la grille comporte plusieurs Drone ou Tank...");
+			System.exit(-1);
+		}
+
+		TankBody newTankBody = (TankBody) getEntities(MyEntities.TankBody).get(0);
+		Turret newTurret = (Turret) getEntities(MyEntities.Turret).get(0);
+		Drone newDrone = (Drone) getEntities(MyEntities.Drone).get(0);
+
+		int x = newTankBody.getX();
+		int y = newTankBody.getY();
+		m_tank.getBody().setPosition(x, y); // /!\ La méthode setPosition travail avec la grille
+		m_tank.relocateParts();
+
+		this.removeEntity(m_tank.getBody()); // /!\ On a donc besoin de les retirer avant de les remettre
+		this.removeEntity(m_tank.getTurret());
+		this.addEntity(m_tank.getBody());
+		this.addEntity(m_tank.getTurret());
+		this.addEntity(m_drone);
+
+		this.removeEntity(newTankBody);
+		this.removeEntity(newTurret);
+		this.removeEntity(newDrone);
+	}
+
+	///////////////////////////////////////////////
 	private void initUpgrades() {
+		
 		m_uniqUpgrade.add(new UpgradeDroneVision(m_tank, m_drone));
 		m_uniqUpgrade.add(new UpgradeAutomaticSubmachine(m_tank));
+		
+
+		m_statUpgrade.add(new UpgradeHealTank(m_tank, m_drone));
 		m_statUpgrade.add(new UpgradeDroneUsage(m_tank, m_drone));
 		m_statUpgrade.add(new UpgradeMarkersCount(m_tank, m_drone));
 		m_statUpgrade.add(new UpgradeMiningTime(m_tank));
@@ -130,17 +235,6 @@ public class Model {
 		m_statUpgrade.add(new UpgradeTankLife(m_tank));
 		m_statUpgrade.add(new UpgradeTankShotsCapacity(m_tank));
 		m_statUpgrade.add(new UpgradeTankSpeed(m_tank));
-	}
-
-	public void step(long elapsed) {
-		m_time += elapsed;
-		// Effectue un pas de simulation sur chaque entités
-		for (Entity entity : getAllEntities()) {
-			entity.step(elapsed);
-		}
-		m_tank.step();
-		m_collisionManager.controlCollisionsShotsEntity();
-		m_score.updateTime();
 	}
 
 	//////// Gestion du passage drone/tank ////////
@@ -204,6 +298,10 @@ public class Model {
 		return m_score;
 	}
 
+	public int getReloadingState() {
+		return m_reloadingState;
+	}
+
 	/////////////////////////////////////////////////
 
 	public void addSound(String soundName) {
@@ -252,6 +350,10 @@ public class Model {
 	public Grid getGrid() {
 		return m_grid;
 	}
+	
+	public int getLevel() {
+		return m_level;
+	}
 
 	public HashMap<EntityFactory.MyEntities, LinkedList<Entity>> getHashEntities() {
 		return m_entities;
@@ -272,6 +374,11 @@ public class Model {
 		return entities;
 	}
 
+	public void addEntity(Entity e) {
+		getEntities(EntityFactory.getMyEntities(e)).add(e);
+		m_grid.addEntity(e);
+	}
+
 	public void removeEntity(Entity e) {
 		getEntities(EntityFactory.getMyEntities(e)).remove(e);
 		m_grid.removeEntity(e);
@@ -287,30 +394,14 @@ public class Model {
 
 	public Entity closestEntity(LinkedList<Entity> entities, int x, int y) {
 		Entity closest = entities.get(0);
-		double min_dist = distanceXAtPow2(closest.getX(), x) + distanceYAtPow2(closest.getY(), y);
+		double min_dist = m_grid.distanceXAtPow2(closest.getX(), x) + m_grid.distanceYAtPow2(closest.getY(), y);
 		for (Entity curr : entities) {
-			double dist = distanceXAtPow2(closest.getX(), x) + distanceYAtPow2(closest.getY(), y);
+			double dist = m_grid.distanceXAtPow2(closest.getX(), x) + m_grid.distanceYAtPow2(closest.getY(), y);
 			if (dist < min_dist) {
 				closest = curr;
 			}
 		}
 		return closest;
-	}
-
-	public double distanceXAtPow2(int a, int b) {
-		double baicDst = Math.pow(a - b, 2);
-		double toreDst = Math.min(a, b);
-		toreDst += m_grid.getNbCellsX() - Math.max(a, b);
-		toreDst = Math.pow(toreDst, 2);
-		return Math.min(baicDst, toreDst);
-	}
-
-	public double distanceYAtPow2(int a, int b) {
-		double baicDst = Math.pow(a - b, 2);
-		double toreDst = Math.min(a, b);
-		toreDst += m_grid.getNbCellsY() - Math.max(a, b);
-		toreDst = Math.pow(toreDst, 2);
-		return Math.min(baicDst, toreDst);
 	}
 
 	public LinkedList<Entity> getCategoried(MyCategory type) {

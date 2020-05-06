@@ -15,6 +15,7 @@ public abstract class StaticEntity extends Entity {
 		m_speed = 0;
 	}
 	
+	@Override
 	public void Wait() {
 		if (m_actionFinished && m_currentAction == LsAction.Wait) {
 			m_actionFinished = false;

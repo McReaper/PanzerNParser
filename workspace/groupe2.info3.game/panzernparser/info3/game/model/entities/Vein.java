@@ -13,21 +13,23 @@ public class Vein extends StaticEntity {
 
 	public final static int VEIN_WIDTH = 1;
 	public final static int VEIN_HEIGHT = 1;
-
+	public static final int VEIN_DROP_QUANTITY = 10;
+	
 	public static final long VEIN_EGG_TIME = 1000;
 	public static final long VEIN_POP_TIME = 10000;
 	public static final long VEIN_WIZZ_TIME = 1000;
 
+	int m_quantity;//quantité de ressource créée
+	
 	public Vein(int x, int y, Automaton aut) {
 		super(x, y, VEIN_WIDTH, VEIN_HEIGHT, aut);
 		m_category = MyCategory.G;
 		m_stuff = false;
-
+		m_quantity = VEIN_DROP_QUANTITY + (VEIN_DROP_QUANTITY/2)* Model.getModel().getLevel();
 	}
 
 	@Override
 	public boolean isShown() {
-		// TODO update en fonction des sprites dispo
 		return (Model.getModel().getVisionType() == VisionType.RESSOURCES);
 	}
 	
@@ -52,13 +54,13 @@ public class Vein extends StaticEntity {
 			if (dir == null || dir == MyDirection.HERE) {
 				Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x, m_y);
 				((Droppable) ent).setMaterialType(MaterialType.MINERAL);
-				((Droppable) ent).setQuantity(10);//TODO A mettre dans une variable
+				((Droppable) ent).setQuantity(m_quantity);//TODO A mettre dans une variable
 			} else {
 				int posX = getXCaseDir(dir);
 				int posY = getYCaseDir(dir);
 				Entity ent = EntityFactory.newEntity(MyEntities.Droppable, posX, posY);
 				((Droppable) ent).setMaterialType(MaterialType.MINERAL);
-				((Droppable) ent).setQuantity(10);// A mettre dans une variable
+				((Droppable) ent).setQuantity(m_quantity);// A mettre dans une variable
 				
 			}
 			Model.getModel().getScore().scoreVein();

@@ -24,8 +24,7 @@ public class View extends Container {
 	ViewPort m_viewPort;
 	public HUD m_HUD;
 	public LinkedList<MyEntities> orderEntities;
-	private static final Color ENEMI_COLOR = new Color(15, 157, 232, 200);
-	private static final Color RESSOURCE_COLOR = new Color(127, 127, 127, 200);
+	
 
 	public View(Controller controller, Model model) {
 		// créer la fenetre de jeu avec les bandeaux d'updrage et le canvas.
@@ -48,13 +47,11 @@ public class View extends Container {
 	 */
 	private void initAvatars() {
 		GameConfiguration config = GameConfiguration.getConfig();
-		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Ground)));
-		orderEntities.add(MyEntities.Ground);
 		m_avatars.add(new VeinAvatar(config.getAnimation(MyEntities.Vein)));
 		orderEntities.add(MyEntities.Vein);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Hole)));
 		orderEntities.add(MyEntities.Hole);
-		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Mud)));
+		m_avatars.add(new MudAvatar(config.getAnimation(MyEntities.Mud)));
 		orderEntities.add(MyEntities.Mud);
 		m_avatars.add(new WreckTankAvatar(config.getAnimation(MyEntities.WreckTank)));
 		orderEntities.add(MyEntities.WreckTank);
@@ -74,7 +71,7 @@ public class View extends Container {
 		orderEntities.add(MyEntities.EnemyLevel2);
 		m_avatars.add(new MarkerAvatar(config.getAnimation(MyEntities.Marker)));
 		orderEntities.add(MyEntities.Marker);
-		m_avatars.add(new TankBodyAvatar(config.getAnimation(MyEntities.TankBody)));
+		m_avatars.add(new TankBodyAvatar(config.getAnimation(MyEntities.TankBody), this));
 		orderEntities.add(MyEntities.TankBody);
 		m_avatars.add(new TurretAvatar(config.getAnimation(MyEntities.Turret)));
 		orderEntities.add(MyEntities.Turret);
@@ -115,19 +112,6 @@ public class View extends Container {
 	 * Méthode qui dessine la grille et les entités sur celle-ci.
 	 */
 	public void paintCanvas(Graphics g) {
-		int width = m_canvas.getWidth();
-		int height = m_canvas.getHeight();
-
-		g.setColor(Color.green);
-		g.fillRect(0, 0, width, height);
-		if(Model.getModel().getVisionType() == VisionType.ENEMIES) {
-			g.setColor(ENEMI_COLOR);
-			g.fillRect(0, 0, width, height);
-		}else if(Model.getModel().getVisionType() == VisionType.RESSOURCES) {
-			g.setColor(RESSOURCE_COLOR);
-			g.fillRect(0, 0, width, height);
-		}
-
 		m_viewPort.paint(g, m_avatars);
 	}
 

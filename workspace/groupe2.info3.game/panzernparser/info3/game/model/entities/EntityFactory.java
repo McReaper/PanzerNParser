@@ -8,7 +8,7 @@ import info3.game.model.Model;
 
 public class EntityFactory {
 	public enum MyEntities {
-		Wall, Ground, EnemyBasic, EnemyLevel2, Droppable, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody,
+		Wall, EnemyBasic, EnemyLevel2, Droppable, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody,
 		Turret, Hole, WreckTank, Mud;
 	}
 
@@ -28,11 +28,6 @@ public class EntityFactory {
 	public static Entity newVein(int x, int y, Automaton aut) {
 		Entity vein = new Vein(x, y, aut);
 		return vein;
-	}
-
-	public static Entity newGround(int x, int y, Automaton aut) {
-		Entity ground = new Ground(x, y, aut);
-		return ground;
 	}
 	
 	public static Entity newMud(int x, int y, Automaton aut) {
@@ -101,9 +96,6 @@ public class EntityFactory {
 			case Wall:
 				res = newWall(x, y, config.getAutomaton(MyEntities.Wall));
 				break;
-			case Ground:
-				res = newGround(x, y, config.getAutomaton(MyEntities.Ground));
-				break;
 			case EnemyBasic:
 				res = newEnemyBasic(x, y, config.getAutomaton(MyEntities.EnemyBasic));
 				break;
@@ -158,8 +150,7 @@ public class EntityFactory {
 			default:
 				throw new IllegalStateException("Entité non reconnue !");
 		}
-		Model.getModel().getGrid().addEntity(res);
-		Model.getModel().getEntities(entity).add(res);
+		Model.getModel().addEntity(res);
 		return res;
 	}
 
@@ -178,14 +169,10 @@ public class EntityFactory {
 			return MyEntities.EnemyLevel2;
 		} else if (e instanceof Vein) {
 			return MyEntities.Vein;
-		} else if (e instanceof Ground) {
-			if (e.getCategory() == MyCategory.O)
-				return MyEntities.Wall;
-			else if (e instanceof Hole)
-				return MyEntities.Hole;
-			return MyEntities.Ground;
 		} else if (e instanceof Wall) {
 			return MyEntities.Wall;
+		} else if (e instanceof Mud) {
+			return MyEntities.Mud;
 		} else if (e instanceof Hole) {
 			return MyEntities.Hole;
 		} else if (e instanceof Marker) {

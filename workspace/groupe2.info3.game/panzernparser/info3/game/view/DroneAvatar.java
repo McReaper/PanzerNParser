@@ -30,6 +30,8 @@ public class DroneAvatar extends Avatar {
 	public void paint(Graphics g, Entity entity, int xcase, int ycase, int case_width, int case_height) {
 		VisionType vision = Model.getModel().getVisionType();
 		MyDirection dir = entity.getLookAtDir();
+		LsAction ac = entity.getCurrentAction();
+		double act_progress = entity.getActionProgress();
 		long time = Model.getModel().getTime();
 		time = time % 200;
 		int progress;
@@ -38,7 +40,12 @@ public class DroneAvatar extends Avatar {
 		} else {
 			progress = 0;
 		}
-		Image img = m_animation.getImage(progress, LsAction.Move, dir, vision);
+		Image img = null;
+		if(ac != LsAction.Wizz) {
+			img = m_animation.getImage(progress, LsAction.Move, dir, vision);			
+		} else {
+			img = m_animation.getImage(progress, LsAction.Move, MyDirection.WEST, vision);			
+		}
 
 		ViewPort vp = m_view.m_viewPort;
 		int x = vp.getOffsetWindowX();
@@ -55,6 +62,12 @@ public class DroneAvatar extends Avatar {
 		y += reduction;
 		w -= 2 * reduction;
 		h -= 2 * reduction;
+		if(ac == LsAction.Wizz) {
+			x -= Math.abs(x-vp.getOffsetWindowX()+w)*act_progress*Math.exp(act_progress)/Math.exp(1);
+			w -= 60*act_progress;
+			h -= 60*act_progress;
+			y += 30*act_progress;
+		}
 		g.drawImage(img, x, y, w, h, null);
 	}
 

@@ -3,6 +3,8 @@ package info3.game.model.entities;
 import info3.game.automaton.Automaton;
 import info3.game.automaton.MyCategory;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Model;
+import info3.game.model.Model.VisionType;
 
 public class Wall extends StaticEntity{
 
@@ -44,6 +46,11 @@ public class Wall extends StaticEntity{
 			m_currentAction = LsAction.Wait;
 			m_timeOfAction = WALL_WAIT_TIME;
 		}
+	}
+	
+	@Override
+	public boolean isShown() {
+		return Model.getModel().getVisionType() == VisionType.TANK;
 	}
 	
 }

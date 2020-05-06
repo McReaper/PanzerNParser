@@ -54,7 +54,6 @@ public abstract class Entity {
 	protected boolean m_actionFinished;
 	protected MyCategory m_category;
 	protected int m_range;
-	protected int m_level;
 	protected int m_maxHealth;
 	protected int m_health;
 	protected int m_damage_dealt;
@@ -313,10 +312,10 @@ public abstract class Entity {
 
 	public void Explode() {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
+			this.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			this.doExplode();
 			m_currentActionDir = null;
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = DEFAULT_EXPLODE_TIME;
@@ -844,7 +843,8 @@ public abstract class Entity {
 	 */
 	public boolean Closest(MyDirection dir, MyCategory type) {
 		Entity closest = Model.getModel().closestEntity(Model.getModel().getCategoried(type), m_x, m_y);
-		if (closest.isInMe(getDetectionCone(dir, this.m_range))) {
+		LinkedList<Coords> coords_to_check = getDetectionCone(dir, this.m_range);
+		if (closest.isInMe(coords_to_check)) {
 			return true;
 		} else {
 			return false;
@@ -1165,7 +1165,7 @@ public abstract class Entity {
 		}
 		if (y >= yU && y < yD) {
 			inY = true;
-		} else if (yU > yD && (x >= yU || x < yD)) {
+		} else if (yU > yD && (y >= yU || y < yD)) {
 			inY = true;
 		}
 		return inX && inY;
@@ -1239,10 +1239,6 @@ public abstract class Entity {
 	
 	public void setMaxHealth(int maxHealth) {
 		m_maxHealth = maxHealth;
-	}
-
-	public int getLevel() {
-		return m_level;
 	}
 
 	public boolean GotPower() {

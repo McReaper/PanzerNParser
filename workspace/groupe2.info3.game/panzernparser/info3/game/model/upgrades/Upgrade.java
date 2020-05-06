@@ -2,6 +2,7 @@ package info3.game.model.upgrades;
 
 import info3.game.model.Inventory;
 import info3.game.model.MaterialType;
+import info3.game.model.Model;
 import info3.game.model.Tank;
 import info3.game.model.entities.Drone;
 
@@ -42,7 +43,7 @@ public abstract class Upgrade {
 	 * l'inventaire du joueur par exemple.
 	 */
 	public boolean isAvaible() {
-		if (m_tank.getLevel() < m_level) return false;
+		if (Model.getModel().getLevel() < m_level) return false;
 		Inventory inv = m_tank.getInventory();
 		return (inv.possesses(MaterialType.MINERAL, getCostMine()) && inv.possesses(MaterialType.ELECTRONIC, getCostElec()));
 	}
@@ -51,7 +52,7 @@ public abstract class Upgrade {
 	 * méthode utile pour éviter une redondance des calculs.
 	 */
 	protected boolean isAvaibleFor(int mineral_cost, int electronical_cost) {
-		if (m_tank.getLevel() < m_level) return false;
+		if (Model.getModel().getLevel() < m_level) return false;
 		Inventory inv = m_tank.getInventory();
 		return (inv.possesses(MaterialType.MINERAL, mineral_cost)
 				&& inv.possesses(MaterialType.ELECTRONIC, electronical_cost));

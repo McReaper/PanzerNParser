@@ -232,5 +232,5 @@ public class Drone extends MovingEntity {
 	public void setMaxMarkers(int maxCount) {
 		m_maxMarkers = maxCount;
 	}
-
+	
 }

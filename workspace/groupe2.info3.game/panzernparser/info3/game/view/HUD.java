@@ -721,8 +721,6 @@ public class HUD {
 		private String m_descript;
 		private Upgrade m_upgrade;
 		private String m_level;
-		private Border m_borderRaised;
-		private Border m_borderLowered;
 
 		public UpgradeButton(Upgrade upg, ImageIcon elec, ImageIcon mine) {
 			super();
@@ -741,10 +739,8 @@ public class HUD {
 				@Override
 				protected void paintButtonPressed(Graphics g, AbstractButton b) {
 					Color color = new Color(0F, 0F, 0F, 0.3F);
-					setBorder(m_borderLowered);
 					g.setColor(color);
 					g.fillRect(0, 0, b.getWidth(), b.getHeight());
-					setBorder(m_borderRaised);
 				}
 			};
 			this.setUI(buttonUI);

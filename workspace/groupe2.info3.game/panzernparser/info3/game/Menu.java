@@ -1,7 +1,9 @@
 package info3.game;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -13,19 +15,29 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicButtonUI;
 
 public class Menu {
 
 	GameMain m_gameMain;
-	JPanelImaged m_mainMenu;
+	JPanelImaged m_menu;
+	JPanel m_infoMenu;
+	JPanel m_mainMenu;
 	Border m_buttonBorder;
+	BasicButtonUI m_buttonUI;
+	private JPanel m_buttonPanel;
+	private JLabel[] m_infos;
+	private int m_current;
 
 	Menu(GameMain gameMain) {
 
@@ -34,13 +46,118 @@ public class Menu {
 		m_buttonBorder = BorderFactory.createCompoundBorder(buttonLineBorder, inset);
 
 		m_gameMain = gameMain;
-		m_mainMenu = new JPanelImaged();
-		m_mainMenu.setImage("sprites/Menu.png");
+
+		m_buttonUI = new BasicButtonUI() {
+			@Override
+			protected void paintButtonPressed(Graphics g, AbstractButton b) {
+				Color color = new Color(0F, 0F, 0F, 0.3F);
+				g.setColor(color);
+				g.fillRect(0, 0, b.getWidth(), b.getHeight());
+			}
+		};
+
 		drawMainMenu();
+		try {
+			drawInfoMenu();
+		} catch (IOException e) {
+			System.err.println("Info menu could not be loaded");
+			e.printStackTrace();
+		}
+
+		m_menu = new JPanelImaged();
+		m_menu.setImage("sprites/Menu.png");
+		m_menu.setLayout(new BorderLayout());
+		m_menu.add(m_mainMenu, BorderLayout.CENTER);
+	}
+
+	public void drawInfoMenu() throws IOException {
+		m_infoMenu = new JPanel();
+		m_infoMenu.setOpaque(false);
+		m_infoMenu.setLayout(new BorderLayout());
+
+		Color buttonColor = new Color(22, 63, 23);
+		m_buttonPanel = new JPanel(new FlowLayout());
+		m_buttonPanel.setOpaque(false);
+		m_buttonPanel.setPreferredSize(new Dimension(500, 100));
+		
+		//Retour menu principal
+		JButton back = new JButton("Main menu");
+		back.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				m_menu.remove(m_infoMenu);
+				m_menu.add(m_mainMenu, BorderLayout.CENTER);
+				m_gameMain.refresh();
+			}
+		});
+		back.setUI(m_buttonUI);
+		back.setBorder(m_buttonBorder);
+		back.setBackground(buttonColor);
+		back.setForeground(Color.WHITE);
+		
+		//Page suivante
+		JButton next = new JButton("->");
+		next.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				m_infoMenu.remove(m_infos[m_current]);
+				m_current = (m_current + 1) % 3;
+				m_infoMenu.add(m_infos[m_current], BorderLayout.CENTER);
+				m_gameMain.refresh();
+			}
+		});
+		next.setUI(m_buttonUI);
+		next.setBorder(m_buttonBorder);
+		next.setBackground(buttonColor);
+		next.setForeground(Color.WHITE);
+		
+		//Page Précédente
+		JButton prev = new JButton("<-");
+		prev.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				m_infoMenu.remove(m_infos[m_current]);
+				m_current = m_current - 1;
+				if (m_current < 0)
+					m_current = 2;
+				m_infoMenu.add(m_infos[m_current], BorderLayout.CENTER);
+				m_gameMain.refresh();
+			}
+		});
+		prev.setUI(m_buttonUI);
+		prev.setBorder(m_buttonBorder);
+		prev.setBackground(buttonColor);
+		prev.setForeground(Color.WHITE);
+		
+		m_buttonPanel.add(prev);
+		m_buttonPanel.add(back);
+		m_buttonPanel.add(next);
+
+		Image img1 = ImageIO.read(new File("sprites/InfoMenuRules.png"));
+		img1 = img1.getScaledInstance(600, 600, 0);
+		Image img2 = ImageIO.read(new File("sprites/InfoMenuControls.png"));
+		img2 = img2.getScaledInstance(600, 600, 0);
+		Image img3 = ImageIO.read(new File("sprites/InfoMenuHUD.png"));
+		img3 = img3.getScaledInstance(600, 600, 0);
+		ImageIcon rulesImg = new ImageIcon(img1);
+		ImageIcon controlImg = new ImageIcon(img2);
+		ImageIcon HUDImg = new ImageIcon(img3);
+		
+		m_infos = new JLabel[3];
+		m_infos[0] = new JLabel(rulesImg);
+		m_infos[1] = new JLabel(controlImg);
+		m_infos[2] = new JLabel(HUDImg);
+		
+		m_infoMenu.add(m_infos[0], BorderLayout.CENTER);
+		m_infoMenu.add(m_buttonPanel, BorderLayout.SOUTH);
+		m_infoMenu.add(Box.createVerticalStrut(30), BorderLayout.NORTH);
+		m_infoMenu.add(Box.createHorizontalStrut(100), BorderLayout.EAST);
+		m_infoMenu.add(Box.createHorizontalStrut(100), BorderLayout.WEST);
 	}
 
 	public void drawMainMenu() {
-
+		m_mainMenu = new JPanel();
+		m_mainMenu.setOpaque(false);
 		// Le layout en deux partie du menu
 		GridLayout mainGrid = new GridLayout(2, 1);
 		m_mainMenu.setLayout(mainGrid);
@@ -57,6 +174,7 @@ public class Menu {
 		// Le bouton launch
 		Font fontLaunch = new Font(null, 0, 30);
 		JButton launch = new JButton("Launch Game");
+		launch.setUI(m_buttonUI);
 		Color buttonColor = new Color(22, 63, 23);
 		launch.setBackground(buttonColor);
 		launch.setForeground(Color.WHITE);
@@ -88,7 +206,18 @@ public class Menu {
 
 		// Bouton des config
 		Font fontConfig = new Font(null, 0, 25);
-		JButton config = new JButton("Configuration menu");
+		
+		//Bouton vers menu des infos
+		JButton config = new JButton("How to play");
+		config.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				m_menu.remove(m_mainMenu);
+				m_menu.add(m_infoMenu, BorderLayout.CENTER);
+				m_gameMain.refresh();
+			}
+		});
+		config.setUI(m_buttonUI);
 		config.setFont(fontConfig);
 		config.setBorder(m_buttonBorder);
 		config.setBackground(buttonColor);
@@ -105,8 +234,8 @@ public class Menu {
 		m_mainMenu.add(underPart);
 	}
 
-	public JPanel getMainMenu() {
-		return m_mainMenu;
+	public JPanel getMenu() {
+		return m_menu;
 	}
 
 	public class JPanelImaged extends JPanel {

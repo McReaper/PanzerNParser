@@ -71,17 +71,20 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_F11) {
-			// GameMain.getGame().goFullscreen(); // TODO : tobefixed
-		}
 		LsKey temp = toLsKey(e);
 		m_model.addKeyPressed(temp);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_F11) {
+			// GameMain.getGame().goFullscreen(); // TODO : tobefixed
+		}
 		LsKey temp = toLsKey(e);
 		m_model.removeKeyPressed(temp);
+		if(m_model.getGameOver() && e.getKeyCode() == KeyEvent.VK_R) {
+			GameMain.getGame().restart();
+		}
 	}
 
 	@Override
@@ -245,6 +248,10 @@ public class Controller implements GameCanvasListener {
 
 	public void upgradeClicked(Upgrade upgrade) {
 		m_model.performUpgrade(upgrade);
+	}
+
+	public void setModel(Model model) {
+		m_model = model;
 	}
 
 }

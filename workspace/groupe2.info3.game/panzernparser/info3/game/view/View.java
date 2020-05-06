@@ -6,6 +6,7 @@ import java.awt.Container;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import info3.game.GameConfiguration;
+import info3.game.GameMain;
 import info3.game.controller.Controller;
 import info3.game.model.Grid;
 import info3.game.model.Grid.Coords;
@@ -112,7 +113,22 @@ public class View extends Container {
 	 * Méthode qui dessine la grille et les entités sur celle-ci.
 	 */
 	public void paintCanvas(Graphics g) {
-		m_viewPort.paint(g, m_avatars);
+		if (!m_model.getGameOver()) {//Si le jeu n'est pas terminé
+			m_viewPort.paint(g, m_avatars);
+		}else { /////////////////////////////////remplacer par une image de Game Over
+			int width = m_canvas.getWidth();
+			int height = m_canvas.getHeight();
+			g.setColor(Color.RED);
+			g.fillRect(0, 0, width, height);
+			g.setColor(Color.BLACK);
+			g.drawChars("GAME OVER".toCharArray(), 0, 9, 50, 50);
+			g.drawChars("press 'r' to replay".toCharArray(), 0, 19, 50, 100);
+			//GameMain.getGame().restart();
+		}
+	}
+
+	public void setModel(Model model) {
+		m_model = model;		
 	}
 
 }

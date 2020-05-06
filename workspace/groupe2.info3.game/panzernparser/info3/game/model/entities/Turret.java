@@ -83,12 +83,12 @@ public class Turret extends StaticEntity {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
 			m_actionFinished = false;
 			m_currentAction = null;
-			Model.getModel().addSound("Canon");
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = TURRET_HIT_TIME;
 			m_currentWeapon.fire(dir);
+			Model.getModel().addSound("Canon");
 		}
 	}
 

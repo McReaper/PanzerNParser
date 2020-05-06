@@ -8,5 +8,5 @@ wall1 3,2
 wall1 3,1
 rock1 0,0
 mud_1 2,2
-enem1 8,8
+vein1 8,8
 enem2 10,10

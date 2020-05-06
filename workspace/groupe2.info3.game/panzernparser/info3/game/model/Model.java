@@ -144,18 +144,18 @@ public class Model {
 			System.exit(-1);
 		}
 
-		if (getEntities(MyEntities.TankBody).size() != 1 || getEntities(MyEntities.Turret).size() != 1
-				|| getEntities(MyEntities.Drone).size() != 1) {
-			System.err.println("Il semblerait que la grille comporte plusieurs Drone ou Tank...");
+		if (getEntities(MyEntities.TankBody).size() != 1) {
+			System.err.println("Il semblerait que la grille ne comporte pas de TankBody...");
 			System.exit(-1);
 		}
 
 		// Création du Tank et du Drone :
 		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
-		Turret turret = (Turret) getEntities(MyEntities.Turret).get(0);
-		AutomaticTurret autTurret = new AutomaticTurret(body.getX(), body.getY(), GameConfiguration.getConfig().getAutomaton(MyEntities.AutomaticTurret));
+		AutomaticTurret autTurret = (AutomaticTurret) EntityFactory.newEntity(MyEntities.AutomaticTurret, body.getX(),
+				body.getY());
+		Turret turret = (Turret) EntityFactory.newEntity(MyEntities.Turret, body.getX(), body.getY());
+		m_drone = (Drone) EntityFactory.newEntity(MyEntities.Drone, body.getX(), body.getY());
 		m_tank = new Tank(body, turret, autTurret);
-		m_drone = new Drone(body.getX(), body.getY(), GameConfiguration.getConfig().getAutomaton(MyEntities.Drone));
 		m_playingTank = true;
 
 		// Initialisation des upgrades
@@ -177,9 +177,9 @@ public class Model {
 	}
 
 	public double getReloadProgress() {
-		return (double)m_reloadElapsed/RELOAD_TIME;
+		return (double) m_reloadElapsed / RELOAD_TIME;
 	}
-	
+
 	/* vide la liste d'entité */
 	private void reset() throws UnexpectedException {
 		/* reinitialisation des entités */
@@ -191,19 +191,18 @@ public class Model {
 		m_grid.emptyGrid();
 		m_grid.generate();
 		regeneratePlayer();
-		
+
+		/* Vider la liste des sons */
+		m_soundsToPlay = new LinkedList<String>();
 	}
 
 	private void regeneratePlayer() {
-		if (getEntities(MyEntities.TankBody).size() != 1 || getEntities(MyEntities.Turret).size() != 1
-				|| getEntities(MyEntities.Drone).size() != 1) {
-			System.err.println("Il semblerait que la grille comporte plusieurs Drone ou Tank...");
+		if (getEntities(MyEntities.TankBody).size() != 1) {
+			System.err.println("Il semblerait que la grille ne comporte pas de TankBody...");
 			System.exit(-1);
 		}
 
 		TankBody newTankBody = (TankBody) getEntities(MyEntities.TankBody).get(0);
-		Turret newTurret = (Turret) getEntities(MyEntities.Turret).get(0);
-		Drone newDrone = (Drone) getEntities(MyEntities.Drone).get(0);
 
 		int x = newTankBody.getX();
 		int y = newTankBody.getY();
@@ -217,16 +216,13 @@ public class Model {
 		this.addEntity(m_drone);
 
 		this.removeEntity(newTankBody);
-		this.removeEntity(newTurret);
-		this.removeEntity(newDrone);
 	}
 
 	///////////////////////////////////////////////
 	private void initUpgrades() {
-		
+
 		m_uniqUpgrade.add(new UpgradeDroneVision(m_tank, m_drone));
 		m_uniqUpgrade.add(new UpgradeAutomaticSubmachine(m_tank));
-		
 
 		m_statUpgrade.add(new UpgradeHealTank(m_tank, m_drone));
 		m_statUpgrade.add(new UpgradeDroneUsage(m_tank, m_drone));
@@ -352,7 +348,7 @@ public class Model {
 	public Grid getGrid() {
 		return m_grid;
 	}
-	
+
 	public int getLevel() {
 		return m_level;
 	}

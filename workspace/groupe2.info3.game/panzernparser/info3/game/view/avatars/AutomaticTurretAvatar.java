@@ -9,7 +9,6 @@ public class AutomaticTurretAvatar extends Avatar {
 
 	public AutomaticTurretAvatar(Animation animation) {
 		super(animation);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

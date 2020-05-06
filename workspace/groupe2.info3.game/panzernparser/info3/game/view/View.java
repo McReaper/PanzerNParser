@@ -3,8 +3,11 @@ package info3.game.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -137,12 +140,14 @@ public class View extends Container {
 			g.setColor(color);
 			g.fillRect(0, 0, width, height);
 			g.drawImage(img, 0, y, width, imageHeight, null);
-//			g.setColor(Color.RED);
-//			g.fillRect(0, 0, width, height);
-//			g.setColor(Color.BLACK);
-//			g.drawChars("GAME OVER".toCharArray(), 0, 9, 50, 50);
-//			g.drawChars("press 'r' to replay".toCharArray(), 0, 19, 50, 100);
-			//GameMain.getGame().restart();
+			Font font = new Font("monospaced", Font.BOLD,(int)(0.05*imageHeight));
+			g.setFont(font);
+			String score = "Your Score : " + Model.getModel().getScore().getScore();
+			FontRenderContext frc = new FontRenderContext(null,true,false);
+			Rectangle2D rect = font.getStringBounds(score, frc);
+			int x = (int) ((width-rect.getWidth())/2);
+			g.setColor(Color.RED);
+			g.drawString(score, x, y+(int)(imageHeight*0.38));
 		}
 	}
 

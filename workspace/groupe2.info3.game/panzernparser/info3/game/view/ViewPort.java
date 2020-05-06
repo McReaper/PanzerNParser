@@ -24,7 +24,7 @@ import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.TankBody;
-import info3.game.view.avatar.Avatar;
+import info3.game.view.avatars.Avatar;
 
 public class ViewPort {
 

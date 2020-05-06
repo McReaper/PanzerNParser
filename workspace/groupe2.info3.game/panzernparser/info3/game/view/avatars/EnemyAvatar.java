@@ -1,4 +1,4 @@
-package info3.game.view.avatar;
+package info3.game.view.avatars;
 
 import java.awt.Color;
 import java.awt.Graphics;

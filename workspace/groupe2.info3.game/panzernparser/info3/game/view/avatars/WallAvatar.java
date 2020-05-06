@@ -1,4 +1,4 @@
-package info3.game.view.avatar;
+package info3.game.view.avatars;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -10,27 +10,34 @@ import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Entity;
 import info3.game.view.Animation;
 
-public class MarkerAvatar extends Avatar {
+public class WallAvatar extends Avatar {
 
-	public MarkerAvatar(Animation animation) {
+	public WallAvatar(Animation animation) {
 		super(animation);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void paint(Graphics g, Entity entity, int xcase, int ycase, int case_width, int case_height) {
 		VisionType vision = Model.getModel().getVisionType();
-		MyDirection e_actionDir = null;
-		LsAction e_currAction = LsAction.Wait;
+		MyDirection e_lookAtDir = entity.getLookAtDir();
+		MyDirection e_actionDir = entity.getCurrentActionDir();
+		LsAction e_currAction = entity.getCurrentAction();
+		MyDirection e_absoluteActionDir = MyDirection.toAbsolute(e_lookAtDir, e_actionDir);
 		double progress = entity.getActionProgress();
 
 		int width = entity.getWidth() * case_width;
 		int height = entity.getHeight() * case_height;
-		int x = xcase; // deux seul changement
+		int x = xcase;
 		int y = ycase;
 
 		// Pour réaliser un affichage progressif dans le cas d'un move.
+		if (e_currAction == LsAction.Move) {
+			x = progressivePaintX(e_absoluteActionDir, x, progress, case_width);
+			y = progressivePaintY(e_absoluteActionDir, y, progress, case_height);
+		}
 
-		Image sprite = m_animation.getImage(progress, e_currAction, e_actionDir, vision);
+		Image sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir, vision);
 
 		g.drawImage(sprite, x, y, width, height, null);
 	}

@@ -171,7 +171,7 @@ public class Model {
 
 	/* regarde si la map a besoin d'être régenerer (dès que y a plus d'enemy) */
 	private boolean needRegeneration() {
-		return false;//getEntities(MyEntities.EnemyLevel2).isEmpty();
+		return getEntities(MyEntities.EnemyLevel2).isEmpty();
 	}
 
 	public double getReloadProgress() {

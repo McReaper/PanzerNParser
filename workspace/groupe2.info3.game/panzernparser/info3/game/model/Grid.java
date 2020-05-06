@@ -482,6 +482,9 @@ public class Grid {
 					case "wall1":
 						type = MyEntities.Wall;
 						break;
+					case "rock1":
+						type = MyEntities.Rock;
+						break;
 					case "turr1":
 						type = MyEntities.Turret;
 						break;

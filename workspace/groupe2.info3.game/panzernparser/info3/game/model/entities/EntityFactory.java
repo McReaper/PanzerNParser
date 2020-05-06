@@ -8,8 +8,8 @@ import info3.game.model.Model;
 
 public class EntityFactory {
 	public enum MyEntities {
-		Wall, EnemyBasic, EnemyLevel2, Droppable, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody,
-		Turret, Hole, WreckTank, Mud;
+		Wall, Rock, EnemyBasic, EnemyLevel2, Droppable, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody, Turret,
+		Hole, WreckTank, Mud;
 	}
 
 	public static Entity newTankBody(int x, int y, Automaton aut) {
@@ -29,7 +29,7 @@ public class EntityFactory {
 		Entity vein = new Vein(x, y, aut);
 		return vein;
 	}
-	
+
 	public static Entity newMud(int x, int y, Automaton aut) {
 		Entity mud = new Mud(x, y, aut);
 		return mud;
@@ -39,7 +39,11 @@ public class EntityFactory {
 		Entity wall = new Wall(x, y, aut);
 		return wall;
 	}
-	
+
+	public static Entity newRock(int x, int y, Automaton aut) {
+		Entity rock = new Rock(x, y, aut);
+		return rock;
+	}
 
 	public static Entity newWreckTank(int x, int y, Automaton aut) {
 		Entity wreck = new WreckTank(x, y, aut);
@@ -96,42 +100,36 @@ public class EntityFactory {
 			case Wall:
 				res = newWall(x, y, config.getAutomaton(MyEntities.Wall));
 				break;
+			case Rock:
+				res = newRock(x, y, config.getAutomaton(MyEntities.Rock));
+				break;
 			case EnemyBasic:
 				res = newEnemyBasic(x, y, config.getAutomaton(MyEntities.EnemyBasic));
 				break;
-
 			case EnemyLevel2:
 				res = newEnemyLevel2(x, y, config.getAutomaton(MyEntities.EnemyLevel2));
 				break;
-
 			case Droppable:
 				res = newDroppable(x, y, config.getAutomaton(MyEntities.Droppable));
 				break;
-				
 			case Vein:
 				res = newVein(x, y, config.getAutomaton(MyEntities.Vein));
 				break;
-				
 			case WreckTank:
 				res = newWreckTank(x, y, config.getAutomaton(MyEntities.WreckTank));
 				break;
-			
 			case ShotSlow:
 				res = newShotSlow(x, y, config.getAutomaton(MyEntities.ShotSlow));
 				break;
-
 			case ShotFast:
 				res = newShotFast(x, y, config.getAutomaton(MyEntities.ShotFast));
 				break;
-
 			case ShotBig:
 				res = newShotBig(x, y, config.getAutomaton(MyEntities.ShotBig));
 				break;
-
 			case TankBody:
 				res = newTankBody(x, y, config.getAutomaton(MyEntities.TankBody));
 				break;
-
 			case Turret:
 				res = newTankTurret(x, y, config.getAutomaton(MyEntities.Turret));
 				break;
@@ -171,6 +169,8 @@ public class EntityFactory {
 			return MyEntities.Vein;
 		} else if (e instanceof Wall) {
 			return MyEntities.Wall;
+		} else if (e instanceof Rock) {
+			return MyEntities.Rock;
 		} else if (e instanceof Mud) {
 			return MyEntities.Mud;
 		} else if (e instanceof Hole) {

@@ -13,6 +13,17 @@ import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
+import info3.game.view.avatar.Avatar;
+import info3.game.view.avatar.DroneAvatar;
+import info3.game.view.avatar.DroppableAvatar;
+import info3.game.view.avatar.EnemyAvatar;
+import info3.game.view.avatar.HoleAvatar;
+import info3.game.view.avatar.MarkerAvatar;
+import info3.game.view.avatar.MudAvatar;
+import info3.game.view.avatar.TankBodyAvatar;
+import info3.game.view.avatar.TurretAvatar;
+import info3.game.view.avatar.VeinAvatar;
+import info3.game.view.avatar.WreckTankAvatar;
 
 public class View extends Container {
 
@@ -40,6 +51,10 @@ public class View extends Container {
 		initAvatars();
 		m_viewPort = new ViewPort(m_model.getPlayed(), this);
 	}
+	
+	public ViewPort getViewPort() {
+		return m_viewPort;
+	}
 
 	/*
 	 * liste d'avatar devient une liste d'avatar representant une categorie d'entité
@@ -49,7 +64,7 @@ public class View extends Container {
 		GameConfiguration config = GameConfiguration.getConfig();
 		m_avatars.add(new VeinAvatar(config.getAnimation(MyEntities.Vein)));
 		orderEntities.add(MyEntities.Vein);
-		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Hole)));
+		m_avatars.add(new HoleAvatar(config.getAnimation(MyEntities.Hole)));
 		orderEntities.add(MyEntities.Hole);
 		m_avatars.add(new MudAvatar(config.getAnimation(MyEntities.Mud)));
 		orderEntities.add(MyEntities.Mud);
@@ -59,6 +74,8 @@ public class View extends Container {
 		orderEntities.add(MyEntities.Droppable);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Wall)));
 		orderEntities.add(MyEntities.Wall);
+		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Rock)));
+		orderEntities.add(MyEntities.Rock);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.ShotSlow)));
 		orderEntities.add(MyEntities.ShotSlow);
 		m_avatars.add(new Avatar(config.getAnimation(MyEntities.ShotFast)));

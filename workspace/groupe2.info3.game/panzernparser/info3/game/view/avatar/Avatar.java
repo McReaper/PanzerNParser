@@ -1,4 +1,4 @@
-package info3.game.view;
+package info3.game.view.avatar;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -8,6 +8,7 @@ import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Entity;
+import info3.game.view.Animation;
 
 /**
  * Aspect graphique de l'entité dans le jeu (sprite 2D + Animation pour chaque

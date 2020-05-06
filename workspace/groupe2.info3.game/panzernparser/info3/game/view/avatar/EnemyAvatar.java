@@ -1,4 +1,4 @@
-package info3.game.view;
+package info3.game.view.avatar;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,6 +10,7 @@ import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.MovingEntity;
+import info3.game.view.Animation;
 
 public class EnemyAvatar extends Avatar {
 	

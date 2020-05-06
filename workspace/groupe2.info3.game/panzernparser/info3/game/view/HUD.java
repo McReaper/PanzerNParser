@@ -41,9 +41,9 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import info3.game.model.MaterialType;
 import info3.game.model.Model;
+import info3.game.model.Model.VisionType;
 import info3.game.model.Tank;
 import info3.game.model.Weapon;
-import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory.MyEntities;
@@ -102,17 +102,28 @@ public class HUD {
 		m_West = new JPanel();
 		m_West.setBackground(Color.DARK_GRAY);
 		m_West.setPreferredSize(new Dimension(120, 150));
-		GridLayout GLWest = new GridLayout(2, 0);
+		GridLayout GLWest = new GridLayout(5, 0);
 		m_West.setLayout(GLWest);
 
 		// Panel de l'inventaire
-		JPanel MinToolsWeapon = initiateInventoryPanel();
+		// JPanel MinToolsWeapon = initiateInventoryPanel();
 
-		// Init de m_HPStamina et de son BL
-		JPanel HPStamina = initiateLifeEnergyPanel();
+		// Init des barre de vie et energie
+		JPanel health = initiateProgressPanel("health");
+		JPanel drone = initiateProgressPanel("drone");
 
-		m_West.add(HPStamina);
-		m_West.add(MinToolsWeapon);
+		// Init de l'inventaire
+		Font fontInventory = new Font(null, 0, 15);
+		JPanel parentMineralsPanel = createInventoryUnit(m_mineImage, fontInventory, "Minerals");
+		JPanel parentToolsPanel = createInventoryUnit(m_elecImage, fontInventory, "Electronics");
+		m_weaponImage = initiateWeaponImage();
+
+		m_West.add(health);
+		m_West.add(drone);
+		m_West.add(parentMineralsPanel);
+		m_West.add(parentToolsPanel);
+		m_West.add(m_weaponImage);
+		// m_West.add(MinToolsWeapon);
 
 		// La font des futurs labels
 		Font font = new Font(null, 0, 20);
@@ -150,36 +161,13 @@ public class HUD {
 		refreshHUD();
 	}
 
-	private JPanel initiateInventoryPanel() {
-		Font font = new Font(null, 0, 15);
-
-		JPanel inventoryPanel = new JPanel();
-
-		BoxLayout BLMintoolsweapon = new BoxLayout(inventoryPanel, BoxLayout.Y_AXIS);
-
-		inventoryPanel.setLayout(BLMintoolsweapon);
-		inventoryPanel.setBackground(Color.DARK_GRAY);
-
-		m_weaponImage = new JLabel(m_weaponArray[0]);
-
-		JPanel parentMineralsPanel = createInventoryUnit(m_mineImage, font, "Minerals");
-		JPanel parentToolsPanel = createInventoryUnit(m_elecImage, font, "Electronics");
-
-		m_weaponImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-
+	private JLabel initiateWeaponImage() {
+		JLabel weaponImage = new JLabel(m_weaponArray[0]);
+		weaponImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		m_weaponTitledBorder = createTitleBorder("Weapon");
-
-		m_weaponImage.setMaximumSize(new Dimension(100, 0));
-		m_weaponImage.setBorder(m_weaponTitledBorder);
-
-		inventoryPanel.add(Box.createVerticalGlue());
-		inventoryPanel.add(parentMineralsPanel);
-		inventoryPanel.add(Box.createVerticalGlue());
-		inventoryPanel.add(parentToolsPanel);
-		inventoryPanel.add(Box.createVerticalGlue());
-		inventoryPanel.add(m_weaponImage);
-		inventoryPanel.add(Box.createVerticalGlue());
-		return inventoryPanel;
+		weaponImage.setMaximumSize(new Dimension(100, 0));
+		weaponImage.setBorder(m_weaponTitledBorder);
+		return weaponImage;
 	}
 
 	private JPanel createInventoryUnit(ImageIcon image, Font font, String string) {
@@ -226,21 +214,25 @@ public class HUD {
 		return inventoryUnit;
 	}
 
-	private JPanel initiateLifeEnergyPanel() {
-		JPanel HPStamina = new JPanel();
-		BoxLayout BLWestSorth = new BoxLayout(HPStamina, BoxLayout.Y_AXIS);
-		HPStamina.setLayout(BLWestSorth);
-		HPStamina.setBackground(Color.DARK_GRAY);
+	private JPanel initiateProgressPanel(String string) {
+		JPanel PanelBar = new JPanel();
+		BoxLayout BoxLayoutBar = new BoxLayout(PanelBar, BoxLayout.Y_AXIS);
+		PanelBar.setLayout(BoxLayoutBar);
+		PanelBar.setBackground(Color.DARK_GRAY);
 
 		LineBorder progressBarBorder = (LineBorder) BorderFactory.createLineBorder(Color.BLACK, 3);
-		m_health = createProgressBar(Color.RED, progressBarBorder);
-		m_drone = createProgressBar(Color.YELLOW, progressBarBorder);
-		HPStamina.add(Box.createVerticalGlue());
-		HPStamina.add(m_health);
-		HPStamina.add(Box.createVerticalGlue());
-		HPStamina.add(m_drone);
-		HPStamina.add(Box.createVerticalGlue());
-		return HPStamina;
+		JProgressBar bar = null;
+		if (string.equals("health")) {
+			m_health = createProgressBar(Color.RED, progressBarBorder);
+			bar = m_health;
+		} else if (string.equals("drone")) {
+			m_drone = createProgressBar(Color.YELLOW, progressBarBorder);
+			bar = m_drone;
+		}
+		PanelBar.add(Box.createVerticalStrut(5));
+		PanelBar.add(bar);
+		PanelBar.add(Box.createVerticalStrut(10));
+		return PanelBar;
 	}
 
 	private JProgressBar createProgressBar(Color color, Border border) {
@@ -845,6 +837,6 @@ public class HUD {
 		m_East.remove(m_upgrade);
 		m_upgrade = initiateUpgradePanel();
 		m_East.add(m_upgrade);
-		
+
 	}
 }

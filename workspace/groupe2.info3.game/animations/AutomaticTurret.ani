@@ -1,6 +1,6 @@
 sprite_sheet1 = AutomaticTurret.png
-sprite_sheet2 = AutomaticTurret.png
-sprite_sheet3 = AutomaticTurret.png
+sprite_sheet2 = AutomaticTurretVueEnemy.png
+sprite_sheet3 = AutomaticTurretVueRessource.png
 Hit_NORTH = 1,2,1,1
 Hit_NORTHEAST = 3,4,3,3
 Hit_EAST = 5,6,5,5

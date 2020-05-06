@@ -113,6 +113,7 @@ public class EnemyBasic extends Enemy {
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Explode;
+			Model.getModel().addSound("explosion");
 			m_timeOfAction = ENEMYBASIC_EXPLODE_TIME;
 		}
 	}

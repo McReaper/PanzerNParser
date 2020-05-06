@@ -211,8 +211,10 @@ public class Model {
 
 		this.removeEntity(m_tank.getBody()); // /!\ On a donc besoin de les retirer avant de les remettre
 		this.removeEntity(m_tank.getTurret());
+		this.removeEntity(m_tank.getAutoTurret());
 		this.addEntity(m_tank.getBody());
 		this.addEntity(m_tank.getTurret());
+		this.addEntity(m_tank.getAutoTurret());
 		this.addEntity(m_drone);
 
 		this.removeEntity(newTankBody);

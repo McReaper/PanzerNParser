@@ -1,7 +1,5 @@
 package info3.game.model.entities;
 
-import java.rmi.UnexpectedException;
-
 import info3.game.automaton.Automaton;
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;

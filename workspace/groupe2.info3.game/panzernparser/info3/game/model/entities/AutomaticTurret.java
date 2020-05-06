@@ -8,8 +8,8 @@ import info3.game.model.Tank;
 import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class AutomaticTurret extends StaticEntity {
-	public final static int AUTOMATIC_TURRET_WIDTH = Tank.TANK_WIDTH;
-	public final static int AUTOMATIC_TURRET_HEIGHT = Tank.TANK_HEIGHT;
+	public final static int AUTOMATIC_TURRET_WIDTH = 2;
+	public final static int AUTOMATIC_TURRET_HEIGHT = 2;
 
 	public static final int AUTOMATIC_TURRET_HEALTH = Tank.TANK_HEALTH;
 
@@ -17,7 +17,6 @@ public class AutomaticTurret extends StaticEntity {
 	public static final long AUTOMATIC_TURRET_POP_TIME = 50;
 	public static final long AUTOMATIC_TURRET_TURN_TIME = 50;
 	public static final long AUTOMATIC_TURRET_WAIT_TIME = 10;
-	
 
 	public static final int AUTOMATIC_TURRET_RANGE = 10;
 
@@ -31,6 +30,11 @@ public class AutomaticTurret extends StaticEntity {
 		this.showEntity(false);
 		m_isActivated = false;
 		m_range = AUTOMATIC_TURRET_RANGE;
+	}
+	
+	@Override
+	public boolean isShown() {
+		return m_isActivated;
 	}
 
 	public void setTank(Tank tank) {
@@ -63,8 +67,8 @@ public class AutomaticTurret extends StaticEntity {
 				dir = MyDirection.FRONT;
 			}
 			//Récupération de la position de départ du tir
-			int posX = getXCaseDir(dir);
-			int posY = getYCaseDir(dir);
+			int posX = getXCaseDir(dir) + m_width / 2; //Car la tourelle est centrée sur le tank.
+			int posY = getYCaseDir(dir) + m_height / 2;
 			Entity ent = EntityFactory.newEntity(MyEntities.ShotFast, posX, posY);
 
 			// Donne la direction de regard et d'action
@@ -77,7 +81,7 @@ public class AutomaticTurret extends StaticEntity {
 	}
 
 	@Override
-	public void Pop(MyDirection dir) {//augmente la portée de vision des ennemies
+	public void Pop(MyDirection dir) {//diminue la portée de vision des ennemies
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -114,6 +118,7 @@ public class AutomaticTurret extends StaticEntity {
 		}
 	}
 
+	@Override
 	public void Wait() {
 		if (m_actionFinished && m_currentAction == LsAction.Wait) {
 			m_actionFinished = false;
@@ -127,12 +132,6 @@ public class AutomaticTurret extends StaticEntity {
 	
 	@Override
 	public boolean GotPower() {
-//		if (this.m_isActivated) {
-//			System.out.println("got power");
-//			return true;
-//		}else {
 			return this.m_isActivated;
-//		}s
-		
 	}
 }

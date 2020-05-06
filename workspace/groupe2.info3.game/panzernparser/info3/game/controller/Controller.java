@@ -84,6 +84,7 @@ public class Controller implements GameCanvasListener {
 		m_model.removeKeyPressed(temp);
 		if(m_model.getGameOver() && e.getKeyCode() == KeyEvent.VK_R) {
 			GameMain.getGame().restart();
+			m_view.m_HUD.refreshUpgrade();
 		}
 	}
 

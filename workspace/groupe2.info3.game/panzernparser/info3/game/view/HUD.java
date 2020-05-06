@@ -73,6 +73,8 @@ public class HUD {
 	JProgressBar m_drone;
 	TitledBorder m_ammoTitledBorder;
 	TitledBorder m_weaponTitledBorder;
+	ImageIcon m_elecImage;
+	ImageIcon m_mineImage;
 
 	JLabel m_score;
 	JLabel m_level;
@@ -82,7 +84,7 @@ public class HUD {
 	JPanel m_upgrade;
 	LinkedList<UpgradeButton> m_statButtons;
 	LinkedList<UpgradeButton> m_uniqButtons;
-	
+
 	VisionType m_vision;
 
 	public HUD(View view) {
@@ -92,9 +94,9 @@ public class HUD {
 
 		m_weaponArray = initiateWeaponArray();
 
-		ImageIcon mineralsIcone = new ImageIcon(
+		m_mineImage = new ImageIcon(
 				new ImageIcon("sprites/Minerals.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		ImageIcon toolsIcone = new ImageIcon(
+		m_elecImage = new ImageIcon(
 				new ImageIcon("sprites/Electronics.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
 
 		m_West = new JPanel();
@@ -102,9 +104,9 @@ public class HUD {
 		m_West.setPreferredSize(new Dimension(120, 150));
 		GridLayout GLWest = new GridLayout(2, 0);
 		m_West.setLayout(GLWest);
-		
-		//Panel de l'inventaire
-		JPanel MinToolsWeapon = initiateInventoryPanel(toolsIcone, mineralsIcone);
+
+		// Panel de l'inventaire
+		JPanel MinToolsWeapon = initiateInventoryPanel();
 
 		// Init de m_HPStamina et de son BL
 		JPanel HPStamina = initiateLifeEnergyPanel();
@@ -134,7 +136,7 @@ public class HUD {
 		m_ammoPanel = initiateAmmoPanel(font);
 
 		// Zone des boutons d'upgrade
-		m_upgrade = initiateUpgradePanel(toolsIcone, mineralsIcone);
+		m_upgrade = initiateUpgradePanel();
 
 		m_East.add(m_compass);
 		m_East.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, 5), new Dimension(0, 10)));
@@ -148,7 +150,7 @@ public class HUD {
 		refreshHUD();
 	}
 
-	private JPanel initiateInventoryPanel(ImageIcon toolsIcone, ImageIcon mineralsIcone) {
+	private JPanel initiateInventoryPanel() {
 		Font font = new Font(null, 0, 15);
 
 		JPanel inventoryPanel = new JPanel();
@@ -160,11 +162,11 @@ public class HUD {
 
 		m_weaponImage = new JLabel(m_weaponArray[0]);
 
-		JPanel parentMineralsPanel = createInventoryUnit(mineralsIcone, font, "Minerals");
-		JPanel parentToolsPanel = createInventoryUnit(toolsIcone, font, "Electronics");
+		JPanel parentMineralsPanel = createInventoryUnit(m_mineImage, font, "Minerals");
+		JPanel parentToolsPanel = createInventoryUnit(m_elecImage, font, "Electronics");
 
 		m_weaponImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		
+
 		m_weaponTitledBorder = createTitleBorder("Weapon");
 
 		m_weaponImage.setMaximumSize(new Dimension(100, 0));
@@ -201,7 +203,7 @@ public class HUD {
 		Border textPanelBorder = BorderFactory.createLineBorder(Color.GRAY);
 		textPanel.setBorder(textPanelBorder);
 		textPanel.setMaximumSize(new Dimension(90, 0));
-		
+
 		inventoryUnit.add(Box.createVerticalGlue());
 		inventoryUnit.add(imageLabel);
 		inventoryUnit.add(Box.createVerticalGlue());
@@ -337,7 +339,7 @@ public class HUD {
 		return compass;
 	}
 
-	private JPanel initiateUpgradePanel(ImageIcon toolsIcone, ImageIcon mineralsIcone) {
+	private JPanel initiateUpgradePanel() {
 		JPanel upgradePanel = new JPanel();
 		upgradePanel.setLayout(new BoxLayout(upgradePanel, BoxLayout.Y_AXIS));
 		upgradePanel.setBackground(Color.DARK_GRAY);
@@ -348,7 +350,7 @@ public class HUD {
 		upgradeLabel.setForeground(Color.BLACK);
 		upgradeLabel.setFont(new Font("monospaced", Font.BOLD, 16));
 
-		initiateUpgradeButtons(toolsIcone, mineralsIcone);
+		initiateUpgradeButtons();
 
 		// Le Layout
 		GridBagLayout gbl = new GridBagLayout();
@@ -429,7 +431,7 @@ public class HUD {
 			@Override
 			protected void configureScrollBarColors() {
 				super.configureScrollBarColors();
-				thumbColor = new Color(150,150,150);
+				thumbColor = new Color(150, 150, 150);
 				trackColor = Color.BLACK;
 			}
 
@@ -469,17 +471,17 @@ public class HUD {
 		return scrollPane;
 	}
 
-	private void initiateUpgradeButtons(ImageIcon toolsIcone, ImageIcon mineralsIcone) {
+	private void initiateUpgradeButtons() {
 		LinkedList<Upgrade> statUpgrades = Model.getModel().getStatUpgrade();
 		m_statButtons = new LinkedList<UpgradeButton>();
 		for (Upgrade upg : statUpgrades) {
-			UpgradeButton upgradeButton = new UpgradeButton(upg, toolsIcone, mineralsIcone);
+			UpgradeButton upgradeButton = new UpgradeButton(upg, m_elecImage, m_mineImage);
 			m_statButtons.add(upgradeButton);
 		}
 		LinkedList<Upgrade> uniqUpgrades = Model.getModel().getUniqUpgrade();
 		m_uniqButtons = new LinkedList<UpgradeButton>();
 		for (Upgrade upg : uniqUpgrades) {
-			UpgradeButton upgradeButton = new UpgradeButton(upg, toolsIcone, mineralsIcone);
+			UpgradeButton upgradeButton = new UpgradeButton(upg, m_elecImage, m_mineImage);
 			m_uniqButtons.add(upgradeButton);
 		}
 	}
@@ -523,7 +525,7 @@ public class HUD {
 
 	private void initiateToolTip() {
 		ToolTipManager.sharedInstance().setInitialDelay(0);
-		UIManager.put("ToolTip.background", new Color(150,150,150));
+		UIManager.put("ToolTip.background", new Color(150, 150, 150));
 		LineBorder tooltipBorder = (LineBorder) BorderFactory.createLineBorder(Color.BLACK);
 		UIManager.put("ToolTip.border", tooltipBorder);
 	}
@@ -559,9 +561,9 @@ public class HUD {
 		// Minerals, Electronics, Weapons et Markers
 		m_toolsLabel.setText(Integer.toString(tank.getInventory().getQuantity(MaterialType.ELECTRONIC)));
 		m_mineralsLabel.setText(Integer.toString(tank.getInventory().getQuantity(MaterialType.MINERAL)));
-		
-		if(vision != m_vision) {			
-			updateATHOrganisation(m_vision,vision);
+
+		if (vision != m_vision) {
+			updateATHOrganisation(m_vision, vision);
 			m_vision = vision;
 		}
 		updateCurrentATH();
@@ -574,16 +576,16 @@ public class HUD {
 		Turret tankTurret = tank.getTurret();
 		Weapon weapon = tankTurret.getWeapon();
 		Drone drone = model.getDrone();
-		switch(m_vision) {
+		switch (m_vision) {
 			case TANK:
 				m_weaponImage.setIcon(m_weaponArray[tankTurret.getIndexWeapon()]);
 				m_ammo.setText(weapon.getNbShotLeft() + "/" + weapon.getCapacity());
 				updateButtons();
 				break;
 			case ENEMIES:
-				m_ammo.setText(drone.getNbMarker()+"/"+drone.getMaxMarkers());
+				m_ammo.setText(drone.getNbMarker() + "/" + drone.getMaxMarkers());
 			case RESSOURCES:
-				m_ammo.setText(drone.getNbMarker()+"/"+drone.getMaxMarkers());
+				m_ammo.setText(drone.getNbMarker() + "/" + drone.getMaxMarkers());
 		}
 	}
 
@@ -599,23 +601,23 @@ public class HUD {
 	}
 
 	private void updateATHOrganisation(VisionType prev, VisionType next) {
-		if((prev == VisionType.RESSOURCES || prev == VisionType.ENEMIES) && next == VisionType.TANK) {
+		if ((prev == VisionType.RESSOURCES || prev == VisionType.ENEMIES) && next == VisionType.TANK) {
 			m_weaponTitledBorder.setTitle("Weapon");
 			m_ammoTitledBorder.setTitle("Ammo");
 			m_East.remove(m_viewModePanel);
 			m_East.add(m_upgrade);
 		}
-		if(prev == VisionType.TANK && (next == VisionType.RESSOURCES || next == VisionType.ENEMIES)) {
+		if (prev == VisionType.TANK && (next == VisionType.RESSOURCES || next == VisionType.ENEMIES)) {
 			m_weaponTitledBorder.setTitle("Marker");
 			m_weaponImage.setIcon(m_weaponArray[5]);
 			m_ammoTitledBorder.setTitle("Marker");
 			m_East.remove(m_upgrade);
 			m_East.add(m_viewModePanel);
 		}
-		if(prev == VisionType.ENEMIES && next == VisionType.RESSOURCES) {
+		if (prev == VisionType.ENEMIES && next == VisionType.RESSOURCES) {
 			m_viewModeLabel.setIcon(m_weaponArray[3]);
 		}
-		if(next == VisionType.ENEMIES && prev == VisionType.RESSOURCES) {
+		if (next == VisionType.ENEMIES && prev == VisionType.RESSOURCES) {
 			m_viewModeLabel.setIcon(m_weaponArray[4]);
 		}
 		m_East.invalidate();
@@ -654,10 +656,10 @@ public class HUD {
 		long seconde = time / 1000;
 		long minute = seconde / 60;
 		seconde = seconde % 60;
-		long heure = minute/60;
-		minute = minute%60;
-		long digit1,digit2;
-		if(heure > 0) {
+		long heure = minute / 60;
+		minute = minute % 60;
+		long digit1, digit2;
+		if (heure > 0) {
 			digit1 = heure;
 			digit2 = minute;
 		} else {
@@ -733,7 +735,7 @@ public class HUD {
 			m_electronics = elec.getImage();
 			m_minerals = mine.getImage();
 			this.setForeground(Color.BLACK);
-			this.setBackground(new Color(150,150,150));
+			this.setBackground(new Color(150, 150, 150));
 			this.setPreferredSize(new Dimension(95, 75));
 			BasicButtonUI buttonUI = new BasicButtonUI() {
 				@Override
@@ -832,10 +834,17 @@ public class HUD {
 		public Upgrade getUpgrade() {
 			return m_upgrade;
 		}
-		
+
 		public void updatePrice() {
 			m_elecCost = Integer.toString(m_upgrade.getCostElec());
 			m_mineCost = Integer.toString(m_upgrade.getCostMine());
 		}
+	}
+
+	public void refreshUpgrade() {
+		m_East.remove(m_upgrade);
+		m_upgrade = initiateUpgradePanel();
+		m_East.add(m_upgrade);
+		
 	}
 }

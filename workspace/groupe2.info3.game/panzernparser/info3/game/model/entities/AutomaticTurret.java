@@ -34,7 +34,7 @@ public class AutomaticTurret extends StaticEntity {
 	
 	@Override
 	public boolean isShown() {
-		return m_isActivated;
+		return m_isActivated && m_tank.gotPower();
 	}
 
 	public void setTank(Tank tank) {
@@ -67,8 +67,8 @@ public class AutomaticTurret extends StaticEntity {
 				dir = MyDirection.FRONT;
 			}
 			//Récupération de la position de départ du tir
-			int posX = getXCaseDir(dir) + m_width / 2; //Car la tourelle est centrée sur le tank.
-			int posY = getYCaseDir(dir) + m_height / 2;
+			int posX = getXCaseDir(dir); //Car la tourelle est centrée sur le tank.
+			int posY = getYCaseDir(dir);
 			Entity ent = EntityFactory.newEntity(MyEntities.ShotFast, posX, posY);
 
 			// Donne la direction de regard et d'action

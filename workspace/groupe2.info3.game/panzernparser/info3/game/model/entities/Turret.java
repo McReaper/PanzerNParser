@@ -24,7 +24,7 @@ public class Turret extends StaticEntity {
 
 	public static final long TURRET_HIT_TIME = 500;
 	public static final long TURRET_POP_TIME = 500;
-	public static final long TURRET_TURN_TIME = 200;
+	public static final long TURRET_TURN_TIME = 150;
 	public static final long TURRET_WAIT_TIME = 10;
 	
 	public static final int TURRET_NB_WEAPONS_MAX = 3;

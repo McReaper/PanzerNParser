@@ -94,30 +94,32 @@ public class Drone extends MovingEntity {
 
 	@Override
 	public void Hit(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == LsAction.Hit) {
-			Coords c = Model.getModel().getClue();
-			Grid grid = Model.getModel().getGrid();
-			LinkedList<Entity> lsmarker = grid.getEntityCells((int) c.X - 1, (int) c.Y - 1, 3, 3, MyEntities.Marker);
-			if (lsmarker.size() != 0) {
-				for (Entity entity : lsmarker) {
-					Model.getModel().removeEntity(entity);
-					m_nbMarkers--;
+		if (hasControl()) {
+			if (m_actionFinished && m_currentAction == LsAction.Hit) {
+				Coords c = Model.getModel().getClue();
+				Grid grid = Model.getModel().getGrid();
+				LinkedList<Entity> lsmarker = grid.getEntityCells((int) c.X - 1, (int) c.Y - 1, 3, 3, MyEntities.Marker);
+				if (lsmarker.size() != 0) {
+					for (Entity entity : lsmarker) {
+						Model.getModel().removeEntity(entity);
+						m_nbMarkers--;
+					}
+				} else {
+					EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
+					if (m_nbMarkers == m_maxMarkers)
+						Model.getModel().removeEntity(Model.getModel().getEntities(MyEntities.Marker).get(0));
+					else {
+						m_nbMarkers++;
+					}
 				}
-			} else {
-				EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
-				if (m_nbMarkers == m_maxMarkers)
-					Model.getModel().removeEntity(Model.getModel().getEntities(MyEntities.Marker).get(0));
-				else {
-					m_nbMarkers++;
-				}
+				Model.getModel().cleanClue();
+				m_actionFinished = false;
+				m_currentAction = null;
+			} else if (m_currentAction == null) {
+				m_currentActionDir = dir;
+				m_currentAction = LsAction.Hit;
+				m_timeOfAction = DRONE_HIT_TIME;
 			}
-			Model.getModel().cleanClue();
-			m_actionFinished = false;
-			m_currentAction = null;
-		} else if (m_currentAction == null) {
-			m_currentActionDir = dir;
-			m_currentAction = LsAction.Hit;
-			m_timeOfAction = DRONE_HIT_TIME;
 		}
 	}
 

@@ -70,7 +70,7 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 	private Thread m_worker;
 
 	// If you wish to debug this source, please set the variable below to true.
-	private final boolean m_debugMode = true;
+	private final boolean m_debugMode = false;
 
 	/*
 	 * audio stream, ogg-vorbis format.
@@ -565,7 +565,7 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 				try {
 					m_count = m_inputStream.read(m_buffer, m_index, m_bufferSize);
 				} catch (Exception e) {
-					System.err.println(e);
+					//System.err.println(e);
 					return;
 				}
 

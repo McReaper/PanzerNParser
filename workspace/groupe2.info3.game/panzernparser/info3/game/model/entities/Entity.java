@@ -14,8 +14,8 @@ import info3.game.model.Model;
 
 public abstract class Entity {
 
-	private final static int MAX_RANGE = 14;
-	private final static int MIN_RANGE = 7;
+	public final static int MAX_RANGE = 14;
+	public final static int MIN_RANGE = 7;
 
 	final static int DEFAULT_MOVING_DISTANCE = 1;
 

@@ -53,15 +53,15 @@ public class Drone extends MovingEntity {
 		m_health = DRONE_HEALTH;
 		m_stuff = false; // pour l'upgrade.
 	}
-	
+
 	@Override
 	public void step(long elapsed) {
-		if(hasControl()) {
+		if (hasControl()) {
 			m_health -= DRONE_DESCHARGE * elapsed;
 			if (!GotPower()) {
 				m_health = 0;
 			}
-		}else if (m_health < m_maxHealth) {
+		} else if (m_health < m_maxHealth) {
 			m_health += DRONE_RECHARGE * elapsed;
 		}
 		super.step(elapsed);
@@ -71,7 +71,7 @@ public class Drone extends MovingEntity {
 	public boolean Closest(MyDirection dir, MyCategory type) {
 		return (type == MyCategory.C && Model.getModel().getClue() != null);
 	}
-	
+
 	@Override
 	public boolean isShown() {
 		return (Model.getModel().getVisionType() != VisionType.TANK);
@@ -163,7 +163,7 @@ public class Drone extends MovingEntity {
 			m_timeOfAction = DRONE_WAIT_TIME;
 		}
 	}
-	
+
 	@Override
 	public void Wizz(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
@@ -195,10 +195,18 @@ public class Drone extends MovingEntity {
 		} else if (m_currentAction == null) {
 			switch (dir) {
 				case FRONT:
+					if (m_range < MAX_RANGE) {
+						m_currentActionDir = dir;
+						m_currentAction = LsAction.Jump;
+						m_timeOfAction = DRONE_JUMP_TIME;
+					}
+					break;
 				case BACK:
-					m_currentActionDir = dir;
-					m_currentAction = LsAction.Jump;
-					m_timeOfAction = DRONE_JUMP_TIME;
+					if (m_range > MIN_RANGE) {
+						m_currentActionDir = dir;
+						m_currentAction = LsAction.Jump;
+						m_timeOfAction = DRONE_JUMP_TIME;
+					}
 					break;
 				default:
 					break;
@@ -212,23 +220,23 @@ public class Drone extends MovingEntity {
 			return super.Key(key);
 		return false;
 	}
-	
+
 	public void increaseMarksNb() {
-		m_nbMarkers ++;
+		m_nbMarkers++;
 	}
-	
+
 	public void decreaseMarksNb() {
-		m_nbMarkers --;
+		m_nbMarkers--;
 	}
-	
+
 	public int getNbMarker() {
 		return m_nbMarkers;
 	}
-	
+
 	public int getMaxMarkers() {
 		return m_maxMarkers;
 	}
-	
+
 	public void setMaxMarkers(int maxCount) {
 		m_maxMarkers = maxCount;
 	}

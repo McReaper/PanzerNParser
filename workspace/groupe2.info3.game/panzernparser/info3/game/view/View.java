@@ -13,6 +13,21 @@ import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
+import info3.game.view.avatars.AutomaticTurretAvatar;
+import info3.game.view.avatars.Avatar;
+import info3.game.view.avatars.DroneAvatar;
+import info3.game.view.avatars.DroppableAvatar;
+import info3.game.view.avatars.EnemyAvatar;
+import info3.game.view.avatars.HoleAvatar;
+import info3.game.view.avatars.MarkerAvatar;
+import info3.game.view.avatars.MudAvatar;
+import info3.game.view.avatars.RockAvatar;
+import info3.game.view.avatars.ShotAvatar;
+import info3.game.view.avatars.TankBodyAvatar;
+import info3.game.view.avatars.TurretAvatar;
+import info3.game.view.avatars.VeinAvatar;
+import info3.game.view.avatars.WallAvatar;
+import info3.game.view.avatars.WreckTankAvatar;
 
 public class View extends Container {
 
@@ -40,6 +55,10 @@ public class View extends Container {
 		initAvatars();
 		m_viewPort = new ViewPort(m_model.getPlayed(), this);
 	}
+	
+	public ViewPort getViewPort() {
+		return m_viewPort;
+	}
 
 	/*
 	 * liste d'avatar devient une liste d'avatar representant une categorie d'entité
@@ -49,7 +68,7 @@ public class View extends Container {
 		GameConfiguration config = GameConfiguration.getConfig();
 		m_avatars.add(new VeinAvatar(config.getAnimation(MyEntities.Vein)));
 		orderEntities.add(MyEntities.Vein);
-		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Hole)));
+		m_avatars.add(new HoleAvatar(config.getAnimation(MyEntities.Hole)));
 		orderEntities.add(MyEntities.Hole);
 		m_avatars.add(new MudAvatar(config.getAnimation(MyEntities.Mud)));
 		orderEntities.add(MyEntities.Mud);
@@ -57,13 +76,15 @@ public class View extends Container {
 		orderEntities.add(MyEntities.WreckTank);
 		m_avatars.add(new DroppableAvatar(config.getAnimation(MyEntities.Droppable)));
 		orderEntities.add(MyEntities.Droppable);
-		m_avatars.add(new Avatar(config.getAnimation(MyEntities.Wall)));
+		m_avatars.add(new WallAvatar(config.getAnimation(MyEntities.Wall)));
 		orderEntities.add(MyEntities.Wall);
-		m_avatars.add(new Avatar(config.getAnimation(MyEntities.ShotSlow)));
+		m_avatars.add(new RockAvatar(config.getAnimation(MyEntities.Rock)));
+		orderEntities.add(MyEntities.Rock);
+		m_avatars.add(new ShotAvatar(config.getAnimation(MyEntities.ShotSlow)));
 		orderEntities.add(MyEntities.ShotSlow);
-		m_avatars.add(new Avatar(config.getAnimation(MyEntities.ShotFast)));
+		m_avatars.add(new ShotAvatar(config.getAnimation(MyEntities.ShotFast)));
 		orderEntities.add(MyEntities.ShotFast);
-		m_avatars.add(new Avatar(config.getAnimation(MyEntities.ShotBig)));
+		m_avatars.add(new ShotAvatar(config.getAnimation(MyEntities.ShotBig)));
 		orderEntities.add(MyEntities.ShotBig);
 		m_avatars.add(new EnemyAvatar(config.getAnimation(MyEntities.EnemyBasic)));
 		orderEntities.add(MyEntities.EnemyBasic);
@@ -75,6 +96,8 @@ public class View extends Container {
 		orderEntities.add(MyEntities.TankBody);
 		m_avatars.add(new TurretAvatar(config.getAnimation(MyEntities.Turret)));
 		orderEntities.add(MyEntities.Turret);
+		m_avatars.add(new AutomaticTurretAvatar(config.getAnimation(MyEntities.AutomaticTurret)));
+		orderEntities.add(MyEntities.AutomaticTurret);
 		m_avatars.add(new DroneAvatar(config.getAnimation(MyEntities.Drone), this));
 		orderEntities.add(MyEntities.Drone);
 	}

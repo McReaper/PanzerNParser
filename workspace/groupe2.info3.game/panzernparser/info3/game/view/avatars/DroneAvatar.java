@@ -1,4 +1,4 @@
-package info3.game.view;
+package info3.game.view.avatars;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -9,6 +9,10 @@ import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Entity;
+import info3.game.view.Animation;
+import info3.game.view.Sprite;
+import info3.game.view.View;
+import info3.game.view.ViewPort;
 
 public class DroneAvatar extends Avatar {
 
@@ -47,7 +51,7 @@ public class DroneAvatar extends Avatar {
 			img = m_animation.getImage(progress, LsAction.Move, MyDirection.WEST, vision);			
 		}
 
-		ViewPort vp = m_view.m_viewPort;
+		ViewPort vp = m_view.getViewPort();
 		int x = vp.getOffsetWindowX();
 		int y = vp.getOffsetWindowY();
 		int w = vp.getPaintSize();

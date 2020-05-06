@@ -1,6 +1,5 @@
-package info3.game.view;
+package info3.game.view.avatars;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -9,16 +8,16 @@ import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Entity;
-import info3.game.model.entities.MovingEntity;
+import info3.game.view.Animation;
 
-public class EnemyAvatar extends Avatar {
-	
-	
+public class ShotAvatar extends Avatar {
 
-	public EnemyAvatar(Animation animation) {
+	public ShotAvatar(Animation animation) {
 		super(animation);
+		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public void paint(Graphics g, Entity entity, int xcase, int ycase, int case_width, int case_height) {
 		VisionType vision = Model.getModel().getVisionType();
 		MyDirection e_lookAtDir = entity.getLookAtDir();
@@ -31,34 +30,14 @@ public class EnemyAvatar extends Avatar {
 		int height = entity.getHeight() * case_height;
 		int x = xcase;
 		int y = ycase;
-		double progressMoveAtDie = ((MovingEntity)entity).progressMoveAtDie;
-		MyDirection directionMoveAtDie= ((MovingEntity)entity).directionMoveAtDie;
 
 		// Pour réaliser un affichage progressif dans le cas d'un move.
 		if (e_currAction == LsAction.Move) {
 			x = progressivePaintX(e_absoluteActionDir, x, progress, case_width);
 			y = progressivePaintY(e_absoluteActionDir, y, progress, case_height);
-		}else if (progressMoveAtDie != 0) {
-			x = progressivePaintX(directionMoveAtDie, x, progressMoveAtDie, case_width);
-			y = progressivePaintY(directionMoveAtDie, y, progressMoveAtDie, case_height);
 		}
 
-		if (vision == VisionType.TANK) {
-			int maxHealth = entity.getMaxHealth();
-			int health = entity.getHealth();
-			double percent = (double) health / (double) maxHealth;
-			g.setColor(Color.BLACK);
-			g.fillRect(x, y - 10, width, 5);
-			g.setColor(Color.RED);
-			g.fillRect(x, y - 10, (int) (width * percent), 5);
-		}
-
-		Image sprite;
-		if (e_currAction != LsAction.Hit) {
-			sprite = m_animation.getImage(0, LsAction.Hit, e_lookAtDir, vision);
-		} else {
-			sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir, vision);
-		}
+		Image sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir, vision);
 
 		if (ExplosionAvatar.printEntity(entity)) {
 			g.drawImage(sprite, x, y, width, height, null);

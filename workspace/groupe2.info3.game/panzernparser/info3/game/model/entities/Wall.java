@@ -8,8 +8,8 @@ import info3.game.model.Model.VisionType;
 
 public class Wall extends StaticEntity{
 
-	public final static int WALL_WIDTH = 2;
-	public final static int WALL_HEIGHT = 2;
+	public final static int WALL_WIDTH = 1;
+	public final static int WALL_HEIGHT = 1;
 
 	public static final int WALL_HEALTH = 100;
 	public static final int WALL_SPEED = 100;
@@ -47,6 +47,9 @@ public class Wall extends StaticEntity{
 			m_timeOfAction = WALL_WAIT_TIME;
 		}
 	}
+	
+	@Override
+	public void collide(int damage) {}
 	
 	@Override
 	public boolean isShown() {

@@ -1,4 +1,4 @@
-package info3.game.view;
+package info3.game.view.avatars;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -7,6 +7,7 @@ import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Entity;
+import info3.game.view.Animation;
 
 public class MudAvatar extends Avatar {
 
@@ -25,9 +26,7 @@ public class MudAvatar extends Avatar {
 		} else {
 			img = m_animation.getImage(0, LsAction.Wait, null, vision);			
 		}
-		int w = case_width*entity.getWidth();
-		int h = case_height*entity.getHeight();
-		g.drawImage(img, xcase, ycase, w, h, null);
+		g.drawImage(img, xcase, ycase, case_width*entity.getWidth(), case_height*entity.getHeight(), null);
 	}
 
 }

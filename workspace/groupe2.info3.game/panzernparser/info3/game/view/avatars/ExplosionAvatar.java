@@ -1,4 +1,4 @@
-package info3.game.view;
+package info3.game.view.avatars;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -7,6 +7,7 @@ import java.io.IOException;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.entities.EnemyLevel2;
 import info3.game.model.entities.Entity;
+import info3.game.view.Sprite;
 
 public class ExplosionAvatar {
 

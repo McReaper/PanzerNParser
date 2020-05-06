@@ -482,14 +482,11 @@ public class Grid {
 					case "wall1":
 						type = MyEntities.Wall;
 						break;
-					case "turr1":
-						type = MyEntities.Turret;
+					case "rock1":
+						type = MyEntities.Rock;
 						break;
 					case "wrck1":
 						type = MyEntities.WreckTank;
-						break;
-					case "dron1":
-						type = MyEntities.Drone;
 						break;
 					case "mud_1":
 						type = MyEntities.Mud;

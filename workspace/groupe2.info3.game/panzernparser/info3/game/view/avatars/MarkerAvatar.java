@@ -19,19 +19,7 @@ public class MarkerAvatar extends Avatar {
 	@Override
 	public void paint(Graphics g, Entity entity, int xcase, int ycase, int case_width, int case_height) {
 		VisionType vision = Model.getModel().getVisionType();
-		MyDirection e_actionDir = null;
-		LsAction e_currAction = LsAction.Wait;
-		double progress = entity.getActionProgress();
-
-		int width = entity.getWidth() * case_width;
-		int height = entity.getHeight() * case_height;
-		int x = xcase; // deux seul changement
-		int y = ycase;
-
-		// Pour réaliser un affichage progressif dans le cas d'un move.
-
-		Image sprite = m_animation.getImage(progress, e_currAction, e_actionDir, vision);
-
-		g.drawImage(sprite, x, y, width, height, null);
+		Image sprite = m_animation.getImage(entity.getActionProgress(), LsAction.Wait, null, vision);
+		g.drawImage(sprite, xcase, ycase, entity.getWidth() * case_width, entity.getHeight() * case_height, null);
 	}
 }

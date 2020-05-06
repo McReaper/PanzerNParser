@@ -13,6 +13,7 @@ import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
+import info3.game.view.avatars.AutomaticTurretAvatar;
 import info3.game.view.avatars.Avatar;
 import info3.game.view.avatars.DroneAvatar;
 import info3.game.view.avatars.DroppableAvatar;
@@ -95,6 +96,8 @@ public class View extends Container {
 		orderEntities.add(MyEntities.TankBody);
 		m_avatars.add(new TurretAvatar(config.getAnimation(MyEntities.Turret)));
 		orderEntities.add(MyEntities.Turret);
+		m_avatars.add(new AutomaticTurretAvatar(config.getAnimation(MyEntities.AutomaticTurret)));
+		orderEntities.add(MyEntities.AutomaticTurret);
 		m_avatars.add(new DroneAvatar(config.getAnimation(MyEntities.Drone), this));
 		orderEntities.add(MyEntities.Drone);
 	}

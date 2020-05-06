@@ -9,7 +9,7 @@ import info3.game.model.Model;
 public class EntityFactory {
 	public enum MyEntities {
 		Wall, Rock, EnemyBasic, EnemyLevel2, Droppable, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody, Turret,
-		Hole, WreckTank, Mud;
+		Hole, WreckTank, Mud, AutomaticTurret;
 	}
 
 	public static Entity newTankBody(int x, int y, Automaton aut) {
@@ -18,6 +18,10 @@ public class EntityFactory {
 
 	public static Entity newTankTurret(int x, int y, Automaton aut) {
 		return new Turret(x, y, aut);
+	}
+	
+	public static Entity newTankAutomaticTurret(int x, int y, Automaton aut) {
+		return new AutomaticTurret(x, y, aut);
 	}
 
 	public static Entity newDroppable(int x, int y, Automaton aut) {
@@ -145,6 +149,9 @@ public class EntityFactory {
 			case Mud:
 				res = newMud(x, y, config.getAutomaton(MyEntities.Mud));
 				break;
+			case AutomaticTurret:
+				res = newTankAutomaticTurret(x, y, config.getAutomaton(MyEntities.AutomaticTurret));
+				break;
 			default:
 				throw new IllegalStateException("Entité non reconnue !");
 		}
@@ -189,6 +196,8 @@ public class EntityFactory {
 			return MyEntities.Turret;
 		} else if (e instanceof WreckTank) {
 			return MyEntities.WreckTank;
+		}else if (e instanceof AutomaticTurret) {
+			return MyEntities.AutomaticTurret;
 		} else {
 			throw new IllegalArgumentException("Entité non reconnue !");
 		}

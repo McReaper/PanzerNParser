@@ -4,13 +4,17 @@ import java.rmi.UnexpectedException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import info3.game.GameConfiguration;
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
 import info3.game.model.Grid.Coords;
+import info3.game.model.entities.AutomaticTurret;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
+import info3.game.model.entities.TankBody;
+import info3.game.model.entities.Turret;
 import info3.game.model.upgrades.Upgrade;
 import info3.game.model.upgrades.UpgradeAutomaticSubmachine;
 import info3.game.model.upgrades.UpgradeDroneUsage;
@@ -23,9 +27,6 @@ import info3.game.model.upgrades.UpgradeTankDamage;
 import info3.game.model.upgrades.UpgradeTankLife;
 import info3.game.model.upgrades.UpgradeTankShotsCapacity;
 import info3.game.model.upgrades.UpgradeTankSpeed;
-import info3.game.model.entities.Marker;
-import info3.game.model.entities.TankBody;
-import info3.game.model.entities.Turret;
 
 public class Model {
 
@@ -152,8 +153,9 @@ public class Model {
 		// Création du Tank et du Drone :
 		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
 		Turret turret = (Turret) getEntities(MyEntities.Turret).get(0);
-		m_tank = new Tank(body, turret);
-		m_drone = (Drone) getEntities(MyEntities.Drone).get(0);
+		AutomaticTurret autTurret = new AutomaticTurret(body.getX(), body.getY(), GameConfiguration.getConfig().getAutomaton(MyEntities.AutomaticTurret));
+		m_tank = new Tank(body, turret, autTurret);
+		m_drone = new Drone(body.getX(), body.getY(), GameConfiguration.getConfig().getAutomaton(MyEntities.Drone));
 		m_playingTank = true;
 
 		// Initialisation des upgrades

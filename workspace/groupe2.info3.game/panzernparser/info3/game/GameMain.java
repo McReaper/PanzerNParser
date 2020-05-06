@@ -65,7 +65,7 @@ public class GameMain {
 	}
 	
 	public void launch() {
-		m_frame.remove(m_menu.getMainMenu());
+		m_frame.remove(m_menu.getMenu());
 		m_frame.add(m_view, BorderLayout.CENTER);
 		m_frame.invalidate();
 		m_frame.validate();
@@ -87,7 +87,7 @@ public class GameMain {
 		m_frame.setTitle(GAME_TITLE);
 		m_frame.setLayout(new BorderLayout());
 
-		m_frame.add(m_menu.getMainMenu(), BorderLayout.CENTER);
+		m_frame.add(m_menu.getMenu(), BorderLayout.CENTER);
 
 		// Centre la fenêtre à l'écran :
 		m_frame.setLocationRelativeTo(null);
@@ -128,6 +128,12 @@ public class GameMain {
 	
 	public HashMap<String, File> getSounds() {
 		return m_soundFiles;
+	}
+
+	public void refresh() {
+		m_frame.invalidate();
+		m_frame.validate();
+		m_frame.repaint();
 	}
 
 }

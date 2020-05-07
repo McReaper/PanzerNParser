@@ -319,7 +319,6 @@ public abstract class Entity {
 		} else if (m_currentAction == null) {
 			m_currentActionDir = null;
 			m_currentAction = LsAction.Explode;
-			Model.getModel().addSound("explosion");
 			m_timeOfAction = DEFAULT_EXPLODE_TIME;
 		}
 	}

@@ -33,7 +33,6 @@ public class GameMain {
 		System.out.println("Starting game");
 		getGame();
 		System.out.println("Game started");
-		getGame().m_controller.loadMusic("introkat-20db");
 	}
 
 	private GameMain() {
@@ -67,11 +66,11 @@ public class GameMain {
 	
 	public void launch() {
 		m_frame.remove(m_menu.getMainMenu());
-		getGame().m_controller.loadMusic("1812");
 		m_frame.add(m_view, BorderLayout.CENTER);
 		m_frame.invalidate();
 		m_frame.validate();
 		m_frame.repaint();
+		getGame().m_controller.loadMusic("introkat-20db");
 	}
 	
 
@@ -137,7 +136,7 @@ public class GameMain {
 		m_model = Model.getModel();
 		m_controller.setModel(m_model);
 		m_view.setModel(m_model);
-		getGame().m_controller.loadMusic("1812");
+		getGame().m_controller.loadMusic("introkat-20db");
 	}
 
 }

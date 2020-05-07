@@ -44,8 +44,9 @@ public class Controller implements GameCanvasListener {
 		}
 	}
 
-	void loadMusic(String name) {
+	public void loadMusic(String name) {
 		GameMain game = GameMain.getGame();
+		System.out.println("name : " + name);
 		File file = game.getSounds().get(name);
 		FileInputStream fis = null;
 		try {
@@ -147,8 +148,9 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void endOfPlay(String name) {
-		// TODO Auto-generated method stub
-
+		if(name.equals("introkat-20db") || name.equals("Katyusha-20db")) {
+			loadMusic("Katyusha-20db");
+		}
 	}
 
 	@Override

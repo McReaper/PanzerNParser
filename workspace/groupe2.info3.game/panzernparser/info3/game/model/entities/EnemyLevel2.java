@@ -33,6 +33,7 @@ public class EnemyLevel2 extends Enemy {
 		m_damage_dealt = ENEMYLEVEL2_DAMMAGE_DEALT;
 		m_speed = ENEMYLEVEL2_SPEED;
 		levelUp();
+		m_moveSound = "moveBigEnemy2";
 	}
 
 	@Override
@@ -46,6 +47,8 @@ public class EnemyLevel2 extends Enemy {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
 			m_actionFinished = false;
 			m_currentAction = null;
+			if (isNoisy())
+				Model.getModel().addSound("hit_pompeReload");
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
@@ -53,6 +56,8 @@ public class EnemyLevel2 extends Enemy {
 			// creation des shot
 			Entity ent1;
 			Entity ent2;
+			if (isNoisy())
+				Model.getModel().addSound("hit_pompe");
 			switch (m_currentLookAtDir) {
 				case SOUTH:
 				case NORTH:
@@ -142,6 +147,8 @@ public class EnemyLevel2 extends Enemy {
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Explode;
+			if (isNoisy())
+				Model.getModel().addSound("explosion");
 			m_timeOfAction = ENEMYLEVEL2_EXPLODE_TIME;
 		}
 	}
@@ -171,13 +178,13 @@ public class EnemyLevel2 extends Enemy {
 			m_damage_dealt /= 2;
 		}
 	}
-	
-	public void levelUp() {/* l'enemy basic bouge peu mais fait très mal*/
+
+	public void levelUp() {/* l'enemy basic bouge peu mais fait très mal */
 		if (Model.getModel().getLevel() % 4 == 0) {
-			setMaxHealth(ENEMYLEVEL2_HEALTH*3);
+			setMaxHealth(ENEMYLEVEL2_HEALTH * 3);
 			m_health = getMaxHealth();
-			m_range+=2;
-			m_damage_dealt = (Model.getModel().getLevel()/3 + 2)* ENEMYLEVEL2_DAMMAGE_DEALT; 
+			m_range += 2;
+			m_damage_dealt = (Model.getModel().getLevel() / 3 + 2) * ENEMYLEVEL2_DAMMAGE_DEALT;
 		}
 	}
 

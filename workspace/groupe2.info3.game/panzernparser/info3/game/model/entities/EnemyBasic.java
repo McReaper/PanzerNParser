@@ -24,7 +24,6 @@ public class EnemyBasic extends Enemy {
 	public static final long ENEMYBASIC_TURN_TIME = 0;
 	public static final long ENEMYBASIC_WAIT_TIME = 50;
 	public static final long ENEMYBASIC_WIZZ_TIME = 1000;
-
 	public static final int ENEMYBASIC_DAMMAGE_DEALT = 50;
 
 	public EnemyBasic(int x, int y, Automaton aut) {
@@ -34,6 +33,7 @@ public class EnemyBasic extends Enemy {
 		m_damage_dealt = ENEMYBASIC_DAMMAGE_DEALT;
 		m_speed = ENEMYBASIC_SPEED;
 		levelUp();
+		m_moveSound = "moveBasicEnemy2";
 	}
 
 	@Override
@@ -51,7 +51,8 @@ public class EnemyBasic extends Enemy {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = ENEMYBASIC_HIT_TIME;
-
+			if (isNoisy())
+				Model.getModel().addSound("hitBasic");
 			// creation du shot
 			Entity ent = EntityFactory.newEntity(MyEntities.ShotSlow, m_x, m_y);
 
@@ -111,8 +112,12 @@ public class EnemyBasic extends Enemy {
 			this.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
+			if (isNoisy())
+				Model.getModel().addSound("wilhelm");
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Explode;
+			if (isNoisy())
+				Model.getModel().addSound("explosion");
 			m_timeOfAction = ENEMYBASIC_EXPLODE_TIME;
 		}
 	}
@@ -145,11 +150,11 @@ public class EnemyBasic extends Enemy {
 
 	public void levelUp() {
 		if (Model.getModel().getLevel() % 3 == 0) {
-			setMaxHealth(ENEMYBASIC_HEALTH*2);
+			setMaxHealth(ENEMYBASIC_HEALTH * 2);
 			m_health = getMaxHealth();
 			setSpeed((int) (m_speed - m_speed * 0.1));
 			m_range++;
-			m_damage_dealt = (Model.getModel().getLevel()/3 + 1)* ENEMYBASIC_DAMMAGE_DEALT; 
+			m_damage_dealt = (Model.getModel().getLevel() / 3 + 1) * ENEMYBASIC_DAMMAGE_DEALT;
 		}
 	}
 }

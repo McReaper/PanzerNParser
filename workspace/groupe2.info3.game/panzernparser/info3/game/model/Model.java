@@ -53,6 +53,7 @@ public class Model {
 	private Coords m_clue;
 	private long m_time;
 	private LinkedList<String> m_soundsToPlay;
+	private LinkedList<String> m_soundsToStop;
 	private LinkedList<Upgrade> m_statUpgrade;
 	private LinkedList<Upgrade> m_uniqUpgrade;
 	private Score m_score;
@@ -120,7 +121,6 @@ public class Model {
 
 		// Initialisation des sons a jouer depuis le controller
 		m_soundsToPlay = new LinkedList<String>();
-
 		// Temps de jeu écoulé
 		m_time = 0;
 

@@ -53,6 +53,7 @@ public class Drone extends MovingEntity {
 		m_maxHealth = DRONE_HEALTH;
 		m_health = DRONE_HEALTH;
 		m_stuff = false; // pour l'upgrade.
+		m_moveSound = "moveDrone3";
 	}
 
 	@Override
@@ -252,5 +253,6 @@ public class Drone extends MovingEntity {
 	public void setMaxMarkers(int maxCount) {
 		m_maxMarkers = maxCount;
 	}
+
 
 }

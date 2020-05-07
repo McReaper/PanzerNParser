@@ -33,6 +33,7 @@ public class GameMain {
 		System.out.println("Starting game");
 		getGame();
 		System.out.println("Game started");
+		getGame().m_controller.loadMusic("introkat-20db");
 	}
 
 	private GameMain() {

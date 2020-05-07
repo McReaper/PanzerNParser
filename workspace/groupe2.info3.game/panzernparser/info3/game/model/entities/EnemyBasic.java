@@ -24,7 +24,6 @@ public class EnemyBasic extends Enemy {
 	public static final long ENEMYBASIC_TURN_TIME = 0;
 	public static final long ENEMYBASIC_WAIT_TIME = 50;
 	public static final long ENEMYBASIC_WIZZ_TIME = 1000;
-
 	public static final int ENEMYBASIC_DAMMAGE_DEALT = 50;
 
 	public EnemyBasic(int x, int y, Automaton aut) {
@@ -34,6 +33,7 @@ public class EnemyBasic extends Enemy {
 		m_damage_dealt = ENEMYBASIC_DAMMAGE_DEALT;
 		m_speed = ENEMYBASIC_SPEED;
 		levelUp();
+		m_moveSound = "moveBasicEnemy2";
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class EnemyBasic extends Enemy {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = ENEMYBASIC_HIT_TIME;
-
+			Model.getModel().addSound("hitBasic");
 			// creation du shot
 			Entity ent = EntityFactory.newEntity(MyEntities.ShotSlow, this.m_x, m_y);
 
@@ -111,8 +111,10 @@ public class EnemyBasic extends Enemy {
 			this.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
+			Model.getModel().addSound("wilhelm");
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Explode;
+			Model.getModel().addSound("explosion");
 			m_timeOfAction = ENEMYBASIC_EXPLODE_TIME;
 		}
 	}

@@ -33,6 +33,7 @@ public class EnemyLevel2 extends Enemy {
 		m_damage_dealt = ENEMYLEVEL2_DAMMAGE_DEALT;
 		m_speed = ENEMYLEVEL2_SPEED;
 		levelUp();
+		m_moveSound = "moveBigEnemy2";
 	}
 
 	@Override
@@ -46,6 +47,7 @@ public class EnemyLevel2 extends Enemy {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
 			m_actionFinished = false;
 			m_currentAction = null;
+			Model.getModel().addSound("hit_pompeReload");
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
@@ -53,6 +55,7 @@ public class EnemyLevel2 extends Enemy {
 			// creation des shot
 			Entity ent1;
 			Entity ent2;
+			Model.getModel().addSound("hit_pompe");
 			switch (m_currentLookAtDir) {
 				case SOUTH:
 				case NORTH:
@@ -142,6 +145,7 @@ public class EnemyLevel2 extends Enemy {
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Explode;
+			Model.getModel().addSound("explosion");
 			m_timeOfAction = ENEMYLEVEL2_EXPLODE_TIME;
 		}
 	}

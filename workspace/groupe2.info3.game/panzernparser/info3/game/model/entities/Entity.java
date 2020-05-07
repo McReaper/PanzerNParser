@@ -60,7 +60,8 @@ public abstract class Entity {
 	protected int m_speed;
 	protected boolean m_hasChangedSpeed;
 	protected LinkedList<MyCategory> m_uncrossables;
-
+	protected String m_moveSound;
+	
 	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
 		if (aut != null)
@@ -89,7 +90,7 @@ public abstract class Entity {
 		m_damage_dealt = DEFAULT_DAMAGE_DEALT;
 		
 		m_hasChangedSpeed = false;
-
+		m_moveSound = new String();
 	}
 
 	public void step(long elapsed) {
@@ -361,6 +362,8 @@ public abstract class Entity {
 					break;
 			}
 			m_currentActionDir = dir;
+			if (!m_moveSound.isEmpty())
+			Model.getModel().addSound(m_moveSound);
 			this.doMove(dir);
 			m_currentAction = LsAction.Move;
 		}

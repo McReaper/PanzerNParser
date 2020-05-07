@@ -43,6 +43,7 @@ public class TankBody extends MovingEntity {
 		m_category = MyCategory.AT;
 		m_speed = TANKBODY_SPEED;
 		m_miningTime = TANKBODY_POP_TIME;
+		m_moveSound = "moveTank2";
 	}
 
 	@Override
@@ -74,6 +75,7 @@ public class TankBody extends MovingEntity {
 			m_currentAction = null;
 
 		} else if (m_currentAction == null) {
+			Model.getModel().addSound("tankDig");
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
 			m_timeOfAction = m_miningTime;
@@ -172,6 +174,7 @@ public class TankBody extends MovingEntity {
 							;
 						} else if (entity instanceof Droppable) {
 							m_tank.getInventory().add((Droppable) entity);
+							Model.getModel().addSound("pickDroppable");
 							Model.getModel().removeEntity(entity);
 							Model.getModel().getScore().scoreDroppable();
 						}

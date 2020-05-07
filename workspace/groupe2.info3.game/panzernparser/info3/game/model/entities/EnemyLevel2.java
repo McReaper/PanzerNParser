@@ -47,7 +47,7 @@ public class EnemyLevel2 extends Enemy {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
 			m_actionFinished = false;
 			m_currentAction = null;
-			Model.getModel().addSound("hit_pompe2");
+			Model.getModel().addSound("hit_pompeReload");
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;

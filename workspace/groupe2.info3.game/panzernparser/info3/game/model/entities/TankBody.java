@@ -43,13 +43,13 @@ public class TankBody extends MovingEntity {
 		m_category = MyCategory.AT;
 		m_speed = TANKBODY_SPEED;
 		m_miningTime = TANKBODY_POP_TIME;
+		m_moveSound = "moveTank2";
 	}
 
 	@Override
 	public void Move(MyDirection dir) {
 		if (m_tank.hasControl()) {
 			super.Move(dir);
-			Model.getModel().addSound("tankMove2");
 		}
 	}
 
@@ -75,6 +75,7 @@ public class TankBody extends MovingEntity {
 			m_currentAction = null;
 
 		} else if (m_currentAction == null) {
+			Model.getModel().addSound("tankDig");
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
 			m_timeOfAction = m_miningTime;

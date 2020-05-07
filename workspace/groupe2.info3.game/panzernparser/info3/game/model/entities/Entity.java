@@ -61,7 +61,11 @@ public abstract class Entity {
 	protected boolean m_hasChangedSpeed;
 	protected LinkedList<MyCategory> m_uncrossables;
 	protected String m_moveSound;
+	protected int[] m_memoryClosest;
+	protected LinkedList<Coords>[] m_memoryCoordClosest;
+	protected boolean m_hasMoved;
 
+	@SuppressWarnings("unchecked")
 	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
 		if (aut != null)
@@ -91,9 +95,19 @@ public abstract class Entity {
 
 		m_hasChangedSpeed = false;
 		m_moveSound = new String();
+		m_memoryClosest = new int[8];
+		m_memoryCoordClosest = new LinkedList[8];
 	}
 
+	@SuppressWarnings("unchecked")
 	public void step(long elapsed) {
+		for (int i = 0; i < 8; i++) {
+			m_memoryClosest[i] = -1;
+		}
+		if (m_hasMoved) {
+			m_hasMoved = false;
+			m_memoryCoordClosest = new LinkedList[8];
+		}
 		if (m_currentAction == null) {
 			this.setState(m_automate.step(this));
 		} else {
@@ -192,7 +206,7 @@ public abstract class Entity {
 		else
 			throw new IllegalStateException("setState null");
 	}
-	
+
 	public long getSpeed() {
 		return m_speed;
 	}
@@ -216,7 +230,7 @@ public abstract class Entity {
 	public void setDamage(int dam) {
 		m_damage_dealt = dam;
 	}
-	
+
 	public LsAction getCurrentAction() {
 		return m_currentAction;
 	}
@@ -377,6 +391,7 @@ public abstract class Entity {
 	}
 
 	protected void doMove(MyDirection dir) {
+		m_hasMoved = true;
 		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
 		Model.getModel().getGrid().moved(this, absoluteDir);
 		switch (absoluteDir) {
@@ -852,11 +867,27 @@ public abstract class Entity {
 	 * @return vrai si l'entité de type recherché est "proche"
 	 */
 	public boolean Closest(MyDirection dir, MyCategory type) {
+		int indice = MyDirection.toInt(MyDirection.toAbsolute(m_currentLookAtDir, dir));
+		int res = m_memoryClosest[indice];
+		if (res == 0) {
+			return false;
+		} else if (res == 1) {
+			return true;
+		}
+
 		Entity closest = Model.getModel().closestEntity(Model.getModel().getCategoried(type), m_x, m_y);
-		LinkedList<Coords> coords_to_check = getDetectionCone(dir, this.m_range);
+		LinkedList<Coords> coords_to_check;
+		if (m_memoryCoordClosest[indice] == null) {
+			coords_to_check = getDetectionCone(dir, this.m_range);
+			m_memoryCoordClosest[indice] = coords_to_check;
+		} else {
+			coords_to_check = m_memoryCoordClosest[indice];
+		}
 		if (closest.isInMe(coords_to_check)) {
+			m_memoryClosest[indice] = 1;
 			return true;
 		} else {
+			m_memoryClosest[indice] = 0;
 			return false;
 		}
 	}

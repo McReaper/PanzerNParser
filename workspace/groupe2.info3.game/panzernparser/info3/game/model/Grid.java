@@ -27,7 +27,7 @@ public class Grid {
 	private LinkedList<Pattern> m_selectedPatterns;
 
 	/* entier pour le nombre de zone à charger dans la grille */
-	final static int TAILLE_MAP = 3;
+	final static int TAILLE_MAP = 5;
 
 	@SuppressWarnings("unchecked")
 	public Grid() throws UnexpectedException {

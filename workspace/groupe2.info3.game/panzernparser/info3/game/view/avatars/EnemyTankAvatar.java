@@ -12,11 +12,9 @@ import info3.game.model.entities.Entity;
 import info3.game.model.entities.MovingEntity;
 import info3.game.view.Animation;
 
-public class EnemyAvatar extends Avatar {
-	
-	
+public class EnemyTankAvatar extends Avatar {
 
-	public EnemyAvatar(Animation animation) {
+	public EnemyTankAvatar(Animation animation) {
 		super(animation);
 	}
 
@@ -26,20 +24,23 @@ public class EnemyAvatar extends Avatar {
 		MyDirection e_actionDir = entity.getCurrentActionDir();
 		LsAction e_currAction = entity.getCurrentAction();
 		MyDirection e_absoluteActionDir = MyDirection.toAbsolute(e_lookAtDir, e_actionDir);
+		if (e_absoluteActionDir == null) {
+			e_absoluteActionDir = e_lookAtDir;
+		}
 		double progress = entity.getActionProgress();
 
 		int width = entity.getWidth() * case_width;
 		int height = entity.getHeight() * case_height;
 		int x = xcase;
 		int y = ycase;
-		double progressMoveAtDie = ((MovingEntity)entity).progressMoveAtDie;
-		MyDirection directionMoveAtDie= ((MovingEntity)entity).directionMoveAtDie;
+		double progressMoveAtDie = ((MovingEntity) entity).progressMoveAtDie;
+		MyDirection directionMoveAtDie = ((MovingEntity) entity).directionMoveAtDie;
 
 		// Pour réaliser un affichage progressif dans le cas d'un move.
 		if (e_currAction == LsAction.Move) {
 			x = progressivePaintX(e_absoluteActionDir, x, progress, case_width);
 			y = progressivePaintY(e_absoluteActionDir, y, progress, case_height);
-		}else if (progressMoveAtDie != 0) {
+		} else if (progressMoveAtDie != 0) {
 			x = progressivePaintX(directionMoveAtDie, x, progressMoveAtDie, case_width);
 			y = progressivePaintY(directionMoveAtDie, y, progressMoveAtDie, case_height);
 		}
@@ -55,10 +56,13 @@ public class EnemyAvatar extends Avatar {
 		}
 
 		Image sprite;
-		if (e_currAction != LsAction.Hit) {
-			sprite = m_animation.getImage(0, LsAction.Hit, e_lookAtDir, vision);
-		} else {
+		if (e_currAction == LsAction.Hit) {
 			sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir, vision);
+		}else if(e_currAction == LsAction.Move || e_currAction == LsAction.Wait) {
+			double antena = (double)(Model.getModel().getTime() % 2000)/(double)2000;
+			sprite = m_animation.getImage(antena, e_currAction, e_absoluteActionDir, vision);
+		} else {
+			sprite = m_animation.getImage(0, LsAction.Hit, e_lookAtDir, vision);
 		}
 
 		if (ExplosionAvatar.printEntity(entity)) {

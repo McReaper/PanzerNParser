@@ -57,7 +57,7 @@ public abstract class Entity {
 	protected int m_maxHealth;
 	protected int m_health;
 	protected int m_damage_dealt;
-	protected int m_speed;
+	protected long m_speed;
 	protected boolean m_hasChangedSpeed;
 	protected LinkedList<MyCategory> m_uncrossables;
 
@@ -192,12 +192,12 @@ public abstract class Entity {
 			throw new IllegalStateException("setState null");
 	}
 	
-	public int getSpeed() {
+	public long getSpeed() {
 		return m_speed;
 	}
 
-	public void setSpeed(int speed) {
-		m_speed = speed;
+	public void setSpeed(long l) {
+		m_speed = l;
 	}
 	
 	public boolean getHasChangedSpeed() {

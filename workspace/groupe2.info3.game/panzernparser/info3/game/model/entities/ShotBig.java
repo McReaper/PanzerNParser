@@ -25,11 +25,15 @@ public class ShotBig extends Shot {
 		m_health = SHOTBIG_HEALTH;
 		m_damage_dealt = SHOTBIG_DAMAGE_DEALT;
 		m_speed = SHOTBIG_SPEED;
+		m_nbCaseLeft = SHOTBIG_NUMBER_CASE_LIFE*2;
 	}
 
 	@Override
 	public void Move(MyDirection dir) {
-		m_health -= SHOTBIG_NUMBER_CASE_LIFE / 2; // TODO : revoir pour la durer de vie des balles dans les diagonales
+		m_nbCaseLeft --;
+		if (m_nbCaseLeft <=0) {
+			m_health = 0;
+		}
 		super.Move(dir);
 	}
 	

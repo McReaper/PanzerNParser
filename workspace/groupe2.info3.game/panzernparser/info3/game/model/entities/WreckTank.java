@@ -96,6 +96,8 @@ public class WreckTank extends StaticEntity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
+			if (isNoisy())
+				Model.getModel().addSound("explosion");
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = WRECKTANK_EXPLODE_TIME;
 		}

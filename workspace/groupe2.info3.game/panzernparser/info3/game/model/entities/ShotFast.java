@@ -25,7 +25,7 @@ public class ShotFast extends Shot {
 		m_health = SHOTFAST_HEALTH;
 		m_damage_dealt = SHOTFAST_DAMAGE_DEALT;
 		m_speed = SHOTFAST_SPEED;
-		m_nbCaseLeft = SHOTFAST_NUMBER_CASE_LIFE;
+		m_nbCaseLeft = SHOTFAST_NUMBER_CASE_LIFE*2;
 	}
 
 	@Override

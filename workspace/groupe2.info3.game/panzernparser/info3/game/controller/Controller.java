@@ -34,6 +34,10 @@ public class Controller implements GameCanvasListener {
 	public void tick(long elapsed) {
 		// a chaque tick on fait un pas de simulation, et donc met à jour le modèle.
 		m_model.step(elapsed);
+		if (!m_model.getTank().gotPower()) {
+			m_view.m_canvas.stop("Katyusha-20db");
+			m_view.m_canvas.stop("introkat-20db");
+		}
 		if (!m_model.getSounds().isEmpty()) {
 			Iterator<String> iter = m_model.getSounds().iterator();
 			while (iter.hasNext()) {
@@ -44,7 +48,7 @@ public class Controller implements GameCanvasListener {
 		}
 	}
 
-	void loadMusic(String name) {
+	public void loadMusic(String name) {
 		GameMain game = GameMain.getGame();
 		File file = game.getSounds().get(name);
 		FileInputStream fis = null;
@@ -82,7 +86,7 @@ public class Controller implements GameCanvasListener {
 		}
 		LsKey temp = toLsKey(e);
 		m_model.removeKeyPressed(temp);
-		if(m_model.getGameOver() && e.getKeyCode() == KeyEvent.VK_R) {
+		if (m_model.getGameOver() && e.getKeyCode() == KeyEvent.VK_R) {
 			GameMain.getGame().restart();
 			m_view.m_HUD.refreshUpgrade();
 		}
@@ -147,8 +151,9 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void endOfPlay(String name) {
-		// TODO Auto-generated method stub
-
+		if ((name.equals("introkat-20db") || name.equals("Katyusha-20db")) && Model.getModel().getTank().gotPower()) {
+			loadMusic("Katyusha-20db");
+		}
 	}
 
 	@Override

@@ -53,6 +53,7 @@ public class Model {
 	private Coords m_clue;
 	private long m_time;
 	private LinkedList<String> m_soundsToPlay;
+	private LinkedList<String> m_soundsToStop;
 	private LinkedList<Upgrade> m_statUpgrade;
 	private LinkedList<Upgrade> m_uniqUpgrade;
 	private Score m_score;
@@ -120,7 +121,6 @@ public class Model {
 
 		// Initialisation des sons a jouer depuis le controller
 		m_soundsToPlay = new LinkedList<String>();
-
 		// Temps de jeu écoulé
 		m_time = 0;
 
@@ -150,23 +150,6 @@ public class Model {
 			System.exit(-1);
 		}
 
-		if (getEntities(MyEntities.TankBody).size() != 1) {
-			System.err.println("Il semblerait que la grille ne comporte pas de TankBody...");
-			System.exit(-1);
-		}
-
-		// Création du Tank et du Drone :
-		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
-		AutomaticTurret autTurret = (AutomaticTurret) EntityFactory.newEntity(MyEntities.AutomaticTurret, body.getX(),
-				body.getY());
-		Turret turret = (Turret) EntityFactory.newEntity(MyEntities.Turret, body.getX(), body.getY());
-		m_drone = (Drone) EntityFactory.newEntity(MyEntities.Drone, body.getX(), body.getY());
-		m_tank = new Tank(body, turret, autTurret);
-		m_playingTank = true;
-
-		// Initialisation des upgrades
-		initUpgrades();
-
 		// Création du score du jeu.
 		m_score = new Score();
 		m_hasReloaded = false;
@@ -176,9 +159,10 @@ public class Model {
 
 ///////* REGENERATION MAP *///////
 
-	/* regarde si la map a besoin d'être régenerer (dès que y a plus d'enemy) */
+	/* regarde si la map a besoin d'être régenerer */
 	private boolean needRegeneration() {
-		return getEntities(MyEntities.EnemyLevel2).isEmpty();
+		return getEntities(MyEntities.EnemyBasic).size() <= 4 && getEntities(MyEntities.EnemyLevel2).size() <= 1
+				&& getEntities(MyEntities.EnemyBoss).size() <= 0;
 	}
 
 	public double getReloadProgress() {
@@ -195,6 +179,7 @@ public class Model {
 		m_level++;
 		m_grid.emptyGrid();
 		m_grid.generate();
+		m_grid.sendToModel();
 		regeneratePlayer();
 
 		/* Vider la liste des sons */
@@ -427,7 +412,7 @@ public class Model {
 		if (isStat && !isUniq) {
 			try {
 				upgrade.improve();
-				} catch (IllegalAccessException e) {
+			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 				System.exit(-1);
 			}
@@ -443,9 +428,9 @@ public class Model {
 			System.exit(-1);
 		}
 	}
-	
+
 	////////////////////////////////////////////////
-	
+
 	public void setGameOver(boolean bool) {
 		m_gameOver = bool;
 	}
@@ -453,10 +438,31 @@ public class Model {
 	public boolean getGameOver() {
 		return m_gameOver;
 	}
-	
+
 	public static void restart() {
-		self = null;		
+		self = null;
 		getModel();
+	}
+
+	public void launch() {
+		m_grid.sendToModel();
+
+		if (getEntities(MyEntities.TankBody).size() != 1) {
+			System.err.println("Il semblerait que la grille ne comporte pas de TankBody...");
+			System.exit(-1);
+		}
+		
+		// Création du Tank et du Drone :
+		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
+		AutomaticTurret autTurret = (AutomaticTurret) EntityFactory.newEntity(MyEntities.AutomaticTurret, body.getX(),
+				body.getY());
+		Turret turret = (Turret) EntityFactory.newEntity(MyEntities.Turret, body.getX(), body.getY());
+		m_drone = (Drone) EntityFactory.newEntity(MyEntities.Drone, body.getX(), body.getY());
+		m_tank = new Tank(body, turret, autTurret);
+		m_playingTank = true;
+
+		// Initialisation des upgrades
+		initUpgrades();
 	}
 
 }

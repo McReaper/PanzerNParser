@@ -7,8 +7,8 @@ import info3.game.model.Tank;
 public class UpgradeShot extends Upgrade {
 
 	private static final String NAME = "Unlock new weapon";
-	private static final int MINERALS_COST = 20;
-	private static final int ELECTRONICALS_COST = 20;
+	private static final int MINERALS_COST = 30;
+	private static final int ELECTRONICALS_COST = 30;
 	private static final double COST_FACTOR = 2.5;
 	
 	public UpgradeShot(Tank tank) {
@@ -58,6 +58,6 @@ public class UpgradeShot extends Upgrade {
 
 	@Override
 	public String getDescription() {
-		return "<html><p style='color:black;text-align:center'>Unlock a <b>new type of weapon</b> for the tank, to help you deal with these stupid enemies</p></html>";
+		return "<html><p style='color:black;text-align:center'>Unlock a <b>new type of weapon</b> for the tank,<br> to help you deal with these stupid enemies</p></html>";
 	}
 }

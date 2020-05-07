@@ -149,7 +149,7 @@ public class HUD {
 		m_ammoPanel = initiateAmmoPanel(font);
 
 		// Zone des boutons d'upgrade
-		m_upgrade = initiateUpgradePanel();
+		//m_upgrade = initiateUpgradePanel();
 
 		m_East.add(m_compass);
 		m_East.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, 5), new Dimension(0, 10)));
@@ -157,7 +157,7 @@ public class HUD {
 		m_East.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, 5), new Dimension(0, 10)));
 		m_East.add(Stats);
 		m_East.add(m_ammoPanel);
-		m_East.add(m_upgrade);
+		//m_East.add(m_upgrade);
 
 		m_viewModePanel = initiateViewModePanel();
 		refreshHUD();
@@ -526,6 +526,9 @@ public class HUD {
 	}
 
 	public void refreshHUD() {
+		if(!m_view.isLaunch()) {
+			return;
+		}
 		Model model = Model.getModel();
 		Tank tank = model.getTank();
 		Drone drone = model.getDrone();
@@ -872,6 +875,11 @@ public class HUD {
 
 	public void refreshUpgrade() {
 		m_East.remove(m_upgrade);
+		m_upgrade = initiateUpgradePanel();
+		m_East.add(m_upgrade);
+	}
+	
+	public void launch() {
 		m_upgrade = initiateUpgradePanel();
 		m_East.add(m_upgrade);
 	}

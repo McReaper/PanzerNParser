@@ -7,10 +7,10 @@ import info3.game.model.Tank;
 public class UpgradeTankLife extends Upgrade {
 
 	private static final String NAME = "Higher health";
-	private static final int MINERALS_COST = 10;
-	private static final int ELECTRONICALS_COST = 5;
-	private static final int LIFE_BOOST = 10;
-	private static final double COST_FACTOR = 0.5;
+	private static final int MINERALS_COST = 15;
+	private static final int ELECTRONICALS_COST = 7;
+	private static final int LIFE_BOOST = 20;
+	private static final double COST_FACTOR = 0.7;
 
 	public UpgradeTankLife(Tank tank) {
 		super(tank, null);

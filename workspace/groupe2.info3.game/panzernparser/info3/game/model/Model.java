@@ -23,7 +23,6 @@ import info3.game.model.upgrades.UpgradeTankDamage;
 import info3.game.model.upgrades.UpgradeTankLife;
 import info3.game.model.upgrades.UpgradeTankShotsCapacity;
 import info3.game.model.upgrades.UpgradeTankSpeed;
-import info3.game.model.entities.Marker;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
 

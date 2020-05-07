@@ -61,7 +61,7 @@ public abstract class Entity {
 	protected boolean m_hasChangedSpeed;
 	protected LinkedList<MyCategory> m_uncrossables;
 	protected String m_moveSound;
-	
+
 	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
 		if (aut != null)
@@ -88,7 +88,7 @@ public abstract class Entity {
 		m_uncrossables.add(MyCategory.AT);// Tank jamais traversable
 		m_uncrossables.add(MyCategory.O);// Mur pas traversable mais eventuellement destructible
 		m_damage_dealt = DEFAULT_DAMAGE_DEALT;
-		
+
 		m_hasChangedSpeed = false;
 		m_moveSound = new String();
 	}
@@ -192,7 +192,7 @@ public abstract class Entity {
 		else
 			throw new IllegalStateException("setState null");
 	}
-	
+
 	public int getSpeed() {
 		return m_speed;
 	}
@@ -200,7 +200,7 @@ public abstract class Entity {
 	public void setSpeed(int speed) {
 		m_speed = speed;
 	}
-	
+
 	public boolean getHasChangedSpeed() {
 		return m_hasChangedSpeed;
 	}
@@ -208,7 +208,7 @@ public abstract class Entity {
 	public void setHasChangedSpeed(boolean bool) {
 		m_hasChangedSpeed = bool;
 	}
-	
+
 	public void setStuff(boolean bool) {
 		m_stuff = bool;
 	}
@@ -262,11 +262,13 @@ public abstract class Entity {
 	}
 
 	public void growViewPort() {
-		if (m_range < MAX_RANGE) m_range++;
+		if (m_range < MAX_RANGE)
+			m_range++;
 	}
 
 	public void reduceViewPort() {
-		if (m_range > MIN_RANGE) m_range--;
+		if (m_range > MIN_RANGE)
+			m_range--;
 	}
 
 	public int getDamageDealt() {
@@ -363,7 +365,8 @@ public abstract class Entity {
 			}
 			m_currentActionDir = dir;
 			if (!m_moveSound.isEmpty())
-			Model.getModel().addSound(m_moveSound);
+				if (!isNoisy())
+					Model.getModel().addSound(m_moveSound);
 			this.doMove(dir);
 			m_currentAction = LsAction.Move;
 		}
@@ -834,7 +837,7 @@ public abstract class Entity {
 	public boolean GotStuff() {
 		return m_stuff;
 	}
-	
+
 	/**
 	 * Pour une direction donnée `dir` par rapport à l'entité, on regarde en
 	 * fonction de sa distance de vue si la catégorie `type` la plus proche donnée
@@ -1173,59 +1176,58 @@ public abstract class Entity {
 		}
 		return inX && inY;
 	}
-	
-	
+
 	/*
 	 * Fonction qui donne la coord x de la case devant dans la direction dir
-	 * ATTENTION ne donne pas de coordonée pour la dir HERE,
-	 * cas a gérer à l'appel de cette fonction
+	 * ATTENTION ne donne pas de coordonée pour la dir HERE, cas a gérer à l'appel
+	 * de cette fonction
 	 */
 	public int getXCaseDir(MyDirection dir) {
 		int posX = 0;
 		MyDirection AbsoluteDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
 		switch (AbsoluteDir) {
 			case NORTH:
-			case SOUTH : 
-				posX = m_x + (m_width -1)/2;//ce sera un peu décalé vers la gauche si m_width est pair
+			case SOUTH:
+				posX = m_x + (m_width - 1) / 2;// ce sera un peu décalé vers la gauche si m_width est pair
 				break;
-			case EAST : 
+			case EAST:
 			case NORTHEAST:
 			case SOUTHEAST:
 				posX = m_x + m_width;
 				break;
-			case WEST : 
-			case NORTHWEST :
-			case SOUTHWEST :
+			case WEST:
+			case NORTHWEST:
+			case SOUTHWEST:
 				posX = m_x - 1;
 				break;
 		}
 		return posX;
-		
+
 	}
-	
+
 	public int getYCaseDir(MyDirection dir) {
-		int posY =0;
+		int posY = 0;
 		MyDirection AbsoluteDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
 		switch (AbsoluteDir) {
 			case NORTH:
 			case NORTHEAST:
 			case NORTHWEST:
-				posY = m_y -1;
+				posY = m_y - 1;
 				break;
-			case SOUTH :
-			case SOUTHEAST : 
-			case SOUTHWEST :
+			case SOUTH:
+			case SOUTHEAST:
+			case SOUTHWEST:
 				posY = m_y + m_width;
 				break;
-			case EAST : 
-				posY = m_y + (m_height -1)/2;//ce sera un peu décalé vers le haut si m_height est pair
+			case EAST:
+				posY = m_y + (m_height - 1) / 2;// ce sera un peu décalé vers le haut si m_height est pair
 				break;
-			case WEST : 
-				posY = m_y + (m_height -1)/2;//ce sera un peu décalé vers le haut si m_height est pair
+			case WEST:
+				posY = m_y + (m_height - 1) / 2;// ce sera un peu décalé vers le haut si m_height est pair
 				break;
 		}
 		return posY;
-		
+
 	}
 
 	public boolean Key(LsKey m_key) {
@@ -1239,13 +1241,30 @@ public abstract class Entity {
 	public int getMaxHealth() {
 		return m_maxHealth;
 	}
-	
+
 	public void setMaxHealth(int maxHealth) {
 		m_maxHealth = maxHealth;
 	}
 
 	public boolean GotPower() {
-		return m_health >0;
+		return m_health > 0;
+	}
+
+	public boolean isNoisy() {
+		Entity player = Model.getModel().getPlayed();
+		int fov = player.getFieldOfView();
+		int width = fov * 2 + player.getWidth();
+		int height = fov * 2 + player.getHeight();
+		int x = Model.getModel().getGrid().realX(player.getX() - fov);
+		int y = Model.getModel().getGrid().realY(player.getY() - fov);
+		int nbX = Model.getModel().getGrid().getNbCellsX();
+		int nbY = Model.getModel().getGrid().getNbCellsY();
+		if (m_x >= x && m_x <= x + width || m_x >= x - nbX && m_x <= x - nbX + width) {
+			if (m_y >= y && m_y <= y + height || m_y >= y - nbY && m_y <= y - nbY + height) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

@@ -51,7 +51,8 @@ public class EnemyBasic extends Enemy {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = ENEMYBASIC_HIT_TIME;
-			Model.getModel().addSound("hitBasic");
+			if (isNoisy())
+				Model.getModel().addSound("hitBasic");
 			// creation du shot
 			Entity ent = EntityFactory.newEntity(MyEntities.ShotSlow, this.m_x, m_y);
 
@@ -111,10 +112,12 @@ public class EnemyBasic extends Enemy {
 			this.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
-			Model.getModel().addSound("wilhelm");
+			if (isNoisy())
+				Model.getModel().addSound("wilhelm");
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Explode;
-			Model.getModel().addSound("explosion");
+			if (isNoisy())
+				Model.getModel().addSound("explosion");
 			m_timeOfAction = ENEMYBASIC_EXPLODE_TIME;
 		}
 	}
@@ -147,11 +150,11 @@ public class EnemyBasic extends Enemy {
 
 	public void levelUp() {
 		if (Model.getModel().getLevel() % 3 == 0) {
-			setMaxHealth(ENEMYBASIC_HEALTH*2);
+			setMaxHealth(ENEMYBASIC_HEALTH * 2);
 			m_health = getMaxHealth();
 			setSpeed((int) (m_speed - m_speed * 0.1));
 			m_range++;
-			m_damage_dealt = (Model.getModel().getLevel()/3 + 1)* ENEMYBASIC_DAMMAGE_DEALT; 
+			m_damage_dealt = (Model.getModel().getLevel() / 3 + 1) * ENEMYBASIC_DAMMAGE_DEALT;
 		}
 	}
 }

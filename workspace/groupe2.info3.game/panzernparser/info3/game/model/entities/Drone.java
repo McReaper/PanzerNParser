@@ -39,7 +39,6 @@ public class Drone extends MovingEntity {
 	private int m_nbMarkers;
 	private int m_maxMarkers;
 	private VisionType m_currentVisionType;
-	private boolean m_soundPlay;
 
 	public Drone(int x, int y, Automaton aut) {
 		super(x, y, DRONE_WIDTH, DRONE_HEIGHT, aut);
@@ -53,7 +52,7 @@ public class Drone extends MovingEntity {
 		m_maxHealth = DRONE_HEALTH;
 		m_health = DRONE_HEALTH;
 		m_stuff = false; // pour l'upgrade.
-		m_soundPlay = true;
+		m_moveSound = "moveDrone3";
 	}
 
 	@Override
@@ -126,7 +125,6 @@ public class Drone extends MovingEntity {
 	@Override
 	public void Move(MyDirection dir) {
 		if (this.hasControl()) {
-			Model.getModel().addSound("droneMove3");
 			super.Move(dir);
 		}
 	}

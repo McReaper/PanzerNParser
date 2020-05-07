@@ -178,14 +178,16 @@ public class Drone extends MovingEntity {
 
 	@Override
 	public void Wizz(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
-			Model.getModel().switchControl();
-			m_actionFinished = false;
-			m_currentAction = null;
-		} else if (m_currentAction == null) {
-			m_currentActionDir = dir;
-			m_currentAction = LsAction.Wizz;
-			m_timeOfAction = DRONE_WIZZ_TIME;
+		if (hasControl()) {
+			if (m_actionFinished && m_currentAction == LsAction.Wizz) {
+				Model.getModel().switchControl();
+				m_actionFinished = false;
+				m_currentAction = null;
+			} else if (m_currentAction == null) {
+				m_currentActionDir = dir;
+				m_currentAction = LsAction.Wizz;
+				m_timeOfAction = DRONE_WIZZ_TIME;
+			}
 		}
 	}
 
@@ -252,6 +254,5 @@ public class Drone extends MovingEntity {
 	public void setMaxMarkers(int maxCount) {
 		m_maxMarkers = maxCount;
 	}
-
 
 }

@@ -156,7 +156,6 @@ public class EntityFactory {
 				throw new IllegalStateException("Entité non reconnue !");
 		}
 		Model.getModel().addEntity(res);
-		System.out.println("Nouveau : " +res);
 		return res;
 	}
 

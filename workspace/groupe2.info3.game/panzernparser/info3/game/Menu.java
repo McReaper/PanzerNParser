@@ -2,13 +2,14 @@ package info3.game;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.ScrollPane;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -16,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javax.accessibility.Accessible;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -28,16 +28,17 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.ComboBoxUI;
 import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import info3.game.automaton.Automaton;
 import info3.game.model.entities.EntityFactory.MyEntities;
 import info3.game.view.Animation;
-import javafx.scene.control.ScrollBar;
 
 public class Menu {
 
@@ -169,21 +170,22 @@ public class Menu {
 		autComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("unchecked")
 				JComboBox<Automaton> cb = (JComboBox<Automaton>)e.getSource();
 				Automaton aut = (Automaton) cb.getSelectedItem();
 				m_automatons.put(entity, aut);
 			}
 		});
 		
-//		ComboBoxUI cbui = autComboBox.getUI();
-//		int size = cbui.getAccessibleChildrenCount(autComboBox);
-//		for(int j = 0; j < size; j++) {
-//			Object child = cbui.getAccessibleChild(autComboBox, j);
-//			if(child instanceof JScrollPane) {
-//				System.out.println("YES");
-//			}
-//			
-//		}
+		ComboBoxUI cbui = autComboBox.getUI();
+		int size = cbui.getAccessibleChildrenCount(autComboBox);
+		for(int j = 0; j < size; j++) {
+			Object child = cbui.getAccessibleChild(autComboBox, j);
+			JComponent c = (JComponent) ((Container)child).getComponent(0);
+			if(c instanceof JScrollPane) {
+				((JScrollPane)c).setVerticalScrollBar(createScrollBar());
+			}
+		}
 		
 		
 		autComboBox.setBorder(m_menuBorder);
@@ -210,6 +212,7 @@ public class Menu {
 		aniComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("unchecked")
 				JComboBox<Animation> cb = (JComboBox<Animation>)e.getSource();
 				Animation ani = (Animation) cb.getSelectedItem();
 				m_animations.put(entity, ani);
@@ -219,6 +222,58 @@ public class Menu {
 		aniComboBox.setBackground(m_gray);
 		aniComboBox.setSelectedIndex(selectIndex);
 		return aniComboBox;
+	}
+	
+	private JScrollBar createScrollBar() {
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setPreferredSize(new Dimension(5, 100));
+
+		// UI Du scrollbar
+		BasicScrollBarUI statScrollUI = new BasicScrollBarUI() {
+			@Override
+			protected JButton createIncreaseButton(int orientation) {
+				JButton button = new JButton();
+				Dimension dim = new Dimension(0, 0);
+				button.setMaximumSize(dim);
+				button.setMinimumSize(dim);
+				button.setPreferredSize(dim);
+				return button;
+			}
+
+			@Override
+			protected JButton createDecreaseButton(int orientation) {
+				JButton button = new JButton();
+				Dimension dim = new Dimension(0, 0);
+				button.setMaximumSize(dim);
+				button.setMinimumSize(dim);
+				button.setPreferredSize(dim);
+				return button;
+			}
+
+			@Override
+			protected void configureScrollBarColors() {
+				super.configureScrollBarColors();
+				thumbColor = new Color(150, 150, 150);
+				trackColor = Color.BLACK;
+			}
+
+			@Override
+			protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
+				if (thumbBounds.isEmpty() || !scrollbar.isEnabled()) {
+					return;
+				}
+
+				int w = thumbBounds.width;
+				int h = thumbBounds.height;
+
+				g.translate(thumbBounds.x, thumbBounds.y);
+				g.setColor(thumbColor);
+				g.fillRect(0, 0, w, h);
+			}
+		};
+		scrollBar.setUI(statScrollUI);
+		scrollBar.setUnitIncrement(30);
+		return scrollBar;
 	}
 
 	public void drawInfoMenu() throws IOException {

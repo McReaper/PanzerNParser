@@ -67,6 +67,8 @@ public class GameMain {
 	public void launch() {
 		m_frame.remove(m_menu.getMenu());
 		m_frame.add(m_view, BorderLayout.CENTER);
+		m_model.launch();
+		m_view.launch();
 		m_frame.invalidate();
 		m_frame.validate();
 		m_frame.repaint();

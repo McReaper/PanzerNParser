@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import javax.accessibility.Accessible;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -23,8 +25,10 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.ComboBoxUI;
@@ -33,6 +37,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import info3.game.automaton.Automaton;
 import info3.game.model.entities.EntityFactory.MyEntities;
 import info3.game.view.Animation;
+import javafx.scene.control.ScrollBar;
 
 public class Menu {
 
@@ -52,6 +57,7 @@ public class Menu {
 	Color m_gray;
 
 	Menu(GameMain gameMain, GameConfiguration gameConfiguration) {
+
 
 		m_darkGray = new Color(130,130,130);
 		m_gray = new Color(180,180,180);
@@ -169,6 +175,18 @@ public class Menu {
 				}
 			});
 		}
+		
+//		ComboBoxUI cbui = autComboBox.getUI();
+//		int size = cbui.getAccessibleChildrenCount(autComboBox);
+//		for(int j = 0; j < size; j++) {
+//			Object child = cbui.getAccessibleChild(autComboBox, j);
+//			if(child instanceof JScrollPane) {
+//				System.out.println("YES");
+//			}
+//			
+//		}
+		
+		
 		autComboBox.setBorder(m_menuBorder);
 		autComboBox.setBackground(m_gray);
 		autComboBox.setSelectedIndex(selectIndex);

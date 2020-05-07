@@ -24,7 +24,7 @@ public class WeaponLevel3 extends Weapon{
 			// Donne la direction de regard et d'action
 			ent.setLookDir(MyDirection.toAbsolute(m_turret.getLookAtDir(), dir));
 			ent.setActionDir(MyDirection.toAbsolute(m_turret.getCurrentActionDir(), dir));
-
+			ent.setDamage(m_turret.getDamageDealt());
 			// Donne l'entité qui l'a tiré (ici le tankBody)
 			((Shot) ent).setOwner(Model.getModel().getTank().getBody());
 		}

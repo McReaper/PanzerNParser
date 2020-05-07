@@ -212,6 +212,10 @@ public abstract class Entity {
 		m_stuff = bool;
 	}
 
+	public void setDamage(int dam) {
+		m_damage_dealt = dam;
+	}
+	
 	public LsAction getCurrentAction() {
 		return m_currentAction;
 	}

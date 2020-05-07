@@ -152,13 +152,13 @@ public class EntityFactory {
 				res = newShotBig(x, y, config.getAutomaton(MyEntities.ShotBig));
 				break;
 			case ShotEnemyBasic:
-				res = newShotBig(x, y, config.getAutomaton(MyEntities.ShotEnemyBasic));
+				res = newShotEnemyBasic(x, y, config.getAutomaton(MyEntities.ShotEnemyBasic));
 				break;
 			case ShotEnemyLevel2:
-				res = newShotBig(x, y, config.getAutomaton(MyEntities.ShotEnemyLevel2));
+				res = newShotEnemyLevel2(x, y, config.getAutomaton(MyEntities.ShotEnemyLevel2));
 				break;
 			case ShotEnemyBoss:
-				res = newShotBig(x, y, config.getAutomaton(MyEntities.ShotEnemyBoss));
+				res = newShotEnemyBoss(x, y, config.getAutomaton(MyEntities.ShotEnemyBoss));
 				break;
 			case TankBody:
 				res = newTankBody(x, y, config.getAutomaton(MyEntities.TankBody));
@@ -215,18 +215,18 @@ public class EntityFactory {
 			return MyEntities.Hole;
 		} else if (e instanceof Marker) {
 			return MyEntities.Marker;
-		} else if (e instanceof ShotSlow) {
-			return MyEntities.ShotSlow;
-		} else if (e instanceof ShotFast) {
-			return MyEntities.ShotFast;
-		} else if (e instanceof ShotBig) {
-			return MyEntities.ShotBig;
 		} else if (e instanceof ShotEnemyBasic) {
 			return MyEntities.ShotEnemyBasic;
 		} else if (e instanceof ShotEnemyLevel2) {
 			return MyEntities.ShotEnemyLevel2;
 		} else if (e instanceof ShotEnemyBoss) {
 			return MyEntities.ShotEnemyBoss;
+		} else if (e instanceof ShotSlow) {
+			return MyEntities.ShotSlow;
+		} else if (e instanceof ShotFast) {
+			return MyEntities.ShotFast;
+		} else if (e instanceof ShotBig) {
+			return MyEntities.ShotBig;
 		} else if (e instanceof TankBody) {
 			return MyEntities.TankBody;
 		} else if (e instanceof Turret) {

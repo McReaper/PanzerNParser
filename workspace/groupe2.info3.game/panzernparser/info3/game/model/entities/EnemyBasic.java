@@ -53,7 +53,7 @@ public class EnemyBasic extends Enemy {
 			m_timeOfAction = ENEMYBASIC_HIT_TIME;
 
 			// creation du shot
-			Entity ent = EntityFactory.newEntity(MyEntities.ShotSlow, m_x, m_y);
+			Entity ent = EntityFactory.newEntity(MyEntities.ShotEnemyBasic, m_x, m_y);
 			((ShotEnemy) ent).setDamage(m_damage_dealt);
 
 			// Donne la direction de regard et d'action

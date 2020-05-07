@@ -61,6 +61,7 @@ public abstract class Entity {
 	protected boolean m_hasChangedSpeed;
 	protected LinkedList<MyCategory> m_uncrossables;
 	protected String m_moveSound;
+	protected int[] m_memoryClosest;
 
 	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
@@ -91,9 +92,13 @@ public abstract class Entity {
 
 		m_hasChangedSpeed = false;
 		m_moveSound = new String();
+		m_memoryClosest = new int[8];
 	}
 
 	public void step(long elapsed) {
+		for(int i = 0; i < 8;i++) {
+			m_memoryClosest[i] = -1;
+		}
 		if (m_currentAction == null) {
 			this.setState(m_automate.step(this));
 		} else {
@@ -852,11 +857,21 @@ public abstract class Entity {
 	 * @return vrai si l'entité de type recherché est "proche"
 	 */
 	public boolean Closest(MyDirection dir, MyCategory type) {
+		int indice = MyDirection.toInt(MyDirection.toAbsolute(m_currentLookAtDir, dir));
+		int res = m_memoryClosest[indice];
+		if(res == 0) {
+			return false;
+		} else if(res == 1) {
+			return true;
+		}
+		
 		Entity closest = Model.getModel().closestEntity(Model.getModel().getCategoried(type), m_x, m_y);
 		LinkedList<Coords> coords_to_check = getDetectionCone(dir, this.m_range);
 		if (closest.isInMe(coords_to_check)) {
+			m_memoryClosest[indice] = 1;
 			return true;
 		} else {
+			m_memoryClosest[indice] = 0;
 			return false;
 		}
 	}

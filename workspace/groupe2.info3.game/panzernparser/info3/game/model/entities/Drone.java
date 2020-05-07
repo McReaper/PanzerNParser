@@ -53,7 +53,7 @@ public class Drone extends MovingEntity {
 		m_maxHealth = DRONE_HEALTH;
 		m_health = DRONE_HEALTH;
 		m_stuff = false; // pour l'upgrade.
-		m_moveSound = "moveDrone3";
+		m_moveSound = "droneMove4";
 	}
 
 	@Override

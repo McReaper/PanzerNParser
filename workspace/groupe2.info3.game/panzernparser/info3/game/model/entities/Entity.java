@@ -365,7 +365,7 @@ public abstract class Entity {
 			}
 			m_currentActionDir = dir;
 			if (!m_moveSound.isEmpty())
-				if (!isNoisy())
+				if (isNoisy())
 					Model.getModel().addSound(m_moveSound);
 			this.doMove(dir);
 			m_currentAction = LsAction.Move;

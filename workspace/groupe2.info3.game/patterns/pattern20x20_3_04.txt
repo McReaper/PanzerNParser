@@ -6,9 +6,9 @@ wall1 11,6
 wall1 12,6
 wall1 13,6
 wall1 14,6
-enem2 3,4
+enem1 3,4
 enem2 8,12
-enem2 16,17
+enem3 16,17
 enem2 15,9
 rock1 12,15
 drop1 11,7

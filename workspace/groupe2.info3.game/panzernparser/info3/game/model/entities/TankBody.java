@@ -24,7 +24,6 @@ public class TankBody extends MovingEntity {
 	public static final int TANKBODY_SPEED = Tank.TANK_SPEED;
 
 	public static final long TANKBODY_EXPLODE_TIME = 1000;
-	public static final long TANKBODY_MOVE_TIME = 800;
 	public static final long TANKBODY_PICK_TIME = 0;
 	public static final long TANKBODY_POP_TIME = 3000;
 	public static final long TANKBODY_TURN_TIME = 0;
@@ -43,6 +42,7 @@ public class TankBody extends MovingEntity {
 		m_category = MyCategory.AT;
 		m_speed = TANKBODY_SPEED;
 		m_miningTime = TANKBODY_POP_TIME;
+		m_moveSound = "moveTank2";
 	}
 
 	@Override
@@ -74,6 +74,7 @@ public class TankBody extends MovingEntity {
 			m_currentAction = null;
 
 		} else if (m_currentAction == null) {
+			Model.getModel().addSound("tankDig");
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
 			m_timeOfAction = m_miningTime;
@@ -117,19 +118,20 @@ public class TankBody extends MovingEntity {
 	@Override
 	public void Explode() {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
-			// m_tank.setLife(Tank.TANK_HEALTH);// redonne de la vie si qu'on a pas envie de faire le cas de GAME OVER
 			m_actionFinished = false;
 			m_currentAction = null;
 			m_tank.doExplode();
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = TANKBODY_EXPLODE_TIME;
+			Model.getModel().addSound("explosion");
 			doDead();
 		} else if (m_currentAction == LsAction.Explode && (this.getActionProgress() * 12) >= 5) {
 		}
 	}
 
 	private void doDead() {
+		Model.getModel().addSound("deg");
 		Entity wreck = EntityFactory.newEntity(MyEntities.WreckTank, m_x, m_y);
 		switch (m_currentLookAtDir) {
 			case SOUTH:
@@ -167,6 +169,7 @@ public class TankBody extends MovingEntity {
 							Model.getModel().getDrone().decreaseMarksNb();
 						} else if (entity instanceof Droppable) {
 							m_tank.getInventory().add((Droppable) entity);
+							Model.getModel().addSound("pickDroppable");
 							Model.getModel().removeEntity(entity);
 							Model.getModel().getScore().scoreDroppable();
 						}

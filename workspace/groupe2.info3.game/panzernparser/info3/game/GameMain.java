@@ -37,9 +37,9 @@ public class GameMain {
 
 	private GameMain() {
 		m_soundFiles = new HashMap<String, File>();
-		m_menu = new Menu(this);
-		// On force le parsing le configuration du jeu avant de créer quoi que ce soit
 		GameConfiguration.getConfig();
+		m_menu = new Menu(this,GameConfiguration.getConfig());
+		// On force le parsing le configuration du jeu avant de créer quoi que ce soit
 
 		// On charge les fichiers de sons en mémoire
 		initSounds(new File(GameConfiguration.SOUND_PATH));
@@ -67,9 +67,12 @@ public class GameMain {
 	public void launch() {
 		m_frame.remove(m_menu.getMenu());
 		m_frame.add(m_view, BorderLayout.CENTER);
+		m_model.launch();
+		m_view.launch();
 		m_frame.invalidate();
 		m_frame.validate();
 		m_frame.repaint();
+		getGame().m_controller.loadMusic("introkat-20db");
 	}
 	
 
@@ -133,8 +136,10 @@ public class GameMain {
 	public void restart() {
 		Model.restart();
 		m_model = Model.getModel();
+		m_model.launch();
 		m_controller.setModel(m_model);
 		m_view.setModel(m_model);
+		getGame().m_controller.loadMusic("introkat-20db");
 	}
 
 	public void refresh() {

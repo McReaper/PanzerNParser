@@ -13,8 +13,8 @@ public class EnemyBasic extends Enemy {
 	public final static int ENEMYBASIC_HEIGHT = 1;
 
 	public static final int ENEMYBASIC_HEALTH = 100;
-	public static final int ENEMYBASIC_SPEED = 1000;
-	public static final int ENEMYBASIC_FOV = 4;
+	public static final int ENEMYBASIC_SPEED = 700;
+	public static final int ENEMYBASIC_FOV = 5;
 
 	public static final long ENEMYBASIC_EGG_TIME = 0;
 	public static final long ENEMYBASIC_HIT_TIME = 500;
@@ -24,8 +24,7 @@ public class EnemyBasic extends Enemy {
 	public static final long ENEMYBASIC_TURN_TIME = 0;
 	public static final long ENEMYBASIC_WAIT_TIME = 50;
 	public static final long ENEMYBASIC_WIZZ_TIME = 1000;
-
-	public static final int ENEMYBASIC_DAMMAGE_DEALT = 50;
+	public static final int ENEMYBASIC_DAMMAGE_DEALT = 10;
 
 	public EnemyBasic(int x, int y, Automaton aut) {
 		super(x, y, ENEMYBASIC_WIDTH, ENEMYBASIC_HEIGHT, aut);
@@ -34,6 +33,7 @@ public class EnemyBasic extends Enemy {
 		m_damage_dealt = ENEMYBASIC_DAMMAGE_DEALT;
 		m_speed = ENEMYBASIC_SPEED;
 		levelUp();
+		m_moveSound = "moveBasicEnemy2";
 	}
 
 	@Override
@@ -51,16 +51,18 @@ public class EnemyBasic extends Enemy {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = ENEMYBASIC_HIT_TIME;
-
+			if (isNoisy())
+				Model.getModel().addSound("hitBasic");
 			// creation du shot
-			Entity ent = EntityFactory.newEntity(MyEntities.ShotSlow, m_x, m_y);
+			Entity ent = EntityFactory.newEntity(MyEntities.ShotEnemyBasic, m_x, m_y);
+			((ShotEnemy) ent).setDamage(m_damage_dealt);
 
 			// Donne la direction de regard et d'action
 			ent.setLookDir(this.m_currentLookAtDir);
 			ent.setActionDir(this.m_currentActionDir);
 
 			// Donne l'entité qui l'a tiré
-			((Shot) ent).setOwner(this);
+			((ShotEnemy) ent).setOwner(this);
 		}
 	}
 
@@ -71,24 +73,13 @@ public class EnemyBasic extends Enemy {
 			m_actionFinished = false;
 			m_currentAction = null;
 			// creation de la ressource a répendre
-
-			// creation de la ressource a répendre
-			if (dir == null || dir == MyDirection.HERE) {
-				Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x, m_y);
-				int rand = (int) (Math.random() * (20 - 1));// 20 correspond au nombre max de ressource dispo et 1 le min
-				((Droppable) ent).setQuantity(rand);
-			} else {
-				int posX = getXCaseDir(dir);
-				int posY = getYCaseDir(dir);
-				Entity ent = EntityFactory.newEntity(MyEntities.Droppable, posX, posY);
-				int rand = (int) (Math.random() * (20 - 1));// 20 correspond au nombre max de ressource dispo et 1 le min
-				((Droppable) ent).setQuantity(rand);
-
-			}
+			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x, m_y);
+			int rand = (int) (Math.random() * (20 - 1));// 20 correspond au nombre max de ressource dispo et 1 le min
+			((Droppable) ent).setQuantity(rand);
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Egg;
-			m_timeOfAction = DEFAULT_EGG_TIME;
+			m_timeOfAction = ENEMYBASIC_EGG_TIME;
 		}
 	}
 

@@ -39,7 +39,7 @@ drop1 8,7
 drop1 8,8
 drop1 8,9
 enem2 13,3
-enem2 6,17
+enem3 6,17
 enem2 19,16
 mud_1 3,15
 mud_1 4,15

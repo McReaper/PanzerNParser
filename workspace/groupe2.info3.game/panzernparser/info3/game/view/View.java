@@ -49,6 +49,7 @@ public class View extends Container {
 	ViewPort m_viewPort;
 	public HUD m_HUD;
 	public LinkedList<MyEntities> orderEntities;
+	private boolean m_launch;
 	
 
 	public View(Controller controller, Model model) {
@@ -62,8 +63,7 @@ public class View extends Container {
 
 		this.setLayout(BL);
 		m_avatars = new LinkedList<Avatar>();
-		initAvatars();
-		m_viewPort = new ViewPort(m_model.getPlayed(), this);
+		m_viewPort = new ViewPort(this);
 	}
 	
 	public ViewPort getViewPort() {
@@ -96,10 +96,18 @@ public class View extends Container {
 		orderEntities.add(MyEntities.ShotFast);
 		m_avatars.add(new ShotAvatar(config.getAnimation(MyEntities.ShotBig)));
 		orderEntities.add(MyEntities.ShotBig);
+		m_avatars.add(new ShotAvatar(config.getAnimation(MyEntities.ShotEnemyBasic)));
+		orderEntities.add(MyEntities.ShotEnemyBasic);
+		m_avatars.add(new ShotAvatar(config.getAnimation(MyEntities.ShotEnemyLevel2)));
+		orderEntities.add(MyEntities.ShotEnemyLevel2);
+		m_avatars.add(new ShotAvatar(config.getAnimation(MyEntities.ShotEnemyBoss)));
+		orderEntities.add(MyEntities.ShotEnemyBoss);
 		m_avatars.add(new EnemyAvatar(config.getAnimation(MyEntities.EnemyBasic)));
 		orderEntities.add(MyEntities.EnemyBasic);
 		m_avatars.add(new EnemyAvatar(config.getAnimation(MyEntities.EnemyLevel2)));
 		orderEntities.add(MyEntities.EnemyLevel2);
+		m_avatars.add(new EnemyAvatar(config.getAnimation(MyEntities.EnemyBoss)));
+		orderEntities.add(MyEntities.EnemyBoss);
 		m_avatars.add(new MarkerAvatar(config.getAnimation(MyEntities.Marker)));
 		orderEntities.add(MyEntities.Marker);
 		m_avatars.add(new TankBodyAvatar(config.getAnimation(MyEntities.TankBody), this));
@@ -145,6 +153,9 @@ public class View extends Container {
 	 * Méthode qui dessine la grille et les entités sur celle-ci.
 	 */
 	public void paintCanvas(Graphics g) {
+		if(!m_launch) {
+			return;
+		}
 		if (!m_model.getGameOver()) {//Si le jeu n'est pas terminé
 			m_viewPort.paint(g, m_avatars);
 		}else { /////////////////////////////////remplacer par une image de Game Over
@@ -176,6 +187,17 @@ public class View extends Container {
 
 	public void setModel(Model model) {
 		m_model = model;		
+	}
+
+	public void launch() {
+		initAvatars();
+		m_viewPort.setPlayer(m_model.getPlayed());
+		m_HUD.launch();
+		m_launch = true;
+	}
+
+	public boolean isLaunch() {
+		return m_launch;
 	}
 
 }

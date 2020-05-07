@@ -10,7 +10,7 @@ public class UpgradeTankSpeed extends Upgrade {
 	private static final String NAME = "Higher speed";
 	private static final int MINERALS_COST = 10;
 	private static final int ELECTRONICALS_COST = 5;
-	private static final int SPEED_BOOST = 10;
+	private static final int SPEED_BOOST = 20;
 	private static final double COST_FACTOR = 0.5;
 	
 	public UpgradeTankSpeed(Tank tank) {
@@ -24,7 +24,7 @@ public class UpgradeTankSpeed extends Upgrade {
 		int electronical_cost = getCostElec();
 		if (isAvaibleFor(mineral_cost, electronical_cost)) {
 			inv.used(MaterialType.MINERAL, mineral_cost, MaterialType.ELECTRONIC, electronical_cost);
-			m_tank.setSpeed(m_tank.getSpeed() + SPEED_BOOST);
+			m_tank.setSpeed(m_tank.getSpeed() - SPEED_BOOST);
 			m_level++;
 		} else {
 			throw new IllegalAccessException("Ressources insuffisantes dans l'inventaire.");

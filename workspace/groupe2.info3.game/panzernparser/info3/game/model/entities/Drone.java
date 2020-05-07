@@ -12,7 +12,6 @@ import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
-import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 
 public class Drone extends MovingEntity {
 	public final static int DRONE_WIDTH = 3;
@@ -27,7 +26,7 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_HIT_TIME = 1000;
 	public static final long DRONE_JUMP_TIME = 100;
 	public static final long DRONE_MOVE_TIME = 1000;
-	public static final long DRONE_POP_TIME = 1000;
+	public static final long DRONE_POP_TIME = 70;
 	public static final long DRONE_POWER_TIME = 1000;
 	public static final long DRONE_TURN_TIME = 50;
 	public static final long DRONE_WAIT_TIME = 50;

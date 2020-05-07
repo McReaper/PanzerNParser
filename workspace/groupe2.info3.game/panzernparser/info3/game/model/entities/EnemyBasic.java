@@ -13,7 +13,7 @@ public class EnemyBasic extends Enemy {
 	public final static int ENEMYBASIC_HEIGHT = 1;
 
 	public static final int ENEMYBASIC_HEALTH = 100;
-	public static final int ENEMYBASIC_SPEED = 1000;
+	public static final int ENEMYBASIC_SPEED = 700;
 	public static final int ENEMYBASIC_FOV = 4;
 
 	public static final long ENEMYBASIC_EGG_TIME = 0;

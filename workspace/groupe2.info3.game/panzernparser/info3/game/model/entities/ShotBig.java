@@ -14,11 +14,11 @@ public class ShotBig extends Shot {
 	public static final int SHOTBIG_NUMBER_CASE_LIFE = 10;
 
 	public static final long SHOTBIG_EXPLODE_TIME = 1000;
-	public static final long SHOTBIG_MOVE_TIME = 200;
-	public static final long SHOTBIG_POP_TIME = 10000;
-	public static final long SHOTBIG_WIZZ_TIME = 1000;
+	public static final long SHOTBIG_MOVE_TIME = 150;
+	public static final long SHOTBIG_POP_TIME = 50;
+	public static final long SHOTBIG_WIZZ_TIME = 50;
 
-	public static final int SHOTBIG_DAMAGE_DEALT = 10;
+	public static final int SHOTBIG_DAMAGE_DEALT = 150;
 
 	public ShotBig(int x, int y, Automaton aut) {
 		super(x, y, SHOTBIG_WIDTH, SHOTBIG_HEIGHT, aut);

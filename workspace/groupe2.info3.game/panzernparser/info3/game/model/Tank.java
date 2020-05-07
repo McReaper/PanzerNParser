@@ -129,12 +129,12 @@ public class Tank {
 		// m_turret.setDamage(dmg);
 	}
 
-	public int getSpeed() {
+	public long getSpeed() {
 		return m_body.getSpeed();
 	}
 
-	public void setSpeed(int val) {
-		m_body.setSpeed(val);
+	public void setSpeed(long l) {
+		m_body.setSpeed(l);
 	}
 
 	public boolean gotPower() {

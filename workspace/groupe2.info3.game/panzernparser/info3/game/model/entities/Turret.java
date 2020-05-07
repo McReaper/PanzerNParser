@@ -74,7 +74,7 @@ public class Turret extends StaticEntity {
 		m_nbWeaponsDispo++;
 		if (m_nbWeaponsDispo > TURRET_NB_WEAPONS_MAX) {
 			m_nbWeaponsDispo--;
-			throw new IllegalAccessException("Impossible de débloqué une nouvelle arme.");
+			throw new IllegalAccessException("Impossible de débloquer une nouvelle arme.");
 		}
 	}
 
@@ -101,6 +101,7 @@ public class Turret extends StaticEntity {
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
+			Model.getModel().addSound("changeWeapon");
 			m_currentWeapon = changeWeapon();
 			m_timeOfAction = TURRET_POP_TIME;
 		}

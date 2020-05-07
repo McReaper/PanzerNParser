@@ -12,7 +12,6 @@ import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
-import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 
 public class Drone extends MovingEntity {
 	public final static int DRONE_WIDTH = 3;
@@ -53,7 +52,7 @@ public class Drone extends MovingEntity {
 		m_maxHealth = DRONE_HEALTH;
 		m_health = DRONE_HEALTH;
 		m_stuff = false; // pour l'upgrade.
-		m_moveSound = "droneMove4";
+		m_moveSound = "droneMove2";
 	}
 
 	@Override
@@ -117,6 +116,7 @@ public class Drone extends MovingEntity {
 					}
 				} else {
 					EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
+					Model.getModel().addSound("poseMarker");
 					if (m_nbMarkers == m_maxMarkers)
 						Model.getModel().removeEntity(Model.getModel().getEntities(MyEntities.Marker).get(0));
 					else {
@@ -185,6 +185,7 @@ public class Drone extends MovingEntity {
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
+			Model.getModel().addSound("droneToTank");
 			m_currentAction = LsAction.Wizz;
 			m_timeOfAction = DRONE_WIZZ_TIME;
 		}

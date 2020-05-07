@@ -4,6 +4,7 @@ import info3.game.automaton.Automaton;
 import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Model;
 import info3.game.model.Tank;
 import info3.game.model.entities.EntityFactory.MyEntities;
 
@@ -66,6 +67,7 @@ public class AutomaticTurret extends StaticEntity {
 			if (dir == null) {
 				dir = MyDirection.FRONT;
 			}
+			Model.getModel().addSound("turretShot");
 			Entity ent = EntityFactory.newEntity(MyEntities.ShotFast, m_x + 1, m_y + 1);
 
 			// Donne la direction de regard et d'action

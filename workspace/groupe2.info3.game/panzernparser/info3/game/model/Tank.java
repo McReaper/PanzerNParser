@@ -79,6 +79,7 @@ public class Tank {
 		m_turret.doExplode();
 		m_body.doExplode();
 		Model.getModel().setGameOver(true);
+		Model.getModel().addSound("Game_Over");
 	}
 
 	public void setLife(int tankHealth) {

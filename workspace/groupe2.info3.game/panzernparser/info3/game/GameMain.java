@@ -70,7 +70,7 @@ public class GameMain {
 		m_frame.invalidate();
 		m_frame.validate();
 		m_frame.repaint();
-		getGame().m_controller.loadMusic("introkat-20db");
+		getGame().m_controller.loadMusic("KatyushaIntro");
 	}
 	
 
@@ -136,7 +136,7 @@ public class GameMain {
 		m_model = Model.getModel();
 		m_controller.setModel(m_model);
 		m_view.setModel(m_model);
-		getGame().m_controller.loadMusic("introkat-20db");
+		getGame().m_controller.loadMusic("KatyushaIntro");
 	}
 
 }

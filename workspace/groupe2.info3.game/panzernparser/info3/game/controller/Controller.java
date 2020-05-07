@@ -33,16 +33,18 @@ public class Controller implements GameCanvasListener {
 	@Override
 	public void tick(long elapsed) {
 		// a chaque tick on fait un pas de simulation, et donc met à jour le modèle.
+		boolean isEnd = m_model.getGameOver();
 		m_model.step(elapsed);
 		if (!m_model.getTank().gotPower()) {
-			m_view.m_canvas.stop("Katyusha-20db");
-			m_view.m_canvas.stop("introkat-20db");
+			m_view.m_canvas.stop("KatyushaIntro");
+			m_view.m_canvas.stop("KatyushaBoucle");
 		}
 		if (!m_model.getSounds().isEmpty()) {
 			Iterator<String> iter = m_model.getSounds().iterator();
 			while (iter.hasNext()) {
 				String name = (String) iter.next();
-				loadMusic(name);
+				if(!isEnd || name.equals("deg") || name.contentEquals("Game_Over"))
+					loadMusic(name);
 			}
 			m_model.getSounds().removeAll(m_model.getSounds());
 		}
@@ -150,8 +152,8 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void endOfPlay(String name) {
-		if ((name.equals("introkat-20db") || name.equals("Katyusha-20db")) && Model.getModel().getTank().gotPower()) {
-			loadMusic("Katyusha-20db");
+		if ((name.equals("KatyushaIntro") || name.equals("KatyushaBoucle")) && Model.getModel().getTank().gotPower()) {
+			loadMusic("KatyushaBoucle");
 		}
 	}
 

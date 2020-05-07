@@ -144,12 +144,10 @@ public class EnemyBasic extends Enemy {
 	}
 
 	public void levelUp() {
-		if (Model.getModel().getLevel() % 3 == 0) {
 			setMaxHealth(ENEMYBASIC_HEALTH*2);
 			m_health = getMaxHealth();
 			setSpeed((int) (m_speed - m_speed * 0.1));
 			m_range++;
 			m_damage_dealt = (Model.getModel().getLevel()/3 + 1)* ENEMYBASIC_DAMMAGE_DEALT; 
-		}
 	}
 }

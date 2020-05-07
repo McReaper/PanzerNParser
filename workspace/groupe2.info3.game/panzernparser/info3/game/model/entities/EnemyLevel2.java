@@ -13,7 +13,7 @@ public class EnemyLevel2 extends Enemy {
 	public final static int ENEMYLEVEL2_HEIGHT = 2;
 
 	public static final int ENEMYLEVEL2_HEALTH = 100;
-	public static final int ENEMYLEVEL2_SPEED = 1000;
+	public static final int ENEMYLEVEL2_SPEED = 400;
 	public static final int ENEMYLEVEL2_FOV = 4;
 
 	public static final long ENEMYLEVEL2_EGG_TIME = 0;
@@ -173,12 +173,10 @@ public class EnemyLevel2 extends Enemy {
 	}
 	
 	public void levelUp() {/* l'enemy basic bouge peu mais fait très mal*/
-		if (Model.getModel().getLevel() % 4 == 0) {
 			setMaxHealth(ENEMYLEVEL2_HEALTH*3);
 			m_health = getMaxHealth();
 			m_range+=2;
 			m_damage_dealt = (Model.getModel().getLevel()/3 + 2)* ENEMYLEVEL2_DAMMAGE_DEALT; 
-		}
 	}
 
 }

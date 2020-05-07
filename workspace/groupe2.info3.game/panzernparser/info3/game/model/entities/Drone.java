@@ -12,7 +12,6 @@ import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
-import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 
 public class Drone extends MovingEntity {
 	public final static int DRONE_WIDTH = 3;

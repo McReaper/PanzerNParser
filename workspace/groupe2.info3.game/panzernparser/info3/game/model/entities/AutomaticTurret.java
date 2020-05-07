@@ -31,7 +31,7 @@ public class AutomaticTurret extends StaticEntity {
 		m_isActivated = false;
 		m_range = AUTOMATIC_TURRET_RANGE;
 	}
-	
+
 	@Override
 	public boolean isShown() {
 		return m_isActivated && m_tank.gotPower();
@@ -44,11 +44,11 @@ public class AutomaticTurret extends StaticEntity {
 	public Tank getTank() {
 		return m_tank;
 	}
-	
+
 	public boolean getIsActivate() {
 		return m_isActivated;
 	}
-	
+
 	public void setIsActivate(boolean b) {
 		m_isActivated = b;
 	}
@@ -66,7 +66,8 @@ public class AutomaticTurret extends StaticEntity {
 			if (dir == null) {
 				dir = MyDirection.FRONT;
 			}
-			Model.getModel().addSound("turretShot");
+			if (isNoisy())
+				Model.getModel().addSound("turretShot");
 			Entity ent = EntityFactory.newEntity(MyEntities.ShotFast, m_x + 1, m_y + 1);
 			((Shot) ent).setDamage(AUTOMATIC_TURRET_DAMAGE);
 
@@ -80,7 +81,7 @@ public class AutomaticTurret extends StaticEntity {
 	}
 
 	@Override
-	public void Pop(MyDirection dir) {//diminue la portée de vision des ennemies
+	public void Pop(MyDirection dir) {// diminue la portée de vision des ennemies
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -88,7 +89,7 @@ public class AutomaticTurret extends StaticEntity {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
 			m_timeOfAction = AUTOMATIC_TURRET_POP_TIME;
-			m_range --;
+			m_range--;
 		}
 	}
 
@@ -106,14 +107,14 @@ public class AutomaticTurret extends StaticEntity {
 	}
 
 	@Override
-	public void Wizz(MyDirection dir) {//augmente la portée de vision des ennemies
+	public void Wizz(MyDirection dir) {// augmente la portée de vision des ennemies
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Wizz;
-			m_range ++;
+			m_range++;
 		}
 	}
 
@@ -128,9 +129,9 @@ public class AutomaticTurret extends StaticEntity {
 			m_timeOfAction = AUTOMATIC_TURRET_WAIT_TIME;
 		}
 	}
-	
+
 	@Override
 	public boolean GotPower() {
-			return this.m_isActivated;
+		return this.m_isActivated;
 	}
 }

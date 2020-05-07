@@ -61,6 +61,11 @@ public class Animation {
 	public String getName() {
 		return m_name;
 	}
+
+	@Override
+	public String toString() {
+		return m_name;
+	}
 	
 	
 }

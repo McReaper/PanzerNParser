@@ -135,6 +135,7 @@ public class GameMain {
 	public void restart() {
 		Model.restart();
 		m_model = Model.getModel();
+		m_model.launch();
 		m_controller.setModel(m_model);
 		m_view.setModel(m_model);
 	}

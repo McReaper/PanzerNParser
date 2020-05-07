@@ -105,8 +105,8 @@ public class Menu {
 		for(MyEntities entity : MyEntities.values()) {
 			
 			JPanel labelPanel = createLabel(entity);
-			JComboBox<String> autoList = createAutList(entity);
-			JComboBox<String> aniList = createAniList(entity);
+			JComboBox<Automaton> autoList = createAutList(entity);
+			JComboBox<Animation> aniList = createAniList(entity);
 			configPanel.add(labelPanel);
 			configPanel.add(autoList);
 			configPanel.add(aniList);
@@ -151,30 +151,29 @@ public class Menu {
 		return labelPanel;
 	}
 
-	private JComboBox<String> createAutList(MyEntities entity) {
+	private JComboBox<Automaton> createAutList(MyEntities entity) {
 		int i = 0;
 		int selectIndex = 0;
 		Automaton automate = GameConfiguration.getConfig().getAutomaton(entity);
 		HashMap<MyEntities, Automaton> m_automatons = m_gameConfig.getAutomatons();
-		String[] str = new String[m_automatons.size()];
+		Automaton[] autom = new Automaton[m_automatons.size()];
 		for (Automaton automaton : m_automatons.values()) {
-			str[i] = automaton.getName();
+			autom[i] = automaton;
 			if(automate == automaton) {
 				selectIndex = i;
 			}
 			i++;
 		}
 		i = 0;
-		JComboBox<String> autComboBox = new JComboBox<String>(str);
-		for (Automaton automaton : m_automatons.values()) {
-			autComboBox.setSelectedIndex(i);
-			autComboBox.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					m_automatons.put(entity, automaton);
-				}
-			});
-		}
+		JComboBox<Automaton> autComboBox = new JComboBox<Automaton>(autom);
+		autComboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JComboBox<Automaton> cb = (JComboBox<Automaton>)e.getSource();
+				Automaton aut = (Automaton) cb.getSelectedItem();
+				m_automatons.put(entity, aut);
+			}
+		});
 		
 //		ComboBoxUI cbui = autComboBox.getUI();
 //		int size = cbui.getAccessibleChildrenCount(autComboBox);
@@ -193,30 +192,29 @@ public class Menu {
 		return autComboBox;
 	}
 	
-	private JComboBox<String> createAniList(MyEntities entity) {
+	private JComboBox<Animation> createAniList(MyEntities entity) {
 		int i = 0;
 		int selectIndex = 0;
 		Animation anime = GameConfiguration.getConfig().getAnimation(entity);
 		HashMap<MyEntities, Animation> m_animations = m_gameConfig.getAnimations();
-		String[] str = new String[m_animations.size()];
+		Animation[] anima = new Animation[m_animations.size()];
 		for (Animation animation : m_animations.values()) {
-			str[i] = animation.getName();
+			anima[i] = animation;
 			if(anime == animation) {
 				selectIndex = i;
 			}
 			i++;
 		}
 		i = 0;
-		JComboBox<String> aniComboBox = new JComboBox<String>(str);
-		for (Animation animation : m_animations.values()) {
-			aniComboBox.setSelectedIndex(i);
-			aniComboBox.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					m_animations.put(entity, animation);
-				}
-			});
-		}
+		JComboBox<Animation> aniComboBox = new JComboBox<Animation>(anima);
+		aniComboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JComboBox<Animation> cb = (JComboBox<Animation>)e.getSource();
+				Animation ani = (Animation) cb.getSelectedItem();
+				m_animations.put(entity, ani);
+			}
+		});
 		aniComboBox.setBorder(m_menuBorder);
 		aniComboBox.setBackground(m_gray);
 		aniComboBox.setSelectedIndex(selectIndex);

@@ -8,12 +8,13 @@ public class ShotEnemyLevel2 extends ShotEnemy {
 	public static final int SHOTENEMYLEVEL2_WIDTH = 1;
 	public static final int SHOTENEMYLEVEL2_HEIGHT = 1;
 	
-	public static final long SHOTENEMYLEVEL2_SPEED = 50;
-	public static final int SHOTENEMYLEVEL2_NUMBER_CASE_LIFE = 4;
+	public static final long SHOTENEMYLEVEL2_SPEED = 100;
+	public static final int SHOTENEMYLEVEL2_NUMBER_CASE_LIFE = 7;
 	
 	public ShotEnemyLevel2(int x, int y, Automaton aut) {
 		super(x, y, SHOTENEMYLEVEL2_WIDTH, SHOTENEMYLEVEL2_HEIGHT, aut);
 		m_nbCaseLeft = SHOTENEMYLEVEL2_NUMBER_CASE_LIFE*2;
+		m_speed = SHOTENEMYLEVEL2_SPEED;
 	}
 	
 	@Override

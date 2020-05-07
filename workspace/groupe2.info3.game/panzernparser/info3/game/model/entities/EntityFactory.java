@@ -131,7 +131,7 @@ public class EntityFactory {
 				res = newEnemyLevel2(x, y, config.getAutomaton(MyEntities.EnemyLevel2));
 				break;
 			case EnemyBoss:
-				res = newEnemyLevel2(x, y, config.getAutomaton(MyEntities.EnemyBoss));
+				res = newEnemyBoss(x, y, config.getAutomaton(MyEntities.EnemyBoss));
 				break;
 			case Droppable:
 				res = newDroppable(x, y, config.getAutomaton(MyEntities.Droppable));

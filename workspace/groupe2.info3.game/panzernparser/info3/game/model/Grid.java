@@ -474,6 +474,7 @@ public class Grid {
 						type = MyEntities.EnemyLevel2;
 						break;
 					case "enem3":
+						System.out.println("TROUVEEEEEEEE");
 						type = MyEntities.EnemyBoss;
 						break;
 					case "vein1":

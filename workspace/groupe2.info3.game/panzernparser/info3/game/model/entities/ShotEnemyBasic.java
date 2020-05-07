@@ -9,7 +9,7 @@ public class ShotEnemyBasic extends ShotEnemy{
 	public static final int SHOTENEMYBASIC_WIDTH = 1;
 	public static final int SHOTENEMYBASIC_HEIGHT = 1;
 	
-	public static final long SHOTENEMYBASIC_SPEED = 250;
+	public static final long SHOTENEMYBASIC_SPEED = 200;
 	public static final int SHOTENEMYBASIC_NUMBER_CASE_LIFE = 5;
 	
 	public ShotEnemyBasic(int x, int y, Automaton aut) {

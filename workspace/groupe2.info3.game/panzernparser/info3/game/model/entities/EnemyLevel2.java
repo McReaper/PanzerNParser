@@ -14,7 +14,7 @@ public class EnemyLevel2 extends Enemy {
 
 	public static final int ENEMYLEVEL2_HEALTH = 100;
 	public static final int ENEMYLEVEL2_SPEED = 400;
-	public static final int ENEMYLEVEL2_FOV = 4;
+	public static final int ENEMYLEVEL2_FOV = 5;
 
 	public static final long ENEMYLEVEL2_EGG_TIME = 0;
 	public static final long ENEMYLEVEL2_HIT_TIME = 250;
@@ -25,7 +25,7 @@ public class EnemyLevel2 extends Enemy {
 	public static final long ENEMYLEVEL2_WAIT_TIME = 50;
 	public static final long ENEMYLEVEL2_WIZZ_TIME = 1000;
 
-	public static final int ENEMYLEVEL2_DAMMAGE_DEALT = 50;
+	public static final int ENEMYLEVEL2_DAMMAGE_DEALT = 10;
 
 	public EnemyLevel2(int x, int y, Automaton aut) {
 		super(x, y, ENEMYLEVEL2_WIDTH, ENEMYLEVEL2_HEIGHT, aut);
@@ -79,6 +79,8 @@ public class EnemyLevel2 extends Enemy {
 					ent2 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y);
 					break;
 			}
+			((ShotEnemy) ent1).setDamage(m_damage_dealt);
+			((ShotEnemy) ent2).setDamage(m_damage_dealt);
 
 			// Donne la direction de regard et d'action
 			ent1.setLookDir(this.m_currentLookAtDir);

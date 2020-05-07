@@ -176,9 +176,10 @@ public class Model {
 
 ///////* REGENERATION MAP *///////
 
-	/* regarde si la map a besoin d'être régenerer (dès que y a plus d'enemy) */
+	/* regarde si la map a besoin d'être régenerer */
 	private boolean needRegeneration() {
-		return getEntities(MyEntities.EnemyLevel2).isEmpty();
+		return getEntities(MyEntities.EnemyBasic).size() <= 4 && getEntities(MyEntities.EnemyLevel2).size() <= 1
+				&& getEntities(MyEntities.EnemyBoss).size() <= 0;
 	}
 
 	public double getReloadProgress() {
@@ -427,7 +428,7 @@ public class Model {
 		if (isStat && !isUniq) {
 			try {
 				upgrade.improve();
-				} catch (IllegalAccessException e) {
+			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 				System.exit(-1);
 			}
@@ -443,9 +444,9 @@ public class Model {
 			System.exit(-1);
 		}
 	}
-	
+
 	////////////////////////////////////////////////
-	
+
 	public void setGameOver(boolean bool) {
 		m_gameOver = bool;
 	}
@@ -453,9 +454,9 @@ public class Model {
 	public boolean getGameOver() {
 		return m_gameOver;
 	}
-	
+
 	public static void restart() {
-		self = null;		
+		self = null;
 		getModel();
 	}
 

@@ -10,7 +10,7 @@ public class UpgradeDroneUsage extends Upgrade {
 	private static final String NAME = "Drone using-time";
 	private static final int MINERALS_COST = 10;
 	private static final int ELECTRONICALS_COST = 3;
-	private static final double DURATION_BOOST = 0.10; //10%
+	private static final double DURATION_BOOST = 0.15; //15%
 	private static final double COST_FACTOR = 0.8;
 	
 	public UpgradeDroneUsage(Tank tank, Drone drone) {

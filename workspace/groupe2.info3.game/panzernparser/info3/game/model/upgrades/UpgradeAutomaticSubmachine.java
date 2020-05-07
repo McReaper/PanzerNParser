@@ -10,8 +10,8 @@ import info3.game.model.Tank;
 public class UpgradeAutomaticSubmachine extends Upgrade {
 
 	private static final String NAME = "Helping turret";
-	private static final int MINERALS_COST = 0;
-	private static final int ELECTRONICALS_COST = 5;
+	private static final int MINERALS_COST = 150;
+	private static final int ELECTRONICALS_COST = 150;
 	
 	public UpgradeAutomaticSubmachine(Tank tank) {
 		super(tank, null);

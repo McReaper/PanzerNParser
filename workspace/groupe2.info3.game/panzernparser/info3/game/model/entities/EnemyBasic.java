@@ -25,7 +25,7 @@ public class EnemyBasic extends Enemy {
 	public static final long ENEMYBASIC_WAIT_TIME = 50;
 	public static final long ENEMYBASIC_WIZZ_TIME = 1000;
 
-	public static final int ENEMYBASIC_DAMMAGE_DEALT = 20;
+	public static final int ENEMYBASIC_DAMMAGE_DEALT = 5;
 
 	public EnemyBasic(int x, int y, Automaton aut) {
 		super(x, y, ENEMYBASIC_WIDTH, ENEMYBASIC_HEIGHT, aut);
@@ -54,13 +54,14 @@ public class EnemyBasic extends Enemy {
 
 			// creation du shot
 			Entity ent = EntityFactory.newEntity(MyEntities.ShotSlow, m_x, m_y);
+			((ShotEnemy) ent).setDamage(m_damage_dealt);
 
 			// Donne la direction de regard et d'action
 			ent.setLookDir(this.m_currentLookAtDir);
 			ent.setActionDir(this.m_currentActionDir);
 
 			// Donne l'entité qui l'a tiré
-			((Shot) ent).setOwner(this);
+			((ShotEnemy) ent).setOwner(this);
 		}
 	}
 
@@ -71,24 +72,13 @@ public class EnemyBasic extends Enemy {
 			m_actionFinished = false;
 			m_currentAction = null;
 			// creation de la ressource a répendre
-
-			// creation de la ressource a répendre
-			if (dir == null || dir == MyDirection.HERE) {
-				Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x, m_y);
-				int rand = (int) (Math.random() * (20 - 1));// 20 correspond au nombre max de ressource dispo et 1 le min
-				((Droppable) ent).setQuantity(rand);
-			} else {
-				int posX = getXCaseDir(dir);
-				int posY = getYCaseDir(dir);
-				Entity ent = EntityFactory.newEntity(MyEntities.Droppable, posX, posY);
-				int rand = (int) (Math.random() * (20 - 1));// 20 correspond au nombre max de ressource dispo et 1 le min
-				((Droppable) ent).setQuantity(rand);
-
-			}
+			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x, m_y);
+			int rand = (int) (Math.random() * (20 - 1));// 20 correspond au nombre max de ressource dispo et 1 le min
+			((Droppable) ent).setQuantity(rand);
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Egg;
-			m_timeOfAction = DEFAULT_EGG_TIME;
+			m_timeOfAction = ENEMYBASIC_EGG_TIME;
 		}
 	}
 
@@ -102,18 +92,6 @@ public class EnemyBasic extends Enemy {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Turn;
 			m_timeOfAction = ENEMYBASIC_TURN_TIME;
-		}
-	}
-
-	@Override
-	public void Explode() {
-		if (m_actionFinished && m_currentAction == LsAction.Explode) {
-			this.doExplode();
-			m_actionFinished = false;
-			m_currentAction = null;
-		} else if (m_currentAction == null) {
-			m_currentAction = LsAction.Explode;
-			m_timeOfAction = ENEMYBASIC_EXPLODE_TIME;
 		}
 	}
 
@@ -144,10 +122,11 @@ public class EnemyBasic extends Enemy {
 	}
 
 	public void levelUp() {
-		setMaxHealth(ENEMYBASIC_HEALTH * Model.getModel().getLevel());
+		setMaxHealth((int) (ENEMYBASIC_HEALTH + ENEMYBASIC_HEALTH * 0.5 * (Model.getModel().getLevel() - 1)));
 		m_health = getMaxHealth();
-		setSpeed((int) (m_speed + m_speed * 0.1 * Model.getModel().getLevel()));
+		setSpeed((int) (ENEMYBASIC_SPEED - ENEMYBASIC_SPEED * 0.2 * (Model.getModel().getLevel() - 1)));
 		m_range += Model.getModel().getLevel();
-		m_damage_dealt = (Model.getModel().getLevel()) * ENEMYBASIC_DAMMAGE_DEALT;
+		m_damage_dealt = (int) (ENEMYBASIC_DAMMAGE_DEALT
+				+ ENEMYBASIC_DAMMAGE_DEALT * 0.5 * (Model.getModel().getLevel() - 1));
 	}
 }

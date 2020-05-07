@@ -17,7 +17,7 @@ public class EnemyLevel2 extends Enemy {
 	public static final int ENEMYLEVEL2_FOV = 4;
 
 	public static final long ENEMYLEVEL2_EGG_TIME = 0;
-	public static final long ENEMYLEVEL2_HIT_TIME = 500;
+	public static final long ENEMYLEVEL2_HIT_TIME = 250;
 	public static final long ENEMYLEVEL2_EXPLODE_TIME = 1000;
 	public static final long ENEMYLEVEL2_MOVE_TIME = 1000;
 	public static final long ENEMYLEVEL2_POP_TIME = 1000;
@@ -56,27 +56,27 @@ public class EnemyLevel2 extends Enemy {
 			switch (m_currentLookAtDir) {
 				case SOUTH:
 				case NORTH:
-					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
-					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + m_width - 1, m_y);
+					ent1 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x + m_width - 1, m_y);
 					break;
 				case WEST:
 				case EAST:
-					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
-					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y + m_height - 1);
+					ent1 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y + m_height - 1);
 					break;
 				case SOUTHEAST:
 				case NORTHWEST:
-					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + m_width - 1, m_y);
-					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y + m_height - 1);
+					ent1 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x + m_width - 1, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y + m_height - 1);
 					break;
 				case SOUTHWEST:
 				case NORTHEAST:
-					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
-					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + m_width - 1, m_y + m_height - 1);
+					ent1 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x + m_width - 1, m_y + m_height - 1);
 					break;
 				default:
-					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
-					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
+					ent1 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y);
 					break;
 			}
 
@@ -88,8 +88,8 @@ public class EnemyLevel2 extends Enemy {
 			ent2.setActionDir(this.m_currentActionDir);
 
 			// Donne l'entité qui l'a tiré
-			((Shot) ent1).setOwner(this);
-			((Shot) ent2).setOwner(this);
+			((ShotEnemy) ent1).setOwner(this);
+			((ShotEnemy) ent2).setOwner(this);
 		}
 	}
 
@@ -135,18 +135,6 @@ public class EnemyLevel2 extends Enemy {
 	}
 
 	@Override
-	public void Explode() {
-		if (m_actionFinished && m_currentAction == LsAction.Explode) {
-			this.doExplode();
-			m_actionFinished = false;
-			m_currentAction = null;
-		} else if (m_currentAction == null) {
-			m_currentAction = LsAction.Explode;
-			m_timeOfAction = ENEMYLEVEL2_EXPLODE_TIME;
-		}
-	}
-
-	@Override
 	public void Wizz(MyDirection dir) {// Divise la vittesse par 2
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			m_actionFinished = false;
@@ -173,11 +161,12 @@ public class EnemyLevel2 extends Enemy {
 	}
 	
 	public void levelUp() {
-		setMaxHealth(ENEMYLEVEL2_HEALTH * Model.getModel().getLevel());
+		setMaxHealth((int) (ENEMYLEVEL2_HEALTH + ENEMYLEVEL2_HEALTH * 0.5 * (Model.getModel().getLevel() - 1)));
 		m_health = getMaxHealth();
-		setSpeed((int) (m_speed + m_speed * 0.1 * Model.getModel().getLevel()));
+		setSpeed((int) (ENEMYLEVEL2_SPEED - ENEMYLEVEL2_SPEED * 0.2 * (Model.getModel().getLevel() - 1)));
 		m_range += Model.getModel().getLevel();
-		m_damage_dealt = (Model.getModel().getLevel()) * ENEMYLEVEL2_DAMMAGE_DEALT;
+		m_damage_dealt = (int) (ENEMYLEVEL2_DAMMAGE_DEALT
+				+ ENEMYLEVEL2_DAMMAGE_DEALT * 0.5 * (Model.getModel().getLevel() - 1));
 	}
 
 }

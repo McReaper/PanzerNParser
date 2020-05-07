@@ -18,7 +18,7 @@ public class Tank {
 	public final static int TANK_WIDTH = 3;
 	public final static int TANK_HEIGHT = 3;
 
-	public static final int TANK_HEALTH = 1000;
+	public static final int TANK_HEALTH = 100;
 	public static final int TANK_SPEED = 200;
 
 	// Upgrade m_upgrade[];
@@ -125,8 +125,7 @@ public class Tank {
 	}
 
 	public void setDamage(int dmg) {
-		// TODO
-		// m_turret.setDamage(dmg);
+		m_turret.setDamage(dmg);
 	}
 
 	public int getSpeed() {

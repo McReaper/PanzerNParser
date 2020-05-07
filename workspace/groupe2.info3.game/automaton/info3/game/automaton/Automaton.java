@@ -23,6 +23,11 @@ public class Automaton {
 	public String getName() {
 		return m_name;
 	}
+	
+	@Override
+	public String toString() {
+		return m_name;
+	}
 
 	public State step(Entity e) {
 		ListIterator<Mode> iter = m_modes.listIterator();
@@ -35,6 +40,5 @@ public class Automaton {
 			}
 		}
 		return null;
-
 	}
 }

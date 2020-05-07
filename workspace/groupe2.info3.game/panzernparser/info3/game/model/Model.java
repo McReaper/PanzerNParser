@@ -150,23 +150,6 @@ public class Model {
 			System.exit(-1);
 		}
 
-		if (getEntities(MyEntities.TankBody).size() != 1) {
-			System.err.println("Il semblerait que la grille ne comporte pas de TankBody...");
-			System.exit(-1);
-		}
-
-		// Création du Tank et du Drone :
-		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
-		AutomaticTurret autTurret = (AutomaticTurret) EntityFactory.newEntity(MyEntities.AutomaticTurret, body.getX(),
-				body.getY());
-		Turret turret = (Turret) EntityFactory.newEntity(MyEntities.Turret, body.getX(), body.getY());
-		m_drone = (Drone) EntityFactory.newEntity(MyEntities.Drone, body.getX(), body.getY());
-		m_tank = new Tank(body, turret, autTurret);
-		m_playingTank = true;
-
-		// Initialisation des upgrades
-		initUpgrades();
-
 		// Création du score du jeu.
 		m_score = new Score();
 		m_hasReloaded = false;
@@ -457,6 +440,27 @@ public class Model {
 	public static void restart() {
 		self = null;		
 		getModel();
+	}
+
+	public void launch() {
+		m_grid.sendToModel();
+
+		if (getEntities(MyEntities.TankBody).size() != 1) {
+			System.err.println("Il semblerait que la grille ne comporte pas de TankBody...");
+			System.exit(-1);
+		}
+		
+		// Création du Tank et du Drone :
+		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
+		AutomaticTurret autTurret = (AutomaticTurret) EntityFactory.newEntity(MyEntities.AutomaticTurret, body.getX(),
+				body.getY());
+		Turret turret = (Turret) EntityFactory.newEntity(MyEntities.Turret, body.getX(), body.getY());
+		m_drone = (Drone) EntityFactory.newEntity(MyEntities.Drone, body.getX(), body.getY());
+		m_tank = new Tank(body, turret, autTurret);
+		m_playingTank = true;
+
+		// Initialisation des upgrades
+		initUpgrades();
 	}
 
 }

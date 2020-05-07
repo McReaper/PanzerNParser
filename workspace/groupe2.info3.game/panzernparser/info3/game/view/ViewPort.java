@@ -52,10 +52,9 @@ public class ViewPort {
 	private BufferedImage m_neutralMap;
 	private BufferedImage m_mapRessource;
 
-	public ViewPort(Entity player, View view) {
+	public ViewPort(View view) {
 		m_view = view;
 		m_grid = Model.getModel().getGrid();
-		setPlayer(player);
 		try {
 			m_neutralMap = ImageIO.read(new File("sprites/Map1.png"));
 			m_mapRessource = ImageIO.read(new File("sprites/Map1.png"));

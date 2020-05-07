@@ -22,27 +22,14 @@ EnnemiFollowing(Search){
 	
 	* (Attack) :
 	| !GotPower() ? Egg() : (Dying)
-	| !Cell(F,O) ? Hit(F) : (Search)
+	| !Cell(F,O,2) & Cell(F,@,2) ? Hit(F) : (Search)
+	| !Cell(F,O) ? Move(F) : (Search)
 	| True ? Wait() : (ContourneObstacleRight)
 	
 	*(ContourneObstacleRight)
-	|!Cell(R,O) & !Cell(R,@) ? Turn(R) : (SuiteContourneObstacle)
 	|Cell(R,@) ? Turn(R) : (Attack)
-	|True ? Wait() : (ContourneObstacleLeft)
-	
-	*(ContourneObstacleLeft)
-	|!Cell(L,O) & !Cell(L,@) ? Turn(L) : (SuiteContourneObstacle)
-	|Cell(L,@) ? Turn(L) : (Attack)
-	|True ? Turn(B) : (BackOff)
-	
-	*(BackOff)
-	|True ? Move(F) : (BackOffNext)
-	
-		*(BackOffNext)
-	|True ? Turn(L) : (SuiteContourneObstacle)
-	
-	*(SuiteContourneObstacle)
-	|True ? Move(F) : (Search)
+	|!Cell(R,O) ? Turn(R) : (Step)
+	|True ? Turn(R): (ContourneObstacleRight)
 	
 	* (Dying)
 	| True ? Explode() : ()

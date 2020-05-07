@@ -4,8 +4,10 @@ import info3.game.automaton.Automaton;
 
 public class EnemyBoss extends Enemy {
 
-	public EnemyBoss(int x, int y, int width, int height, Automaton aut) {
-		super(x, y, width, height, aut);
+	public static final int ENEMYBOSS_WIDTH = 3;
+	public static final int ENEMYBOSS_HEIGHT = 3;
+	public EnemyBoss(int x, int y, Automaton aut) {
+		super(x, y, ENEMYBOSS_WIDTH, ENEMYBOSS_HEIGHT, aut);
 		// TODO Auto-generated constructor stub
 	}
 

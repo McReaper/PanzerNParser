@@ -8,8 +8,8 @@ import info3.game.model.Model;
 
 public class EntityFactory {
 	public enum MyEntities {
-		Wall, Rock, EnemyBasic, EnemyLevel2, Droppable, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody, Turret,
-		Hole, WreckTank, Mud, AutomaticTurret;
+		Wall, Rock, EnemyBasic, EnemyLevel2,EnemyBoss, Droppable, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody, Turret,
+		Hole, WreckTank, Mud, AutomaticTurret, ShotEnemyBasic, ShotEnemyLevel2, ShotEnemyBoss;
 	}
 
 	public static Entity newTankBody(int x, int y, Automaton aut) {
@@ -84,6 +84,18 @@ public class EntityFactory {
 		Entity shot = new ShotBig(x, y, aut);
 		return shot;
 	}
+	
+	public static Entity newShotEnemyBasic(int x, int y, Automaton aut) {
+		return new ShotEnemyBasic(x, y, aut);
+	}
+
+	public static Entity newShotEnemyLevel2(int x, int y, Automaton aut) {
+		return new ShotEnemyLevel2(x, y, aut);
+	}
+
+	public static Entity newShotEnemyBoss(int x, int y, Automaton aut) {
+		return new ShotEnemyBoss(x, y, aut);
+	}
 
 //////////////////Creation des différents type d'Enemy///////////////
 	public static Entity newEnemyBasic(int x, int y, Automaton aut) {
@@ -94,6 +106,11 @@ public class EntityFactory {
 	public static Entity newEnemyLevel2(int x, int y, Automaton aut) {
 		Entity enemyL2 = new EnemyLevel2(x, y, aut);
 		return enemyL2;
+	}
+	
+	public static Entity newEnemyBoss(int x, int y, Automaton aut) {
+		Entity enemyBoss = new EnemyBoss(x, y, aut);
+		return enemyBoss;
 	}
 	//////////////////////////////////////////////////////////////////////
 

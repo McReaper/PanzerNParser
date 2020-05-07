@@ -473,6 +473,9 @@ public class Grid {
 					case "enem2":
 						type = MyEntities.EnemyLevel2;
 						break;
+					case "enem3":
+						type = MyEntities.EnemyBoss;
+						break;
 					case "vein1":
 						type = MyEntities.Vein;
 						break;

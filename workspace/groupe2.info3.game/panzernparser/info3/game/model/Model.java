@@ -253,6 +253,7 @@ public class Model {
 		m_playingTank = !m_playingTank;
 		if (m_playingTank) {
 			m_drone.showEntity(false);
+			cleanClue();
 		} else {
 			int droneTPX = m_tank.getBody().getX();
 			int droneTPY = m_tank.getBody().getY();

@@ -382,7 +382,6 @@ public class Grid {
 				String file = fileList[j];
 				file = file.replaceAll("_\\d_", "_"+random_level+"_");
 				String subFile = file.substring(0, file.length() - 7);
-				System.out.println(file);
 				if (subFile.equals(lvlName)) {
 					p = new Pattern();
 					String path = GameConfiguration.PATTERN_PATH + file;

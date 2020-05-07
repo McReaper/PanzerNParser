@@ -444,7 +444,7 @@ public class GameCanvas extends Canvas {
 				post(new Runnable() {
 					@Override
 					public void run() {
-						System.out.println("End of play for " + name);
+						//System.out.println("End of play for " + name);
 						m_players.remove(name);
 						if (m_listener != null)
 							m_listener.endOfPlay(name);

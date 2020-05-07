@@ -14,35 +14,37 @@ public class Vein extends StaticEntity {
 	public final static int VEIN_WIDTH = 1;
 	public final static int VEIN_HEIGHT = 1;
 	public static final int VEIN_DROP_QUANTITY = 10;
-	
+	public static final double QUANTITY_FACTOR = 0.5;
+
 	public static final long VEIN_EGG_TIME = 1000;
 	public static final long VEIN_POP_TIME = 10000;
 	public static final long VEIN_WIZZ_TIME = 1000;
+	public static final long VEIN_WAIT_TIME = 0;
 
-	int m_quantity;//quantité de ressource créée
-	
+	int m_quantity;// quantité de ressource créée
+
 	public Vein(int x, int y, Automaton aut) {
 		super(x, y, VEIN_WIDTH, VEIN_HEIGHT, aut);
 		m_category = MyCategory.G;
 		m_stuff = false;
-		m_quantity = VEIN_DROP_QUANTITY + (VEIN_DROP_QUANTITY/2)* Model.getModel().getLevel();
+		m_quantity = (int) (VEIN_DROP_QUANTITY + (VEIN_DROP_QUANTITY * QUANTITY_FACTOR * Model.getModel().getLevel()));
 	}
 
 	@Override
 	public boolean isShown() {
 		return (Model.getModel().getVisionType() == VisionType.RESSOURCES);
 	}
-	
+
 	@Override
 	public void Egg(MyDirection dir) {
 		// On ignore dir ici (tout le temps HERE)...
 		if (m_actionFinished && m_currentAction == LsAction.Egg) {
 			m_actionFinished = false;
 			m_currentAction = null;
-			//plus d'autre droppables a donner
+			// plus d'autre droppables a donner
 			m_stuff = false;
-			
-			//autodestruction via automate
+
+			// autodestruction via automate
 			m_health = 0;
 
 		} else if (m_currentAction == null) {
@@ -54,38 +56,52 @@ public class Vein extends StaticEntity {
 			if (dir == null || dir == MyDirection.HERE) {
 				Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x, m_y);
 				((Droppable) ent).setMaterialType(MaterialType.MINERAL);
-				((Droppable) ent).setQuantity(m_quantity);//TODO A mettre dans une variable
+				((Droppable) ent).setQuantity(m_quantity);
 			} else {
 				int posX = getXCaseDir(dir);
 				int posY = getYCaseDir(dir);
 				Entity ent = EntityFactory.newEntity(MyEntities.Droppable, posX, posY);
 				((Droppable) ent).setMaterialType(MaterialType.MINERAL);
-				((Droppable) ent).setQuantity(m_quantity);// A mettre dans une variable
-				
+				((Droppable) ent).setQuantity(m_quantity);
+
 			}
 			Model.getModel().getScore().scoreVein();
 		}
 	}
-	
-	public void Pop(MyDirection dir) {//devient plus large
+
+	@Override
+	public void Pop(MyDirection dir) {// devient plus large
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			m_actionFinished = false;
 			m_currentAction = null;
-			m_height *=2;
+			m_height *= 2;
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Pop;
 			m_timeOfAction = VEIN_POP_TIME;
 		}
 	}
-	
-	public void Wizz(MyDirection dir) {//s'alloge (width augmente)
+
+	@Override
+	public void Wizz(MyDirection dir) {// s'alloge (width augmente)
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			m_actionFinished = false;
 			m_currentAction = null;
-			m_width *=2;
+			m_width *= 2;
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Wizz;
 			m_timeOfAction = VEIN_WIZZ_TIME;
+		}
+	}
+	
+	@Override
+	public void Wait() {
+		if (m_actionFinished && m_currentAction == LsAction.Wait) {
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = null;
+			m_currentAction = LsAction.Wait;
+			m_timeOfAction = VEIN_WAIT_TIME;
 		}
 	}
 

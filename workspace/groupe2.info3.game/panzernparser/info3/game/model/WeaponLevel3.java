@@ -9,7 +9,7 @@ import info3.game.model.entities.Turret;
 
 public class WeaponLevel3 extends Weapon{
 	public static final int WEAPONLEVEL3_MAG_CAPACITY = 10;
-	public static final long WEAPONLEVEL3_RELOAD = 10;
+	public static final long WEAPONLEVEL3_RELOAD = 5000;
 
 	public WeaponLevel3(Turret t) {
 		super(WEAPONLEVEL3_MAG_CAPACITY, WEAPONLEVEL3_RELOAD, t);

@@ -28,7 +28,7 @@ public class Turret extends StaticEntity {
 	public static final long TURRET_POP_TIME = 500;
 	public static final long TURRET_TURN_TIME = 200;
 	public static final long TURRET_WAIT_TIME = 10;
-	
+
 	public static final int TURRET_NB_WEAPONS_MAX = 3;
 	public static final int TURRET_NB_WEAPONS_DISPO_INIT = 1;
 
@@ -42,7 +42,7 @@ public class Turret extends StaticEntity {
 		super(x, y, TURRET_WIDTH, TURRET_HEIGHT, aut);
 		m_tank = null;
 		m_category = MyCategory.V;
-		
+
 		m_indexCurrentWeapon = 0;
 		m_nbWeaponsDispo = TURRET_NB_WEAPONS_DISPO_INIT;
 		m_weapons = new Weapon[TURRET_NB_WEAPONS_MAX];
@@ -51,9 +51,9 @@ public class Turret extends StaticEntity {
 	}
 
 	private void initTabsWeapons() {
-		m_weapons[0]= new WeaponBasic(this);
-		m_weapons[1]= new WeaponLevel2(this);
-		m_weapons[2]= new WeaponLevel3(this);
+		m_weapons[0] = new WeaponBasic(this);
+		m_weapons[1] = new WeaponLevel2(this);
+		m_weapons[2] = new WeaponLevel3(this);
 	}
 
 	public void setTank(Tank tank) {
@@ -64,29 +64,32 @@ public class Turret extends StaticEntity {
 		return m_tank;
 	}
 
-	public int getIndexWeapon(){
+	public int getIndexWeapon() {
 		return m_indexCurrentWeapon;
 	}
-	
+
 	public boolean isWeaponUnlockable() {
 		return m_nbWeaponsDispo < TURRET_NB_WEAPONS_MAX;
 	}
-	
+
 	public void unlockNewWeapon() throws IllegalAccessException {
-		m_nbWeaponsDispo ++;
+		m_nbWeaponsDispo++;
 		if (m_nbWeaponsDispo > TURRET_NB_WEAPONS_MAX) {
-			m_nbWeaponsDispo --;
+			m_nbWeaponsDispo--;
 			throw new IllegalAccessException("Impossible de débloqué une nouvelle arme.");
 		}
 	}
-	
+
 	@Override
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			Model.getModel().addSound("canon2");
+			if (isNoisy()) {
+				Model.getModel().addSound("canon2");
+				System.out.println("j'ai joué un son en tirant");
+			} else System.out.println("j'ai pas joué un son en tirant");
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = TURRET_HIT_TIME;
@@ -135,7 +138,7 @@ public class Turret extends StaticEntity {
 			Model.getModel().addSound("reloadTurret2");
 		}
 	}
-	
+
 	public void Wait() {
 		if (m_actionFinished && m_currentAction == LsAction.Wait) {
 			m_actionFinished = false;
@@ -163,7 +166,5 @@ public class Turret extends StaticEntity {
 		m_indexCurrentWeapon %= m_nbWeaponsDispo;
 		return m_weapons[m_indexCurrentWeapon];
 	}
-	
-	
 
 }

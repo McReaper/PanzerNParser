@@ -123,12 +123,13 @@ public class TankBody extends MovingEntity {
 		 */
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
 			m_tank.setLife(Tank.TANK_HEALTH);// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
-			//m_tank.doExplode();
+			// m_tank.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = TANKBODY_EXPLODE_TIME;
+			Model.getModel().addSound("explosion");
 			doDead();
 		} else if (m_currentAction == LsAction.Explode && (this.getActionProgress() * 12) >= 5) {
 		}
@@ -171,7 +172,6 @@ public class TankBody extends MovingEntity {
 						if (entity instanceof Marker) {
 							Model.getModel().removeEntity(entity);
 							Model.getModel().getDrone().decreaseMarksNb();
-							;
 						} else if (entity instanceof Droppable) {
 							m_tank.getInventory().add((Droppable) entity);
 							Model.getModel().addSound("pickDroppable");

@@ -12,8 +12,8 @@ public class UpgradeDroneVision extends Upgrade {
 
 
 	private static final String NAME = "Drone dynamic elevation";
-	private static final int MINERALS_COST = 0;
-	private static final int ELECTRONICALS_COST = 10;
+	private static final int MINERALS_COST = 30;
+	private static final int ELECTRONICALS_COST = 30;
 	
 	public UpgradeDroneVision(Tank tank, Drone drone) {
 		super(tank, drone);

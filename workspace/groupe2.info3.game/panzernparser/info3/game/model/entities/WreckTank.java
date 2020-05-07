@@ -31,7 +31,7 @@ public class WreckTank extends StaticEntity {
 	public static final long WRECKTANK_STORE_TIME = 1000;
 	public static final long WRECKTANK_TURN_TIME = 1000;
 	public static final long WRECKTANK_THROW_TIME = 1000;
-	public static final long WRECKTANK_WAIT_TIME = 2000;
+	public static final long WRECKTANK_WAIT_TIME = 1500;
 	public static final long WRECKTANK_WIZZ_TIME = 1000;
 	
 	int m_quantity;
@@ -96,6 +96,8 @@ public class WreckTank extends StaticEntity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
+			if (isNoisy())
+				Model.getModel().addSound("explosion");
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = WRECKTANK_EXPLODE_TIME;
 		}

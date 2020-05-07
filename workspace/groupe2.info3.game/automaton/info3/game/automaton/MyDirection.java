@@ -81,4 +81,27 @@ public enum MyDirection {
 
 	}
 
+	public static int toInt(MyDirection dir) {
+		switch (dir) {
+			case NORTH:
+				return 0;
+			case SOUTH:
+				return 1;
+			case EAST:
+				return 2;
+			case WEST:
+				return 3;
+			case SOUTHEAST:
+				return 4;
+			case SOUTHWEST:
+				return 5;
+			case NORTHEAST:
+				return 6;
+			case NORTHWEST:
+				return 7;
+			default:
+				return -1;
+		}
+	}
+
 }

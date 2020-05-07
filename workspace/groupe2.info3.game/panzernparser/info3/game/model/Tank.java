@@ -2,6 +2,7 @@ package info3.game.model;
 
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.entities.AutomaticTurret;
 import info3.game.model.entities.EnemyBasic;
 import info3.game.model.entities.EnemyLevel2;
 import info3.game.model.entities.Entity;
@@ -18,7 +19,7 @@ public class Tank {
 	public final static int TANK_HEIGHT = 3;
 
 	public static final int TANK_HEALTH = 100;
-	public static final int TANK_SPEED = 200;
+	public static final int TANK_SPEED = 250;
 
 	// Upgrade m_upgrade[];
 	// Explosion m_explosion;
@@ -26,15 +27,18 @@ public class Tank {
 
 	private TankBody m_body;
 	private Turret m_turret;
+	private AutomaticTurret m_autTurret;
 	private Inventory m_inventory;
 	private int m_health;
 	private int m_maxHealth;
 
-	public Tank(TankBody body, Turret turret) {
+	public Tank(TankBody body, Turret turret, AutomaticTurret autTurret) {
 		m_body = body;
 		m_turret = turret;
+		m_autTurret = autTurret;
 		m_body.setTank(this);
 		m_turret.setTank(this);
+		m_autTurret.setTank(this);
 		m_inventory = new Inventory();
 		m_health = TANK_HEALTH;
 		m_maxHealth = TANK_HEALTH;
@@ -47,12 +51,17 @@ public class Tank {
 	public void relocateParts() {
 		if (m_turret.getX() != m_body.getX() || m_turret.getY() != m_body.getY()) {
 			m_turret.setPosition(m_body.getX(), m_body.getY());
+			m_autTurret.setPosition(m_body.getX(), m_body.getY());
 		}
 	}
 
 	public void showTank(boolean b) {
 		m_body.showEntity(b);
 		m_turret.showEntity(b);
+	}
+	
+	public void showAutTurret(boolean b) {
+		m_autTurret.showEntity(b);
 	}
 
 	public void step() {
@@ -69,6 +78,14 @@ public class Tank {
 
 	public Turret getTurret() {
 		return m_turret;
+	}
+	
+	public AutomaticTurret getAutoTurret() {
+		return m_autTurret;
+	}
+	
+	public void ActivateAutTurret(boolean b) {
+		m_autTurret.setIsActivate(b);
 	}
 
 	public Inventory getInventory() {
@@ -107,18 +124,17 @@ public class Tank {
 	public int getDamage() {
 		return m_turret.getDamageDealt();
 	}
-
-	public void setDamage(int dmg) {
-		// TODO
-		// m_turret.setDamage(dmg);
+	
+	public void increaseDamageFactor(double damageBoost) {
+		m_turret.increaseDamageFactor(damageBoost);
 	}
 
-	public int getSpeed() {
+	public long getSpeed() {
 		return m_body.getSpeed();
 	}
 
-	public void setSpeed(int val) {
-		m_body.setSpeed(val);
+	public void setSpeed(long l) {
+		m_body.setSpeed(l);
 	}
 
 	public boolean gotPower() {
@@ -130,7 +146,7 @@ public class Tank {
 	}
 
 	public void improveMaxAmmo(int val) {
-		m_turret.getWeapon().improveMagazin(val);
+		m_turret.increaseMaxAmmo(val);
 	}
 
 	public long getMiningTime() {
@@ -168,7 +184,6 @@ public class Tank {
 			Model.getModel().getScore().scoreEnemyBasic();
 		else if (e instanceof EnemyLevel2)
 			Model.getModel().getScore().scoreEnemyLevel2();
-
 	}
 
 }

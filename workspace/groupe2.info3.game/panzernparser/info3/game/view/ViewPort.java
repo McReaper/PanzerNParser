@@ -24,6 +24,7 @@ import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.TankBody;
+import info3.game.view.avatars.Avatar;
 
 public class ViewPort {
 
@@ -51,10 +52,9 @@ public class ViewPort {
 	private BufferedImage m_neutralMap;
 	private BufferedImage m_mapRessource;
 
-	public ViewPort(Entity player, View view) {
+	public ViewPort(View view) {
 		m_view = view;
 		m_grid = Model.getModel().getGrid();
-		setPlayer(player);
 		try {
 			m_neutralMap = ImageIO.read(new File("sprites/Map1.png"));
 			m_mapRessource = ImageIO.read(new File("sprites/Map1.png"));

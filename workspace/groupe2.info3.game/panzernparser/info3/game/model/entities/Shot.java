@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import info3.game.automaton.Automaton;
 import info3.game.automaton.MyCategory;
 import info3.game.model.Model;
+import info3.game.model.Model.VisionType;
 
 public abstract class Shot extends MovingEntity {
 
@@ -26,6 +27,11 @@ public abstract class Shot extends MovingEntity {
 		return m_owner;
 	}
 
+	@Override
+	public boolean isShown() {
+		return (Model.getModel().getVisionType() == VisionType.TANK);
+	}
+	
 	public void hasKilled(Entity e) {
 		if (e.GotPower())
 			return;

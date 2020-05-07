@@ -20,7 +20,7 @@ public class Hole extends StaticEntity {
 	}
 
 	@Override
-	public void Pop(MyDirection dir) {//Se creuse
+	public void Pop(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			m_actionFinished = false;
 			m_currentAction = null;
@@ -34,7 +34,7 @@ public class Hole extends StaticEntity {
 		}
 	}
 	@Override
-	public void Wizz(MyDirection dir) {//Grandi
+	public void Wizz(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			m_actionFinished = false;
 			m_currentAction = null;

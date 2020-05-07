@@ -30,7 +30,6 @@ public class Mud extends StaticEntity {
 			m_currentAction = null;
 			if (m_entityHere.getHasChangedSpeed()) {
 				m_entityHere.setSpeed(m_entityHere.getSpeed() / MUD_COEFFICIENT_SPEED);
-
 				m_entityHere.setHasChangedSpeed(false);
 			}
 			m_entityHere = null;
@@ -80,8 +79,7 @@ public class Mud extends StaticEntity {
 	}
 	
 	private void getMovingEntityHere() {
-		LinkedList<Entity> entities = Model.getModel().getGrid().getEntityCells(m_x, m_y, m_x + m_width - 1,
-				m_y + m_height - 1);
+		LinkedList<Entity> entities = Model.getModel().getGrid().getEntityCells(m_x, m_y, m_width, m_height);
 		for (Entity entity : entities) {
 			if (entity instanceof TankBody || entity instanceof Enemy) {
 				m_entityHere = entity;

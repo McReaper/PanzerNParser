@@ -9,7 +9,7 @@ public class UpgradeTankDamage extends Upgrade {
 	private static final String NAME = "Higher damage";
 	private static final int MINERALS_COST = 10;
 	private static final int ELECTRONICALS_COST = 5;
-	private static final int DAMAGE_BOOST = 10;
+	private static final double DAMAGE_BOOST = 0.25; //25%
 	private static final double COST_FACTOR = 1.0;
 
 	public UpgradeTankDamage(Tank tank) {
@@ -23,7 +23,7 @@ public class UpgradeTankDamage extends Upgrade {
 		int electronical_cost = getCostElec();
 		if (isAvaibleFor(mineral_cost, electronical_cost)) {
 			inv.used(MaterialType.MINERAL, mineral_cost, MaterialType.ELECTRONIC, electronical_cost);
-			m_tank.setDamage(m_tank.getDamage() + DAMAGE_BOOST);
+			m_tank.increaseDamageFactor(DAMAGE_BOOST);
 			m_level++;
 		} else {
 			throw new IllegalAccessException("Ressources insuffisantes dans l'inventaire.");

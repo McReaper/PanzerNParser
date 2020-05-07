@@ -41,15 +41,17 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import info3.game.model.MaterialType;
 import info3.game.model.Model;
+import info3.game.model.Model.VisionType;
 import info3.game.model.Tank;
 import info3.game.model.Weapon;
-import info3.game.model.Model.VisionType;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory.MyEntities;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
 import info3.game.model.upgrades.Upgrade;
+import info3.game.model.upgrades.UpgradeAutomaticSubmachine;
+import info3.game.model.upgrades.UpgradeDroneVision;
 
 public class HUD {
 
@@ -73,6 +75,8 @@ public class HUD {
 	JProgressBar m_drone;
 	TitledBorder m_ammoTitledBorder;
 	TitledBorder m_weaponTitledBorder;
+	ImageIcon m_elecImage;
+	ImageIcon m_mineImage;
 
 	JLabel m_score;
 	JLabel m_level;
@@ -82,7 +86,7 @@ public class HUD {
 	JPanel m_upgrade;
 	LinkedList<UpgradeButton> m_statButtons;
 	LinkedList<UpgradeButton> m_uniqButtons;
-	
+
 	VisionType m_vision;
 
 	public HUD(View view) {
@@ -92,25 +96,36 @@ public class HUD {
 
 		m_weaponArray = initiateWeaponArray();
 
-		ImageIcon mineralsIcone = new ImageIcon(
+		m_mineImage = new ImageIcon(
 				new ImageIcon("sprites/Minerals.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		ImageIcon toolsIcone = new ImageIcon(
+		m_elecImage = new ImageIcon(
 				new ImageIcon("sprites/Electronics.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
 
 		m_West = new JPanel();
 		m_West.setBackground(Color.DARK_GRAY);
 		m_West.setPreferredSize(new Dimension(120, 150));
-		GridLayout GLWest = new GridLayout(2, 0);
+		GridLayout GLWest = new GridLayout(5, 0);
 		m_West.setLayout(GLWest);
-		
-		//Panel de l'inventaire
-		JPanel MinToolsWeapon = initiateInventoryPanel(toolsIcone, mineralsIcone);
 
-		// Init de m_HPStamina et de son BL
-		JPanel HPStamina = initiateLifeEnergyPanel();
+		// Panel de l'inventaire
+		// JPanel MinToolsWeapon = initiateInventoryPanel();
 
-		m_West.add(HPStamina);
-		m_West.add(MinToolsWeapon);
+		// Init des barre de vie et energie
+		JPanel health = initiateProgressPanel("health");
+		JPanel drone = initiateProgressPanel("drone");
+
+		// Init de l'inventaire
+		Font fontInventory = new Font(null, 0, 15);
+		JPanel parentMineralsPanel = createInventoryUnit(m_mineImage, fontInventory, "Minerals");
+		JPanel parentToolsPanel = createInventoryUnit(m_elecImage, fontInventory, "Electronics");
+		m_weaponImage = initiateWeaponImage();
+
+		m_West.add(health);
+		m_West.add(drone);
+		m_West.add(parentMineralsPanel);
+		m_West.add(parentToolsPanel);
+		m_West.add(m_weaponImage);
+		// m_West.add(MinToolsWeapon);
 
 		// La font des futurs labels
 		Font font = new Font(null, 0, 20);
@@ -134,7 +149,7 @@ public class HUD {
 		m_ammoPanel = initiateAmmoPanel(font);
 
 		// Zone des boutons d'upgrade
-		m_upgrade = initiateUpgradePanel(toolsIcone, mineralsIcone);
+		//m_upgrade = initiateUpgradePanel();
 
 		m_East.add(m_compass);
 		m_East.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, 5), new Dimension(0, 10)));
@@ -142,42 +157,19 @@ public class HUD {
 		m_East.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, 5), new Dimension(0, 10)));
 		m_East.add(Stats);
 		m_East.add(m_ammoPanel);
-		m_East.add(m_upgrade);
+		//m_East.add(m_upgrade);
 
 		m_viewModePanel = initiateViewModePanel();
 		refreshHUD();
 	}
 
-	private JPanel initiateInventoryPanel(ImageIcon toolsIcone, ImageIcon mineralsIcone) {
-		Font font = new Font(null, 0, 15);
-
-		JPanel inventoryPanel = new JPanel();
-
-		BoxLayout BLMintoolsweapon = new BoxLayout(inventoryPanel, BoxLayout.Y_AXIS);
-
-		inventoryPanel.setLayout(BLMintoolsweapon);
-		inventoryPanel.setBackground(Color.DARK_GRAY);
-
-		m_weaponImage = new JLabel(m_weaponArray[0]);
-
-		JPanel parentMineralsPanel = createInventoryUnit(mineralsIcone, font, "Minerals");
-		JPanel parentToolsPanel = createInventoryUnit(toolsIcone, font, "Electronics");
-
-		m_weaponImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		
+	private JLabel initiateWeaponImage() {
+		JLabel weaponImage = new JLabel(m_weaponArray[0]);
+		weaponImage.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		m_weaponTitledBorder = createTitleBorder("Weapon");
-
-		m_weaponImage.setMaximumSize(new Dimension(100, 0));
-		m_weaponImage.setBorder(m_weaponTitledBorder);
-
-		inventoryPanel.add(Box.createVerticalGlue());
-		inventoryPanel.add(parentMineralsPanel);
-		inventoryPanel.add(Box.createVerticalGlue());
-		inventoryPanel.add(parentToolsPanel);
-		inventoryPanel.add(Box.createVerticalGlue());
-		inventoryPanel.add(m_weaponImage);
-		inventoryPanel.add(Box.createVerticalGlue());
-		return inventoryPanel;
+		weaponImage.setMaximumSize(new Dimension(100, 0));
+		weaponImage.setBorder(m_weaponTitledBorder);
+		return weaponImage;
 	}
 
 	private JPanel createInventoryUnit(ImageIcon image, Font font, String string) {
@@ -201,7 +193,7 @@ public class HUD {
 		Border textPanelBorder = BorderFactory.createLineBorder(Color.GRAY);
 		textPanel.setBorder(textPanelBorder);
 		textPanel.setMaximumSize(new Dimension(90, 0));
-		
+
 		inventoryUnit.add(Box.createVerticalGlue());
 		inventoryUnit.add(imageLabel);
 		inventoryUnit.add(Box.createVerticalGlue());
@@ -224,21 +216,25 @@ public class HUD {
 		return inventoryUnit;
 	}
 
-	private JPanel initiateLifeEnergyPanel() {
-		JPanel HPStamina = new JPanel();
-		BoxLayout BLWestSorth = new BoxLayout(HPStamina, BoxLayout.Y_AXIS);
-		HPStamina.setLayout(BLWestSorth);
-		HPStamina.setBackground(Color.DARK_GRAY);
+	private JPanel initiateProgressPanel(String string) {
+		JPanel PanelBar = new JPanel();
+		BoxLayout BoxLayoutBar = new BoxLayout(PanelBar, BoxLayout.Y_AXIS);
+		PanelBar.setLayout(BoxLayoutBar);
+		PanelBar.setBackground(Color.DARK_GRAY);
 
 		LineBorder progressBarBorder = (LineBorder) BorderFactory.createLineBorder(Color.BLACK, 3);
-		m_health = createProgressBar(Color.RED, progressBarBorder);
-		m_drone = createProgressBar(Color.YELLOW, progressBarBorder);
-		HPStamina.add(Box.createVerticalGlue());
-		HPStamina.add(m_health);
-		HPStamina.add(Box.createVerticalGlue());
-		HPStamina.add(m_drone);
-		HPStamina.add(Box.createVerticalGlue());
-		return HPStamina;
+		JProgressBar bar = null;
+		if (string.equals("health")) {
+			m_health = createProgressBar(Color.RED, progressBarBorder);
+			bar = m_health;
+		} else if (string.equals("drone")) {
+			m_drone = createProgressBar(Color.YELLOW, progressBarBorder);
+			bar = m_drone;
+		}
+		PanelBar.add(Box.createVerticalStrut(5));
+		PanelBar.add(bar);
+		PanelBar.add(Box.createVerticalStrut(10));
+		return PanelBar;
 	}
 
 	private JProgressBar createProgressBar(Color color, Border border) {
@@ -337,7 +333,7 @@ public class HUD {
 		return compass;
 	}
 
-	private JPanel initiateUpgradePanel(ImageIcon toolsIcone, ImageIcon mineralsIcone) {
+	private JPanel initiateUpgradePanel() {
 		JPanel upgradePanel = new JPanel();
 		upgradePanel.setLayout(new BoxLayout(upgradePanel, BoxLayout.Y_AXIS));
 		upgradePanel.setBackground(Color.DARK_GRAY);
@@ -348,7 +344,7 @@ public class HUD {
 		upgradeLabel.setForeground(Color.BLACK);
 		upgradeLabel.setFont(new Font("monospaced", Font.BOLD, 16));
 
-		initiateUpgradeButtons(toolsIcone, mineralsIcone);
+		initiateUpgradeButtons();
 
 		// Le Layout
 		GridBagLayout gbl = new GridBagLayout();
@@ -389,6 +385,7 @@ public class HUD {
 
 		JSeparator sep = new JSeparator(SwingConstants.HORIZONTAL);
 		sep.setForeground(Color.BLACK);
+		sep.setBackground(Color.BLACK);
 
 		upgradePanel.add(Box.createVerticalStrut(10));
 		upgradePanel.add(sep);
@@ -429,7 +426,7 @@ public class HUD {
 			@Override
 			protected void configureScrollBarColors() {
 				super.configureScrollBarColors();
-				thumbColor = new Color(150,150,150);
+				thumbColor = new Color(150, 150, 150);
 				trackColor = Color.BLACK;
 			}
 
@@ -469,17 +466,17 @@ public class HUD {
 		return scrollPane;
 	}
 
-	private void initiateUpgradeButtons(ImageIcon toolsIcone, ImageIcon mineralsIcone) {
+	private void initiateUpgradeButtons() {
 		LinkedList<Upgrade> statUpgrades = Model.getModel().getStatUpgrade();
 		m_statButtons = new LinkedList<UpgradeButton>();
 		for (Upgrade upg : statUpgrades) {
-			UpgradeButton upgradeButton = new UpgradeButton(upg, toolsIcone, mineralsIcone);
+			UpgradeButton upgradeButton = new UpgradeButton(upg, m_elecImage, m_mineImage);
 			m_statButtons.add(upgradeButton);
 		}
 		LinkedList<Upgrade> uniqUpgrades = Model.getModel().getUniqUpgrade();
 		m_uniqButtons = new LinkedList<UpgradeButton>();
 		for (Upgrade upg : uniqUpgrades) {
-			UpgradeButton upgradeButton = new UpgradeButton(upg, toolsIcone, mineralsIcone);
+			UpgradeButton upgradeButton = new UpgradeButton(upg, m_elecImage, m_mineImage);
 			m_uniqButtons.add(upgradeButton);
 		}
 	}
@@ -523,12 +520,15 @@ public class HUD {
 
 	private void initiateToolTip() {
 		ToolTipManager.sharedInstance().setInitialDelay(0);
-		UIManager.put("ToolTip.background", new Color(150,150,150));
+		UIManager.put("ToolTip.background", new Color(150, 150, 150));
 		LineBorder tooltipBorder = (LineBorder) BorderFactory.createLineBorder(Color.BLACK);
 		UIManager.put("ToolTip.border", tooltipBorder);
 	}
 
 	public void refreshHUD() {
+		if(!m_view.isLaunch()) {
+			return;
+		}
 		Model model = Model.getModel();
 		Tank tank = model.getTank();
 		Drone drone = model.getDrone();
@@ -559,9 +559,9 @@ public class HUD {
 		// Minerals, Electronics, Weapons et Markers
 		m_toolsLabel.setText(Integer.toString(tank.getInventory().getQuantity(MaterialType.ELECTRONIC)));
 		m_mineralsLabel.setText(Integer.toString(tank.getInventory().getQuantity(MaterialType.MINERAL)));
-		
-		if(vision != m_vision) {			
-			updateATHOrganisation(m_vision,vision);
+
+		if (vision != m_vision) {
+			updateATHOrganisation(m_vision, vision);
 			m_vision = vision;
 		}
 		updateCurrentATH();
@@ -574,16 +574,16 @@ public class HUD {
 		Turret tankTurret = tank.getTurret();
 		Weapon weapon = tankTurret.getWeapon();
 		Drone drone = model.getDrone();
-		switch(m_vision) {
+		switch (m_vision) {
 			case TANK:
 				m_weaponImage.setIcon(m_weaponArray[tankTurret.getIndexWeapon()]);
 				m_ammo.setText(weapon.getNbShotLeft() + "/" + weapon.getCapacity());
 				updateButtons();
 				break;
 			case ENEMIES:
-				m_ammo.setText(drone.getNbMarker()+"/"+drone.getMaxMarkers());
+				m_ammo.setText(drone.getNbMarker() + "/" + drone.getMaxMarkers());
 			case RESSOURCES:
-				m_ammo.setText(drone.getNbMarker()+"/"+drone.getMaxMarkers());
+				m_ammo.setText(drone.getNbMarker() + "/" + drone.getMaxMarkers());
 		}
 	}
 
@@ -599,23 +599,23 @@ public class HUD {
 	}
 
 	private void updateATHOrganisation(VisionType prev, VisionType next) {
-		if((prev == VisionType.RESSOURCES || prev == VisionType.ENEMIES) && next == VisionType.TANK) {
+		if ((prev == VisionType.RESSOURCES || prev == VisionType.ENEMIES) && next == VisionType.TANK) {
 			m_weaponTitledBorder.setTitle("Weapon");
 			m_ammoTitledBorder.setTitle("Ammo");
 			m_East.remove(m_viewModePanel);
 			m_East.add(m_upgrade);
 		}
-		if(prev == VisionType.TANK && (next == VisionType.RESSOURCES || next == VisionType.ENEMIES)) {
+		if (prev == VisionType.TANK && (next == VisionType.RESSOURCES || next == VisionType.ENEMIES)) {
 			m_weaponTitledBorder.setTitle("Marker");
 			m_weaponImage.setIcon(m_weaponArray[5]);
 			m_ammoTitledBorder.setTitle("Marker");
 			m_East.remove(m_upgrade);
 			m_East.add(m_viewModePanel);
 		}
-		if(prev == VisionType.ENEMIES && next == VisionType.RESSOURCES) {
+		if (prev == VisionType.ENEMIES && next == VisionType.RESSOURCES) {
 			m_viewModeLabel.setIcon(m_weaponArray[3]);
 		}
-		if(next == VisionType.ENEMIES && prev == VisionType.RESSOURCES) {
+		if (next == VisionType.ENEMIES && prev == VisionType.RESSOURCES) {
 			m_viewModeLabel.setIcon(m_weaponArray[4]);
 		}
 		m_East.invalidate();
@@ -654,10 +654,10 @@ public class HUD {
 		long seconde = time / 1000;
 		long minute = seconde / 60;
 		seconde = seconde % 60;
-		long heure = minute/60;
-		minute = minute%60;
-		long digit1,digit2;
-		if(heure > 0) {
+		long heure = minute / 60;
+		minute = minute % 60;
+		long digit1, digit2;
+		if (heure > 0) {
 			digit1 = heure;
 			digit2 = minute;
 		} else {
@@ -721,8 +721,6 @@ public class HUD {
 		private String m_descript;
 		private Upgrade m_upgrade;
 		private String m_level;
-		private Border m_borderRaised;
-		private Border m_borderLowered;
 
 		public UpgradeButton(Upgrade upg, ImageIcon elec, ImageIcon mine) {
 			super();
@@ -735,16 +733,14 @@ public class HUD {
 			m_electronics = elec.getImage();
 			m_minerals = mine.getImage();
 			this.setForeground(Color.BLACK);
-			this.setBackground(new Color(150,150,150));
+			this.setBackground(new Color(150, 150, 150));
 			this.setPreferredSize(new Dimension(95, 75));
 			BasicButtonUI buttonUI = new BasicButtonUI() {
 				@Override
 				protected void paintButtonPressed(Graphics g, AbstractButton b) {
 					Color color = new Color(0F, 0F, 0F, 0.3F);
-					setBorder(m_borderLowered);
 					g.setColor(color);
 					g.fillRect(0, 0, b.getWidth(), b.getHeight());
-					setBorder(m_borderRaised);
 				}
 			};
 			this.setUI(buttonUI);
@@ -771,12 +767,40 @@ public class HUD {
 			g.drawImage(m_electronics, 3 + getWidth() / 2, space + 15 + 3, 15, 15, null);
 			FontRenderContext frc = new FontRenderContext(null, true, false);
 			Rectangle2D rect = g.getFont().getStringBounds(m_level, 0, m_level.length(), frc);
-			g.drawString(m_level, (int) ((getWidth() - rect.getWidth()) / 2), space + 15 - 2);
+			
+			//Différencie amélio unique/stats
+			boolean isUniqBought = false;
+			if (m_level.contains("Bought")) {
+				Color old = g.getColor();
+				g.setColor(new Color(0, 165, 0));
+				g.drawString(m_level, (int) ((getWidth() - rect.getWidth()) / 2), space + 15 - 2);
+				g.setColor(old);
+				isUniqBought = true;
+			} else {
+				g.drawString(m_level, (int) ((getWidth() - rect.getWidth()) / 2), space + 15 - 2);
+			}
+			
+			//affiche les prix en rouge ou en vert.
+			Color old = g.getColor();
+			if (!isUniqBought)
+				if (m_upgrade.getCostMine() > Model.getModel().getTank().getInventory().getQuantity(MaterialType.MINERAL)) {
+					g.setColor(Color.RED);
+				} else {
+					g.setColor(new Color(0, 165, 0));
+				}
 			g.drawString(m_mineCost, 6 + 15, getHeight() - 5);
+			if (!isUniqBought)
+				if (m_upgrade.getCostElec() > Model.getModel().getTank().getInventory().getQuantity(MaterialType.ELECTRONIC)) {
+					g.setColor(Color.RED);
+				} else {
+					g.setColor(new Color(0, 165, 0));
+				}
 			g.drawString(m_elecCost, 6 + 15 + getWidth() / 2, getHeight() - 5);
+			g.setColor(old);
+			
 			paintTitle(g, space);
 			if (!isEnabled()) {
-				Color color = new Color(0F, 0F, 0F, 0.80F);
+				Color color = new Color(0F, 0F, 0F, 0.60F);
 				g.setColor(color);
 				g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			}
@@ -836,10 +860,27 @@ public class HUD {
 		public Upgrade getUpgrade() {
 			return m_upgrade;
 		}
-		
+
 		public void updatePrice() {
 			m_elecCost = Integer.toString(m_upgrade.getCostElec());
 			m_mineCost = Integer.toString(m_upgrade.getCostMine());
+			if (m_upgrade instanceof UpgradeAutomaticSubmachine || m_upgrade instanceof UpgradeDroneVision) {
+				m_level = (m_upgrade.getLevel() > 0) ? "Bought" : "Not bought";
+			} else {
+				m_level = "Level : "+Integer.toString(m_upgrade.getLevel());
+			}
+			this.repaint();
 		}
+	}
+
+	public void refreshUpgrade() {
+		m_East.remove(m_upgrade);
+		m_upgrade = initiateUpgradePanel();
+		m_East.add(m_upgrade);
+	}
+	
+	public void launch() {
+		m_upgrade = initiateUpgradePanel();
+		m_East.add(m_upgrade);
 	}
 }

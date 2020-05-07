@@ -1,6 +1,8 @@
 Hole(Popping){
 	*(Popping)
-	|!GotPower() ? Explode() : ()
+	|!GotPower() ? Wait(N) : (Opened)
 	|GotStuff? Pop() :(Popping)
-	|True ? Wait() : (Popping)
+	|True ? Wait(S) : (Popping)
+	*(Opened)
+	|True ? Wait(N) : (Opened)
 }

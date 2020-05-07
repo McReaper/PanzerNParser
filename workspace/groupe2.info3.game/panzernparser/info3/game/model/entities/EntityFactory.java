@@ -8,8 +8,8 @@ import info3.game.model.Model;
 
 public class EntityFactory {
 	public enum MyEntities {
-		Wall, EnemyBasic, EnemyLevel2, Droppable, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker, TankBody,
-		Turret, Hole, WreckTank, Mud;
+		Wall, Rock, EnemyBasic, EnemyLevel2, EnemyBoss, Droppable, ShotSlow, ShotFast, ShotBig, Vein, Drone, Marker,
+		TankBody, Turret, Hole, WreckTank, Mud, AutomaticTurret, ShotEnemyBasic, ShotEnemyLevel2, ShotEnemyBoss;
 	}
 
 	public static Entity newTankBody(int x, int y, Automaton aut) {
@@ -18,6 +18,10 @@ public class EntityFactory {
 
 	public static Entity newTankTurret(int x, int y, Automaton aut) {
 		return new Turret(x, y, aut);
+	}
+
+	public static Entity newTankAutomaticTurret(int x, int y, Automaton aut) {
+		return new AutomaticTurret(x, y, aut);
 	}
 
 	public static Entity newDroppable(int x, int y, Automaton aut) {
@@ -29,7 +33,7 @@ public class EntityFactory {
 		Entity vein = new Vein(x, y, aut);
 		return vein;
 	}
-	
+
 	public static Entity newMud(int x, int y, Automaton aut) {
 		Entity mud = new Mud(x, y, aut);
 		return mud;
@@ -39,7 +43,11 @@ public class EntityFactory {
 		Entity wall = new Wall(x, y, aut);
 		return wall;
 	}
-	
+
+	public static Entity newRock(int x, int y, Automaton aut) {
+		Entity rock = new Rock(x, y, aut);
+		return rock;
+	}
 
 	public static Entity newWreckTank(int x, int y, Automaton aut) {
 		Entity wreck = new WreckTank(x, y, aut);
@@ -77,6 +85,18 @@ public class EntityFactory {
 		return shot;
 	}
 
+	public static Entity newShotEnemyBasic(int x, int y, Automaton aut) {
+		return new ShotEnemyBasic(x, y, aut);
+	}
+
+	public static Entity newShotEnemyLevel2(int x, int y, Automaton aut) {
+		return new ShotEnemyLevel2(x, y, aut);
+	}
+
+	public static Entity newShotEnemyBoss(int x, int y, Automaton aut) {
+		return new ShotEnemyBoss(x, y, aut);
+	}
+
 //////////////////Creation des différents type d'Enemy///////////////
 	public static Entity newEnemyBasic(int x, int y, Automaton aut) {
 		Entity enemyB = new EnemyBasic(x, y, aut);
@@ -87,6 +107,11 @@ public class EntityFactory {
 		Entity enemyL2 = new EnemyLevel2(x, y, aut);
 		return enemyL2;
 	}
+
+	public static Entity newEnemyBoss(int x, int y, Automaton aut) {
+		Entity enemyBoss = new EnemyBoss(x, y, aut);
+		return enemyBoss;
+	}
 	//////////////////////////////////////////////////////////////////////
 
 	public static Entity newEntity(MyEntities entity, int x, int y) {
@@ -96,42 +121,48 @@ public class EntityFactory {
 			case Wall:
 				res = newWall(x, y, config.getAutomaton(MyEntities.Wall));
 				break;
+			case Rock:
+				res = newRock(x, y, config.getAutomaton(MyEntities.Rock));
+				break;
 			case EnemyBasic:
 				res = newEnemyBasic(x, y, config.getAutomaton(MyEntities.EnemyBasic));
 				break;
-
 			case EnemyLevel2:
 				res = newEnemyLevel2(x, y, config.getAutomaton(MyEntities.EnemyLevel2));
 				break;
-
+			case EnemyBoss:
+				res = newEnemyBoss(x, y, config.getAutomaton(MyEntities.EnemyBoss));
+				break;
 			case Droppable:
 				res = newDroppable(x, y, config.getAutomaton(MyEntities.Droppable));
 				break;
-				
 			case Vein:
 				res = newVein(x, y, config.getAutomaton(MyEntities.Vein));
 				break;
-				
 			case WreckTank:
 				res = newWreckTank(x, y, config.getAutomaton(MyEntities.WreckTank));
 				break;
-			
 			case ShotSlow:
 				res = newShotSlow(x, y, config.getAutomaton(MyEntities.ShotSlow));
 				break;
-
 			case ShotFast:
 				res = newShotFast(x, y, config.getAutomaton(MyEntities.ShotFast));
 				break;
-
 			case ShotBig:
 				res = newShotBig(x, y, config.getAutomaton(MyEntities.ShotBig));
 				break;
-
+			case ShotEnemyBasic:
+				res = newShotEnemyBasic(x, y, config.getAutomaton(MyEntities.ShotEnemyBasic));
+				break;
+			case ShotEnemyLevel2:
+				res = newShotEnemyLevel2(x, y, config.getAutomaton(MyEntities.ShotEnemyLevel2));
+				break;
+			case ShotEnemyBoss:
+				res = newShotEnemyBoss(x, y, config.getAutomaton(MyEntities.ShotEnemyBoss));
+				break;
 			case TankBody:
 				res = newTankBody(x, y, config.getAutomaton(MyEntities.TankBody));
 				break;
-
 			case Turret:
 				res = newTankTurret(x, y, config.getAutomaton(MyEntities.Turret));
 				break;
@@ -146,6 +177,9 @@ public class EntityFactory {
 				break;
 			case Mud:
 				res = newMud(x, y, config.getAutomaton(MyEntities.Mud));
+				break;
+			case AutomaticTurret:
+				res = newTankAutomaticTurret(x, y, config.getAutomaton(MyEntities.AutomaticTurret));
 				break;
 			default:
 				throw new IllegalStateException("Entité non reconnue !");
@@ -167,16 +201,26 @@ public class EntityFactory {
 			return MyEntities.EnemyBasic;
 		} else if (e instanceof EnemyLevel2) {
 			return MyEntities.EnemyLevel2;
+		} else if (e instanceof EnemyBoss) {
+			return MyEntities.EnemyBoss;
 		} else if (e instanceof Vein) {
 			return MyEntities.Vein;
 		} else if (e instanceof Wall) {
 			return MyEntities.Wall;
+		} else if (e instanceof Rock) {
+			return MyEntities.Rock;
 		} else if (e instanceof Mud) {
 			return MyEntities.Mud;
 		} else if (e instanceof Hole) {
 			return MyEntities.Hole;
 		} else if (e instanceof Marker) {
 			return MyEntities.Marker;
+		} else if (e instanceof ShotEnemyBasic) {
+			return MyEntities.ShotEnemyBasic;
+		} else if (e instanceof ShotEnemyLevel2) {
+			return MyEntities.ShotEnemyLevel2;
+		} else if (e instanceof ShotEnemyBoss) {
+			return MyEntities.ShotEnemyBoss;
 		} else if (e instanceof ShotSlow) {
 			return MyEntities.ShotSlow;
 		} else if (e instanceof ShotFast) {
@@ -189,6 +233,8 @@ public class EntityFactory {
 			return MyEntities.Turret;
 		} else if (e instanceof WreckTank) {
 			return MyEntities.WreckTank;
+		} else if (e instanceof AutomaticTurret) {
+			return MyEntities.AutomaticTurret;
 		} else {
 			throw new IllegalArgumentException("Entité non reconnue !");
 		}

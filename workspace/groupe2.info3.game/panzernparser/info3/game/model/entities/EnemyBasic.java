@@ -13,7 +13,7 @@ public class EnemyBasic extends Enemy {
 	public final static int ENEMYBASIC_HEIGHT = 1;
 
 	public static final int ENEMYBASIC_HEALTH = 100;
-	public static final int ENEMYBASIC_SPEED = 1000;
+	public static final int ENEMYBASIC_SPEED = 700;
 	public static final int ENEMYBASIC_FOV = 4;
 
 	public static final long ENEMYBASIC_EGG_TIME = 0;
@@ -25,7 +25,7 @@ public class EnemyBasic extends Enemy {
 	public static final long ENEMYBASIC_WAIT_TIME = 50;
 	public static final long ENEMYBASIC_WIZZ_TIME = 1000;
 
-	public static final int ENEMYBASIC_DAMMAGE_DEALT = 50;
+	public static final int ENEMYBASIC_DAMMAGE_DEALT = 20;
 
 	public EnemyBasic(int x, int y, Automaton aut) {
 		super(x, y, ENEMYBASIC_WIDTH, ENEMYBASIC_HEIGHT, aut);
@@ -144,10 +144,10 @@ public class EnemyBasic extends Enemy {
 	}
 
 	public void levelUp() {
-			setMaxHealth(ENEMYBASIC_HEALTH*2);
-			m_health = getMaxHealth();
-			setSpeed((int) (m_speed - m_speed * 0.1));
-			m_range++;
-			m_damage_dealt = (Model.getModel().getLevel()/3 + 1)* ENEMYBASIC_DAMMAGE_DEALT; 
+		setMaxHealth(ENEMYBASIC_HEALTH * Model.getModel().getLevel());
+		m_health = getMaxHealth();
+		setSpeed((int) (m_speed + m_speed * 0.1 * Model.getModel().getLevel()));
+		m_range += Model.getModel().getLevel();
+		m_damage_dealt = (Model.getModel().getLevel()) * ENEMYBASIC_DAMMAGE_DEALT;
 	}
 }

@@ -34,6 +34,9 @@ public class Controller implements GameCanvasListener {
 	public void tick(long elapsed) {
 		// a chaque tick on fait un pas de simulation, et donc met à jour le modèle.
 		m_model.step(elapsed);
+		if(!m_model.getTank().gotPower()) {
+			m_view.m_canvas.stop("1812");
+		}
 		if (!m_model.getSounds().isEmpty()) {
 			Iterator<String> iter = m_model.getSounds().iterator();
 			while (iter.hasNext()) {
@@ -44,7 +47,7 @@ public class Controller implements GameCanvasListener {
 		}
 	}
 
-	void loadMusic(String name) {
+	public void loadMusic(String name) {
 		GameMain game = GameMain.getGame();
 		File file = game.getSounds().get(name);
 		FileInputStream fis = null;

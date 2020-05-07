@@ -66,6 +66,7 @@ public class GameMain {
 	
 	public void launch() {
 		m_frame.remove(m_menu.getMainMenu());
+		getGame().m_controller.loadMusic("1812");
 		m_frame.add(m_view, BorderLayout.CENTER);
 		m_frame.invalidate();
 		m_frame.validate();
@@ -135,6 +136,7 @@ public class GameMain {
 		m_model = Model.getModel();
 		m_controller.setModel(m_model);
 		m_view.setModel(m_model);
+		getGame().m_controller.loadMusic("1812");
 	}
 
 }

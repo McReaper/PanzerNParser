@@ -32,7 +32,6 @@ public class Score {
 	}
 
 	public void scoreEnemyLevel2() {
-		System.out.println("enemy2 tué ");
 		incrementScore(SCORE_ENEMY_LEVEL2);
 	}
 
@@ -53,8 +52,7 @@ public class Score {
 	}
 
 	private void incrementScore(int value) {
-		m_score += value * Model.getModel().getLevel()/10;
-		System.out.println("Score : " + m_score);
+		m_score += value + (value * (double)(Model.getModel().getLevel())/10);
 	}
 	
 	public int getScore() {

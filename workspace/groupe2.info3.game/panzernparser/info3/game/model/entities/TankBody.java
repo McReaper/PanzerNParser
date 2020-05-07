@@ -26,7 +26,7 @@ public class TankBody extends MovingEntity {
 	public static final long TANKBODY_EXPLODE_TIME = 1000;
 	public static final long TANKBODY_MOVE_TIME = 800;
 	public static final long TANKBODY_PICK_TIME = 0;
-	public static final long TANKBODY_POP_TIME = 1000;
+	public static final long TANKBODY_POP_TIME = 3000;
 	public static final long TANKBODY_TURN_TIME = 0;
 	public static final long TANKBODY_WAIT_TIME = 50;
 	public static final long TANKBODY_WIZZ_TIME = 1000;
@@ -118,14 +118,10 @@ public class TankBody extends MovingEntity {
 
 	@Override
 	public void Explode() {
-		/*
-		 * TODO faire un GAME OVER
-		 */
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
-			m_tank.setLife(Tank.TANK_HEALTH);// je redonne de la vie le temps qu'on a pas fait le cas de GAME OVER
-			// m_tank.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
+			m_tank.doExplode();
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = TANKBODY_EXPLODE_TIME;

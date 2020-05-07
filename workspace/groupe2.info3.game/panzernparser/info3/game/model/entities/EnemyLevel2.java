@@ -21,7 +21,7 @@ public class EnemyLevel2 extends Enemy {
 	public static final long ENEMYLEVEL2_EXPLODE_TIME = 1000;
 	public static final long ENEMYLEVEL2_MOVE_TIME = 1000;
 	public static final long ENEMYLEVEL2_POP_TIME = 1000;
-	public static final long ENEMYLEVEL2_TURN_TIME = 0;
+	public static final long ENEMYLEVEL2_TURN_TIME = 500;
 	public static final long ENEMYLEVEL2_WAIT_TIME = 50;
 	public static final long ENEMYLEVEL2_WIZZ_TIME = 1000;
 
@@ -62,22 +62,22 @@ public class EnemyLevel2 extends Enemy {
 				case SOUTH:
 				case NORTH:
 					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
-					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + 1, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + m_width - 1, m_y);
 					break;
 				case WEST:
 				case EAST:
 					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
-					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y + 1);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y + m_height - 1);
 					break;
 				case SOUTHEAST:
 				case NORTHWEST:
-					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + 1, m_y);
-					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y + 1);
+					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + m_width - 1, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y + m_height - 1);
 					break;
 				case SOUTHWEST:
 				case NORTHEAST:
 					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
-					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + 1, m_y + 1);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + m_width - 1, m_y + m_height - 1);
 					break;
 				default:
 					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);

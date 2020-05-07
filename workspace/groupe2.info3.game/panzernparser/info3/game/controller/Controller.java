@@ -34,6 +34,10 @@ public class Controller implements GameCanvasListener {
 	public void tick(long elapsed) {
 		// a chaque tick on fait un pas de simulation, et donc met à jour le modèle.
 		m_model.step(elapsed);
+		if (!m_model.getTank().gotPower()) {
+			m_view.m_canvas.stop("Katyusha-20db");
+			m_view.m_canvas.stop("introkat-20db");
+		}
 		if (!m_model.getSounds().isEmpty()) {
 			Iterator<String> iter = m_model.getSounds().iterator();
 			while (iter.hasNext()) {
@@ -72,17 +76,21 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_F11) {
-			// GameMain.getGame().goFullscreen(); // TODO : tobefixed
-		}
 		LsKey temp = toLsKey(e);
 		m_model.addKeyPressed(temp);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_F11) {
+			// GameMain.getGame().goFullscreen(); // TODO : tobefixed
+		}
 		LsKey temp = toLsKey(e);
 		m_model.removeKeyPressed(temp);
+		if (m_model.getGameOver() && e.getKeyCode() == KeyEvent.VK_R) {
+			GameMain.getGame().restart();
+			m_view.m_HUD.refreshUpgrade();
+		}
 	}
 
 	@Override
@@ -144,7 +152,7 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void endOfPlay(String name) {
-		if(name.equals("introkat-20db") || name.equals("Katyusha-20db")) {
+		if ((name.equals("introkat-20db") || name.equals("Katyusha-20db")) && Model.getModel().getTank().gotPower()) {
 			loadMusic("Katyusha-20db");
 		}
 	}
@@ -247,6 +255,10 @@ public class Controller implements GameCanvasListener {
 
 	public void upgradeClicked(Upgrade upgrade) {
 		m_model.performUpgrade(upgrade);
+	}
+
+	public void setModel(Model model) {
+		m_model = model;
 	}
 
 }

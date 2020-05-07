@@ -24,9 +24,10 @@ public class Grid {
 	List<Pattern> m_patterns;
 	Pattern patTank;
 	LinkedList<Entity>[][] m_entityGrid;
+	private LinkedList<Pattern> m_selectedPatterns;
 
 	/* entier pour le nombre de zone à charger dans la grille */
-	final static int TAILLE_MAP = 5;
+	final static int TAILLE_MAP = 3;
 
 	@SuppressWarnings("unchecked")
 	public Grid() throws UnexpectedException {
@@ -320,14 +321,14 @@ public class Grid {
 		int rand = 0;
 		List<Pattern> patternSelector = new LinkedList<Pattern>();
 		patternSelector.addAll(m_patterns);
-		List<Pattern> selectedPatterns = new LinkedList<Pattern>();
+		m_selectedPatterns = new LinkedList<Pattern>();
 		if (Max + 1 >= TAILLE_MAP * TAILLE_MAP) {
 			for (int i = 0; i < TAILLE_MAP; i++) {
 				for (int j = 0; j < TAILLE_MAP; j++) {
 					if (i == 0 && j == 0) {
 						if (patTank != null) {
 							patTank.setPosition(i, j);
-							selectedPatterns.add(patTank);
+							m_selectedPatterns.add(patTank);
 							patterns_chose++;
 							patTank = null;
 						} else {
@@ -338,22 +339,21 @@ public class Grid {
 						rand = (int) (Math.random() * (Max - patterns_chose));
 						Pattern tmp = patternSelector.get(rand);
 						tmp.setPosition(i, j);
-						selectedPatterns.add(tmp);
+						m_selectedPatterns.add(tmp);
 						patternSelector.remove(tmp);
 						patterns_chose++;
 					}
 
 				}
 			}
-			patTank = selectedPatterns.get(0);
-			sendToModel(selectedPatterns);
+			patTank = m_selectedPatterns.get(0);
 		} else {
 			throw new UnexpectedException("Not Enough Patterns to continue");
 		}
 	}
 
-	public void sendToModel(List<Pattern> patterns) {
-		for (Pattern pattern : patterns) {
+	public void sendToModel() {
+		for (Pattern pattern : m_selectedPatterns) {
 			pattern.buildEntities();
 		}
 	}
@@ -382,7 +382,6 @@ public class Grid {
 				String file = fileList[j];
 				file = file.replaceAll("_\\d_", "_"+random_level+"_");
 				String subFile = file.substring(0, file.length() - 7);
-				System.out.println(file);
 				if (subFile.equals(lvlName)) {
 					p = new Pattern();
 					String path = GameConfiguration.PATTERN_PATH + file;
@@ -398,6 +397,7 @@ public class Grid {
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.err.println("ERROR : Something went wrong.");
 		}
 	}
@@ -482,14 +482,11 @@ public class Grid {
 					case "wall1":
 						type = MyEntities.Wall;
 						break;
-					case "turr1":
-						type = MyEntities.Turret;
+					case "rock1":
+						type = MyEntities.Rock;
 						break;
 					case "wrck1":
 						type = MyEntities.WreckTank;
-						break;
-					case "dron1":
-						type = MyEntities.Drone;
 						break;
 					case "mud_1":
 						type = MyEntities.Mud;

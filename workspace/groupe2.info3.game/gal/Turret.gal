@@ -3,6 +3,7 @@ Turret(Init){
 	|!GotStuff() ? Wizz() : (Init)
 	|Key(SPACE) ? Hit(F) : (Init)   
 	|Key(FD) ? Pop() : (Init)
+	|Key(FU) ? Wizz() : (Init)
 	
 	|Key(FR) ? Turn(R) : (Init)
 	|Key(FL) ? Turn(L) : (Init)

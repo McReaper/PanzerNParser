@@ -85,8 +85,8 @@ public class Turret extends StaticEntity {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
 			m_actionFinished = false;
 			m_currentAction = null;
-			Model.getModel().addSound("Canon");
 		} else if (m_currentAction == null) {
+			Model.getModel().addSound("canon2");
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = TURRET_HIT_TIME;
@@ -125,12 +125,14 @@ public class Turret extends StaticEntity {
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			m_actionFinished = false;
 			m_currentAction = null;
+			Model.getModel().addSound("endReload2");
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Wizz;
 			System.out.println("La turret recharge");
 			m_timeOfAction = m_currentWeapon.getReloadTime();
 			m_currentWeapon.reload();
+			Model.getModel().addSound("reloadTurret2");
 		}
 	}
 	

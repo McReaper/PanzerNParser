@@ -149,8 +149,9 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void endOfPlay(String name) {
-		// TODO Auto-generated method stub
-
+		if(name.equals("introkat-20db") || name.equals("Katyusha-20db")) {
+			loadMusic("Katyusha-20db");
+		}
 	}
 
 	@Override

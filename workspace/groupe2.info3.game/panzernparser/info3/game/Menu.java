@@ -100,12 +100,19 @@ public class Menu {
 		
 		JPanel configPanel = new JPanel();
 		configPanel.setOpaque(false);
-		GridLayout configLayout = new GridLayout(17, 3);
+		GridLayout configLayout = new GridLayout(MyEntities.values().length+1, 3);
 		configPanel.setLayout(configLayout);
+		
+		JPanel entitee = createLabel("Entity");
+		JPanel automate = createLabel("Automate");
+		JPanel animation = createLabel("Animation");
+		configPanel.add(entitee);
+		configPanel.add(automate);
+		configPanel.add(animation);
 		
 		for(MyEntities entity : MyEntities.values()) {
 			
-			JPanel labelPanel = createLabel(entity);
+			JPanel labelPanel = createLabel(""+entity);
 			JComboBox<Automaton> autoList = createAutList(entity);
 			JComboBox<Animation> aniList = createAniList(entity);
 			configPanel.add(labelPanel);
@@ -140,12 +147,12 @@ public class Menu {
 		m_configMenu.add(configPanel);
 	}
 	
-	private JPanel createLabel(MyEntities entity) {
+	private JPanel createLabel(String string) {
 		JPanel labelPanel = new JPanel();
 		
 		labelPanel.setBackground(m_gray);
 		labelPanel.setBorder(m_menuBorder);
-		JLabel entite = new JLabel(""+entity);
+		JLabel entite = new JLabel(string);
 		entite.setHorizontalAlignment(JLabel.CENTER);
 		entite.setForeground(Color.BLACK);
 		labelPanel.add(entite);

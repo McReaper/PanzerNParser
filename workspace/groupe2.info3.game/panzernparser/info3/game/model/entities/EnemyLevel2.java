@@ -13,7 +13,7 @@ public class EnemyLevel2 extends Enemy {
 	public final static int ENEMYLEVEL2_HEIGHT = 2;
 
 	public static final int ENEMYLEVEL2_HEALTH = 100;
-	public static final int ENEMYLEVEL2_SPEED = 1000;
+	public static final int ENEMYLEVEL2_SPEED = 400;
 	public static final int ENEMYLEVEL2_FOV = 4;
 
 	public static final long ENEMYLEVEL2_EGG_TIME = 0;

@@ -163,9 +163,10 @@ public class Menu {
 		int i = 0;
 		int selectIndex = 0;
 		Automaton automate = GameConfiguration.getConfig().getAutomaton(entity);
-		HashMap<MyEntities, Automaton> m_automatons = m_gameConfig.getAutomatons();
-		Automaton[] autom = new Automaton[m_automatons.size()];
-		for (Automaton automaton : m_automatons.values()) {
+		HashMap<String, Automaton> automatonsAvailable = m_gameConfig.getAutomatonsAvailable();
+		HashMap<MyEntities, Automaton> automatons = m_gameConfig.getAutomatonsConfig();
+		Automaton[] autom = new Automaton[automatonsAvailable.size()];
+		for (Automaton automaton : automatonsAvailable.values()) {
 			autom[i] = automaton;
 			if(automate == automaton) {
 				selectIndex = i;
@@ -180,7 +181,7 @@ public class Menu {
 				@SuppressWarnings("unchecked")
 				JComboBox<Automaton> cb = (JComboBox<Automaton>)e.getSource();
 				Automaton aut = (Automaton) cb.getSelectedItem();
-				m_automatons.put(entity, aut);
+				automatons.put(entity, aut);
 			}
 		});
 		
@@ -205,9 +206,10 @@ public class Menu {
 		int i = 0;
 		int selectIndex = 0;
 		Animation anime = GameConfiguration.getConfig().getAnimation(entity);
-		HashMap<MyEntities, Animation> m_animations = m_gameConfig.getAnimations();
-		Animation[] anima = new Animation[m_animations.size()];
-		for (Animation animation : m_animations.values()) {
+		HashMap<String, Animation> animationsAvailable = m_gameConfig.getAnimationsAvailable();
+		HashMap<MyEntities, Animation> animations = m_gameConfig.getAnimationsConfig();
+		Animation[] anima = new Animation[animationsAvailable.size()];
+		for (Animation animation : animationsAvailable.values()) {
 			anima[i] = animation;
 			if(anime == animation) {
 				selectIndex = i;
@@ -222,7 +224,7 @@ public class Menu {
 				@SuppressWarnings("unchecked")
 				JComboBox<Animation> cb = (JComboBox<Animation>)e.getSource();
 				Animation ani = (Animation) cb.getSelectedItem();
-				m_animations.put(entity, ani);
+				animations.put(entity, ani);
 			}
 		});
 		aniComboBox.setBorder(m_menuBorder);

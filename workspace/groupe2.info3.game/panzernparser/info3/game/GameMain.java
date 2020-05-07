@@ -140,6 +140,7 @@ public class GameMain {
 		m_controller.setModel(m_model);
 		m_view.setModel(m_model);
 		getGame().m_controller.loadMusic("KatyushaIntro");
+		getGame().m_view.m_canvas.stop("Game_Over");
 	}
 
 	public void refresh() {

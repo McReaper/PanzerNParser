@@ -7,11 +7,13 @@ import info3.game.model.entities.Drone;
 
 public class UpgradeHealTank extends Upgrade{
 	private static final String NAME = "Heal Tank";
-	private static final int MINERALS_COST_BEGIN = 5;
-	private static final int ELECTRONICALS_COST_BEGIN = 10;
+	private static final int MINERALS_COST_BEGIN = 15;
+	private static final int ELECTRONICALS_COST_BEGIN = 15;
+
+	private static final double COST_FACTOR = 1.5;
 	
-	private static final int MINERALS_COST_MAX = 50;
-	private static final int ELECTRONICALS_COST_MAX = 200;
+	private static final int MINERALS_COST_MAX = 75;
+	private static final int ELECTRONICALS_COST_MAX = 75;
 	
 	int m_mineralCost;
 	int m_electronicalCost;
@@ -38,8 +40,8 @@ public class UpgradeHealTank extends Upgrade{
 	}
 	
 	private void increaseCost() {
-		m_electronicalCost *= 2;
-		m_mineralCost *=2;
+		m_electronicalCost *= COST_FACTOR;
+		m_mineralCost *= COST_FACTOR;
 		if (m_electronicalCost> MINERALS_COST_MAX)
 			m_electronicalCost = MINERALS_COST_MAX;
 		if (m_mineralCost> ELECTRONICALS_COST_MAX)
@@ -63,6 +65,6 @@ public class UpgradeHealTank extends Upgrade{
 	
 	@Override
 	public String getDescription() {
-		return "<html><p style='color:black;text-align:center'>Heal the tank</p></html>";
+		return "<html><p style='color:black;text-align:center'>Heal the tank <b>50% of his life</b></p></html>";
 	}
 }

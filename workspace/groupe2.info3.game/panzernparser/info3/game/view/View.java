@@ -96,10 +96,18 @@ public class View extends Container {
 		orderEntities.add(MyEntities.ShotFast);
 		m_avatars.add(new ShotAvatar(config.getAnimation(MyEntities.ShotBig)));
 		orderEntities.add(MyEntities.ShotBig);
+		m_avatars.add(new ShotAvatar(config.getAnimation(MyEntities.ShotEnemyBasic)));
+		orderEntities.add(MyEntities.ShotEnemyBasic);
+		m_avatars.add(new ShotAvatar(config.getAnimation(MyEntities.ShotEnemyLevel2)));
+		orderEntities.add(MyEntities.ShotEnemyLevel2);
+		m_avatars.add(new ShotAvatar(config.getAnimation(MyEntities.ShotEnemyBoss)));
+		orderEntities.add(MyEntities.ShotEnemyBoss);
 		m_avatars.add(new EnemyAvatar(config.getAnimation(MyEntities.EnemyBasic)));
 		orderEntities.add(MyEntities.EnemyBasic);
 		m_avatars.add(new EnemyAvatar(config.getAnimation(MyEntities.EnemyLevel2)));
 		orderEntities.add(MyEntities.EnemyLevel2);
+		m_avatars.add(new EnemyAvatar(config.getAnimation(MyEntities.EnemyBoss)));
+		orderEntities.add(MyEntities.EnemyBoss);
 		m_avatars.add(new MarkerAvatar(config.getAnimation(MyEntities.Marker)));
 		orderEntities.add(MyEntities.Marker);
 		m_avatars.add(new TankBodyAvatar(config.getAnimation(MyEntities.TankBody), this));

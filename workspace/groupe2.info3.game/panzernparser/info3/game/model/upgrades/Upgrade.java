@@ -43,7 +43,6 @@ public abstract class Upgrade {
 	 * l'inventaire du joueur par exemple.
 	 */
 	public boolean isAvaible() {
-		if (Model.getModel().getLevel() < m_level) return false;
 		Inventory inv = m_tank.getInventory();
 		return (inv.possesses(MaterialType.MINERAL, getCostMine()) && inv.possesses(MaterialType.ELECTRONIC, getCostElec()));
 	}

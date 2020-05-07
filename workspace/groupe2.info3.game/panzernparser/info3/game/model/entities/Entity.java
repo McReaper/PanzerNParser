@@ -57,7 +57,7 @@ public abstract class Entity {
 	protected int m_maxHealth;
 	protected int m_health;
 	protected int m_damage_dealt;
-	protected int m_speed;
+	protected long m_speed;
 	protected boolean m_hasChangedSpeed;
 	protected LinkedList<MyCategory> m_uncrossables;
 	protected String m_moveSound;
@@ -192,13 +192,13 @@ public abstract class Entity {
 		else
 			throw new IllegalStateException("setState null");
 	}
-
-	public int getSpeed() {
+	
+	public long getSpeed() {
 		return m_speed;
 	}
 
-	public void setSpeed(int speed) {
-		m_speed = speed;
+	public void setSpeed(long l) {
+		m_speed = l;
 	}
 
 	public boolean getHasChangedSpeed() {
@@ -213,6 +213,10 @@ public abstract class Entity {
 		m_stuff = bool;
 	}
 
+	public void setDamage(int dam) {
+		m_damage_dealt = dam;
+	}
+	
 	public LsAction getCurrentAction() {
 		return m_currentAction;
 	}

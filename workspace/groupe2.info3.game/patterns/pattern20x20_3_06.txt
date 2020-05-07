@@ -1,5 +1,5 @@
 enem2 9,3
-enem2 17,6
+enem3 17,6
 enem2 14,15
 rock1 4,6
 rock1 4,12

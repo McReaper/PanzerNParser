@@ -47,6 +47,7 @@ public class EnemyLevel2 extends Enemy {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
 			m_actionFinished = false;
 			m_currentAction = null;
+			Model.getModel().addSound("hit_pompe2");
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
@@ -54,6 +55,7 @@ public class EnemyLevel2 extends Enemy {
 			// creation des shot
 			Entity ent1;
 			Entity ent2;
+			Model.getModel().addSound("hit_pompe");
 			switch (m_currentLookAtDir) {
 				case SOUTH:
 				case NORTH:

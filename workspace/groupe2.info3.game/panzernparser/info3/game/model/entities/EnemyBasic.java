@@ -51,7 +51,7 @@ public class EnemyBasic extends Enemy {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = ENEMYBASIC_HIT_TIME;
-
+			Model.getModel().addSound("hitBasic");
 			// creation du shot
 			Entity ent = EntityFactory.newEntity(MyEntities.ShotSlow, this.m_x, m_y);
 
@@ -111,6 +111,7 @@ public class EnemyBasic extends Enemy {
 			this.doExplode();
 			m_actionFinished = false;
 			m_currentAction = null;
+			Model.getModel().addSound("wilhelm");
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Explode;
 			Model.getModel().addSound("explosion");

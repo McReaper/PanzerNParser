@@ -26,7 +26,7 @@ public class TankBody extends MovingEntity {
 	public static final long TANKBODY_EXPLODE_TIME = 1000;
 	public static final long TANKBODY_MOVE_TIME = 800;
 	public static final long TANKBODY_PICK_TIME = 0;
-	public static final long TANKBODY_POP_TIME = 1000;
+	public static final long TANKBODY_POP_TIME = 3000;
 	public static final long TANKBODY_TURN_TIME = 0;
 	public static final long TANKBODY_WAIT_TIME = 50;
 	public static final long TANKBODY_WIZZ_TIME = 1000;
@@ -165,7 +165,6 @@ public class TankBody extends MovingEntity {
 						if (entity instanceof Marker) {
 							Model.getModel().removeEntity(entity);
 							Model.getModel().getDrone().decreaseMarksNb();
-							;
 						} else if (entity instanceof Droppable) {
 							m_tank.getInventory().add((Droppable) entity);
 							Model.getModel().removeEntity(entity);

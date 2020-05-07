@@ -12,6 +12,7 @@ import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
+import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 
 public class Drone extends MovingEntity {
 	public final static int DRONE_WIDTH = 3;
@@ -73,6 +74,15 @@ public class Drone extends MovingEntity {
 	}
 
 	@Override
+	public boolean GotStuff() {
+		if (Model.getModel().getKeyPressed().contains(LsKey.AU) && m_range >= MAX_RANGE
+				|| Model.getModel().getKeyPressed().contains(LsKey.AD) && m_range <= MIN_RANGE) {
+			return false;
+		}
+		return super.GotStuff();
+	}
+
+	@Override
 	public boolean isShown() {
 		return (Model.getModel().getVisionType() != VisionType.TANK);
 	}
@@ -94,30 +104,32 @@ public class Drone extends MovingEntity {
 
 	@Override
 	public void Hit(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == LsAction.Hit) {
-			Coords c = Model.getModel().getClue();
-			Grid grid = Model.getModel().getGrid();
-			LinkedList<Entity> lsmarker = grid.getEntityCells((int) c.X - 1, (int) c.Y - 1, 3, 3, MyEntities.Marker);
-			if (lsmarker.size() != 0) {
-				for (Entity entity : lsmarker) {
-					Model.getModel().removeEntity(entity);
-					m_nbMarkers--;
+		if (hasControl()) {
+			if (m_actionFinished && m_currentAction == LsAction.Hit) {
+				Coords c = Model.getModel().getClue();
+				Grid grid = Model.getModel().getGrid();
+				LinkedList<Entity> lsmarker = grid.getEntityCells((int) c.X - 1, (int) c.Y - 1, 3, 3, MyEntities.Marker);
+				if (lsmarker.size() != 0) {
+					for (Entity entity : lsmarker) {
+						Model.getModel().removeEntity(entity);
+						m_nbMarkers--;
+					}
+				} else {
+					EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
+					if (m_nbMarkers == m_maxMarkers)
+						Model.getModel().removeEntity(Model.getModel().getEntities(MyEntities.Marker).get(0));
+					else {
+						m_nbMarkers++;
+					}
 				}
-			} else {
-				EntityFactory.newEntity(MyEntities.Marker, (int) c.X, (int) c.Y);
-				if (m_nbMarkers == m_maxMarkers)
-					Model.getModel().removeEntity(Model.getModel().getEntities(MyEntities.Marker).get(0));
-				else {
-					m_nbMarkers++;
-				}
+				Model.getModel().cleanClue();
+				m_actionFinished = false;
+				m_currentAction = null;
+			} else if (m_currentAction == null) {
+				m_currentActionDir = dir;
+				m_currentAction = LsAction.Hit;
+				m_timeOfAction = DRONE_HIT_TIME;
 			}
-			Model.getModel().cleanClue();
-			m_actionFinished = false;
-			m_currentAction = null;
-		} else if (m_currentAction == null) {
-			m_currentActionDir = dir;
-			m_currentAction = LsAction.Hit;
-			m_timeOfAction = DRONE_HIT_TIME;
 		}
 	}
 

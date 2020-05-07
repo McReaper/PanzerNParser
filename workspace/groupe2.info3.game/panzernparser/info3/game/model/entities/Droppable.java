@@ -15,7 +15,7 @@ public class Droppable extends StaticEntity {
 	public static final long DROPPABLE_POP_TIME = 10000;
 	public static final long DROPPABLE_WIZZ_TIME = 1000;
 	
-	public static final int DROPPABLE_QUANTITY  =1;
+	public static final int DROPPABLE_QUANTITY = 1; //Valeur par défaut.
 
 	int m_quantity; // quantité de matériaux lachés
 	private MaterialType m_mType; // Type de matériel laché

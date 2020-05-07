@@ -57,11 +57,15 @@ public abstract class Entity {
 	protected int m_maxHealth;
 	protected int m_health;
 	protected int m_damage_dealt;
-	protected int m_speed;
+	protected long m_speed;
 	protected boolean m_hasChangedSpeed;
 	protected LinkedList<MyCategory> m_uncrossables;
 	protected String m_moveSound;
+	protected int[][] m_memoryClosest;
+	protected LinkedList<Coords>[] m_memoryCoordClosest;
+	protected boolean m_hasMoved;
 
+	@SuppressWarnings("unchecked")
 	public Entity(int x, int y, int width, int height, Automaton aut) {
 		m_automate = aut;
 		if (aut != null)
@@ -91,9 +95,21 @@ public abstract class Entity {
 
 		m_hasChangedSpeed = false;
 		m_moveSound = new String();
+		m_memoryClosest = new int[12][8];
+		m_memoryCoordClosest = new LinkedList[8];
 	}
 
+	@SuppressWarnings("unchecked")
 	public void step(long elapsed) {
+		for (int i = 0; i < 12; i++) {
+			for(int j = 0; j < 8; j++) {				
+				m_memoryClosest[i][j] = -1;
+			}
+		}
+		if (m_hasMoved) {
+			m_hasMoved = false;
+			m_memoryCoordClosest = new LinkedList[8];
+		}
 		if (m_currentAction == null) {
 			this.setState(m_automate.step(this));
 		} else {
@@ -193,12 +209,12 @@ public abstract class Entity {
 			throw new IllegalStateException("setState null");
 	}
 
-	public int getSpeed() {
+	public long getSpeed() {
 		return m_speed;
 	}
 
-	public void setSpeed(int speed) {
-		m_speed = speed;
+	public void setSpeed(long l) {
+		m_speed = l;
 	}
 
 	public boolean getHasChangedSpeed() {
@@ -211,6 +227,10 @@ public abstract class Entity {
 
 	public void setStuff(boolean bool) {
 		m_stuff = bool;
+	}
+
+	public void setDamage(int dam) {
+		m_damage_dealt = dam;
 	}
 
 	public LsAction getCurrentAction() {
@@ -373,6 +393,7 @@ public abstract class Entity {
 	}
 
 	protected void doMove(MyDirection dir) {
+		m_hasMoved = true;
 		MyDirection absoluteDir = MyDirection.toAbsolute(getLookAtDir(), dir);
 		Model.getModel().getGrid().moved(this, absoluteDir);
 		switch (absoluteDir) {
@@ -848,11 +869,28 @@ public abstract class Entity {
 	 * @return vrai si l'entité de type recherché est "proche"
 	 */
 	public boolean Closest(MyDirection dir, MyCategory type) {
+		int dirIndice = MyDirection.toInt(MyDirection.toAbsolute(m_currentLookAtDir, dir));
+		int catIndice = MyCategory.toInt(type);
+		int res = m_memoryClosest[catIndice][dirIndice];
+		if (res == 0) {
+			return false;
+		} else if (res == 1) {
+			return true;
+		}
+
 		Entity closest = Model.getModel().closestEntity(Model.getModel().getCategoried(type), m_x, m_y);
-		LinkedList<Coords> coords_to_check = getDetectionCone(dir, this.m_range);
+		LinkedList<Coords> coords_to_check;
+		if (m_memoryCoordClosest[dirIndice] == null) {
+			coords_to_check = getDetectionCone(dir, this.m_range);
+			m_memoryCoordClosest[dirIndice] = coords_to_check;
+		} else {
+			coords_to_check = m_memoryCoordClosest[dirIndice];
+		}
 		if (closest.isInMe(coords_to_check)) {
+			m_memoryClosest[catIndice][dirIndice] = 1;
 			return true;
 		} else {
+			m_memoryClosest[catIndice][dirIndice] = 0;
 			return false;
 		}
 	}

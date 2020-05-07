@@ -12,14 +12,13 @@ public class AutomaticTurret extends StaticEntity {
 	public final static int AUTOMATIC_TURRET_WIDTH = 2;
 	public final static int AUTOMATIC_TURRET_HEIGHT = 2;
 
-	public static final int AUTOMATIC_TURRET_HEALTH = Tank.TANK_HEALTH;
-
 	public static final long AUTOMATIC_TURRET_HIT_TIME = 500;
 	public static final long AUTOMATIC_TURRET_POP_TIME = 50;
 	public static final long AUTOMATIC_TURRET_TURN_TIME = 50;
 	public static final long AUTOMATIC_TURRET_WAIT_TIME = 10;
+	public static final int AUTOMATIC_TURRET_DAMAGE = 30;
 
-	public static final int AUTOMATIC_TURRET_RANGE = 10;
+	public static final int AUTOMATIC_TURRET_RANGE = 8;
 
 	private Tank m_tank;
 	private boolean m_isActivated;
@@ -69,6 +68,7 @@ public class AutomaticTurret extends StaticEntity {
 			}
 			Model.getModel().addSound("turretShot");
 			Entity ent = EntityFactory.newEntity(MyEntities.ShotFast, m_x + 1, m_y + 1);
+			((Shot) ent).setDamage(AUTOMATIC_TURRET_DAMAGE);
 
 			// Donne la direction de regard et d'action
 			ent.setLookDir(this.m_currentLookAtDir);

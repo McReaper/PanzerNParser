@@ -19,7 +19,7 @@ public class Tank {
 	public final static int TANK_HEIGHT = 3;
 
 	public static final int TANK_HEALTH = 100;
-	public static final int TANK_SPEED = 200;
+	public static final int TANK_SPEED = 250;
 
 	// Upgrade m_upgrade[];
 	// Explosion m_explosion;
@@ -123,18 +123,17 @@ public class Tank {
 	public int getDamage() {
 		return m_turret.getDamageDealt();
 	}
-
-	public void setDamage(int dmg) {
-		// TODO
-		// m_turret.setDamage(dmg);
+	
+	public void increaseDamageFactor(double damageBoost) {
+		m_turret.increaseDamageFactor(damageBoost);
 	}
 
-	public int getSpeed() {
+	public long getSpeed() {
 		return m_body.getSpeed();
 	}
 
-	public void setSpeed(int val) {
-		m_body.setSpeed(val);
+	public void setSpeed(long l) {
+		m_body.setSpeed(l);
 	}
 
 	public boolean gotPower() {
@@ -146,7 +145,7 @@ public class Tank {
 	}
 
 	public void improveMaxAmmo(int val) {
-		m_turret.getWeapon().improveMagazin(val);
+		m_turret.increaseMaxAmmo(val);
 	}
 
 	public long getMiningTime() {

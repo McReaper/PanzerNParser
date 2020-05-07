@@ -10,8 +10,8 @@ public class UpgradeMiningTime extends Upgrade {
 	private static final String NAME = "Lower mining time";
 	private static final int MINERALS_COST = 5;
 	private static final int ELECTRONICALS_COST = 10;
-	private static final double MINING_TIME_REDUCE_FACTOR = 0.10; //10% plus rapide
-	private static final double COST_FACTOR = 1.0;
+	private static final double MINING_TIME_REDUCE_FACTOR = 0.20; //20% plus rapide
+	private static final double COST_FACTOR = 0.8;
 	
 	public UpgradeMiningTime(Tank tank) {
 		super(tank, null);

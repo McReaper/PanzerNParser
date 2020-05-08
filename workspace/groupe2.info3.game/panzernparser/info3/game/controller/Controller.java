@@ -13,7 +13,6 @@ import info3.game.automaton.LsKey;
 import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.model.upgrades.Upgrade;
-import info3.game.model.upgrades.UpgradeWeapon;
 import info3.game.view.GameCanvasListener;
 import info3.game.view.View;
 
@@ -30,12 +29,11 @@ public class Controller implements GameCanvasListener {
 		m_view = view;
 	}
 
-
 	@Override
 	public void tick(long elapsed) {
 		// a chaque tick on fait un pas de simulation, et donc met à jour le modèle.
 		boolean isEnd = m_model.getGameOver();
-		if(!m_view.m_canvas.hasFocus()) {
+		if (!m_view.m_canvas.hasFocus()) {
 			m_model.getKeyPressed().removeAll(m_model.getKeyPressed());
 		}
 		m_model.step(elapsed);
@@ -47,7 +45,7 @@ public class Controller implements GameCanvasListener {
 			Iterator<String> iter = m_model.getSounds().iterator();
 			while (iter.hasNext()) {
 				String name = (String) iter.next();
-				if(!isEnd || name.equals("deg") || name.contentEquals("Game_Over"))
+				if (!isEnd || name.equals("deg") || name.contentEquals("Game_Over"))
 					loadMusic(name);
 			}
 			m_model.getSounds().removeAll(m_model.getSounds());

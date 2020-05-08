@@ -1,7 +1,6 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
-import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;

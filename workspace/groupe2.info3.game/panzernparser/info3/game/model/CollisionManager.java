@@ -6,10 +6,7 @@ import info3.game.automaton.MyCategory;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory.MyEntities;
-import info3.game.model.entities.MovingEntity;
 import info3.game.model.entities.Shot;
-import info3.game.model.entities.TankBody;
-import info3.game.model.entities.Turret;
 
 public class CollisionManager {
 

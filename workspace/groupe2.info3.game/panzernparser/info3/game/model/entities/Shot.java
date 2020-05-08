@@ -42,6 +42,8 @@ public abstract class Shot extends MovingEntity {
 			case SOUTHEAST:
 			case SOUTHWEST:
 				m_nbCaseCrossedDiad ++;
+			default:
+				break;
 		}
 		if ((m_nbCaseCrossedRight + (int) (m_nbCaseCrossedDiad * (Math.sqrt(2))))/2 ==m_nbCaseLife) {
 			m_health = 0;

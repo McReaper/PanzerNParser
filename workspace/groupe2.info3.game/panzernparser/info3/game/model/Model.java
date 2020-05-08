@@ -4,10 +4,8 @@ import java.rmi.UnexpectedException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import info3.game.GameConfiguration;
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
-import info3.game.controller.Controller;
 import info3.game.model.Grid.Coords;
 import info3.game.model.entities.AutomaticTurret;
 import info3.game.model.entities.Drone;
@@ -23,13 +21,11 @@ import info3.game.model.upgrades.UpgradeDroneVision;
 import info3.game.model.upgrades.UpgradeHealTank;
 import info3.game.model.upgrades.UpgradeMarkersCount;
 import info3.game.model.upgrades.UpgradeMiningTime;
-import info3.game.model.upgrades.UpgradeWeapon;
 import info3.game.model.upgrades.UpgradeTankDamage;
 import info3.game.model.upgrades.UpgradeTankLife;
 import info3.game.model.upgrades.UpgradeTankShotsCapacity;
 import info3.game.model.upgrades.UpgradeTankSpeed;
-import info3.game.model.entities.TankBody;
-import info3.game.model.entities.Turret;
+import info3.game.model.upgrades.UpgradeWeapon;
 
 public class Model {
 
@@ -53,7 +49,6 @@ public class Model {
 	private Coords m_clue;
 	private long m_time;
 	private LinkedList<String> m_soundsToPlay;
-	private LinkedList<String> m_soundsToStop;
 	private LinkedList<Upgrade> m_statUpgrade;
 	private LinkedList<Upgrade> m_uniqUpgrade;
 	private Score m_score;
@@ -450,7 +445,7 @@ public class Model {
 			System.err.println("Il semblerait que la grille ne comporte pas de TankBody...");
 			System.exit(-1);
 		}
-		
+
 		// Création du Tank et du Drone :
 		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
 		AutomaticTurret autTurret = (AutomaticTurret) EntityFactory.newEntity(MyEntities.AutomaticTurret, body.getX(),

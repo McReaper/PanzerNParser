@@ -12,12 +12,12 @@ public class EnemyLevel2 extends Enemy {
 	public final static int ENEMYLEVEL2_WIDTH = 2;
 	public final static int ENEMYLEVEL2_HEIGHT = 2;
 
-	public static final int ENEMYLEVEL2_HEALTH = 100;
-	public static final int ENEMYLEVEL2_SPEED = 1000;
-	public static final int ENEMYLEVEL2_FOV = 4;
+	public static final int ENEMYLEVEL2_HEALTH = 150;
+	public static final int ENEMYLEVEL2_SPEED = 400;
+	public static final int ENEMYLEVEL2_FOV = 5;
 
 	public static final long ENEMYLEVEL2_EGG_TIME = 0;
-	public static final long ENEMYLEVEL2_HIT_TIME = 500;
+	public static final long ENEMYLEVEL2_HIT_TIME = 250;
 	public static final long ENEMYLEVEL2_EXPLODE_TIME = 1000;
 	public static final long ENEMYLEVEL2_MOVE_TIME = 1000;
 	public static final long ENEMYLEVEL2_POP_TIME = 1000;
@@ -25,7 +25,7 @@ public class EnemyLevel2 extends Enemy {
 	public static final long ENEMYLEVEL2_WAIT_TIME = 50;
 	public static final long ENEMYLEVEL2_WIZZ_TIME = 1000;
 
-	public static final int ENEMYLEVEL2_DAMMAGE_DEALT = 50;
+	public static final int ENEMYLEVEL2_DAMMAGE_DEALT = 10;
 
 	public EnemyLevel2(int x, int y, Automaton aut) {
 		super(x, y, ENEMYLEVEL2_WIDTH, ENEMYLEVEL2_HEIGHT, aut);
@@ -61,29 +61,31 @@ public class EnemyLevel2 extends Enemy {
 			switch (m_currentLookAtDir) {
 				case SOUTH:
 				case NORTH:
-					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
-					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + m_width - 1, m_y);
+					ent1 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x + m_width - 1, m_y);
 					break;
 				case WEST:
 				case EAST:
-					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
-					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y + m_height - 1);
+					ent1 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y + m_height - 1);
 					break;
 				case SOUTHEAST:
 				case NORTHWEST:
-					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + m_width - 1, m_y);
-					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y + m_height - 1);
+					ent1 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x + m_width - 1, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y + m_height - 1);
 					break;
 				case SOUTHWEST:
 				case NORTHEAST:
-					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
-					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x + m_width - 1, m_y + m_height - 1);
+					ent1 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x + m_width - 1, m_y + m_height - 1);
 					break;
 				default:
-					ent1 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
-					ent2 = EntityFactory.newEntity(MyEntities.ShotFast, m_x, m_y);
+					ent1 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y);
+					ent2 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y);
 					break;
 			}
+			((ShotEnemy) ent1).setDamage(m_damage_dealt);
+			((ShotEnemy) ent2).setDamage(m_damage_dealt);
 
 			// Donne la direction de regard et d'action
 			ent1.setLookDir(this.m_currentLookAtDir);
@@ -93,8 +95,8 @@ public class EnemyLevel2 extends Enemy {
 			ent2.setActionDir(this.m_currentActionDir);
 
 			// Donne l'entité qui l'a tiré
-			((Shot) ent1).setOwner(this);
-			((Shot) ent2).setOwner(this);
+			((ShotEnemy) ent1).setOwner(this);
+			((ShotEnemy) ent2).setOwner(this);
 		}
 	}
 
@@ -178,14 +180,14 @@ public class EnemyLevel2 extends Enemy {
 			m_damage_dealt /= 2;
 		}
 	}
-
-	public void levelUp() {/* l'enemy basic bouge peu mais fait très mal */
-		if (Model.getModel().getLevel() % 4 == 0) {
-			setMaxHealth(ENEMYLEVEL2_HEALTH * 3);
-			m_health = getMaxHealth();
-			m_range += 2;
-			m_damage_dealt = (Model.getModel().getLevel() / 3 + 2) * ENEMYLEVEL2_DAMMAGE_DEALT;
-		}
+	
+	public void levelUp() {
+		setMaxHealth((int) (ENEMYLEVEL2_HEALTH + ENEMYLEVEL2_HEALTH * 0.5 * (Model.getModel().getLevel() - 1)));
+		m_health = getMaxHealth();
+		setSpeed((int) (ENEMYLEVEL2_SPEED - ENEMYLEVEL2_SPEED * 0.2 * (Model.getModel().getLevel() - 1)));
+		m_range += Model.getModel().getLevel();
+		m_damage_dealt = (int) (ENEMYLEVEL2_DAMMAGE_DEALT
+				+ ENEMYLEVEL2_DAMMAGE_DEALT * 0.5 * (Model.getModel().getLevel() - 1));
 	}
 
 }

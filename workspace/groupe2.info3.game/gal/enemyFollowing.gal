@@ -13,7 +13,7 @@ EnnemiFollowing(Init){
 	| Closest(@, S) & !Closest(@, SE) ? Turn(S) : (Step)
 	| Closest(@, E) & !Closest(@, SE) ? Turn(E) : (Step)
 	| Closest(@, SE) ? Turn(SE) : (Step)
-	| True ? Wait () : (Init)
+	| True ? Wait (F) : (Init)
 	
 	* (Step) :
 	| !GotPower() ? Egg() : (Dying)
@@ -23,7 +23,7 @@ EnnemiFollowing(Init){
 	* (Attack) :
 	| !GotPower() ? Egg() : (Dying)
 	| !Cell(F,O) ? Hit(F) : (Init)
-	| True ? Wait() : (Init)
+	| True ? Wait(F) : (Init)
 	
 	* (Dying)
 	| True ? Explode() : ()

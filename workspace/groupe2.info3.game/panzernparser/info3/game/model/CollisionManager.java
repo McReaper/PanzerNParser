@@ -25,10 +25,14 @@ public class CollisionManager {
 		controlCollisionsShot(MyEntities.ShotSlow);
 		controlCollisionsShot(MyEntities.ShotFast);
 		controlCollisionsShot(MyEntities.ShotBig);
+		controlCollisionsShot(MyEntities.ShotEnemyBasic);
+		controlCollisionsShot(MyEntities.ShotEnemyLevel2);
+		controlCollisionsShot(MyEntities.ShotEnemyBoss);
 	}
 
 	public void controlCollisionsShot(MyEntities s) {
-		if (s != MyEntities.ShotBig && s != MyEntities.ShotFast && s != MyEntities.ShotSlow)
+		if (s != MyEntities.ShotBig && s != MyEntities.ShotFast && s != MyEntities.ShotSlow
+				&& s != MyEntities.ShotEnemyBasic && s != MyEntities.ShotEnemyLevel2 && s != MyEntities.ShotEnemyBoss)
 			return;
 		// Regardons si les shots touches quelque chose
 		LinkedList<Entity> shots;

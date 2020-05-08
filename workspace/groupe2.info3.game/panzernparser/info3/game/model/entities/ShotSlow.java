@@ -10,7 +10,7 @@ public class ShotSlow extends Shot {
 	public static final int SHOTSLOW_HEIGHT = 1;
 
 	public static final int SHOTSLOW_HEALTH = 100;
-	public static final int SHOTSLOW_SPEED = 200;
+	public static final int SHOTSLOW_SPEED = 250;
 	public static final int SHOTSLOW_NUMBER_CASE_LIFE = 5;
 
 	public static final long SHOTSLOW_EXPLODE_TIME = 1000;

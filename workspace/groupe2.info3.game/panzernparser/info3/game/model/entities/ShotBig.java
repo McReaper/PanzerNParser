@@ -14,22 +14,26 @@ public class ShotBig extends Shot {
 	public static final int SHOTBIG_NUMBER_CASE_LIFE = 10;
 
 	public static final long SHOTBIG_EXPLODE_TIME = 1000;
-	public static final long SHOTBIG_MOVE_TIME = 200;
-	public static final long SHOTBIG_POP_TIME = 10000;
-	public static final long SHOTBIG_WIZZ_TIME = 1000;
+	public static final long SHOTBIG_MOVE_TIME = 150;
+	public static final long SHOTBIG_POP_TIME = 50;
+	public static final long SHOTBIG_WIZZ_TIME = 50;
 
-	public static final int SHOTBIG_DAMAGE_DEALT = 10;
+	public static final int SHOTBIG_DAMAGE_DEALT = 150;
 
 	public ShotBig(int x, int y, Automaton aut) {
 		super(x, y, SHOTBIG_WIDTH, SHOTBIG_HEIGHT, aut);
 		m_health = SHOTBIG_HEALTH;
 		m_damage_dealt = SHOTBIG_DAMAGE_DEALT;
 		m_speed = SHOTBIG_SPEED;
+		m_nbCaseLeft = SHOTBIG_NUMBER_CASE_LIFE*2;
 	}
 
 	@Override
 	public void Move(MyDirection dir) {
-		m_health -= SHOTBIG_NUMBER_CASE_LIFE / 2; // TODO : revoir pour la durer de vie des balles dans les diagonales
+		m_nbCaseLeft --;
+		if (m_nbCaseLeft <=0) {
+			m_health = 0;
+		}
 		super.Move(dir);
 	}
 	

@@ -105,9 +105,11 @@ public class EnemyBasic extends Enemy {
 	public void Explode() {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
 			this.doExplode();
+			Model.getModel().addSound("explosion");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
+			Model.getModel().addSound("wilhelm");
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = ENEMYBASIC_EXPLODE_TIME;
 		}

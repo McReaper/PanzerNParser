@@ -186,6 +186,7 @@ public class Drone extends MovingEntity {
 				m_actionFinished = false;
 				m_currentAction = null;
 			} else if (m_currentAction == null) {
+				Model.getModel().addSound("droneToTank");
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Wizz;
 				m_timeOfAction = DRONE_WIZZ_TIME;

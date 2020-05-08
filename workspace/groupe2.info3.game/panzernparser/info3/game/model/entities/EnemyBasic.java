@@ -26,8 +26,8 @@ public class EnemyBasic extends Enemy {
 	public static final long ENEMYBASIC_WIZZ_TIME = 1000;
 	public static final int ENEMYBASIC_DAMMAGE_DEALT = 10;
 
-	public static final int ENEMYBASIC_DROP_QUANTITY_MIN = 3;
-	public static final int ENEMYBASIC_DROP_QUANTITY_MAX = 5;
+	public static final int ENEMYBASIC_DROP_QUANTITY_MIN = 1;
+	public static final int ENEMYBASIC_DROP_QUANTITY_MAX = 3;
 
 	public EnemyBasic(int x, int y, Automaton aut) {
 		super(x, y, ENEMYBASIC_WIDTH, ENEMYBASIC_HEIGHT, aut);
@@ -105,9 +105,13 @@ public class EnemyBasic extends Enemy {
 	public void Explode() {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
 			this.doExplode();
+			if (isNoisy())
+				Model.getModel().addSound("explosion");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
+			if (isNoisy())
+				Model.getModel().addSound("wilhelm");
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = ENEMYBASIC_EXPLODE_TIME;
 		}
@@ -141,11 +145,11 @@ public class EnemyBasic extends Enemy {
 
 	public void levelUp() {
 		if (Model.getModel().getLevel() % 3 == 0) {
-			setMaxHealth(ENEMYBASIC_HEALTH*2);
+			setMaxHealth(ENEMYBASIC_HEALTH * 2);
 			m_health = getMaxHealth();
 			setSpeed((int) (m_speed - m_speed * 0.1));
 			m_range++;
-			m_damage_dealt = (Model.getModel().getLevel()/3 + 1)* ENEMYBASIC_DAMMAGE_DEALT; 
+			m_damage_dealt = (Model.getModel().getLevel() / 3 + 1) * ENEMYBASIC_DAMMAGE_DEALT;
 		}
 	}
 }

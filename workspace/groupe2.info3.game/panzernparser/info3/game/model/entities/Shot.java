@@ -14,8 +14,6 @@ public abstract class Shot extends MovingEntity {
 	private Entity m_owner;
 	protected int m_nbCaseCrossedDiad;
 	protected int m_nbCaseCrossedRight;
-	protected int m_nbCaseLeft;
-	protected int m_nbCaseLeftDiag;
 	protected int m_nbCaseLife;
 
 	public Shot(int x, int y, int width, int height, Automaton aut) {
@@ -42,6 +40,8 @@ public abstract class Shot extends MovingEntity {
 			case SOUTHEAST:
 			case SOUTHWEST:
 				m_nbCaseCrossedDiad ++;
+			default:
+				break;
 		}
 		if ((m_nbCaseCrossedRight + (int) (m_nbCaseCrossedDiad * (Math.sqrt(2))))/2 ==m_nbCaseLife) {
 			m_health = 0;

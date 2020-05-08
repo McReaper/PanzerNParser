@@ -1,0 +1,20 @@
+Coup de feu de Beretta M12 (canon2) : Joseph SARDIN
+deg : Michel PERIN
+Hélicoptère 1 (moveDrone ): Denis CHARDONNET
+Pièce de monnaie dans tasse 1 (droppablePick):  David GRECK
+Tracteur1 (moveTank):  Joseph SARDIN
+Remontoir1 (reloadTurret):  Joseph SARDIN
+sonnette de comptoire (endReload):  Joseph SARDIN
+Pas dans les feuilles (moveEnemy):  Joseph SARDIN
+Travaux 3 (moveBigEnemy): Joseph SARDIN
+bruit d’explosion avec poudre (explosion) : sound-fishing.net
+1 coup de feu lointain (hitBasic) :  sound-fishing.net
+fusil à pompe 3 coups (hit_pompe) : sound-fishing.net
+cri de wilhelm (deathBasic) : Joseph SARDIN
+train vapeur pelletée de charbon(tankDig) : sound-fishing.net
+batteur electrique 6 (moveDrone4) : Joseph SARDIN
+bip de caisse (bipDrone) : Joseph SARDIN
+verre posé sur table (poseMarker) : Joseph SARDIN
+Douille de 9 milimètre sur béton 5 (changement d’arme) : Joseph SARDIN
+machine gun 1 (turretShot) :  sound-fishing.net
+bruit missile 1 (bossShot) : sound-fishing.net

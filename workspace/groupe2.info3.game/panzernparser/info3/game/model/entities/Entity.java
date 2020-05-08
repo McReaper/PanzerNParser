@@ -102,7 +102,7 @@ public abstract class Entity {
 	@SuppressWarnings("unchecked")
 	public void step(long elapsed) {
 		for (int i = 0; i < 12; i++) {
-			for(int j = 0; j < 8; j++) {				
+			for (int j = 0; j < 8; j++) {
 				m_memoryClosest[i][j] = -1;
 			}
 		}
@@ -667,6 +667,8 @@ public abstract class Entity {
 					}
 				}
 				return true;
+			default:
+				break;
 		}
 		return true;
 	}
@@ -1238,6 +1240,8 @@ public abstract class Entity {
 			case SOUTHWEST:
 				posX = m_x - 1;
 				break;
+			default:
+				break;
 		}
 		return posX;
 
@@ -1262,6 +1266,8 @@ public abstract class Entity {
 				break;
 			case WEST:
 				posY = m_y + (m_height - 1) / 2;// ce sera un peu décalé vers le haut si m_height est pair
+				break;
+			default:
 				break;
 		}
 		return posY;

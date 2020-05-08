@@ -7,7 +7,6 @@ import java.io.IOException;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
-import info3.game.model.entities.EnemyLevel2;
 import info3.game.model.entities.Entity;
 import info3.game.view.Sprite;
 
@@ -28,7 +27,8 @@ public class ExplosionAvatar {
 	}
 
 	public static void exploding(Graphics g, Entity entity, int x, int y, int w, int h) {
-		if (Model.getModel().getVisionType() != VisionType.TANK) return;
+		if (Model.getModel().getVisionType() != VisionType.TANK)
+			return;
 		if (noInit) {
 			init();
 		}

@@ -14,7 +14,6 @@ public class ShotAvatar extends Avatar {
 
 	public ShotAvatar(Animation animation) {
 		super(animation);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

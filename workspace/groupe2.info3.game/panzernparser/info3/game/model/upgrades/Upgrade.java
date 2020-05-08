@@ -54,7 +54,9 @@ public abstract class Upgrade {
 	 * méthode utile pour éviter une redondance des calculs.
 	 */
 	protected boolean isAvaibleFor(int mineral_cost, int electronical_cost) {
-		if (Model.getModel().getLevel() < m_level) return false;
+		if(!Model.getModel().getTank().gotPower()) {
+			return false;
+		}
 		Inventory inv = m_tank.getInventory();
 		return (inv.possesses(MaterialType.MINERAL, mineral_cost)
 				&& inv.possesses(MaterialType.ELECTRONIC, electronical_cost));

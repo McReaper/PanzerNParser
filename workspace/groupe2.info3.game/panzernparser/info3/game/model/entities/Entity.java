@@ -61,7 +61,7 @@ public abstract class Entity {
 	protected boolean m_hasChangedSpeed;
 	protected LinkedList<MyCategory> m_uncrossables;
 	protected String m_moveSound;
-	protected int[] m_memoryClosest;
+	protected int[][] m_memoryClosest;
 	protected LinkedList<Coords>[] m_memoryCoordClosest;
 	protected boolean m_hasMoved;
 
@@ -95,14 +95,16 @@ public abstract class Entity {
 
 		m_hasChangedSpeed = false;
 		m_moveSound = new String();
-		m_memoryClosest = new int[8];
+		m_memoryClosest = new int[12][8];
 		m_memoryCoordClosest = new LinkedList[8];
 	}
 
 	@SuppressWarnings("unchecked")
 	public void step(long elapsed) {
-		for (int i = 0; i < 8; i++) {
-			m_memoryClosest[i] = -1;
+		for (int i = 0; i < 12; i++) {
+			for(int j = 0; j < 8; j++) {				
+				m_memoryClosest[i][j] = -1;
+			}
 		}
 		if (m_hasMoved) {
 			m_hasMoved = false;
@@ -867,8 +869,9 @@ public abstract class Entity {
 	 * @return vrai si l'entité de type recherché est "proche"
 	 */
 	public boolean Closest(MyDirection dir, MyCategory type) {
-		int indice = MyDirection.toInt(MyDirection.toAbsolute(m_currentLookAtDir, dir));
-		int res = m_memoryClosest[indice];
+		int dirIndice = MyDirection.toInt(MyDirection.toAbsolute(m_currentLookAtDir, dir));
+		int catIndice = MyCategory.toInt(type);
+		int res = m_memoryClosest[catIndice][dirIndice];
 		if (res == 0) {
 			return false;
 		} else if (res == 1) {
@@ -877,17 +880,17 @@ public abstract class Entity {
 
 		Entity closest = Model.getModel().closestEntity(Model.getModel().getCategoried(type), m_x, m_y);
 		LinkedList<Coords> coords_to_check;
-		if (m_memoryCoordClosest[indice] == null) {
+		if (m_memoryCoordClosest[dirIndice] == null) {
 			coords_to_check = getDetectionCone(dir, this.m_range);
-			m_memoryCoordClosest[indice] = coords_to_check;
+			m_memoryCoordClosest[dirIndice] = coords_to_check;
 		} else {
-			coords_to_check = m_memoryCoordClosest[indice];
+			coords_to_check = m_memoryCoordClosest[dirIndice];
 		}
 		if (closest.isInMe(coords_to_check)) {
-			m_memoryClosest[indice] = 1;
+			m_memoryClosest[catIndice][dirIndice] = 1;
 			return true;
 		} else {
-			m_memoryClosest[indice] = 0;
+			m_memoryClosest[catIndice][dirIndice] = 0;
 			return false;
 		}
 	}

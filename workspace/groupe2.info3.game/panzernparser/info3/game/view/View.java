@@ -15,29 +15,12 @@ import java.util.LinkedList;
 import javax.imageio.ImageIO;
 
 import info3.game.GameConfiguration;
-import info3.game.GameMain;
 import info3.game.controller.Controller;
 import info3.game.model.Grid;
 import info3.game.model.Grid.Coords;
-import info3.game.model.MaterialType;
 import info3.game.model.Model;
-import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
-import info3.game.view.avatars.AutomaticTurretAvatar;
-import info3.game.view.avatars.Avatar;
-import info3.game.view.avatars.DroneAvatar;
-import info3.game.view.avatars.DroppableAvatar;
-import info3.game.view.avatars.EnemyAvatar;
-import info3.game.view.avatars.HoleAvatar;
-import info3.game.view.avatars.MarkerAvatar;
-import info3.game.view.avatars.MudAvatar;
-import info3.game.view.avatars.RockAvatar;
-import info3.game.view.avatars.ShotAvatar;
-import info3.game.view.avatars.TankBodyAvatar;
-import info3.game.view.avatars.TurretAvatar;
-import info3.game.view.avatars.VeinAvatar;
-import info3.game.view.avatars.WallAvatar;
-import info3.game.view.avatars.WreckTankAvatar;
+import info3.game.view.avatars.*;
 
 public class View extends Container {
 
@@ -102,11 +85,11 @@ public class View extends Container {
 		orderEntities.add(MyEntities.ShotEnemyLevel2);
 		m_avatars.add(new ShotAvatar(config.getAnimation(MyEntities.ShotEnemyBoss)));
 		orderEntities.add(MyEntities.ShotEnemyBoss);
-		m_avatars.add(new EnemyAvatar(config.getAnimation(MyEntities.EnemyBasic)));
+		m_avatars.add(new EnemyBasicAvatar(config.getAnimation(MyEntities.EnemyBasic)));
 		orderEntities.add(MyEntities.EnemyBasic);
-		m_avatars.add(new EnemyAvatar(config.getAnimation(MyEntities.EnemyLevel2)));
+		m_avatars.add(new EnemyTankAvatar(config.getAnimation(MyEntities.EnemyLevel2)));
 		orderEntities.add(MyEntities.EnemyLevel2);
-		m_avatars.add(new EnemyAvatar(config.getAnimation(MyEntities.EnemyBoss)));
+		m_avatars.add(new EnemyBossAvatar(config.getAnimation(MyEntities.EnemyBoss)));
 		orderEntities.add(MyEntities.EnemyBoss);
 		m_avatars.add(new MarkerAvatar(config.getAnimation(MyEntities.Marker)));
 		orderEntities.add(MyEntities.Marker);

@@ -12,12 +12,17 @@ public class EnemyBoss extends Enemy {
 
 	public static final int ENEMYBOSS_WIDTH = 3;
 	public static final int ENEMYBOSS_HEIGHT = 3;
+	
 	public static final int ENEMYBOSS_FOV = 10;
-	public static final int ENEMYBOSS_DAMMAGE_DEALT = 10;
-	public static final int ENEMYBOSS_HEALTH = 250;
+	public static final int ENEMYBOSS_DAMMAGE_DEALT = 25;
+	public static final int ENEMYBOSS_HEALTH = 500;
 	public static final int ENEMYBOSS_SPEED = 2000;
+	
 	public static final int ENEMYBOSS_HIT_TIME = 1000;
 	public static final int ENEMYBOSS_TURN_TIME = 1000;
+
+	public static final int ENEMYBOSS_DROP_QUANTITY_MIN = 50;
+	public static final int ENEMYBOSS_DROP_QUANTITY_MAX = 100;
 	
 	public EnemyBoss(int x, int y, Automaton aut) {
 		super(x, y, ENEMYBOSS_WIDTH, ENEMYBOSS_HEIGHT, aut);
@@ -64,7 +69,8 @@ public class EnemyBoss extends Enemy {
 			m_currentAction = null;
 			// creation de la ressource a répendre
 			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x, m_y);
-			int rand = (int) (Math.random() * (100 - 50));
+			int rand = (int) ((Math.random() * ((ENEMYBOSS_DROP_QUANTITY_MAX - ENEMYBOSS_DROP_QUANTITY_MIN) + 1)) + ENEMYBOSS_DROP_QUANTITY_MIN);
+			rand *= Model.getModel().getLevel();
 			((Droppable) ent).setQuantity(rand);
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;

@@ -26,6 +26,9 @@ public class EnemyBasic extends Enemy {
 	public static final long ENEMYBASIC_WIZZ_TIME = 1000;
 	public static final int ENEMYBASIC_DAMMAGE_DEALT = 10;
 
+	public static final int ENEMYBASIC_DROP_QUANTITY_MIN = 3;
+	public static final int ENEMYBASIC_DROP_QUANTITY_MAX = 5;
+
 	public EnemyBasic(int x, int y, Automaton aut) {
 		super(x, y, ENEMYBASIC_WIDTH, ENEMYBASIC_HEIGHT, aut);
 		m_category = MyCategory.A;
@@ -74,7 +77,9 @@ public class EnemyBasic extends Enemy {
 			m_currentAction = null;
 			// creation de la ressource a répendre
 			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x, m_y);
-			int rand = (int) (Math.random() * (20 - 1));// 20 correspond au nombre max de ressource dispo et 1 le min
+			int rand = (int) ((Math.random() * ((ENEMYBASIC_DROP_QUANTITY_MAX - ENEMYBASIC_DROP_QUANTITY_MIN) + 1))
+					+ ENEMYBASIC_DROP_QUANTITY_MIN);
+			rand *= Model.getModel().getLevel();
 			((Droppable) ent).setQuantity(rand);
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;

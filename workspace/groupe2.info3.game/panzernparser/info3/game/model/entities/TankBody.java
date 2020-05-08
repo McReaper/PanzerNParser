@@ -109,6 +109,7 @@ public class TankBody extends MovingEntity {
 			Drone d = Model.getModel().getDrone();
 			if (d.getHealth() >= d.getMaxHealth() / 5) {
 				m_currentActionDir = dir;
+				Model.getModel().addSound("tankToDrone");
 				m_currentAction = LsAction.Wizz;
 				m_timeOfAction = TANKBODY_WIZZ_TIME;
 			}

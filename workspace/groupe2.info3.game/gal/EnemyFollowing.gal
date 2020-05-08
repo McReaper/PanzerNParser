@@ -17,7 +17,8 @@ EnemyFollowing(Init){
 	
 	* (Step) :
 	| !GotPower() ? Egg() : (Dying)
-	| !Cell(N,@) & ! Cell(N,O) ? Move(F) : (Attack)
+	| Cell(F,@) ? : (Attack)
+	| !Cell(F,O) ? Move(F) : (Attack)
 	| True ? : (Attack)
 	
 	* (Attack) :

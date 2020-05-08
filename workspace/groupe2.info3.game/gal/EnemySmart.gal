@@ -17,7 +17,8 @@ EnemySmart(Search){
 	
 	* (Step) :
 	| !GotPower() ? Egg() : (Dying)
-	| !Cell(N,@) & ! Cell(N,O) ? Move(F) : (Attack)
+	| Cell(F,@) ? : (Attack)
+	| !Cell(F,O) ? Move(F) : (Attack)
 	| True ? Wait() : (ContourneObstacleRight)
 	
 	* (Attack) :

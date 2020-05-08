@@ -13,20 +13,10 @@ public class ShotEnemyBoss extends ShotEnemy{
 	
 	public ShotEnemyBoss(int x, int y, Automaton aut) {
 		super(x, y, SHOTENEMYBOSS_WIDTH, SHOTENEMYBOSS_HEIGHT, aut);
-		m_nbCaseLeft = SHOTENEMYBOSS_NUMBER_CASE_LIFE*2;
+		m_nbCaseLife = SHOTENEMYBOSS_NUMBER_CASE_LIFE;
 		m_speed = SHOTENEMYBOSS_SPEED;
 	}
 
-	
-	@Override
-	public void Move(MyDirection dir) {
-		m_nbCaseLeft --;
-		if (m_nbCaseLeft <=0) {
-			m_health = 0;
-		}
-		super.Move(dir);
-	}
-	
 	@Override
 	public void Wait() {
 		if (m_actionFinished && m_currentAction == LsAction.Wait) {

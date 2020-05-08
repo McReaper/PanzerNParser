@@ -145,6 +145,7 @@ public class Drone extends MovingEntity {
 	public void Pop(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			switchVision();
+			Model.getModel().addSound("bipDrone2");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {

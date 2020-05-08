@@ -7,8 +7,8 @@ import info3.game.model.Tank;
 public class UpgradeTankDamage extends Upgrade {
 
 	private static final String NAME = "Higher damage";
-	private static final int MINERALS_COST = 10;
-	private static final int ELECTRONICALS_COST = 5;
+	private static final int MINERALS_COST = 35;
+	private static final int ELECTRONICALS_COST = 25;
 	private static final double DAMAGE_BOOST = 0.25; //25%
 	private static final double COST_FACTOR = 1.0;
 
@@ -47,7 +47,7 @@ public class UpgradeTankDamage extends Upgrade {
 
 	@Override
 	public String getDescription() {
-		return "<html><p style='color:black;text-align:center'>Upgrade <b>your damage</b> to effectively destroy other units</p></html>";
+		return "<html><p style='color:black;text-align:center'>Upgrade <b>your damage by 25%</b> <br>to destroy efficiently other units</p></html>";
 	}
 
 }

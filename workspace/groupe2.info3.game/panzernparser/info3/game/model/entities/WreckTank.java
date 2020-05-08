@@ -14,7 +14,7 @@ public class WreckTank extends StaticEntity {
 	public final static int WRECKTANK_WIDTH = 3;
 	public final static int WRECKTANK_HEIGHT = 3;
 
-	public static final int WRECKTANK_HEALTH = 100;
+	public static final int WRECKTANK_HEALTH = 150;
 	public static final int WRECKTANK_SPEED = 100;
 	public static final int WRECKTANK_DROP_QUANTITY = 10;
 	
@@ -31,7 +31,7 @@ public class WreckTank extends StaticEntity {
 	public static final long WRECKTANK_STORE_TIME = 1000;
 	public static final long WRECKTANK_TURN_TIME = 1000;
 	public static final long WRECKTANK_THROW_TIME = 1000;
-	public static final long WRECKTANK_WAIT_TIME = 1500;
+	public static final long WRECKTANK_WAIT_TIME = 1000;
 	public static final long WRECKTANK_WIZZ_TIME = 1000;
 	
 	int m_quantity;

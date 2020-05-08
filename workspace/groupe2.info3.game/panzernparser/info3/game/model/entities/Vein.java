@@ -13,7 +13,8 @@ public class Vein extends StaticEntity {
 
 	public final static int VEIN_WIDTH = 1;
 	public final static int VEIN_HEIGHT = 1;
-	public static final int VEIN_DROP_QUANTITY = 10;
+	public static final int VEIN_DROP_QUANTITY_MIN = 5;
+	public static final int VEIN_DROP_QUANTITY_MAX = 10;
 	public static final double QUANTITY_FACTOR = 0.5;
 
 	public static final long VEIN_EGG_TIME = 1000;
@@ -27,7 +28,8 @@ public class Vein extends StaticEntity {
 		super(x, y, VEIN_WIDTH, VEIN_HEIGHT, aut);
 		m_category = MyCategory.G;
 		m_stuff = false;
-		m_quantity = (int) (VEIN_DROP_QUANTITY + (VEIN_DROP_QUANTITY * QUANTITY_FACTOR * Model.getModel().getLevel()));
+		int rand = (int) ((Math.random() * ((VEIN_DROP_QUANTITY_MAX - VEIN_DROP_QUANTITY_MIN) + 1)) + VEIN_DROP_QUANTITY_MIN);
+		m_quantity = (int) (rand + (rand * QUANTITY_FACTOR * (Model.getModel().getLevel() - 1)));
 	}
 
 	@Override
@@ -50,7 +52,7 @@ public class Vein extends StaticEntity {
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Egg;
-			m_timeOfAction = DEFAULT_EGG_TIME;
+			m_timeOfAction = Model.getModel().getTank().getMiningTime();
 
 			// creation de la ressource a répendre
 			if (dir == null || dir == MyDirection.HERE) {

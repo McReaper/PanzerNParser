@@ -25,17 +25,8 @@ public class ShotSlow extends Shot {
 		m_health = SHOTSLOW_HEALTH;
 		m_damage_dealt = SHOTSLOW_DAMAGE_DEALT;
 		m_speed = SHOTSLOW_SPEED;
-		m_nbCaseLeft = SHOTSLOW_NUMBER_CASE_LIFE *2;//car on appelle 2 fois la fonction move qui décrémente ce nombre
-	}
-	
-	@Override
-	public void Move(MyDirection dir) {
-		m_nbCaseLeft --;
-		if (m_nbCaseLeft <=0) {
-			m_health = 0;
+		m_nbCaseLife = SHOTSLOW_NUMBER_CASE_LIFE;
 		}
-		super.Move(dir);
-	}
 
 	public void Pop(MyDirection dir) {//pose un droppable
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {

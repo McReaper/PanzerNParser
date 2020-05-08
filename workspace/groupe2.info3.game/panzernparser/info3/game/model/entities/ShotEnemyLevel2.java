@@ -13,19 +13,9 @@ public class ShotEnemyLevel2 extends ShotEnemy {
 	
 	public ShotEnemyLevel2(int x, int y, Automaton aut) {
 		super(x, y, SHOTENEMYLEVEL2_WIDTH, SHOTENEMYLEVEL2_HEIGHT, aut);
-		m_nbCaseLeft = SHOTENEMYLEVEL2_NUMBER_CASE_LIFE*2;
+		m_nbCaseLife = SHOTENEMYLEVEL2_NUMBER_CASE_LIFE;
 		m_speed = SHOTENEMYLEVEL2_SPEED;
 	}
-	
-	@Override
-	public void Move(MyDirection dir) {
-		m_nbCaseLeft --;
-		if (m_nbCaseLeft <=0) {
-			m_health = 0;
-		}
-		super.Move(dir);
-	}
-	
 
 	public void Pop(MyDirection dir) {//devient plus large
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {

@@ -5,7 +5,7 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 
-public class ShotEnemyBoss extends ShotEnemy {
+public class ShotEnemyBoss extends Shot{
 	public static final int SHOTENEMYBOSS_WIDTH = 2;
 	public static final int SHOTENEMYBOSS_HEIGHT = 2;
 
@@ -14,17 +14,8 @@ public class ShotEnemyBoss extends ShotEnemy {
 
 	public ShotEnemyBoss(int x, int y, Automaton aut) {
 		super(x, y, SHOTENEMYBOSS_WIDTH, SHOTENEMYBOSS_HEIGHT, aut);
-		m_nbCaseLeft = SHOTENEMYBOSS_NUMBER_CASE_LIFE * 2;
+		m_nbCaseLife = SHOTENEMYBOSS_NUMBER_CASE_LIFE;
 		m_speed = SHOTENEMYBOSS_SPEED;
-	}
-
-	@Override
-	public void Move(MyDirection dir) {
-		m_nbCaseLeft--;
-		if (m_nbCaseLeft <= 0) {
-			m_health = 0;
-		}
-		super.Move(dir);
 	}
 
 	@Override

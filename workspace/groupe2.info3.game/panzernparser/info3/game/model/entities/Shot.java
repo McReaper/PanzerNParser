@@ -14,8 +14,6 @@ public abstract class Shot extends MovingEntity {
 	private Entity m_owner;
 	protected int m_nbCaseCrossedDiad;
 	protected int m_nbCaseCrossedRight;
-	protected int m_nbCaseLeft;
-	protected int m_nbCaseLeftDiag;
 	protected int m_nbCaseLife;
 
 	public Shot(int x, int y, int width, int height, Automaton aut) {

@@ -53,14 +53,14 @@ public class EnemyBoss extends Enemy {
 			Model.getModel().addSound("shotBossComplete");
 			// creation du shot
 			Entity ent = EntityFactory.newEntity(MyEntities.ShotEnemyBoss, m_x, m_y);
-			((ShotEnemy) ent).setDamage(m_damage_dealt);
+			((Shot) ent).setDamage(m_damage_dealt);
 
 			// Donne la direction de regard et d'action
 			ent.setLookDir(this.m_currentLookAtDir);
 			ent.setActionDir(this.m_currentActionDir);
 
 			// Donne l'entité qui l'a tiré
-			((ShotEnemy) ent).setOwner(this);
+			((Shot) ent).setOwner(this);
 		}
 	}
 
@@ -115,34 +115,34 @@ public class EnemyBoss extends Enemy {
 				case EAST:
 				case WEST:
 					Entity ent1 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x + 1, m_y - 1);
-					((ShotEnemy) ent1).setLookDir(MyDirection.NORTH);
-					((ShotEnemy) ent1).setDamage(m_damage_dealt / 2);
+					((Shot) ent1).setLookDir(MyDirection.NORTH);
+					((Shot) ent1).setDamage(m_damage_dealt / 2);
 					Entity ent2 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x + 1, m_y + 3);
-					((ShotEnemy) ent2).setLookDir(MyDirection.SOUTH);
-					((ShotEnemy) ent2).setDamage(m_damage_dealt / 2);
+					((Shot) ent2).setLookDir(MyDirection.SOUTH);
+					((Shot) ent2).setDamage(m_damage_dealt / 2);
 					Entity ent3 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x + 3, m_y + 1);
-					((ShotEnemy) ent3).setLookDir(MyDirection.EAST);
-					((ShotEnemy) ent3).setDamage(m_damage_dealt / 2);
+					((Shot) ent3).setLookDir(MyDirection.EAST);
+					((Shot) ent3).setDamage(m_damage_dealt / 2);
 					Entity ent4 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x - 1, m_y + 1);
-					((ShotEnemy) ent4).setLookDir(MyDirection.WEST);
-					((ShotEnemy) ent4).setDamage(m_damage_dealt / 2);
+					((Shot) ent4).setLookDir(MyDirection.WEST);
+					((Shot) ent4).setDamage(m_damage_dealt / 2);
 					break;
 				case NORTHEAST:
 				case NORTHWEST:
 				case SOUTHEAST:
 				case SOUTHWEST:
 					Entity ent5 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x - 1, m_y - 1);
-					((ShotEnemy) ent5).setLookDir(MyDirection.NORTHWEST);
-					((ShotEnemy) ent5).setDamage(m_damage_dealt / 2);
+					((Shot) ent5).setLookDir(MyDirection.NORTHWEST);
+					((Shot) ent5).setDamage(m_damage_dealt / 2);
 					Entity ent6 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x + 3, m_y - 1);
-					((ShotEnemy) ent6).setLookDir(MyDirection.NORTHEAST);
-					((ShotEnemy) ent6).setDamage(m_damage_dealt / 2);
+					((Shot) ent6).setLookDir(MyDirection.NORTHEAST);
+					((Shot) ent6).setDamage(m_damage_dealt / 2);
 					Entity ent7 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x + 3, m_y + 3);
-					((ShotEnemy) ent7).setLookDir(MyDirection.SOUTHEAST);
-					((ShotEnemy) ent7).setDamage(m_damage_dealt / 2);
+					((Shot) ent7).setLookDir(MyDirection.SOUTHEAST);
+					((Shot) ent7).setDamage(m_damage_dealt / 2);
 					Entity ent8 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x - 1, m_y + 3);
-					((ShotEnemy) ent8).setLookDir(MyDirection.SOUTHWEST);
-					((ShotEnemy) ent8).setDamage(m_damage_dealt / 2);
+					((Shot) ent8).setLookDir(MyDirection.SOUTHWEST);
+					((Shot) ent8).setDamage(m_damage_dealt / 2);
 					break;
 				default:
 					break;

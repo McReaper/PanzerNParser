@@ -13,7 +13,7 @@ public class Inventory {
 	public Inventory() {
 		m_materialList = new HashMap<MaterialType, Integer>();
 		for (MaterialType matType : MaterialType.values()) {
-			m_materialList.put(matType, 99999);
+			m_materialList.put(matType, 0);
 		}
 	}
 	

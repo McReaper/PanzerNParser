@@ -23,7 +23,6 @@ public class GameMain {
 	private Model m_model;
 	private View m_view;
 	private JFrame m_frame;
-	private boolean m_fullscreen;
 	private HashMap<String, File> m_soundFiles;
 	Menu m_menu;
 
@@ -57,7 +56,6 @@ public class GameMain {
 		// On attribut cette vue au controleur, qui écoute
 		m_controller.setView(m_view);	
 		
-		m_fullscreen = false;
 		m_frame = null;
 		System.out.println("Setting up the frame ...");
 		setupFrame();
@@ -100,25 +98,10 @@ public class GameMain {
 		int min_width_vp = ViewPort.MINIMAL_WIDTH;
 		int min_height_vp = ViewPort.MINIMAL_HEIGHT;
 
-		//TODO : a revoir, des bandes noires persistes
 		m_frame.setMinimumSize(new Dimension(min_width_hud + Math.max(min_width_vp, min_width_hud) , Math.max(min_height_hud, min_height_vp)));
-
-		if (m_fullscreen) {
-			m_frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-			m_frame.setUndecorated(true);
-		} else {
-			m_frame.setExtendedState(JFrame.NORMAL);
-			m_frame.setUndecorated(false);
-		}
-
+		
 		// Rend la fenetre visible
 		m_frame.setVisible(true);
-	}
-
-	public void goFullscreen() {
-		m_frame.setVisible(false);
-		m_fullscreen = !m_fullscreen;
-		setupFrame();
 	}
 
 	public void initSounds(File folder) {

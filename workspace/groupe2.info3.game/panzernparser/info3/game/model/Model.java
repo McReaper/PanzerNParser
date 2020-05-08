@@ -135,9 +135,7 @@ public class Model {
 		}
 
 		// Creation de la classe CollisionEntity
-		System.out.println("Création de la classe CollisionManager");
 		m_collisionManager = new CollisionManager();
-		System.out.println("CollisionManager créé !");
 
 		// Génère la grille du jeu qui va créer a son tour toutes les entités et mettre
 		// la liste des entités à jour.

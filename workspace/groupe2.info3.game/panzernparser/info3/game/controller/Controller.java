@@ -13,7 +13,6 @@ import info3.game.automaton.LsKey;
 import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.model.upgrades.Upgrade;
-import info3.game.model.upgrades.UpgradeShot;
 import info3.game.view.GameCanvasListener;
 import info3.game.view.View;
 
@@ -34,6 +33,9 @@ public class Controller implements GameCanvasListener {
 	public void tick(long elapsed) {
 		// a chaque tick on fait un pas de simulation, et donc met à jour le modèle.
 		boolean isEnd = m_model.getGameOver();
+		if (!m_view.m_canvas.hasFocus()) {
+			m_model.getKeyPressed().removeAll(m_model.getKeyPressed());
+		}
 		m_model.step(elapsed);
 		if (!m_model.getTank().gotPower()) {
 			m_view.m_canvas.stop("KatyushaIntro");
@@ -43,7 +45,7 @@ public class Controller implements GameCanvasListener {
 			Iterator<String> iter = m_model.getSounds().iterator();
 			while (iter.hasNext()) {
 				String name = (String) iter.next();
-				if(!isEnd || name.equals("deg") || name.contentEquals("Game_Over"))
+				if (!isEnd || name.equals("deg") || name.contentEquals("Game_Over"))
 					loadMusic(name);
 			}
 			m_model.getSounds().removeAll(m_model.getSounds());
@@ -56,7 +58,6 @@ public class Controller implements GameCanvasListener {
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
-			// TODO : IOOBE , demandez aux autres groupes.
 			m_view.m_canvas.play(name, fis, -1);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -83,9 +84,6 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_F11) {
-			// GameMain.getGame().goFullscreen(); // TODO : tobefixed
-		}
 		LsKey temp = toLsKey(e);
 		m_model.removeKeyPressed(temp);
 		if (m_model.getGameOver() && e.getKeyCode() == KeyEvent.VK_R) {
@@ -96,7 +94,6 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -123,32 +120,22 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowOpened() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void exit() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -160,8 +147,6 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void expired() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public LsKey toLsKey(KeyEvent e) {

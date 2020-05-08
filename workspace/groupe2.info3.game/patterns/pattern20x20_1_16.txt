@@ -15,7 +15,6 @@ vein1 10,12
 vein1 11,12
 drop1 11,11
 drop1 12,11
-drop1 12,10
 rock1 12,9
 drop1 13,7
 drop1 13,8

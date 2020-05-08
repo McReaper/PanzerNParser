@@ -1,7 +1,6 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
-import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -27,8 +26,8 @@ public class EnemyLevel2 extends Enemy {
 
 	public static final int ENEMYLEVEL2_DAMMAGE_DEALT = 10;
 
-	public static final int ENEMYLEVEL2_DROP_QUANTITY_MIN = 10;
-	public static final int ENEMYLEVEL2_DROP_QUANTITY_MAX = 20;
+	public static final int ENEMYLEVEL2_DROP_QUANTITY_MIN = 5;
+	public static final int ENEMYLEVEL2_DROP_QUANTITY_MAX = 10;
 
 	public EnemyLevel2(int x, int y, Automaton aut) {
 		super(x, y, ENEMYLEVEL2_WIDTH, ENEMYLEVEL2_HEIGHT, aut);
@@ -87,8 +86,8 @@ public class EnemyLevel2 extends Enemy {
 					ent2 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y);
 					break;
 			}
-			((ShotEnemy) ent1).setDamage(m_damage_dealt);
-			((ShotEnemy) ent2).setDamage(m_damage_dealt);
+			((Shot) ent1).setDamage(m_damage_dealt);
+			((Shot) ent2).setDamage(m_damage_dealt);
 
 			// Donne la direction de regard et d'action
 			ent1.setLookDir(this.m_currentLookAtDir);
@@ -98,8 +97,8 @@ public class EnemyLevel2 extends Enemy {
 			ent2.setActionDir(this.m_currentActionDir);
 
 			// Donne l'entité qui l'a tiré
-			((ShotEnemy) ent1).setOwner(this);
-			((ShotEnemy) ent2).setOwner(this);
+			((Shot) ent1).setOwner(this);
+			((Shot) ent2).setOwner(this);
 		}
 	}
 

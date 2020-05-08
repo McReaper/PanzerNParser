@@ -4,7 +4,7 @@ import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 
-public class ShotEnemyBasic extends ShotEnemy{
+public class ShotEnemyBasic extends Shot{
 
 	public static final int SHOTENEMYBASIC_WIDTH = 1;
 	public static final int SHOTENEMYBASIC_HEIGHT = 1;
@@ -15,18 +15,8 @@ public class ShotEnemyBasic extends ShotEnemy{
 	public ShotEnemyBasic(int x, int y, Automaton aut) {
 		super(x, y, SHOTENEMYBASIC_WIDTH, SHOTENEMYBASIC_HEIGHT, aut);
 		m_speed = SHOTENEMYBASIC_SPEED;
-		m_nbCaseLeft = SHOTENEMYBASIC_NUMBER_CASE_LIFE*2;
+		m_nbCaseLife = SHOTENEMYBASIC_NUMBER_CASE_LIFE;
 	}
-	
-	@Override
-	public void Move(MyDirection dir) {
-		m_nbCaseLeft --;
-		if (m_nbCaseLeft <=0) {
-			m_health = 0;
-		}
-		super.Move(dir);
-	}
-	
 
 	public void Pop(MyDirection dir) {//devient plus large
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {

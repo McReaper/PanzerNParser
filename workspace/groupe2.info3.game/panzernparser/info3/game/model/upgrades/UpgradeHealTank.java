@@ -65,6 +65,6 @@ public class UpgradeHealTank extends Upgrade{
 	
 	@Override
 	public String getDescription() {
-		return "<html><p style='color:black;text-align:center'>Heal the tank <b>50% of his life</b></p></html>";
+		return "<html><p style='color:black;text-align:center'>Heal the tank <b>50% of its life</b></p></html>";
 	}
 }

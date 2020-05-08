@@ -1,5 +1,5 @@
-EnemyFollowing(Init){
-	* (Init) :
+Boss(Search){
+	* (Search) :
 	| !GotPower() ? Egg() : (Dying)
 	| Closest(@, N) & !Closest(@, NE) ? Turn(N) : (Step)
 	| Closest(@, E) & !Closest(@, NE) ? Turn(E) : (Step)
@@ -13,18 +13,24 @@ EnemyFollowing(Init){
 	| Closest(@, S) & !Closest(@, SE) ? Turn(S) : (Step)
 	| Closest(@, E) & !Closest(@, SE) ? Turn(E) : (Step)
 	| Closest(@, SE) ? Turn(SE) : (Step)
-	| True ? Wait (F) : (Init)
+	| True ? Wait () : (Search)
 	
 	* (Step) :
 	| !GotPower() ? Egg() : (Dying)
 	| Cell(F,@) ? : (Attack)
 	| !Cell(F,O) ? Move(F) : (Attack)
-	| True ? : (Attack)
+	| True ? Wait() : (ContourneObstacleRight)
 	
 	* (Attack) :
 	| !GotPower() ? Egg() : (Dying)
-	| !Cell(F,O) ? Hit(F) : (Init)
-	| True ? Wait(F) : (Init)
+	| !Cell(F,O,2) & Cell(F,@,2) ? 75% Hit(F) / 10% Wizz(N) / 10% Wizz(NE) / Pop() : (Search)
+	| !Cell(F,O) ? Move(F) : (Search)
+	| True ? Wait() : (ContourneObstacleRight)
+	
+	*(ContourneObstacleRight)
+	|Cell(R,@) ? Turn(R) : (Attack)
+	|!Cell(R,O) ? Turn(R) : (Step)
+	|True ? Turn(R): (ContourneObstacleRight)
 	
 	* (Dying)
 	| True ? Explode() : ()

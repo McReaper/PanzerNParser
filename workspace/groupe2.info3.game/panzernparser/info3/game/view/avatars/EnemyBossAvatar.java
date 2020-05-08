@@ -40,7 +40,7 @@ public class EnemyBossAvatar extends Avatar {
 		if (e_currAction == LsAction.Move) {
 			x = progressivePaintX(e_absoluteActionDir, x, progress, case_width);
 			y = progressivePaintY(e_absoluteActionDir, y, progress, case_height);
-		} else if (progressMoveAtDie != 0) {
+		} else if (progressMoveAtDie != -1) {
 			x = progressivePaintX(directionMoveAtDie, x, progressMoveAtDie, case_width);
 			y = progressivePaintY(directionMoveAtDie, y, progressMoveAtDie, case_height);
 		}
@@ -65,12 +65,24 @@ public class EnemyBossAvatar extends Avatar {
 			} else {
 				progressWait = 0;
 			}
-			sprite = m_animation.getImage(0, LsAction.Wait, e_absoluteActionDir, vision);
+			sprite = m_animation.getImage(0, LsAction.Wait, e_lookAtDir, vision);
 		}
 
 		if (ExplosionAvatar.printEntity(entity)) {
 			g.drawImage(sprite, x, y, width, height, null);
 		}
+		if(e_currAction == LsAction.Pop) {
+			int popYVert = ycase + height/3;
+			int popXVert = xcase + (width*9/20);
+			int popYHori = ycase + (height*9/20);
+			int popXHori = xcase + (width/3);
+			popYHori -= case_height*(Math.log(progress+1)/Math.log(2));
+			popYVert -= case_height*(Math.log(progress+1)/Math.log(2));
+			g.setColor(Color.GREEN);
+			g.fillRect(popXHori, popYHori, width/3, height/10);
+			g.fillRect(popXVert, popYVert, width/10, height/3);
+		}
+		
 		ExplosionAvatar.exploding(g, entity, x, y, width, height);
 	}
 

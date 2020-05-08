@@ -86,6 +86,7 @@ public class HUD {
 	JPanel m_upgrade;
 	LinkedList<UpgradeButton> m_statButtons;
 	LinkedList<UpgradeButton> m_uniqButtons;
+	int m_colorCount;
 
 	VisionType m_vision;
 
@@ -149,7 +150,7 @@ public class HUD {
 		m_ammoPanel = initiateAmmoPanel(font);
 
 		// Zone des boutons d'upgrade
-		//m_upgrade = initiateUpgradePanel();
+		// m_upgrade = initiateUpgradePanel();
 
 		m_East.add(m_compass);
 		m_East.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, 5), new Dimension(0, 10)));
@@ -157,9 +158,10 @@ public class HUD {
 		m_East.add(new Box.Filler(new Dimension(0, 0), new Dimension(0, 5), new Dimension(0, 10)));
 		m_East.add(Stats);
 		m_East.add(m_ammoPanel);
-		//m_East.add(m_upgrade);
+		// m_East.add(m_upgrade);
 
 		m_viewModePanel = initiateViewModePanel();
+		m_colorCount = 0;
 		refreshHUD();
 	}
 
@@ -225,10 +227,10 @@ public class HUD {
 		LineBorder progressBarBorder = (LineBorder) BorderFactory.createLineBorder(Color.BLACK, 3);
 		JProgressBar bar = null;
 		if (string.equals("health")) {
-			m_health = createProgressBar(Color.RED, progressBarBorder);
+			m_health = createProgressBar(Color.RED, progressBarBorder,"health");
 			bar = m_health;
 		} else if (string.equals("drone")) {
-			m_drone = createProgressBar(Color.YELLOW, progressBarBorder);
+			m_drone = createProgressBar(Color.YELLOW, progressBarBorder,"drone");
 			bar = m_drone;
 		}
 		PanelBar.add(Box.createVerticalStrut(5));
@@ -237,9 +239,14 @@ public class HUD {
 		return PanelBar;
 	}
 
-	private JProgressBar createProgressBar(Color color, Border border) {
+	private JProgressBar createProgressBar(Color color, Border border,String type) {
 		BasicProgressBarUI progressUI = new BasicProgressBarUI();
-		JProgressBar progress = new JProgressBar(JProgressBar.VERTICAL, 0, 100);
+		LifeProgressBar progress;
+		if(type.equals("health")) {
+			progress = new LifeProgressBar(JProgressBar.VERTICAL, 0, 100,true);
+		} else {
+			progress = new LifeProgressBar(JProgressBar.VERTICAL, 0, 100,false);
+		}
 		progress.setUI(progressUI);
 		progress.setBorder(null);
 		progress.setBorder(border);
@@ -305,7 +312,7 @@ public class HUD {
 		stats.setBorder(statsBorder);
 
 		// Label du niveau
-		m_level = new JLabel("Level : 45");
+		m_level = new JLabel("Level : 1");
 		m_level.setForeground(Color.BLACK);
 		m_level.setFont(font);
 		m_level.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -313,11 +320,10 @@ public class HUD {
 		stats.add(m_level);
 
 		// Label des points
-		m_score = new JLabel("450 pts");
+		m_score = new JLabel("0 pts");
 		m_score.setForeground(Color.BLACK);
 		m_score.setFont(font);
 		m_score.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-
 		stats.add(m_score);
 		return stats;
 	}
@@ -526,7 +532,7 @@ public class HUD {
 	}
 
 	public void refreshHUD() {
-		if(!m_view.isLaunch()) {
+		if (!m_view.isLaunch()) {
 			return;
 		}
 		Model model = Model.getModel();
@@ -554,7 +560,13 @@ public class HUD {
 		m_level.setText("Level : " + Integer.toString(Model.getModel().getLevel()));
 
 		// Score
-		m_score.setText(Integer.toString(model.getScore().getScore()));
+		if (!Integer.toString(model.getScore().getScore()).equals(m_score.getText())) {
+			m_score.setText(Integer.toString(model.getScore().getScore()));
+			m_colorCount = 1;
+		}
+		if (m_colorCount != 0) {
+			shakeScore();
+		}
 
 		// Minerals, Electronics, Weapons et Markers
 		m_toolsLabel.setText(Integer.toString(tank.getInventory().getQuantity(MaterialType.ELECTRONIC)));
@@ -646,6 +658,18 @@ public class HUD {
 				angle += 180;
 			}
 			m_compass.addArrow(null, (int) angle);
+		}
+	}
+
+	private void shakeScore() {
+		if (m_score.getForeground().equals(Color.RED)) {
+			m_score.setForeground(Color.BLACK);
+			m_colorCount++;
+		} else {
+			m_score.setForeground(Color.RED);
+		}
+		if (m_colorCount == 5) {
+			m_colorCount = 0;
 		}
 	}
 
@@ -767,8 +791,8 @@ public class HUD {
 			g.drawImage(m_electronics, 3 + getWidth() / 2, space + 15 + 3, 15, 15, null);
 			FontRenderContext frc = new FontRenderContext(null, true, false);
 			Rectangle2D rect = g.getFont().getStringBounds(m_level, 0, m_level.length(), frc);
-			
-			//Différencie amélio unique/stats
+
+			// Différencie amélio unique/stats
 			boolean isUniqBought = false;
 			if (m_level.contains("Bought")) {
 				Color old = g.getColor();
@@ -779,8 +803,8 @@ public class HUD {
 			} else {
 				g.drawString(m_level, (int) ((getWidth() - rect.getWidth()) / 2), space + 15 - 2);
 			}
-			
-			//affiche les prix en rouge ou en vert.
+
+			// affiche les prix en rouge ou en vert.
 			Color old = g.getColor();
 			if (!isUniqBought)
 				if (m_upgrade.getCostMine() > Model.getModel().getTank().getInventory().getQuantity(MaterialType.MINERAL)) {
@@ -797,7 +821,7 @@ public class HUD {
 				}
 			g.drawString(m_elecCost, 6 + 15 + getWidth() / 2, getHeight() - 5);
 			g.setColor(old);
-			
+
 			paintTitle(g, space);
 			if (!isEnabled()) {
 				Color color = new Color(0F, 0F, 0F, 0.60F);
@@ -867,7 +891,7 @@ public class HUD {
 			if (m_upgrade instanceof UpgradeAutomaticSubmachine || m_upgrade instanceof UpgradeDroneVision) {
 				m_level = (m_upgrade.getLevel() > 0) ? "Bought" : "Not bought";
 			} else {
-				m_level = "Level : "+Integer.toString(m_upgrade.getLevel());
+				m_level = "Level : " + Integer.toString(m_upgrade.getLevel());
 			}
 			this.repaint();
 		}
@@ -878,9 +902,43 @@ public class HUD {
 		m_upgrade = initiateUpgradePanel();
 		m_East.add(m_upgrade);
 	}
-	
+
 	public void launch() {
 		m_upgrade = initiateUpgradePanel();
 		m_East.add(m_upgrade);
 	}
+
+	private class LifeProgressBar extends JProgressBar {
+
+		private static final long serialVersionUID = 1L;
+		
+		boolean m_showMax;
+		
+		public LifeProgressBar(int vertical, int i, int j,boolean showMax) {
+			super(vertical, i, j);
+			m_showMax = showMax;
+		}
+
+		@Override
+		public void paint(Graphics g) {
+			super.paint(g);
+			String max = Integer.toString(getMaximum());
+			FontRenderContext frc = new FontRenderContext(null, true, false);
+			Rectangle2D maxi = g.getFont().getStringBounds(max, 0, max.length(), frc);
+			int x = (int) ((getWidth() - maxi.getWidth()) / 2);
+			int y = (int) (maxi.getHeight() + 5);
+			g.setColor(Color.BLACK);
+			if (m_showMax) {
+				g.drawString(max, x, y);
+			}
+			double percent = (double) (getValue() - getMinimum()) / (double) (getMaximum() - getMinimum());
+			int percentInt = (int) (percent * 100);
+			String remplissage = percentInt + "%";
+			Rectangle2D rempl = g.getFont().getStringBounds(remplissage, 0, remplissage.length(), frc);
+			x = (int) ((getWidth() - rempl.getWidth()) / 2);
+			y = (int) (getHeight() - ((getHeight() - rempl.getHeight()) / 2));
+			g.drawString(remplissage, x, y);
+		}
+	}
+
 }

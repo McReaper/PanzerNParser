@@ -10,8 +10,8 @@ public class ShotBig extends Shot {
 	public static final int SHOTBIG_HEIGHT = 3;
 
 	public static final int SHOTBIG_HEALTH = 100;
-	public static final int SHOTBIG_SPEED = 100;
-	public static final int SHOTBIG_NUMBER_CASE_LIFE = 10;
+	public static final int SHOTBIG_SPEED = 170;
+	public static final int SHOTBIG_NUMBER_CASE_LIFE = 7;
 
 	public static final long SHOTBIG_EXPLODE_TIME = 1000;
 	public static final long SHOTBIG_MOVE_TIME = 150;
@@ -25,16 +25,7 @@ public class ShotBig extends Shot {
 		m_health = SHOTBIG_HEALTH;
 		m_damage_dealt = SHOTBIG_DAMAGE_DEALT;
 		m_speed = SHOTBIG_SPEED;
-		m_nbCaseLeft = SHOTBIG_NUMBER_CASE_LIFE*2;
-	}
-
-	@Override
-	public void Move(MyDirection dir) {
-		m_nbCaseLeft --;
-		if (m_nbCaseLeft <=0) {
-			m_health = 0;
-		}
-		super.Move(dir);
+		m_nbCaseLife = SHOTBIG_NUMBER_CASE_LIFE;
 	}
 	
 	@Override

@@ -18,12 +18,12 @@ public class Drone extends MovingEntity {
 	public final static int DRONE_HEIGHT = 3;
 
 	public static final int DRONE_HEALTH = 300000;
-	public static final int DRONE_SPEED = 200;
+	public static final int DRONE_SPEED = 150;
 
 	public static final int INIT_MARKER_MAX = 3;
 	public static final int DRONE_FOV = 10;
 
-	public static final long DRONE_HIT_TIME = 1000;
+	public static final long DRONE_HIT_TIME = 300;
 	public static final long DRONE_JUMP_TIME = 100;
 	public static final long DRONE_MOVE_TIME = 1000;
 	public static final long DRONE_POP_TIME = 300;
@@ -186,6 +186,7 @@ public class Drone extends MovingEntity {
 				m_actionFinished = false;
 				m_currentAction = null;
 			} else if (m_currentAction == null) {
+				Model.getModel().addSound("droneToTank");
 				m_currentActionDir = dir;
 				m_currentAction = LsAction.Wizz;
 				m_timeOfAction = DRONE_WIZZ_TIME;
@@ -251,6 +252,10 @@ public class Drone extends MovingEntity {
 
 	public int getMaxMarkers() {
 		return m_maxMarkers;
+	}
+	
+	public void resetMarkers() {
+		m_nbMarkers = 0;
 	}
 
 	public void setMaxMarkers(int maxCount) {

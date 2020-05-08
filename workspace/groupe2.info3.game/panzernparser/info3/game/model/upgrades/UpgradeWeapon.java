@@ -4,14 +4,14 @@ import info3.game.model.Inventory;
 import info3.game.model.MaterialType;
 import info3.game.model.Tank;
 
-public class UpgradeShot extends Upgrade {
+public class UpgradeWeapon extends Upgrade {
 
 	private static final String NAME = "Unlock new weapon";
 	private static final int MINERALS_COST = 30;
 	private static final int ELECTRONICALS_COST = 30;
 	private static final double COST_FACTOR = 2.5;
 	
-	public UpgradeShot(Tank tank) {
+	public UpgradeWeapon(Tank tank) {
 		super(tank, null);
 	}
 	

@@ -2,7 +2,8 @@ package info3.game.model;
 
 public class Score {
 	static final int SCORE_ENEMY_BASIC = 20;// tuer ennemi basic
-	static final int SCORE_ENEMY_LEVEL2 = 40;// tuer ennemi basic
+	static final int SCORE_ENEMY_LEVEL2 = 40;// tuer ennemi mid
+	static final int SCORE_ENEMY_BOSS = 180;// tuer ennemi high
 	static final int SCORE_DROPPABLE = 5;// ramasser ressource
 	static final int SCORE_VEIN = 20;// creuser veine
 	static final int SCORE_WRECKTANK = 30;// détruire une épave
@@ -33,6 +34,10 @@ public class Score {
 
 	public void scoreEnemyLevel2() {
 		incrementScore(SCORE_ENEMY_LEVEL2);
+	}
+
+	public void scoreEnemyBoss() {
+		incrementScore(SCORE_ENEMY_BOSS);
 	}
 
 	public void scoreDroppable() {

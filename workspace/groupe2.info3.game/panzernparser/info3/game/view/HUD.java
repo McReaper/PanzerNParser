@@ -86,6 +86,7 @@ public class HUD {
 	JPanel m_upgrade;
 	LinkedList<UpgradeButton> m_statButtons;
 	LinkedList<UpgradeButton> m_uniqButtons;
+	int m_colorCount;
 
 	VisionType m_vision;
 
@@ -160,6 +161,7 @@ public class HUD {
 		// m_East.add(m_upgrade);
 
 		m_viewModePanel = initiateViewModePanel();
+		m_colorCount = 0;
 		refreshHUD();
 	}
 
@@ -310,7 +312,7 @@ public class HUD {
 		stats.setBorder(statsBorder);
 
 		// Label du niveau
-		m_level = new JLabel("Level : 45");
+		m_level = new JLabel("Level : 1");
 		m_level.setForeground(Color.BLACK);
 		m_level.setFont(font);
 		m_level.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -318,11 +320,10 @@ public class HUD {
 		stats.add(m_level);
 
 		// Label des points
-		m_score = new JLabel("450 pts");
+		m_score = new JLabel("0 pts");
 		m_score.setForeground(Color.BLACK);
 		m_score.setFont(font);
 		m_score.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-
 		stats.add(m_score);
 		return stats;
 	}
@@ -559,7 +560,13 @@ public class HUD {
 		m_level.setText("Level : " + Integer.toString(Model.getModel().getLevel()));
 
 		// Score
-		m_score.setText(Integer.toString(model.getScore().getScore()));
+		if (!Integer.toString(model.getScore().getScore()).equals(m_score.getText())) {
+			m_score.setText(Integer.toString(model.getScore().getScore()));
+			m_colorCount = 1;
+		}
+		if (m_colorCount != 0) {
+			shakeScore();
+		}
 
 		// Minerals, Electronics, Weapons et Markers
 		m_toolsLabel.setText(Integer.toString(tank.getInventory().getQuantity(MaterialType.ELECTRONIC)));
@@ -651,6 +658,18 @@ public class HUD {
 				angle += 180;
 			}
 			m_compass.addArrow(null, (int) angle);
+		}
+	}
+
+	private void shakeScore() {
+		if (m_score.getForeground().equals(Color.RED)) {
+			m_score.setForeground(Color.BLACK);
+			m_colorCount++;
+		} else {
+			m_score.setForeground(Color.RED);
+		}
+		if (m_colorCount == 5) {
+			m_colorCount = 0;
 		}
 	}
 

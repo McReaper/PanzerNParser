@@ -31,6 +31,7 @@ public class EnemyBoss extends Enemy {
 		m_damage_dealt = ENEMYBOSS_DAMMAGE_DEALT;
 		m_speed = ENEMYBOSS_SPEED;
 		levelUp();
+		m_moveSound = "moveBigEnemy2";
 	}
 	@Override
 	public void step(long elapsed) {
@@ -47,7 +48,7 @@ public class EnemyBoss extends Enemy {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = ENEMYBOSS_HIT_TIME;
-
+			Model.getModel().addSound("shotBossComplete");
 			// creation du shot
 			Entity ent = EntityFactory.newEntity(MyEntities.ShotEnemyBoss, m_x, m_y);
 			((ShotEnemy) ent).setDamage(m_damage_dealt);

@@ -105,11 +105,13 @@ public class EnemyBasic extends Enemy {
 	public void Explode() {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
 			this.doExplode();
-			Model.getModel().addSound("explosion");
+			if (isNoisy())
+				Model.getModel().addSound("explosion");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			Model.getModel().addSound("wilhelm");
+			if (isNoisy())
+				Model.getModel().addSound("wilhelm");
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = ENEMYBASIC_EXPLODE_TIME;
 		}
@@ -143,11 +145,11 @@ public class EnemyBasic extends Enemy {
 
 	public void levelUp() {
 		if (Model.getModel().getLevel() % 3 == 0) {
-			setMaxHealth(ENEMYBASIC_HEALTH*2);
+			setMaxHealth(ENEMYBASIC_HEALTH * 2);
 			m_health = getMaxHealth();
 			setSpeed((int) (m_speed - m_speed * 0.1));
 			m_range++;
-			m_damage_dealt = (Model.getModel().getLevel()/3 + 1)* ENEMYBASIC_DAMMAGE_DEALT; 
+			m_damage_dealt = (Model.getModel().getLevel() / 3 + 1) * ENEMYBASIC_DAMMAGE_DEALT;
 		}
 	}
 }

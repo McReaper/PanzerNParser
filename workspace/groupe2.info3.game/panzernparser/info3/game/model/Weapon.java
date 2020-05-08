@@ -25,8 +25,8 @@ public abstract class Weapon {
 		m_reload -= improvement;
 	}
 
-	public void improveMagazin(int improvement) {
-		m_magCapacity += improvement;
+	public void improveMagazin(double factor) {
+		m_magCapacity *= factor;
 	}
 	
 	public long getReloadTime() {

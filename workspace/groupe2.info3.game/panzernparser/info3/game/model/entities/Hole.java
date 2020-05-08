@@ -30,7 +30,7 @@ public class Hole extends StaticEntity {
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;
-			m_timeOfAction = TankBody.TANKBODY_POP_TIME;
+			m_timeOfAction = Model.getModel().getTank().getMiningTime();
 		}
 	}
 	@Override

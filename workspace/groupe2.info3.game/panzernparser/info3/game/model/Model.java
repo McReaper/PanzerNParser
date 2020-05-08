@@ -23,7 +23,7 @@ import info3.game.model.upgrades.UpgradeDroneVision;
 import info3.game.model.upgrades.UpgradeHealTank;
 import info3.game.model.upgrades.UpgradeMarkersCount;
 import info3.game.model.upgrades.UpgradeMiningTime;
-import info3.game.model.upgrades.UpgradeShot;
+import info3.game.model.upgrades.UpgradeWeapon;
 import info3.game.model.upgrades.UpgradeTankDamage;
 import info3.game.model.upgrades.UpgradeTankLife;
 import info3.game.model.upgrades.UpgradeTankShotsCapacity;
@@ -206,6 +206,7 @@ public class Model {
 		this.addEntity(m_tank.getTurret());
 		this.addEntity(m_tank.getAutoTurret());
 		this.addEntity(m_drone);
+		m_drone.resetMarkers();
 
 		this.removeEntity(newTankBody);
 	}
@@ -221,7 +222,7 @@ public class Model {
 		m_statUpgrade.add(new UpgradeDroneUsage(m_tank, m_drone));
 		m_statUpgrade.add(new UpgradeMarkersCount(m_tank, m_drone));
 		m_statUpgrade.add(new UpgradeMiningTime(m_tank));
-		m_statUpgrade.add(new UpgradeShot(m_tank));
+		m_statUpgrade.add(new UpgradeWeapon(m_tank));
 		m_statUpgrade.add(new UpgradeTankDamage(m_tank));
 		m_statUpgrade.add(new UpgradeTankLife(m_tank));
 		m_statUpgrade.add(new UpgradeTankShotsCapacity(m_tank));

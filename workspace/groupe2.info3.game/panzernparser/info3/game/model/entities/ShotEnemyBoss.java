@@ -50,4 +50,17 @@ public class ShotEnemyBoss extends ShotEnemy{
 			m_timeOfAction = DEFAULT_WIZZ_TIME;
 		}
 	}
+	
+	@Override
+	public void Turn(MyDirection dir, int angle) {
+		if (m_actionFinished && m_currentAction == LsAction.Turn) {
+			this.doTurn(dir);
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Turn;
+			m_timeOfAction = 0;
+		}
+	}
 }

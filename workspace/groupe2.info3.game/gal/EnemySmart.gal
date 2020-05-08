@@ -1,4 +1,4 @@
-EnnemiFollowing(Search){
+EnemySmart(Search){
 	* (Search) :
 	| !GotPower() ? Egg() : (Dying)
 	| Closest(@, N) & !Closest(@, NE) ? Turn(N) : (Step)

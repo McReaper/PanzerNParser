@@ -11,7 +11,6 @@ import java.util.List;
 
 import info3.game.GameConfiguration;
 import info3.game.automaton.MyDirection;
-import info3.game.model.entities.Enemy;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
@@ -380,7 +379,7 @@ public class Grid {
 				String lvlName = name + random_level;
 				String lvlPatTank = namePatTank + random_level;
 				String file = fileList[j];
-				file = file.replaceAll("_\\d_", "_"+random_level+"_");
+				file = file.replaceAll("_\\d_", "_" + random_level + "_");
 				String subFile = file.substring(0, file.length() - 7);
 				if (subFile.equals(lvlName)) {
 					p = new Pattern();
@@ -390,7 +389,7 @@ public class Grid {
 					m_patterns.add(p);
 				} else if (subFile.equals(lvlPatTank)) {
 					p = new Pattern();
-					String path = GameConfiguration.PATTERN_PATH + file.replaceAll("_\\d_", "_"+lvl+"_");
+					String path = GameConfiguration.PATTERN_PATH + file.replaceAll("_\\d_", "_" + lvl + "_");
 					f = new File(path);
 					p.parse(f);
 					patTank = p;

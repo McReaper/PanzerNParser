@@ -19,7 +19,7 @@ public class Tank {
 	public final static int TANK_HEIGHT = 3;
 
 	public static final int TANK_HEALTH = 100;
-	public static final int TANK_SPEED = 250;
+	public static final int TANK_SPEED = 270;
 
 	// Upgrade m_upgrade[];
 	// Explosion m_explosion;

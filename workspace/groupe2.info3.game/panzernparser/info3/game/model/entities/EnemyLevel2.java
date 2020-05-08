@@ -12,7 +12,7 @@ public class EnemyLevel2 extends Enemy {
 	public final static int ENEMYLEVEL2_WIDTH = 2;
 	public final static int ENEMYLEVEL2_HEIGHT = 2;
 
-	public static final int ENEMYLEVEL2_HEALTH = 150;
+	public static final int ENEMYLEVEL2_HEALTH = 160;
 	public static final int ENEMYLEVEL2_SPEED = 400;
 	public static final int ENEMYLEVEL2_FOV = 5;
 
@@ -26,6 +26,9 @@ public class EnemyLevel2 extends Enemy {
 	public static final long ENEMYLEVEL2_WIZZ_TIME = 1000;
 
 	public static final int ENEMYLEVEL2_DAMMAGE_DEALT = 10;
+
+	public static final int ENEMYLEVEL2_DROP_QUANTITY_MIN = 10;
+	public static final int ENEMYLEVEL2_DROP_QUANTITY_MAX = 20;
 
 	public EnemyLevel2(int x, int y, Automaton aut) {
 		super(x, y, ENEMYLEVEL2_WIDTH, ENEMYLEVEL2_HEIGHT, aut);
@@ -109,18 +112,11 @@ public class EnemyLevel2 extends Enemy {
 			// creation de la ressource a répendre
 
 			// creation de la ressource a répendre
-			if (dir == null || dir == MyDirection.HERE) {
-				Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x, m_y);
-				int rand = (int) (Math.random() * (20 - 1));// 20 correspond au nombre max de ressource dispo et 1 le min
-				((Droppable) ent).setQuantity(rand);
-			} else {
-				int posX = getXCaseDir(dir);
-				int posY = getYCaseDir(dir);
-				Entity ent = EntityFactory.newEntity(MyEntities.Droppable, posX, posY);
-				int rand = (int) (Math.random() * (20 - 1));// 20 correspond au nombre max de ressource dispo et 1 le min
-				((Droppable) ent).setQuantity(rand);
-
-			}
+			Entity ent = EntityFactory.newEntity(MyEntities.Droppable, m_x, m_y);
+			int rand = (int) ((Math.random() * ((ENEMYLEVEL2_DROP_QUANTITY_MAX - ENEMYLEVEL2_DROP_QUANTITY_MIN) + 1))
+					+ ENEMYLEVEL2_DROP_QUANTITY_MIN);
+			rand *= Model.getModel().getLevel();
+			((Droppable) ent).setQuantity(rand);
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Egg;
@@ -180,7 +176,7 @@ public class EnemyLevel2 extends Enemy {
 			m_damage_dealt /= 2;
 		}
 	}
-	
+
 	public void levelUp() {
 		setMaxHealth((int) (ENEMYLEVEL2_HEALTH + ENEMYLEVEL2_HEALTH * 0.5 * (Model.getModel().getLevel() - 1)));
 		m_health = getMaxHealth();

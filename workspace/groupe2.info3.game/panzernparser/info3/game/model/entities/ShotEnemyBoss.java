@@ -14,6 +14,7 @@ public class ShotEnemyBoss extends ShotEnemy{
 	public ShotEnemyBoss(int x, int y, Automaton aut) {
 		super(x, y, SHOTENEMYBOSS_WIDTH, SHOTENEMYBOSS_HEIGHT, aut);
 		m_nbCaseLeft = SHOTENEMYBOSS_NUMBER_CASE_LIFE*2;
+		m_speed = SHOTENEMYBOSS_SPEED;
 	}
 
 	
@@ -26,6 +27,17 @@ public class ShotEnemyBoss extends ShotEnemy{
 		super.Move(dir);
 	}
 	
+	@Override
+	public void Wait() {
+		if (m_actionFinished && m_currentAction == LsAction.Wait) {
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = null;
+			m_currentAction = LsAction.Wait;
+			m_timeOfAction = 0;
+		}
+	}
 
 	public void Pop(MyDirection dir) {//devient plus large
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {

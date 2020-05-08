@@ -60,7 +60,7 @@ public class Turret extends StaticEntity {
 		m_weapons[1] = new WeaponLevel2(this);
 		m_weapons[2] = new WeaponLevel3(this);
 	}
-	
+
 	public void increaseMaxAmmo(double factor) {
 		for (int i = 0; i < TURRET_NB_WEAPONS_MAX; i++) {
 			m_weapons[i].improveMagazin(factor);
@@ -86,7 +86,7 @@ public class Turret extends StaticEntity {
 				return (int) (TURRET_WEAPON1_DAMAGE * m_damage_factor);
 		}
 	}
-	
+
 	public void increaseDamageFactor(double factor) {
 		m_damage_factor += factor;
 	}
@@ -130,18 +130,16 @@ public class Turret extends StaticEntity {
 	}
 
 	@Override
-	public void Pop(MyDirection dir) {// Permet le changement d'arme
-		if (m_currentWeapon.getNbShotLeft() < m_currentWeapon.getCapacity()) {
-			if (m_actionFinished && m_currentAction == LsAction.Pop) {
-				m_actionFinished = false;
-				m_currentAction = null;
-			} else if (m_currentAction == null) {
-				m_currentActionDir = dir;
-				m_currentAction = LsAction.Pop;
-				Model.getModel().addSound("changeWeapon");
-				m_currentWeapon = changeWeapon();
-				m_timeOfAction = TURRET_POP_TIME;
-			}
+	public void Pop(MyDirection dir) {
+		if (m_actionFinished && m_currentAction == LsAction.Pop) {
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = dir;
+			m_currentAction = LsAction.Pop;
+			Model.getModel().addSound("changeWeapon");
+			m_currentWeapon = changeWeapon();
+			m_timeOfAction = TURRET_POP_TIME;
 		}
 	}
 
@@ -160,17 +158,19 @@ public class Turret extends StaticEntity {
 
 	@Override
 	public void Wizz(MyDirection dir) {
-		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
-			m_actionFinished = false;
-			m_currentAction = null;
-			m_currentWeapon.reload();
-		
-			Model.getModel().addSound("endReload2");
-		} else if (m_currentAction == null) {
-			m_currentActionDir = dir;
-			m_currentAction = LsAction.Wizz;
-			m_timeOfAction = m_currentWeapon.getReloadTime();
-			Model.getModel().addSound("reloadTurret2");
+		if (m_currentWeapon.getNbShotLeft() < m_currentWeapon.getCapacity()) {
+			if (m_actionFinished && m_currentAction == LsAction.Wizz) {
+				m_actionFinished = false;
+				m_currentAction = null;
+				m_currentWeapon.reload();
+
+				Model.getModel().addSound("endReload2");
+			} else if (m_currentAction == null) {
+				m_currentActionDir = dir;
+				m_currentAction = LsAction.Wizz;
+				m_timeOfAction = m_currentWeapon.getReloadTime();
+				Model.getModel().addSound("reloadTurret2");
+			}
 		}
 	}
 

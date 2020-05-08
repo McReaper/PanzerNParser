@@ -16,7 +16,7 @@ public class EnemyBoss extends Enemy {
 	public static final int ENEMYBOSS_FOV = 10;
 	public static final int ENEMYBOSS_DAMMAGE_DEALT = 25;
 	public static final int ENEMYBOSS_HEALTH = 500;
-	public static final int ENEMYBOSS_SPEED = 2000;
+	public static final int ENEMYBOSS_SPEED = 800;
 
 	public static final int ENEMYBOSS_HIT_TIME = 1000;
 	public static final int ENEMYBOSS_TURN_TIME = 1000;

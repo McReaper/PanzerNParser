@@ -30,10 +30,14 @@ public class Controller implements GameCanvasListener {
 		m_view = view;
 	}
 
+
 	@Override
 	public void tick(long elapsed) {
 		// a chaque tick on fait un pas de simulation, et donc met à jour le modèle.
 		boolean isEnd = m_model.getGameOver();
+		if(!m_view.m_canvas.hasFocus()) {
+			m_model.getKeyPressed().removeAll(m_model.getKeyPressed());
+		}
 		m_model.step(elapsed);
 		if (!m_model.getTank().gotPower()) {
 			m_view.m_canvas.stop("KatyushaIntro");
@@ -56,7 +60,6 @@ public class Controller implements GameCanvasListener {
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
-			// TODO : IOOBE , demandez aux autres groupes.
 			m_view.m_canvas.play(name, fis, -1);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -96,7 +99,6 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -123,32 +125,22 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowOpened() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void exit() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -160,8 +152,6 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void expired() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public LsKey toLsKey(KeyEvent e) {

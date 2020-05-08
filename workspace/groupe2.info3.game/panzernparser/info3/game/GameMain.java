@@ -15,8 +15,8 @@ import info3.game.view.ViewPort;
 
 public class GameMain {
 
-	static final String GAME_TITLE = "Panzer n' Parser - preAlpha Version";
-	private static final int FRAME_WIDTH = 1024;
+	static final String GAME_TITLE = "Panzer n' Parser - by La Cyance";
+	private static final int FRAME_WIDTH = 973;
 	private static final int FRAME_HEIGHT = 768;
 
 	private Controller m_controller;
@@ -101,7 +101,7 @@ public class GameMain {
 		int min_height_vp = ViewPort.MINIMAL_HEIGHT;
 
 		//TODO : a revoir, des bandes noires persistes
-		m_frame.setMinimumSize(new Dimension(min_width_hud + Math.max(min_width_vp, min_height_hud) , Math.max(min_height_hud, min_height_vp)));
+		m_frame.setMinimumSize(new Dimension(min_width_hud + Math.max(min_width_vp, min_width_hud) , Math.max(min_height_hud, min_height_vp)));
 
 		if (m_fullscreen) {
 			m_frame.setExtendedState(JFrame.MAXIMIZED_BOTH);

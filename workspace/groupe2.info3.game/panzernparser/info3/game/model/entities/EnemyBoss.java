@@ -21,8 +21,8 @@ public class EnemyBoss extends Enemy {
 	public static final int ENEMYBOSS_HIT_TIME = 1000;
 	public static final int ENEMYBOSS_TURN_TIME = 1000;
 
-	public static final int ENEMYBOSS_DROP_QUANTITY_MIN = 50;
-	public static final int ENEMYBOSS_DROP_QUANTITY_MAX = 100;
+	public static final int ENEMYBOSS_DROP_QUANTITY_MIN = 30;
+	public static final int ENEMYBOSS_DROP_QUANTITY_MAX = 70;
 	
 	public EnemyBoss(int x, int y, Automaton aut) {
 		super(x, y, ENEMYBOSS_WIDTH, ENEMYBOSS_HEIGHT, aut);

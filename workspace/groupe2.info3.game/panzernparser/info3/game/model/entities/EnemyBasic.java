@@ -26,8 +26,8 @@ public class EnemyBasic extends Enemy {
 	public static final long ENEMYBASIC_WIZZ_TIME = 1000;
 	public static final int ENEMYBASIC_DAMMAGE_DEALT = 10;
 
-	public static final int ENEMYBASIC_DROP_QUANTITY_MIN = 3;
-	public static final int ENEMYBASIC_DROP_QUANTITY_MAX = 5;
+	public static final int ENEMYBASIC_DROP_QUANTITY_MIN = 1;
+	public static final int ENEMYBASIC_DROP_QUANTITY_MAX = 3;
 
 	public EnemyBasic(int x, int y, Automaton aut) {
 		super(x, y, ENEMYBASIC_WIDTH, ENEMYBASIC_HEIGHT, aut);

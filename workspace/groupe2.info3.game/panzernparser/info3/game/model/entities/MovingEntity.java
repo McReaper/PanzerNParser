@@ -18,7 +18,7 @@ public abstract class MovingEntity extends Entity {
 	@Override
 	public void collide(int damage) {
 		super.collide(damage);
-		if (m_health == 0) {
+		if (m_health <= 0) {
 			if (m_currentAction == LsAction.Move) {
 				progressMoveAtDie = this.getActionProgress();
 				directionMoveAtDie = MyDirection.toAbsolute(m_currentLookAtDir, m_currentActionDir);

@@ -121,7 +121,7 @@ public class ViewPort {
 		Font font = new Font("monospaced", Font.BOLD, 45);
 		g.setFont(font);
 		g.setColor(Color.WHITE);
-		String message = "Map Cleared";
+		String message = "Level up !";
 		FontRenderContext frc = new FontRenderContext(null, true, false);
 		Rectangle2D rect = font.getStringBounds(message, 0, message.length(), frc);
 		int x = (int) ((m_view.m_canvas.getWidth() - rect.getWidth()) / 2);

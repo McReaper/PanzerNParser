@@ -14,7 +14,7 @@ public class EnemyBasic extends Enemy {
 
 	public static final int ENEMYBASIC_HEALTH = 100;
 	public static final int ENEMYBASIC_SPEED = 700;
-	public static final int ENEMYBASIC_FOV = 5;
+	public static final int ENEMYBASIC_FOV = 6;
 
 	public static final long ENEMYBASIC_EGG_TIME = 0;
 	public static final long ENEMYBASIC_HIT_TIME = 500;
@@ -110,7 +110,7 @@ public class EnemyBasic extends Enemy {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			if (isNoisy())
+			if (isNoisy() && Math.random() > 0.8)
 				Model.getModel().addSound("wilhelm");
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = ENEMYBASIC_EXPLODE_TIME;

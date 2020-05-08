@@ -18,7 +18,7 @@ public class Drone extends MovingEntity {
 	public final static int DRONE_HEIGHT = 3;
 
 	public static final int DRONE_HEALTH = 300000;
-	public static final int DRONE_SPEED = 200;
+	public static final int DRONE_SPEED = 150;
 
 	public static final int INIT_MARKER_MAX = 3;
 	public static final int DRONE_FOV = 10;

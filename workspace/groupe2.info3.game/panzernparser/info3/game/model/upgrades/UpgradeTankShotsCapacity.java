@@ -9,8 +9,8 @@ public class UpgradeTankShotsCapacity extends Upgrade {
 
 	private static final String NAME = "Tank loader capacity";
 	private static final int MINERALS_COST = 15;
-	private static final int ELECTRONICALS_COST = 0;
-	private static final double AMMO_BOOST = 0.50; // 50%
+	private static final int ELECTRONICALS_COST = 10;
+	private static final double AMMO_BOOST = 1.50; // +50%
 	private static final double COST_FACTOR = 0.5;
 	
 	public UpgradeTankShotsCapacity(Tank tank) {

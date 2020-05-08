@@ -10,7 +10,7 @@ public class ShotFast extends Shot {
 
 	public static final int SHOTFAST_HEALTH = 100;
 	public static final int SHOTFAST_SPEED = 100;
-	public static final int SHOTFAST_NUMBER_CASE_LIFE = 8;
+	public static final int SHOTFAST_NUMBER_CASE_LIFE = 7;
 
 	public static final long SHOTFAST_EXPLODE_TIME = 1000;
 	public static final long SHOTFAST_MOVE_TIME = 200;

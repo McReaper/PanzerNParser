@@ -131,15 +131,17 @@ public class Turret extends StaticEntity {
 
 	@Override
 	public void Pop(MyDirection dir) {// Permet le changement d'arme
-		if (m_actionFinished && m_currentAction == LsAction.Pop) {
-			m_actionFinished = false;
-			m_currentAction = null;
-		} else if (m_currentAction == null) {
-			m_currentActionDir = dir;
-			m_currentAction = LsAction.Pop;
-			Model.getModel().addSound("changeWeapon");
-			m_currentWeapon = changeWeapon();
-			m_timeOfAction = TURRET_POP_TIME;
+		if (m_currentWeapon.getNbShotLeft() < m_currentWeapon.getCapacity()) {
+			if (m_actionFinished && m_currentAction == LsAction.Pop) {
+				m_actionFinished = false;
+				m_currentAction = null;
+			} else if (m_currentAction == null) {
+				m_currentActionDir = dir;
+				m_currentAction = LsAction.Pop;
+				Model.getModel().addSound("changeWeapon");
+				m_currentWeapon = changeWeapon();
+				m_timeOfAction = TURRET_POP_TIME;
+			}
 		}
 	}
 

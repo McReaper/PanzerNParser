@@ -58,14 +58,14 @@ public class EnemyBasic extends Enemy {
 				Model.getModel().addSound("hitBasic");
 			// creation du shot
 			Entity ent = EntityFactory.newEntity(MyEntities.ShotEnemyBasic, m_x, m_y);
-			((ShotEnemy) ent).setDamage(m_damage_dealt);
+			((Shot) ent).setDamage(m_damage_dealt);
 
 			// Donne la direction de regard et d'action
 			ent.setLookDir(this.m_currentLookAtDir);
 			ent.setActionDir(this.m_currentActionDir);
 
 			// Donne l'entité qui l'a tiré
-			((ShotEnemy) ent).setOwner(this);
+			((Shot) ent).setOwner(this);
 		}
 	}
 

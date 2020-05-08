@@ -40,7 +40,7 @@ public class EnemyTankAvatar extends Avatar {
 		if (e_currAction == LsAction.Move) {
 			x = progressivePaintX(e_absoluteActionDir, x, progress, case_width);
 			y = progressivePaintY(e_absoluteActionDir, y, progress, case_height);
-		} else if (progressMoveAtDie != 0) {
+		} else if (progressMoveAtDie != -1) {
 			x = progressivePaintX(directionMoveAtDie, x, progressMoveAtDie, case_width);
 			y = progressivePaintY(directionMoveAtDie, y, progressMoveAtDie, case_height);
 		}

@@ -4,7 +4,7 @@ import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 
-public class ShotEnemyLevel2 extends ShotEnemy {
+public class ShotEnemyLevel2 extends Shot {
 	public static final int SHOTENEMYLEVEL2_WIDTH = 1;
 	public static final int SHOTENEMYLEVEL2_HEIGHT = 1;
 	

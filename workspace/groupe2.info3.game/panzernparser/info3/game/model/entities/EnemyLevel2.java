@@ -86,8 +86,8 @@ public class EnemyLevel2 extends Enemy {
 					ent2 = EntityFactory.newEntity(MyEntities.ShotEnemyLevel2, m_x, m_y);
 					break;
 			}
-			((ShotEnemy) ent1).setDamage(m_damage_dealt);
-			((ShotEnemy) ent2).setDamage(m_damage_dealt);
+			((Shot) ent1).setDamage(m_damage_dealt);
+			((Shot) ent2).setDamage(m_damage_dealt);
 
 			// Donne la direction de regard et d'action
 			ent1.setLookDir(this.m_currentLookAtDir);
@@ -97,8 +97,8 @@ public class EnemyLevel2 extends Enemy {
 			ent2.setActionDir(this.m_currentActionDir);
 
 			// Donne l'entité qui l'a tiré
-			((ShotEnemy) ent1).setOwner(this);
-			((ShotEnemy) ent2).setOwner(this);
+			((Shot) ent1).setOwner(this);
+			((Shot) ent2).setOwner(this);
 		}
 	}
 

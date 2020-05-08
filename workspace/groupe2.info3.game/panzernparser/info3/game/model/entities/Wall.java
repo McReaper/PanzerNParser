@@ -2,9 +2,12 @@ package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
 import info3.game.automaton.MyCategory;
+import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
+import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class Wall extends StaticEntity{
 
@@ -54,6 +57,36 @@ public class Wall extends StaticEntity{
 	@Override
 	public boolean isShown() {
 		return Model.getModel().getVisionType() == VisionType.TANK;
+	}
+	
+	@Override
+	public void Wizz(MyDirection dir) {
+		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
+			m_actionFinished = false;
+			m_currentAction = null;
+			Droppable a = (Droppable) EntityFactory.newEntity(MyEntities.Droppable, m_x+1, m_y);
+			a.setMaterialType(MaterialType.ELECTRONIC);
+			a.setQuantity(1);
+		} else if (m_currentAction == null) {
+			m_currentActionDir = null;
+			m_currentAction = LsAction.Wizz;
+			m_timeOfAction = 0;
+		}
+	}
+	
+	@Override
+	public void Pop(MyDirection dir) {
+		if (m_actionFinished && m_currentAction == LsAction.Pop) {
+			m_actionFinished = false;
+			m_currentAction = null;
+			Droppable a = (Droppable) EntityFactory.newEntity(MyEntities.Droppable, m_x+1, m_y);
+			a.setMaterialType(MaterialType.MINERAL);
+			a.setQuantity(1);
+		} else if (m_currentAction == null) {
+			m_currentActionDir = null;
+			m_currentAction = LsAction.Pop;
+			m_timeOfAction = 0;
+		}
 	}
 	
 }

@@ -13,7 +13,7 @@ import info3.game.automaton.LsKey;
 import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
 import info3.game.model.upgrades.Upgrade;
-import info3.game.model.upgrades.UpgradeShot;
+import info3.game.model.upgrades.UpgradeWeapon;
 import info3.game.view.GameCanvasListener;
 import info3.game.view.View;
 

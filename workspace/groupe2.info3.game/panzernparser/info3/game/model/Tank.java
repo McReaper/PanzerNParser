@@ -145,8 +145,8 @@ public class Tank {
 		return m_turret.getWeapon().getCapacity();
 	}
 
-	public void improveMaxAmmo(int val) {
-		m_turret.increaseMaxAmmo(val);
+	public void improveMaxAmmo(double factor) {
+		m_turret.increaseMaxAmmo(factor);
 	}
 
 	public long getMiningTime() {

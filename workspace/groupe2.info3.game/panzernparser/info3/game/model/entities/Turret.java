@@ -61,9 +61,9 @@ public class Turret extends StaticEntity {
 		m_weapons[2] = new WeaponLevel3(this);
 	}
 	
-	public void increaseMaxAmmo(int value) {
+	public void increaseMaxAmmo(double factor) {
 		for (int i = 0; i < TURRET_NB_WEAPONS_MAX; i++) {
-			m_weapons[i].improveMagazin(value);
+			m_weapons[i].improveMagazin(factor);
 		}
 	}
 

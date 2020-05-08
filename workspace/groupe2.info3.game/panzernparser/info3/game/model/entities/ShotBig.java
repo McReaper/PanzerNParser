@@ -10,8 +10,8 @@ public class ShotBig extends Shot {
 	public static final int SHOTBIG_HEIGHT = 3;
 
 	public static final int SHOTBIG_HEALTH = 100;
-	public static final int SHOTBIG_SPEED = 100;
-	public static final int SHOTBIG_NUMBER_CASE_LIFE = 10;
+	public static final int SHOTBIG_SPEED = 170;
+	public static final int SHOTBIG_NUMBER_CASE_LIFE = 7;
 
 	public static final long SHOTBIG_EXPLODE_TIME = 1000;
 	public static final long SHOTBIG_MOVE_TIME = 150;

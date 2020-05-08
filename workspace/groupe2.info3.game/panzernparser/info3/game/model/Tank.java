@@ -4,6 +4,7 @@ import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.entities.AutomaticTurret;
 import info3.game.model.entities.EnemyBasic;
+import info3.game.model.entities.EnemyBoss;
 import info3.game.model.entities.EnemyLevel2;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.TankBody;
@@ -184,6 +185,8 @@ public class Tank {
 			Model.getModel().getScore().scoreEnemyBasic();
 		else if (e instanceof EnemyLevel2)
 			Model.getModel().getScore().scoreEnemyLevel2();
+		else if (e instanceof EnemyBoss)
+			Model.getModel().getScore().scoreEnemyBoss();
 	}
 
 }

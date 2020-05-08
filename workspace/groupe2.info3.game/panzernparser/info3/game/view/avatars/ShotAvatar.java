@@ -37,7 +37,7 @@ public class ShotAvatar extends Avatar {
 			y = progressivePaintY(e_absoluteActionDir, y, progress, case_height);
 		}
 
-		Image sprite = m_animation.getImage(progress, e_currAction, e_absoluteActionDir, vision);
+		Image sprite = m_animation.getImage(progress, LsAction.Move, e_absoluteActionDir, vision);
 
 		if (ExplosionAvatar.printEntity(entity)) {
 			g.drawImage(sprite, x, y, width, height, null);

@@ -54,7 +54,6 @@ public class Controller implements GameCanvasListener {
 
 	public void loadMusic(String name) {
 		GameMain game = GameMain.getGame();
-		System.out.println(name);
 		File file = game.getSounds().get(name);
 		FileInputStream fis = null;
 		try {

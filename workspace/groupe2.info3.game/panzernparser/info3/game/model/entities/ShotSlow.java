@@ -3,7 +3,6 @@ package info3.game.model.entities;
 import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
-import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class ShotSlow extends Shot {
 	public static final int SHOTSLOW_WIDTH = 1;
@@ -26,20 +25,20 @@ public class ShotSlow extends Shot {
 		m_damage_dealt = SHOTSLOW_DAMAGE_DEALT;
 		m_speed = SHOTSLOW_SPEED;
 		m_nbCaseLife = SHOTSLOW_NUMBER_CASE_LIFE;
-		}
+	}
 
-	public void Pop(MyDirection dir) {//pose un droppable
+	public void Pop(MyDirection dir) {// pose un droppable
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			m_actionFinished = false;
 			m_currentAction = null;
-			m_height *=2;
+			m_height *= 2;
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Pop;
 			m_timeOfAction = SHOTSLOW_POP_TIME;
 		}
 	}
-	
-	public void Wizz(MyDirection dir) {//Change de direction
+
+	public void Wizz(MyDirection dir) {// Change de direction
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			m_actionFinished = false;
 			m_currentAction = null;

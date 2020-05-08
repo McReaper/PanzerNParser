@@ -22,9 +22,9 @@ public class EnemyBoss extends Enemy {
 	public static final int ENEMYBOSS_TURN_TIME = 1000;
 	public static final int ENEMYBOSS_POP_TIME = 200;
 
-	public static final int ENEMYBOSS_DROP_QUANTITY_MIN = 50;
-	public static final int ENEMYBOSS_DROP_QUANTITY_MAX = 100;
-
+	public static final int ENEMYBOSS_DROP_QUANTITY_MIN = 30;
+	public static final int ENEMYBOSS_DROP_QUANTITY_MAX = 70;
+	
 	public EnemyBoss(int x, int y, Automaton aut) {
 		super(x, y, ENEMYBOSS_WIDTH, ENEMYBOSS_HEIGHT, aut);
 		m_category = MyCategory.A;
@@ -32,6 +32,7 @@ public class EnemyBoss extends Enemy {
 		m_damage_dealt = ENEMYBOSS_DAMMAGE_DEALT;
 		m_speed = ENEMYBOSS_SPEED;
 		levelUp();
+		m_moveSound = "moveBigEnemy2";
 	}
 
 	@Override
@@ -49,7 +50,7 @@ public class EnemyBoss extends Enemy {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Hit;
 			m_timeOfAction = ENEMYBOSS_HIT_TIME;
-
+			Model.getModel().addSound("shotBossComplete");
 			// creation du shot
 			Entity ent = EntityFactory.newEntity(MyEntities.ShotEnemyBoss, m_x, m_y);
 			((ShotEnemy) ent).setDamage(m_damage_dealt);

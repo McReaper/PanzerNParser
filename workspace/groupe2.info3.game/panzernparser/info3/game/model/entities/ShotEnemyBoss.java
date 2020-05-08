@@ -3,18 +3,28 @@ package info3.game.model.entities;
 import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
+import info3.game.model.Model;
 
-public class ShotEnemyBoss extends ShotEnemy{
+public class ShotEnemyBoss extends ShotEnemy {
 	public static final int SHOTENEMYBOSS_WIDTH = 2;
 	public static final int SHOTENEMYBOSS_HEIGHT = 2;
 
 	public static final long SHOTENEMYBOSS_SPEED = 300;
 	public static final int SHOTENEMYBOSS_NUMBER_CASE_LIFE = 10;
-	
+
 	public ShotEnemyBoss(int x, int y, Automaton aut) {
 		super(x, y, SHOTENEMYBOSS_WIDTH, SHOTENEMYBOSS_HEIGHT, aut);
-		m_nbCaseLife = SHOTENEMYBOSS_NUMBER_CASE_LIFE;
+		m_nbCaseLeft = SHOTENEMYBOSS_NUMBER_CASE_LIFE * 2;
 		m_speed = SHOTENEMYBOSS_SPEED;
+	}
+
+	@Override
+	public void Move(MyDirection dir) {
+		m_nbCaseLeft--;
+		if (m_nbCaseLeft <= 0) {
+			m_health = 0;
+		}
+		super.Move(dir);
 	}
 
 	@Override
@@ -29,22 +39,22 @@ public class ShotEnemyBoss extends ShotEnemy{
 		}
 	}
 
-	public void Pop(MyDirection dir) {//devient plus large
+	public void Pop(MyDirection dir) {// devient plus large
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			m_actionFinished = false;
 			m_currentAction = null;
-			m_height *=2;
+			m_height *= 2;
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Pop;
 			m_timeOfAction = DEFAULT_POP_TIME;
 		}
 	}
-	
-	public void Wizz(MyDirection dir) {//s'alloge (width augmente)
+
+	public void Wizz(MyDirection dir) {// s'alloge (width augmente)
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			m_actionFinished = false;
 			m_currentAction = null;
-			m_width *=2;
+			m_width *= 2;
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Wizz;
 			m_timeOfAction = DEFAULT_WIZZ_TIME;
@@ -62,5 +72,12 @@ public class ShotEnemyBoss extends ShotEnemy{
 			m_currentAction = LsAction.Turn;
 			m_timeOfAction = 0;
 		}
+	}
+
+	@Override
+	public void Explode() {
+		if (isNoisy())
+			Model.getModel().addSound("explosion");
+		super.Explode();
 	}
 }

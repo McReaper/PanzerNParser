@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import info3.game.GameConfiguration;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Grid;
@@ -28,8 +29,8 @@ import info3.game.view.avatars.Avatar;
 
 public class ViewPort {
 
-	public static final int MINIMAL_WIDTH = 400;
-	public static final int MINIMAL_HEIGHT = 400;
+	public static final int MINIMAL_WIDTH = 562;
+	public static final int MINIMAL_HEIGHT = 562;
 	private static final Color ENEMI_COLOR = new Color(17, 0, 123, 200);
 
 	private Entity m_player;
@@ -56,19 +57,19 @@ public class ViewPort {
 		m_view = view;
 		m_grid = Model.getModel().getGrid();
 		try {
-			m_neutralMap = ImageIO.read(new File("sprites/Map1.png"));
-			m_mapRessource = ImageIO.read(new File("sprites/Map1.png"));
+			m_neutralMap = ImageIO.read(new File(GameConfiguration.SPRITE_PATH + "Map1.png"));
+			m_mapRessource = ImageIO.read(new File(GameConfiguration.SPRITE_PATH + "Map1.png"));
 			ColorConvertOp op = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
 			op.filter(m_mapRessource, m_mapRessource);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Le fichier " + GameConfiguration.SPRITE_PATH + "Map1.png est introuvable !");
+			System.exit(-1);
 		}
 	}
 
 	public void setPlayer(Entity player) { /// pour quand on passe de done à tank et inversement
 		m_player = player;
-		m_field_of_view = m_player.getFieldOfView(); // TODO peut être changé si entity peut changer de field_of_view
+		m_field_of_view = m_player.getFieldOfView();
 		m_nbCells = m_field_of_view * 2; // pour les deux coté du tank
 		m_nbCells += m_player.getWidth(); // pour le tank
 		m_nbCells += 4; // pour la marge
@@ -246,7 +247,6 @@ public class ViewPort {
 		positionViewPort();
 		offset(); // décalage due au mouve du tank
 		int x, y, w, h;
-
 
 //		g.setColor(Color.BLACK);
 //		for (double i = (m_offsetWindowX - m_offsetX + m_zoom * m_caseSize / 2); i < m_paintSize

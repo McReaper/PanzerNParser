@@ -1,7 +1,6 @@
 package info3.game.model.entities;
 
 import info3.game.automaton.Automaton;
-import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -27,8 +26,8 @@ public class EnemyLevel2 extends Enemy {
 
 	public static final int ENEMYLEVEL2_DAMMAGE_DEALT = 10;
 
-	public static final int ENEMYLEVEL2_DROP_QUANTITY_MIN = 10;
-	public static final int ENEMYLEVEL2_DROP_QUANTITY_MAX = 20;
+	public static final int ENEMYLEVEL2_DROP_QUANTITY_MIN = 5;
+	public static final int ENEMYLEVEL2_DROP_QUANTITY_MAX = 10;
 
 	public EnemyLevel2(int x, int y, Automaton aut) {
 		super(x, y, ENEMYLEVEL2_WIDTH, ENEMYLEVEL2_HEIGHT, aut);

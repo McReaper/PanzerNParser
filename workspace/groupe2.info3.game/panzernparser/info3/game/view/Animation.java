@@ -27,8 +27,7 @@ public class Animation {
 
 	public Image getImage(double ActionProgress, LsAction ac, MyDirection dir, VisionType vision) {
 		if (ac == null) {
-			// TODO : definir l'affichage dans le cas ou il n'y a pas d'action en cours (ici
-			// rien ne sera affiché)
+			//dans le cas ou il n'y a pas d'action en cours
 			return null;
 		}
 
@@ -48,14 +47,13 @@ public class Animation {
 		ActionDirection aD = new ActionDirection(ac, dir);
 		int[] seq = m_animationSequence.get(aD);
 		if (seq == null) {
-			// TODO : definir l'affichage dans le cas ou il n'y a pas d'animation associcée
-			// (ici rien ne sera affiché)
+			//dans le cas ou il n'y a pas d'animation associcée
 			return null;
 		}
 		int i = (int) (ActionProgress * seq.length);
 		if (i >= seq.length)
 			i = seq.length - 1;
-		return currSprite.getSprite(seq[i]); // TODO return curSrite.getSprite(seq[i]);
+		return currSprite.getSprite(seq[i]);
 	}
 	
 	public String getName() {

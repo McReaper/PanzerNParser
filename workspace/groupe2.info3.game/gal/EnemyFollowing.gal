@@ -1,4 +1,4 @@
-EnnemiFollowing(Init){
+EnemyFollowing(Init){
 	* (Init) :
 	| !GotPower() ? Egg() : (Dying)
 	| Closest(@, N) & !Closest(@, NE) ? Turn(N) : (Step)

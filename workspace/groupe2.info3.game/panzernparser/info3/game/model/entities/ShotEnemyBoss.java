@@ -4,7 +4,7 @@ import info3.game.automaton.Automaton;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 
-public class ShotEnemyBoss extends ShotEnemy{
+public class ShotEnemyBoss extends Shot{
 	public static final int SHOTENEMYBOSS_WIDTH = 2;
 	public static final int SHOTENEMYBOSS_HEIGHT = 2;
 

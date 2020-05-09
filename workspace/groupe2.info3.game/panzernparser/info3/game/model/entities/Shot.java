@@ -27,7 +27,7 @@ public abstract class Shot extends MovingEntity {
 	@Override
 	public void Move(MyDirection dir) {
 		super.Move(dir);
-		MyDirection absDir = MyDirection.toAbsolute(m_currentActionDir, dir);
+		MyDirection absDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
 		switch(absDir) {
 			case NORTH:
 			case SOUTH:

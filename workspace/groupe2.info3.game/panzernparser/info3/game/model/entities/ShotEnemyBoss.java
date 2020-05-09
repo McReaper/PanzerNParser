@@ -10,7 +10,7 @@ public class ShotEnemyBoss extends Shot{
 	public static final int SHOTENEMYBOSS_HEIGHT = 2;
 
 	public static final long SHOTENEMYBOSS_SPEED = 300;
-	public static final int SHOTENEMYBOSS_NUMBER_CASE_LIFE = 10;
+	public static final int SHOTENEMYBOSS_NUMBER_CASE_LIFE = 20;
 
 	public ShotEnemyBoss(int x, int y, Automaton aut) {
 		super(x, y, SHOTENEMYBOSS_WIDTH, SHOTENEMYBOSS_HEIGHT, aut);

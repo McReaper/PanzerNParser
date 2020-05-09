@@ -1,8 +1,32 @@
+//////////////////////////////////////////////////////////////////Présentation du Groupe//////////////////////////////////////////////////////////////////
 Projet Groupe 2:
+
+Membre de l'équipe :
+Victor MALOD
+Bertrand BAUDEUR
+SAMI ELHADJI
+Mathis MUTEL
+Jean-Théophane DE MULATIER
+Emilie TONDEUX
+
+Nous somment tous étudiant en 3ième année dans l'école d'ingénieur Polytech GRENOBLE.
+
+Tuteur : 
+Alexandre MARECHAL
+
+Proffesseurs responsables du projet :
+Michaël PERRIN
+Olivier GRUBER
+
 
 Le but du projet est de créer un jeu vidéo en 4 semaines.
 
-Nous avons donc créer pouvant rentrer dans les catégories de stratégies, de guerre et survie.
+Le sujet de travail est libre.
+Nous avons donc créer un jeu pouvant rentrer dans les catégories de stratégies, de guerre et survie.
+////////////////////////////////////////////////////////////////COMMENT LANCER LE JEU//////////////////////////////////////////////////////////////////////
+Pour lancer le jeu, il suffit d'exécuter le fichier "workspace/panzernparser/info3/game/GameMain.java".
+
+////////////////////////////////////////////////////////////////Presentation du jeu/////////////////////////////////////////////////////////////////////////
 
 Ici, le joueur est représenté par un tank, son but est de survivre le plus longtemps possible.
 
@@ -67,6 +91,14 @@ Il en existe deux types :
 	- Des améliorations uniques : Comme son nom l'indique, on ne peut les appeler qu'une seule fois dans la partie
 		- Possbilité de monter ou descendre avec le drone --> avec les flêches haut et bas le drone peut monter ou descendre dans le ciel, cela donne une meilleure vision du jeu.
 		- Creation d'une tourrelle automatique sur le toit du tank qui s'ajoute au canon et tire lorsqu'elle repère des ennemis a proximité.
+
+
+------------------Les obstacles-------------------------------------------
+Sur le sol il n'y a pas que des ennemis et des ressources.
+D'autres entités sont présentes et ne servent qu'a géner la progression du tank et des ennemis.
+Ce sont des obstacles. Ils ont différentes formes :
+	-Les murs et les pierres empèche le tank et les ennemis de traverser. On ne peut pas tirer au travers d'eux.
+	-Les tas de boues : le Tank et les ennemis peuvent le traverser mais sont ralenti lorsqu'ils passent au dessus. On peut tirer au travers sans que les ballent soient traversée.
 
 ----------------------ATH--------------------------------------------------
 Sur le coté droit se trouve toutes les informations importantes sur la vie ou les ressources du tank

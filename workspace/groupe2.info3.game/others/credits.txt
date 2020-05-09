@@ -1,5 +1,5 @@
 Coup de feu de Beretta M12 (canon2) : Joseph SARDIN
-deg : Michel PERIN
+deg : Michaël PERIN
 Hélicoptère 1 (moveDrone ): Denis CHARDONNET
 Pièce de monnaie dans tasse 1 (droppablePick):  David GRECK
 Tracteur1 (moveTank):  Joseph SARDIN

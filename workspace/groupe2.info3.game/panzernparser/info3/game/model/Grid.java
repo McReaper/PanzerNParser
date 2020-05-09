@@ -370,8 +370,10 @@ public class Grid {
 				// Sélection du niveau de pattern :
 				int random_level;
 				if (lvl <= Pattern.PATTERN_MIN_LEVEL) {
+					lvl = Pattern.PATTERN_MIN_LEVEL;
 					random_level = (Math.random() <= 0.8) ? lvl : lvl + 1;
 				} else if (lvl >= Pattern.PATTERN_MAX_LEVEL) {
+					lvl = Pattern.PATTERN_MAX_LEVEL;
 					random_level = (Math.random() <= 0.8) ? lvl : lvl - 1;
 				} else {
 					random_level = (int) ((Math.random() <= 0.7) ? lvl : ((lvl - 1) + (Math.random() * (lvl + 1))));

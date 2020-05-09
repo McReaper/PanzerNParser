@@ -171,6 +171,7 @@ public class Model {
 		}
 		m_level++;
 		m_grid.emptyGrid();
+		m_grid.load();
 		m_grid.generate();
 		m_grid.sendToModel();
 		regeneratePlayer();

@@ -43,6 +43,7 @@ public class TankBody extends MovingEntity {
 		m_speed = TANKBODY_SPEED;
 		m_miningTime = TANKBODY_POP_TIME;
 		m_moveSound = "moveTank2";
+		m_range = Tank.TANK_FOV;
 	}
 
 	@Override

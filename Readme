@@ -9,7 +9,7 @@ Mathis MUTEL
 Jean-Théophane DE MULATIER
 Emilie TONDEUX
 
-Nous somment tous étudiant en troisième année de la filière INFO de l'école d'ingénieur Polytech GRENOBLE.
+Nous sommes tous étudiants en troisième année de la filière INFO de l'école d'ingénieur Polytech GRENOBLE.
 
 Tuteur : 
 Alexandre MARECHAL
@@ -24,8 +24,7 @@ Le but du projet est de créer un jeu vidéo en 4 semaines.
 Le sujet de travail est libre.
 Nous avons donc créé un jeu pouvant rentrer dans les catégories de stratégies, de guerre et survie.
 ////////////////////////////////////////////////////////////////COMMENT LANCER LE JEU//////////////////////////////////////////////////////////////////////
-Pour lancer le jeu, il suffit d'exécuter le fichier "workspace/panzernparser/info3/game/GameMain.java".
-/*Sami : il faut pas le compiler avant de l'executer ?*/
+Pour lancer le jeu, il suffit d'exécuter et compiler le fichier "workspace/panzernparser/info3/game/GameMain.java".
 ////////////////////////////////////////////////////////////////Presentation du jeu/////////////////////////////////////////////////////////////////////////
 
 Ici, le joueur est représenté par un tank, son but est de survivre le plus longtemps possible.
@@ -35,8 +34,7 @@ Il est composé de 2 entités différentes ayant chacune un automate.
 	- Le Chassis : Permet de se déplacer dans 8 directions grâce aux touches ZQSD. Il peut également creuser dans le sol afin de trouver des ressources avec la touche E.
 	- Le canon : il peut se tourner (dans les 8 mêmes directions) via les flèches gauche et droite. Il peut également tirer avec la touche ESPACE.
 Il est important que les deux entités soient autonomes pour que le joueur puisse avancer dans une direction et tirer dans une autre en même temps.
-Ils sont simplement liés dans l'espace car le canon ne peut être dissocié géographiquement du chassis cela va de soit.
-/*Sami : attention à l'emploi du terme géographiquement. A voir si ça sonne bien ;-) */
+Ils sont simplement liés dans l'espace car le canon ne peut être dissocié du chassis cela va de soit.
 -----------------------Le Drone ------------------------
 Le tank à une vision de jeu assez limitée, donc pour l'aider à voir l'environnement autour de lui, le joueur peut appyuer sur la touche A et ainsi diriger un drone qui part de l'emplacement du tank pour monter dans le ciel et explorer les environs.
 Toujours en vue du dessus, le drone est perpétuel mouvement. Le joueur peut le diriger de la même manière que le Tank, en appuyant sur les touches ZQSD. 
@@ -45,8 +43,9 @@ Il possède deux modes de visions :
 	-Vision "Rayons X"  : Ne voit que les ressources. C'est le seul moyen qu'a le joueur de repérer les ressources présentent sous le sol.
 Pour changer d'une vision à une autre, il suffit d'appuyer sur la touche E.
 Une fois le repérage des ressources ou des ennemis fait, le joueur peut déposer des drapeaux sur la carte grace au clique de la souris sur l'endroit souhaité.
-/*Sami : 3 mais cette limite peut augmenter*/
-Mais attention, le drone ne possède que 3 drapeaux donc si on souhaite en placer un quatrième, il suffit de cliquer sur la carte pour que le drapeau se pose à l'endroit marqué, mais un drapeau précédement placé sera enlevé. Une fois au sol, les drapeaux sont toujours visibles et indiquent l'emplacement précédement marqué.
+
+Mais attention, le drone possède un nombre limité de drapeaux donc si on souhaite en placer un autre, il suffit de cliquer sur la carte pour que le drapeau se pose à l'endroit marqué, mais un drapeau précédement placé sera enlevé. Une fois au sol, les drapeaux sont toujours visibles et indiquent l'emplacement précédement marqué.
+Le drone a également la capacité de retirer un drapeau en vol en cliquant une deuxième fois dessus.
 
 Le drone se situe dans les airs, il ne peut donc pas être repéré ou touché par les ennemis. Contrairement au tank, il n'est pas non plus bloqué par les obstacles sur le sol.
 En revanche ce n'est pas parce que le drone est intouchable que le tank l'est aussi. 
@@ -61,21 +60,21 @@ Leurs balles sont assez lentes et font peu de dégats. Mais ils sont nombreux su
 	-Les ennemis Niveau 2 : Ils ont les même aptitudes que les ennemis basiques, mais en plus, ils peuvent contourner des obstacles. Ils sont sous la forme de tanks plus petit que celui du joueur.
 Contrairement aux ennemis basiques, ils peuvent tirer 2 balles au lieu d'une. Ils repèrent le tank du joueur de plus loin et leurs balles sont plus rapides.
 	-Les Boss : Ce sont des tanks aussi gros que celui du joueur. Son automate lui permet comme aux autres de trouver le joueur et de le suivre. Mais en plus il a le choix entre plusieurs actions une fois sa cible en vue :
-		- tirer normalement./* Sami : attention avec les 3 actions, il peut tirer 1 missile et 4 petites balles basiques*/
-		- tirer quatres missiles
+		- Lancer un missile tête chercheuse.
+		- tirer quatres balles d'ennemis basiques.
 		- retrouver de la vie.
 	Les balles de cet ennemi sont plus grandes, font plus de dégats, ont une grande portée et peuvent suivre le joueur.
 
 ---------------------Les armes--------------------------------
 Le Tank possède 3 types d'armes mais seule une est disponible au début du jeu.
-Ce sont des balles assez lentes. Il possède également un chargeur de dix balles qui se recharge automatiquement lorsque tout a été tiré. Mais cela prend un certain temps c'est pourquoi il est nécessaire de bien gérer ses ressources.
+Il possède également un chargeur de dix balles qui se recharge automatiquement lorsque tout a été tiré. Mais cela prend un certain temps c'est pourquoi il est nécessaire de bien gérer ses ressources.
 Les ennemis, quand à eux, n'ont pas de temps de rechargement et peuvent tirer à l'infini. Mais le temps nécessaire pour tirer diminue en fonction de leur niveau.
 
 ---------------------Les ressources-------------------------------
 Dans ce jeu il existe deux types de ressources :
 	-Les ressources Electroniques : Disponible à divers endroits sur la carte, posés sur le sol. Lorsqu'un ennemi meurt, il en dépose également à l'endroit de sa mort.
 	-Les ressources Minerales  : Situées sous la terre. Elle ne sont visibles que par la vision Rayons X du drone et ne sont accessibles qu'en creusant avec le tank au dessus de leur emplacement. Si le joueur creuse au bon endroit, la ressource apparait sur le sol.
-Le joueur peut récupérer toutes ressources au sol simplement en roulant dessus.
+Le joueur peut récupérer toutes ressources et les drapeaux au sol simplement en roulant dessus.
 
 --------------------Les améliorations-------------------------------
 Une fois un nombre suffisant de ressources recoltées, des améliorations sont disponibles.
@@ -99,7 +98,7 @@ Sur le sol il n'y a pas que des ennemis et des ressources.
 D'autres entités sont présentes et ne servent qu'à géner la progression du tank et des ennemis.
 Ce sont des obstacles. Ils ont différentes formes :
 	-Les murs et les pierres empèchent le tank et les ennemis de traverser. On ne peut pas tirer au travers d'eux.
-	-Les tas de boues : le Tank et les ennemis peuvent le traverser mais sont ralentis lorsqu'ils passent au dessus. On peut tirer au travers sans que les ballent soient traversées./* Sami : pas nécessaire de dire que les balles ne sont pas traversées*/
+	-Les tas de boues : le Tank et les ennemis peuvent le traverser mais sont ralentis lorsqu'ils passent au dessus. On peut tirer au travers sans que les ballent explosent.
 
 ----------------------ATH--------------------------------------------------
 Sur le coté droit se trouve toutes les informations importantes sur la vie ou les ressources du tank

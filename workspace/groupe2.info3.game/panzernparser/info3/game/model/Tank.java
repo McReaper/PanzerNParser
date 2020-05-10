@@ -58,15 +58,6 @@ public class Tank {
 		}
 	}
 
-	public void showTank(boolean b) {
-		m_body.showEntity(b);
-		m_turret.showEntity(b);
-	}
-	
-	public void showAutTurret(boolean b) {
-		m_autTurret.showEntity(b);
-	}
-
 	public void step() {
 		if (this.hasControl()) {
 			relocateParts();

@@ -42,7 +42,7 @@ public class ShotSlow extends Shot {
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			m_actionFinished = false;
 			m_currentAction = null;
-			m_currentActionDir = MyDirection.toAbsolute(m_currentActionDir, dir);
+			m_currentActionDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Wizz;
 			m_timeOfAction = SHOTSLOW_WIZZ_TIME;

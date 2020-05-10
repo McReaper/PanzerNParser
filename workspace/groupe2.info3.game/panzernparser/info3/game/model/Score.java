@@ -14,6 +14,7 @@ public class Score {
 
 	private int m_score;
 	private long m_time;
+	private static int MAX_SCORE = 99999999;
 
 	public Score() {
 		m_time = System.currentTimeMillis();
@@ -58,6 +59,7 @@ public class Score {
 
 	private void incrementScore(int value) {
 		m_score += value + (value * (double)(Model.getModel().getLevel())/10);
+		if(m_score > MAX_SCORE) m_score = MAX_SCORE;
 	}
 	
 	public int getScore() {

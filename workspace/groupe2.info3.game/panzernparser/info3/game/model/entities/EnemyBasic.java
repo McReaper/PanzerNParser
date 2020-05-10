@@ -40,12 +40,6 @@ public class EnemyBasic extends Enemy {
 	}
 
 	@Override
-	public void step(long elapsed) {
-		m_displayed = (Model.getModel().getVisionType() != VisionType.RESSOURCES);
-		super.step(elapsed);
-	}
-
-	@Override
 	public void Hit(MyDirection dir) {
 		if (m_actionFinished && m_currentAction == LsAction.Hit) {
 			m_actionFinished = false;

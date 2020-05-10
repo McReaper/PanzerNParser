@@ -231,7 +231,6 @@ public class Model {
 	public void switchControl() {
 		m_playingTank = !m_playingTank;
 		if (m_playingTank) {
-			m_drone.showEntity(false);
 			cleanClue();
 		} else {
 			int droneTPX = m_tank.getBody().getX();
@@ -241,7 +240,6 @@ public class Model {
 			// et avec direction d'action et de regard identique à celle du tank
 			m_drone.setActionDir(m_tank.getBody().getCurrentActionDir());
 			m_drone.setLookDir(m_tank.getBody().getLookAtDir());
-			m_drone.showEntity(true);
 		}
 	}
 

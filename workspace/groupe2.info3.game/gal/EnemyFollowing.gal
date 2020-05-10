@@ -13,7 +13,15 @@ EnemyFollowing(Init){
 	| Closest(@, S) & !Closest(@, SE) ? Turn(S) : (Step)
 	| Closest(@, E) & !Closest(@, SE) ? Turn(E) : (Step)
 	| Closest(@, SE) ? Turn(SE) : (Step)
-	| True ? Wait (F) : (Init)
+	| True ? Wait (F) : (Wander)
+	
+	* (Wander) :
+	| !GotPower() ? Egg() : (Dying)
+	| True ? 2% Turn(N) / 2% Turn(S) / 2% Turn(E) / 2% Turn(W) / Wait() : (WanderMove)
+	
+	* (WanderMove) :
+	| !GotPower() ? Egg() : (Dying)
+	| True ? 5% Move(F) / Wait() : (Init) 
 	
 	* (Step) :
 	| !GotPower() ? Egg() : (Dying)

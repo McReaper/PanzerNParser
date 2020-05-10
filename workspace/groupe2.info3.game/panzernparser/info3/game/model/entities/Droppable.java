@@ -50,7 +50,7 @@ public class Droppable extends StaticEntity {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Wizz;
 			m_timeOfAction = DROPPABLE_POP_TIME;
-			dir = MyDirection.toAbsolute(m_currentActionDir, dir);
+			dir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
 			Model.getModel().getGrid().moved(this, MyDirection.toAbsolute(dir, MyDirection.BACK));
 		}
 	}

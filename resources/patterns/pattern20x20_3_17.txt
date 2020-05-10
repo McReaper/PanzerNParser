@@ -1,0 +1,79 @@
+drop1 5,9
+drop1 5,10
+
+drop1 6,9
+vein1 6,10
+drop1 6,11
+drop1 6,15
+drop1 6,16
+
+drop1 7,9
+vein1 7,10
+drop1 7,11
+drop1 7,12
+drop1 7,13
+drop1 7,14
+drop1 7,15
+
+drop1 8,8
+drop1 8,9
+vein1 8,10
+vein1 8,11
+vein1 8,12
+vein1 8,13
+drop1 8,14
+
+drop1 9,6
+drop1 9,7
+vein1 9,8
+vein1 9,9
+vein1 9,10
+vein1 9,11
+vein1 9,12
+vein1 9,13
+drop1 9,14
+
+drop1 10,5
+vein1 10,6
+vein1 10,7
+vein1 10,8
+vein1 10,9
+vein1 10,10
+vein1 10,11
+vein1 10,12
+drop1 10,13
+
+drop1 11,6
+drop1 11,7
+vein1 11,8
+vein1 11,9
+vein1 11,10
+vein1 11,11
+vein1 11,12
+vein1 11,13
+drop1 11,14
+
+drop1 12,8
+drop1 12,9
+vein1 12,10
+vein1 12,11
+vein1 12,12
+vein1 12,13
+drop1 12,14
+
+drop1 13,9
+vein1 13,10
+drop1 13,11
+drop1 13,12
+drop1 13,13
+drop1 13,14
+drop1 13,15
+
+drop1 14,9
+vein1 14,10
+drop1 14,11
+drop1 14,15
+drop1 14,16
+
+drop1 15,9
+drop1 15,10

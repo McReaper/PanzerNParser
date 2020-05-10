@@ -1,0 +1,6 @@
+enem1 2,2
+enem1 12,8
+enem1 2,10
+enem1 18,6
+enem2 5,7
+enem2 15,14

@@ -153,8 +153,9 @@ public class Model {
 
 	/* regarde si la map a besoin d'être régenerer */
 	private boolean needRegeneration() {
-		return getEntities(MyEntities.EnemyBasic).size() <= 4 && getEntities(MyEntities.EnemyLevel2).size() <= 1
-				&& getEntities(MyEntities.EnemyBoss).size() <= 0;
+		return getEntities(MyEntities.EnemyLevel2).size() == 0;
+//		return getEntities(MyEntities.EnemyBasic).size() <= 4 && getEntities(MyEntities.EnemyLevel2).size() <= 1
+//				&& getEntities(MyEntities.EnemyBoss).size() <= 0;
 	}
 
 	public double getReloadProgress() {

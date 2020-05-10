@@ -11,10 +11,10 @@ _Membre de l'équipe :_
 
 *Nous sommes tous étudiants en troisième année de la filière INFO de l'école d'ingénieur Polytech GRENOBLE.*
 
-_Tuteur :_ 
+__Tuteur :__
 - Alexandre MARECHAL
 
-_Proffesseurs responsables du projet :_
+__Proffesseurs responsables du projet :__
 - Michaël PÉRIN
 - Olivier GRUBER
 
@@ -88,7 +88,7 @@ Le joueur peut récupérer toutes les ressources et les drapeaux au sol simpleme
 Une fois un nombre suffisant de ressources recoltées, des améliorations sont disponibles.
 Il en existe deux types :
 
--  Des améliorations statistiques : Ce sont des aides disponibles plusieurs fois dans une seule partie. Mais attentions le prix augmente après chaque utilisation.
+- Des améliorations statistiques : Ce sont des aides disponibles plusieurs fois dans une seule partie. Mais attentions le prix augmente après chaque utilisation.
   + Régénération de la vie du tank --> le tank récupère 50% de sa vie.
   + Nouvelle arme disponible --> pour changer d'arme il faut appuyer sur la Flèche du bas.
   + Plus grande barre de vie --> la vie max du tank augmente.

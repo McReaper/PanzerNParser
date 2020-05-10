@@ -12,7 +12,7 @@ public abstract class StaticEntity extends Entity {
 
 	public StaticEntity(int x, int y, int width, int height, Automaton aut) {
 		super(x, y, width, height, aut);
-		m_speed = 0;
+		m_speed = 1000;
 	}
 	
 	@Override

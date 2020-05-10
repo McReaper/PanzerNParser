@@ -33,7 +33,7 @@ public class UpgradeHealTank extends Upgrade{
 			inv.used(MaterialType.MINERAL, mineral_cost, MaterialType.ELECTRONIC, electronical_cost);
 			m_tank.setLife(m_tank.getLife() + m_tank.getMaxLife()/2);
 			increaseCost();
-			//m_level++;
+			m_level++;
 		} else {
 			throw new IllegalAccessException("Ressources insuffisantes dans l'inventaire.");
 		}

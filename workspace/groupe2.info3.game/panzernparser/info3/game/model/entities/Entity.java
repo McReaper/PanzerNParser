@@ -41,7 +41,6 @@ public abstract class Entity {
 	protected long m_elapseTime;
 	protected LsAction m_currentAction;
 	protected long m_timeOfAction;
-	protected boolean m_displayed; // Indique si il doit etre affiché a l'écran où non.
 	protected int m_x;
 	protected int m_y;
 	protected int m_width;
@@ -75,8 +74,6 @@ public abstract class Entity {
 		m_elapseTime = 0;
 		m_currentAction = null;
 		m_timeOfAction = 0;
-
-		m_displayed = true;
 		m_stuff = true;
 		m_actionFinished = true;
 
@@ -191,11 +188,7 @@ public abstract class Entity {
 	}
 
 	public boolean isShown() {
-		return m_displayed;
-	}
-
-	public void showEntity(boolean b) {
-		m_displayed = b;
+		return true;
 	}
 
 	public State getState() {

@@ -27,7 +27,6 @@ public class AutomaticTurret extends StaticEntity {
 		super(x, y, AUTOMATIC_TURRET_WIDTH, AUTOMATIC_TURRET_HEIGHT, aut);
 		m_tank = null;
 		m_category = MyCategory.V;
-		this.showEntity(false);
 		m_isActivated = false;
 		m_range = AUTOMATIC_TURRET_RANGE;
 	}

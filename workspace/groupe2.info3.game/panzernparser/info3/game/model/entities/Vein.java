@@ -106,10 +106,4 @@ public class Vein extends StaticEntity {
 			m_timeOfAction = VEIN_WAIT_TIME;
 		}
 	}
-
-	@Override
-	public void step(long elapsed) {
-		m_displayed = (Model.getModel().getVisionType() == VisionType.RESSOURCES);
-		super.step(elapsed);
-	}
 }

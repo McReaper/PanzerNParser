@@ -24,7 +24,6 @@ public class UpgradeAutomaticSubmachine extends Upgrade {
 		int electronical_cost = getCostElec();
 		if (isAvaibleFor(mineral_cost, electronical_cost)) {
 			inv.used(MaterialType.MINERAL, mineral_cost, MaterialType.ELECTRONIC, electronical_cost);
-			m_tank.showAutTurret(true);
 			m_tank.ActivateAutTurret(true);
 			m_level = 1;
 		} else {
@@ -36,7 +35,6 @@ public class UpgradeAutomaticSubmachine extends Upgrade {
 	@Override
 	public void deactivate() throws IllegalAccessException {
 		if (m_level != 1) {
-			m_tank.showAutTurret(false);
 			m_tank.ActivateAutTurret(false);
 			m_level = 0;
 		} else {

@@ -102,7 +102,7 @@ public class Vein extends StaticEntity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			m_currentAction = LsAction.Wait;
 			m_timeOfAction = VEIN_WAIT_TIME;
 		}
@@ -115,7 +115,7 @@ public class Vein extends StaticEntity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = VEIN_EXPLODE_TIME;
 		}

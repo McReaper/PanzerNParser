@@ -26,7 +26,7 @@ public class Rock extends StaticEntity{
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			m_currentAction = LsAction.Wait;
 			m_timeOfAction = ROCK_WAIT_TIME;
 		}
@@ -51,7 +51,7 @@ public class Rock extends StaticEntity{
 				m_category = MyCategory.V;
 			}
 		} else if (m_currentAction == null) {
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			m_currentAction = LsAction.Wizz;
 			m_timeOfAction = 0;
 		}
@@ -67,7 +67,7 @@ public class Rock extends StaticEntity{
 		} else if (m_currentAction == null) {
 			m_y++;
 			m_y = Model.getModel().getGrid().realY(m_y);
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			m_currentAction = LsAction.Pop;
 			m_timeOfAction = ROCK_POP_TIME;
 		}

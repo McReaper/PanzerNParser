@@ -377,6 +377,7 @@ public class Model {
 	}
 
 	public Entity closestEntity(LinkedList<Entity> entities, int x, int y) {
+		if (entities.size() == 0) return null;
 		Entity closest = entities.get(0);
 		double min_dist = m_grid.distanceXAtPow2(closest.getX(), x) + m_grid.distanceYAtPow2(closest.getY(), y);
 		for (Entity curr : entities) {

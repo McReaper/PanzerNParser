@@ -45,7 +45,7 @@ public class Wall extends StaticEntity{
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			m_currentAction = LsAction.Wait;
 			m_timeOfAction = WALL_WAIT_TIME;
 		}
@@ -68,7 +68,7 @@ public class Wall extends StaticEntity{
 			a.setMaterialType(MaterialType.ELECTRONIC);
 			a.setQuantity(1);
 		} else if (m_currentAction == null) {
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			m_currentAction = LsAction.Wizz;
 			m_timeOfAction = 0;
 		}
@@ -83,7 +83,7 @@ public class Wall extends StaticEntity{
 			a.setMaterialType(MaterialType.MINERAL);
 			a.setQuantity(1);
 		} else if (m_currentAction == null) {
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			m_currentAction = LsAction.Pop;
 			m_timeOfAction = 0;
 		}

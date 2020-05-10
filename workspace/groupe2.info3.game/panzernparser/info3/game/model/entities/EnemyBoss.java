@@ -5,7 +5,6 @@ import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
-import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class EnemyBoss extends Enemy {
@@ -24,7 +23,7 @@ public class EnemyBoss extends Enemy {
 
 	public static final int ENEMYBOSS_DROP_QUANTITY_MIN = 30;
 	public static final int ENEMYBOSS_DROP_QUANTITY_MAX = 70;
-	
+
 	public EnemyBoss(int x, int y, Automaton aut) {
 		super(x, y, ENEMYBOSS_WIDTH, ENEMYBOSS_HEIGHT, aut);
 		m_category = MyCategory.A;
@@ -157,7 +156,8 @@ public class EnemyBoss extends Enemy {
 			m_actionFinished = false;
 			m_currentAction = null;
 			m_health += 30;
-			if(m_health > ENEMYBOSS_HEALTH) m_health = ENEMYBOSS_HEALTH;
+			if (m_health > ENEMYBOSS_HEALTH)
+				m_health = ENEMYBOSS_HEALTH;
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Pop;

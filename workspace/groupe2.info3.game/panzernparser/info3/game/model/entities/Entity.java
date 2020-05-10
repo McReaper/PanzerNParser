@@ -84,7 +84,7 @@ public abstract class Entity {
 		m_height = height;
 
 		m_currentLookAtDir = MyDirection.NORTH; // par défaut
-		m_currentActionDir = null; // par défaut
+		m_currentActionDir = MyDirection.HERE; // par défaut
 		m_uncrossables = new LinkedList<MyCategory>();
 		m_uncrossables.add(MyCategory.AT);// Tank jamais traversable
 		m_uncrossables.add(MyCategory.O);// Mur pas traversable mais eventuellement destructible
@@ -329,7 +329,7 @@ public abstract class Entity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			m_currentAction = LsAction.Explode;
 			m_timeOfAction = DEFAULT_EXPLODE_TIME;
 		}
@@ -449,7 +449,7 @@ public abstract class Entity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			m_currentAction = LsAction.Power;
 			m_timeOfAction = DEFAULT_POWER_TIME;
 		}
@@ -509,7 +509,7 @@ public abstract class Entity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			m_currentAction = LsAction.Wait;
 			m_timeOfAction = DEFAULT_WAIT_TIME;
 		}
@@ -871,6 +871,7 @@ public abstract class Entity {
 		}
 
 		Entity closest = Model.getModel().closestEntity(Model.getModel().getCategoried(type), m_x, m_y);
+		if (closest == null) return false;
 		LinkedList<Coords> coords_to_check;
 		if (m_memoryCoordClosest[dirIndice] == null) {
 			coords_to_check = getDetectionCone(dir, this.m_range);

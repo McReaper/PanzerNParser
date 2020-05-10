@@ -82,7 +82,7 @@ public class WreckTank extends StaticEntity {
 	public void Explode() {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
 			this.setCategory(MyCategory.V);
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			switch (m_currentLookAtDir) {
 				case SOUTH:
 					m_currentLookAtDir = MyDirection.NORTH;
@@ -109,7 +109,7 @@ public class WreckTank extends StaticEntity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			m_currentAction = LsAction.Wait;
 			m_timeOfAction = WRECKTANK_WAIT_TIME;
 		}
@@ -126,7 +126,7 @@ public class WreckTank extends StaticEntity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			m_currentAction = LsAction.Wizz;
 			m_timeOfAction = 0;
 		}

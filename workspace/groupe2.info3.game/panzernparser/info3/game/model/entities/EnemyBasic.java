@@ -5,7 +5,6 @@ import info3.game.automaton.MyCategory;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
-import info3.game.model.Model.VisionType;
 import info3.game.model.entities.EntityFactory.MyEntities;
 
 public class EnemyBasic extends Enemy {
@@ -26,8 +25,8 @@ public class EnemyBasic extends Enemy {
 	public static final long ENEMYBASIC_WIZZ_TIME = 1000;
 	public static final int ENEMYBASIC_DAMMAGE_DEALT = 10;
 
-	public static final int ENEMYBASIC_DROP_QUANTITY_MIN = 1;
-	public static final int ENEMYBASIC_DROP_QUANTITY_MAX = 3;
+	public static final int ENEMYBASIC_DROP_QUANTITY_MIN = 2;
+	public static final int ENEMYBASIC_DROP_QUANTITY_MAX = 5;
 
 	public EnemyBasic(int x, int y, Automaton aut) {
 		super(x, y, ENEMYBASIC_WIDTH, ENEMYBASIC_HEIGHT, aut);

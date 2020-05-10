@@ -123,7 +123,7 @@ public class AutomaticTurret extends StaticEntity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			m_currentActionDir = null;
+			//m_currentActionDir = null;
 			m_currentAction = LsAction.Wait;
 			m_timeOfAction = AUTOMATIC_TURRET_WAIT_TIME;
 		}

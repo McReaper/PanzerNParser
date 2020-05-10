@@ -99,11 +99,11 @@ public class EnemyBasic extends Enemy {
 	public void Explode() {
 		if (m_actionFinished && m_currentAction == LsAction.Explode) {
 			this.doExplode();
-			if (isNoisy())
-				Model.getModel().addSound("explosion");
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
+			if (isNoisy())
+				Model.getModel().addSound("explosion");
 			if (isNoisy() && Math.random() > 0.8)
 				Model.getModel().addSound("wilhelm");
 			m_currentAction = LsAction.Explode;

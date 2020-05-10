@@ -35,7 +35,7 @@ public class CollisionManager {
 		LinkedList<Entity> shots;
 		shots = Model.getModel().getEntities(s);
 		for (Entity entShot : shots) {
-
+			LinkedList<Entity> hit = new LinkedList<Entity>();
 			// verifie si le shot est encore encore en vie
 			if (entShot.getCurrentAction() != LsAction.Explode) {
 				// regarde si le shot traverse un enemy
@@ -47,15 +47,20 @@ public class CollisionManager {
 								if (entity.getCategory() == MyCategory.AT || entity.getCategory() == MyCategory.A
 										|| entity.getCategory() == MyCategory.O) {
 									if (entShot.GotPower() && entity.GotPower()) {
-										entShot.collide(entity.getDamageDealt());
-										entity.collide(entShot.getDamageDealt());
-										((Shot) entShot).hasKilled(entity);
+										hit.add(entity);
 									}
 								}
 							}
 						}
 					}
 				}
+			}
+			for (Entity entity : hit) {
+				entity.collide(entShot.getDamageDealt());
+				((Shot) entShot).hasKilled(entity);				
+			}
+			if(hit.size() != 0) {
+				entShot.collide(0);
 			}
 		}
 	}

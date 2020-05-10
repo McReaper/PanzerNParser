@@ -13,7 +13,7 @@ ShotFollowing(Init){
 	| Closest(@, S) & !Closest(@, SE) ? Turn(S) : (Step)
 	| Closest(@, E) & !Closest(@, SE) ? Turn(E) : (Step)
 	| Closest(@, SE) ? Turn(SE) : (Step)
-	| True ? Move(F) : ()
+	| True ? Move(F) : (Init)
 	
 	* (Step) :
 	| !GotPower() ? Explode() : ()

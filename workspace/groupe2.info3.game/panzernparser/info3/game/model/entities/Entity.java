@@ -14,7 +14,7 @@ import info3.game.model.Model;
 
 public abstract class Entity {
 
-	public final static int MAX_RANGE = 14;
+	public final static int MAX_RANGE = 20;
 	public final static int MIN_RANGE = 7;
 
 	final static int DEFAULT_MOVING_DISTANCE = 1;
@@ -203,10 +203,7 @@ public abstract class Entity {
 	}
 
 	public void setState(State state) {
-		if (state != null)
 			m_currentState = state;
-		else
-			throw new IllegalStateException("setState null");
 	}
 
 	public long getSpeed() {
@@ -365,7 +362,7 @@ public abstract class Entity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			MyDirection absoluteDir = MyDirection.toAbsolute(m_currentActionDir, dir);
+			MyDirection absoluteDir = MyDirection.toAbsolute(m_currentLookAtDir, dir);
 			if (!checkMove(absoluteDir))
 				return;
 			switch (absoluteDir) {

@@ -491,3 +491,125 @@ Pas de remarques particulières
 - Se focaliser sur les objectifs principaux avant d'attaquer la démo 
 
 ---
+
+# Journal du Mardi 5 Mai
+
+##Planning du jour
+- Faire une version définitive du Game Over + rejouer
+- Régénération des patterns
+- Finaliser les upgrades
+- Implem healing du Tank
+- Explosions
+- Finir les sprites
+- Mettre l'audio
+- Implem de la map de fond.
+
+## Répartition des tâches
+- `S>` Creation des différents niveaux du jeu
+- `B>` Création de l'animation de fin de niveau + creation de sprites pour la boue et la tourelle auto + finalisation de l'HUD
+- `E>` Création et implem de la tourrelle automatique pour les ugrades + implem heal Tank + creation des patterns de niveau 1 et 2.
+- `JT>` Creation de la map de fond + création du son d'explosion
+- `M>` implem de l'explosion des entitées + bug fix
+- `S/V>` génération aléatoire de la map au début de la partie à régénération après à la fin d'un niveau
+- `V>` bug fix fonction isInMe et boue qui ralentie les entitées dessus
+
+## Remarques
+
+## Pour après 
+
+- Continuer les bug fix pour rendre un jeu avec 0 bugs.
+- Finir les objectifs du jour non terminé.
+
+---
+
+# Journal du Mercredi 6 Mai
+
+##Planning du jour
+- Finir la version définitive du Game Over + rejouer
+- Finir les patterns
+- Finaliser les upgrades
+- Finir les sprites
+- Mettre l'audio
+
+## Répartition des tâches
+- `S>` Recherche de sons libre de droit pour les effets sonores du jeu
+- `B>` Mise a jour du menu + petites corrections dans l'HUD + début creation du menu de config des automates + creation de la fonction isQuiet pour les sons.
+- `E>` Creation des patterns niveau 3 + tests sur les patterns + creation automate pour ennemis capable de contourner les obstacles.
+- `JT>` Creation d'un remix de la musique Katyusha pour la musique de fin + implem de cette musique danes le jeu
+- `V>` Implem de l'animation de la tourelle auto + bug fix sur tout le jeu
+- `M>` implem restart à la fin du jeu de manière opti (Pas besoin de tout recharger) + suite explosions + divers bug fix
+
+## Remarques 
+
+## Pour après 
+
+---
+
+# Journal du Jeudi 7 Mai
+
+##Planning du jour
+
+- Finir les sons
+- Finir les sprites
+- Commencer Reflexion Demo
+- Chercher et réparer les bugs
+
+## Répartition des tâches
+- `S>` Implem des sons
+- `B>` Fin du menu de config pour les automates + optimisation de la foncion closest + sprites
+- `E/V >` Creation des shots ennemis et du boss + automate du boss + creation d'un shot intelligent qui suit les joueurs + début reflection demo
+- `JT>` Equilibrage des sons
+- `M>` animation enemis niveau 1 et 2 recherche et correction de bug dans le jeu.
+ 
+## Remarques 
+
+## Pour après 
+
+---
+
+# Journal du Vendredi 8 Mai
+
+##Planning du jour
+
+- Ecriture complete du script de la demo
+- Chercher et réparer les bugs
+
+## Répartition des tâches
+- `S>` Ajout de son + ecriture scenario demo
+- `E>` Ecriture script + bug fix
+- `B>` Creation automate Boss + reparations de bugs en tout genres + ajout de pop et wizz aux entitées crées récement
+- `V >` Bug fix + ajustements, equilibrage du jeu.
+- `JT>` Finission de la map
+- `M>` bug fix
+- `E/JT/S/V/B/M>` Finission de l'écriture du scénarion de la demo
+ 
+## Remarques 
+
+## Pour après 
+
+---
+
+# Journal du Samedi 9 Mai
+
+##Planning du jour
+
+- Enregistrement des voix de la demo
+- Commencer le montage
+- Filmer les scenes de la démo
+- recherche et réparation de bugs
+
+## Répartition des tâches
+- `S>` enregistrement voix général + correction automate missile
+- `E>` Ecriture readme
+- `B>` Enregistrement voix didact
+- `V >` Montage video + film scene pour la demo
+- `M>` Creation de scene pour la demo
+ 
+## Remarques 
+
+## Pour après 
+
+
+
+
+

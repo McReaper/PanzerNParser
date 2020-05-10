@@ -144,7 +144,6 @@ public class Model {
 		}
 
 		// Création du score du jeu.
-		m_score = new Score();
 		m_hasReloaded = false;
 		m_reloadElapsed = 0;
 		m_gameOver = false;
@@ -440,6 +439,8 @@ public class Model {
 	}
 
 	public void launch() {
+		m_score = new Score();
+		
 		m_grid.sendToModel();
 
 		if (getEntities(MyEntities.TankBody).size() != 1) {

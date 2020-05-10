@@ -134,7 +134,7 @@ public class ViewPort {
 		m_offsetY = 0;
 		if (m_player.getCurrentAction() == LsAction.Move) {
 			double progress = m_player.getActionProgress();
-			MyDirection actDir = m_player.getCurrentActionDir();
+			MyDirection actDir = MyDirection.toAbsolute(m_player.getLookAtDir(), m_player.getCurrentActionDir());
 			switch (actDir) {
 				case NORTH:
 				case NORTHEAST:

@@ -18,3 +18,4 @@ verre posé sur table (poseMarker) : Joseph SARDIN
 Douille de 9 milimètre sur béton 5 (changement d’arme) : Joseph SARDIN
 machine gun 1 (turretShot) :  sound-fishing.net
 bruit missile 1 (bossShot) : sound-fishing.net
+Musique sur le thème de Katioucha de Matveï Blanter (1938)

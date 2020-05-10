@@ -1,6 +1,0 @@
-enem2 4,4
-enem2 12,10
-enem1 7,16
-enem1 16,3
-wrck1 6,9
-wrck1 16,16

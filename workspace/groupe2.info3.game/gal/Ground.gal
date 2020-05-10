@@ -1,4 +1,0 @@
-Ground(Nothingness){
-	*(Nothingness)
-	|True ? Wait() :(Nothingness)
-}

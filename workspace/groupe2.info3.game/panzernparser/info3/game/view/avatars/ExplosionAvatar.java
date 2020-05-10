@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
 
+import info3.game.GameConfiguration;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
@@ -18,7 +19,7 @@ public class ExplosionAvatar {
 
 	private static void init() {
 		try {
-			m_explosion = new Sprite("sprites/Explosion.png");
+			m_explosion = new Sprite(GameConfiguration.SPRITE_PATH + "Explosion.png");
 		} catch (IOException e) {
 			System.out.println("pas d'explosion chargé");
 			e.printStackTrace();

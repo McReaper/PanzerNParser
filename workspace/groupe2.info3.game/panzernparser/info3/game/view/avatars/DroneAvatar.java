@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
 
+import info3.game.GameConfiguration;
 import info3.game.automaton.MyDirection;
 import info3.game.automaton.action.LsAction;
 import info3.game.model.Model;
@@ -23,7 +24,7 @@ public class DroneAvatar extends Avatar {
 		super(animation);
 		m_view = view;
 		try {
-			angle = new Sprite("sprites/angle.png");
+			angle = new Sprite(GameConfiguration.SPRITE_PATH + "angle.png");
 		} catch (IOException e) {
 			System.out.println("pas d'angle dans la vu du drone");
 			e.printStackTrace();

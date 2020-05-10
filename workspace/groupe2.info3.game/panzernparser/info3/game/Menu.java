@@ -88,7 +88,7 @@ public class Menu {
 		}
 
 		m_menu = new JPanelImaged();
-		m_menu.setImage("sprites/Menu.png");
+		m_menu.setImage(GameConfiguration.SPRITE_PATH + "Menu.png");
 		m_menu.setLayout(new BorderLayout());
 		m_menu.add(m_mainMenu, BorderLayout.CENTER);
 	}
@@ -347,11 +347,11 @@ public class Menu {
 		m_buttonPanel.add(back);
 		m_buttonPanel.add(next);
 
-		Image img1 = ImageIO.read(new File("sprites/InfoMenuRules.png"));
+		Image img1 = ImageIO.read(new File(GameConfiguration.SPRITE_PATH + "InfoMenuRules.png"));
 		img1 = img1.getScaledInstance(600, 600, Image.SCALE_AREA_AVERAGING);
-		Image img2 = ImageIO.read(new File("sprites/InfoMenuControls.png"));
+		Image img2 = ImageIO.read(new File(GameConfiguration.SPRITE_PATH + "InfoMenuControls.png"));
 		img2 = img2.getScaledInstance(600, 600, Image.SCALE_AREA_AVERAGING);
-		Image img3 = ImageIO.read(new File("sprites/InfoMenuHUD.png"));
+		Image img3 = ImageIO.read(new File(GameConfiguration.SPRITE_PATH + "InfoMenuHUD.png"));
 		img3 = img3.getScaledInstance(600, 600, Image.SCALE_AREA_AVERAGING);
 		ImageIcon rulesImg = new ImageIcon(img1);
 		ImageIcon controlImg = new ImageIcon(img2);

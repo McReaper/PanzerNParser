@@ -1,6 +1,0 @@
-Vein(Init) {
- * (Init):
-	| !GotPower() ? Explode() : ()
-	| GotStuff() ? Egg(H) : (Init)
-	| True ? Wait() : (Init)
-}

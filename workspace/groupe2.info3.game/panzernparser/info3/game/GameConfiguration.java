@@ -21,11 +21,11 @@ public class GameConfiguration {
 
 	///////////// DOMAINE PUBLIC ///////////////
 
-	public static final String GAL_PATH = "gal/";
-	public static final String SPRITE_PATH = "sprites/";
-	public static final String ANIMATION_PATH = "animations/";
-	public static final String PATTERN_PATH = "patterns/";
-	public static final String SOUND_PATH = "sounds/";
+	public static final String GAL_PATH = "resources/gal/";
+	public static final String SPRITE_PATH = "resources/sprites/";
+	public static final String ANIMATION_PATH = "resources/animations/";
+	public static final String PATTERN_PATH = "resources/patterns/";
+	public static final String SOUND_PATH = "resources/sounds/";
 
 	public static GameConfiguration getConfig() {
 		createSingleton();
@@ -88,7 +88,7 @@ public class GameConfiguration {
 
 	//////////// DOMAINE PRIVÉ //////////////
 
-	private static final String CONFIGFILE_NAME = "panzernparser.cfg";
+	private static final String CONFIGFILE_NAME = "resources/panzernparser.cfg";
 	private static GameConfiguration self = null;
 
 	private static File m_configfile;

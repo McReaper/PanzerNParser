@@ -57,7 +57,7 @@ public abstract class Entity {
 	protected int m_health;
 	protected int m_damage_dealt;
 	protected long m_speed;
-	protected boolean m_hasChangedSpeed;
+	protected int m_hasChangedSpeed;
 	protected LinkedList<MyCategory> m_uncrossables;
 	protected String m_moveSound;
 	protected int[][] m_memoryClosest;
@@ -90,7 +90,7 @@ public abstract class Entity {
 		m_uncrossables.add(MyCategory.O);// Mur pas traversable mais eventuellement destructible
 		m_damage_dealt = DEFAULT_DAMAGE_DEALT;
 
-		m_hasChangedSpeed = false;
+		m_hasChangedSpeed = 0;
 		m_moveSound = new String();
 		m_memoryClosest = new int[12][8];
 		m_memoryCoordClosest = new LinkedList[8];
@@ -207,12 +207,12 @@ public abstract class Entity {
 		m_speed = l;
 	}
 
-	public boolean getHasChangedSpeed() {
+	public int getHasChangedSpeed() {
 		return m_hasChangedSpeed;
 	}
 
-	public void setHasChangedSpeed(boolean bool) {
-		m_hasChangedSpeed = bool;
+	public void setHasChangedSpeed(int val) {
+		m_hasChangedSpeed = val;
 	}
 
 	public void setStuff(boolean bool) {

@@ -17,29 +17,31 @@ public class Mud extends StaticEntity {
 	public static final int MUD_COEFFICIENT_SPEED = 2;// indique par quel coefficient va être divisé la vitesse
 	public static final int MUD_POP_TIME = 100;
 
-	Entity m_entityHere;
+	public static final int FASTER = 1;
+	public static final int NORMAL = 0;
+	public static final int SLOWER = -1;
+	
+	LinkedList<Entity> m_entityHere;
 
 	public Mud(int x, int y, Automaton aut) {
 		super(x, y, MUD_WIDTH, MUD_HEIGHT, aut);
-		m_entityHere = null;
+		m_entityHere = new LinkedList<Entity>();
 	}
 
 	public void Wizz(MyDirection dir) {// La boue fait avancer moins vite
 		if (m_actionFinished && m_currentAction == LsAction.Wizz) {
 			m_actionFinished = false;
 			m_currentAction = null;
-			if (m_entityHere.getHasChangedSpeed()) {
-				m_entityHere.setSpeed(m_entityHere.getSpeed() / MUD_COEFFICIENT_SPEED);
-				m_entityHere.setHasChangedSpeed(false);
-			}
-			m_entityHere = null;
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Wizz;
 			m_timeOfAction = MUD_WIZZ_TIME;
-			getMovingEntityHere();
-			if (!m_entityHere.getHasChangedSpeed()) {
-				m_entityHere.setSpeed(m_entityHere.getSpeed() * MUD_COEFFICIENT_SPEED);
-				m_entityHere.setHasChangedSpeed(true);
+			LinkedList<Entity> entHere = getMovingEntityHere();
+			for (Entity entity : entHere) {
+				if(!m_entityHere.contains(entity)) {
+					m_entityHere.add(entity);
+					entity.setSpeed(entity.getSpeed() * MUD_COEFFICIENT_SPEED);
+					entity.setHasChangedSpeed(SLOWER);
+				}
 			}
 		}
 	}
@@ -48,20 +50,16 @@ public class Mud extends StaticEntity {
 		if (m_actionFinished && m_currentAction == LsAction.Pop) {
 			m_actionFinished = false;
 			m_currentAction = null;
-			m_entityHere = null;
-			if (m_entityHere.getHasChangedSpeed()) {
-				m_entityHere.setSpeed(m_entityHere.getSpeed() * MUD_COEFFICIENT_SPEED);
-
-				m_entityHere.setHasChangedSpeed(false);
-			}
-			m_entityHere = null;
 		} else if (m_currentAction == null) {
 			m_currentAction = LsAction.Wizz;
 			m_timeOfAction = MUD_POP_TIME;
-			getMovingEntityHere();
-			if (!m_entityHere.getHasChangedSpeed()) {
-				m_entityHere.setSpeed(m_entityHere.getSpeed() / MUD_COEFFICIENT_SPEED);
-				m_entityHere.setHasChangedSpeed(true);
+			LinkedList<Entity> entHere = getMovingEntityHere();
+			for (Entity entity : entHere) {
+				if(!m_entityHere.contains(entity)) {
+					m_entityHere.add(entity);
+					entity.setSpeed(entity.getSpeed() / MUD_COEFFICIENT_SPEED);
+					entity.setHasChangedSpeed(FASTER);
+				}
 			}
 		}
 	}
@@ -78,18 +76,42 @@ public class Mud extends StaticEntity {
 		}
 	}
 	
-	private void getMovingEntityHere() {
+	private LinkedList<Entity> getMovingEntityHere() {
+		LinkedList<Entity> entHere = new LinkedList<Entity>();
 		LinkedList<Entity> entities = Model.getModel().getGrid().getEntityCells(m_x, m_y, m_width, m_height);
 		for (Entity entity : entities) {
 			if (entity instanceof TankBody || entity instanceof Enemy) {
-				m_entityHere = entity;
+				entHere.add(entity);
 			}
 		}
+		return entHere;
 	}
 	
 	@Override
 	public boolean isShown() {
 		return Model.getModel().getVisionType() == VisionType.TANK;
+	}
+	
+	@Override
+	public void step(long elapsed) {
+		super.step(elapsed);
+		LinkedList<Entity> entHere = getMovingEntityHere();
+		for (Entity entity : m_entityHere) {
+			if(!entHere.contains(entity)) {
+				m_entityHere.remove(entity);
+				switch(entity.getHasChangedSpeed()) {
+					case SLOWER:
+						entity.setSpeed(entity.getSpeed() / MUD_COEFFICIENT_SPEED);
+						break;
+					case FASTER:
+						entity.setSpeed(entity.getSpeed() * MUD_COEFFICIENT_SPEED);
+						break;
+					case NORMAL:
+						break;
+				}
+				entity.setHasChangedSpeed(NORMAL);
+			}
+		}
 	}
 
 }

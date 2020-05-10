@@ -38,10 +38,10 @@ Il est important que les deux entités soient autonomes pour que le joueur puiss
 Ils sont simplement liés dans l'espace car le canon ne peut être dissocié du chassis cela va de soit.
 -----------------------Le Drone ------------------------
 Le tank à une vision de jeu assez limitée, donc pour l'aider à voir l'environnement autour de lui, le joueur peut appyuer sur la touche A et ainsi diriger un drone qui part de l'emplacement du tank pour monter dans le ciel et explorer les environs.
-Toujours en vue du dessus, le drone est perpétuel mouvement. Le joueur peut le diriger de la même manière que le Tank, en appuyant sur les touches ZQSD. 
+Toujours en vue du dessus, le drone est en perpétuel mouvement. Le joueur peut le diriger de la même manière que le Tank, en appuyant sur les touches ZQSD. 
 Il possède deux modes de visions : 
 	-Vision "Thermique" : Ne voit que les ennemis.
-	-Vision "Rayons X"  : Ne voit que les ressources. C'est le seul moyen qu'a le joueur de voir les ressources présentent sous le sol.
+	-Vision "Rayons X"  : Ne voit que les ressources. C'est le seul moyen qu'a le joueur de voir certaines ressources présentent sous le sol.
 Pour changer d'une vision à une autre, il suffit d'appuyer sur la touche E.
 Une fois le repérage des ressources ou des ennemis fait, le joueur peut déposer des drapeaux sur la carte grace au clique de la souris sur l'endroit souhaité.
 

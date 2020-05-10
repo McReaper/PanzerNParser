@@ -37,19 +37,19 @@ public class Controller implements GameCanvasListener {
 			m_model.getKeyPressed().removeAll(m_model.getKeyPressed());
 		}
 		m_model.step(elapsed);
-		if (!m_model.getTank().gotPower()) {
-			m_view.m_canvas.stop("KatyushaIntro");
-			m_view.m_canvas.stop("KatyushaBoucle");
-		}
-		if (!m_model.getSounds().isEmpty()) {
-			Iterator<String> iter = m_model.getSounds().iterator();
-			while (iter.hasNext()) {
-				String name = (String) iter.next();
-				if (!isEnd || name.equals("deg") || name.contentEquals("Game_Over"))
-					loadMusic(name);
-			}
-			m_model.getSounds().removeAll(m_model.getSounds());
-		}
+//		if (!m_model.getTank().gotPower()) {
+//			m_view.m_canvas.stop("KatyushaIntro");
+//			m_view.m_canvas.stop("KatyushaBoucle");
+//		}
+//		if (!m_model.getSounds().isEmpty()) {
+//			Iterator<String> iter = m_model.getSounds().iterator();
+//			while (iter.hasNext()) {
+//				String name = (String) iter.next();
+//				if (!isEnd || name.equals("deg") || name.contentEquals("Game_Over"))
+//					loadMusic(name);
+//			}
+//			m_model.getSounds().removeAll(m_model.getSounds());
+//		}
 	}
 
 	public void loadMusic(String name) {

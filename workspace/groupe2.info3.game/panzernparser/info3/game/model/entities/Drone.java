@@ -50,7 +50,7 @@ public class Drone extends MovingEntity {
 		m_speed = DRONE_SPEED;
 		m_uncrossables = new LinkedList<MyCategory>();
 		m_maxHealth = DRONE_HEALTH;
-		m_health = DRONE_HEALTH + 4564645;
+		m_health = DRONE_HEALTH;
 		m_stuff = false; // pour l'upgrade.
 		m_moveSound = "droneMove2";
 	}

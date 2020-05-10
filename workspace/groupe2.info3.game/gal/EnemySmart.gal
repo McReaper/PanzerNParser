@@ -21,7 +21,7 @@ EnemySmart(Search){
 	
 	* (WanderMove) :
 	| !GotPower() ? Egg() : (Dying)
-	| True ? 5% Move(F) / Wait() : (Init) 
+	| True ? 5% Move(F) / Wait() : (Search) 
 	
 	* (Step) :
 	| !GotPower() ? Egg() : (Dying)

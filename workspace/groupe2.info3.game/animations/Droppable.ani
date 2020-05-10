@@ -1,0 +1,5 @@
+sprite_sheet1 = Droppable.png
+sprite_sheet2 = DroppableVueRessource.png
+sprite_sheet3 = DroppableVueRessource.png
+Wait = 1,2,3,4
+Wait_NORTH = 5

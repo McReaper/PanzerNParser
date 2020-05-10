@@ -1,6 +1,6 @@
-sprite_sheet1 = Minerai.png
-sprite_sheet2 = Minerai.png
-sprite_sheet3 = Minerai.png
+sprite_sheet1 = Minerals.png
+sprite_sheet2 = Minerals.png
+sprite_sheet3 = Minerals.png
 Egg = 1,2,3,4,3,2
 Get = 1,2,3,4,3,2
 Hit = 1,2,3,4,3,2

@@ -12,6 +12,7 @@ import info3.game.GameMain;
 import info3.game.automaton.LsKey;
 import info3.game.model.Grid.Coords;
 import info3.game.model.Model;
+import info3.game.model.upgrades.Upgrade;
 import info3.game.view.GameCanvasListener;
 import info3.game.view.View;
 
@@ -31,24 +32,32 @@ public class Controller implements GameCanvasListener {
 	@Override
 	public void tick(long elapsed) {
 		// a chaque tick on fait un pas de simulation, et donc met à jour le modèle.
+		boolean isEnd = m_model.getGameOver();
+		if (!m_view.m_canvas.hasFocus()) {
+			m_model.getKeyPressed().removeAll(m_model.getKeyPressed());
+		}
 		m_model.step(elapsed);
+		if (!m_model.getTank().gotPower()) {
+			m_view.m_canvas.stop("KatyushaIntro");
+			m_view.m_canvas.stop("KatyushaBoucle");
+		}
 		if (!m_model.getSounds().isEmpty()) {
 			Iterator<String> iter = m_model.getSounds().iterator();
 			while (iter.hasNext()) {
 				String name = (String) iter.next();
-				loadMusic(name);
+				if (!isEnd || name.equals("deg") || name.contentEquals("Game_Over"))
+					loadMusic(name);
 			}
 			m_model.getSounds().removeAll(m_model.getSounds());
 		}
 	}
 
-	void loadMusic(String name) {
+	public void loadMusic(String name) {
 		GameMain game = GameMain.getGame();
 		File file = game.getSounds().get(name);
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
-			// TODO : IOOBE , demandez aux autres groupes.
 			m_view.m_canvas.play(name, fis, -1);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -65,6 +74,30 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		LsKey temp = toLsKey(e);
+		m_model.addKeyPressed(temp);
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		LsKey temp = toLsKey(e);
+		m_model.removeKeyPressed(temp);
+		if (m_model.getGameOver() && e.getKeyCode() == KeyEvent.VK_R) {
+			GameMain.getGame().restart();
+			m_view.m_HUD.refreshUpgrade();
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
 		if (!m_model.isPlayingTank()) {
 			Coords c = new Coords(e.getX(), e.getY());
 			try {
@@ -74,31 +107,6 @@ public class Controller implements GameCanvasListener {
 				return; // On ne pose pas de marqueurs.
 			}
 		}
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_F11) {
-			//GameMain.getGame().goFullscreen(); // TODO : tobefixed
-		}
-		LsKey temp = toLsKey(e);
-		m_model.addKeyPressed(temp);
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		LsKey temp = toLsKey(e);
-		m_model.removeKeyPressed(temp);
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -112,44 +120,33 @@ public class Controller implements GameCanvasListener {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowOpened() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void exit() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void endOfPlay(String name) {
-		// TODO Auto-generated method stub
-
+		if ((name.equals("KatyushaIntro") || name.equals("KatyushaBoucle")) && Model.getModel().getTank().gotPower()) {
+			loadMusic("KatyushaBoucle");
+		}
 	}
 
 	@Override
 	public void expired() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public LsKey toLsKey(KeyEvent e) {
@@ -240,6 +237,14 @@ public class Controller implements GameCanvasListener {
 				return LsKey.ENTER;
 		}
 		return null;
+	}
+
+	public void upgradeClicked(Upgrade upgrade) {
+		m_model.performUpgrade(upgrade);
+	}
+
+	public void setModel(Model model) {
+		m_model = model;
 	}
 
 }

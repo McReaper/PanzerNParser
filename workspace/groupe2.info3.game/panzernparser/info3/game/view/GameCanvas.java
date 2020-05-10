@@ -318,6 +318,7 @@ public class GameCanvas extends Canvas {
 		}
 	}
 
+	@SuppressWarnings("serial")
 	public class RunnableEvent extends AWTEvent implements Runnable {
 		public static final int EVENT_ID = AWTEvent.RESERVED_ID_MAX + 1;
 		Runnable runnable;
@@ -351,6 +352,7 @@ public class GameCanvas extends Canvas {
 	WindowFrame m_frame;
 	java.awt.EventQueue eventQueue;
 
+	@SuppressWarnings("serial")
 	class WindowFrame extends JFrame {
 		WindowFrame() {
 			enableEvents(RunnableEvent.EVENT_ID);
@@ -444,7 +446,7 @@ public class GameCanvas extends Canvas {
 				post(new Runnable() {
 					@Override
 					public void run() {
-						System.out.println("End of play for " + name);
+						// System.out.println("End of play for " + name);
 						m_players.remove(name);
 						if (m_listener != null)
 							m_listener.endOfPlay(name);

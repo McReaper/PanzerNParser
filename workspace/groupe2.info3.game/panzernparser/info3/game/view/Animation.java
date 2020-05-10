@@ -15,18 +15,19 @@ import info3.game.model.Model.VisionType;
  */
 public class Animation {
 
+	String m_name;
 	Sprite[] m_sprites;
 	HashMap<ActionDirection, int[]> m_animationSequence;
 
-	public Animation(Sprite[] sprites, HashMap<ActionDirection, int[]> animationSequence) {
+	public Animation(Sprite[] sprites, HashMap<ActionDirection, int[]> animationSequence,String name) {
+		m_name = name.substring(0, name.length()-4);
 		m_sprites = sprites;
 		m_animationSequence = animationSequence;
 	}
 
 	public Image getImage(double ActionProgress, LsAction ac, MyDirection dir, VisionType vision) {
 		if (ac == null) {
-			// TODO : definir l'affichage dans le cas ou il n'y a pas d'action en cours (ici
-			// rien ne sera affiché)
+			//dans le cas ou il n'y a pas d'action en cours
 			return null;
 		}
 
@@ -46,13 +47,23 @@ public class Animation {
 		ActionDirection aD = new ActionDirection(ac, dir);
 		int[] seq = m_animationSequence.get(aD);
 		if (seq == null) {
-			// TODO : definir l'affichage dans le cas ou il n'y a pas d'animation associcée
-			// (ici rien ne sera affiché)
+			//dans le cas ou il n'y a pas d'animation associcée
 			return null;
 		}
 		int i = (int) (ActionProgress * seq.length);
 		if (i >= seq.length)
 			i = seq.length - 1;
-		return currSprite.getSprite(seq[i]); // TODO return curSrite.getSprite(seq[i]);
+		return currSprite.getSprite(seq[i]);
 	}
+	
+	public String getName() {
+		return m_name;
+	}
+
+	@Override
+	public String toString() {
+		return m_name;
+	}
+	
+	
 }

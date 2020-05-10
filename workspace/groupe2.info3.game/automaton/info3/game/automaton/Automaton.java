@@ -23,11 +23,19 @@ public class Automaton {
 	public String getName() {
 		return m_name;
 	}
+	
+	@Override
+	public String toString() {
+		return m_name;
+	}
 
 	public State step(Entity e) {
+		State currentState = e.getState();
+		if(currentState == null) {
+			return null;
+		}
 		ListIterator<Mode> iter = m_modes.listIterator();
 		Mode currentMode;
-		State currentState = e.getState();
 		while (iter.hasNext()) {
 			currentMode = (Mode) iter.next();
 			if (currentState.equals(currentMode.m_state)) {
@@ -35,6 +43,5 @@ public class Automaton {
 			}
 		}
 		return null;
-
 	}
 }

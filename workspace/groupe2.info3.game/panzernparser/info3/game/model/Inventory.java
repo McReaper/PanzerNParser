@@ -8,6 +8,9 @@ import info3.game.model.entities.Droppable;
  * L'invetaire contient une liste de matériaux.
  */
 public class Inventory {
+	
+	private static int MAX_RES = 10000;
+	
 	HashMap<MaterialType, Integer> m_materialList;
 	
 	public Inventory() {
@@ -21,18 +24,21 @@ public class Inventory {
 		MaterialType type = newMat.getMType();
 		Integer quantity = m_materialList.get(type);
 		quantity += newMat.getQuantity();
+		if(quantity > MAX_RES) quantity = MAX_RES;
 		m_materialList.replace(type, quantity);
 	}
 	
 	public void add(MaterialType type, int q) {
 		Integer quantity = m_materialList.get(type);
 		quantity += q;
+		if(quantity > MAX_RES) quantity = MAX_RES;
 		m_materialList.replace(type, quantity);
 	}
 	
 	public void add(MaterialType type) {
 		Integer quantity = m_materialList.get(type);
 		quantity += 1;
+		if(quantity > MAX_RES) quantity = MAX_RES;
 		m_materialList.replace(type, quantity);
 	}
 	

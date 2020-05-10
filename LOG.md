@@ -353,6 +353,8 @@ Pas de remarques particulières. Toujours quelques difficultés sur l'ATH mais c
 ## Répartition des tâches 
 - `Cyance>` A votre bon cœur. A voir demain
 
+---
+
 # JOURNAL du Mercredi 29 Avril
 
 ## Planning du jour
@@ -366,13 +368,13 @@ Pas de remarques particulières. Toujours quelques difficultés sur l'ATH mais c
 
 ## Répartition des tâches
 
-- `M>` Ajout de l'effet de tore pour les colisions et closest
-- `M/V>` Debug général du code, gestion de la vision du drone.
-- `JT>` Dessin de sprites enemy en mode vision thermique et en diagonal, implémentation d'un ATH dynamique
-- `E>` Implémentation de features pour les ennemies : Drop, automate, colision (avec Sami). Ainsi le Tank : Ramassage des droppable et mise à jour de l'inventaire.
-- `B>` Implémentation d'un menu, modification de Cell, getGridCoord, et de Marker(avec Sami). Ainsi que dessins de sprite
-- `V>` Mise à jour de Closest, Merge des branchs
-- `S>` Mise à jour du contrat, travail sur les Marker (avec Bertrand), travail sur les colisions (avec Emilie)
+- M> Ajout de l'effet de tore pour les colisions et closest
+- M/V> Debug général du code, gestion de la vision du drone.
+- JT> Dessin de sprites enemy en mode vision thermique et en diagonal, implémentation d'un ATH dynamique
+- E> Implémentation de features pour les ennemies : Drop, automate, colision (avec Sami). Ainsi le Tank : Ramassage des droppable et mise à jour de l'inventaire.
+- B> Implémentation d'un menu, modification de Cell, getGridCoord, et de Marker(avec Sami). Ainsi que dessins de sprite
+- V> Mise à jour de Closest, Merge des branchs
+- S> Mise à jour du contrat, travail sur les Marker (avec Bertrand), travail sur les colisions (avec Emilie)
 
 ## Remarques :
 
@@ -383,3 +385,231 @@ Problème potentiel sur la gestion de la grille.
 - Réfléchir à une éventuelle refonte de la grille.
 - Implémenter les amélioration
 - Perfectionner ENCORE l'ATH
+
+---
+
+# JOURNAL du Jeudi 30 Avril
+
+## Planning du jour
+
+- Drop des ennemies implémentation et la récupération des drops
+- Système des pooints de vie mis en place
+- Interraction entre les entités partiellement implémenté
+- Gestion de la vision du drone
+- Implémentation d'un menu
+- Implémentation d'un ATH dynamique
+
+
+## Pour après :
+
+- Réfléchir à une éventuelle refonte de la grille.
+- Implémenter les amélioration
+- Perfectionner ENCORE l'ATH
+- creer une grille contenant toutes les entités pour avoir un accès plus simple et plus optimisé pour certaines fonctions
+- réglé le probleme des fleches dans la boussole
+
+## Répartition des tâches
+
+- Cyance> Revue de code de tout le dev
+- E> amélioration du code des entités suite aux revues et créations de plusieurs classes shots qui ont des particularités diff + changement d'arme via le canon
+- V/S/M> debug des Avatar et implem d'une amélioration de la classe Avatar
+- B> suite de l'implem de l'ATH et implem de la grille pour classer les entité suivant leurs position sur la grille
+- S> Creation d'un sol particulier : le wall + déplacement de quelques fonction pour rendre le code plus clair + merge de toutes les branches sur dev et debug qui va avec
+- JT> suite de l'implem pour avoir des ATH dynamiques + creation d'un son pour le canon
+- M> Travail sur les animations et les avatars Enemy + aide B> pour la creation de la Grille
+
+## Remarques :
+
+Pas de remarques particulières
+
+## Réflexion en cours
+
+- Réécrire certaines fonctions avec la nouvelle Grille qui nous permet de lister les elements en fonction de leur emplacement. Plus d'optimisations.
+- Discussion sur les prochains objectifs et la manière de les atteindre
+
+---
+
+# Journal du Vendredi 1 Mai
+
+## Planning du jour
+- Matinée de revue de code croisée pour un néttoyage du code.
+- S'occuper un minimum de l'aspect graphique du jeu.
+- Gérer le creusage du tank sur les veins.
+- Réfléchir et commencer a implémenter les upgrades
+- Travail sur l'ATH
+- Implémenté un prélude de gestionnaire de collisions
+- Voir le reste de ce qui peut etre fait.
+
+## Répartition des tâches
+- `B>` Création des sprites du drone + fix de cell + création d'avatars pour les droppable, les veins et le drone.
+- `E>` Création de la classe Hole.java et de son automate. Le trou est créé a partir du pop du tank. 
+- `V>` Managment des merges de la matinée et gestion des conflits engendrés. Début d'implémentations des améliorations en jeu pour le tank ou le drone. Aide sur plusieurs branches de l'équipe.
+- `JT>` Mise en place d'un ATH lié au model. Travail sur l'ergonomie de l'ATH en général.
+- `S>` Travail sur le gestionnaire des collisions.
+- `M>` Gestion du ramassage des marqueurs avec le tank et de suppression de ces derniers via un clic depuis le drone.
+
+
+---
+
+# Journal du Samedi 2 Mai
+
+## Planning du jour
+- Pas de planning en particulier, on s'adapte en fonction des besoins actuels du jeu.
+
+## Répartition des tâches
+- `B>` Implem d'un fluide zoom dans le viewport + Implem collision manager + Bouttons fonctionnel pour les upgrades.
+- `E>` Implem d'un nouveau type d'ennemi. Implem d'une classe Weapon pour gérer différents types de tirs.
+- `V>` Travail sur les upgrades en coop avec l'ATH + implem de qq nouveaux sprites
+- `JT>` Début du développement d'un fond de monde de 3200px de large/haut et avancement de l'ATH
+- `S>` Modif et finalisation des collisions + interdiction du move devant un obstacle + Travail sur les weapons
+- `M>` Gestion de l'inventaire avec ajout des ressources récupérées dans ce dernier. + Travail sur la vue du drone + Gestion de la durée de vol du drone.
+
+---
+
+# Journal du Dimanche 3 Mai
+
+## Journée de pause
+
+---
+
+# Journal du Lundi 4 Mai
+
+## Répartition des tâches
+- `B>` Finalisation de l'HUD, réorganisation de la classe pour rendre les fonctions constructeur et refresh plus modulaire + merge des branches de beaucoup de gens.
+- `E>` Régénaration de la Map par pattern (premiers tests) + Implem d'un GameOver (premiere implem) + Création de boue/glace pour ralentir/augmenté la vitesse du tank. + Modif des constantes pour rendre le jeu plus agréable.
+- `V>` Début d'implem pour l'affichage d'une épave (+sprites) + mise a jour des upgrades et lien entre controller et modèle + tentative d'optimisation de la fonction checkmove de entity.
+- `JT>` Dev de la Map
+- `M/S>` Implémentation du Score + Un peu du collision manager
+- `S>` Deux nouvelles entités : Walls + WreckTank avec `V`.
+
+## Remarques
+
+- Il faudrait revoir la position de certaines méthodes dans le model (mieux dans Grid ?).
+
+## Pour après 
+
+- Se focaliser sur les objectifs principaux avant d'attaquer la démo 
+
+---
+
+# Journal du Mardi 5 Mai
+
+##Planning du jour
+- Faire une version définitive du Game Over + rejouer
+- Régénération des patterns
+- Finaliser les upgrades
+- Implem healing du Tank
+- Explosions
+- Finir les sprites
+- Mettre l'audio
+- Implem de la map de fond.
+
+## Répartition des tâches
+- `S>` Creation des différents niveaux du jeu
+- `B>` Création de l'animation de fin de niveau + creation de sprites pour la boue et la tourelle auto + finalisation de l'HUD
+- `E>` Création et implem de la tourrelle automatique pour les ugrades + implem heal Tank + creation des patterns de niveau 1 et 2.
+- `JT>` Creation de la map de fond + création du son d'explosion
+- `M>` implem de l'explosion des entitées + bug fix
+- `S/V>` génération aléatoire de la map au début de la partie à régénération après à la fin d'un niveau
+- `V>` bug fix fonction isInMe et boue qui ralentie les entitées dessus
+
+## Remarques
+
+## Pour après 
+
+- Continuer les bug fix pour rendre un jeu avec 0 bugs.
+- Finir les objectifs du jour non terminé.
+
+---
+
+# Journal du Mercredi 6 Mai
+
+##Planning du jour
+- Finir la version définitive du Game Over + rejouer
+- Finir les patterns
+- Finaliser les upgrades
+- Finir les sprites
+- Mettre l'audio
+
+## Répartition des tâches
+- `S>` Recherche de sons libre de droit pour les effets sonores du jeu
+- `B>` Mise a jour du menu + petites corrections dans l'HUD + début creation du menu de config des automates + creation de la fonction isQuiet pour les sons.
+- `E>` Creation des patterns niveau 3 + tests sur les patterns + creation automate pour ennemis capable de contourner les obstacles.
+- `JT>` Creation d'un remix de la musique Katyusha pour la musique de fin + implem de cette musique danes le jeu
+- `V>` Implem de l'animation de la tourelle auto + bug fix sur tout le jeu
+- `M>` implem restart à la fin du jeu de manière opti (Pas besoin de tout recharger) + suite explosions + divers bug fix
+
+## Remarques 
+
+## Pour après 
+
+---
+
+# Journal du Jeudi 7 Mai
+
+##Planning du jour
+
+- Finir les sons
+- Finir les sprites
+- Commencer Reflexion Demo
+- Chercher et réparer les bugs
+
+## Répartition des tâches
+- `S>` Implem des sons
+- `B>` Fin du menu de config pour les automates + optimisation de la foncion closest + sprites
+- `E/V >` Creation des shots ennemis et du boss + automate du boss + creation d'un shot intelligent qui suit les joueurs + début reflection demo
+- `JT>` Equilibrage des sons
+- `M>` animation enemis niveau 1 et 2 recherche et correction de bug dans le jeu.
+ 
+## Remarques 
+
+## Pour après 
+
+---
+
+# Journal du Vendredi 8 Mai
+
+##Planning du jour
+
+- Ecriture complete du script de la demo
+- Chercher et réparer les bugs
+
+## Répartition des tâches
+- `S>` Ajout de son + ecriture scenario demo
+- `E>` Ecriture script + bug fix
+- `B>` Creation automate Boss + reparations de bugs en tout genres + ajout de pop et wizz aux entitées crées récement
+- `V >` Bug fix + ajustements, equilibrage du jeu.
+- `JT>` Finission de la map
+- `M>` bug fix
+- `E/JT/S/V/B/M>` Finission de l'écriture du scénarion de la demo
+ 
+## Remarques 
+
+## Pour après 
+
+---
+
+# Journal du Samedi 9 Mai
+
+##Planning du jour
+
+- Enregistrement des voix de la demo
+- Commencer le montage
+- Filmer les scenes de la démo
+- recherche et réparation de bugs
+
+## Répartition des tâches
+- `S>` enregistrement voix général + correction automate missile
+- `E>` Ecriture readme
+- `B>` Enregistrement voix didact
+- `V >` Montage video + film scene pour la demo
+- `M>` Creation de scene pour la demo
+ 
+## Remarques 
+
+## Pour après 
+
+
+
+
+

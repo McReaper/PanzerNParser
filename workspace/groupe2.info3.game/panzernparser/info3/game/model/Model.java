@@ -7,15 +7,31 @@ import java.util.LinkedList;
 import info3.game.automaton.LsKey;
 import info3.game.automaton.MyCategory;
 import info3.game.model.Grid.Coords;
+import info3.game.model.entities.AutomaticTurret;
 import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
-import info3.game.model.entities.Marker;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
+import info3.game.model.upgrades.Upgrade;
+import info3.game.model.upgrades.UpgradeAutomaticSubmachine;
+import info3.game.model.upgrades.UpgradeDroneUsage;
+import info3.game.model.upgrades.UpgradeDroneVision;
+import info3.game.model.upgrades.UpgradeHealTank;
+import info3.game.model.upgrades.UpgradeMarkersCount;
+import info3.game.model.upgrades.UpgradeMiningTime;
+import info3.game.model.upgrades.UpgradeTankDamage;
+import info3.game.model.upgrades.UpgradeTankLife;
+import info3.game.model.upgrades.UpgradeTankShotsCapacity;
+import info3.game.model.upgrades.UpgradeTankSpeed;
+import info3.game.model.upgrades.UpgradeWeapon;
 
 public class Model {
+
+	public static final int IN_PLAY = 0;
+	public static final int RELOADING_MAP = 1;
+	public static final int RELOAD_TIME = 3000;
 
 	public enum VisionType {
 		TANK, RESSOURCES, ENEMIES;
@@ -33,6 +49,14 @@ public class Model {
 	private Coords m_clue;
 	private long m_time;
 	private LinkedList<String> m_soundsToPlay;
+	private LinkedList<Upgrade> m_statUpgrade;
+	private LinkedList<Upgrade> m_uniqUpgrade;
+	private Score m_score;
+	private int m_reloadingState;
+	private boolean m_hasReloaded;
+	private long m_reloadElapsed;
+	private int m_level;
+	private boolean m_gameOver;
 
 	/**
 	 * Fonction qui gère le singleton du modèle (évite de créer plusieurs modèles).
@@ -44,26 +68,69 @@ public class Model {
 			new Model();
 		return self;
 	}
-	
+
+	/**
+	 * au rythme des ticks du gamecanvas.
+	 * 
+	 * @param elapsed
+	 */
+	public void step(long elapsed) {
+		if (!m_gameOver) {
+			if (m_reloadingState == IN_PLAY) {
+				m_time += elapsed;
+				// Effectue un pas de simulation sur chaque entités
+				for (Entity entity : getAllEntities()) {
+					entity.step(elapsed);
+				}
+				m_tank.step();
+				m_collisionManager.controlCollisionsShotsEntity();
+				m_score.updateTime();
+			}
+
+			if (needRegeneration() || m_reloadingState == RELOADING_MAP) {
+				m_reloadingState = RELOADING_MAP;
+				m_reloadElapsed += elapsed;
+				if (m_reloadElapsed >= RELOAD_TIME) {
+					m_reloadingState = IN_PLAY;
+					m_hasReloaded = false;
+					m_reloadElapsed = 0;
+				} else if (m_reloadElapsed >= RELOAD_TIME / 3 && !m_hasReloaded) {
+					try {
+						m_hasReloaded = true;
+						m_playingTank = true;
+						reset();
+					} catch (Exception e) {
+						e.printStackTrace();
+						System.exit(-1);
+					}
+				}
+			}
+		}
+	}
+
 	/**
 	 * Création du modèle (l'univers du jeu)
 	 */
 	private Model() {
 		self = this; // Pour éviter des appels récursifs infinis.
-		
+
+		// Initialisation des sons a jouer depuis le controller
+		m_soundsToPlay = new LinkedList<String>();
+		// Temps de jeu écoulé
+		m_time = 0;
+
 		// Création de la liste des touches enfoncées connues du modèle.
 		m_keyPressed = new LinkedList<LsKey>();
 
 		// Création de la liste des entités :
+		m_level = 1;
 		m_entities = new HashMap<EntityFactory.MyEntities, LinkedList<Entity>>();
 		for (MyEntities entityType : MyEntities.values()) {
 			m_entities.put(entityType, new LinkedList<Entity>());
 		}
 
 		// Creation de la classe CollisionEntity
-		System.out.println("Création de la classe CollisionManager");
 		m_collisionManager = new CollisionManager();
-		System.out.println("CollisionManager créé !");
 
 		// Génère la grille du jeu qui va créer a son tour toutes les entités et mettre
 		// la liste des entités à jour.
@@ -76,33 +143,85 @@ public class Model {
 			System.exit(-1);
 		}
 
-		if (getEntities(MyEntities.TankBody).size() != 1 || getEntities(MyEntities.Turret).size() != 1
-				|| getEntities(MyEntities.Drone).size() != 1) {
-			System.err.println("Il semblerait que la grille comporte plusieurs Drone ou Tank...");
+		// Création du score du jeu.
+		m_hasReloaded = false;
+		m_reloadElapsed = 0;
+		m_gameOver = false;
+	}
+
+///////* REGENERATION MAP *///////
+
+	/* regarde si la map a besoin d'être régenerer */
+	private boolean needRegeneration() {
+		return getEntities(MyEntities.EnemyBasic).size() <= 4 && getEntities(MyEntities.EnemyLevel2).size() <= 1
+				&& getEntities(MyEntities.EnemyBoss).size() <= 0;
+	}
+
+	public double getReloadProgress() {
+		return (double) m_reloadElapsed / RELOAD_TIME;
+	}
+
+	/* vide la liste d'entité */
+	private void reset() throws UnexpectedException {
+		/* reinitialisation des entités */
+		m_entities = new HashMap<EntityFactory.MyEntities, LinkedList<Entity>>();
+		for (MyEntities entityType : MyEntities.values()) {
+			m_entities.put(entityType, new LinkedList<Entity>());
+		}
+		m_level++;
+		m_grid.emptyGrid();
+		m_grid.load();
+		m_grid.generate();
+		m_grid.sendToModel();
+		regeneratePlayer();
+
+		/* Vider la liste des sons */
+		m_soundsToPlay = new LinkedList<String>();
+	}
+
+	private void regeneratePlayer() {
+		if (getEntities(MyEntities.TankBody).size() != 1) {
+			System.err.println("Il semblerait que la grille ne comporte pas de TankBody...");
 			System.exit(-1);
 		}
 
-		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
-		Turret turret = (Turret) getEntities(MyEntities.Turret).get(0);
-		m_tank = new Tank(body, turret);
-		m_drone = (Drone) getEntities(MyEntities.Drone).get(0);
-		m_playingTank = true;
-		m_soundsToPlay = new LinkedList<String>();
-		m_time = 0;
+		TankBody newTankBody = (TankBody) getEntities(MyEntities.TankBody).get(0);
 
+		int x = newTankBody.getX();
+		int y = newTankBody.getY();
+		m_tank.getBody().setPosition(x, y); // /!\ La méthode setPosition travail avec la grille
+		m_tank.relocateParts();
+
+		this.removeEntity(m_tank.getBody()); // /!\ On a donc besoin de les retirer avant de les remettre
+		this.removeEntity(m_tank.getTurret());
+		this.removeEntity(m_tank.getAutoTurret());
+		this.addEntity(m_tank.getBody());
+		this.addEntity(m_tank.getTurret());
+		this.addEntity(m_tank.getAutoTurret());
+		this.addEntity(m_drone);
+		m_drone.resetMarkers();
+
+		this.removeEntity(newTankBody);
 	}
 
-	public void step(long elapsed) {
-		m_time += elapsed;
-		// Effectue un pas de simulation sur chaque entités
-		for (Entity entity : getAllEntities()) {
-			entity.step(elapsed);
-		}
-		m_tank.step();
-		m_collisionManager.controlCollisionsShotsEntity();
+	///////////////////////////////////////////////
+	private void initUpgrades() {
+		m_uniqUpgrade = new LinkedList<Upgrade>();
+		m_uniqUpgrade.add(new UpgradeDroneVision(m_tank, m_drone));
+		m_uniqUpgrade.add(new UpgradeAutomaticSubmachine(m_tank));
+
+		m_statUpgrade = new LinkedList<Upgrade>();
+		m_statUpgrade.add(new UpgradeHealTank(m_tank, m_drone));
+		m_statUpgrade.add(new UpgradeDroneUsage(m_tank, m_drone));
+		m_statUpgrade.add(new UpgradeMarkersCount(m_tank, m_drone));
+		m_statUpgrade.add(new UpgradeMiningTime(m_tank));
+		m_statUpgrade.add(new UpgradeWeapon(m_tank));
+		m_statUpgrade.add(new UpgradeTankDamage(m_tank));
+		m_statUpgrade.add(new UpgradeTankLife(m_tank));
+		m_statUpgrade.add(new UpgradeTankShotsCapacity(m_tank));
+		m_statUpgrade.add(new UpgradeTankSpeed(m_tank));
 	}
-	
-	
+
 	//////// Gestion du passage drone/tank ////////
 
 	public boolean isPlayingTank() {
@@ -112,7 +231,7 @@ public class Model {
 	public void switchControl() {
 		m_playingTank = !m_playingTank;
 		if (m_playingTank) {
-			m_drone.showEntity(false);
+			cleanClue();
 		} else {
 			int droneTPX = m_tank.getBody().getX();
 			int droneTPY = m_tank.getBody().getY();
@@ -121,7 +240,6 @@ public class Model {
 			// et avec direction d'action et de regard identique à celle du tank
 			m_drone.setActionDir(m_tank.getBody().getCurrentActionDir());
 			m_drone.setLookDir(m_tank.getBody().getLookAtDir());
-			m_drone.showEntity(true);
 		}
 	}
 
@@ -139,7 +257,7 @@ public class Model {
 			return getDrone();
 		}
 	}
-	
+
 	public Tank getTank() {
 		return m_tank;
 	}
@@ -147,11 +265,27 @@ public class Model {
 	public Drone getDrone() {
 		return m_drone;
 	}
-	
+
 	public long getTime() {
 		return m_time;
 	}
-	
+
+	public LinkedList<Upgrade> getStatUpgrade() {
+		return m_statUpgrade;
+	}
+
+	public LinkedList<Upgrade> getUniqUpgrade() {
+		return m_uniqUpgrade;
+	}
+
+	public Score getScore() {
+		return m_score;
+	}
+
+	public int getReloadingState() {
+		return m_reloadingState;
+	}
+
 	/////////////////////////////////////////////////
 
 	public void addSound(String soundName) {
@@ -161,7 +295,7 @@ public class Model {
 	public LinkedList<String> getSounds() {
 		return m_soundsToPlay;
 	}
-	
+
 	////////////////////////////////////////////////
 
 	public void addKeyPressed(LsKey temp) {
@@ -181,9 +315,6 @@ public class Model {
 	}
 
 	////////////////////////////////////////////////
-	
-	public void update(Marker marker) {
-	}
 
 	public void addClue(Coords c) {
 		if (c != null)
@@ -199,10 +330,13 @@ public class Model {
 	}
 
 	////////////////////////////////////////////////
-	
 
 	public Grid getGrid() {
 		return m_grid;
+	}
+
+	public int getLevel() {
+		return m_level;
 	}
 
 	public HashMap<EntityFactory.MyEntities, LinkedList<Entity>> getHashEntities() {
@@ -224,6 +358,11 @@ public class Model {
 		return entities;
 	}
 
+	public void addEntity(Entity e) {
+		getEntities(EntityFactory.getMyEntities(e)).add(e);
+		m_grid.addEntity(e);
+	}
+
 	public void removeEntity(Entity e) {
 		getEntities(EntityFactory.getMyEntities(e)).remove(e);
 		m_grid.removeEntity(e);
@@ -231,38 +370,23 @@ public class Model {
 
 	public boolean isInRadius(LinkedList<Coords> radius, Entity entity) {
 		for (Coords coord : radius) {
-			if (entity.isInMe((int)coord.X, (int)coord.Y))
+			if (entity.isInMe((int) coord.X, (int) coord.Y))
 				return true;
 		}
 		return false;
 	}
 
 	public Entity closestEntity(LinkedList<Entity> entities, int x, int y) {
+		if (entities.size() == 0) return null;
 		Entity closest = entities.get(0);
-		double min_dist = distanceXAtPow2(closest.getX(), x) + distanceYAtPow2(closest.getY(), y);
+		double min_dist = m_grid.distanceXAtPow2(closest.getX(), x) + m_grid.distanceYAtPow2(closest.getY(), y);
 		for (Entity curr : entities) {
-			double dist = distanceXAtPow2(closest.getX(), x) + distanceYAtPow2(closest.getY(), y);
+			double dist = m_grid.distanceXAtPow2(closest.getX(), x) + m_grid.distanceYAtPow2(closest.getY(), y);
 			if (dist < min_dist) {
 				closest = curr;
 			}
 		}
 		return closest;
-	}
-
-	public double distanceXAtPow2(int a, int b) {
-		double baicDst = Math.pow(a - b, 2);
-		double toreDst = Math.min(a, b);
-		toreDst += m_grid.getNbCellsX() - Math.max(a, b);
-		toreDst = Math.pow(toreDst, 2);
-		return Math.min(baicDst, toreDst);
-	}
-
-	public double distanceYAtPow2(int a, int b) {
-		double baicDst = Math.pow(a - b, 2);
-		double toreDst = Math.min(a, b);
-		toreDst += m_grid.getNbCellsY() - Math.max(a, b);
-		toreDst = Math.pow(toreDst, 2);
-		return Math.min(baicDst, toreDst);
 	}
 
 	public LinkedList<Entity> getCategoried(MyCategory type) {
@@ -273,6 +397,67 @@ public class Model {
 			}
 		}
 		return entities_to_return;
+	}
+
+	public void performUpgrade(Upgrade upgrade) {
+		boolean isStat = m_statUpgrade.contains(upgrade);
+		boolean isUniq = m_uniqUpgrade.contains(upgrade);
+		if (isStat && !isUniq) {
+			try {
+				upgrade.improve();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
+		} else if (!isStat && isUniq) {
+			try {
+				upgrade.activate();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
+		} else {
+			System.err.println("L'upgrade passé en paramètre n'est pas connue du model.");
+			System.exit(-1);
+		}
+	}
+
+	////////////////////////////////////////////////
+
+	public void setGameOver(boolean bool) {
+		m_gameOver = bool;
+	}
+
+	public boolean getGameOver() {
+		return m_gameOver;
+	}
+
+	public static void restart() {
+		self = null;
+		getModel();
+	}
+
+	public void launch() {
+		m_score = new Score();
+		
+		m_grid.sendToModel();
+
+		if (getEntities(MyEntities.TankBody).size() != 1) {
+			System.err.println("Il semblerait que la grille ne comporte pas de TankBody...");
+			System.exit(-1);
+		}
+
+		// Création du Tank et du Drone :
+		TankBody body = (TankBody) getEntities(MyEntities.TankBody).get(0);
+		AutomaticTurret autTurret = (AutomaticTurret) EntityFactory.newEntity(MyEntities.AutomaticTurret, body.getX(),
+				body.getY());
+		Turret turret = (Turret) EntityFactory.newEntity(MyEntities.Turret, body.getX(), body.getY());
+		m_drone = (Drone) EntityFactory.newEntity(MyEntities.Drone, body.getX(), body.getY());
+		m_tank = new Tank(body, turret, autTurret);
+		m_playingTank = true;
+
+		// Initialisation des upgrades
+		initUpgrades();
 	}
 
 }

@@ -5,7 +5,9 @@ public enum MyDirection {
 
 	public static MyDirection toAbsolute(MyDirection currentDir, MyDirection actionDir) {
 		if (actionDir == null)
-			return null;
+			return NORTH;
+		if (currentDir == null)
+			return actionDir;
 		switch (actionDir) {
 			case FRONT:
 				return currentDir;
@@ -79,6 +81,29 @@ public enum MyDirection {
 		}
 		return actionDir;
 
+	}
+
+	public static int toInt(MyDirection dir) {
+		switch (dir) {
+			case NORTH:
+				return 0;
+			case SOUTH:
+				return 1;
+			case EAST:
+				return 2;
+			case WEST:
+				return 3;
+			case SOUTHEAST:
+				return 4;
+			case SOUTHWEST:
+				return 5;
+			case NORTHEAST:
+				return 6;
+			case NORTHWEST:
+				return 7;
+			default:
+				return 0; //Par défaut
+		}
 	}
 
 }

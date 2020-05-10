@@ -24,7 +24,7 @@ public class GameConfiguration {
 	public static final String GAL_PATH = "gal/";
 	public static final String SPRITE_PATH = "sprites/";
 	public static final String ANIMATION_PATH = "animations/";
-	public static final String PATTERN_PATH = "patterns_test/";
+	public static final String PATTERN_PATH = "patterns/";
 	public static final String SOUND_PATH = "sounds/";
 
 	public static GameConfiguration getConfig() {

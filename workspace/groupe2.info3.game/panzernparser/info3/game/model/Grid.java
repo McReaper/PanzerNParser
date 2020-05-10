@@ -376,7 +376,14 @@ public class Grid {
 					lvl = Pattern.PATTERN_MAX_LEVEL;
 					random_level = (Math.random() <= 0.8) ? lvl : lvl - 1;
 				} else {
-					random_level = (int) ((Math.random() <= 0.7) ? lvl : ((lvl - 1) + (Math.random() * (lvl + 1))));
+					double rand = Math.random();
+					if(rand <= 0.8) {
+						random_level = lvl;
+					} else if(rand > 0.8 && rand <= 0.9) {
+						random_level = lvl-1;
+					} else {
+						random_level = lvl+1;
+					}
 				}
 				String lvlName = name + random_level;
 				String lvlPatTank = namePatTank + random_level;

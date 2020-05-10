@@ -17,7 +17,8 @@ public class Vein extends StaticEntity {
 	public static final int VEIN_DROP_QUANTITY_MAX = 10;
 	public static final double QUANTITY_FACTOR = 0.5;
 
-	public static final long VEIN_EGG_TIME = 1000;
+	public static final long VEIN_EGG_TIME = 0;
+	public static final long VEIN_EXPLODE_TIME = 0;
 	public static final long VEIN_POP_TIME = 10000;
 	public static final long VEIN_WIZZ_TIME = 1000;
 	public static final long VEIN_WAIT_TIME = 0;
@@ -52,7 +53,7 @@ public class Vein extends StaticEntity {
 		} else if (m_currentAction == null) {
 			m_currentActionDir = dir;
 			m_currentAction = LsAction.Egg;
-			m_timeOfAction = Model.getModel().getTank().getMiningTime();
+			m_timeOfAction = VEIN_EGG_TIME;
 
 			// creation de la ressource a répendre
 			if (dir == null || dir == MyDirection.HERE) {
@@ -104,6 +105,19 @@ public class Vein extends StaticEntity {
 			m_currentActionDir = null;
 			m_currentAction = LsAction.Wait;
 			m_timeOfAction = VEIN_WAIT_TIME;
+		}
+	}
+	
+	@Override
+	public void Explode() {
+		if (m_actionFinished && m_currentAction == LsAction.Explode) {
+			this.doExplode();
+			m_actionFinished = false;
+			m_currentAction = null;
+		} else if (m_currentAction == null) {
+			m_currentActionDir = null;
+			m_currentAction = LsAction.Explode;
+			m_timeOfAction = VEIN_EXPLODE_TIME;
 		}
 	}
 }

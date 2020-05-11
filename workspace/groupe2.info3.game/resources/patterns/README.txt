@@ -1,10 +1,10 @@
 Nomenclature des fichiers :
-"pattern" + taille_du_pattern + "_" + numéro + .txt
+"pattern" + taille_du_pattern + "_" + niveau + "_" + numéro + .txt
 taille_du_pattern : taille + x + taille
 numéro : de 0 à l'infini
 
 Exemple :
-pattern3x3_0.txt
+pattern3x3_1_00.txt
 
 Dans le fichier :
 Chaque ligne décrit une entité au sein du pattern.

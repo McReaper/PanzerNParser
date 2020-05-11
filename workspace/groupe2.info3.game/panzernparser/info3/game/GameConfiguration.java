@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.MissingResourceException;
 import java.util.Scanner;
 
 import info3.game.automata.ast.AST;
@@ -47,7 +48,7 @@ public class GameConfiguration {
 	public HashMap<String, Automaton> getAutomatonsAvailable() {
 		return m_automatonsAvailable;
 	}
-	
+
 	public HashMap<MyEntities, Animation> getAnimationsConfig() {
 		return m_animations;
 	}
@@ -86,19 +87,48 @@ public class GameConfiguration {
 		}
 	}
 
+	public static void fileNotFound(String path) {
+		System.err.println("Can't find the file " + path + " please make sure your copy of the game is complete.");
+		System.exit(-1);
+	}
+
+	public static void checkResourcesFolder() throws MissingResourceException {
+		File srcFolder = new File("resources/");
+		File galFolder = new File(GAL_PATH);
+		File aniFolder = new File(ANIMATION_PATH);
+		File sprFolder = new File(SPRITE_PATH);
+		File sndFolder = new File(SOUND_PATH);
+		File patFolder = new File(PATTERN_PATH);
+		File cfgFile = new File(CONFIGFILE_PATH);
+		if (!srcFolder.isDirectory())
+			fileNotFound("resources/");
+		if (!galFolder.isDirectory())
+			fileNotFound(GAL_PATH);
+		if (!aniFolder.isDirectory())
+			fileNotFound(ANIMATION_PATH);
+		if (!sprFolder.isDirectory())
+			fileNotFound(SPRITE_PATH);
+		if (!sndFolder.isDirectory())
+			fileNotFound(SOUND_PATH);
+		if (!patFolder.isDirectory())
+			fileNotFound(PATTERN_PATH);
+		if (!cfgFile.exists())
+			fileNotFound(CONFIGFILE_PATH);
+	}
+
 	//////////// DOMAINE PRIVÉ //////////////
 
-	private static final String CONFIGFILE_NAME = "resources/panzernparser.cfg";
+	private static final String CONFIGFILE_PATH = "resources/panzernparser.cfg";
 	private static GameConfiguration self = null;
 
 	private static File m_configfile;
 	private static HashMap<String, Animation> m_animationsAvailable; // Les animations dans les fichiers.
-	private static HashMap<String, Automaton> m_automatonsAvailable; // Les animations dans les fichiers.
+	private static HashMap<String, Automaton> m_automatonsAvailable; // Les automates dans les fichiers.
 	private static HashMap<MyEntities, Animation> m_animations; // Association des .ani aux entités
 	private static HashMap<MyEntities, Automaton> m_automatons; // Association des .gal aux entités
 
-	private GameConfiguration() throws FileNotFoundException {
-		m_configfile = new File(CONFIGFILE_NAME);
+	private GameConfiguration() {
+		m_configfile = new File(CONFIGFILE_PATH);
 		m_animationsAvailable = new HashMap<String, Animation>();
 		m_automatonsAvailable = new HashMap<String, Automaton>();
 		m_animations = new HashMap<MyEntities, Animation>();
@@ -107,130 +137,135 @@ public class GameConfiguration {
 	}
 
 	private static void createSingleton() {
-		if (self == null)
-			try {
-				System.out.println("Parsing de la configuration ...");
-				self = new GameConfiguration();
-				System.out.println("Configuration chargée !");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				System.exit(1);
-			}
+		if (self == null) {
+			System.out.println("Parsing the configuration of the game ...");
+			self = new GameConfiguration();
+			System.out.println("Configuration parsed !");
+		}
 	}
 
-	private static void parseConfigFile() throws FileNotFoundException {
-		BotBuilder builder = new BotBuilder();
-		File autRepository = new File(GAL_PATH);
-		String[] autList = autRepository.list();
-		for (int i = 0; i < autList.length; i++) {
-			if (autList[i].substring(autList[i].length() - 4, autList[i].length()).equals(".gal")) {
-				// Parsing d'un .gal
-				AST myAST;
-				try {
-					myAST = AutomataParser.from_file(GAL_PATH + autList[i]);
-				} catch (Exception e1) {
-					throw new FileNotFoundException("le fichier " + GAL_PATH + autList[i] + " est introuvable ou erroné");
-				}
-				@SuppressWarnings("unchecked")
-				List<Automaton> lsAuto = (List<Automaton>) myAST.accept(builder);
-				m_automatonsAvailable.put(autList[i], lsAuto.get(0));
-
-			}
-		}
-		File aniRepository = new File(ANIMATION_PATH);
-		String[] aniList = aniRepository.list();
-		for (int i = 0; i < aniList.length; i++) {
-			if (aniList[i].substring(aniList[i].length() - 4, aniList[i].length()).equals(".ani")) {
-				File ani_file = new File(ANIMATION_PATH + aniList[i]);
-//			
-//			 Les fichiers .ani ont la forme : 
-//			 
-//			 sprite_sheet1 = chemin 
-//			 sprite_sheet2 = chemin <- vision enemie
-//			 sprite_sheet3 = chemin <- vision ressources
-//			 NomAction = 1,2,4,5,...
-//			 NomAction_DIR = 2,8,11,...
-//			  ...
-//			 
-				// Parsing d'un .ani
-				Scanner sc_ani = new Scanner(ani_file);
-				Sprite[] sprites = new Sprite[3];
-				String[] fields_ani;
-				String line;
-
-				for (int j = 0; j < 3; j++) {
-					line = sc_ani.nextLine(); // En-tête avec le chemin du sprite_sheet.
-					fields_ani = line.split(" = ");
-
-					Sprite sprite = null;
-					try {
-						// On essaye de récupérer le sprite associé a cette animation.
-						sprite = new Sprite(SPRITE_PATH + fields_ani[1]);
-						sprites[j] = sprite;
-					} catch (IOException e) {
-						sc_ani.close();
-						throw new FileNotFoundException("Fichier " + SPRITE_PATH + fields_ani[1] + " Introuvable !");
-					}
-				}
-				// HashMap qui pour une Action et sa direction associe la séquence de sprite.
-				HashMap<ActionDirection, int[]> animSeq = new HashMap<ActionDirection, int[]>();
-
-				// Pour chaque ligne du fichier .ani :
-				while (sc_ani.hasNextLine()) {
-					line = sc_ani.nextLine(); // On récupère la ligne courante
-					fields_ani = line.split(" = "); // On la sépare en deux au niveau du "="
-					// On récupère une action (avec direction particulière si c'est le cas)
-					String actionName = fields_ani[0];
-					String directionName = null;
-					if (fields_ani[0].contains("_")) {
-						String[] actionAndDirection = fields_ani[0].split("_", 2);
-						actionName = actionAndDirection[0];
-						directionName = actionAndDirection[1];
-					}
-					// On récupère la séquence d'entier de l'animation pour le sprite_sheet donnée.
-					fields_ani = fields_ani[1].split(",");
-					int[] seqNumbers = new int[fields_ani.length];
-					for (int j = 0; j < seqNumbers.length; j++) {
-						seqNumbers[j] = Integer.parseInt(fields_ani[j]);
-					}
-					LsAction action = LsAction.valueOf(actionName);
-					MyDirection direction = (directionName == null) ? null : MyDirection.valueOf(directionName);
-					ActionDirection actDir = new ActionDirection(action, direction);
-					animSeq.put(actDir, seqNumbers);
-				}
-
-				// Création de l'animation :
-				Animation animation = new Animation(sprites, animSeq, aniList[i]);
-				m_animationsAvailable.put(aniList[i], animation);
-
-				sc_ani.close();
-			}
-		}
-
-		Scanner sc_cfg;
+	private static void parseConfigFile() {
+		Scanner sc_cfg = null;
+		
 		try {
 			// On essaye d'ourvrir le fichier de config en lecture
 			sc_cfg = new Scanner(m_configfile);
 		} catch (FileNotFoundException fnfe) {
-			throw new FileNotFoundException("Impossible de charger le fichier " + CONFIGFILE_NAME);
+			fileNotFound(CONFIGFILE_PATH);
 		}
 
-		// BotBuilder builder = new BotBuilder(); // Le bot builder qui va créer les
-		// classes de l'automate.
+		BotBuilder builder = new BotBuilder();
+		File autRepository = new File(GAL_PATH);
+		File aniRepository = new File(ANIMATION_PATH);
 
+		String line;
+		
 		// Pour chaque ligne du fichier de config :
 		while (sc_cfg.hasNextLine()) {
-			String line = sc_cfg.nextLine();
+			line = sc_cfg.nextLine();
 			// line est de la forme : "Nom | Nom.gal | Nom.ani"
 			String[] fields = line.split(" | ");
 			// Comportement spécial ici : les "|" sont comptés dans le split de line.
 
-			// config gal
-			m_automatons.put(MyEntities.valueOf(fields[0]), m_automatonsAvailable.get(fields[2]));
+			try {
+				// config gal
+				m_automatons.put(MyEntities.valueOf(fields[0]), m_automatonsAvailable.get(fields[2]));
 
-			// config ani
-			m_animations.put(MyEntities.valueOf(fields[0]), m_animationsAvailable.get(fields[4]));
+				// config ani
+				m_animations.put(MyEntities.valueOf(fields[0]), m_animationsAvailable.get(fields[4]));
+			} catch (IllegalArgumentException e) {
+				System.err.println("ERROR in " + CONFIGFILE_PATH + ", no Entity of name " + fields[0]);
+				System.exit(-1);
+			}
+			
+			String[] autList = autRepository.list();
+			for (int i = 0; i < autList.length; i++) {
+				if (autList[i].substring(autList[i].length() - 4, autList[i].length()).equals(".gal")) {
+					// Parsing d'un .gal
+					AST myAST = null;
+					try {
+						myAST = AutomataParser.from_file(GAL_PATH + autList[i]);
+					} catch (Exception e1) {
+						fileNotFound(GAL_PATH + autList[i]);
+					}
+					@SuppressWarnings("unchecked")
+					List<Automaton> lsAuto = (List<Automaton>) myAST.accept(builder);
+					m_automatonsAvailable.put(autList[i], lsAuto.get(0));
 
+				}
+			}
+			String[] aniList = aniRepository.list();
+			for (int i = 0; i < aniList.length; i++) {
+				if (aniList[i].substring(aniList[i].length() - 4, aniList[i].length()).equals(".ani")) {
+					File ani_file = new File(ANIMATION_PATH + aniList[i]);
+//				
+//				 Les fichiers .ani ont la forme : 
+//				 
+//				 sprite_sheet1 = chemin 
+//				 sprite_sheet2 = chemin <- vision enemie
+//				 sprite_sheet3 = chemin <- vision ressources
+//				 NomAction = 1,2,4,5,...
+//				 NomAction_DIR = 2,8,11,...
+//				  ...
+//				 
+					// Parsing d'un .ani
+					Scanner sc_ani = null;
+					try {
+						sc_ani = new Scanner(ani_file);
+					} catch (FileNotFoundException e1) {
+						fileNotFound(ANIMATION_PATH + aniList[i]);
+					}
+					Sprite[] sprites = new Sprite[3];
+					String[] fields_ani;
+
+					for (int j = 0; j < 3; j++) {
+						line = sc_ani.nextLine(); // En-tête avec le chemin du sprite_sheet.
+						fields_ani = line.split(" = ");
+
+						Sprite sprite = null;
+						try {
+							// On essaye de récupérer le sprite associé a cette animation.
+							sprite = new Sprite(SPRITE_PATH + fields_ani[1]);
+							sprites[j] = sprite;
+						} catch (IOException e) {
+							sc_ani.close();
+							fileNotFound(SPRITE_PATH + fields_ani[1]);
+						}
+					}
+					// HashMap qui pour une Action et sa direction associe la séquence de sprite.
+					HashMap<ActionDirection, int[]> animSeq = new HashMap<ActionDirection, int[]>();
+
+					// Pour chaque ligne du fichier .ani :
+					while (sc_ani.hasNextLine()) {
+						line = sc_ani.nextLine(); // On récupère la ligne courante
+						fields_ani = line.split(" = "); // On la sépare en deux au niveau du "="
+						// On récupère une action (avec direction particulière si c'est le cas)
+						String actionName = fields_ani[0];
+						String directionName = null;
+						if (fields_ani[0].contains("_")) {
+							String[] actionAndDirection = fields_ani[0].split("_", 2);
+							actionName = actionAndDirection[0];
+							directionName = actionAndDirection[1];
+						}
+						// On récupère la séquence d'entier de l'animation pour le sprite_sheet donnée.
+						fields_ani = fields_ani[1].split(",");
+						int[] seqNumbers = new int[fields_ani.length];
+						for (int j = 0; j < seqNumbers.length; j++) {
+							seqNumbers[j] = Integer.parseInt(fields_ani[j]);
+						}
+						LsAction action = LsAction.valueOf(actionName);
+						MyDirection direction = (directionName == null) ? null : MyDirection.valueOf(directionName);
+						ActionDirection actDir = new ActionDirection(action, direction);
+						animSeq.put(actDir, seqNumbers);
+					}
+
+					// Création de l'animation :
+					Animation animation = new Animation(sprites, animSeq, aniList[i]);
+					m_animationsAvailable.put(aniList[i], animation);
+
+					sc_ani.close();
+				}
+			}
 			// Fermeture du fichier .ani
 		}
 		// Fermeture du fichier .cfg

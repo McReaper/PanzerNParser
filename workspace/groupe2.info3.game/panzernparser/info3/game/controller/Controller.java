@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
+import info3.game.GameConfiguration;
 import info3.game.GameMain;
 import info3.game.automaton.LsKey;
 import info3.game.model.Grid.Coords;
@@ -59,8 +60,8 @@ public class Controller implements GameCanvasListener {
 		try {
 			fis = new FileInputStream(file);
 			m_view.m_canvas.play(name, fis, -1);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			GameConfiguration.fileNotFound(name+".ogg");
 		}
 	}
 

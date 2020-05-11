@@ -21,8 +21,7 @@ public class ExplosionAvatar {
 		try {
 			m_explosion = new Sprite(GameConfiguration.SPRITE_PATH + "Explosion.png");
 		} catch (IOException e) {
-			System.out.println("pas d'explosion chargé");
-			e.printStackTrace();
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "Explosion.png");
 		}
 		noInit = true;
 	}

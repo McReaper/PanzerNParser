@@ -406,7 +406,7 @@ public class Grid {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println("ERROR : Something went wrong.");
+			System.err.println("ERROR : Something went wrong when parsing patterns...");
 		}
 	}
 
@@ -456,7 +456,7 @@ public class Grid {
 			try {
 				fr = new FileReader(file);
 			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+				GameConfiguration.fileNotFound(file.getPath());
 			}
 			BufferedReader br = new BufferedReader(fr);
 			String line, name, sx, sy;
@@ -507,7 +507,6 @@ public class Grid {
 				int y = Integer.parseInt(sy);
 				if (x < SIZE && x >= 0 && y < SIZE && y >= 0) {
 					if (type != null) {
-
 						EntityShade es = new EntityShade(x, y, type);
 						m_entitieShades.add(es);
 					}

@@ -62,8 +62,7 @@ public class ViewPort {
 			ColorConvertOp op = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
 			op.filter(m_mapRessource, m_mapRessource);
 		} catch (IOException e) {
-			System.err.println("Le fichier " + GameConfiguration.SPRITE_PATH + "Map1.png est introuvable !");
-			System.exit(-1);
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "Map1.png");
 		}
 	}
 

@@ -26,8 +26,7 @@ public class DroneAvatar extends Avatar {
 		try {
 			angle = new Sprite(GameConfiguration.SPRITE_PATH + "angle.png");
 		} catch (IOException e) {
-			System.out.println("pas d'angle dans la vu du drone");
-			e.printStackTrace();
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "angle.png");
 		}
 	}
 

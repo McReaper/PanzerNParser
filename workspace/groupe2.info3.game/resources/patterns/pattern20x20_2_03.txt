@@ -1,5 +1,5 @@
 enem2 2,2
-wrec1 13,2
+wrck1 13,2
 enem2 17,2
 wall1 6,1
 wall1 6,2
@@ -32,6 +32,6 @@ wall1 10,13
 wall1 11,13
 vein1 8,14
 vein1 9,14
-wrec1 14,16
+wrck1 14,16
 enem1 3,17
 enem1 7,17

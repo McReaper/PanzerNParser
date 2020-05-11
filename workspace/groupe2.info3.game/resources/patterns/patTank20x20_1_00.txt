@@ -1,7 +1,4 @@
 chas1 10,9
-turr1 10,9
-atur1 10,9
-dron1 10,9
 wall1 4,3
 wall1 5,3
 wall1 6,3

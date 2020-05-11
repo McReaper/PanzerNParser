@@ -101,7 +101,7 @@ public class Model {
 						reset();
 					} catch (Exception e) {
 						e.printStackTrace();
-						System.exit(-1);
+						System.exit(1);
 					}
 				}
 			}
@@ -140,7 +140,7 @@ public class Model {
 		} catch (UnexpectedException e) {
 			e.printStackTrace();
 			System.err.println("Impossible de créer la grille !");
-			System.exit(-1);
+			System.exit(1);
 		}
 
 		// Création du score du jeu.
@@ -182,7 +182,7 @@ public class Model {
 	private void regeneratePlayer() {
 		if (getEntities(MyEntities.TankBody).size() != 1) {
 			System.err.println("Il semblerait que la grille ne comporte pas de TankBody...");
-			System.exit(-1);
+			System.exit(1);
 		}
 
 		TankBody newTankBody = (TankBody) getEntities(MyEntities.TankBody).get(0);
@@ -407,18 +407,18 @@ public class Model {
 				upgrade.improve();
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
-				System.exit(-1);
+				System.exit(1);
 			}
 		} else if (!isStat && isUniq) {
 			try {
 				upgrade.activate();
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
-				System.exit(-1);
+				System.exit(1);
 			}
 		} else {
 			System.err.println("L'upgrade passé en paramètre n'est pas connue du model.");
-			System.exit(-1);
+			System.exit(1);
 		}
 	}
 
@@ -444,7 +444,7 @@ public class Model {
 
 		if (getEntities(MyEntities.TankBody).size() != 1) {
 			System.err.println("Il semblerait que la grille ne comporte pas de TankBody...");
-			System.exit(-1);
+			System.exit(1);
 		}
 
 		// Création du Tank et du Drone :

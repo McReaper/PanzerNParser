@@ -23,4 +23,4 @@ vein1 16,9
 vein1 16,10
 vein1 16,11
 rock1 12,4
-rocK1 14,12
+rock1 14,12

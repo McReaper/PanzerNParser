@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.util.LinkedList;
 
 import javax.swing.AbstractButton;
@@ -39,6 +40,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
+import info3.game.GameConfiguration;
 import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
@@ -97,10 +99,17 @@ public class HUD {
 
 		m_weaponArray = initiateWeaponArray();
 
+		File mineralImg = new File(GameConfiguration.SPRITE_PATH + "Minerals.png");
+		File electroImg = new File(GameConfiguration.SPRITE_PATH + "Electronics.png");
+		if (!mineralImg.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "Minerals.png");
+		if (!electroImg.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "Electronics.png");
+
 		m_mineImage = new ImageIcon(
-				new ImageIcon("sprites/Minerals.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+				new ImageIcon(mineralImg.getPath()).getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
 		m_elecImage = new ImageIcon(
-				new ImageIcon("sprites/Electronics.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+				new ImageIcon(electroImg.getPath()).getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
 
 		m_West = new JPanel();
 		m_West.setBackground(Color.DARK_GRAY);
@@ -227,10 +236,10 @@ public class HUD {
 		LineBorder progressBarBorder = (LineBorder) BorderFactory.createLineBorder(Color.BLACK, 3);
 		JProgressBar bar = null;
 		if (string.equals("health")) {
-			m_health = createProgressBar(Color.RED, progressBarBorder,"health");
+			m_health = createProgressBar(Color.RED, progressBarBorder, "health");
 			bar = m_health;
 		} else if (string.equals("drone")) {
-			m_drone = createProgressBar(Color.YELLOW, progressBarBorder,"drone");
+			m_drone = createProgressBar(Color.YELLOW, progressBarBorder, "drone");
 			bar = m_drone;
 		}
 		PanelBar.add(Box.createVerticalStrut(5));
@@ -239,13 +248,13 @@ public class HUD {
 		return PanelBar;
 	}
 
-	private JProgressBar createProgressBar(Color color, Border border,String type) {
+	private JProgressBar createProgressBar(Color color, Border border, String type) {
 		BasicProgressBarUI progressUI = new BasicProgressBarUI();
 		LifeProgressBar progress;
-		if(type.equals("health")) {
-			progress = new LifeProgressBar(JProgressBar.VERTICAL, 0, 100,true);
+		if (type.equals("health")) {
+			progress = new LifeProgressBar(JProgressBar.VERTICAL, 0, 100, true);
 		} else {
-			progress = new LifeProgressBar(JProgressBar.VERTICAL, 0, 100,false);
+			progress = new LifeProgressBar(JProgressBar.VERTICAL, 0, 100, false);
 		}
 		progress.setUI(progressUI);
 		progress.setBorder(null);
@@ -509,18 +518,37 @@ public class HUD {
 	private ImageIcon[] initiateWeaponArray() {
 		ImageIcon[] array = new ImageIcon[6];
 
-		array[0] = new ImageIcon(
-				new ImageIcon("sprites/Weapon0.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		array[1] = new ImageIcon(
-				new ImageIcon("sprites/Weapon1.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		array[2] = new ImageIcon(
-				new ImageIcon("sprites/Weapon2.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		array[3] = new ImageIcon(
-				new ImageIcon("sprites/VueRessourceIcon.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		array[4] = new ImageIcon(
-				new ImageIcon("sprites/VueEnemyIcon.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		array[5] = new ImageIcon(
-				new ImageIcon("sprites/MarkerSingle.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		File weap0 = new File(GameConfiguration.SPRITE_PATH + "Weapon0.png");
+		File weap1 = new File(GameConfiguration.SPRITE_PATH + "Weapon1.png");
+		File weap2 = new File(GameConfiguration.SPRITE_PATH + "Weapon2.png");
+		File viewSrc = new File(GameConfiguration.SPRITE_PATH + "VueRessourceIcon.png");
+		File viewEnemy = new File(GameConfiguration.SPRITE_PATH + "VueEnemyIcon.png");
+		File marker = new File(GameConfiguration.SPRITE_PATH + "MarkerSingle.png");
+		if (!weap0.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "Weapon0.png");
+		if (!weap1.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "Weapon1.png");
+		if (!weap2.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "Weapon2.png");
+		if (!viewSrc.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "VueRessourceIcon.png");
+		if (!viewEnemy.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "VueEnemyIcon.png");
+		if (!marker.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "MarkerSingle.png");
+
+		array[0] = new ImageIcon(new ImageIcon(weap0.getPath()).getImage()
+				.getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[1] = new ImageIcon(new ImageIcon(weap1.getPath()).getImage()
+				.getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[2] = new ImageIcon(new ImageIcon(weap2.getPath()).getImage()
+				.getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[3] = new ImageIcon(new ImageIcon(viewSrc.getPath()).getImage()
+				.getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[4] = new ImageIcon(new ImageIcon(viewEnemy.getPath()).getImage()
+				.getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[5] = new ImageIcon(new ImageIcon(marker.getPath()).getImage()
+				.getScaledInstance(64, 64, Image.SCALE_DEFAULT));
 		return array;
 	}
 
@@ -911,10 +939,10 @@ public class HUD {
 	private class LifeProgressBar extends JProgressBar {
 
 		private static final long serialVersionUID = 1L;
-		
+
 		boolean m_showMax;
-		
-		public LifeProgressBar(int vertical, int i, int j,boolean showMax) {
+
+		public LifeProgressBar(int vertical, int i, int j, boolean showMax) {
 			super(vertical, i, j);
 			m_showMax = showMax;
 		}

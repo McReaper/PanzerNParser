@@ -46,7 +46,7 @@ public class Controller implements GameCanvasListener {
 			Iterator<String> iter = m_model.getSounds().iterator();
 			while (iter.hasNext()) {
 				String name = (String) iter.next();
-				if (!isEnd || name.equals("deg") || name.contentEquals("Game_Over"))
+				if (!isEnd || name.contentEquals("Game_Over"))
 					loadMusic(name);
 			}
 			m_model.getSounds().removeAll(m_model.getSounds());

@@ -133,7 +133,6 @@ public class TankBody extends MovingEntity {
 	}
 
 	private void doDead() {
-		Model.getModel().addSound("deg");
 		Entity wreck = EntityFactory.newEntity(MyEntities.WreckTank, m_x, m_y);
 		switch (m_currentLookAtDir) {
 			case SOUTH:

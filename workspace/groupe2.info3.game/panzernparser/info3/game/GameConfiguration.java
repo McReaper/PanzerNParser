@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.MissingResourceException;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import info3.game.automata.ast.AST;
 import info3.game.automata.parser.AutomataParser;
 import info3.game.automaton.Automaton;
@@ -88,7 +91,8 @@ public class GameConfiguration {
 	}
 
 	public static void fileNotFound(String path) {
-		System.err.println("Can't find/parse " + path + " please make sure your copy of the game is complete.");
+		String message = "Can't find/parse " + path + ".\nPlease make sure your copy of the game is complete.";
+		JOptionPane.showMessageDialog(new JFrame(), message, "Resource file missing or corrupted", JOptionPane.ERROR_MESSAGE);
 		System.exit(1);
 	}
 
@@ -158,14 +162,14 @@ public class GameConfiguration {
 				try {
 					myAST = AutomataParser.from_file(GAL_PATH + autList[i]);
 				} catch (Exception e1) {
-					System.err.println(autList[i]+" may be corrupted.");
+					System.err.println(autList[i] + " may be corrupted.");
 					fileNotFound(GAL_PATH + autList[i]);
 				}
 				@SuppressWarnings("unchecked")
 				List<Automaton> lsAuto = (List<Automaton>) myAST.accept(builder);
 				m_automatonsAvailable.put(autList[i], lsAuto.get(0));
 			} else {
-				System.err.println("Ignoring "+autList[i]+" because file format is not recognized here.");
+				System.err.println("Ignoring " + autList[i] + " because file format is not recognized here.");
 			}
 		}
 
@@ -241,7 +245,7 @@ public class GameConfiguration {
 
 				sc_ani.close();
 			} else {
-				System.err.println("Ignoring "+aniList[i]+" because file format is not recognized here.");
+				System.err.println("Ignoring " + aniList[i] + " because file format is not recognized here.");
 			}
 		}
 
@@ -257,16 +261,18 @@ public class GameConfiguration {
 		// Pour chaque ligne du fichier de config :
 		while (sc_cfg.hasNextLine()) {
 			String line = sc_cfg.nextLine();
-			if (line.length() == 0) continue;
+			if (line.length() == 0)
+				continue;
 			// line est de la forme : "Nom | Nom.gal | Nom.ani"
 			String[] fields = line.split(" \\| ");
 
 			if (fields.length != 3) {
-				System.err.println("It seems that the configuration file "+CONFIGFILE_PATH+" is broken.");
-				System.err.println("Please make sure each line is in format : EntityName | AutomataFile.gal | AnimationFile.ani");
+				System.err.println("It seems that the configuration file " + CONFIGFILE_PATH + " is broken.");
+				System.err
+						.println("Please make sure each line is in format : EntityName | AutomataFile.gal | AnimationFile.ani");
 				System.exit(1);
 			}
-			
+
 			try {
 				// config gal
 				MyEntities entityType = MyEntities.valueOf(fields[0]);
@@ -274,13 +280,13 @@ public class GameConfiguration {
 				Animation animation = m_animationsAvailable.get(fields[2]);
 				if (automata == null) {
 					System.err.println("ERROR in " + CONFIGFILE_PATH + ", no Automata of name " + fields[1]);
-					fileNotFound(fields[1]+" ("+CONFIGFILE_PATH+")");
+					fileNotFound(fields[1] + " (" + CONFIGFILE_PATH + ")");
 				}
-				if (animation == null)  {
+				if (animation == null) {
 					System.err.println("ERROR in " + CONFIGFILE_PATH + ", no Animation of name " + fields[2]);
-					fileNotFound(fields[2]+" ("+CONFIGFILE_PATH+")");
+					fileNotFound(fields[2] + " (" + CONFIGFILE_PATH + ")");
 				}
-				
+
 				m_automatons.put(entityType, automata);
 				m_animations.put(entityType, animation);
 			} catch (IllegalArgumentException e) {

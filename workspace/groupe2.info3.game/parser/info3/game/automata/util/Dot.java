@@ -19,8 +19,6 @@ package info3.game.automata.util;
 
 import java.io.PrintStream;
 
-import info3.game.automata.ast.Parameter;
-
 public final class Dot {
 
   // using String	

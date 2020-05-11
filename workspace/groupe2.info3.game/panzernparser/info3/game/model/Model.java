@@ -12,6 +12,7 @@ import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
+import info3.game.model.entities.Mud;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
 import info3.game.model.upgrades.Upgrade;
@@ -168,6 +169,18 @@ public class Model {
 		for (MyEntities entityType : MyEntities.values()) {
 			m_entities.put(entityType, new LinkedList<Entity>());
 		}
+		TankBody body = m_tank.getBody();
+		switch(body.getHasChangedSpeed()) {
+			case -1:
+				body.setSpeed(body.getSpeed() / Mud.MUD_COEFFICIENT_SPEED);
+				break;
+			case 1:
+				body.setSpeed(body.getSpeed() * Mud.MUD_COEFFICIENT_SPEED);
+				break;
+			case 0:
+				break;
+		}
+		body.setHasChangedSpeed(0);
 		m_level++;
 		m_grid.emptyGrid();
 		m_grid.load();

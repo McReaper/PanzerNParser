@@ -1,8 +1,8 @@
 enem2 3,3
-wrec1 7,3
+wrck1 7,3
 vein1 7,3
 vein1 9,3
-wrec1 12,3
+wrck1 12,3
 vein1 12,3
 vein1 14,3
 enem2 17,3

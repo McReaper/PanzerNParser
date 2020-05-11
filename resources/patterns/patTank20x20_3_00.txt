@@ -1,7 +1,4 @@
 chas1 10,9
-turr1 10,9
-atur1 10,9
-dron1 10,9
 drop1 4,3
 drop1 5,3
 drop1 6,3

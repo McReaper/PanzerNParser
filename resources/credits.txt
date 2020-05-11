@@ -19,4 +19,4 @@ machine gun 1 (turretShot) :  sound-fishing.net
 bruit missile 1 (bossShot) : sound-fishing.net
 Musique sur le thème de Katioucha de Matveï Blanter (1938)
 Parseur d'automates : Michaël PÉRIN
-Lecteur OggPlayer : Jon Kristensen, 2008
+Lecteur OggPlayer : Jon Kristensen, 2008 (revu par Olivier GRUBER)

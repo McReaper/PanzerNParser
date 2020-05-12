@@ -36,15 +36,15 @@ public class GameMain {
 	}
 
 	private GameMain() {
-		// On charge la configuration de base du jeu.
-		GameConfiguration.getConfig();
-		
 		try {
 			GameConfiguration.checkResourcesFolder();
 		} catch (MissingResourceException e) {
 			System.err.println(e.getMessage());
 			System.exit(1);
 		}
+		
+		// On charge la configuration de base du jeu.
+		GameConfiguration.getConfig();
 		
 		m_menu = new Menu(this, GameConfiguration.getConfig());
 		// On force le parsing le configuration du jeu avant de créer quoi que ce soit

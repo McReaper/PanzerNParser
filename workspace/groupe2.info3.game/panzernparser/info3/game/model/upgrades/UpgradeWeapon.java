@@ -28,16 +28,10 @@ public class UpgradeWeapon extends Upgrade {
 			throw new IllegalAccessException("Ressources insuffisantes dans l'inventaire.");
 		}
 	}
-
-	@Override
-	public boolean isAvaible() {
-		if (!m_tank.isNewWeaponAvaible()) return false;
-		return super.isAvaible();
-	}
 	
 	@Override
 	protected boolean isAvaibleFor(int mineral_cost, int electronical_cost) {
-		if (!m_tank.isNewWeaponAvaible()) return false;
+		if (noMoreAvaible()) return false;
 		return super.isAvaibleFor(mineral_cost, electronical_cost);
 	}
 	
@@ -59,5 +53,10 @@ public class UpgradeWeapon extends Upgrade {
 	@Override
 	public String getDescription() {
 		return "<html><p style='color:black;text-align:center'>Unlock a <b>new type of weapon</b> for the tank,<br> to help you deal with these stupid enemies</p></html>";
+	}
+	
+	@Override
+	public boolean noMoreAvaible() {
+		return !m_tank.isNewWeaponAvaible();
 	}
 }

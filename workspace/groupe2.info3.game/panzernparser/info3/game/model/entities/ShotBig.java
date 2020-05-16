@@ -18,12 +18,9 @@ public class ShotBig extends Shot {
 	public static final long SHOTBIG_POP_TIME = 50;
 	public static final long SHOTBIG_WIZZ_TIME = 50;
 
-	public static final int SHOTBIG_DAMAGE_DEALT = 150;
-
 	public ShotBig(int x, int y, Automaton aut) {
 		super(x, y, SHOTBIG_WIDTH, SHOTBIG_HEIGHT, aut);
 		m_health = SHOTBIG_HEALTH;
-		m_damage_dealt = SHOTBIG_DAMAGE_DEALT;
 		m_speed = SHOTBIG_SPEED;
 		m_nbCaseLife = SHOTBIG_NUMBER_CASE_LIFE;
 	}

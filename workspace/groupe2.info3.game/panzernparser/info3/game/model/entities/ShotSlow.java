@@ -17,12 +17,9 @@ public class ShotSlow extends Shot {
 	public static final long SHOTSLOW_POP_TIME = 10000;
 	public static final long SHOTSLOW_WIZZ_TIME = 1000;
 
-	public static final int SHOTSLOW_DAMAGE_DEALT = 50;
-
 	public ShotSlow(int x, int y, Automaton aut) {
 		super(x, y, SHOTSLOW_WIDTH, SHOTSLOW_HEIGHT, aut);
 		m_health = SHOTSLOW_HEALTH;
-		m_damage_dealt = SHOTSLOW_DAMAGE_DEALT;
 		m_speed = SHOTSLOW_SPEED;
 		m_nbCaseLife = SHOTSLOW_NUMBER_CASE_LIFE;
 	}

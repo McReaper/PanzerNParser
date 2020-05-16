@@ -49,5 +49,10 @@ public class UpgradeTankDamage extends Upgrade {
 	public String getDescription() {
 		return "<html><p style='color:black;text-align:center'>Upgrade <b>your damage by 25%</b> <br>to destroy efficiently other units</p></html>";
 	}
+	
+	@Override
+	public boolean noMoreAvaible() {
+		return false;
+	}
 
 }

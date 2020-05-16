@@ -17,7 +17,7 @@ public abstract class Avatar {
 		m_animation = animation;
 	}
 
-	public int progressivePaintY(MyDirection e_absoluteActionDir, int y, double progress, int case_height) {
+	public int progressivePaintY(MyDirection e_absoluteActionDir, double y, double progress, int case_height) {
 		switch (e_absoluteActionDir) {
 			case NORTH:
 			case NORTHEAST:
@@ -32,10 +32,10 @@ public abstract class Avatar {
 			default:
 				break;
 		}
-		return y;
+		return (int) y;
 	}
 
-	public int progressivePaintX(MyDirection e_absoluteActionDir, int x, double progress, int case_width) {
+	public int progressivePaintX(MyDirection e_absoluteActionDir, double x, double progress, int case_width) {
 		switch (e_absoluteActionDir) {
 			case EAST:
 			case NORTHEAST:
@@ -50,7 +50,7 @@ public abstract class Avatar {
 			default:
 				break;
 		}
-		return x;
+		return (int) x;
 	}
 
 	/**

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.File;
 import java.util.HashMap;
+import java.util.MissingResourceException;
 
 import javax.swing.JFrame;
 
@@ -29,39 +30,47 @@ public class GameMain {
 	private static GameMain game;
 
 	public static void main(String[] args) {
-		System.out.println("Starting game");
+		System.out.println("Loading game...");
 		getGame();
-		System.out.println("Game started");
+		System.out.println("Game started !");
 	}
 
 	private GameMain() {
-		m_soundFiles = new HashMap<String, File>();
+		try {
+			GameConfiguration.checkResourcesFolder();
+		} catch (MissingResourceException e) {
+			System.err.println(e.getMessage());
+			System.exit(1);
+		}
+		
+		// On charge la configuration de base du jeu.
 		GameConfiguration.getConfig();
-		m_menu = new Menu(this,GameConfiguration.getConfig());
+		
+		m_menu = new Menu(this, GameConfiguration.getConfig());
 		// On force le parsing le configuration du jeu avant de créer quoi que ce soit
 
 		// On charge les fichiers de sons en mémoire
+		m_soundFiles = new HashMap<String, File>();
 		initSounds(new File(GameConfiguration.SOUND_PATH));
-		
+
 		// On créer l'univers du jeu
 		m_model = Model.getModel();
 
 		// On créer le contrôleur qui va intéragir avec cet univers
 		m_controller = new Controller(m_model);
-		
-		
+
 		// On créer une vue de cette univers
 		m_view = new View(m_controller, m_model);
 
 		// On attribut cette vue au controleur, qui écoute
-		m_controller.setView(m_view);	
-		
+		m_controller.setView(m_view);
+
 		m_frame = null;
 		System.out.println("Setting up the frame ...");
 		setupFrame();
 		System.out.println("Frame set !");
 	}
-	
+
 	public void launch() {
 		m_frame.remove(m_menu.getMenu());
 		m_frame.add(m_view, BorderLayout.CENTER);
@@ -70,9 +79,8 @@ public class GameMain {
 		m_frame.invalidate();
 		m_frame.validate();
 		m_frame.repaint();
-		getGame().m_controller.loadMusic("KatyushaIntro");
+		m_controller.loadMusic("KatyushaIntro");
 	}
-	
 
 	public static GameMain getGame() {
 		if (game == null)
@@ -98,8 +106,9 @@ public class GameMain {
 		int min_width_vp = ViewPort.MINIMAL_WIDTH;
 		int min_height_vp = ViewPort.MINIMAL_HEIGHT;
 
-		m_frame.setMinimumSize(new Dimension(min_width_hud + Math.max(min_width_vp, min_width_hud) , Math.max(min_height_hud, min_height_vp)));
-		
+		m_frame.setMinimumSize(
+				new Dimension(min_width_hud + Math.max(min_width_vp, min_width_hud), Math.max(min_height_hud, min_height_vp)));
+
 		// Rend la fenetre visible
 		m_frame.setVisible(true);
 	}
@@ -111,11 +120,11 @@ public class GameMain {
 			m_soundFiles.put(name, fileEntry);
 		}
 	}
-	
+
 	public HashMap<String, File> getSounds() {
 		return m_soundFiles;
 	}
-	
+
 	public void restart() {
 		Model.restart();
 		m_model = Model.getModel();

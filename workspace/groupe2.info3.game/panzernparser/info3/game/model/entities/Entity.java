@@ -16,6 +16,7 @@ public abstract class Entity {
 
 	public final static int MAX_RANGE = 20;
 	public final static int MIN_RANGE = 7;
+	public final static int MIN_SPEED = 100;
 
 	final static int DEFAULT_MOVING_DISTANCE = 1;
 
@@ -205,6 +206,8 @@ public abstract class Entity {
 
 	public void setSpeed(long l) {
 		m_speed = l;
+		if (m_speed < MIN_SPEED)
+			m_speed = MIN_SPEED;
 	}
 
 	public int getHasChangedSpeed() {

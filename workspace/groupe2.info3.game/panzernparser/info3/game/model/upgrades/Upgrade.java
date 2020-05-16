@@ -43,7 +43,7 @@ public abstract class Upgrade {
 	 * l'inventaire du joueur par exemple.
 	 */
 	public boolean isAvaible() {
-		if(!Model.getModel().getTank().gotPower()) {
+		if(!Model.getModel().getTank().gotPower() || noMoreAvaible()) {
 			return false;
 		}
 		Inventory inv = m_tank.getInventory();
@@ -61,6 +61,8 @@ public abstract class Upgrade {
 		return (inv.possesses(MaterialType.MINERAL, mineral_cost)
 				&& inv.possesses(MaterialType.ELECTRONIC, electronical_cost));
 	}
+	
+	public abstract boolean noMoreAvaible();
 
 	/**
 	 * Améliore une statistique, peut etre appelé à plusieurs reprises tant que

@@ -12,6 +12,7 @@ import info3.game.model.entities.Drone;
 import info3.game.model.entities.Entity;
 import info3.game.model.entities.EntityFactory;
 import info3.game.model.entities.EntityFactory.MyEntities;
+import info3.game.model.entities.Mud;
 import info3.game.model.entities.TankBody;
 import info3.game.model.entities.Turret;
 import info3.game.model.upgrades.Upgrade;
@@ -101,7 +102,7 @@ public class Model {
 						reset();
 					} catch (Exception e) {
 						e.printStackTrace();
-						System.exit(-1);
+						System.exit(1);
 					}
 				}
 			}
@@ -140,7 +141,7 @@ public class Model {
 		} catch (UnexpectedException e) {
 			e.printStackTrace();
 			System.err.println("Impossible de créer la grille !");
-			System.exit(-1);
+			System.exit(1);
 		}
 
 		// Création du score du jeu.
@@ -168,6 +169,18 @@ public class Model {
 		for (MyEntities entityType : MyEntities.values()) {
 			m_entities.put(entityType, new LinkedList<Entity>());
 		}
+		TankBody body = m_tank.getBody();
+		switch(body.getHasChangedSpeed()) {
+			case -1:
+				body.setSpeed(body.getSpeed() / Mud.MUD_COEFFICIENT_SPEED);
+				break;
+			case 1:
+				body.setSpeed(body.getSpeed() * Mud.MUD_COEFFICIENT_SPEED);
+				break;
+			case 0:
+				break;
+		}
+		body.setHasChangedSpeed(0);
 		m_level++;
 		m_grid.emptyGrid();
 		m_grid.load();
@@ -182,7 +195,7 @@ public class Model {
 	private void regeneratePlayer() {
 		if (getEntities(MyEntities.TankBody).size() != 1) {
 			System.err.println("Il semblerait que la grille ne comporte pas de TankBody...");
-			System.exit(-1);
+			System.exit(1);
 		}
 
 		TankBody newTankBody = (TankBody) getEntities(MyEntities.TankBody).get(0);
@@ -407,18 +420,18 @@ public class Model {
 				upgrade.improve();
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
-				System.exit(-1);
+				System.exit(1);
 			}
 		} else if (!isStat && isUniq) {
 			try {
 				upgrade.activate();
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
-				System.exit(-1);
+				System.exit(1);
 			}
 		} else {
 			System.err.println("L'upgrade passé en paramètre n'est pas connue du model.");
-			System.exit(-1);
+			System.exit(1);
 		}
 	}
 
@@ -444,7 +457,7 @@ public class Model {
 
 		if (getEntities(MyEntities.TankBody).size() != 1) {
 			System.err.println("Il semblerait que la grille ne comporte pas de TankBody...");
-			System.exit(-1);
+			System.exit(1);
 		}
 
 		// Création du Tank et du Drone :

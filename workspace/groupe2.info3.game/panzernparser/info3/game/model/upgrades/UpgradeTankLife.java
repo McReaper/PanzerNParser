@@ -10,7 +10,7 @@ public class UpgradeTankLife extends Upgrade {
 	private static final int MINERALS_COST = 15;
 	private static final int ELECTRONICALS_COST = 7;
 	private static final int LIFE_BOOST = 20;
-	private static final double COST_FACTOR = 0.7;
+	private static final double COST_FACTOR = 1.0;
 
 	public UpgradeTankLife(Tank tank) {
 		super(tank, null);
@@ -51,4 +51,8 @@ public class UpgradeTankLife extends Upgrade {
 		return "<html><p style='color:black;text-align:center'>Increases <b>the max-health of your tank</b> for the rest of the game</p></html>";
 	}
 
+	@Override
+	public boolean noMoreAvaible() {
+		return false;
+	}
 }

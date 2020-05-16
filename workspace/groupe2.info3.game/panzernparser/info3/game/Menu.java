@@ -59,9 +59,8 @@ public class Menu {
 
 	Menu(GameMain gameMain, GameConfiguration gameConfiguration) {
 
-
-		m_darkGray = new Color(130,130,130);
-		m_gray = new Color(180,180,180);
+		m_darkGray = new Color(130, 130, 130);
+		m_gray = new Color(180, 180, 180);
 
 		Border inset = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 		LineBorder buttonLineBorder = (LineBorder) BorderFactory.createLineBorder(m_darkGray, 3);
@@ -80,46 +79,41 @@ public class Menu {
 		};
 		drawConfigMenu();
 		drawMainMenu();
-		try {
-			drawInfoMenu();
-		} catch (IOException e) {
-			System.err.println("Info menu could not be loaded");
-			e.printStackTrace();
-		}
+		drawInfoMenu();
 
 		m_menu = new JPanelImaged();
-		m_menu.setImage("sprites/Menu.png");
+		m_menu.setImage(GameConfiguration.SPRITE_PATH + "Menu.png");
 		m_menu.setLayout(new BorderLayout());
 		m_menu.add(m_mainMenu, BorderLayout.CENTER);
 	}
 
 	private void drawConfigMenu() {
-		
+
 		m_configMenu = new JPanel(new BorderLayout());
 		m_configMenu.setOpaque(false);
-		
+
 		JPanel configPanel = new JPanel();
 		configPanel.setOpaque(false);
-		GridLayout configLayout = new GridLayout(MyEntities.values().length+1, 3);
+		GridLayout configLayout = new GridLayout(MyEntities.values().length + 1, 3);
 		configPanel.setLayout(configLayout);
-		
+
 		JPanel entitee = createLabel("Entity");
 		JPanel automate = createLabel("Automate");
 		JPanel animation = createLabel("Animation");
 		configPanel.add(entitee);
 		configPanel.add(automate);
 		configPanel.add(animation);
-		
-		for(MyEntities entity : MyEntities.values()) {
-			
-			JPanel labelPanel = createLabel(""+entity);
+
+		for (MyEntities entity : MyEntities.values()) {
+
+			JPanel labelPanel = createLabel("" + entity);
 			JComboBox<Automaton> autoList = createAutList(entity);
 			JComboBox<Animation> aniList = createAniList(entity);
 			configPanel.add(labelPanel);
 			configPanel.add(autoList);
 			configPanel.add(aniList);
 		}
-		
+
 		JButton back = new JButton("Main menu");
 		back.addActionListener(new ActionListener() {
 			@Override
@@ -133,23 +127,23 @@ public class Menu {
 		back.setBorder(m_buttonBorder);
 		back.setBackground(m_gray);
 		back.setForeground(Color.BLACK);
-		
+
 		// Retour menu principal
 		JPanel backPanel = new JPanel(new FlowLayout());
 		backPanel.setOpaque(false);
 		backPanel.setPreferredSize(new Dimension(500, 100));
 		backPanel.add(back);
-		
+
 		m_configMenu.add(backPanel, BorderLayout.SOUTH);
 		m_configMenu.add(Box.createVerticalStrut(100), BorderLayout.NORTH);
 		m_configMenu.add(Box.createHorizontalStrut(30), BorderLayout.EAST);
 		m_configMenu.add(Box.createHorizontalStrut(30), BorderLayout.WEST);
 		m_configMenu.add(configPanel);
 	}
-	
+
 	private JPanel createLabel(String string) {
 		JPanel labelPanel = new JPanel();
-		
+
 		labelPanel.setBackground(m_gray);
 		labelPanel.setBorder(m_menuBorder);
 		JLabel entite = new JLabel(string);
@@ -168,7 +162,7 @@ public class Menu {
 		Automaton[] autom = new Automaton[automatonsAvailable.size()];
 		for (Automaton automaton : automatonsAvailable.values()) {
 			autom[i] = automaton;
-			if(automate == automaton) {
+			if (automate == automaton) {
 				selectIndex = i;
 			}
 			i++;
@@ -179,29 +173,28 @@ public class Menu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				@SuppressWarnings("unchecked")
-				JComboBox<Automaton> cb = (JComboBox<Automaton>)e.getSource();
+				JComboBox<Automaton> cb = (JComboBox<Automaton>) e.getSource();
 				Automaton aut = (Automaton) cb.getSelectedItem();
 				automatons.put(entity, aut);
 			}
 		});
-		
+
 		ComboBoxUI cbui = autComboBox.getUI();
 		int size = cbui.getAccessibleChildrenCount(autComboBox);
-		for(int j = 0; j < size; j++) {
+		for (int j = 0; j < size; j++) {
 			Object child = cbui.getAccessibleChild(autComboBox, j);
-			JComponent c = (JComponent) ((Container)child).getComponent(0);
-			if(c instanceof JScrollPane) {
-				((JScrollPane)c).setVerticalScrollBar(createScrollBar());
+			JComponent c = (JComponent) ((Container) child).getComponent(0);
+			if (c instanceof JScrollPane) {
+				((JScrollPane) c).setVerticalScrollBar(createScrollBar());
 			}
 		}
-		
-		
+
 		autComboBox.setBorder(m_menuBorder);
 		autComboBox.setBackground(m_gray);
 		autComboBox.setSelectedIndex(selectIndex);
 		return autComboBox;
 	}
-	
+
 	private JComboBox<Animation> createAniList(MyEntities entity) {
 		int i = 0;
 		int selectIndex = 0;
@@ -211,7 +204,7 @@ public class Menu {
 		Animation[] anima = new Animation[animationsAvailable.size()];
 		for (Animation animation : animationsAvailable.values()) {
 			anima[i] = animation;
-			if(anime == animation) {
+			if (anime == animation) {
 				selectIndex = i;
 			}
 			i++;
@@ -222,7 +215,7 @@ public class Menu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				@SuppressWarnings("unchecked")
-				JComboBox<Animation> cb = (JComboBox<Animation>)e.getSource();
+				JComboBox<Animation> cb = (JComboBox<Animation>) e.getSource();
 				Animation ani = (Animation) cb.getSelectedItem();
 				animations.put(entity, ani);
 			}
@@ -232,7 +225,7 @@ public class Menu {
 		aniComboBox.setSelectedIndex(selectIndex);
 		return aniComboBox;
 	}
-	
+
 	private JScrollBar createScrollBar() {
 		JScrollBar scrollBar = new JScrollBar();
 		scrollBar.setPreferredSize(new Dimension(5, 100));
@@ -285,7 +278,7 @@ public class Menu {
 		return scrollBar;
 	}
 
-	public void drawInfoMenu() throws IOException {
+	public void drawInfoMenu() {
 		m_infoMenu = new JPanel();
 		m_infoMenu.setOpaque(false);
 		m_infoMenu.setLayout(new BorderLayout());
@@ -347,12 +340,18 @@ public class Menu {
 		m_buttonPanel.add(back);
 		m_buttonPanel.add(next);
 
-		Image img1 = ImageIO.read(new File("sprites/InfoMenuRules.png"));
-		img1 = img1.getScaledInstance(600, 600, Image.SCALE_AREA_AVERAGING);
-		Image img2 = ImageIO.read(new File("sprites/InfoMenuControls.png"));
-		img2 = img2.getScaledInstance(600, 600, Image.SCALE_AREA_AVERAGING);
-		Image img3 = ImageIO.read(new File("sprites/InfoMenuHUD.png"));
-		img3 = img3.getScaledInstance(600, 600, Image.SCALE_AREA_AVERAGING);
+		Image img1 = null, img2 = null, img3 = null;
+		try {
+			img1 = ImageIO.read(new File(GameConfiguration.SPRITE_PATH + "InfoMenuRules.png"));
+			img1 = img1.getScaledInstance(600, 600, Image.SCALE_AREA_AVERAGING);
+			img2 = ImageIO.read(new File(GameConfiguration.SPRITE_PATH + "InfoMenuControls.png"));
+			img2 = img2.getScaledInstance(600, 600, Image.SCALE_AREA_AVERAGING);
+			img3 = ImageIO.read(new File(GameConfiguration.SPRITE_PATH + "InfoMenuHUD.png"));
+			img3 = img3.getScaledInstance(600, 600, Image.SCALE_AREA_AVERAGING);
+		} catch (IOException e) {
+			GameConfiguration
+					.fileNotFound(GameConfiguration.SPRITE_PATH + "InfoMenuRules.png OR InfoMenuControls.png OR InfoMenuHUD.png");
+		}
 		ImageIcon rulesImg = new ImageIcon(img1);
 		ImageIcon controlImg = new ImageIcon(img2);
 		ImageIcon HUDImg = new ImageIcon(img3);
@@ -436,7 +435,7 @@ public class Menu {
 		htp.setBackground(m_gray);
 		htp.setForeground(Color.BLACK);
 		htp.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		
+
 		// Bouton vers menu de config
 		JButton config = new JButton("Configuration");
 		config.addActionListener(new ActionListener() {
@@ -488,7 +487,7 @@ public class Menu {
 			try {
 				m_image = (BufferedImage) ImageIO.read(new File(path));
 			} catch (IOException e) {
-				e.printStackTrace();
+				GameConfiguration.fileNotFound(path);
 			}
 
 		}

@@ -377,12 +377,12 @@ public class Grid {
 					random_level = (Math.random() <= 0.8) ? lvl : lvl - 1;
 				} else {
 					double rand = Math.random();
-					if(rand <= 0.8) {
+					if (rand <= 0.8) {
 						random_level = lvl;
-					} else if(rand > 0.8 && rand <= 0.9) {
-						random_level = lvl-1;
+					} else if (rand > 0.8 && rand <= 0.9) {
+						random_level = lvl - 1;
 					} else {
-						random_level = lvl+1;
+						random_level = lvl + 1;
 					}
 				}
 				String lvlName = name + random_level;
@@ -406,7 +406,7 @@ public class Grid {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println("ERROR : Something went wrong.");
+			System.err.println("ERROR : Something went wrong when parsing patterns...");
 		}
 	}
 
@@ -456,20 +456,22 @@ public class Grid {
 			try {
 				fr = new FileReader(file);
 			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+				GameConfiguration.fileNotFound(file.getPath());
 			}
 			BufferedReader br = new BufferedReader(fr);
 			String line, name, sx, sy;
-			line = null;
 			line = br.readLine();
+			int lineNumber = 1;
 			while (line != null && line.length() > 0) {
-				name = line.substring(0, 5);
-				int i = 6;
-				while (line.charAt(i) != ',') {
-					i++;
+				String[] coords = line.substring(6, line.length()).split(",");
+				if (line.split(" ").length != 2 || coords.length != 2) {
+					System.err.println("It seems that " + file.getPath()
+							+ " is broken (line "+lineNumber+"), please make sur the line format in the file is : name1 x,y");
+					System.exit(1);
 				}
-				sx = line.substring(6, i);
-				sy = line.substring(i + 1);
+				name = line.substring(0, 5);
+				sx = coords[0].replaceAll("\\s+", "");
+				sy = coords[1].replaceAll("\\s+", "");
 				MyEntities type = null;
 				switch (name) {
 					case "drop1":
@@ -502,17 +504,25 @@ public class Grid {
 					case "mud_1":
 						type = MyEntities.Mud;
 						break;
+					default :
+						System.out.println(name+" is not supported ("+file.getPath()+":"+lineNumber+")");
 				}
-				int x = Integer.parseInt(sx);
-				int y = Integer.parseInt(sy);
+				int x = 0;
+				int y = 0;
+				try {
+					x = Integer.parseInt(sx);
+					y = Integer.parseInt(sy);
+				} catch (NumberFormatException e) {
+					GameConfiguration.fileNotFound(file.getPath() + "(line " + lineNumber + ")");
+				}
 				if (x < SIZE && x >= 0 && y < SIZE && y >= 0) {
 					if (type != null) {
-
 						EntityShade es = new EntityShade(x, y, type);
 						m_entitieShades.add(es);
 					}
 				}
 				line = br.readLine();
+				lineNumber++;
 			}
 		}
 	}

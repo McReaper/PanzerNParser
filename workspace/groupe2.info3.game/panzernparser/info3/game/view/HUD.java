@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.util.LinkedList;
 
 import javax.swing.AbstractButton;
@@ -39,6 +40,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
+import info3.game.GameConfiguration;
 import info3.game.model.MaterialType;
 import info3.game.model.Model;
 import info3.game.model.Model.VisionType;
@@ -97,10 +99,17 @@ public class HUD {
 
 		m_weaponArray = initiateWeaponArray();
 
+		File mineralImg = new File(GameConfiguration.SPRITE_PATH + "Minerals.png");
+		File electroImg = new File(GameConfiguration.SPRITE_PATH + "Electronics.png");
+		if (!mineralImg.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "Minerals.png");
+		if (!electroImg.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "Electronics.png");
+
 		m_mineImage = new ImageIcon(
-				new ImageIcon("sprites/Minerals.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+				new ImageIcon(mineralImg.getPath()).getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
 		m_elecImage = new ImageIcon(
-				new ImageIcon("sprites/Electronics.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+				new ImageIcon(electroImg.getPath()).getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
 
 		m_West = new JPanel();
 		m_West.setBackground(Color.DARK_GRAY);
@@ -227,10 +236,10 @@ public class HUD {
 		LineBorder progressBarBorder = (LineBorder) BorderFactory.createLineBorder(Color.BLACK, 3);
 		JProgressBar bar = null;
 		if (string.equals("health")) {
-			m_health = createProgressBar(Color.RED, progressBarBorder,"health");
+			m_health = createProgressBar(Color.RED, progressBarBorder, "health");
 			bar = m_health;
 		} else if (string.equals("drone")) {
-			m_drone = createProgressBar(Color.YELLOW, progressBarBorder,"drone");
+			m_drone = createProgressBar(Color.YELLOW, progressBarBorder, "drone");
 			bar = m_drone;
 		}
 		PanelBar.add(Box.createVerticalStrut(5));
@@ -239,13 +248,13 @@ public class HUD {
 		return PanelBar;
 	}
 
-	private JProgressBar createProgressBar(Color color, Border border,String type) {
+	private JProgressBar createProgressBar(Color color, Border border, String type) {
 		BasicProgressBarUI progressUI = new BasicProgressBarUI();
 		LifeProgressBar progress;
-		if(type.equals("health")) {
-			progress = new LifeProgressBar(JProgressBar.VERTICAL, 0, 100,true);
+		if (type.equals("health")) {
+			progress = new LifeProgressBar(JProgressBar.VERTICAL, 0, 100, true);
 		} else {
-			progress = new LifeProgressBar(JProgressBar.VERTICAL, 0, 100,false);
+			progress = new LifeProgressBar(JProgressBar.VERTICAL, 0, 100, false);
 		}
 		progress.setUI(progressUI);
 		progress.setBorder(null);
@@ -509,18 +518,37 @@ public class HUD {
 	private ImageIcon[] initiateWeaponArray() {
 		ImageIcon[] array = new ImageIcon[6];
 
-		array[0] = new ImageIcon(
-				new ImageIcon("sprites/Weapon0.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		array[1] = new ImageIcon(
-				new ImageIcon("sprites/Weapon1.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		array[2] = new ImageIcon(
-				new ImageIcon("sprites/Weapon2.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		array[3] = new ImageIcon(
-				new ImageIcon("sprites/VueRessourceIcon.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		array[4] = new ImageIcon(
-				new ImageIcon("sprites/VueEnemyIcon.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
-		array[5] = new ImageIcon(
-				new ImageIcon("sprites/MarkerSingle.png").getImage().getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		File weap0 = new File(GameConfiguration.SPRITE_PATH + "Weapon0.png");
+		File weap1 = new File(GameConfiguration.SPRITE_PATH + "Weapon1.png");
+		File weap2 = new File(GameConfiguration.SPRITE_PATH + "Weapon2.png");
+		File viewSrc = new File(GameConfiguration.SPRITE_PATH + "VueRessourceIcon.png");
+		File viewEnemy = new File(GameConfiguration.SPRITE_PATH + "VueEnemyIcon.png");
+		File marker = new File(GameConfiguration.SPRITE_PATH + "MarkerSingle.png");
+		if (!weap0.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "Weapon0.png");
+		if (!weap1.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "Weapon1.png");
+		if (!weap2.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "Weapon2.png");
+		if (!viewSrc.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "VueRessourceIcon.png");
+		if (!viewEnemy.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "VueEnemyIcon.png");
+		if (!marker.exists())
+			GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH + "MarkerSingle.png");
+
+		array[0] = new ImageIcon(new ImageIcon(weap0.getPath()).getImage()
+				.getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[1] = new ImageIcon(new ImageIcon(weap1.getPath()).getImage()
+				.getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[2] = new ImageIcon(new ImageIcon(weap2.getPath()).getImage()
+				.getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[3] = new ImageIcon(new ImageIcon(viewSrc.getPath()).getImage()
+				.getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[4] = new ImageIcon(new ImageIcon(viewEnemy.getPath()).getImage()
+				.getScaledInstance(64, 64, Image.SCALE_DEFAULT));
+		array[5] = new ImageIcon(new ImageIcon(marker.getPath()).getImage()
+				.getScaledInstance(64, 64, Image.SCALE_DEFAULT));
 		return array;
 	}
 
@@ -547,9 +575,6 @@ public class HUD {
 		// Boussole
 		updateBoussole();
 
-		Model.getModel().getDrone();
-		m_level.setText("Level : ".concat(Integer.toString(Model.getModel().getLevel())));
-
 		// Barres HP et Drone
 		m_health.setMaximum(tankBody.getMaxHealth());
 		m_health.setValue(tankBody.getHealth());
@@ -564,7 +589,7 @@ public class HUD {
 			m_score.setText(Integer.toString(model.getScore().getScore()));
 			m_colorCount = 1;
 		}
-		if (m_colorCount != 0) {
+		if (m_colorCount != 0 && Model.getModel().getScore().getScore() != 0) {
 			shakeScore();
 		}
 
@@ -668,9 +693,7 @@ public class HUD {
 		} else {
 			m_score.setForeground(Color.RED);
 		}
-		if (m_colorCount == 5) {
-			m_colorCount = 0;
-		}
+		m_colorCount %= 5;
 	}
 
 	private void updateTime() {
@@ -757,7 +780,7 @@ public class HUD {
 			m_electronics = elec.getImage();
 			m_minerals = mine.getImage();
 			this.setForeground(Color.BLACK);
-			this.setBackground(new Color(150, 150, 150));
+			this.setBackground(new Color(125, 125, 125));
 			this.setPreferredSize(new Dimension(95, 75));
 			BasicButtonUI buttonUI = new BasicButtonUI() {
 				@Override
@@ -794,9 +817,9 @@ public class HUD {
 
 			// Différencie amélio unique/stats
 			boolean isUniqBought = false;
-			if (m_level.contains("Bought")) {
+			if (m_level.contains("Bought") || m_level.contains("Maxed")) {
 				Color old = g.getColor();
-				g.setColor(new Color(0, 165, 0));
+				g.setColor(new Color(0, 255, 0));
 				g.drawString(m_level, (int) ((getWidth() - rect.getWidth()) / 2), space + 15 - 2);
 				g.setColor(old);
 				isUniqBought = true;
@@ -810,14 +833,22 @@ public class HUD {
 				if (m_upgrade.getCostMine() > Model.getModel().getTank().getInventory().getQuantity(MaterialType.MINERAL)) {
 					g.setColor(Color.RED);
 				} else {
-					g.setColor(new Color(0, 165, 0));
+					if (m_upgrade.isAvaible()) {
+						g.setColor(new Color(0, 100, 0));
+					} else {
+						g.setColor(new Color(0, 255, 0));
+					}
 				}
 			g.drawString(m_mineCost, 6 + 15, getHeight() - 5);
 			if (!isUniqBought)
 				if (m_upgrade.getCostElec() > Model.getModel().getTank().getInventory().getQuantity(MaterialType.ELECTRONIC)) {
 					g.setColor(Color.RED);
 				} else {
-					g.setColor(new Color(0, 165, 0));
+					if (m_upgrade.isAvaible()) {
+						g.setColor(new Color(0, 100, 0));
+					} else {
+						g.setColor(new Color(0, 255, 0));
+					}
 				}
 			g.drawString(m_elecCost, 6 + 15 + getWidth() / 2, getHeight() - 5);
 			g.setColor(old);
@@ -889,7 +920,9 @@ public class HUD {
 			m_elecCost = Integer.toString(m_upgrade.getCostElec());
 			m_mineCost = Integer.toString(m_upgrade.getCostMine());
 			if (m_upgrade instanceof UpgradeAutomaticSubmachine || m_upgrade instanceof UpgradeDroneVision) {
-				m_level = (m_upgrade.getLevel() > 0) ? "Bought" : "Not bought";
+				m_level = (m_upgrade.noMoreAvaible()) ? "Bought" : "Not bought";
+			} else if (m_upgrade.noMoreAvaible()) {
+				m_level = "Maxed";
 			} else {
 				m_level = "Level : " + Integer.toString(m_upgrade.getLevel());
 			}
@@ -911,10 +944,10 @@ public class HUD {
 	private class LifeProgressBar extends JProgressBar {
 
 		private static final long serialVersionUID = 1L;
-		
+
 		boolean m_showMax;
-		
-		public LifeProgressBar(int vertical, int i, int j,boolean showMax) {
+
+		public LifeProgressBar(int vertical, int i, int j, boolean showMax) {
 			super(vertical, i, j);
 			m_showMax = showMax;
 		}

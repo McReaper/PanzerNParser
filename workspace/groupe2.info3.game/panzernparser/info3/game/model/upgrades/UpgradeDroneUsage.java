@@ -50,5 +50,10 @@ public class UpgradeDroneUsage extends Upgrade {
 	public String getDescription() {
 		return "<html><p style='color:black;text-align:center'>Increases the drone <b>usage duration</b>.</p></html>";
 	}
+	
+	@Override
+	public boolean noMoreAvaible() {
+		return false;
+	}
 
 }

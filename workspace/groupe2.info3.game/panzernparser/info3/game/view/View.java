@@ -146,10 +146,9 @@ public class View extends Container {
 			int height = m_canvas.getHeight();
 			Image img = null;
 			try {
-				img = ImageIO.read(new File("sprites/GameOver.png"));
+				img = ImageIO.read(new File(GameConfiguration.SPRITE_PATH+"GameOver.png"));
 			} catch (IOException e) {
-				System.err.println("Unable to load game over image.");
-				e.printStackTrace();
+				GameConfiguration.fileNotFound(GameConfiguration.SPRITE_PATH+"GameOver.png");
 			}
 			Color color = new Color(29,22,15);
 			int imageHeight = img.getHeight(null) * width/img.getWidth(null);

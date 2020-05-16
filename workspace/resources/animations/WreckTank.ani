@@ -1,0 +1,7 @@
+sprite_sheet1 = WreckTank.png
+sprite_sheet2 = WreckTank.png
+sprite_sheet3 = WreckTank.png
+Wait_NORTH = 1,2
+Wait_SOUTH = 3,4,5,6,7
+Wait_EAST = 8,9
+Wait_WEST = 10,11,12,13,14

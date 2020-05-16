@@ -12,8 +12,8 @@ public class UpgradeDroneVision extends Upgrade {
 
 
 	private static final String NAME = "Drone dynamic elevation";
-	private static final int MINERALS_COST = 30;
-	private static final int ELECTRONICALS_COST = 30;
+	private static final int MINERALS_COST = 100;
+	private static final int ELECTRONICALS_COST = 100;
 	
 	public UpgradeDroneVision(Tank tank, Drone drone) {
 		super(tank, drone);
@@ -31,12 +31,6 @@ public class UpgradeDroneVision extends Upgrade {
 		} else {
 			throw new IllegalAccessException("Ressources insuffisantes dans l'inventaire.");
 		}
-	}
-	
-	@Override
-	public boolean isAvaible() {
-		if (m_level > 0) return false;
-		return super.isAvaible();
 	}
 	
 	@Override
@@ -67,6 +61,11 @@ public class UpgradeDroneVision extends Upgrade {
 	@Override
 	public String getDescription() {
 		return "<html><p style='color:black;text-align:center'>Activate the drone's ability to <b>go up<br> and down in the sky</b>, allowing you <br>to <b>see more</b> resources or enemies.</p></html>";
+	}
+	
+	@Override
+	public boolean noMoreAvaible() {
+		return m_level == 1;
 	}
 
 }

@@ -1,0 +1,8 @@
+WreckTank(Init) {
+ * (Init):
+	| !GotPower() ? Explode() : (Exploded)
+	| True ? Wait() : (Init)
+	* (Exploded):
+	| GotStuff() ? Egg(H) : (Exploded)
+	| True ? Wait() : (Exploded)
+}

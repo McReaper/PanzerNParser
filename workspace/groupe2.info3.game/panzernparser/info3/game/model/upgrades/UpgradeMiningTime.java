@@ -50,4 +50,9 @@ public class UpgradeMiningTime extends Upgrade {
 	public String getDescription() {
 		return "<html><p style='color:black;text-align:center'>Lower the <b>time of mining</b> the ground</p></html>";
 	}
+	
+	@Override
+	public boolean noMoreAvaible() {
+		return m_level >= 7;
+	}
 }

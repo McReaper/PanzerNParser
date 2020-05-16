@@ -10,8 +10,8 @@ import info3.game.model.Tank;
 public class UpgradeAutomaticSubmachine extends Upgrade {
 
 	private static final String NAME = "Helping turret";
-	private static final int MINERALS_COST = 150;
-	private static final int ELECTRONICALS_COST = 150;
+	private static final int MINERALS_COST = 300;
+	private static final int ELECTRONICALS_COST = 300;
 	
 	public UpgradeAutomaticSubmachine(Tank tank) {
 		super(tank, null);
@@ -43,12 +43,6 @@ public class UpgradeAutomaticSubmachine extends Upgrade {
 	}
 	
 	@Override
-	public boolean isAvaible() {
-		if (m_level > 0) return false;
-		return super.isAvaible();
-	}
-	
-	@Override
 	public int getCostElec() {
 		return ELECTRONICALS_COST;
 	}
@@ -66,6 +60,11 @@ public class UpgradeAutomaticSubmachine extends Upgrade {
 	@Override
 	public String getDescription() {
 		return "<html><p style='color:black;text-align:center'>An <b>automatic turret</b> will appear <br>and help you defeat the enemies.</p></html>";
+	}
+
+	@Override
+	public boolean noMoreAvaible() {
+		return m_level == 1;
 	}
 	
 

@@ -80,7 +80,7 @@ class DecodeExample{
       }
       catch(Exception e){
         System.err.println(e);
-        System.exit(-1);
+        System.exit(1);
       }
       oy.wrote(bytes);
 

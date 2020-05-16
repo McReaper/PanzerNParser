@@ -50,5 +50,10 @@ public class UpgradeTankSpeed extends Upgrade {
 	public String getDescription() {
 		return "<html><p style='color:black;text-align:center'>Increase the <b>tank speed</b> so you can go more darude.</p></html>";
 	}
+	
+	@Override
+	public boolean noMoreAvaible() {
+		return m_level >= 7;
+	}
 
 }

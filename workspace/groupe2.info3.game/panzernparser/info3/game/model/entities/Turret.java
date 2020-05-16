@@ -21,8 +21,8 @@ public class Turret extends StaticEntity {
 	public final static int TURRET_HEIGHT = Tank.TANK_HEIGHT;
 
 	public static final int TURRET_HEALTH = Tank.TANK_HEALTH;
-	public static final int TURRET_WEAPON1_DAMAGE = 50;
-	public static final int TURRET_WEAPON2_DAMAGE = 70;
+	public static final int TURRET_WEAPON1_DAMAGE = 60;
+	public static final int TURRET_WEAPON2_DAMAGE = 40;
 	public static final int TURRET_WEAPON3_DAMAGE = 100;
 
 	public static final long TURRET_WEAPON1_HIT_TIME = 600;
@@ -38,7 +38,8 @@ public class Turret extends StaticEntity {
 	private Tank m_tank;
 	private int m_indexCurrentWeapon;
 	private int m_nbWeaponsDispo;
-	private Weapon[] m_weapons;
+	private Weapon[] m_weapons; // WARNING : une modification de cette liste implique divers changements dans
+															// les améliorations.
 	private Weapon m_currentWeapon;
 	private double m_damage_factor;
 
@@ -61,10 +62,8 @@ public class Turret extends StaticEntity {
 		m_weapons[2] = new WeaponLevel3(this);
 	}
 
-	public void increaseMaxAmmo(double factor) {
-		for (int i = 0; i < TURRET_NB_WEAPONS_MAX; i++) {
-			m_weapons[i].improveMagazin(factor);
-		}
+	public void increaseMaxAmmo(Weapon weap, int value) {
+		weap.improveMagazin(value);
 	}
 
 	public void setTank(Tank tank) {
@@ -179,7 +178,7 @@ public class Turret extends StaticEntity {
 			m_actionFinished = false;
 			m_currentAction = null;
 		} else if (m_currentAction == null) {
-			//m_currentActionDir = null;
+			// m_currentActionDir = null;
 			m_currentAction = LsAction.Wait;
 			m_timeOfAction = TURRET_WAIT_TIME;
 		}
@@ -194,6 +193,10 @@ public class Turret extends StaticEntity {
 
 	public Weapon getWeapon() {
 		return m_currentWeapon;
+	}
+
+	public Weapon[] getWeapons() {
+		return m_weapons;
 	}
 
 	private Weapon changeWeapon() {

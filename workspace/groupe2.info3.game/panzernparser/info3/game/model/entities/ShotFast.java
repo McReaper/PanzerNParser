@@ -17,12 +17,9 @@ public class ShotFast extends Shot {
 	public static final long SHOTFAST_POP_TIME = 10000;
 	public static final long SHOTFAST_WIZZ_TIME = 1000;
 
-	public static final int SHOTFAST_DAMAGE_DEALT = 10;
-
 	public ShotFast(int x, int y, Automaton aut) {
 		super(x, y, SHOTFAST_WIDTH, SHOTFAST_HEIGHT, aut);
 		m_health = SHOTFAST_HEALTH;
-		m_damage_dealt = SHOTFAST_DAMAGE_DEALT;
 		m_speed = SHOTFAST_SPEED;
 		m_nbCaseLife = SHOTFAST_NUMBER_CASE_LIFE;
 	}

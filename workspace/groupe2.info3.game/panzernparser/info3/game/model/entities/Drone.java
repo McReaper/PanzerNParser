@@ -21,7 +21,7 @@ public class Drone extends MovingEntity {
 	public static final int DRONE_SPEED = 150;
 
 	public static final int INIT_MARKER_MAX = 2;
-	public static final int DRONE_FOV = 10;
+	public static final int DRONE_FOV = 13;
 
 	public static final long DRONE_HIT_TIME = 300;
 	public static final long DRONE_JUMP_TIME = 100;
@@ -32,9 +32,8 @@ public class Drone extends MovingEntity {
 	public static final long DRONE_WAIT_TIME = 50;
 	public static final long DRONE_WIZZ_TIME = 1000;
 
-	public static final int DRONE_DAMMAGE_DEALT = 0;
-	public static final int DRONE_RECHARGE = 10;
-	public static final int DRONE_DECHARGE = 30;
+	public static final int DRONE_RECHARGE = 28;
+	public static final int DRONE_DECHARGE = 35;
 
 	private int m_nbMarkers;
 	private int m_maxMarkers;
@@ -58,12 +57,16 @@ public class Drone extends MovingEntity {
 	@Override
 	public void step(long elapsed) {
 		if (hasControl()) {
-			m_health -= DRONE_DECHARGE * elapsed;
+			double val = DRONE_DECHARGE * elapsed * (1.0 + ((double)(m_range - DRONE_FOV) / 10.0));
+			m_health -= val;
 			if (!GotPower()) {
 				m_health = 0;
 			}
 		} else if (m_health < m_maxHealth) {
-			m_health += DRONE_RECHARGE * elapsed;
+			double val = DRONE_RECHARGE * elapsed;
+			m_health += val;
+			if (m_health > m_maxHealth)
+				m_health = m_maxHealth;
 		}
 		super.step(elapsed);
 	}
@@ -253,7 +256,7 @@ public class Drone extends MovingEntity {
 	public int getMaxMarkers() {
 		return m_maxMarkers;
 	}
-	
+
 	public void resetMarkers() {
 		m_nbMarkers = 0;
 	}

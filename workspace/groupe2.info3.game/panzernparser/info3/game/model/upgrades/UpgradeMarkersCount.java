@@ -50,5 +50,10 @@ public class UpgradeMarkersCount extends Upgrade {
 	public String getDescription() {
 		return "<html><p style='color:black;text-align:center'>Increases <b>the limit of markers</b><br> placed by the drone.</p></html>";
 	}
+	
+	@Override
+	public boolean noMoreAvaible() {
+		return false;
+	}
 
 }

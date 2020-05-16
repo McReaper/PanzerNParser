@@ -55,11 +55,15 @@ public class CollisionManager {
 					}
 				}
 			}
+			LinkedList<Entity> alreadyHit = new LinkedList<Entity>();
 			for (Entity entity : hit) {
-				entity.collide(entShot.getDamageDealt());
-				((Shot) entShot).hasKilled(entity);				
+				if (!alreadyHit.contains(entity)) {
+					entity.collide(entShot.getDamageDealt());
+					alreadyHit.add(entity);
+					((Shot) entShot).hasKilled(entity);
+				}
 			}
-			if(hit.size() != 0) {
+			if (hit.size() != 0) {
 				entShot.collide(0);
 			}
 		}

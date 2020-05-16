@@ -575,9 +575,6 @@ public class HUD {
 		// Boussole
 		updateBoussole();
 
-		Model.getModel().getDrone();
-		m_level.setText("Level : ".concat(Integer.toString(Model.getModel().getLevel())));
-
 		// Barres HP et Drone
 		m_health.setMaximum(tankBody.getMaxHealth());
 		m_health.setValue(tankBody.getHealth());
@@ -592,7 +589,7 @@ public class HUD {
 			m_score.setText(Integer.toString(model.getScore().getScore()));
 			m_colorCount = 1;
 		}
-		if (m_colorCount != 0) {
+		if (m_colorCount != 0 && Model.getModel().getScore().getScore() != 0) {
 			shakeScore();
 		}
 
@@ -696,9 +693,7 @@ public class HUD {
 		} else {
 			m_score.setForeground(Color.RED);
 		}
-		if (m_colorCount == 5) {
-			m_colorCount = 0;
-		}
+		m_colorCount %= 5;
 	}
 
 	private void updateTime() {
@@ -785,7 +780,7 @@ public class HUD {
 			m_electronics = elec.getImage();
 			m_minerals = mine.getImage();
 			this.setForeground(Color.BLACK);
-			this.setBackground(new Color(150, 150, 150));
+			this.setBackground(new Color(125, 125, 125));
 			this.setPreferredSize(new Dimension(95, 75));
 			BasicButtonUI buttonUI = new BasicButtonUI() {
 				@Override
@@ -822,9 +817,9 @@ public class HUD {
 
 			// Différencie amélio unique/stats
 			boolean isUniqBought = false;
-			if (m_level.contains("Bought")) {
+			if (m_level.contains("Bought") || m_level.contains("Maxed")) {
 				Color old = g.getColor();
-				g.setColor(new Color(0, 165, 0));
+				g.setColor(new Color(0, 255, 0));
 				g.drawString(m_level, (int) ((getWidth() - rect.getWidth()) / 2), space + 15 - 2);
 				g.setColor(old);
 				isUniqBought = true;
@@ -838,14 +833,22 @@ public class HUD {
 				if (m_upgrade.getCostMine() > Model.getModel().getTank().getInventory().getQuantity(MaterialType.MINERAL)) {
 					g.setColor(Color.RED);
 				} else {
-					g.setColor(new Color(0, 165, 0));
+					if (m_upgrade.isAvaible()) {
+						g.setColor(new Color(0, 100, 0));
+					} else {
+						g.setColor(new Color(0, 255, 0));
+					}
 				}
 			g.drawString(m_mineCost, 6 + 15, getHeight() - 5);
 			if (!isUniqBought)
 				if (m_upgrade.getCostElec() > Model.getModel().getTank().getInventory().getQuantity(MaterialType.ELECTRONIC)) {
 					g.setColor(Color.RED);
 				} else {
-					g.setColor(new Color(0, 165, 0));
+					if (m_upgrade.isAvaible()) {
+						g.setColor(new Color(0, 100, 0));
+					} else {
+						g.setColor(new Color(0, 255, 0));
+					}
 				}
 			g.drawString(m_elecCost, 6 + 15 + getWidth() / 2, getHeight() - 5);
 			g.setColor(old);
@@ -917,7 +920,9 @@ public class HUD {
 			m_elecCost = Integer.toString(m_upgrade.getCostElec());
 			m_mineCost = Integer.toString(m_upgrade.getCostMine());
 			if (m_upgrade instanceof UpgradeAutomaticSubmachine || m_upgrade instanceof UpgradeDroneVision) {
-				m_level = (m_upgrade.getLevel() > 0) ? "Bought" : "Not bought";
+				m_level = (m_upgrade.noMoreAvaible()) ? "Bought" : "Not bought";
+			} else if (m_upgrade.noMoreAvaible()) {
+				m_level = "Maxed";
 			} else {
 				m_level = "Level : " + Integer.toString(m_upgrade.getLevel());
 			}
